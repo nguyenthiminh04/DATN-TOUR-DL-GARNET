@@ -12,7 +12,18 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/dangnhap', function () {
+    return view('admin.dashboard');
+});
+
+Route::get('/admin', function () {
+    return view('admin.dashboard');
+});
+
+
+
+
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('client.home');
 });

@@ -26,37 +26,41 @@
 	<meta name="robots" content="noodp,index,follow" />
 	<!-- ================= Favicon ================== -->
 
-	<link rel="icon" href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/favicon6d1d.png" type="image/x-icon" />
+	<link rel="icon" href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/favicon6d1d.png?1705894518705"
+		type="image/x-icon" />
 
 
 	<meta property="og:type" content="website">
 	<meta property="og:title" content="Ant Du lịch">
-	<meta property="og:image" content="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png">
-	<meta property="og:image:secure_url" content="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png">
+	<meta property="og:image"
+		content="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705">
+	<meta property="og:image:secure_url"
+		content="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705">
 
 	<meta property="og:description"
 		content="Ant Du lịch - Chúng tôi cam kết luôn nỗ lực đem đến những giá trị dịch vụ tốt nhất cho khách hàng và đối tác để tiếp tục khẳng định vị trí hàng đầu của thương hiệu Ant Du lịch.">
 	<meta property="og:url" content="index.html">
 	<meta property="og:site_name" content="Ant Du lịch">
 	<link rel="preload" as="style" type="text/css"
-		href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/bootstrap.scss6d1d.css"
+		href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/bootstrap.scss6d1d.css?1705894518705"
 		onload="this.rel='stylesheet'" />
-	<link href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/bootstrap.scss6d1d.css" rel="stylesheet"
-		type="text/css" media="all" />
+	<link href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/bootstrap.scss6d1d.css?1705894518705"
+		rel="stylesheet" type="text/css" media="all" />
 	<link rel="preload" as="style" type="text/css"
-		href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/base.scss6d1d.css" onload="this.rel='stylesheet'" />
-	<link href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/base.scss6d1d.css" rel="stylesheet"
+		href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/base.scss6d1d.css?1705894518705"
+		onload="this.rel='stylesheet'" />
+	<link href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/base.scss6d1d.css?1705894518705" rel="stylesheet"
 		type="text/css" media="all" />
 
 	<link rel="preload" as="style" type="text/css"
-		href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/ant-du-lich.scss6d1d.css"
+		href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/ant-du-lich.scss6d1d.css?1705894518705"
 		onload="this.rel='stylesheet'" />
-	<link href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/ant-du-lich.scss6d1d.css" rel="stylesheet"
-		type="text/css" media="all" />
+	<link href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/ant-du-lich.scss6d1d.css?1705894518705"
+		rel="stylesheet" type="text/css" media="all" />
 
 	<link rel="preload" as="script"
-		href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/jquery-2.2.3.min6d1d.js" />
-	<script src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/jquery-2.2.3.min6d1d.js"
+		href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/jquery-2.2.3.min6d1d.js?1705894518705" />
+	<script src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/jquery-2.2.3.min6d1d.js?1705894518705"
 		type="text/javascript"></script>
 
 	<!-- Bizweb javascript customer -->
@@ -136,6 +140,7 @@
 									ký</a></li>
 
 						</ul>
+
 					</div>
 				</div>
 			</div>
@@ -152,7 +157,7 @@
 						</button>
 						<div class="logo">
 							<a href="index.html" class="logo-wrapper ">
-								<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png"
+								<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705"
 									alt="logo Garnet Du lịch">
 							</a>
 						</div>
@@ -180,7 +185,7 @@
 					<div class="col-md-4 hidden-sm hidden-xs">
 						<div class="top-fun">
 							<div class="hotline">
-								<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/hotline.svg"
+								<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/hotline.svg?1705894518705"
 									alt="Tổng đài miễn phí" />
 								<div class="hotline-text">
 
@@ -199,14 +204,11 @@
 				<div class="row">
 					<div class="col-md-12">
 						<ul id="nav" class="nav container">
-
 							<li class="nav-item active"><a class="nav-link" href="index.html">Trang chủ</a></li>
-
 							<li class="nav-item "><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
 							<li class="nav-item  has-mega">
 								<a href="tour-trong-nuoc.html" class="nav-link">Tour trong nước <i
 										class="fa fa-angle-right" data-toggle="dropdown"></i></a>
-
 								<div class="mega-content">
 									<div class="level0-wrapper2">
 										<div class="nav-block nav-block-center">
@@ -262,6 +264,7 @@
 
 													</ul>
 												</li>
+
 												<li class="level1 parent item">
 													<h2 class="h4"><a href="mien-nam.html"><span>Miền Nam</span></a>
 													</h2>
@@ -287,6 +290,8 @@
 
 													</ul>
 												</li>
+
+
 											</ul>
 										</div>
 									</div>
@@ -295,11 +300,8 @@
 							</li>
 
 							<li class="nav-item "><a class="nav-link" href="dich-vu-tour.html">Dịch vụ tour</a></li>
-
-
 							<li class="nav-item "><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du lịch</a>
 							</li>
-
 							<li class="nav-item "><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
 						</ul>
 					</div>
@@ -316,14 +318,14 @@
 				<a href="#" class="clearfix">
 					<picture>
 						<source media="(min-width: 1200px)"
-							srcset="//bizweb.dktcdn.net/100/299/077/themes/642224/assets/slider_1.jpg">
+							srcset="//bizweb.dktcdn.net/100/299/077/themes/642224/assets/slider_1.jpg?1705894518705">
 						<source media="(min-width: 992px)"
-							srcset="//bizweb.dktcdn.net/100/299/077/themes/642224/assets/slider_1.jpg">
+							srcset="//bizweb.dktcdn.net/100/299/077/themes/642224/assets/slider_1.jpg?1705894518705">
 						<source media="(min-width: 569px)"
-							srcset="//bizweb.dktcdn.net/100/299/077/themes/642224/assets/slider_1.jpg">
+							srcset="//bizweb.dktcdn.net/100/299/077/themes/642224/assets/slider_1.jpg?1705894518705">
 						<source media="(min-width: 480px)"
-							srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/themes/642224/assets/slider_1.jpg">
-						<img src="../bizweb.dktcdn.net/thumb/grande/100/299/077/themes/642224/assets/slider_16d1d.jpg"
+							srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/themes/642224/assets/slider_1.jpg?1705894518705">
+						<img src="../bizweb.dktcdn.net/thumb/grande/100/299/077/themes/642224/assets/slider_16d1d.jpg?1705894518705"
 							alt="New Collection" class="img-responsive center-block" />
 					</picture>
 				</a>
@@ -434,14 +436,14 @@
 										<ul class="ct_course_list">
 
 											<li data-toggle="tooltip" data-placement="top" title="Di chuyển bằng Ô tô">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 													alt="Di chuyển bằng Ô tô" />
 											</li>
 
 
 											<li data-toggle="tooltip" data-placement="top"
 												title="Di chuyển bằng máy bay">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 													alt="Di chuyển bằng máy bay" />
 											</li>
 										</ul>
@@ -453,14 +455,14 @@
 
 										<li class="clearfix">
 											<div class="ulimg"><img
-													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 													alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: Thứ 2 - 7 hằng tuần
 										</li>
 
 
 										<li class="clearfix">
 											<div class="ulimg"><img
-													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
 													alt="6 ngày 5 đêm" /></div> Thời gian: 6 ngày 5 đêm
 										</li>
 									</ul>
@@ -504,12 +506,12 @@
 										<ul class="ct_course_list">
 
 											<li data-toggle="tooltip" data-placement="top" title="Di chuyển bằng Ô tô">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 													alt="Di chuyển bằng Ô tô" />
 											</li>
 											<li data-toggle="tooltip" data-placement="top"
 												title="Di chuyển bằng máy bay">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 													alt="Di chuyển bằng máy bay" />
 											</li>
 										</ul>
@@ -521,7 +523,7 @@
 									<ul class="ct_course_list">
 										<li class="clearfix">
 											<div class="ulimg"><img
-													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 													alt="Chủ nhật" /></div> Khởi hành: Chủ nhật
 										</li>
 									</ul>
@@ -564,17 +566,17 @@
 									<div class="box-tag">
 										<ul class="ct_course_list">
 											<li data-toggle="tooltip" data-placement="top" title="Di chuyển bằng Ô tô">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 													alt="Di chuyển bằng Ô tô" />
 											</li>
 											<li data-toggle="tooltip" data-placement="top"
 												title="Di chuyển bằng tàu thủy">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg?1705894518705"
 													alt="Di chuyển bằng tàu thủy" />
 											</li>
 											<li data-toggle="tooltip" data-placement="top"
 												title="Di chuyển bằng máy bay">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 													alt="Di chuyển bằng máy bay" />
 											</li>
 										</ul>
@@ -587,15 +589,19 @@
 
 										<li class="clearfix">
 											<div class="ulimg"><img
-													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 													alt="Thứ 4 hằng tuần" /></div> Khởi hành: Thứ 4 hằng tuần
 										</li>
 
 										<li class="clearfix">
 											<div class="ulimg"><img
-													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
 													alt="10 ngày 9 đêm" /></div> Thời gian: 10 ngày 9 đêm
 										</li>
+
+
+
+
 									</ul>
 								</div>
 
@@ -643,27 +649,31 @@
 
 										</div>
 
+
 									</div>
 
 									<div class="box-tag">
 										<ul class="ct_course_list">
 
+
+
+
 											<li data-toggle="tooltip" data-placement="top" title="Di chuyển bằng Ô tô">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 													alt="Di chuyển bằng Ô tô" />
 											</li>
 
 
 											<li data-toggle="tooltip" data-placement="top"
 												title="Di chuyển bằng tàu thủy">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg?1705894518705"
 													alt="Di chuyển bằng tàu thủy" />
 											</li>
 
 
 											<li data-toggle="tooltip" data-placement="top"
 												title="Di chuyển bằng máy bay">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 													alt="Di chuyển bằng máy bay" />
 											</li>
 
@@ -676,18 +686,177 @@
 								<div class="box-date-tour">
 									<ul class="ct_course_list">
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 										<li class="clearfix">
 											<div class="ulimg"><img
-													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 													alt="Thứ 4 hằng tuần" /></div> Khởi hành: Thứ 4 hằng tuần
 										</li>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 										<li class="clearfix">
 											<div class="ulimg"><img
-													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
 													alt="5 ngày 4 đêm" /></div> Thời gian: 5 ngày 4 đêm
 										</li>
+
+
+
 
 									</ul>
 								</div>
@@ -697,6 +866,32 @@
 					</div>
 
 					<div class="col-md-4 col-sm-6 col-xs-6 col-100">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 						<div class="product-box">
 							<div class="product-thumbnail">
@@ -740,14 +935,86 @@
 
 									<div class="box-tag">
 										<ul class="ct_course_list">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 											<li data-toggle="tooltip" data-placement="top" title="Di chuyển bằng Ô tô">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 													alt="Di chuyển bằng Ô tô" />
 											</li>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 											<li data-toggle="tooltip" data-placement="top"
 												title="Di chuyển bằng máy bay">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 													alt="Di chuyển bằng máy bay" />
 											</li>
 
@@ -763,14 +1030,14 @@
 
 										<li class="clearfix">
 											<div class="ulimg"><img
-													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 													alt="Thứ 7 hằng tuần" /></div> Khởi hành: Thứ 7 hằng tuần
 										</li>
 
 
 										<li class="clearfix">
 											<div class="ulimg"><img
-													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
 													alt="3 ngày 2 đêm" /></div> Thời gian: 3 ngày 2 đêm
 										</li>
 
@@ -816,13 +1083,13 @@
 										<ul class="ct_course_list">
 
 											<li data-toggle="tooltip" data-placement="top" title="Di chuyển bằng Ô tô">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 													alt="Di chuyển bằng Ô tô" />
 											</li>
 
 											<li data-toggle="tooltip" data-placement="top"
 												title="Di chuyển bằng máy bay">
-												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+												<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 													alt="Di chuyển bằng máy bay" />
 											</li>
 
@@ -836,13 +1103,13 @@
 
 										<li class="clearfix">
 											<div class="ulimg"><img
-													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 													alt="Thứ 4 hằng tuần" /></div> Khởi hành: Thứ 4 hằng tuần
 										</li>
 
 										<li class="clearfix">
 											<div class="ulimg"><img
-													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+													src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
 													alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3 đêm
 										</li>
 
@@ -960,13 +1227,13 @@
 
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng Ô tô">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 																		alt="Di chuyển bằng Ô tô" />
 																</li>
 
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng máy bay">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 																		alt="Di chuyển bằng máy bay" />
 																</li>
 
@@ -977,9 +1244,14 @@
 
 													<div class="box-date-tour">
 														<ul class="ct_course_list">
+
+
+
+
+
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 																		alt="Thứ 7 hằng tuần" /></div> Khởi hành: Thứ 7
 																hằng tuần
 															</li>
@@ -987,10 +1259,14 @@
 
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
 																		alt="3 ngày 2 đêm" /></div> Thời gian: 3 ngày 2
 																đêm
 															</li>
+
+
+
+
 														</ul>
 													</div>
 
@@ -1032,17 +1308,19 @@
 
 															</div>
 
+
 														</div>
+
 														<div class="box-tag">
 															<ul class="ct_course_list">
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng Ô tô">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 																		alt="Di chuyển bằng Ô tô" />
 																</li>
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng máy bay">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 																		alt="Di chuyển bằng máy bay" />
 																</li>
 															</ul>
@@ -1053,16 +1331,15 @@
 
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 																		alt="Thứ 7 hằng tuần" /></div> Khởi hành: Thứ 7
 																hằng tuần
 															</li>
 
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-																		alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
-																đêm
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
+																		alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3 đêm
 															</li>
 														</ul>
 													</div>
@@ -1105,6 +1382,8 @@
 																</div>
 
 															</div>
+
+
 														</div>
 
 														<div class="box-tag">
@@ -1113,19 +1392,20 @@
 
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng Ô tô">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 																		alt="Di chuyển bằng Ô tô" />
 																</li>
 
 
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng máy bay">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 																		alt="Di chuyển bằng máy bay" />
 																</li>
 
 															</ul>
 														</div>
+
 													</div>
 
 													<div class="box-date-tour">
@@ -1133,14 +1413,14 @@
 
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 																		alt="Thứ 5; Chủ nhật" /></div> Khởi hành: Thứ 5;
 																Chủ nhật
 															</li>
 
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
 																		alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
 																đêm
 															</li>
@@ -1153,11 +1433,17 @@
 									</div>
 
 								</div>
+
 								<div class="tab-2 tab-content">
+
 								</div>
+
 								<div class="tab-3 tab-content">
+
 								</div>
+
 								<script>
+
 								</script>
 							</div>
 						</div>
@@ -1254,19 +1540,19 @@
 															<ul class="ct_course_list">
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng Ô tô">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 																		alt="Di chuyển bằng Ô tô" />
 																</li>
 
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng tàu thủy">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg?1705894518705"
 																		alt="Di chuyển bằng tàu thủy" />
 																</li>
 
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng máy bay">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 																		alt="Di chuyển bằng máy bay" />
 																</li>
 
@@ -1280,14 +1566,14 @@
 
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 																		alt="Thứ 2 hằng tuần" /></div> Khởi hành: Thứ 2
 																hằng tuần
 															</li>
 
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
 																		alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
 																đêm
 															</li>
@@ -1329,19 +1615,19 @@
 
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng Ô tô">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 																		alt="Di chuyển bằng Ô tô" />
 																</li>
 
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng tàu thủy">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg?1705894518705"
 																		alt="Di chuyển bằng tàu thủy" />
 																</li>
 
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng máy bay">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 																		alt="Di chuyển bằng máy bay" />
 																</li>
 
@@ -1355,14 +1641,14 @@
 
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 																		alt="Thứ 4 hằng tuần" /></div> Khởi hành: Thứ 4
 																hằng tuần
 															</li>
 
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
 																		alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
 																đêm
 															</li>
@@ -1420,13 +1706,13 @@
 
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng Ô tô">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
 																		alt="Di chuyển bằng Ô tô" />
 																</li>
 
 																<li data-toggle="tooltip" data-placement="top"
 																	title="Di chuyển bằng máy bay">
-																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+																	<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
 																		alt="Di chuyển bằng máy bay" />
 																</li>
 
@@ -1440,14 +1726,14 @@
 
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
 																		alt="Thứ 7 hằng tuần" /></div> Khởi hành: Thứ 7
 																hằng tuần
 															</li>
 
 															<li class="clearfix">
 																<div class="ulimg"><img
-																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+																		src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
 																		alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
 																đêm
 															</li>
@@ -1507,7 +1793,7 @@
 						<div class="video-thumbnail">
 
 							<a href="blogs/all.html">
-								<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/sec_video_tour_embed_img6d1d.jpg"
+								<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/sec_video_tour_embed_img6d1d.jpg?1705894518705"
 									alt="Ant Du lịch" class="img-responsive center-block" />
 							</a>
 
@@ -1544,7 +1830,7 @@
 						<div class="item">
 							<div class="tourmaster-tour-category-item-wrap">
 								<div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-									<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_16d1d.png"
+									<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_16d1d.png?1705894518705"
 										alt="Phú Quốc" />
 								</div>
 								<div class="tourmaster-tour-category-overlay"></div>
@@ -1566,7 +1852,7 @@
 						<div class="item">
 							<div class="tourmaster-tour-category-item-wrap">
 								<div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-									<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_26d1d.png"
+									<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_26d1d.png?1705894518705"
 										alt="Châu Á" />
 								</div>
 								<div class="tourmaster-tour-category-overlay"></div>
@@ -1588,7 +1874,7 @@
 						<div class="item">
 							<div class="tourmaster-tour-category-item-wrap">
 								<div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-									<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_36d1d.png"
+									<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_36d1d.png?1705894518705"
 										alt="Châu Âu" />
 								</div>
 								<div class="tourmaster-tour-category-overlay"></div>
@@ -1610,7 +1896,7 @@
 						<div class="item">
 							<div class="tourmaster-tour-category-item-wrap">
 								<div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-									<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_46d1d.png"
+									<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_46d1d.png?1705894518705"
 										alt="Châu Mỹ" />
 								</div>
 								<div class="tourmaster-tour-category-overlay"></div>
@@ -1633,7 +1919,7 @@
 						<div class="item">
 							<div class="tourmaster-tour-category-item-wrap">
 								<div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-									<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_56d1d.png"
+									<img src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_56d1d.png?1705894518705"
 										alt="Châu Phi" />
 								</div>
 								<div class="tourmaster-tour-category-overlay"></div>
@@ -1977,7 +2263,7 @@
 								<h3>Liên hệ</h3>
 								<div class="footer-widget-content">
 									<div class="icon">
-										<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/fot_hotline.svg"
+										<img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/fot_hotline.svg?1705894518705"
 											alt="Liên hệ" />
 									</div>
 									<div class="info">
@@ -2103,8 +2389,9 @@
 	<script src="../cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"
 		type="text/javascript"></script>
 	<script>$.validate({});</script>
-	<link rel="preload" as="script" href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/api-jquery6d1d.js" />
-	<script src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/api-jquery6d1d.js"
+	<link rel="preload" as="script"
+		href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/api-jquery6d1d.js?1705894518705" />
+	<script src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/api-jquery6d1d.js?1705894518705"
 		type="text/javascript"></script>
 	<div class="ajax-load">
 		<span class="loading-icon">
@@ -2185,7 +2472,8 @@
 					<a href="javascript:void(0)" class="close-window close-popup"><i class="fa fa-close"></i></a>
 					<div class="info clearfix">
 						<div class="product-image margin-top-5">
-							<img alt="popup" src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png"
+							<img alt="popup"
+								src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705"
 								style="max-width:150px; height:auto" />
 						</div>
 						<div class="product-info">
@@ -2786,8 +3074,10 @@
 	</div>
 	<div id="myModal" class="modal fade" role="dialog">
 	</div>
-	<link rel="preload" as="script" href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/main6d1d.js" />
-	<script src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/main6d1d.js" type="text/javascript"></script>
+	<link rel="preload" as="script"
+		href="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/main6d1d.js?1705894518705" />
+	<script src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/main6d1d.js?1705894518705"
+		type="text/javascript"></script>
 
 	<div class="backdrop__body-backdrop___1rvky"></div>
 	<div class="c-menu--slide-left">
@@ -2795,11 +3085,13 @@
 			<div class="la-avatar-nav p-relative text-center">
 				<a href="account/logina3b1.html">
 					<img class="img-responsive"
-						src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/av-none-user6d1d.png" alt="avatar">
+						src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/av-none-user6d1d.png?1705894518705"
+						alt="avatar">
 				</a>
 				<div class="la-hello-user-nav ng-scope">Xin chào</div>
 				<img id="close-nav" class="c-menu__close"
-					src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/ic-close-menu6d1d.png" alt="close nav">
+					src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/ic-close-menu6d1d.png?1705894518705"
+					alt="close nav">
 			</div>
 			<div class="la-action-link-nav text-center">
 
@@ -2994,7 +3286,7 @@
 
 				<a href="#">
 					<img alt="Ant Du lịch"
-						src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/left-menu-banner-16d1d.png" />
+						src="../bizweb.dktcdn.net/100/299/077/themes/642224/assets/left-menu-banner-16d1d.png?1705894518705" />
 				</a>
 
 
@@ -3345,7 +3637,4 @@
 		}
 	</style>
 </body>
-
-<!-- Mirrored from ant-du-lich.mysapo.net/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 30 Sep 2024 14:52:46 GMT -->
-
 </html>
