@@ -101,11 +101,11 @@
 
 <body>
 
-    @include('client.layouts.header')
+    @include('client.partials.header')
 
     @yield('content')
 
-    @include('client.layouts.footer')
+    @include('client.partials.footer')
     </div>
 
 </body>

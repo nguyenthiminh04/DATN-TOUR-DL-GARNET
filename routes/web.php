@@ -21,9 +21,18 @@ Route::get('/admin', function () {
 });
 
 
-
-
-
 Route::get('/', function () {
     return view('client.home');
+});
+
+Route::get('/lien-he', function () {
+    return view('client.pages.contact');
+});
+
+Route::get('/dang-nhap', function () {
+    return view('client.auth.login');
+});
+
+Route::get('/dang-ky', function () {
+    return view('client.auth.register');
 });
