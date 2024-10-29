@@ -82,6 +82,14 @@ class FaqController extends Controller
      */
     public function destroy(Faq $faq)
     {
-        //
+        $check = $faq->delete();
+        if ($check) {
+
+            session()->flash('success', 'Xóa thành công.');
+            return back();
+        } else {
+            session()->flash('error', 'Xóa thất bại.');
+            return back();
+        }
     }
 }
