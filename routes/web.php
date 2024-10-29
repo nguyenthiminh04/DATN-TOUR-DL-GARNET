@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,18 +14,23 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// client routes
+Route::group([],function () {
+    Route::get('/', function () {
+        return view('client.home');
+    });
+});
+
+// admin routes
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/home', function () {
+        return view('admin.dashboard');
+    })->name('home-admin');
+    Route::resource('user', UserController::class);
+    Route::resource('faqs', FaqController::class);
+});
+
 Route::get('/dangnhap', function () {
     return view('admin.dashboard');
-});
-
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-});
-
-Route::resource('user', UserController::class);
-
-
-
-Route::get('/', function () {
-    return view('client.home');
 });

@@ -27,6 +27,9 @@
     <link href="{{ asset('admin/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('admin/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css">
+    
+
+    @yield('style-libs')
 
 </head>
 
@@ -1024,7 +1027,8 @@
 
 
     <!-- JAVASCRIPT -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
     <script src="{{ asset('admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('admin/assets/libs/simplebar/simplebar.min.js') }}"></script>
@@ -1047,6 +1051,51 @@
 
     <!-- App js -->
     <script src="{{ asset('admin/assets/js/app.js') }}"></script>
+
+    {{-- Sweet alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (Session::has('success'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ Session::get('success') }}",
+            });
+        </script>
+    @endif
+    @if (Session::has('error'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ Session::get('error') }}",
+            });
+        </script>
+    @endif
+
+    @yield('script-libs')
+    @yield('script')
 
 </body>
 
