@@ -33,32 +33,30 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
-        if($request->isMethod('POST')){
-            $params = $request->except('_token');
+{
+    if ($request->isMethod('POST')) {
+        $params = $request->except('_token');
 
-            //Chuyển đổi giá trị check box thành boolean
-            $params['status'] = $request->has('status') ? 1 : 0;
-            // dd($params);
-           
-        
-        // Xử lý hình ảnh đại diện 
-        if($request->hasFile('avatar')){
-            $params['avatar'] = $request->file('avatar')->store('uploads/avatar','public');
-        }else{
+        // Lấy trực tiếp giá trị từ dropdown
+        $params['status'] = $request->input('status');
+
+        // Xử lý hình ảnh đại diện
+        if ($request->hasFile('avatar')) {
+            $params['avatar'] = $request->file('avatar')->store('uploads/avatar', 'public');
+        } else {
             $params['avatar'] = null;
         }
-        //Thêm sản phẩm
 
+        // Thêm sản phẩm
         $user = UserModel::query()->create($params);
-    //Lấy id sản phẩm vừa thêm để thêm được album 
-    $user = $user->id;
-  
-    return redirect()->route('user.index'); 
+
+        // Lấy id sản phẩm vừa thêm để thêm được album
+        $user = $user->id;
+
+        return redirect()->route('user.index'); 
+    }
 }
 
-    }
 
     /**
      * Display the specified resource.

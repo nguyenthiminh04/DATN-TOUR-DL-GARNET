@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách User</h4>
+                        <h4 class="mb-sm-0">Tour</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -73,19 +73,18 @@
                                                 </div>
                                             </th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="category">Name</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="course_Name">Avatar
+                                            <th scope="col" class="sort cursor-pointer" data-sort="course_Name">Code
                                             </th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="instructor">Email</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="lessons">Phone</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="duration">Address</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="students">Birth</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="fees">Gender</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">Status</th>
+                                            <th scope="col" class="sort cursor-pointer" data-sort="instructor">start_date</th>
+                                            <th scope="col" class="sort cursor-pointer" data-sort="lessons">end_date</th>
+                                            <th scope="col" class="sort cursor-pointer" data-sort="lessons">percentage_price</th>
+                                            <th scope="col" class="sort cursor-pointer" data-sort="lessons">tour_id</th>
+                                            <th scope="col" class="sort cursor-pointer" data-sort="status">status</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
-                                        @foreach ($listuser as $index => $item)
+                                        @foreach ($listcoupons as $index => $item)
                                             <tr>
                                                 <td>
                                                     <div class="form-check">
@@ -97,22 +96,11 @@
                                                         class="fw-medium link-primary">#TBS001</a></td>
                                                 <td class="category"><a href="apps-learning-grid.html"
                                                         class="text-reset">{{ $item->name }}</a></td>
-                                                <td class="course_Name">
-                                                    <div class="d-flex gap-2 align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="{{ Storage::url($item->avatar) }}" alt=""
-                                                                class="avatar-xxs">
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            <a href="apps-learning-overview.html" class="text-reset"></a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="instructor">{{ $item->email }}</td>
-                                                <td class="lessons">{{ $item->phone }}</td>
-                                                <td class="duration">{{ $item->address }}</td>
-                                                <td class="students">{{ $item->birth }}</td>
-                                                <td class="fees"><span class="fw-medium">{{ $item->gender }}</span></td>
+                                                <td class="instructor">{{ $item->code }}</td>
+                                                <td class="students">{{ $item->start_date }}</td>
+                                                <td class="students">{{ $item->end_date }}</td>
+                                                <td class="students">{{ $item->percentage_price }}</td>
+                                                <td class="students">{{ $item->tour_id }}</td>
                                                 <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                     {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
                                                 <td>
@@ -151,7 +139,7 @@
                           </div>
                       </div>
                       <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('user.destroy', $item->id) }}"
+                        <form action="{{ route('coupons.destroy', $item->id) }}"
                           method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
@@ -174,95 +162,86 @@
                  aria-label="Close" id="close-addCourseModal"></button>
          </div>
 
-         <form action="{{ route('user.update',$item->id) }}" method="post" enctype="multipart/form-data"
+         <form action="{{ route('coupons.update',$item->id) }}" method="post" enctype="multipart/form-data"
              class="tablelist-form" novalidate autocomplete="off">
              @csrf
              @method('PUT')
              <div class="modal-body">
-                 <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
-                 <input type="hidden" id="id-field">
+                <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
+                <input type="hidden" id="id-field">
 
-                 <input type="hidden" id="rating-field">
-                 <div class="mb-3">
-                     <label for="avatar" class="form-label">Hình Ảnh</label>
+                <input type="hidden" id="rating-field">
+                
 
-                     <input type="file" id="avatar" name="avatar" class="form-control"
-                         onchange="showImage(event)">
-                     <img id="img_danh_muc" src="{{ Storage::url($item->avatar) }}" alt="Hình Ảnh Sản Phẩm"
-                         style="width: 150px;display:none">
-                 </div>
-
-                 <div class="mb-3">
-                     <label for="name" class="form-label">Họ và Tên<span
-                             class="text-danger">*</span></label>
-                     <input type="text" id="name" name="name" class="form-control"
-                         value="{{$item->name}}" placeholder="Enter course title" required>
-                 </div>
-                 <div class="mb-3">
-                     <label for="email" class="form-label">Email<span
-                             class="text-danger">*</span></label>
-                     <input type="text" id="email" name="email" class="form-control"
-                     value="{{$item->email}}" placeholder="Enter course title" required>
-                 </div>
-                 <div class="mb-3">
-                     <label for="address" class="form-label">Address<span
-                             class="text-danger">*</span></label>
-                     <input type="text" id="address" name="address" class="form-control"
-                     value="{{$item->address}}"  placeholder="Enter course title" required>
-                 </div>
-
-
-
-
-                 <div class="row">
-                     <div class="col-lg-6">
-                         <div class="mb-3">
-                             <label for="phone" class="form-label">Phone<span
-                                     class="text-danger">*</span></label>
-                             <input type="number" id="phone" name="phone" class="form-control"
-                             value="{{$item->phone}}" placeholder="Enter instructor name" required>
-                         </div>
-                     </div>
-                     <div class="col-lg-6">
-                         <div class="mb-3">
-                             <label for="birth" class="form-label">Birth<span
-                                     class="text-danger">*</span></label>
-                             <input type="date" id="birth" name="birth" class="form-control"
-                             value="{{$item->birth}}" placeholder="Lessons" required>
-                         </div>
-                     </div><!--end col-->
-                     <div class="col-lg-6">
-                      <div class="mb-3">
-                        <label for="gender" class="form-label">Giới Tính<span class="text-danger">*</span></label>
-                        <select class="form-select" id="gender" name="gender">
-                            <option value="">Giới Tính</option>
-                            <option value="nam" {{  $item->gender == 'nam' ? 'selected' : '' }}>Nam</option>
-                            <option value="nu" {{  $item->gender == 'nu' ? 'selected' : '' }}>Nữ</option>
-                        </select>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Tên Coupons<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="name" name="name" class="form-control"
+                    value="{{$item->name}}" placeholder="Enter course title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="code" class="form-label">Code<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="code" name="code" class="form-control"
+                    value="{{$item->code}}"  placeholder="Enter course code" required>
+                </div>
+                <div class="mb-3">
+                    <label for="percentage_price" class="form-label">Tỷ Lệ Giảm Giá<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="percentage_price" name="percentage_price" class="form-control"
+                    value="{{$item->percentage_price}}"  placeholder="Enter course percentage_price" required>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="start_date" class="form-label">Ngày Bắt Đầu<span
+                                    class="text-danger">*</span></label>
+                            <input type="datetime-local" id="start_date" name="start_date" class="form-control"
+                            value="{{$item->start_date}}"    placeholder="Enter instructor name" required>
+                        </div>
+                        
                     </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="end_date" class="form-label">Ngày Kết Thúc<span
+                                    class="text-danger">*</span></label>
+                            <input type="datetime-local" id="end_date" name="end_date" class="form-control"
+                            value="{{$item->end_date}}"   placeholder="Lessons" required>
+                        </div>
+                    </div><!--end col-->
+                   
                     
-                     </div><!--end col-->
-                     <div class="col-lg-6">
-                         <div class="mb-3">
-                             <label for="password" class="form-label">Password<span
-                                     class="text-danger">*</span></label>
-                             <input type="password" class="form-control" id="password" name="password"
-                             value="{{$item->password}}" placeholder="Select duration" required>
-                         </div>
-                     </div><!--end col-->
-                     <div class="col-lg-6">
-                      <div class="mb-3">
-                        <label for="status" class="form-label">Status<span class="text-danger">*</span></label>
-                        <select class="form-select" id="status" name="status">
-                            <option value="">Select Status</option>
-                            <option value="1" {{  $item->status == 1 ? 'selected' : '' }}>Hiển Thị</option>
-                            <option value="0" {{  $item->status == 0 ? 'selected' : '' }}>Ẩn</option>
-                        </select>
-                    </div>
+                   
                     
-                     </div><!--end col-->
-                 </div><!--end row-->
-             </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="tour_id" class="form-label">Gender<span
+                                    class="text-danger">*</span></label>
+                                    <select name="tour_id"  class="form-select" >
+                                        <option selected>Chọn Tour</option>
+                                        @foreach ($listtour as $itemn)
+                                            <option value="{{$itemn->id}}" {{  $item->tour_id == $itemn->id ? 'selected' : ''}}>{{$itemn->name}}</option>
+
+                                            @endforeach
+                                        
+                                       </select>
+                        </div>
+                    </div><!--end col-->
+                    
+                   
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status<span
+                                    class="text-danger">*</span></label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="">Select Status</option>
+                                <option value="1" {{  $item->status == 1 ? 'selected' : '' }} >Hiển Thị</option>
+                                <option value="0" {{  $item->status == 0 ? 'selected' : '' }} >Ẩn</option>
+                            </select>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div>
              <div class="modal-footer">
                  <div class="hstack gap-2 justify-content-end">
                      <button type="button" class="btn btn-ghost-danger" data-bs-dismiss="modal"><i
@@ -321,87 +300,80 @@
                                 aria-label="Close" id="close-addCourseModal"></button>
                         </div>
 
-                        <form action="{{ route('user.store') }}" method="post" enctype="multipart/form-data"
+                        <form action="{{ route('coupons.store') }}" method="post" enctype="multipart/form-data"
                             class="tablelist-form" novalidate autocomplete="off">
                             @csrf
                             <div class="modal-body">
                                 <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
                                 <input type="hidden" id="id-field">
-
+                
                                 <input type="hidden" id="rating-field">
+                                
+                
                                 <div class="mb-3">
-                                    <label for="avatar" class="form-label">Hình Ảnh</label>
-
-                                    <input type="file" id="avatar" name="avatar" class="form-control"
-                                        onchange="showImage(event)">
-                                    <img id="img_danh_muc" src="" alt="Hình Ảnh Sản Phẩm"
-                                        style="width: 150px;display:none">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Họ và Tên<span
+                                    <label for="name" class="form-label">Tên Coupons<span
                                             class="text-danger">*</span></label>
                                     <input type="text" id="name" name="name" class="form-control"
-                                        placeholder="Enter course title" required>
+                                     placeholder="Enter course title" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email<span
+                                    <label for="code" class="form-label">Code<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" id="email" name="email" class="form-control"
-                                        placeholder="Enter course title" required>
+                                    <input type="text" id="code" name="code" class="form-control"
+                                      placeholder="Enter course code" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="address" class="form-label">Address<span
+                                    <label for="percentage_price" class="form-label">Tỷ Lệ Giảm Giá<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" id="address" name="address" class="form-control"
-                                        placeholder="Enter course title" required>
+                                    <input type="text" id="percentage_price" name="percentage_price" class="form-control"
+                                      placeholder="Enter course percentage_price" required>
                                 </div>
-
-
-
-
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="phone" class="form-label">Phone<span
+                                            <label for="start_date" class="form-label">Ngày Bắt Đầu<span
                                                     class="text-danger">*</span></label>
-                                            <input type="number" id="phone" name="phone" class="form-control"
+                                            <input type="datetime-local" id="start_date" name="start_date" class="form-control"
                                                 placeholder="Enter instructor name" required>
                                         </div>
+                                        
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="birth" class="form-label">Birth<span
+                                            <label for="end_date" class="form-label">Ngày Kết Thúc<span
                                                     class="text-danger">*</span></label>
-                                            <input type="date" id="birth" name="birth" class="form-control"
-                                                placeholder="Lessons" required>
+                                            <input type="datetime-local" id="end_date" name="end_date" class="form-control"
+                                               placeholder="Lessons" required>
                                         </div>
                                     </div><!--end col-->
+                                   
+                                    
+                                   
+                                    
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="gender" class="form-label">Giới Tính<span class="text-danger">*</span></label>
-                                            <select class="form-select" id="gender" name="gender">
-                                                <option value="">Giới Tính</option>
-                                                <option value="nam" >Nam</option>
-                                                <option value="nu" >Nữ</option>
-                                            </select>
-                                        </div>
-                                    </div><!--end col-->
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="password" class="form-label">Password<span
+                                            <label for="tour_id" class="form-label">Gender<span
                                                     class="text-danger">*</span></label>
-                                            <input type="password" class="form-control" id="password" name="password"
-                                                placeholder="Select duration" required>
+                                                    <select name="tour_id"  class="form-select" >
+                                                        <option selected>Chọn Tour</option>
+                                                        @foreach ($listtour as $item)
+                                                        <option value="{{$item->id}}" {{ old('tour_id') == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
+            
+                                                        @endforeach
+                                                        
+                                                       </select>
                                         </div>
                                     </div><!--end col-->
+                                    
+                                   
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="status" class="form-label">Status<span class="text-danger">*</span></label>
+                                            <label for="status" class="form-label">Status<span
+                                                    class="text-danger">*</span></label>
                                             <select class="form-select" id="status" name="status">
                                                 <option value="">Select Status</option>
-                                                <option value="1" >Hiển Thị</option>
-                                                <option value="0" >Ẩn</option>
+                                                <option value="1"  >Hiển Thị</option>
+                                                <option value="0"  >Ẩn</option>
                                             </select>
                                         </div>
                                     </div><!--end col-->

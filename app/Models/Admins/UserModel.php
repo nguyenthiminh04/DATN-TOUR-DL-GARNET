@@ -19,6 +19,8 @@ class UserModel extends Model
         'gender',
         'role_id',
         'password',
+        'status',
+
     ];
     protected $cats = [
         'status' => 'boolean',
@@ -27,4 +29,9 @@ public function Role()
 {
     return $this->belongsTo(Role::class);
 }
+ // Định nghĩa quan hệ User có nhiều Tours
+ public function tours()
+ {
+     return $this->hasMany(Tour::class);
+ }
 }
