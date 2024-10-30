@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\CouponsController;
+use App\Http\Controllers\Admin\TourController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,18 +15,20 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/dangnhap', function () {
-    return view('admin.dashboard');
-});
 
-Route::get('/admin', function () {
+
+Route::get('/admin2', function () {
     return view('admin.dashboard');
 });
+Route::resource('user', UserController::class);
+Route::resource('tour', TourController::class);
+Route::resource('coupons', CouponsController::class);
 
 
 Route::get('/', function () {
     return view('client.home');
 });
+
 
 Route::get('/lien-he', function () {
     return view('client.pages.contact');
