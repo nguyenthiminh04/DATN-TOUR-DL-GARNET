@@ -36,3 +36,21 @@ Route::get('/dang-nhap', function () {
 Route::get('/dang-ky', function () {
     return view('client.auth.register');
 });
+Route::get('/dich-vu', function () {
+    return view('client.pages.service');
+});
+Route::get('/gioi-thieu', function () {
+    return view('client.pages.introduce');
+});
+Route::get('/cam-nang', function () {
+    return view('client.pages.handbook');
+});
+Route::get('/tour-trong-nuoc', function () {
+    return view('client.pages.domesticTour');
+});
+Route::get('/chi-tiet-tour', function () {
+    return view('client.pages.detailTour');
+});
+Route::get('/chi-tiet-cam-nang', function () {
+    return view('client.pages.detailHandbook');
+});
