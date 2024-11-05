@@ -31,57 +31,53 @@
             <ul class="navbar-nav" id="navbar-nav">
 
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+
                 <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#sidebarDashboards" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ph-gauge"></i>
-                         <span data-key="t-dashboards">Bảng điều khiển</span>
+                        <i class="ph-gauge"></i> <span data-key="t-dashboards">Dashboards</span>
                     </a>
-                    {{-- <div class="collapse menu-dropdown" id="sidebarDashboards"> --}}
+                    <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('category.index') }}" class="nav-link" data-key="">Danh mục</a>
+                                <a href="dashboard-analytics.html" class="nav-link" data-key="t-analytics">
+                                    Analytics </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('article.index') }}" class="nav-link" data-key="t-analytics">
-                                   Quản lý bài viết</a>
+                                <a href="dashboard-crm.html" class="nav-link" data-key="t-crm"> CRM </a>
                             </li>
                             <li class="nav-item">
-                                <a href="dashboard-crm.html" class="nav-link" data-key="t-crm"> Quản lý Tour </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('location.index') }}" class="nav-link" data-key="t-ecommerce">Quản lý địa danh</a>
-
+                                <a href="index.html" class="nav-link" data-key="t-ecommerce"> Ecommerce </a>
                             </li>
                             <li class="nav-item">
                                 <a href="dashboard-learning.html" class="nav-link" data-key="t-learning">
-                                    Quản lý bình luận </a>
+                                    Learning </a>
                             </li>
                             <li class="nav-item">
                                 <a href="dashboard-real-estate.html" class="nav-link" data-key="t-real-estate">
-                                    Quản lý vai trò </a>
+                                    Real Estate </a>
                             </li>
                         </ul>
-                    {{-- </div> --}}
+                    </div>
                 </li>
-                                {{-- faq --}}
-                                <li class="nav-item">
-                                    <a class="nav-link menu-link collapsed" href="#cauHoi" data-bs-toggle="collapse" role="button"
-                                        aria-expanded="false" aria-controls="cauHoi">
-                                        <i class="ph-gauge"></i> <span data-key="t-dashboards">Câu hỏi</span>
-                                    </a>
-                                    <div class="collapse menu-dropdown" id="cauHoi">
-                                        <ul class="nav nav-sm flex-column">
-                                            <li class="nav-item">
-                                                <a href="{{route('faqs.index')}}" class="nav-link">
-                                                    Danh sách </a>
-                                            </li>
-                
-                                        </ul>
-                                    </div>
-                                </li>
+                {{-- faq --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#cauHoi" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="cauHoi">
+                        <i class="ph-gauge"></i> <span data-key="t-dashboards">Câu hỏi</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="cauHoi">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{route('faqs.index')}}" class="nav-link">
+                                    Danh sách </a>
+                            </li>
 
-                {{-- <li class="nav-item">
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#sidebarLayouts" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarLayouts">
                         <i class="ph-layout"></i> <span data-key="t-layouts">Layouts</span> <span
@@ -107,7 +103,8 @@
                             </li>
                         </ul>
                     </div>
-                </li> --}}
+                </li>
+
 
 
             </ul>
