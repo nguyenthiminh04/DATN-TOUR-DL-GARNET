@@ -1,118 +1,62 @@
-<!-- Sửa User -->
-<div class="modal fade" id="addCourse{{ $item->id }}" tabindex="-1" aria-labelledby="addCourseModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content border-0">
-            <div class="modal-header bg-danger p-3">
-                <h5 class="modal-title text-white" id="addCourseModalLabel">
-                    Sửa User</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"
-                    id="close-addCourseModal"></button>
-            </div>
+@extends('admin.layouts.app')
+@section('content')
+    <div class="page-content">
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Danh Sách Câu Hỏi</h4>
 
-            <form action="{{ route('user.update', $item->id) }}" method="post" enctype="multipart/form-data"
-                class="tablelist-form" novalidate autocomplete="off">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
-                    <input type="hidden" id="id-field">
-
-                    <input type="hidden" id="rating-field">
-                    <div class="mb-3">
-                        <label for="avatar" class="form-label">Hình
-                            Ảnh</label>
-
-                        <input type="file" id="avatar" name="avatar" class="form-control"
-                            onchange="showImage(event)">
-                        <img id="img_danh_muc" src="{{ Storage::url($item->avatar) }}" alt="Hình Ảnh Sản Phẩm"
-                            style="width: 150px;display:none">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Họ và
-                            Tên<span class="text-danger">*</span></label>
-                        <input type="text" id="name" name="name" class="form-control"
-                            value="{{ $item->name }}" placeholder="Enter course title" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
-                        <input type="text" id="email" name="email" class="form-control"
-                            value="{{ $item->email }}" placeholder="Enter course title" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address<span class="text-danger">*</span></label>
-                        <input type="text" id="address" name="address" class="form-control"
-                            value="{{ $item->address }}" placeholder="Enter course title" required>
-                    </div>
-
-
-
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Phone<span class="text-danger">*</span></label>
-                                <input type="number" id="phone" name="phone" class="form-control"
-                                    value="{{ $item->phone }}" placeholder="Enter instructor name" required>
-                            </div>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
+                                <li class="breadcrumb-item active">Cập nhật câu hỏi</li>
+                            </ol>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="birth" class="form-label">Birth<span class="text-danger">*</span></label>
-                                <input type="date" id="birth" name="birth" class="form-control"
-                                    value="{{ $item->birth }}" placeholder="Lessons" required>
-                            </div>
-                        </div><!--end col-->
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="gender" class="form-label">Giới
-                                    Tính<span class="text-danger">*</span></label>
-                                <select class="form-select" id="gender" name="gender">
-                                    <option value="">Giới Tính</option>
-                                    <option value="nam" {{ $item->gender == 'nam' ? 'selected' : '' }}>
-                                        Nam</option>
-                                    <option value="nu" {{ $item->gender == 'nu' ? 'selected' : '' }}>
-                                        Nữ</option>
-                                </select>
-                            </div>
 
-                        </div><!--end col-->
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password<span
-                                        class="text-danger">*</span></label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    value="{{ $item->password }}" placeholder="Select duration" required>
-                            </div>
-                        </div><!--end col-->
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="status" class="form-label">Status<span
-                                        class="text-danger">*</span></label>
-                                <select class="form-select" id="status" name="status">
-                                    <option value="">Select Status
-                                    </option>
-                                    <option value="1" {{ $item->status_id == 1 ? 'selected' : '' }}>
-                                        Hiển Thị</option>
-                                    <option value="0" {{ $item->status_id == 0 ? 'selected' : '' }}>
-                                        Ẩn</option>
-                                </select>
-                            </div>
-
-                        </div><!--end col-->
-                    </div><!--end row-->
-                </div>
-                <div class="modal-footer">
-                    <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-ghost-danger" data-bs-dismiss="modal"><i
-                                class="bi bi-x-lg align-baseline me-1"></i>
-                            Close</button>
-                        <button type="submit" class="btn btn-primary" id="add-btn">Add Course</button>
                     </div>
                 </div>
+            </div>
+            <!-- end page title -->
+            <form class="col-6" action="{{ route('faqs.update', $faq) }}" method="POST">
+                @csrf
+                @method('PATCH')
+                <div class="mb-3">
+                    <label for="question" class="form-label">Câu hỏi<span class="text-danger">*</span></label>
+                    <input type="text" id="question" name="question" value="{{ $faq->question }}" class="form-control" placeholder="Nhập câu hỏi">
+                    @error('question')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="answer" class="form-label">Câu trả lời<span class="text-danger">*</span></label>
+                    <input type="text" id="answer" name="answer" value="{{ $faq->answer }}" class="form-control" placeholder="Nhập câu trả lời">
+                    @error('answer')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3 col-6">
+                    <label for="status1" class="form-label">Status<span class="text-danger">*</span></label>
+                    <select name="status_id" class="form-select w-100" id="status1">
+                        <option value="">Chọn status</option>
+                        @foreach ($listStatus as $status)
+                            <option value="{{ $status->id }}" {{ $faq->status_id == $status->id ? 'selected' : '' }}>{{ $status->status_name }}</option>
+                        @endforeach
+                    </select>
+                    @error('status_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <a href="{{route('faqs.index')}}" class="btn btn-info">Trở về</a>
+                    <button class="btn btn-primary" type="submit">Cập nhật</button>
+                </div>
+
             </form>
         </div>
-        <!-- modal-content -->
     </div>
-</div>
+@endsection
