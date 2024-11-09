@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Admins\Categorys;
 use Illuminate\Http\Request;
+use App\Models\Admins\Categorys;
+use App\Models\Admins\UserModel;
+use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
@@ -24,6 +25,11 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        // Truyền danh sách cha cho view để hiển thị trong form
+        $listUser = UserModel::query()->get();
+$parents = Categorys::all();
+return view('admins.category.add', compact('parents','listUser'));
+
     }
 
     /**
@@ -31,8 +37,35 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->isMethod('POST')) {
+            $params = $request->except('_token');
+    
+            // Lấy trực tiếp giá trị từ dropdown
+            $params['status'] = $request->input('status');
+    
+            // Xử lý hình ảnh đại diện
+            if ($request->hasFile('banner')) {
+                $params['banner'] = $request->file('banner')->store('uploads/location', 'public');
+            } else {
+                $params['banner'] = null;
+            }
+            if ($request->hasFile('avatar')) {
+                $params['avatar'] = $request->file('avatar')->store('uploads/location', 'public');
+            } else {
+                $params['avatar'] = null;
+            }
+    // Nếu không có giá trị hot trong request, mặc định là 0 (không hot)
+    $params['hot'] = $request->has('hot') ? 1 : 0;
+            // Thêm sản phẩm
+            $user = Categorys::query()->create($params);
+    
+            // Lấy id sản phẩm vừa thêm để thêm được album
+            $user = $user->id;
+    
+            return redirect()->route('category.index'); 
+        }
     }
+    
 
     /**
      * Display the specified resource.

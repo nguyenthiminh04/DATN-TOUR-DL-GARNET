@@ -13,7 +13,7 @@ class Categorys extends Model
     protected $fillable = [
         'name',
         'parent_id',
-        'slug',
+        'slugg',
         'avatar',
         'banner',
         'description',
@@ -31,5 +31,9 @@ class Categorys extends Model
     return $this->belongsTo(UserModel::class, 'user_id');
 }
 
+public function parent()
+{
+    return $this->belongsTo(Categorys::class, 'parent_id');
+}
 
 }

@@ -44,7 +44,7 @@
                                     <div class="hstack flex-wrap gap-2">
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                            <a href="{{route('location.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
+                                            <a href="{{route('category.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
                                                 Thêm chức vụ
                                             </a>
                                         <div>
@@ -68,40 +68,44 @@
                                         <tr>
 
                                             <th>ID</th>
-
                                             <th>Name</th>
-
                                             <th>Ảnh</th>
-
+                                            <th>banner</th>
+                                            <th>parent_id</th>
+                                            <th>slug</th>
                                             <th>description</th>
-                                            <th>content</th>
-                                            <th>Tour</th>
+                                            <th>hot</th>
                                             <th>Người Thêm</th>
-
-                                           
-
                                             <th scope="col">Status</th>
                                             <th scope="col">Action </th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
-                                        @foreach ($listLocation as $index => $item)
-                                        <tr>
+                                        @foreach ($listCategory as $index => $item)
+                                            <tr>
 
 
                                             <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
                                             <td>{{ $item->name }}</td>
                                             <td>
-                                              <img src="{{ Storage::url($item->image)}}" alt="" width="30px">
+                                              <img src="{{ Storage::url($item->avatar)}}" alt="" width="30px">
 
 
                                           </td>
-                                            <td>{{ $item->description }}</td>
-                                            <td>{{ $item->content }}</td>
-                                            <td>{{ $item->tours->name }}</td>
-                                            <td>{{ $item->user_id }}</td>
+                                          <td>
+                                            <img src="{{ Storage::url($item->banner)}}" alt="" width="30px">
 
+
+                                        </td>
+                                        <td>{{ $item->parent ? $item->parent->name : 'Không có cha' }}</td>
+
+                                            
+                                            <td>{{ $item->slugg }}</td>
+                                            <td>{{ $item->description }}</td>
+                                            <td>{{ $item->user->name }}</td>
+                                            <td class="{{ $item->hot == 1 ? 'text-success' : 'text-danger' }}">
+                                                {{ $item->hot == 1 ? 'Hot' : 'Không Hot' }}</td>
                                             <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                 {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
                                             <td>
