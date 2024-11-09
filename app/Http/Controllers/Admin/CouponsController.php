@@ -6,6 +6,8 @@ use App\Models\Admins\Tour;
 use Illuminate\Http\Request;
 use App\Models\Admins\Coupons;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CouponsRequests;
+use App\Models\Status;
 use Illuminate\Support\Facades\Storage;
 
 class CouponsController extends Controller
@@ -27,28 +29,22 @@ class CouponsController extends Controller
     public function create()
     {
         //
+        $listStatus = Status::query()->get();
+        $listTour = Tour::query()->get();
+        return view('admins.coupons.add', compact('listStatus','listTour'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CouponsRequests $request)
     {
-        if ($request->isMethod('POST')) {
+        if($request->method('post')){
             $params = $request->except('_token');
-    
-            // Lấy trực tiếp giá trị từ dropdown
-            $params['status'] = $request->input('status');
-    
-            
-    
-            // Thêm sản phẩm
-            $coupons = Coupons::query()->create($params);
-    
-            // Lấy id sản phẩm vừa thêm để thêm được album
-            $coupons = $coupons->id;
-    
-            return redirect()->route('coupons.index'); 
+           
+
+            Coupons::create($params);
+            return redirect()->route('coupons.index');
         }
     }
 
@@ -66,12 +62,16 @@ class CouponsController extends Controller
     public function edit(string $id)
     {
         //
+        $listStatus = Status::query()->get();
+        $listTour = Tour::query()->get();
+        $coupons = Coupons::query()->findOrFail($id);
+        return view('admins.coupons.edit', compact('listStatus','listTour','coupons'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CouponsRequests $request, string $id)
     {
         //
         if ($request->isMethod('PUT')) {

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Models\Admins\UserModel;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequests;
+use App\Models\Status;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -27,12 +29,14 @@ class UserController extends Controller
     public function create()
     {
         //
+        $listStatus = Status::query()->get();
+        return view('admins.user.add', compact('listStatus'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequests $request)
 {
     if ($request->isMethod('POST')) {
         $params = $request->except('_token');
@@ -71,7 +75,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-       
+        $user = UserModel::query()->findOrFail($id);
+        return view('admins.user.edit', compact('user'));
     }
 
     /**

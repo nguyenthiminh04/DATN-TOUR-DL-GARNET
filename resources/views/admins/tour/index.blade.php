@@ -44,8 +44,9 @@
                                     <div class="hstack flex-wrap gap-2">
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                        <a href="#addCourse2" data-bs-toggle="modal" class="btn btn-secondary"><i
-                                                class="bi bi-plus-circle align-baseline me-1"></i> Add Course</a>
+                                            <a href="{{route('tour.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
+                                                Thêm chức vụ
+                                            </a>
                                         <div>
                                             <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
                                                 data-bs-target="#courseFilters" aria-controls="courseFilters"><i
@@ -62,101 +63,83 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive table-card">
-                                <table class="table table-centered align-middle table-custom-effect table-nowrap mb-0">
+                                <table id="example" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
-                                            <th>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="option"
-                                                        id="checkAll">
-                                                    <label class="form-check-label" for="checkAll"></label>
-                                                </div>
-                                            </th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="category">Name</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="course_Name">Image
-                                            </th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="instructor">title</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="lessons">journeys</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="lessons">schedule</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="duration">move_method</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="students">starting_gate</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="fees">start_date</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="fees">end_date</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">number_guests</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">price_old</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">price_children</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">sale</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">view</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">description</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">content</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">location_id</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">user_id</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">album_img</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">status</th>
-                                            <th scope="col">Action</th>
+
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Image</th>
+                                            <th>title</th>
+                                            <th>journeys</th>
+                                            <th>schedule</th>
+                                            <th>move_method</th>
+                                            <th>starting_gate</th>
+                                            <th>start_date</th>
+                                            <th>end_date</th>
+                                            <th>number_guests</th>
+                                            <th>price_old</th>
+                                            <th>price_children</th>
+                                            <th>sale</th>
+                                            <th>view</th>
+                                            <th>description</th>
+                                            <th>content</th>
+                                            <th>location_id</th>
+                                            <th>user_id</th>
+                                            <th>album_img</th>
+                                            <th>status</th>
+                                            <th scope="col">Hành Động</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
                                         @foreach ($listtour as $index => $item)
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" name="chk_child">
-                                                        <label class="form-check-label"></label>
-                                                    </div>
-                                                </td>
-                                                <td class="id d-none"><a href="javascript:void(0)"
-                                                        class="fw-medium link-primary">#TBS001</a></td>
-                                                <td class="category"><a href="apps-learning-grid.html"
-                                                        class="text-reset">{{ $item->name }}</a></td>
-                                                <td class="course_Name">
-                                                    <div class="d-flex gap-2 align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="{{ Storage::url($item->image) }}" alt=""
-                                                                class="avatar-xxs">
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            <a href="apps-learning-overview.html" class="text-reset"></a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="instructor">{{ $item->title }}</td>
-                                                <td class="lessons">{{ $item->journeys }}</td>
-                                                <td class="lessons">{{ $item->schedule }}</td>
-                                                <td class="duration">{{ $item->move_method }}</td>
-                                                <td class="students">{{ $item->starting_gate }}</td>
-                                                <td class="students">{{ $item->start_date }}</td>
-                                                <td class="students">{{ $item->end_date }}</td>
-                                                <td class="students">{{ $item->number_guests }}</td>
-                                                <td class="students">{{ $item->price_old }}</td>
-                                                <td class="students">{{ $item->price_children }}</td>
-                                                <td class="students">{{ $item->sale }}</td>
-                                                <td class="students">{{ $item->view }}</td>
-                                                <td class="students">{{ $item->description }}</td>
-                                                <td class="students">{{ $item->content }}</td>
-                                                <td class="students">{{ $item->location->name }}</td>
-                                                <td class="students">{{ $item->user->name }}</td>
-                                                <td class="students">{{ $item->album_img }}</td>
-                                                <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                    {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
-                                                <td>
-                                                    <ul class="d-flex gap-2 list-unstyled mb-0">
-                                                        <li>
-                                                            <a href="apps-learning-overview.html"
-                                                                class="btn btn-subtle-primary btn-icon btn-sm "><i
-                                                                    class="ph-eye"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#addCourse{{ $item->id }}" data-bs-toggle="modal"
-                                                                class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i
-                                                                    class="ph-pencil"></i></a>
-                                                        </li>
-                                                        <li>
-                      <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
+                                        <tr>
+
+
+                                            <td><a href="" class="text-reset">{{ $item->id }}</a></td>
+
+                                            <td>{{ $item->name }}</td>
+                                            <td>
+                                                <img src="{{ Storage::url($item->image)}}" alt="" width="30px">
+
+
+                                            </td>
+                                            <td>{{ $item->title }}</td>
+                                            <td>{{ $item->journeys }}</td>
+                                            <td>{{ $item->schedule }}</td>
+                                            <td>{{ $item->move_method }}</td>
+                                            <td>{{ $item->starting_gate }}</td>
+                                            <td>{{ $item->start_date }}</td>
+                                            <td>{{ $item->end_date }}</td>
+                                            <td>{{ $item->number_guests }}</td>
+                                            <td>{{ $item->price_old }}</td>
+                                            <td>{{ $item->price_children }}</td>
+                                            <td>{{ $item->sale }}</td>
+                                            <td>{{ $item->view }}</td>
+                                            <td>{{ $item->description }}</td>
+                                            <td>{{ $item->content }}</td>
+                                            <td>{{ $item->location_id }}</td>
+                                            <td>{{ $item->user_id }}</td>
+                                            <td>{{ $item->album_img }}</td>
+
+                                            <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
+                                                {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                            <td>
+                                                <ul class="d-flex gap-2 list-unstyled mb-0">
+                                                    <li>
+                                                        <a href="apps-learning-overview.html"
+                                                            class="btn btn-subtle-primary btn-icon btn-sm "><i
+                                                                class="ph-eye"></i></a>
                                                     </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
+                                                    <li>
+                                                        <a href="{{route('tour.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
                                              <!-- Xóa User -->
         <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
@@ -187,192 +170,7 @@
               </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
       </div>
- <!-- Sửa User -->
- <div class="modal fade" id="addCourse{{ $item->id }}" tabindex="-1" aria-labelledby="addCourseModalLabel"
- aria-hidden="true">
- <div class="modal-dialog">
-     <div class="modal-content border-0">
-         <div class="modal-header bg-danger p-3">
-             <h5 class="modal-title text-white" id="addCourseModalLabel">Sửa User</h5>
-             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                 aria-label="Close" id="close-addCourseModal"></button>
-         </div>
-
-         <form action="{{ route('tour.update',$item->id) }}" method="post" enctype="multipart/form-data"
-             class="tablelist-form" novalidate autocomplete="off">
-             @csrf
-             @method('PUT')
-             <div class="modal-body">
-                <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
-                <input type="hidden" id="id-field">
-
-                <input type="hidden" id="rating-field">
-                <div class="mb-3">
-                    <label for="image" class="form-label">Hình Ảnh</label>
-
-                    <input type="file" id="image" name="image" class="form-control"
-                        onchange="showImage(event)">
-                    <img id="img_danh_muc" src="" alt="Hình Ảnh Sản Phẩm"
-                        style="width: 150px;display:none">
-                </div>
-
-                <div class="mb-3">
-                    <label for="name" class="form-label">Tên Tour<span
-                            class="text-danger">*</span></label>
-                    <input type="text" id="name" name="name" class="form-control"
-                    value="{{$item->name}}" placeholder="Enter course title" required>
-                </div>
-                <div class="mb-3">
-                    <label for="title" class="form-label">Tiêu Đề<span
-                            class="text-danger">*</span></label>
-                    <input type="text" id="title" name="title" class="form-control"
-                    value="{{$item->title}}"  placeholder="Enter course title" required>
-                </div>
-                <div class="mb-3">
-                    <label for="journeys" class="form-label">Hành Trình<span
-                            class="text-danger">*</span></label>
-                    <input type="text" id="journeys" name="journeys" class="form-control"
-                    value="{{$item->journeys}}"  placeholder="Enter course title" required>
-                </div>
-                <div class="mb-3">
-                    <label for="schedule" class="form-label">Lịch trình<span
-                            class="text-danger">*</span></label>
-                    <input type="text" id="schedule" name="schedule" class="form-control"
-                    value="{{$item->schedule}}"  placeholder="Enter course title" required>
-                </div>
-                <div class="mb-3">
-                    <label for="move_method" class="form-label">Phương Tiện Di Chuyển<span
-                            class="text-danger">*</span></label>
-                    <input type="text" id="move_method" name="move_method" class="form-control"
-                    value="{{$item->move_method}}"  placeholder="Enter course title" required>
-                </div>
-                <div class="mb-3">
-                    <label for="starting_gate" class="form-label">Cổng khởi hành<span
-                            class="text-danger">*</span></label>
-                    <input type="text" id="starting_gate" name="starting_gate" class="form-control"
-                    value="{{$item->starting_gate}}"  placeholder="Enter course title" required>
-                </div>
-                
-                <div class="mb-3">
-                    <label class="form-label" for="description">Mô tả ngắn</label>
-                    <textarea class="form-control" placeholder="Enter Description" id="description" name="description" rows="2">{{ $item->description }}</textarea>
-                </div>
-                
-                <div class="mb-3">
-                    <label class="form-label" for="content">Nội dung chi tiết</label>
-                    <textarea class="form-control" placeholder="Enter Description" id="content"name="content" rows="6">{{ $item->description }}</textarea>
-                </div>
-
-
-
-
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="start_date" class="form-label">Ngày Bắt Đầu<span
-                                    class="text-danger">*</span></label>
-                            <input type="datetime-local" id="start_date" name="start_date" class="form-control"
-                            value="{{$item->start_date}}"    placeholder="Enter instructor name" required>
-                        </div>
-                        
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="end_date" class="form-label">Ngày Kết Thúc<span
-                                    class="text-danger">*</span></label>
-                            <input type="datetime-local" id="end_date" name="end_date" class="form-control"
-                            value="{{$item->end_date}}"   placeholder="Lessons" required>
-                        </div>
-                    </div><!--end col-->
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="price_old" class="form-label">Giá cũ<span
-                                    class="text-danger">*</span></label>
-                            <input type="number" id="price_old" name="price_old" class="form-control"
-                            value="{{$item->price_old}}"  placeholder="Enter instructor name" required>
-                        </div>
-                        
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="price_children" class="form-label">Giá trẻ em<span
-                                    class="text-danger">*</span></label>
-                            <input type="number" id="price_children" name="price_children" class="form-control"
-                            value="{{$item->price_children}}"  placeholder="Enter instructor name"  required>
-                        </div>
-                        
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="sale" class="form-label">Giảm Giá<span
-                                    class="text-danger">*</span></label>
-                            <input type="number" id="sale" name="sale" class="form-control"
-                            value="{{$item->sale}}"  placeholder="Enter instructor name"  required>
-                        </div>
-                        
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="number_guests" class="form-label">Số lượng khách tối đa<span
-                                    class="text-danger">*</span></label>
-                            <input type="number" id="number_guests" name="number_guests" class="form-control"
-                            value="{{$item->number_guests}}"  placeholder="Lessons" required>
-                        </div>
-                    </div><!--end col-->
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="location_id" class="form-label">Gender<span
-                                    class="text-danger">*</span></label>
-                                    <select name="location_id"  class="form-select" >
-                                        <option selected>Chọn Địa Điểm</option>
-                                        @foreach ($listlocation as $itemn)
-                                            <option value="{{$itemn->id}}" {{  $item->location_id == $itemn->id ? 'selected' : ''}}>{{$itemn->name}}</option>
-
-                                            @endforeach
-                                        
-                                       </select>
-                        </div>
-                    </div><!--end col-->
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="user_id" class="form-label">Gender<span
-                                    class="text-danger">*</span></label>
-                                    <select name="user_id"  class="form-select" >
-                                        <option selected>Người Thêm</option>
-                                        @foreach ($listuser as $itemn)
-                                            <option value="{{$itemn->id}}" {{  $item->user_id == $itemn->id ? 'selected' : ''}}>{{$itemn->name}}</option>
-
-                                            @endforeach
-                                        
-                                       </select>
-                        </div>
-                    </div><!--end col-->
-                   
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status<span
-                                    class="text-danger">*</span></label>
-                            <select class="form-select" id="status" name="status">
-                                <option value="">Select Status</option>
-                                <option value="1" {{  $item->status == 1 ? 'selected' : '' }} >Hiển Thị</option>
-                                <option value="0" {{  $item->status == 0 ? 'selected' : '' }} >Ẩn</option>
-                            </select>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div>
-             <div class="modal-footer">
-                 <div class="hstack gap-2 justify-content-end">
-                     <button type="button" class="btn btn-ghost-danger" data-bs-dismiss="modal"><i
-                             class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                     <button type="submit" class="btn btn-primary" id="add-btn">Add Course</button>
-                 </div>
-             </div>
-         </form>
-     </div>
-     <!-- modal-content -->
- </div>
-</div>
+ 
                                         @endforeach
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
@@ -408,190 +206,8 @@
                     </div><!--end card-->
                 </div><!--end col-->
             </div><!--end row-->
-            <!-- Thêm User -->
-            <div class="modal fade" id="addCourse2" tabindex="-1" aria-labelledby="addCourseModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content border-0">
-                        <div class="modal-header bg-danger p-3">
-                            <h5 class="modal-title text-white" id="addCourseModalLabel">Thêm User</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                                aria-label="Close" id="close-addCourseModal"></button>
-                        </div>
-
-                        <form action="{{ route('tour.store') }}" method="post" enctype="multipart/form-data"
-                            class="tablelist-form" novalidate autocomplete="off">
-                            @csrf
-                            <div class="modal-body">
-                                <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
-                                <input type="hidden" id="id-field">
-
-                                <input type="hidden" id="rating-field">
-                                <div class="mb-3">
-                                    <label for="image" class="form-label">Hình Ảnh</label>
-
-                                    <input type="file" id="image" name="image" class="form-control"
-                                        onchange="showImage(event)">
-                                    <img id="img_danh_muc" src="" alt="Hình Ảnh Sản Phẩm"
-                                        style="width: 150px;display:none">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Tên Tour<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="name" name="name" class="form-control"
-                                        placeholder="Enter course title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="title" class="form-label">Tiêu Đề<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="title" name="title" class="form-control"
-                                        placeholder="Enter course title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="journeys" class="form-label">Hành Trình<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="journeys" name="journeys" class="form-control"
-                                        placeholder="Enter course title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="schedule" class="form-label">Lịch trình<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="schedule" name="schedule" class="form-control"
-                                        placeholder="Enter course title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="move_method" class="form-label">Phương Tiện Di Chuyển<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="move_method" name="move_method" class="form-control"
-                                        placeholder="Enter course title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="starting_gate" class="form-label">Cổng khởi hành<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="starting_gate" name="starting_gate" class="form-control"
-                                        placeholder="Enter course title" required>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label" for="description">Mô tả ngắn</label>
-                                    <textarea class="form-control" placeholder="Enter Description" id="description" name="description" rows="2"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="content">Nội dung chi tiết</label>
-                                    <textarea class="form-control" placeholder="Enter Description" id="content"name="content" rows="6"></textarea>
-                                </div>
-
-
-
-
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="start_date" class="form-label">Ngày Bắt Đầu<span
-                                                    class="text-danger">*</span></label>
-                                            <input type="datetime-local" id="start_date" name="start_date" class="form-control"
-                                                placeholder="Enter instructor name" required>
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="end_date" class="form-label">Ngày Kết Thúc<span
-                                                    class="text-danger">*</span></label>
-                                            <input type="datetime-local" id="end_date" name="end_date" class="form-control"
-                                                placeholder="Lessons" required>
-                                        </div>
-                                    </div><!--end col-->
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="price_old" class="form-label">Giá cũ<span
-                                                    class="text-danger">*</span></label>
-                                            <input type="number" id="price_old" name="price_old" class="form-control"
-                                                placeholder="Enter instructor name" required>
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="price_children" class="form-label">Giá trẻ em<span
-                                                    class="text-danger">*</span></label>
-                                            <input type="number" id="price_children" name="price_children" class="form-control"
-                                                placeholder="Enter instructor name"  required>
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="sale" class="form-label">Giảm Giá<span
-                                                    class="text-danger">*</span></label>
-                                            <input type="number" id="sale" name="sale" class="form-control"
-                                                placeholder="Enter instructor name"  required>
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="number_guests" class="form-label">Số lượng khách tối đa<span
-                                                    class="text-danger">*</span></label>
-                                            <input type="number" id="number_guests" name="number_guests" class="form-control"
-                                                placeholder="Lessons" required>
-                                        </div>
-                                    </div><!--end col-->
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="location_id" class="form-label">Gender<span
-                                                    class="text-danger">*</span></label>
-                                                    <select name="location_id"  class="form-select @error('location_id') is-invalid @enderror" >
-                                                        <option selected>Chọn Địa Điểm</option>
-                                                        @foreach ($listlocation as $item)
-                                                        <option value="{{$item->id}}" {{ old('location_id') == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
             
-                                                        @endforeach
-                                                        
-                                                       </select>
-                                        </div>
-                                    </div><!--end col-->
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="user_id" class="form-label">Gender<span
-                                                    class="text-danger">*</span></label>
-                                                    <select name="user_id"  class="form-select @error('user_id') is-invalid @enderror" >
-                                                        <option selected>Người Thêm</option>
-                                                        @foreach ($listuser as $item)
-                                                        <option value="{{$item->id}}" {{ old('user_id') == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
             
-                                                        @endforeach
-                                                        
-                                                       </select>
-                                        </div>
-                                    </div><!--end col-->
-                                   
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="status" class="form-label">Status<span
-                                                    class="text-danger">*</span></label>
-                                            <select class="form-select" id="status" name="status">
-                                                <option value="">Select Status</option>
-                                                <option value="1" >Hiển Thị</option>
-                                                <option value="0" >Ẩn</option>
-                                            </select>
-                                        </div>
-                                    </div><!--end col-->
-                                </div><!--end row-->
-                            </div>
-                            <div class="modal-footer">
-                                <div class="hstack gap-2 justify-content-end">
-                                    <button type="button" class="btn btn-ghost-danger" data-bs-dismiss="modal"><i
-                                            class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                                    <button type="submit" class="btn btn-primary" id="add-btn">Add Course</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- modal-content -->
-                </div>
-            </div>
            
             
         </div>
@@ -600,47 +216,96 @@
 
     </div>
 @endsection
+@section('style-libs')
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+@endsection
+@section('script-libs')
+    <!--datatable js-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+    <script>
+        $('#example').DataTable({
+            language: {
+                "sEmptyTable": "Không có dữ liệu trong bảng",
+                "sInfo": "Hiển thị _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                "sInfoEmpty": "Hiển thị 0 đến 0 trong tổng số 0 mục",
+                "sInfoFiltered": "(đã lọc từ _MAX_ mục)",
+                "sLengthMenu": "Hiển thị _MENU_ mục",
+                "sLoadingRecords": "Đang tải...",
+                "sProcessing": "Đang xử lý...",
+                "sSearch": "Tìm kiếm:",
+                "sZeroRecords": "Không tìm thấy kết quả nào",
+                "oPaginate": {
+                    "sFirst": "Đầu tiên",
+                    "sLast": "Cuối cùng",
+                    "sNext": "Tiếp theo",
+                    "sPrevious": "Trước"
+                },
+                "oAria": {
+                    "sSortAscending": ": kích hoạt để sắp xếp cột theo thứ tự tăng dần",
+                    "sSortDescending": ": kích hoạt để sắp xếp cột theo thứ tự giảm dần"
+                }
+            }
+        });
+    </script>
+@endsection
 @section('script')
-<script>
-    $(document).ready(function() {
-  $('#deleteRecordModal').on('submit', function(e) {
-    e.preventDefault();  // Ngăn form gửi dữ liệu theo cách truyền thống
 
-    $.ajax({
-      url: '/add-product',  // Đường dẫn đến route thêm sản phẩm
-      method: 'POST',
-      data: $(this).serialize(),  // Lấy tất cả dữ liệu từ form
-      success: function(response) {
-        // Xử lý khi thành công
-        $('#message').html('<p>Sản phẩm đã được thêm thành công!</p>');
-        // Cập nhật danh sách sản phẩm mà không cần reload trang
-      },
-      error: function(xhr) {
-        // Xử lý lỗi
-        $('#message').html('<p>Có lỗi xảy ra!</p>');
-      }
-    });
-  });
-});
+@section('script')
+    <script>
+        $(document).ready(function() {
+            // thêm faq
+            $('#addCouponsForm').on('submit', function(e) {
+                e.preventDefault(); // Ngăn chặn submit mặc định của form
 
-</script>
-<script>
-    $('#addCourse2').on('submit', function(e) {
-  e.preventDefault();
+                // Xóa thông báo lỗi cũ
+                $('#question-error').text('');
+                $('#answer-error').text('');
+                $('#status-error').text('');
 
-  $.ajax({
-    url: '/edit-product',  // Route sửa sản phẩm
-    method: 'POST',
-    data: $(this).serialize(),
-    success: function(response) {
-      $('#editMessage').html('<p>Sản phẩm đã được sửa thành công!</p>');
-      // Cập nhật danh sách sản phẩm mới
-    },
-    error: function(xhr) {
-      $('#editMessage').html('<p>Có lỗi xảy ra khi sửa sản phẩm!</p>');
-    }
-  });
-});
+                $.ajax({
+                    url: "{{ route('coupons.store') }}", // URL action của form
+                    type: 'POST',
+                    data: $(this).serialize(), // Lấy dữ liệu từ form và bao gồm CSRF token
+                    success: function(response) {
+                        // Xử lý khi request thành công (có thể đóng modal, load lại danh sách FAQ)
+                        // $('#addFaq').modal('hide');
+                        // alert('Câu hỏi đã được thêm thành công!');
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+                        // Xử lý khi request bị lỗi
+                        if (xhr.status === 422) { // Lỗi xác thực
+                            let errors = xhr.responseJSON.errors;
+                            if (errors.question) {
+                                $('#question-error').text(errors.question[0]);
+                            }
+                            if (errors.answer) {
+                                $('#answer-error').text(errors.answer[0]);
+                            }
+                            if (errors.status_id) {
+                                $('#status-error').text(errors.status_id[0]);
+                            }
+                        } else {
+                            console.log("Có lỗi xảy ra:", xhr.responseText);
+                        }
+                    }
+                });
+            });
 
-</script>
+            // xóa faq
+
+            $('.remove-item-btn').on('click', function() {
+                // Lấy ID của item cần xóa từ thuộc tính data-id
+                const itemId = $(this).data('id');
+                const url = "{{ route('coupons.destroy', ':id') }}"; // Tạo URL với placeholder :id
+                const deleteUrl = url.replace(':id', itemId); // Thay thế :id bằng itemId
+                $('#deleteForm').attr('action', deleteUrl); // Cập nhật action của form xóa 
+            });
+        });
+    </script>
 @endsection

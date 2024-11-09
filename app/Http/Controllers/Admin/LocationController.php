@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Admins\Tour;
-use Illuminate\Http\Request;
-use App\Models\Admins\Location;
-use App\Models\Admins\UserModel;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TourRequest;
+use App\Models\Admins\Location;
+use App\Models\Admins\Tour;
+use App\Models\Admins\UserModel;
 use App\Models\Status;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class TourController extends Controller
+class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,12 +18,9 @@ class TourController extends Controller
     public function index()
     {
         //
-        $title ="Danh Mục User";
-
-        $listtour = Tour::orderBYDesc('id')->get();
-        $listuser = UserModel::query()->get();
-        $listlocation = Location::query()->get();
-        return view('admins.tour.index', compact('title','listtour','listuser','listlocation'));
+       
+        $listLocation = Location::query()->get();
+        return view('admins.locations.index', compact('listLocation'));
     }
 
     /**
@@ -33,17 +29,18 @@ class TourController extends Controller
     public function create()
     {
         //
-        $listuser = UserModel::query()->get();
-        $listlocation = Location::query()->get();
         $listStatus = Status::query()->get();
-        return view('admins.tour.add', compact('listuser','listlocation','listStatus'));
+        $listUser = UserModel::query()->get();
+        $listTour = Tour::query()->get();
+        return view('admins.locations.add', compact('listStatus','listUser','listTour'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TourRequest $request)
+    public function store(Request $request)
     {
+        //
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
     
@@ -52,18 +49,18 @@ class TourController extends Controller
     
             // Xử lý hình ảnh đại diện
             if ($request->hasFile('image')) {
-                $params['image'] = $request->file('image')->store('uploads/image_tour', 'public');
+                $params['image'] = $request->file('image')->store('uploads/location', 'public');
             } else {
                 $params['image'] = null;
             }
     
             // Thêm sản phẩm
-            $tour = Tour::query()->create($params);
+            $user = Location::query()->create($params);
     
             // Lấy id sản phẩm vừa thêm để thêm được album
-            $tour = $tour->id;
+            $user = $user->id;
     
-            return redirect()->route('tour.index'); 
+            return redirect()->route('location.index'); 
         }
     }
 
@@ -80,11 +77,11 @@ class TourController extends Controller
      */
     public function edit(string $id)
     {
-        $listuser = UserModel::query()->get();
-        $listlocation = Location::query()->get();
-        $listStatus = Status::query()->get();
-        $tour = Tour::query()->findOrFail($id);
-        return view('admins.tour.edit', compact('listuser','listlocation','listStatus','tour'));
+        //
+        $location = Location::query()->findOrFail($id);
+        $listUser = UserModel::query()->get();
+        $listTour = Tour::query()->get();
+        return view('admins.locations.edit', compact('location','listUser','listTour'));
     }
 
     /**
@@ -93,51 +90,53 @@ class TourController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        if ($request->isMethod('PUT')) {
+         if ($request->isMethod('PUT')) {
             $params = $request->except('_token', '_method');
-            $tour = Tour::findOrFail($id);
+            $location = Location::findOrFail($id);
         
             // Xử lý Hình Ảnh
             if ($request->hasFile('image')) {
                 // Nếu có ảnh mới, xóa ảnh cũ và lưu ảnh mới
-                if ($tour->image) {
-                    Storage::disk('public')->delete($tour->image);
+                if ($location->image) {
+                    Storage::disk('public')->delete($location->image);
                     
                 }
-                $params['image'] = $request->file('image')->store('uploads/image_tour', 'public');
+                $params['image'] = $request->file('image')->store('uploads/location', 'public');
             } else {
                 // Nếu không có ảnh mới, giữ lại ảnh cũ
-                $params['image'] = $tour->image;
+                $params['image'] = $location->image;
             }
         
             // Cập nhật dữ liệu
-            $tour->update($params);
+            $location->update($params);
         
-            return redirect()->route('tour.index');
+            return redirect()->route('location.index');
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, string $id)
+    public function destroy(Request $request,string $id)
     {
+        //
         {
            
             if ($request->isMethod('DELETE')) {
                 
-                $tour = Tour::findOrFail($id);
+                $location = Location::findOrFail($id);
     
-                if ($tour) {
+                if ($location) {
                     
-                     $tour->delete();
+                     $location->delete();
                      
-                    return redirect()->route('tour.index');
+                    return redirect()->route('location.index');
                 }
-                return redirect()->route('tour.index');
+                return redirect()->route('location.index');
             }
            
     
         }
+
     }
 }

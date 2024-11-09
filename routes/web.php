@@ -1,9 +1,12 @@
 <?php
 
-use App\Http\Controllers\Admin\CouponsController;
+use App\Http\Controllers\Admin\CategoryController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CouponsController;
+use App\Http\Controllers\Admin\LocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +27,8 @@ Route::get('/admin2', function () {
 Route::resource('user', UserController::class);
 Route::resource('tour', TourController::class);
 Route::resource('coupons', CouponsController::class);
+Route::resource('location', LocationController::class);
+Route::resource('category', CategoryController::class);
 
 
 
