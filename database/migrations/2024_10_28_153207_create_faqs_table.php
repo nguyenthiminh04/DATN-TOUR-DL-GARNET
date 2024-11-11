@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('question');
             $table->text('answer');
-            $table->foreignId('status_id')->nullable()->constrained('status')->onDelete('set null');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

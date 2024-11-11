@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('faq_id')->constrained('faqs')->onDelete('cascade');
-            $table->foreignId('status_id')->nullable()->constrained('status')->onDelete('set null');
+            $table->boolean('status')->default(1);
             $table->text('user_question')->nullable();
             $table->timestamps();
         });

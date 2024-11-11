@@ -23,7 +23,8 @@
                 @csrf
                 <div class="mb-3">
                     <label for="question" class="form-label">Câu hỏi<span class="text-danger">*</span></label>
-                    <input type="text" id="question" name="question" value="{{ old('question') }}" class="form-control" placeholder="Nhập câu hỏi">
+                    <input type="text" id="question" name="question" value="{{ old('question') }}" class="form-control"
+                        placeholder="Nhập câu hỏi">
                     @error('question')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -31,7 +32,8 @@
 
                 <div class="mb-3">
                     <label for="answer" class="form-label">Câu trả lời<span class="text-danger">*</span></label>
-                    <input type="text" id="answer" name="answer" value="{{ old('answer') }}" class="form-control" placeholder="Nhập câu trả lời">
+                    <input type="text" id="answer" name="answer" value="{{ old('answer') }}" class="form-control"
+                        placeholder="Nhập câu trả lời">
                     @error('answer')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -39,19 +41,18 @@
 
                 <div class="mb-3 col-6">
                     <label for="status1" class="form-label">Status<span class="text-danger">*</span></label>
-                    <select name="status_id" class="form-select w-100" id="status1">
+                    <select name="status" class="form-select w-100" id="status1">
                         <option value="">Chọn status</option>
-                        @foreach ($listStatus as $status)
-                            <option value="{{ $status->id }}" {{ old('status_id') == $status->id ? 'selected' : '' }}>{{ $status->status_name }}</option>
-                        @endforeach
+                        <option value="1">Hiển thị</option>
+                        <option value="0">Ẩn</option>
                     </select>
-                    @error('status_id')
+                    @error('status')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="mb-3">
-                    <a href="{{route('faqs.index')}}" class="btn btn-info">trở về</a>
+                    <a href="{{ route('faqs.index') }}" class="btn btn-info">trở về</a>
                     <button class="btn btn-primary" type="submit">Thêm mới</button>
                 </div>
 

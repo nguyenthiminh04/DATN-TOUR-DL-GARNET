@@ -38,9 +38,9 @@ class DatabaseSeeder extends Seeder
         // }
         for ($i = 1; $i < 21; $i++) {
             Faq::create([
-                'question' => 'bạn muốn gì?',
-                'answer' => 'tôi muốn ăn cơm',
-                'status_id' => 1,
+                'question' => 'bạn muốn gì?' . $i,
+                'answer' => 'tôi muốn ăn cơm' . $i,
+                'status' => 1,
             ]);
         }
     }

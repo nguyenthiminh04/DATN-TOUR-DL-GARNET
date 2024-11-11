@@ -40,13 +40,12 @@
 
                 <div class="mb-3 col-6">
                     <label for="status1" class="form-label">Status<span class="text-danger">*</span></label>
-                    <select name="status_id" class="form-select w-100" id="status1">
+                    <select name="status" class="form-select w-100" id="status1">
                         <option value="">Chọn status</option>
-                        @foreach ($listStatus as $status)
-                            <option value="{{ $status->id }}" {{ $faq->status_id == $status->id ? 'selected' : '' }}>{{ $status->status_name }}</option>
-                        @endforeach
+                        <option value="1" {{$faq->status == 1 ? 'selected': ''}}>Hiển thị</option>
+                        <option value="0" {{$faq->status == 0 ? 'selected': ''}}>Ẩn</option>
                     </select>
-                    @error('status_id')
+                    @error('status')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>

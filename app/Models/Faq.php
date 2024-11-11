@@ -14,7 +14,7 @@ class Faq extends Model
     protected $fillable = [
         'question',
         'answer',
-        'status_id',
+        'status',
     ];
     
     public function status()

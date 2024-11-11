@@ -123,8 +123,8 @@
                         }
                     },
                     {
-                        data: 'status_id', // Sử dụng đường dẫn đầy đủ cho quan hệ status
-                        name: 'status_id',
+                        data: 'status', // Sử dụng đường dẫn đầy đủ cho quan hệ status
+                        name: 'status',
                         orderable: true,
                         searchable: true
                     },
