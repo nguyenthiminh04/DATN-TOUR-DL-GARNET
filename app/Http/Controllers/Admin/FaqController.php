@@ -16,11 +16,15 @@ class FaqController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $faqs = Faq::with('status')->select('faqs.*'); // Lấy kèm dữ liệu của status
+            $faqs = Faq::select('faqs.*'); // Lấy kèm dữ liệu của status
             return DataTables()->of($faqs)
-                ->addColumn('status_id', function ($faq) {
-                    $statusClass = $faq->status_id == 1 ? 'text-success' : 'text-danger';
-                    return '<span class="' . $statusClass . '">' . $faq->status->status_name . '</span>';
+                ->addColumn('status', function ($faq) {
+                    if($faq->status == 1){
+                        return '<span class="text-success">Hiển thị</span>';
+                    }else{
+                        return '<span class="text-danger">Ẩn</span>';
+                    }
+                    
                 })
                 ->addColumn('action', function ($faq) {
                     $editUrl = route('faqs.edit', $faq->id);
@@ -29,11 +33,11 @@ class FaqController extends Controller
                         <a href="#deleteRecordModal" id="deleteItem" data-bs-toggle="modal" data-id="' . $faq->id . '" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
                     ';
                 })
-                ->rawColumns(['status_id', 'action']) // Cho phép HTML hiển thị trong các cột này
+                ->rawColumns(['status', 'action']) // Cho phép HTML hiển thị trong các cột này
                 ->make(true);
         }
 
-        return view('admins.faq.index');
+        return view('admin.faq.index');
     }
 
     /**
@@ -41,9 +45,7 @@ class FaqController extends Controller
      */
     public function create()
     {
-        $listStatus = Status::query()->where('type', '=', 'hien-thi')->get();
-        // $listStatus = Status::query()->get();
-        return view('admins.faq.add', compact('listStatus'));
+        return view('admin.faq.add');
     }
 
     /**
@@ -54,7 +56,7 @@ class FaqController extends Controller
         $data = $request->validate([
             'question' => 'required|min:3',
             'answer' => 'required|min:3',
-            'status_id' => 'required|exists:status,id',
+            'status' => 'required|min:0|max:1',
         ]);
         // dd($request);
         if ($data) {
@@ -80,8 +82,8 @@ class FaqController extends Controller
      */
     public function edit(Faq $faq)
     {
-        $listStatus = Status::query()->where('type', '=', 'hien-thi')->get();
-        return view('admins.faq.edit', compact('listStatus', 'faq'));
+        
+        return view('admin.faq.edit', compact('faq'));
     }
 
     /**
@@ -92,7 +94,7 @@ class FaqController extends Controller
         $data = $request->validate([
             'question' =>'required|min:3',
             'answer' =>'required|min:3',
-            'status_id' =>'required|exists:status,id',
+            'status' => 'required|min:0|max:1',
         ]);
         // dd($request);
         if ($data) {

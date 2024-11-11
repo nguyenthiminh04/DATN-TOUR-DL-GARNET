@@ -20,7 +20,7 @@ class UserController extends Controller
         $title ="Danh Mục User";
 
         $listuser = UserModel::orderBYDesc('id')->get();
-        return view('admins.user.index', compact('title','listuser'));
+        return view('admin.user.index', compact('title','listuser'));
     }
 
     /**
