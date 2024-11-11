@@ -17,8 +17,4 @@ class Faq extends Model
         'status',
     ];
     
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
-    }
 }

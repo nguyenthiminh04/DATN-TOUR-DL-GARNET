@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Admins\Role;
 use App\Models\Faq;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -23,6 +25,17 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        // Role::create([
+        //     'name' => 'Admin',
+        //     'display_name' => 'Admin',
+        //     'description' => 'Admin',
+        // ]);
+        // Role::create([
+        //     'name' => 'User',
+        //     'display_name' => 'User',
+        //     'description' => 'User',
+        // ]);
+
         // for ($i=1; $i < 6; $i++) { 
         //     User::create([
         //         'name' => 'User '. $i,
@@ -36,10 +49,18 @@ class DatabaseSeeder extends Seeder
         //         'role_id' => 2,
         //     ]);
         // }
-        for ($i = 1; $i < 21; $i++) {
-            Faq::create([
-                'question' => 'bạn muốn gì?' . $i,
-                'answer' => 'tôi muốn ăn cơm' . $i,
+
+        // for ($i = 1; $i < 6; $i++) {
+        //     Faq::create([
+        //         'question' => 'bạn muốn gì?' . $i,
+        //         'answer' => 'tôi muốn ăn cơm' . $i,
+        //         'status' => 1,
+        //     ]);
+        // }
+
+        for ($i = 1; $i < 6; $i++) {
+            Notification::create([ 
+                'content' => $i .'muốn ăn cơm',
                 'status' => 1,
             ]);
         }

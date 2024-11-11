@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +30,7 @@ Route::group(['prefix' => 'admin'], function () {
     })->name('home-admin');
     Route::resource('user', UserController::class);
     Route::resource('faqs', FaqController::class);
+    Route::resource('notifications', NotificationController::class);
 });
 
 Route::get('/dangnhap', function () {
