@@ -45,7 +45,7 @@ public function user()
 // Định nghĩa quan hệ Tour thuộc về Location
 public function location()
 {
-    return $this->belongsTo(Location::class);
+    return $this->hasMany(Location::class);
 }
 public function guides()
     {
