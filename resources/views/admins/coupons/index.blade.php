@@ -44,7 +44,7 @@
                                     <div class="hstack flex-wrap gap-2">
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                            <a href="{{route('user.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
+                                            <a href="{{route('coupons.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
                                                 Thêm chức vụ
                                             </a>
                                         <div>
@@ -71,40 +71,33 @@
 
                                             <th>Name</th>
 
-                                            <th>Avatar</th>
+                                            <th>Code</th>
 
-                                            <th>Email</th>
+                                            <th>start_date</th>
 
-                                            <th>Phone</th>
+                                            <th>end_date</th>
 
-                                            <th>Address</th>
-                                            <th>Birth</th>
-                                            <th>Gender</th>
+                                            <th>percentage_price</th>
 
-                                           
+                                            <th>tour_id</th>
 
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Action </th>
+                                            <th scope="col">status</th>
+                                            <th scope="col">Hành Động</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
-                                        @foreach ($listuser as $index => $item)
+                                        @foreach ($listcoupons as $index => $item)
                                         <tr>
 
 
                                             <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
                                             <td>{{ $item->name }}</td>
-                                            <td>
-                                              <img src="{{ Storage::url($item->avatar)}}" alt="" width="30px">
-
-
-                                          </td>
-                                            <td>{{ $item->email }}</td>
-                                            <td>{{ $item->phone }}</td>
-                                            <td>{{ $item->address }}</td>
-                                            <td>{{ $item->birth }}</td>
-                                            <td>{{ $item->gender }}</td>
+                                            <td>{{ $item->code }}</td>
+                                            <td>{{ $item->start_date }}</td>
+                                            <td>{{ $item->end_date }}</td>
+                                            <td>{{ $item->percentage_price }}</td>
+                                            <td>{{ $item->tour->name }}</td>
 
                                             <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                 {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
@@ -116,7 +109,7 @@
                                                                 class="ph-eye"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{route('user.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
+                                                        <a href="{{route('coupons.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
                                                     </li>
                                                     <li>
                                                         <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
@@ -142,7 +135,7 @@
                           </div>
                       </div>
                       <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('user.destroy', $item->id) }}"
+                        <form action="{{ route('coupons.destroy', $item->id) }}"
                           method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')

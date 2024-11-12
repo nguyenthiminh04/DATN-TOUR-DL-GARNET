@@ -44,7 +44,7 @@
                                     <div class="hstack flex-wrap gap-2">
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                            <a href="{{route('user.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
+                                            <a href="{{route('location.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
                                                 Thêm chức vụ
                                             </a>
                                         <div>
@@ -71,15 +71,12 @@
 
                                             <th>Name</th>
 
-                                            <th>Avatar</th>
+                                            <th>Ảnh</th>
 
-                                            <th>Email</th>
-
-                                            <th>Phone</th>
-
-                                            <th>Address</th>
-                                            <th>Birth</th>
-                                            <th>Gender</th>
+                                            <th>description</th>
+                                            <th>content</th>
+                                            <th>Tour</th>
+                                            <th>Người Thêm</th>
 
                                            
 
@@ -88,7 +85,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
-                                        @foreach ($listuser as $index => $item)
+                                        @foreach ($listLocation as $index => $item)
                                         <tr>
 
 
@@ -96,15 +93,14 @@
 
                                             <td>{{ $item->name }}</td>
                                             <td>
-                                              <img src="{{ Storage::url($item->avatar)}}" alt="" width="30px">
+                                              <img src="{{ Storage::url($item->image)}}" alt="" width="30px">
 
 
                                           </td>
-                                            <td>{{ $item->email }}</td>
-                                            <td>{{ $item->phone }}</td>
-                                            <td>{{ $item->address }}</td>
-                                            <td>{{ $item->birth }}</td>
-                                            <td>{{ $item->gender }}</td>
+                                            <td>{{ $item->description }}</td>
+                                            <td>{{ $item->content }}</td>
+                                            <td>{{ $item->tours->name }}</td>
+                                            <td>{{ $item->user_id }}</td>
 
                                             <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                 {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
@@ -116,7 +112,7 @@
                                                                 class="ph-eye"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{route('user.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
+                                                        <a href="{{route('location.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
                                                     </li>
                                                     <li>
                                                         <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
@@ -142,7 +138,7 @@
                           </div>
                       </div>
                       <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('user.destroy', $item->id) }}"
+                        <form action="{{ route('location.destroy', $item->id) }}"
                           method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
