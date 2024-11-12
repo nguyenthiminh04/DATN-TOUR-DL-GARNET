@@ -21,6 +21,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'address',
+        'gender',
+        'role_id',
+        'avatar',
+        'birth',
     ];
 
     /**
@@ -42,4 +48,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class, 'notification_user');
+    }
 }

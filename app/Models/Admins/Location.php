@@ -2,6 +2,7 @@
 
 namespace App\Models\Admins;
 
+use App\Models\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,13 +16,22 @@ class Location extends Model
         'image',
         'description',
         'content',
-        'status ',
+        'status',
         'tour_id',
         'user_id',
     ];
     // Định nghĩa quan hệ Location có nhiều Tours
     public function tours()
     {
-        return $this->hasMany(Tour::class);
+        return $this->belongsTo(Tour::class,'tour_id');
     }
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+    public function user()
+    {
+        return $this->hasMany(UserModel::class);
+    }
+
 }
