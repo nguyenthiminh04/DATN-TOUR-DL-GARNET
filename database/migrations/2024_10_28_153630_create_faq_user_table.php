@@ -11,20 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('faq_user', function (Blueprint $table) {
             $table->id();
-<<<<<<< HEAD
-            $table->unsignedBigInteger('user_id');
-            $table->text('content');
-            $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-=======
-            $table->text('content');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('faq_id')->constrained('faqs')->onDelete('cascade');
             $table->boolean('status')->default(1);
+            $table->text('user_question')->nullable();
             $table->timestamps();
-
->>>>>>> admins
         });
     }
 
@@ -33,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('faq_user');
     }
 };
