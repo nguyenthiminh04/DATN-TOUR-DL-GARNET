@@ -2,6 +2,7 @@
 
 namespace App\Models\Admins;
 
+use App\Models\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,4 +35,13 @@ public function Role()
  {
      return $this->hasMany(Tour::class);
  }
+ public function status()
+ {
+     return $this->belongsTo(Status::class);
+ }
+ public function categories()
+{
+    return $this->hasMany(Categorys::class, 'user_id');
+}
+
 }
