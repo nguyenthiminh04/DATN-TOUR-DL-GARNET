@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admins.layouts.app')
 
 @section('style')
 @endsection
@@ -30,8 +30,8 @@
                         <div class="card-body">
                             <div class="row align-items-center g-2">
                                 <div class="col-lg-3 me-auto">
-                                    <h6 class="card-title mb-0">Instructors List <span
-                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6>
+                                    {{-- <h6 class="card-title mb-0">Instructors List <span
+                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6> --}}
                                 </div><!--end col-->
                                 <div class="col-lg-2">
                                     <div class="search-box">
@@ -45,7 +45,7 @@
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                             <a href="{{route('user.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
-                                                Thêm chức vụ
+                                                Thêm mới
                                             </a>
                                         <div>
                                             <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
@@ -69,22 +69,19 @@
 
                                             <th>ID</th>
 
-                                            <th>Name</th>
+                                            <th>Họ tên</th>
 
-                                            <th>Avatar</th>
+                                            <th>Ảnh Đại Diện</th>
 
                                             <th>Email</th>
 
-                                            <th>Phone</th>
+                                            <th>Số điện thoại</th>
 
-                                            <th>Address</th>
-                                            <th>Birth</th>
-                                            <th>Gender</th>
-
-                                           
-
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Action </th>
+                                            <th>Địa chỉ</th>
+                                            <th>Ngày sinh</th>
+                                            <th>Giới tính</th>                                      
+                                            <th scope="col">Trạng thái</th>
+                                            <th scope="col">Hành động </th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
@@ -137,8 +134,8 @@
                               <i class="bi bi-trash display-5"></i>
                           </div>
                           <div class="mt-4">
-                              <h4 class="mb-2">Are you sure ?</h4>
-                              <p class="text-muted mx-3 mb-0">Are you sure you want to remove this record ?</p>
+                              <h4 class="mb-2">Xóa người dùng này ?</h4>
+                              <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không ?</p>
                           </div>
                       </div>
                       <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
@@ -146,8 +143,8 @@
                           method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
-                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Close</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Yes, Delete It!</button>
+                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
+                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn!</button>
                         </form>
                       </div>
                   </div>

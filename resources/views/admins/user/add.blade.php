@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admins.layouts.app')
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -6,12 +6,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Câu Hỏi</h4>
+                        <h4 class="mb-sm-0">Danh Sách Người Dùng</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Thêm câu hỏi</li>
+                                <li class="breadcrumb-item active">Thêm người dùng</li>
                             </ol>
                         </div>
 
@@ -22,16 +22,16 @@
             <form class="col-6" action="{{ route('user.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
-                  <label for="avatar" class="form-label">Avatar</label>
+                  <label for="avatar" class="form-label">Ảnh đại diện</label>
 
                   <input type="file" id="avatar" name="avatar" class="form-control"
                       onchange="showImage(event)">
-                  <img id="img_danh_muc" src="" alt="Hình Ảnh Sản Phẩm"
+                  <img id="img_danh_muc" src="" alt="Hình Ảnh Đại Diện"
                       style="width: 150px;display:none">
               </div>
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name<span class="text-danger">*</span></label>
-                    <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control" placeholder="Nhập câu hỏi">
+                    <label for="name" class="form-label">Họ tên<span class="text-danger">*</span></label>
+                    <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control" placeholder="Nhập người dùng">
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -94,7 +94,7 @@
 
 
                 <div class="mb-3">
-                    <a href="{{route('coupons.index')}}" class="btn btn-info">trở về</a>
+                    <a href="{{route('coupons.index')}}" class="btn btn-info">Trở về</a>
                     <button class="btn btn-primary" type="submit">Thêm mới</button>
                 </div>
 

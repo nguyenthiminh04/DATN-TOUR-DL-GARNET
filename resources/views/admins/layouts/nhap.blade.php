@@ -70,11 +70,7 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="{{route('faqs.index')}}" class="nav-link">
-                                    Danh sách câu hỏi</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{route('faqs.create')}}" class="nav-link">
-                                    Thêm mới câu hỏi </a>
+                                    Danh sách </a>
                             </li>
 
                         </ul>
@@ -82,21 +78,29 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link collapsed" href="#notifications" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="notifications">
-                        <i class="ph-layout"></i> <span data-key="t-layouts">Thông báo</span>
+                    <a class="nav-link menu-link collapsed" href="#sidebarLayouts" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarLayouts">
+                        <i class="ph-layout"></i> <span data-key="t-layouts">Layouts</span> <span
+                            class="badge badge-pill bg-danger" data-key="t-hot">Hot</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="notifications">
+                    <div class="collapse menu-dropdown" id="sidebarLayouts">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{route('notifications.index')}}"  class="nav-link">
-                                    Danh sách thông báo</a>
+                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Horizontal</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('notifications.create')}}"  class="nav-link">
-                                    Thêm mới thông báo</a>
+                                <a href="layouts-detached.html" target="_blank" class="nav-link"
+                                    data-key="t-detached">Detached</a>
                             </li>
-                            
+                            <li class="nav-item">
+                                <a href="layouts-two-column.html" target="_blank" class="nav-link"
+                                    data-key="t-two-column">Two Column</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="layouts-vertical-hovered.html" target="_blank" class="nav-link"
+                                    data-key="t-hovered">Hovered</a>
+                            </li>
                         </ul>
                     </div>
                 </li>

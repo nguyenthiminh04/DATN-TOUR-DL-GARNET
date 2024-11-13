@@ -60,7 +60,7 @@ class LocationController extends Controller
             // Lấy id sản phẩm vừa thêm để thêm được album
             $user = $user->id;
     
-            return redirect()->route('location.index'); 
+            return redirect()->route('location.index')->with('success', 'Thêm địa điểm thành công!');
         }
     }
 
@@ -110,7 +110,7 @@ class LocationController extends Controller
             // Cập nhật dữ liệu
             $location->update($params);
         
-            return redirect()->route('location.index');
+            return redirect()->route('location.index')->with('success', 'Cập nhật thành công!');;
         }
     }
 
@@ -130,9 +130,9 @@ class LocationController extends Controller
                     
                      $location->delete();
                      
-                    return redirect()->route('location.index');
+                    return redirect()->route('location.index')->with('success', 'Location deleted successfully.');
                 }
-                return redirect()->route('location.index');
+                return redirect()->route('location.index')->with('success', 'Location deleted successfully.');
             }
            
     

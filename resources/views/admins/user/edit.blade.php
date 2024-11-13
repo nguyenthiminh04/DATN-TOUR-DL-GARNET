@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admins.layouts.app')
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -11,7 +11,7 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Thêm câu hỏi</li>
+                                <li class="breadcrumb-item active">Sửa</li>
                             </ol>
                         </div>
 
@@ -31,7 +31,7 @@
                       style="width: 150px;display:none">
               </div>
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name<span class="text-danger">*</span></label>
+                    <label for="name" class="form-label">Họ tên<span class="text-danger">*</span></label>
                     <input type="text" id="name" name="name" value="{{$user->name}}" value="{{ old('name') }}" class="form-control" placeholder="Nhập câu hỏi">
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>
@@ -97,8 +97,8 @@
 
 
                 <div class="mb-3">
-                    <a href="{{route('user.index')}}" class="btn btn-info">trở về</a>
-                    <button class="btn btn-primary" type="submit">Thêm mới</button>
+                    <a href="{{route('user.index')}}" class="btn btn-info">Trở về</a>
+                    <button class="btn btn-primary" type="submit">Cập nhật</button>
                 </div>
 
             </form>
