@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\UserController;
@@ -35,9 +36,15 @@ Route::group([], function () {
 });
 
 // admin routes
-Route::group(['prefix' => 'admin'], function () {
-    Route::get('/admin2', function () {
-        return view('admin.dashboard');
+Route::get('/admins', function () {
+    return view('admins.dashboard');
+});
+Route::prefix('admins')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admins.dashboard');
+});
+Route::group(['prefix' => 'admins'], function () {
+    Route::get('/admins', function () {
+        return view('admins.dashboard');
     })->name('home-admin');
     Route::resource('user', UserController::class);
     Route::resource('faqs', FaqController::class);

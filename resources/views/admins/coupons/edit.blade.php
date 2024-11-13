@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admins.layouts.app')
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -6,12 +6,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Câu Hỏi</h4>
+                        <h4 class="mb-sm-0">Danh Sách Phiếu Giảm Giá</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Sửa câu hỏi</li>
+                                <li class="breadcrumb-item active">Sửa</li>
                             </ol>
                         </div>
 
@@ -23,15 +23,15 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name<span class="text-danger">*</span></label>
-                    <input type="text" id="name" name="name" value="{{ $coupons->name }}" value="{{ old('name') }}"  class="form-control" placeholder="Nhập câu hỏi">
+                    <label for="name" class="form-label">Tên phiếu giảm giá<span class="text-danger">*</span></label>
+                    <input type="text" id="name" name="name" value="{{ $coupons->name }}" value="{{ old('name') }}"  class="form-control" placeholder="Nhập trả lời">
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="mb-3">
-                    <label for="code" class="form-label">Code<span class="text-danger">*</span></label>
+                    <label for="code" class="form-label">Mã<span class="text-danger">*</span></label>
                     <input type="text" id="code" name="code" value="{{ $coupons->code }}" value="{{ old('code') }}" class="form-control" placeholder="Nhập câu trả lời">
                     @error('code')
                         <span class="text-danger">{{ $message }}</span>
@@ -82,8 +82,8 @@
 
 
                 <div class="mb-3">
-                    <a href="{{route('faqs.index')}}" class="btn btn-info">trở về</a>
-                    <button class="btn btn-primary" type="submit">Thêm mới</button>
+                    <a href="{{route('faqs.index')}}" class="btn btn-info">Trở về</a>
+                    <button class="btn btn-primary" type="submit">Cập nhật</button>
                 </div>
 
             </form>
