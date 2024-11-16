@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
         //     ]);
         // }
 
-        for ($i = 1; $i < 6; $i++) {
+        for ($i = 1; $i < 21; $i++) {
             Notification::create([ 
                 'content' => $i .'muốn ăn cơm',
                 'status' => 1,

@@ -100,10 +100,10 @@ class NotificationController extends Controller
         // dd($request);
         if ($validatedData) {
            $notification->update($validatedData);
-            session()->flash('success', 'Thêm mới thành công.');
+            session()->flash('success', 'Sửa thành công.');
             return back();
         } else {
-            session()->flash('error', 'Thêm mới thất bại.');
+            session()->flash('error', 'Sửa thất bại.');
             return back();
         }
     }
