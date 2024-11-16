@@ -24,7 +24,7 @@ class TourController extends Controller
         $listtour = Tour::orderBYDesc('id')->get();
         $listuser = UserModel::query()->get();
         $listlocation = Location::query()->get();
-        return view('admins.tour.index', compact('title','listtour','listuser','listlocation'));
+        return view('admin.tour.index', compact('title','listtour','listuser','listlocation'));
     }
 
     /**
@@ -36,7 +36,7 @@ class TourController extends Controller
         $listuser = UserModel::query()->get();
         $listlocation = Location::query()->get();
         $listStatus = Status::query()->get();
-        return view('admins.tour.add', compact('listuser','listlocation','listStatus'));
+        return view('admin.tour.add', compact('listuser','listlocation','listStatus'));
     }
 
     /**
@@ -84,7 +84,7 @@ class TourController extends Controller
         $listlocation = Location::query()->get();
         $listStatus = Status::query()->get();
         $tour = Tour::query()->findOrFail($id);
-        return view('admins.tour.edit', compact('listuser','listlocation','listStatus','tour'));
+        return view('admin.tour.edit', compact('listuser','listlocation','listStatus','tour'));
     }
 
     /**

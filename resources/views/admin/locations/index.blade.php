@@ -1,4 +1,4 @@
-@extends('admins.layouts.app')
+@extends('admin.layouts.app')
 
 @section('style')
 @endsection
@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Phiếu Giảm Giá</h4>
+                        <h4 class="mb-sm-0">Danh Sách Địa Điểm</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -44,8 +44,8 @@
                                     <div class="hstack flex-wrap gap-2">
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                            <a href="{{route('coupons.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
-                                                Thêm chức vụ
+                                            <a href="{{route('location.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
+                                                Thêm địa điểm
                                             </a>
                                         <div>
                                             <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
@@ -69,35 +69,39 @@
 
                                             <th>ID</th>
 
-                                            <th>Tên phiếu</th>
+                                            <th>Name</th>
 
-                                            <th>Mã</th>
+                                            <th>Ảnh</th>
 
-                                            <th>Ngày bắt đầu</th>
+                                            <th>description</th>
+                                            <th>content</th>
+                                            <th>Tour</th>
+                                            <th>Người Thêm</th>
 
-                                            <th>Ngày kết thúc</th>
+                                           
 
-                                            <th>Tỉ lệ</th>
-
-                                            <th>Tour áp dụng</th>
-
-                                            <th scope="col">Trạng thái</th>
-                                            <th scope="col">Hành Động</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action </th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
-                                        @foreach ($listcoupons as $index => $item)
+                                        @foreach ($listLocation as $index => $item)
                                         <tr>
 
 
                                             <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
                                             <td>{{ $item->name }}</td>
-                                            <td>{{ $item->code }}</td>
-                                            <td>{{ $item->start_date }}</td>
-                                            <td>{{ $item->end_date }}</td>
-                                            <td>{{ $item->percentage_price }}</td>
-                                            <td>{{ $item->tour->name }}</td>
+                                            <td>
+                                              <img src="{{ Storage::url($item->image)}}" alt="" width="30px">
+
+
+                                          </td>
+                                            <td>{{ $item->description }}</td>
+                                            <td>{{ $item->content }}</td>
+                                            {{-- <td>{{ $item->tours->name }}</td> --}}
+                                            <td>Tour đang lỗi</td>
+                                            <td>{{ $item->user_id }}</td>
 
                                             <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                 {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
@@ -109,7 +113,7 @@
                                                                 class="ph-eye"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{route('coupons.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
+                                                        <a href="{{route('location.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
                                                     </li>
                                                     <li>
                                                         <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
@@ -130,17 +134,17 @@
                               <i class="bi bi-trash display-5"></i>
                           </div>
                           <div class="mt-4">
-                              <h4 class="mb-2">Xóa mục này ?</h4>
+                              <h4 class="mb-2">Xóa địa điểm này?</h4>
                               <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
                           </div>
                       </div>
                       <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('coupons.destroy', $item->id) }}"
+                        <form action="{{ route('location.destroy', $item->id) }}"
                           method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
                           <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn!</button>
+                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn muốn xóa!</button>
                         </form>
                       </div>
                   </div>

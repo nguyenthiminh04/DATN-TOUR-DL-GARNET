@@ -20,7 +20,7 @@ class LocationController extends Controller
         //
        
         $listLocation = Location::query()->get();
-        return view('admins.locations.index', compact('listLocation'));
+        return view('admin.locations.index', compact('listLocation'));
     }
 
     /**
@@ -32,7 +32,7 @@ class LocationController extends Controller
         $listStatus = Status::query()->get();
         $listUser = UserModel::query()->get();
         $listTour = Tour::query()->get();
-        return view('admins.locations.add', compact('listStatus','listUser','listTour'));
+        return view('admin.locations.add', compact('listStatus','listUser','listTour'));
     }
 
     /**
@@ -81,7 +81,7 @@ class LocationController extends Controller
         $location = Location::query()->findOrFail($id);
         $listUser = UserModel::query()->get();
         $listTour = Tour::query()->get();
-        return view('admins.locations.edit', compact('location','listUser','listTour'));
+        return view('admin.locations.edit', compact('location','listUser','listTour'));
     }
 
     /**

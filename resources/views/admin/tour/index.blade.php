@@ -1,4 +1,4 @@
-@extends('admins.layouts.app')
+@extends('admin.layouts.app')
 
 @section('style')
 @endsection
@@ -44,8 +44,8 @@
                                     <div class="hstack flex-wrap gap-2">
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                            <a href="{{route('user.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
-                                                Thêm mới
+                                            <a href="{{route('tour.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
+                                                Thêm Tour
                                             </a>
                                         <div>
                                             <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
@@ -68,24 +68,31 @@
                                         <tr>
 
                                             <th>ID</th>
-
-                                            <th>Họ tên</th>
-
-                                            <th>Ảnh Đại Diện</th>
-
-                                            <th>Email</th>
-
-                                            <th>Số điện thoại</th>
-
-                                            <th>Địa chỉ</th>
-                                            <th>Ngày sinh</th>
-                                            <th>Giới tính</th>                                      
-                                            <th scope="col">Trạng thái</th>
-                                            <th scope="col">Hành động </th>
+                                            <th>Tên Tour</th>
+                                            <th>Hình ảnh</th>
+                                            {{-- <th>title</th> --}}
+                                            <th>Lịch trình</th>
+                                            {{-- <th>Hành trình</th> --}}
+                                            {{-- <th>Phương tiện di chuyển</th> --}}
+                                            {{-- <th>starting_gate</th> --}}
+                                            <th>Ngày khởi hành</th>
+                                            <th>Ngày kết thúc</th>
+                                            <th>Số khách</th>
+                                            <th>Giá người lớn</th>
+                                            <th>Giá trẻ em</th>
+                                            {{-- <th>sale</th> --}}
+                                            {{-- <th>view</th> --}}
+                                            <th>Mô tả</th>
+                                            {{-- <th>Nội dung</th> --}}
+                                            {{-- <th>location_id</th> --}}
+                                            {{-- <th>user_id</th> --}}
+                                            {{-- <th>album_img</th> --}}
+                                            <th>Trạng thái</th>
+                                            <th scope="col">Hành Động</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
-                                        @foreach ($listuser as $index => $item)
+                                        @foreach ($listtour as $index => $item)
                                         <tr>
 
 
@@ -93,15 +100,27 @@
 
                                             <td>{{ $item->name }}</td>
                                             <td>
-                                              <img src="{{ Storage::url($item->avatar)}}" alt="" width="30px">
+                                                <img src="{{ Storage::url($item->image)}}" alt="" width="30px">
 
 
-                                          </td>
-                                            <td>{{ $item->email }}</td>
-                                            <td>{{ $item->phone }}</td>
-                                            <td>{{ $item->address }}</td>
-                                            <td>{{ $item->birth }}</td>
-                                            <td>{{ $item->gender }}</td>
+                                            </td>
+                                            {{-- <td>{{ $item->title }}</td> --}}
+                                            <td>{{ $item->journeys }}</td>
+                                            {{-- <td>{{ $item->schedule }}</td> --}}
+                                            {{-- <td>{{ $item->move_method }}</td> --}}
+                                            {{-- <td>{{ $item->starting_gate }}</td> --}}
+                                            <td>{{ $item->start_date }}</td>
+                                            <td>{{ $item->end_date }}</td>
+                                            <td>{{ $item->number_guests }}</td>
+                                            <td>{{ $item->price_old }}</td>
+                                            <td>{{ $item->price_children }}</td>
+                                            {{-- <td>{{ $item->sale }}</td> --}}
+                                            {{-- <td>{{ $item->view }}</td> --}}
+                                            <td>{{ $item->description }}</td>
+                                            {{-- <td>{{ $item->content }}</td> --}}
+                                            {{-- <td>{{ $item->location_id }}</td> --}}
+                                            {{-- <td>{{ $item->user_id }}</td> --}}
+                                            {{-- <td>{{ $item->album_img }}</td> --}}
 
                                             <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                 {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
@@ -113,7 +132,7 @@
                                                                 class="ph-eye"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{route('user.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
+                                                        <a href="{{route('tour.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
                                                     </li>
                                                     <li>
                                                         <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
@@ -134,17 +153,17 @@
                               <i class="bi bi-trash display-5"></i>
                           </div>
                           <div class="mt-4">
-                              <h4 class="mb-2">Xóa người dùng này ?</h4>
-                              <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không ?</p>
+                              <h4 class="mb-2">Are you sure ?</h4>
+                              <p class="text-muted mx-3 mb-0">Are you sure you want to remove this record ?</p>
                           </div>
                       </div>
                       <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('user.destroy', $item->id) }}"
+                        <form action="{{ route('tour.destroy', $item->id) }}"
                           method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
-                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn!</button>
+                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Yes, Delete It!</button>
                         </form>
                       </div>
                   </div>

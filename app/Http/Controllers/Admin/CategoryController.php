@@ -16,7 +16,7 @@ class CategoryController extends Controller
     {
         //
         $listCategory = Categorys::query()->get();
-        return view('admins.category.index', compact('listCategory'));
+        return view('admin.category.index', compact('listCategory'));
     }
 
     /**
@@ -28,7 +28,7 @@ class CategoryController extends Controller
         // Truyền danh sách cha cho view để hiển thị trong form
         $listUser = UserModel::query()->get();
 $parents = Categorys::all();
-return view('admins.category.add', compact('parents','listUser'));
+return view('admin.category.add', compact('parents','listUser'));
 
     }
 

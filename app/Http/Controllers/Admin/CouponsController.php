@@ -20,7 +20,7 @@ class CouponsController extends Controller
         //
         $listcoupons = Coupons::orderBYDesc('id')->get();
         $listtour = Tour::query()->get();
-        return view('admins.coupons.index', compact('listcoupons','listtour'));
+        return view('admin.coupons.index', compact('listcoupons','listtour'));
     }
 
     /**
@@ -31,7 +31,7 @@ class CouponsController extends Controller
         //
         $listStatus = Status::query()->get();
         $listTour = Tour::query()->get();
-        return view('admins.coupons.add', compact('listStatus','listTour'));
+        return view('admin.coupons.add', compact('listStatus','listTour'));
     }
 
     /**
@@ -65,7 +65,7 @@ class CouponsController extends Controller
         $listStatus = Status::query()->get();
         $listTour = Tour::query()->get();
         $coupons = Coupons::query()->findOrFail($id);
-        return view('admins.coupons.edit', compact('listStatus','listTour','coupons'));
+        return view('admin.coupons.edit', compact('listStatus','listTour','coupons'));
     }
 
     /**

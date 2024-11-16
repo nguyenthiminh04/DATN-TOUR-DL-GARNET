@@ -1,4 +1,4 @@
-@extends('admins.layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
     <div class="page-content">
@@ -12,7 +12,7 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="">Trang quản trị</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
                                 <li class="breadcrumb-item active">Danh sách câu hỏi</li>
                             </ol>
                         </div>
@@ -123,8 +123,8 @@
                         }
                     },
                     {
-                        data: 'status_id', // Sử dụng đường dẫn đầy đủ cho quan hệ status
-                        name: 'status_id',
+                        data: 'status', // Sử dụng đường dẫn đầy đủ cho quan hệ status
+                        name: 'status',
                         orderable: true,
                         searchable: true
                     },

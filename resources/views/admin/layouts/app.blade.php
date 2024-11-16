@@ -37,14 +37,14 @@
 
     <div id="layout-wrapper">
 
-        @include('admins.layouts.header')
-        @include('admins.layouts.navbar')
+        @include('admin.layouts.header')
+        @include('admin.layouts.navbar')
 
         <div class="main-content">
 
             @yield('content')
 
-            @include('admins.layouts.footer')
+            @include('admin.layouts.footer')
         </div>
 
 
