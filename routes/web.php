@@ -40,12 +40,14 @@ Route::group([], function () {
         // 'update' => 'client.tour.update',
         // 'destroy' => 'client.tour.destroy',
     ]);
+
     Route::get('/booking', function () {
         return view('client.tour.booking');
     });
     Route::get('/confirm', function () {
         return view('client.tour.confirm');
     });
+
     
 
     
