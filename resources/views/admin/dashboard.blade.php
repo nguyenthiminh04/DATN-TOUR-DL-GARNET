@@ -1,7 +1,6 @@
 @extends('admin.layouts.app')
 
 @section('style')
-
 @endsection
 @section('content')
     <div class="page-content">
@@ -1213,5 +1212,4 @@
     </div>
 @endsection
 @section('script')
-
 @endsection
