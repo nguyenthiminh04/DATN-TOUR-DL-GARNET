@@ -9,7 +9,7 @@
     <title>
         Garnet du lịch
     </title>
- 
+
     <meta name="description"
         content="Ant Du lịch - Ch&#250;ng t&#244;i cam kết lu&#244;n nỗ lực đem đến những gi&#225; trị dịch vụ tốt nhất cho kh&#225;ch h&#224;ng v&#224; đối t&#225;c để tiếp tục khẳng định vị tr&#237; h&#224;ng đầu của thương hiệu Ant Du lịch.">
 
@@ -19,7 +19,7 @@
     <link rel="dns-prefetch" href="http://bizweb.dktcdn.net/">
     <link rel="dns-prefetch" href="http://www.google-analytics.com/">
     <link rel="dns-prefetch" href="http://www.googletagmanager.com/">
-  
+
 
     <link rel="icon" href="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/favicon6d1d.png"
         type="image/x-icon" />
@@ -196,7 +196,7 @@
 
                             <li class="nav-item active"><a class="nav-link" href="index.html">Trang chủ</a></li>
 
-                            <li class="nav-item "><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
+                            <li class="nav-item "><a class="nav-link" href="/gioi-thieu">Giới thiệu</a></li>
                             <li class="nav-item  has-mega">
                                 <a href="tour-trong-nuoc.html" class="nav-link">Tour trong nước <i
                                         class="fa fa-angle-right" data-toggle="dropdown"></i></a>
@@ -243,7 +243,7 @@
                                                         <li class="level2"> <a href="du-lich-hue.html"><span>Du lịch
                                                                     Huế</span></a> </li>
 
-                                                        <li class="level2"> <a href="du-lich-da-nang.html"><span>Du
+                                                        <li class="level2"> <a href="/da-nang"><span>Du
                                                                     lịch
                                                                     Đà Nẵng</span></a> </li>
 
@@ -299,13 +299,13 @@
 
                             </li>
 
-                            <li class="nav-item "><a class="nav-link" href="dich-vu-tour.html">Dịch vụ tour</a></li>
+                            <li class="nav-item "><a class="nav-link" href="/dich-vu">Dịch vụ tour</a></li>
 
-                            <li class="nav-item "><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du
+                            <li class="nav-item "><a class="nav-link" href="cam-nang">Cẩm nang du
                                     lịch</a>
                             </li>
 
-                            <li class="nav-item "><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
+                            <li class="nav-item "><a class="nav-link" href="/lien-he">Liên hệ</a></li>
                         </ul>
                     </div>
                 </div>
@@ -395,77 +395,80 @@
                 </div>
                 <div class="row">
 
-                    <div class="col-md-4 col-sm-6 col-xs-6 col-100">
-                        <div class="product-box">
-                            <div class="product-thumbnail">
-                                <a href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                                    title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                    <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/83864b64404979-5ad0e1bdba9b284f3.jpg?v=1529553163227"
-                                        alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                </a>
-                                <div class="sale-off">-
-                                    9%
+                    @foreach ($listtour as $item)
+                        <div class="col-md-4 col-sm-6 col-xs-6 col-100">
+                            <div class="product-box">
+                                <div class="product-thumbnail">
+                                    <a href="{{ route('client.tour.show', $item->id) }}"
+                                        title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
+                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/83864b64404979-5ad0e1bdba9b284f3.jpg?v=1529553163227"
+                                            alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
+                                    </a>
+                                    <div class="sale-off">-
+                                        <?=$item['sale']?>%
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="product-info a-left">
-                                <h3 class="product-name"><a class="line-clamp"
-                                        href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                                        title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">Du
-                                        lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5*
-                                        Bellagio, Las Vegas]</a></h3>
-                                <div class="clearfix">
-                                    <div class="box-prices">
-                                        <div class="price-box clearfix">
-                                            <div class="special-price f-left">
-                                                <span class="price product-price">49.000.000₫</span>
-                                            </div>
+                                <div class="product-info a-left">
+                                    <h3 class="product-name"><a class="line-clamp"
+                                            href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
+                                            title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
+                                            <?=$item['name'] ?>
+                                           </a></h3>
+                                    <div class="clearfix">
+                                        <div class="box-prices">
+                                            <div class="price-box clearfix">
+                                                <div class="special-price f-left">
+                                                    <span class="price product-price"><?=number_format($item['price_children'],0,'',',') ?>đ</span>
+                                                </div>
 
-                                            <div class="old-price">
-                                                <span class="price product-price-old">
-                                                    54.000.000₫
-                                                </span>
+                                                <div class="old-price">
+                                                    <span class="price product-price-old">
+                                                        <?=number_format($item['price_old'],0,'',',') ?>đ
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="box-tag">
+                                        <div class="box-tag">
+                                            <ul class="ct_course_list">
+
+                                                <li data-toggle="tooltip" data-placement="top"
+                                                    title="Di chuyển bằng Ô tô">
+                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+                                                        alt="Di chuyển bằng Ô tô" />
+                                                </li>
+                                                <li data-toggle="tooltip" data-placement="top"
+                                                    title="Di chuyển bằng máy bay">
+                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+                                                        alt="Di chuyển bằng máy bay" />
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <div class="box-date-tour">
                                         <ul class="ct_course_list">
 
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng Ô tô">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                    alt="Di chuyển bằng Ô tô" />
+                                            <li class="clearfix">
+                                                <div class="ulimg"><img
+                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+                                                        alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: Thứ 2 - 7 hằng
+                                                tuần
                                             </li>
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng máy bay">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                    alt="Di chuyển bằng máy bay" />
+                                            <li class="clearfix">
+                                                <div class="ulimg"><img
+                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+                                                        alt="6 ngày 5 đêm" /></div> Thời gian: 6 ngày 5 đêm
                                             </li>
                                         </ul>
                                     </div>
 
                                 </div>
-                                <div class="box-date-tour">
-                                    <ul class="ct_course_list">
-
-                                        <li class="clearfix">
-                                            <div class="ulimg"><img
-                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                    alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: Thứ 2 - 7 hằng tuần
-                                        </li>
-                                        <li class="clearfix">
-                                            <div class="ulimg"><img
-                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                    alt="6 ngày 5 đêm" /></div> Thời gian: 6 ngày 5 đêm
-                                        </li>
-                                    </ul>
-                                </div>
-
                             </div>
                         </div>
-                    </div>
+                    @endforeach
 
-                    <div class="col-md-4 col-sm-6 col-xs-6 col-100">
+                    {{-- <div class="col-md-4 col-sm-6 col-xs-6 col-100">
                         <div class="product-box">
                             <div class="product-thumbnail">
                                 <a href="du-lich-ha-noi-lao-cai-sapa-ha-long.html"
@@ -797,7 +800,7 @@
 
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>
@@ -1754,8 +1757,7 @@
                                                                 srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
                                                             <source media="(min-width: 768px) and (max-width: 1023px)"
                                                                 srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source
-                                                                media="(min-width: 1024px) and (max-width: 1199px)"
+                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
                                                                 srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
                                                             <img src="client/bizweb.dktcdn.net/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973"
                                                                 title="Mùa hoa phấn phủ hồng trời Bảo Lộc"
@@ -1812,8 +1814,7 @@
                                                                 srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
                                                             <source media="(min-width: 768px) and (max-width: 1023px)"
                                                                 srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source
-                                                                media="(min-width: 1024px) and (max-width: 1199px)"
+                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
                                                                 srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
                                                             <img src="client/bizweb.dktcdn.net/100/299/077/articles/dalat-158d7.jpg?v=1520693176427"
                                                                 title="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!"
@@ -1869,8 +1870,7 @@
                                                                 srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
                                                             <source media="(min-width: 768px) and (max-width: 1023px)"
                                                                 srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source
-                                                                media="(min-width: 1024px) and (max-width: 1199px)"
+                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
                                                                 srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
                                                             <img src="client/bizweb.dktcdn.net/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693"
                                                                 title="Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan"
@@ -2060,16 +2060,16 @@
     </script>
     <div class="ajax-load">
         <span class="loading-icon">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30"
-                style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;"
+                xml:space="preserve">
                 <rect x="0" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
                 <rect x="8" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s"

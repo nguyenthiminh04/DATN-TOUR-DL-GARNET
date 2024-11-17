@@ -7,7 +7,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>
-        Garnet du lịch
+       @yield('title')
     </title>
 
     <meta name="keywords" content="Liên hệ, Ant Du lịch, ant-du-lich.mysapo.net" />
@@ -18,30 +18,30 @@
     <link rel="dns-prefetch" href="http://www.googletagmanager.com/">
 
 
-    <link rel="icon" href="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/favicon6d1d.png?1705894518705"
+    <link rel="icon" href="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/favicon6d1d.png?1705894518705')}}"
         type="image/x-icon" />
 
 
     <link rel="preload" as="style" type="text/css"
-        href="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/bootstrap.scss6d1d.css"
+        href="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/bootstrap.scss6d1d.css')}}"
         onload="this.rel='stylesheet'" />
-    <link href="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/bootstrap.scss6d1d.css" rel="stylesheet"
+    <link href="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/bootstrap.scss6d1d.css')}}" rel="stylesheet"
         type="text/css" media="all" />
     <link rel="preload" as="style" type="text/css"
-        href="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/base.scss6d1d.css"
+        href="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/base.scss6d1d.css')}}"
         onload="this.rel='stylesheet'" />
-    <link href="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/base.scss6d1d.css" rel="stylesheet"
+    <link href="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/base.scss6d1d.css')}}" rel="stylesheet"
         type="text/css" media="all" />
 
     <link rel="preload" as="style" type="text/css"
-        href="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/ant-du-lich.scss6d1d.css"
+        href="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/ant-du-lich.scss6d1d.css')}}"
         onload="this.rel='stylesheet'" />
-    <link href="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/ant-du-lich.scss6d1d.css" rel="stylesheet"
+    <link href="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/ant-du-lich.scss6d1d.css')}}" rel="stylesheet"
         type="text/css" media="all" />
 
     <link rel="preload" as="script"
-        href="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/jquery-2.2.3.min6d1d.js" />
-    <script src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/jquery-2.2.3.min6d1d.js" type="text/javascript">
+        href="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/jquery-2.2.3.min6d1d.js')}}" />
+    <script src="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/jquery-2.2.3.min6d1d.js')}}" type="text/javascript">
     </script>
 
     <script>
