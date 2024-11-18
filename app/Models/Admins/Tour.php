@@ -31,6 +31,7 @@ class Tour extends Model
         'user_id',
         'album_img',
         'status',
+        'category_tour_id',
     ];
     use SoftDeletes;
     protected $cats = [
@@ -50,5 +51,9 @@ public function location()
 public function guides()
     {
         return $this->hasMany(Coupons::class, 'tour_id');
+    }
+    public function category_tour()
+    {
+        return $this->belongsTo(Categoty_tour::class);
     }
 }

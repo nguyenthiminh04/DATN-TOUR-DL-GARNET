@@ -190,6 +190,19 @@
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
               </div>
+              <div class="mb-3 col-6">
+                <label for="status1" class="form-label">Mục Tour<span class="text-danger">*</span></label>
+                <select name="category_tour_id" class="form-select w-100" id="status1">
+                    <option value="">Chọn Mục Tour</option>
+                    @foreach ($listcategory_tour as $status)
+                        <option value="{{ $status->id }}" {{ $tour->category_tour_id == $status->id ? 'selected' : '' }}>{{ $status->category_tour }}</option>
+                    @endforeach
+                </select>
+                @error('category_tour_id')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+
                   <div class="mb-3 col-6">
                     <label for="status1" class="form-label">User<span class="text-danger">*</span></label>
                     <select name="user_id" class="form-select w-100" id="status1">
@@ -203,13 +216,13 @@
                     @enderror
                 </div>
                  
-                  <div class="mb-3 col-6">
-                    <label for="status1" class="form-label">Trạng thái<span class="text-danger">*</span></label>
+                
+                <div class="mb-3 col-6">
+                    <label for="status1" class="form-label">Status<span class="text-danger">*</span></label>
                     <select name="status" class="form-select w-100" id="status1">
-                        <option value="">Người status</option>
-                        @foreach ($listStatus as $statuss)
-                            <option value="{{ $statuss->id }}" {{ $tour->status == $statuss->id ? 'selected' : '' }}>{{ $statuss->status_name }}</option>
-                        @endforeach
+                        <option value="">Chọn status</option>
+                        <option value="1" {{$tour->status == 1 ? 'selected': ''}}>Hiển thị</option>
+                        <option value="0" {{$tour->status == 0 ? 'selected': ''}}>Ẩn</option>
                     </select>
                     @error('status')
                         <span class="text-danger">{{ $message }}</span>

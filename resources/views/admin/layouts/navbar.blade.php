@@ -32,6 +32,11 @@
 
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                 {{-- user --}}
+                <ul class="nav nav-sm flex-column">
+                    <li class="nav-item">
+                        <a href="{{route('user.index')}}" class="nav-link">Dashboard</a>
+                    </li>
+                </ul>
                 <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#user" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="user">
@@ -52,6 +57,11 @@
                         <i class="ph-gauge"></i> <span data-key="t-dashboards">Tour</span>
                     </a>
                     <div class="collapse menu-dropdown" id="tour">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{route('tour.index')}}" class="nav-link">Danh mục tour</a>
+                            </li>
+                        </ul>
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="{{route('tour.index')}}" class="nav-link">Danh sách tour</a>

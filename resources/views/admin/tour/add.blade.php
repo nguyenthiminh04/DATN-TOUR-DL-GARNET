@@ -189,6 +189,18 @@
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
               </div>
+              <div class="mb-3 col-6">
+                <label for="status1" class="form-label">Mục Tour<span class="text-danger">*</span></label>
+                <select name="category_tour_id" class="form-select w-100" id="status1">
+                    <option value="">Chọn Mục Tour</option>
+                    @foreach ($listcategory_tour as $status)
+                        <option value="{{ $status->id }}" {{ old('category_tour_id') == $status->id ? 'selected' : '' }}>{{ $status->category_tour }}</option>
+                    @endforeach
+                </select>
+                @error('category_tour_id')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
                   <div class="mb-3 col-6">
                     <label for="status1" class="form-label">User<span class="text-danger">*</span></label>
                     <select name="user_id" class="form-select w-100" id="status1">

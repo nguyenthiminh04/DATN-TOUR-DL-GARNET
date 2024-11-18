@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Models\Admins\Categoty_tour;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('user', UserController::class);
     Route::resource('faqs', FaqController::class);
     Route::resource('notifications', NotificationController::class);
+    Route::resource('category_tour', Categoty_tour::class);
     Route::resource('tour', TourController::class);
     Route::resource('coupons', CouponsController::class);
     Route::resource('location', LocationController::class);
