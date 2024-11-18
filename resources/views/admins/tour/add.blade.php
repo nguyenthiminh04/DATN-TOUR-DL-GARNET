@@ -170,7 +170,7 @@
                     <div class="mb-3">
                         <label for="album_img" class="form-label">img ảnh<span
                                 class="text-danger">*</span></label>
-                        <input type="number" id="album_img" name="album_img" value="{{ old('album_img') }}" class="form-control"
+                        <input type="text" id="album_img" name="album_img" value="{{ old('album_img') }}" class="form-control"
                             placeholder="Lessons" >
                             @error('album_img')
             <span class="text-danger">{{ $message }}</span>

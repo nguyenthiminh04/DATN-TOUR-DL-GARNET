@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Client\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,11 +29,12 @@ Route::resource('tour', TourController::class);
 Route::resource('coupons', CouponsController::class);
 Route::resource('location', LocationController::class);
 Route::resource('category', CategoryController::class);
+Route::get('/', [HomeController::class, 'index']);
 
 
-Route::get('/', function () {
-    return view('client.home');
-});
+// Route::get('/', function () {
+//     return view('client.home');
+// });
 
 
 Route::get('/lien-he', function () {

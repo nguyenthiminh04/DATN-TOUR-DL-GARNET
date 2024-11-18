@@ -118,7 +118,7 @@
                                             <td>{{ $item->view }}</td>
                                             <td>{{ $item->description }}</td>
                                             <td>{{ $item->content }}</td>
-                                            <td>{{ $item->location_id }}</td>
+                                            <td>{{ $item->location->name }}</td>
                                             <td>{{ $item->user_id }}</td>
                                             <td>{{ $item->album_img }}</td>
 

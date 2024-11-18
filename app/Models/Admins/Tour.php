@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Tour extends Model
 {
-    use HasFactory;
-    protected $table = 'tours';  // Tên bảng thực sự trong cơ sở dữ liệu
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'tours'; // Tên bảng thực sự trong cơ sở dữ liệu
+
     protected $fillable = [
         'name',
         'title',
@@ -32,22 +34,25 @@ class Tour extends Model
         'album_img',
         'status',
     ];
-    use SoftDeletes;
-    protected $cats = [
+
+    protected $casts = [
         'status' => 'boolean',
     ];
-// Định nghĩa quan hệ Tour thuộc về User
-public function user()
-{
-    return $this->belongsTo(UserModel::class);
-}
 
-// Định nghĩa quan hệ Tour thuộc về Location
-public function location()
-{
-    return $this->hasMany(Location::class);
-}
-public function guides()
+    // Định nghĩa quan hệ Tour thuộc về User
+    public function user()
+    {
+        return $this->belongsTo(UserModel::class);
+    }
+
+    // Định nghĩa quan hệ Tour thuộc về Location
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'location_id');
+    }
+
+    // Định nghĩa quan hệ Tour có nhiều Coupons
+    public function coupons()
     {
         return $this->hasMany(Coupons::class, 'tour_id');
     }
