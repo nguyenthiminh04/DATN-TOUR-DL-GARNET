@@ -1,16 +1,17 @@
 <?php
 
 
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\NotificationController;
+use App\Models\Admins\Categoty_tour;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin\CouponsController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LocationController;
-use App\Models\Admins\Categoty_tour;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,7 @@ use App\Models\Admins\Categoty_tour;
 
 // client routes
 Route::group([], function () {
-    Route::get('/', function () {
-        return view('client.home');
-    });
+    Route::get('/', [HomeController::class, 'index']);
 
 
     Route::get('/lien-he', function () {

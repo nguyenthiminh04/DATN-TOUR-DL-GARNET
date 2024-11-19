@@ -34,7 +34,7 @@ class Tour extends Model
         'category_tour_id',
     ];
     use SoftDeletes;
-    protected $cats = [
+    protected $casts = [
         'status' => 'boolean',
     ];
 // Định nghĩa quan hệ Tour thuộc về User
@@ -46,7 +46,7 @@ public function user()
 // Định nghĩa quan hệ Tour thuộc về Location
 public function location()
 {
-    return $this->hasMany(Location::class);
+    return $this->belongsTo(Location::class, 'location_id');
 }
 public function guides()
     {
