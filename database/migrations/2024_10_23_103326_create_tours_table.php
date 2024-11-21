@@ -31,11 +31,13 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->unsignedBigInteger('location_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('category_tour_id')->nullable();
             $table->integer('number_registered')->nullable();
             $table->text('album_img')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('category_tour_id')->references('id')->on('category_tour');
             $table->foreign('location_id')->references('id')->on('locations');
             $table->foreign('user_id')->references('id')->on('users');
         });
