@@ -55,9 +55,6 @@ Route::group([], function () {
         return view('client.tour.confirm');
     });
 
-    
-
-    
 
     Route::get('/', [HomeController::class, 'index']);
 

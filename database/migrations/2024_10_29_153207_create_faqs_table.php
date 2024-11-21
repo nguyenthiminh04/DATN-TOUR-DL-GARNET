@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
             $table->string('question');
-            $table->text('answer');
-            $table->foreignId('status_id')->nullable()->constrained('status')->onDelete('set null');
+            $table->text('answer')->nullable();
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }
