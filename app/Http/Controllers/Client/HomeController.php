@@ -11,12 +11,13 @@ class HomeController extends Controller
 {
     //
     public function index(Request $request) {
+        $listtour = Tour::orderBYDesc('id')->get();
         $Tourmoinhat = Tour::orderBy('view', 'desc')->take(6)->get();
         $locations = Location::where('status', 1)
         ->whereNull('deleted_at') // Kiểm tra chưa bị xóa mềm
         ->inRandomOrder()
         ->take(5)
         ->get();
-          return view('client.home',compact('Tourmoinhat','locations'));
+          return view('client.home',compact('Tourmoinhat','locations', 'listtour'));
     }
 }

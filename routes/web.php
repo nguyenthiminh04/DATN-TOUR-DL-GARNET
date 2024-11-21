@@ -33,11 +33,11 @@ use App\Http\Controllers\Admin\DashboardController;
 // client routes
 Route::group([], function () {
 
-    Route::get('/', function () {
-        $listtour = Tour::orderBYDesc('id')->get();
+    // Route::get('/', function () {
+    //     $listtour = Tour::orderBYDesc('id')->get();
 
-        return view('client.home',compact('listtour'));
-    });
+    //     return view('client.home',compact('listtour'));
+    // });
     Route::resource('tour', ClientTourController::class)->names([
         // 'index' => 'client.tour.index',
         // 'create' => 'client.tour.create',
