@@ -16,7 +16,8 @@ use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Models\Admins\Tour;
 
 use App\Http\Controllers\Admin\DashboardController;
-
+use App\Http\Controllers\Client\BookingController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,27 +34,24 @@ use App\Http\Controllers\Admin\DashboardController;
 // client routes
 Route::group([], function () {
 
-    Route::get('/', function () {
-        $listtour = Tour::orderBYDesc('id')->get();
-
-        return view('client.home',compact('listtour'));
-    });
+  
     Route::resource('tour', ClientTourController::class)->names([
-        // 'index' => 'client.tour.index',
-        // 'create' => 'client.tour.create',
-        // 'store' => 'client.tour.store',
+        
         'show' => 'client.tour.show',
-        // 'edit' => 'client.tour.edit',
-        // 'update' => 'client.tour.update',
-        // 'destroy' => 'client.tour.destroy',
+        
     ]);
 
-    Route::get('/booking', function () {
+    Route::get('/pre-booking', function () {
         return view('client.tour.booking');
-    });
-    Route::get('/confirm', function () {
-        return view('client.tour.confirm');
-    });
+    })->name('pre-booking');
+
+    Route::get('/confirm/{id}', [ClientTourController::class, 'confirm'])->name('tour.confirm');
+
+    Route::post('/booking', [BookingController::class, 'store'])->name('tour.booking');
+    Route::post('/payment/store', [PaymentController::class, 'storePayment'])->name('payment.store');
+    Route::get('/payment/success/{bookingId}', [PaymentController::class, 'success'])->name('payment.success');
+
+   
 
     
 
