@@ -33,7 +33,7 @@
                     </button>
                     <div class="logo">
                         <a href="index.html" class="logo-wrapper ">
-                            <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705"
+                            <img src="{{url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705')}}"
                                 alt="logo Ant Du lịch">
                         </a>
                     </div>
@@ -80,7 +80,7 @@
                 <div class="col-md-12">
                     <ul id="nav" class="nav container">
 
-                        <li class="nav-item "><a class="nav-link" href="index.html">Trang chủ</a></li>
+                        <li class="nav-item "><a class="nav-link" href="/">Trang chủ</a></li>
 
                         <li class="nav-item "><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
 
@@ -105,7 +105,7 @@
                                                     <li class="level2"> <a href="du-lich-hue.html"><span>Du lịch
                                                                 Huế</span></a> </li>
 
-                                                    <li class="level2"> <a href="du-lich-da-nang.html"><span>Du lịch
+                                                    <li class="level2"> <a href="#"><span>Du lịch
                                                                 Đà Nẵng</span></a> </li>
 
                                                     <li class="level2"> <a href="du-lich-hoi-an.html"><span>Du lịch

@@ -11,7 +11,12 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LocationController;
+
+use App\Http\Controllers\Client\TourController as ClientTourController;
+use App\Models\Admins\Tour;
+
 use App\Http\Controllers\Admin\DashboardController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,12 +32,58 @@ use App\Http\Controllers\Admin\DashboardController;
 
 // client routes
 Route::group([], function () {
+
+    Route::get('/', function () {
+        $listtour = Tour::orderBYDesc('id')->get();
+
+        return view('client.home',compact('listtour'));
+    });
+    Route::resource('tour', ClientTourController::class)->names([
+        // 'index' => 'client.tour.index',
+        // 'create' => 'client.tour.create',
+        // 'store' => 'client.tour.store',
+        'show' => 'client.tour.show',
+        // 'edit' => 'client.tour.edit',
+        // 'update' => 'client.tour.update',
+        // 'destroy' => 'client.tour.destroy',
+    ]);
+
+    Route::get('/booking', function () {
+        return view('client.tour.booking');
+    });
+    Route::get('/confirm', function () {
+        return view('client.tour.confirm');
+    });
+
+    
+
+    
+
     Route::get('/', [HomeController::class, 'index']);
 
 
-    Route::get('/lien-he', function () {
-        return view('client.pages.contact');
+
+    Route::get('/dang-nhap', function () {
+        return view('client.auth.login');
     });
+
+    
+    Route::get('/dang-ky', function () {
+        return view('client.auth.register');
+    });
+    Route::get('/dich-vu', function () {
+        return view('client.pages.service');
+    });
+    Route::get('/gioi-thieu', function () {
+        return view('client.pages.introduce');
+    });
+    Route::get('/cam-nang', function () {
+        return view('client.pages.handbook');
+    });
+    Route::get('/tour-trong-nuoc', function () {
+        return view('client.pages.domesticTour');
+    });
+
 
     Route::get('/dich-vu', function () {
         return view('client.pages.service');
@@ -46,12 +97,14 @@ Route::group([], function () {
     Route::get('/tour-trong-nuoc', function () {
         return view('client.pages.domesticTour');
     });
+
     Route::get('/chi-tiet-tour', function () {
         return view('client.pages.detailTour');
     });
     Route::get('/chi-tiet-cam-nang', function () {
         return view('client.pages.detailHandbook');
     });
+
 });
 
 // admin routes
@@ -71,6 +124,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 
+
 Route::get('/dang-nhap', function () {
     return view('client.auth.login');
 });
@@ -78,3 +132,4 @@ Route::get('/dang-nhap', function () {
 Route::get('/dang-ky', function () {
     return view('client.auth.register');
 });
+
