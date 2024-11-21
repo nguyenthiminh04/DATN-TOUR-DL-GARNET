@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Tour</h4>
+                        <h4 class="mb-sm-0">Danh Sách Phiếu Giảm Giá</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -30,8 +30,8 @@
                         <div class="card-body">
                             <div class="row align-items-center g-2">
                                 <div class="col-lg-3 me-auto">
-                                    <h6 class="card-title mb-0">Instructors List <span
-                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6>
+                                    {{-- <h6 class="card-title mb-0">Instructors List <span
+                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6> --}}
                                 </div><!--end col-->
                                 <div class="col-lg-2">
                                     <div class="search-box">
@@ -44,7 +44,7 @@
                                     <div class="hstack flex-wrap gap-2">
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                            <a href="{{route('category.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
+                                            <a href="{{route('coupons.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
                                                 Thêm chức vụ
                                             </a>
                                         <div>
@@ -68,44 +68,37 @@
                                         <tr>
 
                                             <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Ảnh</th>
-                                            <th>banner</th>
-                                            <th>parent_id</th>
-                                            <th>slug</th>
-                                            <th>description</th>
-                                            <th>hot</th>
-                                            <th>Người Thêm</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Action </th>
+
+                                            <th>Tên phiếu</th>
+
+                                            <th>Mã</th>
+
+                                            <th>Ngày bắt đầu</th>
+
+                                            <th>Ngày kết thúc</th>
+
+                                            <th>Tỉ lệ</th>
+
+                                            <th>Tour áp dụng</th>
+
+                                            <th scope="col">Trạng thái</th>
+                                            <th scope="col">Hành Động</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
-                                        @foreach ($listCategory as $index => $item)
-                                            <tr>
+                                        @foreach ($listcoupons as $index => $item)
+                                        <tr>
 
 
                                             <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
                                             <td>{{ $item->name }}</td>
-                                            <td>
-                                              <img src="{{ Storage::url($item->avatar)}}" alt="" width="30px">
+                                            <td>{{ $item->code }}</td>
+                                            <td>{{ $item->start_date }}</td>
+                                            <td>{{ $item->end_date }}</td>
+                                            <td>{{ $item->percentage_price }}</td>
+                                            <td>{{ $item->tour->name }}</td>
 
-
-                                          </td>
-                                          <td>
-                                            <img src="{{ Storage::url($item->banner)}}" alt="" width="30px">
-
-
-                                        </td>
-                                        <td>{{ $item->parent ? $item->parent->name : 'Không có cha' }}</td>
-
-                                            
-                                            <td>{{ $item->slugg }}</td>
-                                            <td>{{ $item->description }}</td>
-                                            <td>{{ $item->user->name }}</td>
-                                            <td class="{{ $item->hot == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $item->hot == 1 ? 'Hot' : 'Không Hot' }}</td>
                                             <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                 {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
                                             <td>
@@ -116,7 +109,7 @@
                                                                 class="ph-eye"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{route('location.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
+                                                        <a href="{{route('coupons.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
                                                     </li>
                                                     <li>
                                                         <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
@@ -137,17 +130,17 @@
                               <i class="bi bi-trash display-5"></i>
                           </div>
                           <div class="mt-4">
-                              <h4 class="mb-2">Are you sure ?</h4>
-                              <p class="text-muted mx-3 mb-0">Are you sure you want to remove this record ?</p>
+                              <h4 class="mb-2">Xóa mục này ?</h4>
+                              <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
                           </div>
                       </div>
                       <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('location.destroy', $item->id) }}"
+                        <form action="{{ route('coupons.destroy', $item->id) }}"
                           method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
-                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Close</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Yes, Delete It!</button>
+                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
+                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn!</button>
                         </form>
                       </div>
                   </div>

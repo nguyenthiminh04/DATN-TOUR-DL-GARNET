@@ -44,7 +44,7 @@
                
                 <div class="mb-3">
                     <a href="{{ route('notifications.index') }}" class="btn btn-info">Trở về</a>
-                    <button class="btn btn-primary" type="submit">Thêm thông báo</button>
+                    <button class="btn btn-primary" type="submit">Sửa thông báo</button>
                 </div>
             </form>
 

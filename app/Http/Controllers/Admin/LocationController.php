@@ -20,7 +20,7 @@ class LocationController extends Controller
         //
        
         $listLocation = Location::query()->get();
-        return view('admins.locations.index', compact('listLocation'));
+        return view('admin.locations.index', compact('listLocation'));
     }
 
     /**
@@ -32,7 +32,7 @@ class LocationController extends Controller
         $listStatus = Status::query()->get();
         $listUser = UserModel::query()->get();
         $listTour = Tour::query()->get();
-        return view('admins.locations.add', compact('listStatus','listUser','listTour'));
+        return view('admin.locations.add', compact('listStatus','listUser','listTour'));
     }
 
     /**
@@ -60,7 +60,7 @@ class LocationController extends Controller
             // Lấy id sản phẩm vừa thêm để thêm được album
             $user = $user->id;
     
-            return redirect()->route('location.index'); 
+            return redirect()->route('location.index')->with('success', 'Thêm địa điểm thành công!');
         }
     }
 
@@ -81,7 +81,7 @@ class LocationController extends Controller
         $location = Location::query()->findOrFail($id);
         $listUser = UserModel::query()->get();
         $listTour = Tour::query()->get();
-        return view('admins.locations.edit', compact('location','listUser','listTour'));
+        return view('admin.locations.edit', compact('location','listUser','listTour'));
     }
 
     /**
@@ -110,7 +110,7 @@ class LocationController extends Controller
             // Cập nhật dữ liệu
             $location->update($params);
         
-            return redirect()->route('location.index');
+            return redirect()->route('location.index')->with('success', 'Cập nhật thành công!');;
         }
     }
 
@@ -130,9 +130,9 @@ class LocationController extends Controller
                     
                      $location->delete();
                      
-                    return redirect()->route('location.index');
+                    return redirect()->route('location.index')->with('success', 'Location deleted successfully.');
                 }
-                return redirect()->route('location.index');
+                return redirect()->route('location.index')->with('success', 'Location deleted successfully.');
             }
            
     

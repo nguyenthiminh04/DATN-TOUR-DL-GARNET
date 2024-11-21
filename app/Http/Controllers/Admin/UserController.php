@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         //
         $listStatus = Status::query()->get();
-        return view('admins.user.add', compact('listStatus'));
+        return view('admin.user.add', compact('listStatus'));
     }
 
     /**
@@ -76,7 +76,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = UserModel::query()->findOrFail($id);
-        return view('admins.user.edit', compact('user'));
+        return view('admin.user.edit', compact('user'));
     }
 
     /**

@@ -6,12 +6,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Câu Hỏi</h4>
+                        <h4 class="mb-sm-0">Danh Sách Tour</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Thêm câu hỏi</li>
+                                <li class="breadcrumb-item active">Thêm Tour</li>
                             </ol>
                         </div>
 
@@ -19,42 +19,41 @@
                 </div>
             </div>
             <!-- end page title -->
-            <form class="col-6" action="{{ route('tour.update',$tour->id) }}" method="post" enctype="multipart/form-data">
+            <form class="col-6" action="{{ route('tour.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
                 <div class="mb-3">
                   <label for="image" class="form-label">Hình Ảnh</label>
 
                   <input type="file" id="image" name="image" class="form-control"
                       onchange="showImage(event)">
-                  <img id="img_danh_muc" src="" alt="Hình Ảnh Sản Phẩm"
+                  <img id="img_danh_muc" src="" alt="Hình Ảnh"
                       style="width: 150px;display:none">
               </div>
 
               <div class="mb-3">
-                <label for="name" class="form-label">Name<span class="text-danger">*</span></label>
-                <input type="text" id="name" name="name" value="{{ $tour->name }}" value="{{ old('name') }}"  class="form-control" placeholder="Nhập câu hỏi">
+                <label for="name" class="form-label">Tên Tour<span class="text-danger">*</span></label>
+                <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control" placeholder="Nhập tên tour...">
                 @error('name')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
             <div class="mb-3">
-              <label for="title" class="form-label">title<span class="text-danger">*</span></label>
-              <input type="text" id="title" name="title" value="{{ $tour->title }}" value="{{ old('title') }}" class="form-control" placeholder="Nhập câu hỏi">
+              <label for="title" class="form-label">Tiêu đề Tour<span class="text-danger">*</span></label>
+              <input type="text" id="title" name="title" value="{{ old('title') }}" class="form-control" placeholder="Nhập tiêu đề tour...">
               @error('title')
                   <span class="text-danger">{{ $message }}</span>
               @enderror
           </div>
           <div class="mb-3">
             <label for="journeys" class="form-label">Hành Trình<span class="text-danger">*</span></label>
-            <input type="text" id="journeys" name="journeys" value="{{ $tour->journeys }}" value="{{ old('journeys') }}" class="form-control" placeholder="Nhập câu hỏi">
+            <input type="text" id="journeys" name="journeys" value="{{ old('journeys') }}" class="form-control" placeholder="Nhập hành trình tour...">
             @error('journeys')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
         <div class="mb-3">
           <label for="schedule" class="form-label">Lịch Trình<span class="text-danger">*</span></label>
-          <input type="text" id="schedule" name="schedule" value="{{ $tour->schedule }}" value="{{ old('schedule') }}" class="form-control" placeholder="Nhập câu hỏi">
+          <input type="text" id="schedule" name="schedule" value="{{ old('schedule') }}" class="form-control" placeholder="Nhập lịch trình tour...">
           @error('schedule')
               <span class="text-danger">{{ $message }}</span>
           @enderror
@@ -62,17 +61,17 @@
               <div class="mb-3">
                   <label for="move_method" class="form-label">Phương Tiện Di Chuyển<span
                           class="text-danger">*</span></label>
-                  <input type="text" id="move_method" name="move_method" value="{{ $tour->move_method }}" value="{{ old('move_method') }}" class="form-control"
-                      placeholder="Enter course title">
+                  <input type="text" id="move_method" name="move_method" value="{{ old('move_method') }}" class="form-control"
+                      placeholder="Nhập phương tiện di chuyển">
                       @error('move_method')
               <span class="text-danger">{{ $message }}</span>
           @enderror
               </div>
               <div class="mb-3">
-                  <label for="starting_gate" class="form-label">Cổng khởi hành<span
+                  <label for="starting_gate" class="form-label">Điểm khởi hành<span
                           class="text-danger">*</span></label>
-                  <input type="text" id="starting_gate" name="starting_gate" value="{{ $tour->starting_gate }}" value="{{ old('starting_gate') }}" class="form-control"
-                      placeholder="Enter course title">
+                  <input type="text" id="starting_gate" name="starting_gate" value="{{ old('starting_gate') }}" class="form-control"
+                      placeholder="Nhập điểm khởi hành...">
                       @error('starting_gate')
               <span class="text-danger">{{ $message }}</span>
           @enderror
@@ -80,14 +79,14 @@
               
               <div class="mb-3">
                   <label class="form-label" for="description">Mô tả ngắn</label>
-                  <textarea class="form-control" placeholder="Enter Description" id="description" name="description"  value="{{ old('description') }}" rows="2">{{ $tour->description }}</textarea>
+                  <textarea class="form-control" id="description" name="description" value="{{ old('description') }}" rows="2" placeholder="Nhập mô tả tour..."></textarea>
                   @error('description')
               <span class="text-danger">{{ $message }}</span>
           @enderror
               </div>
               <div class="mb-3">
                   <label class="form-label" for="content">Nội dung chi tiết</label>
-                  <textarea class="form-control" placeholder="Enter Description" id="content"name="content"  value="{{ old('content') }}" rows="6">{{ $tour->content }}</textarea>
+                  <textarea class="form-control" id="content"name="content" value="{{ old('content') }}" rows="6" placeholder="Nhập mô tả tour..."></textarea>
                   @error('content')
               <span class="text-danger">{{ $message }}</span>
           @enderror
@@ -101,7 +100,7 @@
                       <div class="mb-3">
                           <label for="start_date" class="form-label">Ngày Bắt Đầu<span
                                   class="text-danger">*</span></label>
-                          <input type="datetime-local" id="start_date" name="start_date" value="{{ $tour->start_date }}" value="{{ old('start_date') }}" class="form-control"
+                          <input type="datetime-local" id="start_date" name="start_date" value="{{ old('start_date') }}" class="form-control"
                               placeholder="Enter instructor name" >
                               @error('start_date')
               <span class="text-danger">{{ $message }}</span>
@@ -113,7 +112,7 @@
                       <div class="mb-3">
                           <label for="end_date" class="form-label">Ngày Kết Thúc<span
                                   class="text-danger">*</span></label>
-                          <input type="datetime-local" id="end_date" name="end_date" value="{{ $tour->end_date }}" value="{{ old('end_date') }}" class="form-control"
+                          <input type="datetime-local" id="end_date" name="end_date" value="{{ old('end_date') }}" class="form-control"
                               placeholder="Lessons" >
                               @error('end_date')
               <span class="text-danger">{{ $message }}</span>
@@ -124,8 +123,8 @@
                       <div class="mb-3">
                           <label for="price_old" class="form-label">Giá cũ<span
                                   class="text-danger">*</span></label>
-                          <input type="number" id="price_old" name="price_old" value="{{ $tour->price_old }}"  value="{{ old('price_old') }}" class="form-control"
-                              placeholder="Enter instructor name" >
+                          <input type="number" id="price_old" name="price_old" value="{{ old('price_old') }}" class="form-control"
+                              placeholder="Mời nhập giá..." >
                               @error('price_old')
               <span class="text-danger">{{ $message }}</span>
           @enderror
@@ -136,8 +135,8 @@
                       <div class="mb-3">
                           <label for="price_children" class="form-label">Giá trẻ em<span
                                   class="text-danger">*</span></label>
-                          <input type="number" id="price_children" name="price_children" value="{{ $tour->price_children }}" value="{{ old('price_children') }}" class="form-control"
-                              placeholder="Enter instructor name"  >
+                          <input type="number" id="price_children" name="price_children" value="{{ old('price_children') }}" class="form-control"
+                              placeholder="Nhập giá trẻ em..."  >
                               @error('price_children')
               <span class="text-danger">{{ $message }}</span>
           @enderror
@@ -148,8 +147,8 @@
                       <div class="mb-3">
                           <label for="sale" class="form-label">Giảm Giá<span
                                   class="text-danger">*</span></label>
-                          <input type="number" id="sale" name="sale" value="{{ $tour->sale }}" value="{{ old('sale') }}" class="form-control"
-                              placeholder="Enter instructor name"  >
+                          <input type="number" id="sale" name="sale" value="{{ old('sale') }}" class="form-control"
+                              placeholder="Nhập giá khuyến mãi..."  >
                               @error('sale')
               <span class="text-danger">{{ $message }}</span>
           @enderror
@@ -160,8 +159,8 @@
                       <div class="mb-3">
                           <label for="number_guests" class="form-label">Số lượng khách tối đa<span
                                   class="text-danger">*</span></label>
-                          <input type="number" id="number_guests" name="number_guests" value="{{ $tour->number_guests }}"  value="{{ old('number_guests') }}" class="form-control"
-                              placeholder="Lessons" >
+                          <input type="number" id="number_guests" name="number_guests" value="{{ old('number_guests') }}" class="form-control"
+                              placeholder="Nhập số lượng khách..." >
                               @error('number_guests')
               <span class="text-danger">{{ $message }}</span>
           @enderror
@@ -169,10 +168,10 @@
                   </div><!--end col-->
                   <div class="col-lg-6">
                     <div class="mb-3">
-                        <label for="album_img" class="form-label">Img abum ảnh<span
+                        <label for="album_img" class="form-label">Album ảnh<span
                                 class="text-danger">*</span></label>
-                        <input type="number" id="album_img" name="album_img" value="{{ $tour->album_img }}" value="{{ old('album_img') }}" class="form-control"
-                            placeholder="Lessons" >
+                        <input type="number" id="album_img" name="album_img" value="{{ old('album_img') }}" class="form-control"
+                            placeholder="Nhập album ảnh..." >
                             @error('album_img')
             <span class="text-danger">{{ $message }}</span>
         @enderror
@@ -181,21 +180,33 @@
                 <div class="mb-3 col-6">
                   <label for="status1" class="form-label">Location<span class="text-danger">*</span></label>
                   <select name="location_id" class="form-select w-100" id="status1">
-                      <option value="">Chọn user</option>
+                      <option value="">Chọn địa điểm</option>
                       @foreach ($listlocation as $status)
-                          <option value="{{ $status->id }}" {{ $tour->location_id == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
+                          <option value="{{ $status->id }}" {{ old('location_id') == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
                       @endforeach
                   </select>
                   @error('location_id')
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
               </div>
+              <div class="mb-3 col-6">
+                <label for="status1" class="form-label">Mục Tour<span class="text-danger">*</span></label>
+                <select name="category_tour_id" class="form-select w-100" id="status1">
+                    <option value="">Chọn Mục Tour</option>
+                    @foreach ($listcategory_tour as $status)
+                        <option value="{{ $status->id }}" {{ old('category_tour_id') == $status->id ? 'selected' : '' }}>{{ $status->category_tour }}</option>
+                    @endforeach
+                </select>
+                @error('category_tour_id')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
                   <div class="mb-3 col-6">
                     <label for="status1" class="form-label">User<span class="text-danger">*</span></label>
                     <select name="user_id" class="form-select w-100" id="status1">
                         <option value="">Chọn user</option>
                         @foreach ($listuser as $status)
-                            <option value="{{ $status->id }}" {{ $tour->user_id == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
+                            <option value="{{ $status->id }}" {{ old('user_id') == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
                         @endforeach
                     </select>
                     @error('user_id')
@@ -203,23 +214,19 @@
                     @enderror
                 </div>
                  
-                  <div class="mb-3 col-6">
-                    <label for="status1" class="form-label">Status<span class="text-danger">*</span></label>
-                    <select name="status" class="form-select w-100" id="status1">
-                        <option value="">Người status</option>
-                        @foreach ($listStatus as $statuss)
-                            <option value="{{ $statuss->id }}" {{ $tour->status == $statuss->id ? 'selected' : '' }}>{{ $statuss->status_name }}</option>
-                        @endforeach
+                <div class="mb-3">
+                    <label for="status1" class="form-label">Trạng Thái<span class="text-danger">*</span></label>
+                    <select class="form-select" id="status1" name="status">
+                        <option value="">Trạng Thái</option>
+                        <option value="1" >Hiển Thị</option>
+                        <option value="0" >Ẩn</option>
                     </select>
-                    @error('status')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
               </div><!--end row-->
                 
 
                 <div class="mb-3">
-                    <a href="{{route('coupons.index')}}" class="btn btn-info">trở về</a>
+                    <a href="{{route('tour.index')}}" class="btn btn-info">Trở về</a>
                     <button class="btn btn-primary" type="submit">Thêm mới</button>
                 </div>
 

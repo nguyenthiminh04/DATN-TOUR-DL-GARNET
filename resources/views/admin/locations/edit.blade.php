@@ -6,12 +6,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Câu Hỏi</h4>
+                        <h4 class="mb-sm-0">Danh Sách Địa Điểm</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Thêm câu hỏi</li>
+                                <li class="breadcrumb-item active">Sửa địa điểm</li>
                             </ol>
                         </div>
 
@@ -23,7 +23,7 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-3">
-                  <label for="image" class="form-label">Image</label>
+                  <label for="image" class="form-label">Hình ảnh</label>
 
                   <input type="file" id="image" name="image" class="form-control"
                       onchange="showImage(event)">
@@ -31,30 +31,30 @@
                       style="width: 150px;display:none">
               </div>
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name<span class="text-danger">*</span></label>
-                    <input type="text" id="name" name="name" value="{{$location->name}}" value="{{ old('name') }}" class="form-control" placeholder="Nhập câu hỏi">
+                    <label for="name" class="form-label">Tên địa điểm<span class="text-danger">*</span></label>
+                    <input type="text" id="name" name="name" value="{{$location->name}}" value="{{ old('name') }}" class="form-control" placeholder="Nhập tên địa điểm...">
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="slug" class="form-label">slug<span class="text-danger">*</span></label>
-                  <input type="text" id="slug"name="slug" value="{{$location->slug}}" value="{{ old('slug') }}" class="form-control" placeholder="Nhập câu hỏi">
+                  <label for="slug" class="form-label">Slug<span class="text-danger">*</span></label>
+                  <input type="text" id="slug"name="slug" value="{{$location->slug}}" value="{{ old('slug') }}" class="form-control" placeholder="">
                   @error('slug')
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
               </div>
 
                 <div class="mb-3">
-                    <label for="description" class="form-label">description<span class="text-danger">*</span></label>
-                    <input type="text" id="description" name="description" value="{{$location->description}}" value="{{ old('description') }}" class="form-control" placeholder="Nhập câu trả lời">
+                    <label for="description" class="form-label">Mô tả<span class="text-danger">*</span></label>
+                    <input type="text" id="description" name="description" value="{{$location->description}}" value="{{ old('description') }}" class="form-control" placeholder="Nhập mô tả...">
                     @error('description')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="content" class="form-label">content<span class="text-danger">*</span></label>
-                  <input type="text" id="content" name="content" value="{{$location->content}}" value="{{ old('content') }}" class="form-control" placeholder="Nhập câu trả lời">
+                  <label for="content" class="form-label">Nội dung<span class="text-danger">*</span></label>
+                  <input type="text" id="content" name="content" value="{{$location->content}}" value="{{ old('content') }}" class="form-control" placeholder="Nhập nội dung...">
                   @error('content')
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
@@ -104,8 +104,8 @@
 
 
                 <div class="mb-3">
-                    <a href="{{route('coupons.index')}}" class="btn btn-info">trở về</a>
-                    <button class="btn btn-primary" type="submit">Thêm mới</button>
+                    <a href="{{route('coupons.index')}}" class="btn btn-info">Trở về</a>
+                    <button class="btn btn-primary" type="submit">Cập nhật</button>
                 </div>
 
             </form>

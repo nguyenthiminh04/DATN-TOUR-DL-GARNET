@@ -395,6 +395,7 @@
                 </div>
                 <div class="row">
 
+
                     @foreach ($listtour as $item)
                         <div class="col-md-4 col-sm-6 col-xs-6 col-100">
                             <div class="product-box">
@@ -468,339 +469,86 @@
                         </div>
                     @endforeach
 
-                    {{-- <div class="col-md-4 col-sm-6 col-xs-6 col-100">
-                        <div class="product-box">
-                            <div class="product-thumbnail">
-                                <a href="du-lich-ha-noi-lao-cai-sapa-ha-long.html"
-                                    title="Du lịch Hà Nội - Lào Cai - Sapa - Hạ Long">
-                                    <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/1-large1b48c.jpg?v=1529553697103"
-                                        alt="Du lịch Hà Nội - Lào Cai - Sapa - Hạ Long">
-                                </a>
-                            </div>
-                            <div class="product-info a-left">
-                                <h3 class="product-name"><a class="line-clamp"
-                                        href="du-lich-ha-noi-lao-cai-sapa-ha-long.html"
-                                        title="Du lịch Hà Nội - Lào Cai - Sapa - Hạ Long">Du lịch Hà Nội - Lào Cai -
-                                        Sapa - Hạ Long</a></h3>
-                                <div class="clearfix">
-                                    <div class="box-prices">
-                                        <div class="price-box clearfix">
-                                            <div class="special-price f-left">
-                                                <span class="price product-price">7.990.000₫</span>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="box-tag">
-                                        <ul class="ct_course_list">
+@foreach ($Tourmoinhat as $item)
+<div class="col-md-4 col-sm-6 col-xs-6 col-100">
+    <div class="product-box">
+        <div class="product-thumbnail">
+            <a href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
+                title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
+                <img src="{{ Storage::url($item->image) }}"
+                    alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
+            </a>
+            <div class="sale-off">-
+                {{$item->sale}}%
+            </div>
+        </div>
+        <div class="product-info a-left">
+            <h3 class="product-name"><a class="line-clamp"
+                    href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
+                    title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">{{$item->name}} [{{$item->location->name}}] [{{$item->journeys}}]</a></h3>
+            <div class="clearfix">
+                <div class="box-prices">
+                    <div class="price-box clearfix">
+                        <div class="special-price f-left">
+                            <span class="price product-price"> {{ number_format($item->price_old * (1 - $item->sale / 100), 0, '', '.') }} VNĐ</span>
 
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng Ô tô">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                    alt="Di chuyển bằng Ô tô" />
-                                            </li>
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng máy bay">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                    alt="Di chuyển bằng máy bay" />
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                        </div>
 
-                                <div class="box-date-tour">
-                                    <ul class="ct_course_list">
-                                        <li class="clearfix">
-                                            <div class="ulimg"><img
-                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                    alt="Chủ nhật" /></div> Khởi hành: Chủ nhật
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                        
+
+                        <div class="old-price">
+                            <span class="price product-price-old">
+                                {{number_format($item->price_old,0,'','.')}}VNĐ
+                            </span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-4 col-sm-6 col-xs-6 col-100">
-                        <div class="product-box">
-                            <div class="product-thumbnail">
-                                <a href="du-lich-chau-au-phap-thuy-sy-nui-jungfrau-y.html"
-                                    title="Du lịch Châu Âu Pháp - Thụy Sỹ - Núi Jungfrau - Ý">
-                                    <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/grand-britain-europe-tour-5-minffe2.jpg?v=1529553857067"
-                                        alt="Du lịch Châu Âu Pháp - Thụy Sỹ - Núi Jungfrau - Ý">
-                                </a>
-                            </div>
-                            <div class="product-info a-left">
-                                <h3 class="product-name"><a class="line-clamp"
-                                        href="du-lich-chau-au-phap-thuy-sy-nui-jungfrau-y.html"
-                                        title="Du lịch Châu Âu Pháp - Thụy Sỹ - Núi Jungfrau - Ý">Du lịch Châu Âu Pháp
-                                        -
-                                        Thụy Sỹ - Núi Jungfrau - Ý</a></h3>
-                                <div class="clearfix">
-                                    <div class="box-prices">
+                <div class="box-tag">
+                    <ul class="ct_course_list">
 
-                                        <div class="price-box clearfix">
-                                            <div class="special-price f-left">
-                                                <span class="price product-price">85.990.000₫</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <li data-toggle="tooltip" data-placement="top"
+                            title="Di chuyển bằng Ô tô">
+                            <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+                                alt="Di chuyển bằng Ô tô" />
+                        </li>
+                        <li data-toggle="tooltip" data-placement="top"
+                            title="Di chuyển bằng máy bay">
+                            <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+                                alt="Di chuyển bằng máy bay" />
+                        </li>
+                    </ul>
+                </div>
 
-                                    <div class="box-tag">
-                                        <ul class="ct_course_list">
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng Ô tô">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                    alt="Di chuyển bằng Ô tô" />
-                                            </li>
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng tàu thủy">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg"
-                                                    alt="Di chuyển bằng tàu thủy" />
-                                            </li>
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng máy bay">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                    alt="Di chuyển bằng máy bay" />
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+            </div>
+            <div class="box-date-tour">
+                <ul class="ct_course_list">
 
-                                <div class="box-date-tour">
-                                    <ul class="ct_course_list">
+                    <li class="clearfix">
+                        <div class="ulimg"><img
+                                src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+                                alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: {{$item->start_date}} - {{$item->end_date}}
+                    </li>
+                    <li class="clearfix">
+                        <div class="ulimg"><img
+                                src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+                                alt="6 ngày 5 đêm" /></div> Thời gian: {{$item->schedule}}
+                    </li>
+                </ul>
+            </div>
 
-                                        <li class="clearfix">
-                                            <div class="ulimg"><img
-                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                    alt="Thứ 4 hằng tuần" /></div> Khởi hành: Thứ 4 hằng tuần
-                                        </li>
+        </div>
+    </div>
+</div>
+@endforeach
+                    
 
-                                        <li class="clearfix">
-                                            <div class="ulimg"><img
-                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                    alt="10 ngày 9 đêm" /></div> Thời gian: 10 ngày 9 đêm
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6 col-xs-6 col-100">
-                        <div class="product-box">
-                            <div class="product-thumbnail">
-                                <a href="du-lich-phap-bi-ha-lan-hoi-hoa-tulip-keukenhof.html"
-                                    title="Du lịch Pháp - Bỉ - Hà Lan [Hội Hoa Tulip Keukenhof]">
-                                    <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/0r2a5723d111.jpg?v=1529553943837"
-                                        alt="Du lịch Pháp - Bỉ - Hà Lan [Hội Hoa Tulip Keukenhof]">
-                                </a>
-                                <div class="sale-off">-
-                                    9%
-                                </div>
-                            </div>
-                            <div class="product-info a-left">
-                                <h3 class="product-name"><a class="line-clamp"
-                                        href="du-lich-phap-bi-ha-lan-hoi-hoa-tulip-keukenhof.html"
-                                        title="Du lịch Pháp - Bỉ - Hà Lan [Hội Hoa Tulip Keukenhof]">Du lịch Pháp - Bỉ
-                                        -
-                                        Hà Lan [Hội Hoa Tulip Keukenhof]</a></h3>
-                                <div class="clearfix">
-                                    <div class="box-prices">
-                                        <div class="price-box clearfix">
-                                            <div class="special-price f-left">
-                                                <span class="price product-price">49.990.000₫</span>
-                                            </div>
-
-                                            <div class="old-price">
-                                                <span class="price product-price-old">
-                                                    55.000.000₫
-                                                </span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="box-tag">
-                                        <ul class="ct_course_list">
-
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng Ô tô">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                    alt="Di chuyển bằng Ô tô" />
-                                            </li>
-
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng tàu thủy">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg"
-                                                    alt="Di chuyển bằng tàu thủy" />
-                                            </li>
-
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng máy bay">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                    alt="Di chuyển bằng máy bay" />
-                                            </li>
-
-                                        </ul>
-                                    </div>
-
-                                </div>
-
-                                <div class="box-date-tour">
-                                    <ul class="ct_course_list">
-
-                                        <li class="clearfix">
-                                            <div class="ulimg"><img
-                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                    alt="Thứ 4 hằng tuần" /></div> Khởi hành: Thứ 4 hằng tuần
-                                        </li>
-
-                                        <li class="clearfix">
-                                            <div class="ulimg"><img
-                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                    alt="5 ngày 4 đêm" /></div> Thời gian: 5 ngày 4 đêm
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6 col-xs-6 col-100">
-
-                        <div class="product-box">
-                            <div class="product-thumbnail">
-                                <a href="du-lich-da-nang-kdl-ba-na-hoi-an-co-do-hue.html"
-                                    title="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế">
-                                    <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/53916-131503727972c4.jpg?v=1529554090113"
-                                        alt="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế">
-                                </a>
-                                <div class="sale-off">-
-                                    3%
-                                </div>
-                            </div>
-                            <div class="product-info a-left">
-                                <h3 class="product-name"><a class="line-clamp"
-                                        href="du-lich-da-nang-kdl-ba-na-hoi-an-co-do-hue.html"
-                                        title="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế">Du lịch Đà Nẵng - KDL
-                                        Bà Nà - Hội An - Cố Đô Huế</a></h3>
-                                <div class="clearfix">
-                                    <div class="box-prices">
-
-                                        <div class="price-box clearfix">
-                                            <div class="special-price f-left">
-                                                <span class="price product-price">6.300.000₫</span>
-                                            </div>
-
-                                            <div class="old-price">
-                                                <span class="price product-price-old">
-                                                    6.500.000₫
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="box-tag">
-                                        <ul class="ct_course_list">
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng Ô tô">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                    alt="Di chuyển bằng Ô tô" />
-                                            </li>
-
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng máy bay">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                    alt="Di chuyển bằng máy bay" />
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </div>
-
-                                <div class="box-date-tour">
-                                    <ul class="ct_course_list">
-                                        <li class="clearfix">
-                                            <div class="ulimg"><img
-                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                    alt="Thứ 7 hằng tuần" /></div> Khởi hành: Thứ 7 hằng tuần
-                                        </li>
-                                        <li class="clearfix">
-                                            <div class="ulimg"><img
-                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                    alt="3 ngày 2 đêm" /></div> Thời gian: 3 ngày 2 đêm
-                                        </li>
-                                    </ul>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6 col-xs-6 col-100">
-
-                        <div class="product-box">
-                            <div class="product-thumbnail">
-                                <a href="du-lich-nha-trang-hon-lao.html" title="Du lịch Nha Trang - Hòn Lao">
-                                    <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/anam-resort-nha-trang-vietnam-23c70f.jpg?v=1529554176777"
-                                        alt="Du lịch Nha Trang - Hòn Lao">
-                                </a>
-                            </div>
-                            <div class="product-info a-left">
-                                <h3 class="product-name"><a class="line-clamp" href="du-lich-nha-trang-hon-lao.html"
-                                        title="Du lịch Nha Trang - Hòn Lao">Du lịch Nha Trang - Hòn Lao</a></h3>
-                                <div class="clearfix">
-                                    <div class="box-prices">
-
-                                        <div class="price-box clearfix">
-                                            <div class="special-price f-left">
-                                                <span class="price product-price">3.300.000₫</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="box-tag">
-                                        <ul class="ct_course_list">
-
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng Ô tô">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                    alt="Di chuyển bằng Ô tô" />
-                                            </li>
-
-                                            <li data-toggle="tooltip" data-placement="top"
-                                                title="Di chuyển bằng máy bay">
-                                                <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                    alt="Di chuyển bằng máy bay" />
-                                            </li>
-
-                                        </ul>
-                                    </div>
-
-                                </div>
-
-                                <div class="box-date-tour">
-                                    <ul class="ct_course_list">
-
-                                        <li class="clearfix">
-                                            <div class="ulimg"><img
-                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                    alt="Thứ 4 hằng tuần" /></div> Khởi hành: Thứ 4 hằng tuần
-                                        </li>
-
-                                        <li class="clearfix">
-                                            <div class="ulimg"><img
-                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                    alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3 đêm
-                                        </li>
-
-                                    </ul>
-                                </div>
 
                             </div>
                         </div>
                     </div> --}}
+
 
                 </div>
             </div>
@@ -1486,117 +1234,32 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="section-location-owl owl-carousel owl-theme not-dqowl">
+@foreach ($locations as $item)
+<div class="item">
+    <div class="tourmaster-tour-category-item-wrap">
+        <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
+            <img src="{{ Storage::url($item->image)}}"
+                alt="Phú Quốc" />
+        </div>
+        <div class="tourmaster-tour-category-overlay"></div>
+        <div class="tourmaster-tour-category-overlay-front"></div>
+        <div class="tourmaster-tour-category-head">
+            <div class="tourmaster-tour-category-head-display clearfix">
+                <h3 class="tourmaster-tour-category-title"><i
+                        class="fa fa-map-marker color-x"></i>Phú Quốc</h3>
+            </div>
+            <div class="tourmaster-tour-category-head-animate">
+                <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
+                    chi tiết</a>
+                <div class="tourmaster-tour-category-head-divider"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+                       
 
-                        <div class="item">
-                            <div class="tourmaster-tour-category-item-wrap">
-                                <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-                                    <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_16d1d.png"
-                                        alt="Phú Quốc" />
-                                </div>
-                                <div class="tourmaster-tour-category-overlay"></div>
-                                <div class="tourmaster-tour-category-overlay-front"></div>
-                                <div class="tourmaster-tour-category-head">
-                                    <div class="tourmaster-tour-category-head-display clearfix">
-                                        <h3 class="tourmaster-tour-category-title"><i
-                                                class="fa fa-map-marker color-x"></i>Phú Quốc</h3>
-                                    </div>
-                                    <div class="tourmaster-tour-category-head-animate">
-                                        <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
-                                            chi tiết</a>
-                                        <div class="tourmaster-tour-category-head-divider"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="tourmaster-tour-category-item-wrap">
-                                <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-                                    <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_26d1d.png"
-                                        alt="Châu Á" />
-                                </div>
-                                <div class="tourmaster-tour-category-overlay"></div>
-                                <div class="tourmaster-tour-category-overlay-front"></div>
-                                <div class="tourmaster-tour-category-head">
-                                    <div class="tourmaster-tour-category-head-display clearfix">
-                                        <h3 class="tourmaster-tour-category-title"><i
-                                                class="fa fa-map-marker color-x"></i>Châu Á</h3>
-                                    </div>
-                                    <div class="tourmaster-tour-category-head-animate">
-                                        <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
-                                            chi tiết</a>
-                                        <div class="tourmaster-tour-category-head-divider"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="tourmaster-tour-category-item-wrap">
-                                <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-                                    <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_36d1d.png"
-                                        alt="Châu Âu" />
-                                </div>
-                                <div class="tourmaster-tour-category-overlay"></div>
-                                <div class="tourmaster-tour-category-overlay-front"></div>
-                                <div class="tourmaster-tour-category-head">
-                                    <div class="tourmaster-tour-category-head-display clearfix">
-                                        <h3 class="tourmaster-tour-category-title"><i
-                                                class="fa fa-map-marker color-x"></i>Châu Âu</h3>
-                                    </div>
-                                    <div class="tourmaster-tour-category-head-animate">
-                                        <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
-                                            chi tiết</a>
-                                        <div class="tourmaster-tour-category-head-divider"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="tourmaster-tour-category-item-wrap">
-                                <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-                                    <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_46d1d.png"
-                                        alt="Châu Mỹ" />
-                                </div>
-                                <div class="tourmaster-tour-category-overlay"></div>
-                                <div class="tourmaster-tour-category-overlay-front"></div>
-                                <div class="tourmaster-tour-category-head">
-                                    <div class="tourmaster-tour-category-head-display clearfix">
-                                        <h3 class="tourmaster-tour-category-title"><i
-                                                class="fa fa-map-marker color-x"></i>Châu Mỹ</h3>
-                                    </div>
-                                    <div class="tourmaster-tour-category-head-animate">
-                                        <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
-                                            chi tiết</a>
-                                        <div class="tourmaster-tour-category-head-divider"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="item">
-                            <div class="tourmaster-tour-category-item-wrap">
-                                <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-                                    <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_56d1d.png"
-                                        alt="Châu Phi" />
-                                </div>
-                                <div class="tourmaster-tour-category-overlay"></div>
-                                <div class="tourmaster-tour-category-overlay-front"></div>
-                                <div class="tourmaster-tour-category-head">
-                                    <div class="tourmaster-tour-category-head-display clearfix">
-                                        <h3 class="tourmaster-tour-category-title"><i
-                                                class="fa fa-map-marker color-x"></i>Châu Phi</h3>
-                                    </div>
-                                    <div class="tourmaster-tour-category-head-animate">
-                                        <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
-                                            chi tiết</a>
-                                        <div class="tourmaster-tour-category-head-divider"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
 
                     </div>
                 </div>

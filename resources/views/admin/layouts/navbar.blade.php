@@ -31,31 +31,82 @@
             <ul class="navbar-nav" id="navbar-nav">
 
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-
+                {{-- user --}}
+                <ul class="nav nav-sm flex-column">
+                    <li class="nav-item">
+                        <a href="{{route('user.index')}}" class="nav-link">Dashboard</a>
+                    </li>
+                </ul>
                 <li class="nav-item">
-                    <a class="nav-link menu-link collapsed" href="#sidebarDashboards" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ph-gauge"></i> <span data-key="t-dashboards">Dashboards</span>
+                    <a class="nav-link menu-link collapsed" href="#user" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="user">
+                        <i class="ph-gauge"></i> <span data-key="t-dashboards">Người dùng</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarDashboards">
+                    <div class="collapse menu-dropdown" id="user">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="dashboard-analytics.html" class="nav-link" data-key="t-analytics">
-                                    Analytics </a>
+                                <a href="{{route('user.index')}}" class="nav-link">Danh sách người dùng</a>
                             </li>
+                        </ul>
+                    </div>
+                </li>
+                {{-- tour --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#tour" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="tour">
+                        <i class="ph-gauge"></i> <span data-key="t-dashboards">Tour</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="tour">
+                        <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="dashboard-crm.html" class="nav-link" data-key="t-crm"> CRM </a>
+                                <a href="{{route('tour.index')}}" class="nav-link">Danh mục tour</a>
                             </li>
+                        </ul>
+                        <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="index.html" class="nav-link" data-key="t-ecommerce"> Ecommerce </a>
+                                <a href="{{route('tour.index')}}" class="nav-link">Danh sách tour</a>
                             </li>
+                        </ul>
+                    </div>
+                </li>
+                {{-- coupons --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#coupons" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="coupons">
+                        <i class="ph-gauge"></i> <span data-key="t-dashboards">Mã giảm giá</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="coupons">
+                        <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="dashboard-learning.html" class="nav-link" data-key="t-learning">
-                                    Learning </a>
+                                <a href="{{route('coupons.index')}}" class="nav-link">Danh sách mã giảm giá</a>
                             </li>
+                        </ul>
+                    </div>
+                </li>
+                {{-- location --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#location" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="location">
+                        <i class="ph-gauge"></i> <span data-key="t-dashboards">Địa điểm</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="location">
+                        <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="dashboard-real-estate.html" class="nav-link" data-key="t-real-estate">
-                                    Real Estate </a>
+                                <a href="{{route('location.index')}}" class="nav-link">Danh sách địa điểm</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                {{-- category --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#category" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="category">
+                        <i class="ph-gauge"></i> <span data-key="t-dashboards">Danh mục</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="category">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{route('category.index')}}" class="nav-link">Danh sách danh mục</a>
                             </li>
                         </ul>
                     </div>

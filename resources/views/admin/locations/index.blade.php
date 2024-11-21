@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Tour</h4>
+                        <h4 class="mb-sm-0">Danh Sách Địa Điểm</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -30,8 +30,8 @@
                         <div class="card-body">
                             <div class="row align-items-center g-2">
                                 <div class="col-lg-3 me-auto">
-                                    <h6 class="card-title mb-0">Instructors List <span
-                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6>
+                                    {{-- <h6 class="card-title mb-0">Instructors List <span
+                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6> --}}
                                 </div><!--end col-->
                                 <div class="col-lg-2">
                                     <div class="search-box">
@@ -45,7 +45,7 @@
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                             <a href="{{route('location.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
-                                                Thêm chức vụ
+                                                Thêm địa điểm
                                             </a>
                                         <div>
                                             <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
@@ -99,7 +99,8 @@
                                           </td>
                                             <td>{{ $item->description }}</td>
                                             <td>{{ $item->content }}</td>
-                                            <td>{{ $item->tours->name }}</td>
+                                            {{-- <td>{{ $item->tours->name }}</td> --}}
+                                            <td>Tour đang lỗi</td>
                                             <td>{{ $item->user_id }}</td>
 
                                             <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
@@ -133,8 +134,8 @@
                               <i class="bi bi-trash display-5"></i>
                           </div>
                           <div class="mt-4">
-                              <h4 class="mb-2">Are you sure ?</h4>
-                              <p class="text-muted mx-3 mb-0">Are you sure you want to remove this record ?</p>
+                              <h4 class="mb-2">Xóa địa điểm này?</h4>
+                              <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
                           </div>
                       </div>
                       <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
@@ -142,8 +143,8 @@
                           method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
-                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Close</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Yes, Delete It!</button>
+                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
+                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn muốn xóa!</button>
                         </form>
                       </div>
                   </div>

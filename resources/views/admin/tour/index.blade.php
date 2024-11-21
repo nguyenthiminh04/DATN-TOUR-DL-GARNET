@@ -30,8 +30,8 @@
                         <div class="card-body">
                             <div class="row align-items-center g-2">
                                 <div class="col-lg-3 me-auto">
-                                    <h6 class="card-title mb-0">Instructors List <span
-                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6>
+                                    {{-- <h6 class="card-title mb-0">Instructors List <span
+                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6> --}}
                                 </div><!--end col-->
                                 <div class="col-lg-2">
                                     <div class="search-box">
@@ -45,7 +45,7 @@
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                             <a href="{{route('tour.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
-                                                Thêm chức vụ
+                                                Thêm Tour
                                             </a>
                                         <div>
                                             <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
@@ -68,26 +68,26 @@
                                         <tr>
 
                                             <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Image</th>
-                                            <th>title</th>
-                                            <th>journeys</th>
-                                            <th>schedule</th>
-                                            <th>move_method</th>
-                                            <th>starting_gate</th>
-                                            <th>start_date</th>
-                                            <th>end_date</th>
-                                            <th>number_guests</th>
-                                            <th>price_old</th>
-                                            <th>price_children</th>
-                                            <th>sale</th>
-                                            <th>view</th>
-                                            <th>description</th>
-                                            <th>content</th>
-                                            <th>location_id</th>
-                                            <th>user_id</th>
-                                            <th>album_img</th>
-                                            <th>status</th>
+                                            <th>Tên Tour</th>
+                                            <th>Hình ảnh</th>
+                                            {{-- <th>title</th> --}}
+                                            <th>Lịch trình</th>
+                                            {{-- <th>Hành trình</th> --}}
+                                            {{-- <th>Phương tiện di chuyển</th> --}}
+                                            {{-- <th>starting_gate</th> --}}
+                                            <th>Ngày khởi hành</th>
+                                            <th>Ngày kết thúc</th>
+                                            <th>Số khách</th>
+                                            <th>Giá người lớn</th>
+                                            <th>Giá trẻ em</th>
+                                            {{-- <th>sale</th> --}}
+                                            {{-- <th>view</th> --}}
+                                            <th>Mô tả</th>
+                                            {{-- <th>Nội dung</th> --}}
+                                            {{-- <th>location_id</th> --}}
+                                            {{-- <th>user_id</th> --}}
+                                            {{-- <th>album_img</th> --}}
+                                            <th>Trạng thái</th>
                                             <th scope="col">Hành Động</th>
                                         </tr>
                                     </thead>
@@ -104,23 +104,23 @@
 
 
                                             </td>
-                                            <td>{{ $item->title }}</td>
+                                            {{-- <td>{{ $item->title }}</td> --}}
                                             <td>{{ $item->journeys }}</td>
-                                            <td>{{ $item->schedule }}</td>
-                                            <td>{{ $item->move_method }}</td>
-                                            <td>{{ $item->starting_gate }}</td>
+                                            {{-- <td>{{ $item->schedule }}</td> --}}
+                                            {{-- <td>{{ $item->move_method }}</td> --}}
+                                            {{-- <td>{{ $item->starting_gate }}</td> --}}
                                             <td>{{ $item->start_date }}</td>
                                             <td>{{ $item->end_date }}</td>
                                             <td>{{ $item->number_guests }}</td>
                                             <td>{{ $item->price_old }}</td>
                                             <td>{{ $item->price_children }}</td>
-                                            <td>{{ $item->sale }}</td>
-                                            <td>{{ $item->view }}</td>
+                                            {{-- <td>{{ $item->sale }}</td> --}}
+                                            {{-- <td>{{ $item->view }}</td> --}}
                                             <td>{{ $item->description }}</td>
-                                            <td>{{ $item->content }}</td>
-                                            <td>{{ $item->location_id }}</td>
-                                            <td>{{ $item->user_id }}</td>
-                                            <td>{{ $item->album_img }}</td>
+                                            {{-- <td>{{ $item->content }}</td> --}}
+                                            {{-- <td>{{ $item->location_id }}</td> --}}
+                                            {{-- <td>{{ $item->user_id }}</td> --}}
+                                            {{-- <td>{{ $item->album_img }}</td> --}}
 
                                             <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                 {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>

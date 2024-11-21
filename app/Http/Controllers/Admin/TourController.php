@@ -8,6 +8,7 @@ use App\Models\Admins\Location;
 use App\Models\Admins\UserModel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TourRequest;
+use App\Models\Admins\Categoty_tour;
 use App\Models\Status;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,7 +25,8 @@ class TourController extends Controller
         $listtour = Tour::orderBYDesc('id')->get();
         $listuser = UserModel::query()->get();
         $listlocation = Location::query()->get();
-        return view('admins.tour.index', compact('title','listtour','listuser','listlocation'));
+        $listcategory_tour = Categoty_tour::query()->get();
+        return view('admin.tour.index', compact('title','listtour','listuser','listlocation','listcategory_tour'));
     }
 
     /**
@@ -36,7 +38,8 @@ class TourController extends Controller
         $listuser = UserModel::query()->get();
         $listlocation = Location::query()->get();
         $listStatus = Status::query()->get();
-        return view('admins.tour.add', compact('listuser','listlocation','listStatus'));
+        $listcategory_tour = Categoty_tour::query()->get();
+        return view('admin.tour.add', compact('listuser','listlocation','listStatus','listcategory_tour'));
     }
 
     /**
@@ -83,8 +86,9 @@ class TourController extends Controller
         $listuser = UserModel::query()->get();
         $listlocation = Location::query()->get();
         $listStatus = Status::query()->get();
+        $listcategory_tour = Categoty_tour::query()->get();
         $tour = Tour::query()->findOrFail($id);
-        return view('admins.tour.edit', compact('listuser','listlocation','listStatus','tour'));
+        return view('admin.tour.edit', compact('listuser','listlocation','listStatus','tour','listcategory_tour'));
     }
 
     /**

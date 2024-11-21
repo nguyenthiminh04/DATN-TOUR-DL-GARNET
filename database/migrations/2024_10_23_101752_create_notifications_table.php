@@ -15,18 +15,10 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('user_id');
-
-
-            $table->text('content');
-            $table->boolean('status')->default(1);
-            $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
             $table->text('content');
             $table->boolean('status')->default(1);
             $table->timestamps();
-
 
         });
     }
