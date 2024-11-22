@@ -34,7 +34,13 @@ use App\Http\Controllers\PaymentController;
 // client routes
 Route::group([], function () {
 
-  
+
+    // Route::get('/', function () {
+    //     $listtour = Tour::orderBYDesc('id')->get();
+
+    //     return view('client.home',compact('listtour'));
+    // });
+
     Route::resource('tour', ClientTourController::class)->names([
         
         'show' => 'client.tour.show',
@@ -53,9 +59,6 @@ Route::group([], function () {
 
    
 
-    
-
-    
 
     Route::get('/', [HomeController::class, 'index']);
 
