@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admins\Tour;
+use App\Models\BookTour;
 use Illuminate\Http\Request;
 
 class TourController extends Controller
@@ -25,7 +26,7 @@ class TourController extends Controller
         
         $tour = Tour::query()->findOrFail($id);
         
-        return view('client.pages.detailtour', compact('tour'));
+        return view('client.tour.detail', compact('tour'));
     }
 
     /**
@@ -36,5 +37,11 @@ class TourController extends Controller
         
       
     }
+    public function confirm($id)
+{
+    $booking = BookTour::findOrFail($id); 
+
+    return view('client.tour.confirm', ['booking' => $booking]); // Trả về view confirm
+}
 
 }

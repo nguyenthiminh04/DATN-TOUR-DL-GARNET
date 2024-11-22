@@ -18,6 +18,10 @@ class HomeController extends Controller
         ->inRandomOrder()
         ->take(5)
         ->get();
-          return view('client.home',compact('Tourmoinhat','locations', 'listtour'));
+
+          return view('client.home',compact('Tourmoinhat','locations','listtour'));
+
+         
+
     }
 }
