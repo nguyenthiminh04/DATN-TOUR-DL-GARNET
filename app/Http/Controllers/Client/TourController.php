@@ -21,6 +21,7 @@ class TourController extends Controller
 
     //     return view('client.home', compact('listtour'));
     // }
+
     public function show(string $id)
     {
 
@@ -41,22 +42,21 @@ class TourController extends Controller
         return view('client.tour.confirm', ['booking' => $booking]); // Trả về view confirm
     }
 
-//     public function confirm($id)
-// {
-//     $booking = BookTour::findOrFail($id); 
+    //     public function confirm($id)
+    // {
+    //     $booking = BookTour::findOrFail($id); 
 
-//     return view('client.tour.confirm', ['booking' => $booking]);
-// }
+    //     return view('client.tour.confirm', ['booking' => $booking]);
+    // }
 
-public function pre_booking($id)
-{
-    $tour = Tour::findOrFail($id); 
+    public function pre_booking($id)
+    {
+        $tour = Tour::findOrFail($id);
 
 
 
-    return view('client.tour.booking', ['tour' => $tour]);
-}
-
+        return view('client.tour.booking', ['tour' => $tour]);
+    }
 
     public  function searchTour(Request $request)
     {

@@ -121,8 +121,7 @@
                         </ul>
                     </div>
                     <div class="col-md-6">
-<<<<<<< HEAD
-                        <ul class="list-inline f-right ul-account">
+                        <<<<<<< HEAD <ul class="list-inline f-right ul-account">
                             @if (Auth::check())
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
                                         {{ Auth::user()->name }}</a></li>
@@ -136,14 +135,14 @@
                                     </form>
                                 </li>
                             @else
-                                <li><a href="{{ route('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
+                                <li><a href="{{ url('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
                                         Đăng
                                         nhập</a></li>
-                                <li><a href="{{ route('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>
+                                <li><a href="{{ url('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>
                                         Đăng
                                         ký</a></li>
                             @endif
-                        </ul>
+                            </ul>
                     </div>
                 </div>
             </div>
@@ -171,11 +170,12 @@
                     <div class="col-md-5">
                         <div class="search">
                             <div class="header_search search_form">
-                                <form class="input-group search-bar search_form" action="{{ route('tour.search') }}" method="get">
+                                <form class="input-group search-bar search_form" action="{{ route('tour.search') }}"
+                                    method="get">
                                     <input type="search" name="query" id="query"
                                         value="{{ !empty(Request::get('query')) ? Request::get('query') : '' }}"
                                         placeholder="Tìm kiếm tour..."
-                                        class="input-group-field st-default-search-input search-text" >
+                                        class="input-group-field st-default-search-input search-text">
                                     <span class="input-group-btn">
                                         <button class="btn icon-fallback-text">
                                             <i class="fa fa-search"></i>
@@ -185,7 +185,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-4 hidden-sm hidden-xs">
                         <div class="top-fun">
                             <div class="hotline">
@@ -217,7 +217,7 @@
                                             <i class="fa fa-angle-right"></i>
                                         @endif
                                     </a>
-                        
+
                                     @if ($category->children->isNotEmpty())
                                         <div class="mega-content">
                                             <div class="level0-wrapper2">
@@ -250,14 +250,15 @@
                                     @endif
                                 </li>
                             @endforeach
-                        
+
                             <!-- Các menu tĩnh -->
                             <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
                             <li class="nav-item"><a class="nav-link" href="dich-vu-tour.html">Dịch vụ tour</a></li>
-                            <li class="nav-item"><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
+                            <li class="nav-item"><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du
+                                    lịch</a></li>
                             <li class="nav-item"><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
                         </ul>
-                        
+
                     </div>
                 </div>
             </div>
@@ -348,7 +349,7 @@
 
 
 
-                    @foreach ($listtour as $item)
+                    {{-- @foreach ($listtour as $item)
                         <div class="col-md-4 col-sm-6 col-xs-6 col-100">
                             <div class="product-box">
                                 <div class="product-thumbnail">
@@ -420,7 +421,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @endforeach --}}
 
 
                     @foreach ($Tourmoinhat as $item)
@@ -438,7 +439,7 @@
                                 </div>
                                 <div class="product-info a-left">
                                     <h3 class="product-name"><a class="line-clamp"
-                                            href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
+                                            href="{{ route('detail', $item->id) }}"
                                             title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">{{ $item->name }}
                                             [{{ $item->location->name }}] [{{ $item->journeys }}]</a></h3>
                                     <div class="clearfix">
@@ -502,10 +503,10 @@
 
 
 
->>>>>>> f7ebfa5b181f41931dfa240aa386a484ba084185
+
                 </div>
             </div>
-        </div> --}}
+        </div>
 
 
         </div>
@@ -525,7 +526,8 @@
                                 <div class="tl-2"></div>
                                 <div class="tl-3"></div>
                             </div>
-                            <p>Tour du lịch Trong nước tại Ant Du lịch. Hành hương đầu xuân - Tận hưởng bản sắc Việt.</p>
+                            <p>Tour du lịch Trong nước tại Ant Du lịch. Hành hương đầu xuân - Tận hưởng bản sắc Việt.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -534,63 +536,73 @@
                         <div class="content">
                             <ul class="tabs tabs-title ajax clearfix hidden-xs">
                                 @foreach ($categories as $index => $category)
-                                <li class="tab-link has-content {{ $index == 0 ? 'active' : '' }}" data-tab="tab-{{ $category->id }}">
-                                    <span>{{ $category->category_tour }}</span>
-                                </li>
+                                    <li class="tab-link has-content {{ $index == 0 ? 'active' : '' }}"
+                                        data-tab="tab-{{ $category->id }}">
+                                        <span>{{ $category->category_tour }}</span>
+                                    </li>
                                 @endforeach
                             </ul>
-                            
+
                             @foreach ($categories as $index => $category)
-                            <div class="tab-{{ $category->id }} tab-content" style="{{ $index == 0 ? '' : 'display:none;' }}">
-                                <div class="section-tour-owl products products-view-grid owl-carousel"
-                                    data-lg-items='3' data-md-items='3' data-sm-items='2' data-xs-items="2"
-                                    data-xss-items="1" data-margin='20' data-nav="true" data-dot="true">
-                                    @foreach ($category->tours as $tour)
-                                    <div class="item">
-                                        <div class="product-box">
-                                            <div class="product-thumbnail">
-                                                <a href="{{ $tour->link }}" title="{{ $tour->name }}">
-                                                    <img src="{{ Storage::url($tour->image) }}" alt="{{ $tour->name }}">
-                                                </a>
-                                                <div class="sale-off">{{$tour->sale}}%</div>
-                                            </div>
-                                            <div class="product-info a-left">
-                                                <h3 class="product-name">
-                                                    <a class="line-clamp" href="{{ $tour->link }}" title="{{ $tour->name }}">{{ $tour->name }}</a>
-                                                </h3>
-                                                <div class="clearfix">
-                                                    <div class="box-prices">
-                                                        <div class="price-box clearfix">
-                                                            <div class="special-price f-left">
-                                                                <span class="price product-price">{{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }} VNĐ</span>
+                                <div class="tab-{{ $category->id }} tab-content"
+                                    style="{{ $index == 0 ? '' : 'display:none;' }}">
+                                    <div class="section-tour-owl products products-view-grid owl-carousel"
+                                        data-lg-items='3' data-md-items='3' data-sm-items='2' data-xs-items="2"
+                                        data-xss-items="1" data-margin='20' data-nav="true" data-dot="true">
+                                        @foreach ($category->tours as $tour)
+                                            <div class="item">
+                                                <div class="product-box">
+                                                    <div class="product-thumbnail">
+                                                        <a href="{{ $tour->link }}" title="{{ $tour->name }}">
+                                                            <img src="{{ Storage::url($tour->image) }}"
+                                                                alt="{{ $tour->name }}">
+                                                        </a>
+                                                        <div class="sale-off">{{ $tour->sale }}%</div>
+                                                    </div>
+                                                    <div class="product-info a-left">
+                                                        <h3 class="product-name">
+                                                            <a class="line-clamp" href="{{ $tour->link }}"
+                                                                title="{{ $tour->name }}">{{ $tour->name }}</a>
+                                                        </h3>
+                                                        <div class="clearfix">
+                                                            <div class="box-prices">
+                                                                <div class="price-box clearfix">
+                                                                    <div class="special-price f-left">
+                                                                        <span
+                                                                            class="price product-price">{{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}
+                                                                            VNĐ</span>
+                                                                    </div>
+                                                                    <div class="old-price">
+                                                                        <span
+                                                                            class="price product-price-old">{{ number_format($tour->price_old, 0, '', '.') }}VNĐ</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="old-price">
-                                                                <span class="price product-price-old">{{number_format($tour->price_old,0,'','.')}}VNĐ</span>
-                                                            </div>
+                                                        </div>
+                                                        <div class="box-date-tour">
+                                                            <ul class="ct_course_list">
+
+                                                                <li class="clearfix">
+                                                                    <div class="ulimg"><img
+                                                                            src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+                                                                            alt="Thứ 2 - 7 hằng tuần" /></div> Khởi
+                                                                    hành: {{ $tour->start_date }} -
+                                                                    {{ $item->end_date }}
+                                                                </li>
+                                                                <li class="clearfix">
+                                                                    <div class="ulimg"><img
+                                                                            src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+                                                                            alt="6 ngày 5 đêm" /></div> Thời gian:
+                                                                    {{ $tour->schedule }}
+                                                                </li>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="box-date-tour">
-                                                    <ul class="ct_course_list">
-                                    
-                                                        <li class="clearfix">
-                                                            <div class="ulimg"><img
-                                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                                    alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: {{$tour->start_date}} - {{$item->end_date}}
-                                                        </li>
-                                                        <li class="clearfix">
-                                                            <div class="ulimg"><img
-                                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                                    alt="6 ngày 5 đêm" /></div> Thời gian: {{$tour->schedule}}
-                                                        </li>
-                                                    </ul>
-                                                </div>
                                             </div>
-                                        </div>
+                                        @endforeach
                                     </div>
-                                    @endforeach
                                 </div>
-                            </div>
                             @endforeach
                         </div>
                     </div>
@@ -598,9 +610,9 @@
             </div>
         </div>
     </section>
-    
-   
-    
+
+
+
 
     <section class="awe-section-4">
 
@@ -1474,8 +1486,8 @@
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
                 <rect x="8" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s"
@@ -1490,8 +1502,8 @@
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
             </svg>
         </span>
@@ -1500,32 +1512,32 @@
     <div class="loading awe-popup">
         <div class="overlay"></div>
         <div class="loader" title="2">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30"
-                style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;"
+                xml:space="preserve">
                 <rect x="0" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
                 <rect x="8" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
                 <rect x="16" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
             </svg>
         </div>
@@ -2110,8 +2122,7 @@
             </div>
             <div class="title-quantity-popup">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i> Giỏ hàng của bạn (<span
-                    class="cart-popup-count"></span> sản phẩm) <i class="fa fa-caret-right"
-                    aria-hidden="true"></i>
+                    class="cart-popup-count"></span> sản phẩm) <i class="fa fa-caret-right" aria-hidden="true"></i>
             </div>
             <div class="content-popup-cart">
                 <div class="thead-popup">
@@ -2127,14 +2138,13 @@
                         <div class="pull-left popup-ship">
 
                             <p>Giao hàng trên toàn quốc</p>
-                        </div> 
+                        </div>
                         <div class="pull-right popup-total">
                             <p>Thành tiền: <span class="total-price"></span></p>
                         </div>
                     </div>
                     <div class="tfoot-popup-2 clearfix">
-                        <a class="button btn-proceed-checkout" title="Tiến hành đặt hàng"
-                            href="cart.html"><span>Tiến
+                        <a class="button btn-proceed-checkout" title="Tiến hành đặt hàng" href="cart.html"><span>Tiến
                                 hành đặt hàng <i class="fa fa-long-arrow-right" aria-hidden="true"></i></span></a>
                         <a class="button btn-continue" title="Tiếp tục mua hàng"
                             onclick="$('#popup-cart').modal('hide');"><span><span><i class="fa fa-caret-left"
@@ -2671,21 +2681,21 @@
             top: auto !important;
         }
     </style>
-     <script>
+    <script>
         $(document).ready(function() {
             // Khi nhấp vào tab
             $(".tab-link").click(function() {
                 var tab = $(this).data('tab'); // Lấy giá trị data-tab
-    
+
                 // Ẩn tất cả tab-content và hiển thị tab tương ứng
                 $(".tab-content").hide();
                 $("." + tab).show();
-    
+
                 // Xóa active khỏi tất cả các tab-link và thêm vào tab hiện tại
                 $(".tab-link").removeClass("active");
                 $(this).addClass("active");
             });
-    
+
             // Cài đặt owl-carousel
             $(".owl-carousel").owlCarousel({
                 items: 3,

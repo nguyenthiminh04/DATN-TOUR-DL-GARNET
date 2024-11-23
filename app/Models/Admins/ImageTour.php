@@ -12,11 +12,11 @@ class ImageTour extends Model
     protected $fillable = [
         'tour_id',
         'image',
-    
+
     ];
 
     public function tour()
     {
-        return $this->belongsTo(Tour::class);
+        return $this->belongsTo(Tour::class, 'tour_id');
     }
 }
