@@ -42,7 +42,9 @@ public function user()
 {
     return $this->belongsTo(UserModel::class);
 }
-
+public function imagetour(){
+    return $this->hasMany(ImageTour::class);
+}
 // Định nghĩa quan hệ Tour thuộc về Location
 public function location()
 {
@@ -54,6 +56,6 @@ public function guides()
     }
     public function category_tour()
     {
-        return $this->belongsTo(Categoty_tour::class);
+        return $this->belongsTo(Categoty_tour::class,'tour_id');
     }
 }

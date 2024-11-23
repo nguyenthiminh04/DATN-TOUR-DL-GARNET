@@ -9,6 +9,7 @@ use App\Models\Admins\UserModel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TourRequest;
 use App\Models\Admins\Categoty_tour;
+use App\Models\Admins\ImageTour;
 use App\Models\Status;
 use Illuminate\Support\Facades\Storage;
 
@@ -49,6 +50,7 @@ class TourController extends Controller
     {
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
+            // dd($request);
     
             // Lấy trực tiếp giá trị từ dropdown
             $params['status'] = $request->input('status');
@@ -65,7 +67,23 @@ class TourController extends Controller
     
             // Lấy id sản phẩm vừa thêm để thêm được album
             $tour = $tour->id;
-    
+            $tour = Tour::query()->create($params);
+            //Lấy id sản phẩm vừa thêm để thêm được album 
+            $tourID = $tour->id;
+            //Xử lý thêm album
+            if($request->hasFile('list_hinh_anh')){
+                foreach ($request->file('list_hinh_anh') as $image){
+                    if($image){
+                        $path = $image->store('uploads/imagetour/id_'.$tourID,'public');
+                        $tour->imagetour()->create(
+                            [
+                            'tour_id' => $tourID,
+                            'image' => $path,
+                            ]
+                        );
+                    }
+                }
+            } 
             return redirect()->route('tour.index'); 
         }
     }
@@ -113,7 +131,46 @@ class TourController extends Controller
                 // Nếu không có ảnh mới, giữ lại ảnh cũ
                 $params['image'] = $tour->image;
             }
-        
+         // Xử lý Album
+         $currentimages = $tour -> imagetour->pluck('id')->toArray();
+         $arrayCombime = array_combine($currentimages,$currentimages);
+         //Trường xóa ảnh
+foreach($arrayCombime as $key => $value){
+ //Tìm kiếm id hình ảnh trong mảng hình ảnh mới đẩy lên
+ //Nếu không tông tại ID thì tức là người dùng đã xóa thẻ đó
+ if(!array_key_exists($key,$request->list_hinh_anh)){
+$imagetour = ImageTour::query()->find($key);
+//Xóa hình ảnh đó
+if($imagetour &&  Storage::disk('public')->exists($imagetour->image))
+{
+ Storage::disk('public')->delete($imagetour->image);
+ $imagetour->delete();
+
+}
+ }
+}
+//trường hợp thêm hoặc sửa
+foreach($request->list_hinh_anh as $key => $image){
+if(!array_key_exists($key,$arrayCombime)){
+if($request->hasFile("list_hinh_anh.$key")){
+$path = $image->store('uploads/image_tour/id_'.$id,'public');
+$tour->imagetour()->create([
+ 'tour_id' => $id,
+                 'image' => $path,
+]);
+}
+}else if(is_file($image) && $request->hasFile("list_hinh_anh.$key")){
+//Trường hợp thay đổi hình ảnh
+$imagetour = ImageTour::query()->find($key);
+if($imagetour &&  Storage::disk('public')->exists($imagetour->image)){
+ Storage::disk('public')->delete($imagetour->image);
+}
+$path = $image->store('uploads/image_tour/id_'.$id,'public');
+$imagetour->update([
+                 'image' => $path,
+]);
+}
+}
             // Cập nhật dữ liệu
             $tour->update($params);
         

@@ -35,5 +35,8 @@ public function parent()
 {
     return $this->belongsTo(Categorys::class, 'parent_id');
 }
-
+public function children()
+    {
+        return $this->hasMany(Categorys::class, 'parent_id');
+    }
 }

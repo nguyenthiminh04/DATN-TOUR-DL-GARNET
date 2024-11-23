@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Admin\BookTourController;
 use App\Models\Admins\Categoty_tour;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\FaqController;
@@ -59,7 +59,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/home', function () {
         return view('admin.dashboard');
     })->name('home-admin');
+
     Route::resource('user', UserController::class);
+    Route::resource('dontour', BookTourController::class);
     Route::resource('faqs', FaqController::class);
     Route::resource('notifications', NotificationController::class);
     Route::resource('category_tour', Categoty_tour::class);

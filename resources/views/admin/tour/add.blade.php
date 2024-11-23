@@ -84,13 +84,23 @@
               <span class="text-danger">{{ $message }}</span>
           @enderror
               </div>
-              <div class="mb-3">
+              {{-- <div class="mb-3">
                   <label class="form-label" for="content">Nội dung chi tiết</label>
                   <textarea class="form-control" id="content"name="content" value="{{ old('content') }}" rows="6" placeholder="Nhập mô tả tour..."></textarea>
                   @error('content')
               <span class="text-danger">{{ $message }}</span>
           @enderror
-              </div>
+              </div> --}}
+             <div class="mb-3">
+
+             
+                <div class="form-label">
+                    <label for="details">Nội dung chi tiết</label>
+                    <textarea id="editor" name="content"></textarea>
+                </div>
+               </div>
+            
+            
 
 
 
@@ -222,6 +232,33 @@
                         <option value="0" >Ẩn</option>
                     </select>
                 </div>
+                <div class="mb-3">
+                    <label for="hinh_anh" class="form-label">Album hình ảnh</label>
+                    <i id="add-row"
+                    class="mdi mdi-plus text-muted fs-18 rounded-2 border ms-3 p-1" style="cursor: pointer"></i>
+                    <table class="table align-middle table-nowrap mb-0">
+                        <tbody id="image-table-body">
+                            <tr>
+                                <td class="d-flex align-item-center">
+                                    <img id="preview_0" src="https://static.vecteezy.com/system/resources/previews/000/420/681/original/picture-icon-vector-illustration.jpg" alt="Hình Ảnh SẢn Phẩm"
+                                    style="width: 50px" class="me-3">
+                                    <input type="file" id="image" name="list_hinh_anh[id_0]" class="form-control"
+                                    onchange="previewImage(this,0)">
+                               
+                  
+                  
+                                </td>
+                                <td>
+                                    <i 
+                                        class="mdi mdi-delete text-muted fs-18 rounded-2 border p-1" style="cursor: pointer" ></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                  
+                    </table>
+                   
+                  </div>
+                  
               </div><!--end row-->
                 
 
@@ -234,7 +271,7 @@
         </div>
     </div>
 @endsection
-@section('js')
+@section('script')
 <script>
      function showImage(event){
         const img_danh_muc = document.getElementById('img_danh_muc');
@@ -254,4 +291,80 @@
         }
     }
 </script>
+ {{-- Thêm album ảnh --}}
+ <script>
+    document.addEventListener('DOMContentLoaded', function(){
+        
+        var rowCount = 1;
+        
+       document.getElementById('add-row').addEventListener('click', function(){
+        var tableBody = document.getElementById('image-table-body');
+        var newRow = document.createElement('tr');
+        newRow.innerHTML = `
+         <td class="d-flex align-item-center">
+        <img id="preview_${rowCount}" src="https://static.vecteezy.com/system/resources/previews/000/420/681/original/picture-icon-vector-illustration.jpg" alt="Hình Ảnh SẢn Phẩm"
+        style="width: 50px" class="me-3">
+        <input type="file" id="hinh_anh" name="list_hinh_anh[id_${rowCount}]" class="form-control"
+        onchange="previewImage(this,${rowCount})">
+    
+    
+    
+    </td>
+    <td>
+        <i 
+            class="mdi mdi-delete text-muted fs-18 rounded-2 border p-1" style="cursor: pointer" onclick="removeRow(this)"></i>
+    </td>`;
+    tableBody.appendChild(newRow);
+    rowCount++;
+        
+       })
+    
+    
+       
+    });
+     function previewImage(input, rowIndex){
+    
+    if(input.files && input.files[0]){
+        const reader = new FileReader();
+    
+    reader.onload = function(e) {
+       document.getElementById(`preview_${rowIndex}`).setAttribute('src',e.target.result)
+    
+    
+    }
+    
+        reader.readAsDataURL(input.files[0]);
+    
+    }
+    
+    }
+    function removeRow (item){
+        var row = item.closest('tr');
+        row.remove();
+    }
+    CKEDITOR.replace('content');
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                ckfinder: {
+                    uploadUrl: '/upload-image?_token={{ csrf_token() }}', // URL để xử lý upload ảnh
+                },
+                toolbar: [
+                    'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 
+                    'blockQuote', '|', 'insertTable', 'uploadImage', '|', 'undo', 'redo'
+                ],
+                image: {
+                    toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
+                },
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    
+@endsection
+@section('script-libs')
+    <script src="https:////cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
+    
 @endsection
