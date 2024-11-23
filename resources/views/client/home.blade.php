@@ -121,13 +121,28 @@
                         </ul>
                     </div>
                     <div class="col-md-6">
-
-                        <ul class="list-inline f-right ul-acccount">
-
-                            <li><a href="{{ url('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
-                                    nhập</a></li>
-                            <li><a href="{{ url('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng
-                                    ký</a></li>
+<<<<<<< HEAD
+                        <ul class="list-inline f-right ul-account">
+                            @if (Auth::check())
+                                <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
+                                        {{ Auth::user()->name }}</a></li>
+                                <li>
+                                    <form action="{{ route('logouts') }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-link"
+                                            style="color: inherit; text-decoration: none;">
+                                            <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                        </button>
+                                    </form>
+                                </li>
+                            @else
+                                <li><a href="{{ route('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
+                                        Đăng
+                                        nhập</a></li>
+                                <li><a href="{{ route('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>
+                                        Đăng
+                                        ký</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -196,7 +211,7 @@
 
                             <li class="nav-item active"><a class="nav-link" href="index.html">Trang chủ</a></li>
 
-                            <li class="nav-item "><a class="nav-link" href="/gioi-thieu">Giới thiệu</a></li>
+                            <li class="nav-item "><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
                             <li class="nav-item  has-mega">
                                 <a href="tour-trong-nuoc.html" class="nav-link">Tour trong nước <i
                                         class="fa fa-angle-right" data-toggle="dropdown"></i></a>
@@ -243,7 +258,7 @@
                                                         <li class="level2"> <a href="du-lich-hue.html"><span>Du lịch
                                                                     Huế</span></a> </li>
 
-                                                        <li class="level2"> <a href="/da-nang"><span>Du
+                                                        <li class="level2"> <a href="du-lich-da-nang.html"><span>Du
                                                                     lịch
                                                                     Đà Nẵng</span></a> </li>
 
@@ -299,13 +314,13 @@
 
                             </li>
 
-                            <li class="nav-item "><a class="nav-link" href="/dich-vu">Dịch vụ tour</a></li>
+                            <li class="nav-item "><a class="nav-link" href="dich-vu-tour.html">Dịch vụ tour</a></li>
 
-                            <li class="nav-item "><a class="nav-link" href="cam-nang">Cẩm nang du
+                            <li class="nav-item "><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du
                                     lịch</a>
                             </li>
 
-                            <li class="nav-item "><a class="nav-link" href="/lien-he">Liên hệ</a></li>
+                            <li class="nav-item "><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
                         </ul>
                     </div>
                 </div>
@@ -394,6 +409,7 @@
                     </div>
                 </div>
                 <div class="row">
+
 
 
                     @foreach ($listtour as $item)
@@ -550,6 +566,7 @@
 
 
 
+>>>>>>> f7ebfa5b181f41931dfa240aa386a484ba084185
                 </div>
             </div>
         </div> --}}
@@ -1266,6 +1283,7 @@
 
 
 
+
                     </div>
                 </div>
             </div>
@@ -1736,8 +1754,8 @@
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s"
-                        repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s"
+                        dur="0.6s" repeatCount="indefinite" />
                 </rect>
                 <rect x="8" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s"

@@ -35,7 +35,16 @@
                     <div id="login">
                         <div class="text-center"><span>Nếu chưa có tài khoản vui lòng đăng ký tại đây</span></div>
                         <div class="social-login text-center margin-bottom-10 margin-top-15">
-                            <script>
+                            {{-- @if ($errors->any())
+                                <div class="alert alert-danger mt-3">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif --}}
+                            {{-- <script>
                                 function loginFacebook() {
                                     var a = {
                                             client_id: "947410958642584",
@@ -94,63 +103,85 @@
                                         document.getElementById("Token-22b3be00dbc5450788f2beb6110b1b1f").value = token
                                     });
                                 });
-                            </script>
-                            <div class="form-signup">
+                            </script> --}}
+                            {{-- <div class="form-signup"> --}}
 
-                            </div>
-                            <div class="form-signup clearfix">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                        <div class="row">
+                        </div>
+                        <div class="form-signup clearfix">
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <div class="row">
+                                        <form action="{{ route('post-dang-ky') }}" method="POST">
+                                            @csrf
+                                            @method('POST')
                                             <div class="col-md-12">
                                                 <fieldset class="form-group">
                                                     <label>Họ<span class="required">*</span></label>
                                                     <input type="text" class="form-control form-control-lg"
-                                                        value="" name="lastName" id="lastName" placeholder=""
-                                                        required data-validation-error-msg="Không được để trống"
+                                                        name="lastName" id="lastName" 
+                                                        data-validation-error-msg="Không được để trống"
                                                         data-validation="required">
+                                                        @error('lastName')
+                                                            <span style="color: red;">{{ $message }}</span>
+                                                        @enderror
                                                 </fieldset>
                                             </div>
                                             <div class="col-md-12">
                                                 <fieldset class="form-group">
                                                     <label>Tên<span class="required">*</span></label>
                                                     <input type="text" class="form-control form-control-lg"
-                                                        value="" name="firstName" id="firstName" placeholder=""
-                                                        required data-validation-error-msg="Không được để trống"
+                                                        name="firstName" id="firstName" 
+                                                        data-validation-error-msg="Không được để trống"
                                                         data-validation="required">
+                                                        @error('firstName')
+                                                            <span style="color: red;">{{ $message }}</span>
+                                                        @enderror
                                                 </fieldset>
                                             </div>
                                             <div class="col-md-12">
                                                 <fieldset class="form-group">
                                                     <label>Email<span class="required">*</span></label>
                                                     <input type="email" class="form-control form-control-lg"
-                                                        data-validation="email"
-                                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"
-                                                        data-validation-error-msg="Email sai định dạng" value=""
-                                                        name="email" id="email" placeholder="" required="" />
+                                                        name="email" id="email" >
+                                                        @error('email')
+                                                            <span style="color: red;">{{ $message }}</span>
+                                                        @enderror
                                                 </fieldset>
                                             </div>
                                             <div class="col-md-12">
                                                 <fieldset class="form-group">
                                                     <label>Mật khẩu<span class="required">*</span></label>
                                                     <input type="password" class="form-control form-control-lg"
-                                                        value="" name="password" id="password" placeholder=""
-                                                        required data-validation-error-msg="Không được để trống"
-                                                        data-validation="required">
+                                                        name="password" id="password" >
+                                                        @error('password')
+                                                            <span style="color: red;">{{ $message }}</span>
+                                                        @enderror
                                                 </fieldset>
                                             </div>
-                                        </div>
-                                        <div class="col-xs-12 text-center" style="margin-top:15px; padding: 0">
-                                            <button type="submit" value="Đăng ký" class="btn btn-style btn-blues">Đăng
-                                                ký</button>
-                                            <a href="login.html" class="btn-link-style btn-register"
+                                            <div class="col-md-12">
+                                                <fieldset class="form-group">
+                                                    <label>Xác nhận mật khẩu<span class="required">*</span></label>
+                                                    <input type="password" class="form-control form-control-lg"
+                                                        name="password_confirmation" id="password_confirmation" >
+                                                        @error('password_confirmation')
+                                                            <span style="color: red;">{{ $message }}</span>
+                                                        @enderror
+                                                </fieldset>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Đăng ký</button>
+                                        </form>
+
+                                    </div>
+                                    {{-- <div class="col-xs-12 text-center" style="margin-top:15px; padding: 0">
+                                            <button type="submit" class="btn btn-primary">Đăng ký</button>
+                                            <a href="{{ route('dang-nhap') }}" class="btn-link-style btn-register"
                                                 style="margin-left: 20px;color:#007FF0;text-decoration: underline; ">Đăng
                                                 nhập</a>
-                                        </div>
-                                    </div>
+                                        </div> --}}
                                 </div>
                             </div>
-                        </form>
+                            {{-- </form> --}}
+                        </div>
                     </div>
                 </div>
             </div>

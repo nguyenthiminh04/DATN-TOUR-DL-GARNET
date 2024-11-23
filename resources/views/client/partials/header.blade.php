@@ -11,11 +11,25 @@
                     </ul>
                 </div>
                 <div class="col-md-6">
-                    <ul class="list-inline f-right ul-acccount">
-                        <li><a href="account/login.html"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
-                                nhập</a></li>
-                        <li><a href="account/register.html"><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng
-                                ký</a></li>
+                    <ul class="list-inline f-right ul-account">
+                        @if (Auth::check())
+                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
+                                    {{ Auth::user()->name }}</a></li>
+                            <li>
+                                <form action="{{ route('logouts') }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-link"
+                                        style="color: inherit; text-decoration: none;">
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                    </button>
+                                </form>
+                            </li>
+                        @else
+                            <li><a href="{{ route('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
+                                    nhập</a></li>
+                            <li><a href="{{ route('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng
+                                    ký</a></li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -32,6 +46,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <div class="logo">
+
                         <a href="{{ url('/') }}" class="logo-wrapper ">
                             <img src="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705') }}"
                                 alt="logo Ant Du lịch">
@@ -82,7 +97,7 @@
                 <div class="col-md-12">
                     <ul id="nav" class="nav container">
 
-                        <li class="nav-item "><a class="nav-link" href="/">Trang chủ</a></li>
+                        <li class="nav-item "><a class="nav-link" href="">Trang chủ</a></li>
 
                         <li class="nav-item "><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
 
@@ -107,7 +122,7 @@
                                                     <li class="level2"> <a href="du-lich-hue.html"><span>Du lịch
                                                                 Huế</span></a> </li>
 
-                                                    <li class="level2"> <a href="#"><span>Du lịch
+                                                    <li class="level2"> <a href="du-lich-da-nang.html"><span>Du lịch
                                                                 Đà Nẵng</span></a> </li>
 
                                                     <li class="level2"> <a href="du-lich-hoi-an.html"><span>Du lịch

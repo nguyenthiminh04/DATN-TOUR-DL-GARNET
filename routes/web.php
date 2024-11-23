@@ -16,6 +16,7 @@ use App\Http\Controllers\Client\TourController as ClientTourController;
 
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
 use App\Http\Controllers\PaymentController;
 
@@ -41,6 +42,15 @@ Route::group([], function () {
     //     return view('client.home',compact('listtour'));
     // });
 
+    // client dang ky/ dang nhap/quen mat khau/ login gg
+    Route::get('/dang-nhap', [AuthClientController::class, 'DangNhap'])->name('dang-nhap');
+    Route::post('/post-dang-nhap', [AuthClientController::class, 'postDangNhap'])->name('post-dang-nhap');
+    Route::get('/dang-ky', [AuthClientController::class, 'DangKy'])->name('dang-ky');
+    Route::post('/post-dang-ky', [AuthClientController::class, 'postDangKy'])->name('post-dang-ky');
+    Route::get('/auth/google', [AuthClientController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('/auth/google/callback', [AuthClientController::class, 'handleGoogleCallback']);
+    Route::post('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
+    
     Route::resource('tour', ClientTourController::class)->names([
 
         'show' => 'client.tour.show',
@@ -49,7 +59,6 @@ Route::group([], function () {
     ]);
 
 
-    ]);
 
     // Route::get('/pre-booking', function () {
     //     return view('client.tour.booking');
@@ -81,18 +90,32 @@ Route::group([], function () {
 
 
 
+
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 
-    Route::get('/dang-nhap', function () {
-        return view('client.auth.login');
+    // Route::get('/dang-nhap', function () {
+    //     return view('client.auth.login');
+    // });
+
+    
+    // Route::get('/dang-ky', function () {
+    //     return view('client.auth.register');
+    // });
+    Route::get('/dich-vu', function () {
+        return view('client.pages.service');
+    });
+    Route::get('/gioi-thieu', function () {
+        return view('client.pages.introduce');
+    });
+    Route::get('/cam-nang', function () {
+        return view('client.pages.handbook');
+    });
+    Route::get('/tour-trong-nuoc', function () {
+        return view('client.pages.domesticTour');
     });
 
-
-    Route::get('/dang-ky', function () {
-        return view('client.auth.register');
-    });
 
     Route::get('/dich-vu', function () {
         return view('client.pages.service');
@@ -139,10 +162,17 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 
-Route::get('/dang-nhap', function () {
-    return view('client.auth.login');
-});
+
+
+// Route::get('/dang-nhap', function () {
+//     return view('client.auth.login');
+// });
+
+// Route::get('/dang-ky', function () {
+//     return view('client.auth.register');
+// });
 
 Route::get('/dang-ky', function () {
     return view('client.auth.register');
 });
+
