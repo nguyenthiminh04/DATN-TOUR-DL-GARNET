@@ -13,7 +13,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LocationController;
 
 use App\Http\Controllers\Client\TourController as ClientTourController;
-use App\Models\Admins\Tour;
+
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Client\BookingController;
@@ -45,6 +45,10 @@ Route::group([], function () {
 
         'show' => 'client.tour.show',
 
+
+    ]);
+
+
     ]);
 
     // Route::get('/pre-booking', function () {
@@ -65,19 +69,9 @@ Route::group([], function () {
     Route::get('/payment/success/{payment_id}', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/payment/cancel/{vnp_TxnRef}', [PaymentController::class, 'vnpayCancel'])->name('payment.vnpay.cancel');
 
-    // Route nhận kết quả khi thanh toán thành công
-   
-    
 
-    // Route xử lý thanh toán VNPay (chuyển đến VNPay để người dùng thanh toán)
-    
-
-
-    // Route xử lý khi thanh toán VNPay bị hủy
-    
-
-    // Route xử lý thanh toán thất bại (có thể từ VNPay hoặc các phương thức khác)
     Route::get('payment/failed', [PaymentController::class, 'failure'])->name('payment.failed');
+
 
 
 
@@ -99,29 +93,19 @@ Route::group([], function () {
     Route::get('/dang-ky', function () {
         return view('client.auth.register');
     });
-    Route::get('/dich-vu', function () {
-        return view('client.pages.service');
-    });
-    Route::get('/gioi-thieu', function () {
-        return view('client.pages.introduce');
-    });
-    Route::get('/cam-nang', function () {
-        return view('client.pages.handbook');
-    });
-    Route::get('/tour-trong-nuoc', function () {
-        return view('client.pages.domesticTour');
-    });
-
 
     Route::get('/dich-vu', function () {
         return view('client.pages.service');
     });
+
     Route::get('/gioi-thieu', function () {
         return view('client.pages.introduce');
     });
+
     Route::get('/cam-nang', function () {
         return view('client.pages.handbook');
     });
+
     Route::get('/tour-trong-nuoc', function () {
         return view('client.pages.domesticTour');
     });
@@ -129,10 +113,12 @@ Route::group([], function () {
     Route::get('/chi-tiet-tour', function () {
         return view('client.pages.detailTour');
     });
+    
     Route::get('/chi-tiet-cam-nang', function () {
         return view('client.pages.detailHandbook');
     });
 
+    Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
 });
 
 // admin routes
@@ -160,4 +146,3 @@ Route::get('/dang-nhap', function () {
 Route::get('/dang-ky', function () {
     return view('client.auth.register');
 });
-
