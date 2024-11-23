@@ -10,24 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 class Status extends Model
 {
     use HasFactory;
-    protected $table = 'status';
+    protected $table = 'statuses';
 
-    protected $fillable = [
-        'status_name',
-        'description',
-        'type',
-    ];
+    
+    protected $fillable = ['name'];
 
-    public function faqs()
+    // Định nghĩa mối quan hệ "hasMany" với bảng payments
+    public function payments()
     {
-        return $this->hasMany(Faq::class);
-    }
-    public function user()
-    {
-        return $this->hasMany(UserModel::class);
-    }
-    public function location()
-    {
-        return $this->hasMany(Location::class);
+        return $this->hasMany(Payment::class, 'status_id');
     }
 }

@@ -48,7 +48,7 @@
                                 <label for="total">Tổng tiền:</label>
                                 <p style="color: blue; font-weight: bolder" id="total-price-display">0₫</p>
                                 <input type="hidden" id="total-price" name="total_money">
-                                <input type="hidden" name="tour_id" value="8">
+                                <input type="hidden" name="tour_id" value="<?=$tour['id']?>">
                                 <input type="hidden" id="tour-name" name="tour_name">
                                 <input type="hidden" id="departure-date" name="start_date">
                                 <input type="hidden" id="quantity" name="quantity">
@@ -89,56 +89,6 @@
         </div>
     </section>
 
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Lấy thông tin từ sessionStorage
-            const bookingInfo = JSON.parse(sessionStorage.getItem('selectedTourInfo'));
-            const bookingInfo1 = JSON.parse(sessionStorage.getItem('tourBooking'));
-
-            //console.log(bookingInfo1); // Kiểm tra xem bookingInfo1 có dữ liệu hay không
-            // console.log(bookingInfo1.adults); // Kiểm tra số người lớn
-            // console.log(bookingInfo1.children); // Kiểm tra số trẻ em
-
-            if (bookingInfo && bookingInfo1) {
-
-                const adults = bookingInfo1.adults || 0;
-                const children = bookingInfo1.children || 0;
-                // console.log(bookingInfo1.adults); // Kiểm tra số người lớn
-                // console.log(bookingInfo1.children); // Kiểm tra số trẻ em
-
-                console.log(bookingInfo.startDate);
-
-                document.getElementById('selected-quantity').textContent =
-                    `${adults} Người lớn, ${children} Trẻ em`;
-                // Hiển thị thông tin trong giao diện
-                document.getElementById('selected-tour').textContent = bookingInfo.tourName || 'Chưa xác định';
-                document.getElementById('selected-date').textContent = bookingInfo.startDate ||
-                    'Chưa xác định';
-                document.getElementById('selected-price').textContent = bookingInfo.totalPrice ? bookingInfo
-                    .totalPrice.toLocaleString("vi-VN") + "₫" : '0 VND';
-                document.getElementById('total-price-display').textContent = bookingInfo.totalPrice ? bookingInfo
-                    .totalPrice.toLocaleString("vi-VN") + "₫" : '0 VND';
-
-                // Gán giá trị vào các trường ẩn trong form
-                document.getElementById('tour-name').value = bookingInfo.tour_name || '';
-                document.getElementById('departure-date').value = bookingInfo.departure_date || '';
-                document.getElementById('quantity').value = bookingInfo.quantities.map(item => item.quantity).join(
-                    '-') || '';
-                document.getElementById('price').value = bookingInfo.totalPrice || '';
-                document.getElementById('total-price').value = bookingInfo.totalPrice || '';
-
-                // Cập nhật tổng tiền vào trường hiển thị tổng
-                const totalPrice = bookingInfo.totalPrice || 0;
-                document.getElementById("totalPriceDisplay").textContent = totalPrice.toLocaleString("vi-VN") + "₫";
-                document.getElementById("totalPriceHidden").value = totalPrice;
-
-
-            } else {
-                alert('Không có thông tin đặt tour. Vui lòng quay lại trang trước.');
-                window.location.href = '/';
-            }
-        });
-    </script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Lấy thông tin từ sessionStorage

@@ -327,7 +327,7 @@
                                 <div class="call-me-back">
                                     <ul class="row">
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
-                                            <a href="{{ route('pre-booking') }}" id="btnIconMouseScroll" title="Đặt tour"
+                                            <a href="{{ route('tour.pre-booking',['id'=>$tour->id]) }}" id="btnIconMouseScroll" title="Đặt tour"
                                                 class="icon-mouse-scroll">
                                                 <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
                                             </a>
@@ -550,7 +550,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
-                                            <a href="{{ route('pre-booking') }}">
+                                            <a href="{{ route('tour.pre-booking',['id'=>$tour->id]) }}">
                                                 <button type="button" id="submit-table"
                                                     class="pull-right btn btn-default buynow add-to-cart button nomargin">
                                                     <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour

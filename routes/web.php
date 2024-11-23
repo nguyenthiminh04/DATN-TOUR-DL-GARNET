@@ -42,25 +42,52 @@ Route::group([], function () {
     // });
 
     Route::resource('tour', ClientTourController::class)->names([
-        
+
         'show' => 'client.tour.show',
-        
+
     ]);
 
-    Route::get('/pre-booking', function () {
-        return view('client.tour.booking');
-    })->name('pre-booking');
-
-    Route::get('/confirm/{id}', [ClientTourController::class, 'confirm'])->name('tour.confirm');
+    // Route::get('/pre-booking', function () {
+    //     return view('client.tour.booking');
+    // })->name('pre-booking');
+    Route::get('/pre-booking/{id}', [ClientTourController::class, 'pre_booking'])->name('tour.pre-booking');
+    Route::get('/confirm/{id}', [BookingController::class, 'showBookingInfo'])->name('tour.confirm');
 
     Route::post('/booking', [BookingController::class, 'store'])->name('tour.booking');
+
+
+
+
     Route::post('/payment/store', [PaymentController::class, 'storePayment'])->name('payment.store');
-    Route::get('/payment/success/{bookingId}', [PaymentController::class, 'success'])->name('payment.success');
+    Route::post('/payment/vnpay', [PaymentController::class, 'vnpay_payment'])->name('payment.vnpay');
+    Route::get('payment/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('payment.vnpayReturn');
 
+    Route::get('/payment/success/{payment_id}', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/payment/cancel/{vnp_TxnRef}', [PaymentController::class, 'vnpayCancel'])->name('payment.vnpay.cancel');
+
+    // Route nhận kết quả khi thanh toán thành công
    
+    
+
+    // Route xử lý thanh toán VNPay (chuyển đến VNPay để người dùng thanh toán)
+    
 
 
-    Route::get('/', [HomeController::class, 'index']);
+    // Route xử lý khi thanh toán VNPay bị hủy
+    
+
+    // Route xử lý thanh toán thất bại (có thể từ VNPay hoặc các phương thức khác)
+    Route::get('payment/failed', [PaymentController::class, 'failure'])->name('payment.failed');
+
+
+
+
+
+
+
+
+
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 
@@ -68,7 +95,7 @@ Route::group([], function () {
         return view('client.auth.login');
     });
 
-    
+
     Route::get('/dang-ky', function () {
         return view('client.auth.register');
     });
