@@ -39,28 +39,34 @@ class Tour extends Model
         'status' => 'boolean',
     ];
 
-// Định nghĩa quan hệ Tour thuộc về User
-public function user()
-{
-    return $this->belongsTo(UserModel::class);
-}
-public function imagetour(){
-    return $this->hasMany(ImageTour::class);
-}
-// Định nghĩa quan hệ Tour thuộc về Location
-public function location()
-{
-    return $this->belongsTo(Location::class, 'location_id');
-}
-public function guides()
+    public static function getAll()
+    {
+        return self::all();
+    }
 
-   
+    // Định nghĩa quan hệ Tour thuộc về User
+    public function user()
+    {
+        return $this->belongsTo(UserModel::class);
+    }
+    public function imagetour()
+    {
+        return $this->hasMany(ImageTour::class);
+    }
+    // Định nghĩa quan hệ Tour thuộc về Location
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'location_id');
+    }
+    public function guides()
+
+
     {
         return $this->hasMany(Coupons::class, 'tour_id');
     }
     public function category_tour()
     {
-        return $this->belongsTo(Categoty_tour::class,'tour_id');
+        return $this->belongsTo(Categoty_tour::class, 'tour_id');
     }
 
     public function scopeSearch($query, $searchTerm)
@@ -78,5 +84,10 @@ public function guides()
             ->orWhere('price_old', 'like', '%' . $searchTerm . '%')
             ->orWhere('price_children', 'like', '%' . $searchTerm . '%')
             ->orWhere('sale', 'like', '%' . $searchTerm . '%');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ImageTour::class, 'tour_id');
     }
 }

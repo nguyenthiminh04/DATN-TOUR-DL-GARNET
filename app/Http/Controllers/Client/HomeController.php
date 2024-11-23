@@ -12,18 +12,30 @@ use App\Models\Admins\Categoty_tour;
 class HomeController extends Controller
 {
     //
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $listtour = Tour::orderBYDesc('id')->get();
         $Tourmoinhat = Tour::orderBy('view', 'desc')->take(6)->get();
         $categoryes = Categorys::whereNull('parent_id')->with('children')->get();
         $categories = Categoty_tour::with('tours')->get();
         $locations = Location::where('status', 1)
-        ->whereNull('deleted_at') // Kiểm tra chưa bị xóa mềm
-        ->inRandomOrder()
-        ->take(5)
-        ->get();
+            ->whereNull('deleted_at') // Kiểm tra chưa bị xóa mềm
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
 
-          return view('client.home',compact('Tourmoinhat','locations','categories','categoryes'));
+        return view('client.home', compact('Tourmoinhat', 'locations', 'categories', 'categoryes'));
+    }
 
+    public function detailTour($id)
+    {
+        $data['tour'] = Tour::find($id);
+        $data['category'] = Categorys::find($data['tour']->category_tour_id);
+        $data['location'] = Location::find($data['tour']->location_id);
+        $data['images'] = $data['tour']->images;
+        $data['first_image'] = $data['images']->first();
+        // dd($data['images']);  
+
+        return view('client.pages.detailTour', $data);
     }
 }
