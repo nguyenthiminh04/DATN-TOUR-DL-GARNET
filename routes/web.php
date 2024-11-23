@@ -64,14 +64,14 @@ Route::group([], function () {
 
 
 
-    Route::get('/dang-nhap', function () {
-        return view('client.auth.login');
-    });
+    // Route::get('/dang-nhap', function () {
+    //     return view('client.auth.login');
+    // });
 
     
-    Route::get('/dang-ky', function () {
-        return view('client.auth.register');
-    });
+    // Route::get('/dang-ky', function () {
+    //     return view('client.auth.register');
+    // });
     Route::get('/dich-vu', function () {
         return view('client.pages.service');
     });
@@ -123,14 +123,22 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('category', CategoryController::class);
 });
 
+// client dang ky/ dang nhap/quen mat khau/ login gg
+Route::get('/dang-nhap', [AuthController::class, 'DangNhap'])->name('dang-nhap');
+Route::post('/post-dang-nhap', [AuthController::class, 'postDangNhap'])->name('post-dang-nhap');
+Route::get('/dang-ky', [AuthController::class, 'DangKy'])->name('dang-ky');
+Route::post('/post-dang-ky', [AuthController::class, 'postDangKy'])->name('post-dang-ky');
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+Route::post('/logouts', [AuthController::class, 'logouts'])->name('logouts');
 
 
 
-Route::get('/dang-nhap', function () {
-    return view('client.auth.login');
-});
+// Route::get('/dang-nhap', function () {
+//     return view('client.auth.login');
+// });
 
-Route::get('/dang-ky', function () {
-    return view('client.auth.register');
-});
+// Route::get('/dang-ky', function () {
+//     return view('client.auth.register');
+// });
 
