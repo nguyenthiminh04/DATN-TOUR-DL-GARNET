@@ -15,11 +15,11 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone', 15);
-            $table->string('address');
+            $table->string('phone', 15)->nullable();
+            $table->string('address')->nullable();
             $table->string('avatar')->nullable();
-            $table->date('birth');
-            $table->enum('gender', ['nam', 'nu']);
+            $table->date('birth')->nullable();
+            $table->enum('gender', ['nam', 'nu'])->nullable();
             $table->string('password');
             $table->tinyInteger('status')->default(1);
             $table->string('remember_token', 100)->nullable();

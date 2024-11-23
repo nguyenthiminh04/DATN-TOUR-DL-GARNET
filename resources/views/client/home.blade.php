@@ -121,13 +121,27 @@
                         </ul>
                     </div>
                     <div class="col-md-6">
-
-                        <ul class="list-inline f-right ul-acccount">
-
-                            <li><a href="account/login.html"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
-                                    nhập</a></li>
-                            <li><a href="account/register.html"><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng
-                                    ký</a></li>
+                        <ul class="list-inline f-right ul-account">
+                            @if (Auth::check())
+                                <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
+                                        {{ Auth::user()->name }}</a></li>
+                                <li>
+                                    <form action="{{ route('logouts') }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-link"
+                                            style="color: inherit; text-decoration: none;">
+                                            <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                        </button>
+                                    </form>
+                                </li>
+                            @else
+                                <li><a href="{{ route('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
+                                        Đăng
+                                        nhập</a></li>
+                                <li><a href="{{ route('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>
+                                        Đăng
+                                        ký</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -196,7 +210,7 @@
 
                             <li class="nav-item active"><a class="nav-link" href="index.html">Trang chủ</a></li>
 
-                            <li class="nav-item "><a class="nav-link" href="/gioi-thieu">Giới thiệu</a></li>
+                            <li class="nav-item "><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
                             <li class="nav-item  has-mega">
                                 <a href="tour-trong-nuoc.html" class="nav-link">Tour trong nước <i
                                         class="fa fa-angle-right" data-toggle="dropdown"></i></a>
@@ -243,7 +257,7 @@
                                                         <li class="level2"> <a href="du-lich-hue.html"><span>Du lịch
                                                                     Huế</span></a> </li>
 
-                                                        <li class="level2"> <a href="/da-nang"><span>Du
+                                                        <li class="level2"> <a href="du-lich-da-nang.html"><span>Du
                                                                     lịch
                                                                     Đà Nẵng</span></a> </li>
 
@@ -299,13 +313,13 @@
 
                             </li>
 
-                            <li class="nav-item "><a class="nav-link" href="/dich-vu">Dịch vụ tour</a></li>
+                            <li class="nav-item "><a class="nav-link" href="dich-vu-tour.html">Dịch vụ tour</a></li>
 
-                            <li class="nav-item "><a class="nav-link" href="cam-nang">Cẩm nang du
+                            <li class="nav-item "><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du
                                     lịch</a>
                             </li>
 
-                            <li class="nav-item "><a class="nav-link" href="/lien-he">Liên hệ</a></li>
+                            <li class="nav-item "><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
                         </ul>
                     </div>
                 </div>
@@ -395,161 +409,7 @@
                 </div>
                 <div class="row">
 
-
-                    @foreach ($listtour as $item)
-                        <div class="col-md-4 col-sm-6 col-xs-6 col-100">
-                            <div class="product-box">
-                                <div class="product-thumbnail">
-                                    <a href="{{ route('client.tour.show', $item->id) }}"
-                                        title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/83864b64404979-5ad0e1bdba9b284f3.jpg?v=1529553163227"
-                                            alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                    </a>
-                                    <div class="sale-off">-
-                                        <?=$item['sale']?>%
-                                    </div>
-                                </div>
-                                <div class="product-info a-left">
-                                    <h3 class="product-name"><a class="line-clamp"
-                                            href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                                            title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                            <?=$item['name'] ?>
-                                           </a></h3>
-                                    <div class="clearfix">
-                                        <div class="box-prices">
-                                            <div class="price-box clearfix">
-                                                <div class="special-price f-left">
-                                                    <span class="price product-price"><?=number_format($item['price_children'],0,'',',') ?>đ</span>
-                                                </div>
-
-                                                <div class="old-price">
-                                                    <span class="price product-price-old">
-                                                        <?=number_format($item['price_old'],0,'',',') ?>đ
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="box-tag">
-                                            <ul class="ct_course_list">
-
-                                                <li data-toggle="tooltip" data-placement="top"
-                                                    title="Di chuyển bằng Ô tô">
-                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                        alt="Di chuyển bằng Ô tô" />
-                                                </li>
-                                                <li data-toggle="tooltip" data-placement="top"
-                                                    title="Di chuyển bằng máy bay">
-                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                        alt="Di chuyển bằng máy bay" />
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                    <div class="box-date-tour">
-                                        <ul class="ct_course_list">
-
-                                            <li class="clearfix">
-                                                <div class="ulimg"><img
-                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                        alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: Thứ 2 - 7 hằng
-                                                tuần
-                                            </li>
-                                            <li class="clearfix">
-                                                <div class="ulimg"><img
-                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                        alt="6 ngày 5 đêm" /></div> Thời gian: 6 ngày 5 đêm
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-
-
-@foreach ($Tourmoinhat as $item)
-<div class="col-md-4 col-sm-6 col-xs-6 col-100">
-    <div class="product-box">
-        <div class="product-thumbnail">
-            <a href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                <img src="{{ Storage::url($item->image) }}"
-                    alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-            </a>
-            <div class="sale-off">-
-                {{$item->sale}}%
-            </div>
-        </div>
-        <div class="product-info a-left">
-            <h3 class="product-name"><a class="line-clamp"
-                    href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                    title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">{{$item->name}} [{{$item->location->name}}] [{{$item->journeys}}]</a></h3>
-            <div class="clearfix">
-                <div class="box-prices">
-                    <div class="price-box clearfix">
-                        <div class="special-price f-left">
-                            <span class="price product-price"> {{ number_format($item->price_old * (1 - $item->sale / 100), 0, '', '.') }} VNĐ</span>
-
-                        </div>
-
-                        
-
-                        <div class="old-price">
-                            <span class="price product-price-old">
-                                {{number_format($item->price_old,0,'','.')}}VNĐ
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="box-tag">
-                    <ul class="ct_course_list">
-
-                        <li data-toggle="tooltip" data-placement="top"
-                            title="Di chuyển bằng Ô tô">
-                            <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                alt="Di chuyển bằng Ô tô" />
-                        </li>
-                        <li data-toggle="tooltip" data-placement="top"
-                            title="Di chuyển bằng máy bay">
-                            <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                alt="Di chuyển bằng máy bay" />
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-            <div class="box-date-tour">
-                <ul class="ct_course_list">
-
-                    <li class="clearfix">
-                        <div class="ulimg"><img
-                                src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: {{$item->start_date}} - {{$item->end_date}}
-                    </li>
-                    <li class="clearfix">
-                        <div class="ulimg"><img
-                                src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                alt="6 ngày 5 đêm" /></div> Thời gian: {{$item->schedule}}
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </div>
-</div>
-@endforeach
                     
-
-
-                            </div>
-                        </div>
-                    </div> --}}
-
-
                 </div>
             </div>
         </div>
@@ -1234,32 +1094,117 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="section-location-owl owl-carousel owl-theme not-dqowl">
-@foreach ($locations as $item)
-<div class="item">
-    <div class="tourmaster-tour-category-item-wrap">
-        <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-            <img src="{{ Storage::url($item->image)}}"
-                alt="Phú Quốc" />
-        </div>
-        <div class="tourmaster-tour-category-overlay"></div>
-        <div class="tourmaster-tour-category-overlay-front"></div>
-        <div class="tourmaster-tour-category-head">
-            <div class="tourmaster-tour-category-head-display clearfix">
-                <h3 class="tourmaster-tour-category-title"><i
-                        class="fa fa-map-marker color-x"></i>Phú Quốc</h3>
-            </div>
-            <div class="tourmaster-tour-category-head-animate">
-                <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
-                    chi tiết</a>
-                <div class="tourmaster-tour-category-head-divider"></div>
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
-                       
 
-                       
+                        <div class="item">
+                            <div class="tourmaster-tour-category-item-wrap">
+                                <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
+                                    <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_16d1d.png"
+                                        alt="Phú Quốc" />
+                                </div>
+                                <div class="tourmaster-tour-category-overlay"></div>
+                                <div class="tourmaster-tour-category-overlay-front"></div>
+                                <div class="tourmaster-tour-category-head">
+                                    <div class="tourmaster-tour-category-head-display clearfix">
+                                        <h3 class="tourmaster-tour-category-title"><i
+                                                class="fa fa-map-marker color-x"></i>Phú Quốc</h3>
+                                    </div>
+                                    <div class="tourmaster-tour-category-head-animate">
+                                        <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
+                                            chi tiết</a>
+                                        <div class="tourmaster-tour-category-head-divider"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="tourmaster-tour-category-item-wrap">
+                                <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
+                                    <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_26d1d.png"
+                                        alt="Châu Á" />
+                                </div>
+                                <div class="tourmaster-tour-category-overlay"></div>
+                                <div class="tourmaster-tour-category-overlay-front"></div>
+                                <div class="tourmaster-tour-category-head">
+                                    <div class="tourmaster-tour-category-head-display clearfix">
+                                        <h3 class="tourmaster-tour-category-title"><i
+                                                class="fa fa-map-marker color-x"></i>Châu Á</h3>
+                                    </div>
+                                    <div class="tourmaster-tour-category-head-animate">
+                                        <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
+                                            chi tiết</a>
+                                        <div class="tourmaster-tour-category-head-divider"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="tourmaster-tour-category-item-wrap">
+                                <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
+                                    <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_36d1d.png"
+                                        alt="Châu Âu" />
+                                </div>
+                                <div class="tourmaster-tour-category-overlay"></div>
+                                <div class="tourmaster-tour-category-overlay-front"></div>
+                                <div class="tourmaster-tour-category-head">
+                                    <div class="tourmaster-tour-category-head-display clearfix">
+                                        <h3 class="tourmaster-tour-category-title"><i
+                                                class="fa fa-map-marker color-x"></i>Châu Âu</h3>
+                                    </div>
+                                    <div class="tourmaster-tour-category-head-animate">
+                                        <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
+                                            chi tiết</a>
+                                        <div class="tourmaster-tour-category-head-divider"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="tourmaster-tour-category-item-wrap">
+                                <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
+                                    <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_46d1d.png"
+                                        alt="Châu Mỹ" />
+                                </div>
+                                <div class="tourmaster-tour-category-overlay"></div>
+                                <div class="tourmaster-tour-category-overlay-front"></div>
+                                <div class="tourmaster-tour-category-head">
+                                    <div class="tourmaster-tour-category-head-display clearfix">
+                                        <h3 class="tourmaster-tour-category-title"><i
+                                                class="fa fa-map-marker color-x"></i>Châu Mỹ</h3>
+                                    </div>
+                                    <div class="tourmaster-tour-category-head-animate">
+                                        <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
+                                            chi tiết</a>
+                                        <div class="tourmaster-tour-category-head-divider"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="item">
+                            <div class="tourmaster-tour-category-item-wrap">
+                                <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
+                                    <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/location_image_56d1d.png"
+                                        alt="Châu Phi" />
+                                </div>
+                                <div class="tourmaster-tour-category-overlay"></div>
+                                <div class="tourmaster-tour-category-overlay-front"></div>
+                                <div class="tourmaster-tour-category-head">
+                                    <div class="tourmaster-tour-category-head-display clearfix">
+                                        <h3 class="tourmaster-tour-category-title"><i
+                                                class="fa fa-map-marker color-x"></i>Châu Phi</h3>
+                                    </div>
+                                    <div class="tourmaster-tour-category-head-animate">
+                                        <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
+                                            chi tiết</a>
+                                        <div class="tourmaster-tour-category-head-divider"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -1731,8 +1676,8 @@
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s"
-                        repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s"
+                        dur="0.6s" repeatCount="indefinite" />
                 </rect>
                 <rect x="8" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s"
