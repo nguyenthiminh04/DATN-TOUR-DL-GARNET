@@ -46,6 +46,6 @@ class TourController extends Controller
     {
         $query = $request->input('query');
         $tours = Tour::search($query)->paginate(12);
-        return view('client.pages.seach', compact('tours'));
+        return view('client.pages.search', compact('tours'));
     }
 }
