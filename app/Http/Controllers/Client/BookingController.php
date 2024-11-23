@@ -27,13 +27,13 @@ class BookingController extends Controller
             'total_money' => 'required|numeric',
             'status' => 'nullable|integer',
             'sale' => 'nullable|integer',
-            'tour_id' => 'required|exists:tours,id', 
+            'tour_id' => 'required|exists:tours,id',
         ]);
 
         // Tạo mới bản ghi đặt tour
         $bookTour = BookTour::create([
             // 'user_id' => auth()->id(), 
-            'user_id'=>1,
+            'user_id' => 1,
             // 'tour_id' => $validated['tour_id'],
             'tour_id' => $validated['tour_id'],
 
@@ -52,15 +52,23 @@ class BookingController extends Controller
             'sale' => $validated['sale'] ?? 0, // Mặc định là 0
         ]);
 
-        // Đảm bảo dữ liệu đã lưu thành công và chuyển hướng
-        return redirect()->route('tour.confirm',['id' => $bookTour->id]);
+
+        return redirect()->route('tour.confirm', ['id' => $bookTour->id]);
     }
     public function showBookingInfo($id)
     {
         // Lấy thông tin đặt tour từ bảng book_tour
         $booking = BookTour::findOrFail($id);
+        $booking1 = BookTour::with('tour')->find($id);
 
+        if (!$booking1) {
+            return redirect()->back()->with('error', 'Booking not found');
+        }
+
+        $tourName = $booking1->tour ? $booking->tour->name : 'No Tour Found';
+
+        
         // Trả về view và truyền dữ liệu
-        return view('client.tour.confirm', ['booking' => $booking]);
+        return view('client.tour.confirm', compact('booking', 'tourName','booking1'));
     }
 }

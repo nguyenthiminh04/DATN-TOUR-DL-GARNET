@@ -46,8 +46,9 @@
                         <span class="icon-bar"></span>
                     </button>
                     <div class="logo">
-                        <a href="index.html" class="logo-wrapper ">
-                            <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705"
+
+                        <a href="{{ url('/') }}" class="logo-wrapper ">
+                            <img src="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705') }}"
                                 alt="logo Ant Du lịch">
                         </a>
                     </div>
@@ -58,10 +59,12 @@
                 <div class="col-md-5">
                     <div class="search">
                         <div class="header_search search_form">
-                            <form class="input-group search-bar search_form"
-                                action="https://ant-du-lich.mysapo.net/search" method="get" role="search">
-                                <input type="search" name="query" value="" placeholder="Tìm kiếm tour..."
-                                    class="input-group-field st-default-search-input search-text" autocomplete="off">
+                            <form class="input-group search-bar search_form" action="{{ route('tour.search') }}"
+                                method="get">
+                                <input type="search" name="query" id="query"
+                                    value="{{ !empty(Request::get('query')) ? Request::get('query') : '' }}"
+                                    placeholder="Tìm kiếm tour..."
+                                    class="input-group-field st-default-search-input search-text">
                                 <span class="input-group-btn">
                                     <button class="btn icon-fallback-text">
                                         <i class="fa fa-search"></i>
