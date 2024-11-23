@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('faqs', function (Blueprint $table) {
-            $table->id();
-            $table->string('question');
-            $table->text('answer')->nullable();
-            $table->boolean('status')->default(1);
-            $table->timestamps();
+        Schema::table('payments', function (Blueprint $table) {
+            $table->foreignId('payment_method_id')->constrained('payment_methods')->onDelete('cascade');
         });
     }
 
@@ -25,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('faqs');
+        Schema::table('payments', function (Blueprint $table) {
+            $table->dropForeign(['payment_method_id']);
+            $table->dropColumn('payment_method_id');
+        });
     }
 };

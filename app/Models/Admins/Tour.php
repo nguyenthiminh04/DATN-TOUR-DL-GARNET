@@ -2,6 +2,7 @@
 
 namespace App\Models\Admins;
 
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,6 +38,7 @@ class Tour extends Model
     protected $casts = [
         'status' => 'boolean',
     ];
+
 // Định nghĩa quan hệ Tour thuộc về User
 public function user()
 {
@@ -51,11 +53,30 @@ public function location()
     return $this->belongsTo(Location::class, 'location_id');
 }
 public function guides()
+
+   
     {
         return $this->hasMany(Coupons::class, 'tour_id');
     }
     public function category_tour()
     {
         return $this->belongsTo(Categoty_tour::class,'tour_id');
+    }
+
+    public function scopeSearch($query, $searchTerm)
+    {
+        return $query->where('name', 'like', '%' . $searchTerm . '%')
+            ->orWhere('title', 'like', '%' . $searchTerm . '%')
+            ->orWhere('description', 'like', '%' . $searchTerm . '%')
+            ->orWhere('content', 'like', '%' . $searchTerm . '%')
+            ->orWhere('journeys', 'like', '%' . $searchTerm . '%')
+            ->orWhere('schedule', 'like', '%' . $searchTerm . '%')
+            ->orWhere('move_method', 'like', '%' . $searchTerm . '%')
+            ->orWhere('starting_gate', 'like', '%' . $searchTerm . '%')
+            ->orWhere('start_date', 'like', '%' . $searchTerm . '%')
+            ->orWhere('end_date', 'like', '%' . $searchTerm . '%')
+            ->orWhere('price_old', 'like', '%' . $searchTerm . '%')
+            ->orWhere('price_children', 'like', '%' . $searchTerm . '%')
+            ->orWhere('sale', 'like', '%' . $searchTerm . '%');
     }
 }

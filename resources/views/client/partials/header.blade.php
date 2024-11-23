@@ -11,11 +11,25 @@
                     </ul>
                 </div>
                 <div class="col-md-6">
-                    <ul class="list-inline f-right ul-acccount">
-                        <li><a href="account/login.html"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
-                                nhập</a></li>
-                        <li><a href="account/register.html"><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng
-                                ký</a></li>
+                    <ul class="list-inline f-right ul-account">
+                        @if (Auth::check())
+                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
+                                    {{ Auth::user()->name }}</a></li>
+                            <li>
+                                <form action="{{ route('logouts') }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-link"
+                                        style="color: inherit; text-decoration: none;">
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                    </button>
+                                </form>
+                            </li>
+                        @else
+                            <li><a href="{{ route('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
+                                    nhập</a></li>
+                            <li><a href="{{ route('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng
+                                    ký</a></li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -32,8 +46,9 @@
                         <span class="icon-bar"></span>
                     </button>
                     <div class="logo">
-                        <a href="index.html" class="logo-wrapper ">
-                            <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705"
+
+                        <a href="{{ url('/') }}" class="logo-wrapper ">
+                            <img src="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705') }}"
                                 alt="logo Ant Du lịch">
                         </a>
                     </div>
@@ -44,10 +59,12 @@
                 <div class="col-md-5">
                     <div class="search">
                         <div class="header_search search_form">
-                            <form class="input-group search-bar search_form"
-                                action="https://ant-du-lich.mysapo.net/search" method="get" role="search">
-                                <input type="search" name="query" value="" placeholder="Tìm kiếm tour..."
-                                    class="input-group-field st-default-search-input search-text" autocomplete="off">
+                            <form class="input-group search-bar search_form" action="{{ route('tour.search') }}"
+                                method="get">
+                                <input type="search" name="query" id="query"
+                                    value="{{ !empty(Request::get('query')) ? Request::get('query') : '' }}"
+                                    placeholder="Tìm kiếm tour..."
+                                    class="input-group-field st-default-search-input search-text">
                                 <span class="input-group-btn">
                                     <button class="btn icon-fallback-text">
                                         <i class="fa fa-search"></i>
@@ -80,7 +97,7 @@
                 <div class="col-md-12">
                     <ul id="nav" class="nav container">
 
-                        <li class="nav-item "><a class="nav-link" href="index.html">Trang chủ</a></li>
+                        <li class="nav-item "><a class="nav-link" href="">Trang chủ</a></li>
 
                         <li class="nav-item "><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
 

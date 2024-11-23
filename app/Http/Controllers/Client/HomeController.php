@@ -13,6 +13,7 @@ class HomeController extends Controller
 {
     //
     public function index(Request $request) {
+        $listtour = Tour::orderBYDesc('id')->get();
         $Tourmoinhat = Tour::orderBy('view', 'desc')->take(6)->get();
         $categoryes = Categorys::whereNull('parent_id')->with('children')->get();
         $categories = Categoty_tour::with('tours')->get();
@@ -21,6 +22,8 @@ class HomeController extends Controller
         ->inRandomOrder()
         ->take(5)
         ->get();
+
           return view('client.home',compact('Tourmoinhat','locations','categories','categoryes'));
+
     }
 }
