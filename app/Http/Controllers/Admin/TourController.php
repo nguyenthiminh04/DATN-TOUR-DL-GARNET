@@ -102,10 +102,10 @@ class TourController extends Controller
     {
         $listuser = UserModel::query()->get();
         $listlocation = Location::query()->get();
-        $listStatus = Status::query()->get();
+        // $listStatus = Status::query()->get();
         $listcategory_tour = Categoty_tour::query()->get();
         $tour = Tour::query()->findOrFail($id);
-        return view('admin.tour.edit', compact('listuser','listlocation','listStatus','tour','listcategory_tour'));
+        return view('admin.tour.edit', compact('listuser','listlocation','tour','listcategory_tour'));
     }
 
     /**

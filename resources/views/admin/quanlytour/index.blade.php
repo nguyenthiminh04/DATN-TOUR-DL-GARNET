@@ -95,7 +95,7 @@
                                             <td>{{ $item->tour->name }}</td>
                                             <td>{{ $item->name }}</td>
                                            
-                                            <td>{{ $item->paymentstatus }}</td>
+                                            <td>{{ $item->name }}</td>
                                             <td>
                                                 <form action="{{route('dontour.update',$item->id)}}" method="POST">
                                                     @csrf

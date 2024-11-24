@@ -44,4 +44,10 @@ class Payment extends Model
     {
         return $this->belongsTo(PaymentMethod::class);
     }
+    // app/Models/Pay.php
+public function bookTours()
+{
+    return $this->hasMany(BookTour::class, 'pay_id');
+}
+
 }

@@ -28,6 +28,7 @@ class BookTourController extends Controller
 
     // Lấy danh sách tour sau khi áp dụng điều kiện (nếu có)
     $listTour = $query->get();
+    
 
     // Các dữ liệu khác
     $trangThaiTour = DonTour::TRANG_THAI_TOUR;

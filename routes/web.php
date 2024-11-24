@@ -174,7 +174,7 @@ Route::group(['prefix' => 'admin'], function () {
 //     return view('client.auth.register');
 // });
 
-Route::get('/dang-ky', function () {
-    return view('client.auth.register');
-});
+// Route::get('/dang-ky', function () {
+//     return view('client.auth.register');
+// });
 

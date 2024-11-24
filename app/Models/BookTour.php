@@ -46,6 +46,11 @@ class BookTour extends Model
     {
         return $this->belongsTo(Tour::class);
     }
+    // app/Models/BookTour.php
+public function pay()
+{
+    return $this->belongsTo(Payment::class, 'pay_id');
+}
 
     // public function guide()
     // {

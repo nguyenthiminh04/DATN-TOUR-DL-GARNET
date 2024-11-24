@@ -121,7 +121,6 @@
                         </ul>
                     </div>
                     <div class="col-md-6">
-<<<<<<< HEAD
                         <ul class="list-inline f-right ul-account">
                             @if (Auth::check())
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
@@ -348,86 +347,14 @@
 
 
 
-                    @foreach ($listtour as $item)
-                        <div class="col-md-4 col-sm-6 col-xs-6 col-100">
-                            <div class="product-box">
-                                <div class="product-thumbnail">
-                                    <a href="{{ route('client.tour.show', $item->id) }}"
-                                        title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/83864b64404979-5ad0e1bdba9b284f3.jpg?v=1529553163227"
-                                            alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                    </a>
-                                    <div class="sale-off">-
-                                        <?= $item['sale'] ?>%
-                                    </div>
-                                </div>
-                                <div class="product-info a-left">
-                                    <h3 class="product-name"><a class="line-clamp"
-                                            href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                                            title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                            <?= $item['name'] ?>
-                                        </a></h3>
-                                    <div class="clearfix">
-                                        <div class="box-prices">
-                                            <div class="price-box clearfix">
-                                                <div class="special-price f-left">
-                                                    <span
-                                                        class="price product-price"><?= number_format($item['price_children'], 0, '', ',') ?>đ</span>
-                                                </div>
-
-                                                <div class="old-price">
-                                                    <span class="price product-price-old">
-                                                        <?= number_format($item['price_old'], 0, '', ',') ?>đ
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="box-tag">
-                                            <ul class="ct_course_list">
-
-                                                <li data-toggle="tooltip" data-placement="top"
-                                                    title="Di chuyển bằng Ô tô">
-                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                        alt="Di chuyển bằng Ô tô" />
-                                                </li>
-                                                <li data-toggle="tooltip" data-placement="top"
-                                                    title="Di chuyển bằng máy bay">
-                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                        alt="Di chuyển bằng máy bay" />
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                    <div class="box-date-tour">
-                                        <ul class="ct_course_list">
-
-                                            <li class="clearfix">
-                                                <div class="ulimg"><img
-                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                        alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: Thứ 2 - 7 hằng
-                                                tuần
-                                            </li>
-                                            <li class="clearfix">
-                                                <div class="ulimg"><img
-                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                        alt="6 ngày 5 đêm" /></div> Thời gian: 6 ngày 5 đêm
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    
 
 
                     @foreach ($Tourmoinhat as $item)
                         <div class="col-md-4 col-sm-6 col-xs-6 col-100">
                             <div class="product-box">
                                 <div class="product-thumbnail">
-                                    <a href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
+                                    <a href="{{ route('client.tour.show', $item->id) }}"
                                         title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
                                         <img src="{{ Storage::url($item->image) }}"
                                             alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
@@ -502,10 +429,10 @@
 
 
 
->>>>>>> f7ebfa5b181f41931dfa240aa386a484ba084185
+
                 </div>
             </div>
-        </div> --}}
+        </div>
 
 
         </div>
@@ -556,7 +483,7 @@
                                             </div>
                                             <div class="product-info a-left">
                                                 <h3 class="product-name">
-                                                    <a class="line-clamp" href="{{ $tour->link }}" title="{{ $tour->name }}">{{ $tour->name }}</a>
+                                                    <a class="line-clamp" href="{{ route('client.tour.show', $tour->id) }}" title="{{ $tour->name }}">{{ $tour->name }}</a>
                                                 </h3>
                                                 <div class="clearfix">
                                                     <div class="box-prices">
