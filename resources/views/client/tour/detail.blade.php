@@ -1,53 +1,4 @@
 @extends('client.layouts.app')
-@section('style')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-    <style>
-        .owl-prev:hover,
-        .owl-next:hover {
-            opacity: 1;
-            /* Khi hover sẽ hiện rõ */
-        }
-
-        .owl-prev.disabled,
-        .owl-next.disabled {
-            opacity: 0.3;
-            /* Giảm độ mờ khi nút bị vô hiệu hóa */
-            cursor: not-allowed;
-            /* Thêm con trỏ chuột không cho phép khi vô hiệu hóa */
-        }
-
-        #sync1 .item,
-        #sync2 .item {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #sync1 .item img,
-        #sync2 .item img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Nếu bạn muốn điều chỉnh độ cao của ảnh */
-        #sync1,
-        #sync2 {
-            margin: 0;
-            padding: 0;
-        }
-
-        #sync2 .owl-item {
-            width: 80px;
-            /* Thu nhỏ ảnh thu nhỏ */
-            margin-right: 10px;
-        }
-
-        #sync1 {
-            margin-bottom: 20px;
-        }
-    </style>
-@endsection
 @section('content')
     <section class="bread-crumb margin-bottom-10">
         <div class="container">
@@ -128,29 +79,42 @@
                 <div class="col-lg-12 details-product">
                     <div class="row margin-bottom-10 margin-bottom-20">
                         <div class="col-md-6">
-                            <div id="sync1" class="owl-carousel owl-theme">
-                                @foreach ($images as $img)
-                                    <div class="item">
-                                        <img src="{{ asset('storage/' . $img->image) }}" alt="{{ $img->name }}"
-                                            style="width: 555px; height: 370px;" class="img-responsive center-block" />
-                                    </div>
-                                @endforeach
+                            <div id="sync1" class="owl-carousel owl-theme not-dqowl">
+
+                                <div class="item">
+                                    <img src="{{ url('client/bizweb.dktcdn.net/thumb/grande/100/299/077/products/vancouver-145e5.jpg?v=1529553306293') }}"
+                                        alt="Du lịch Canada - Cuba [vancouver - victoria - la habana - varadero]"
+                                        class="img-responsive center-block" />
+                                </div>
+
+                                <div class="item">
+                                    <img src="{{ url('client/bizweb.dktcdn.net/thumb/grande/100/299/077/products/n45e5.jpg?v=1529553306293') }}"
+                                        alt="Du lịch Canada - Cuba [vancouver - victoria - la habana - varadero]"
+                                        class="img-responsive center-block" />
+                                </div>
+
                             </div>
 
-                            <div id="sync2" class="owl-carousel owl-theme">
-                                @foreach ($images as $img)
-                                    <div class="item">
-                                        <img src="{{ asset('storage/' . $img->image) }}" alt="{{ $img->name }}"
-                                            style=": 70px;" class="img-responsive center-block" />
-                                    </div>
-                                @endforeach
+                            <div id="sync2" class="owl-carousel owl-theme not-dqowl">
+
+                                <div class="item">
+                                    <img src="{{ url('client/bizweb.dktcdn.net/thumb/medium/100/299/077/products/vancouver-145e5.jpg?v=1529553306293') }}"
+                                        alt="Du lịch Canada - Cuba [vancouver - victoria - la habana - varadero]"
+                                        class="img-responsive center-block" />
+                                </div>
+
+                                <div class="item">
+                                    <img src="{{ url('client/bizweb.dktcdn.net/thumb/medium/100/299/077/products/n45e5.jpg?v=1529553306293') }}"
+                                        alt="Du lịch Canada - Cuba [vancouver - victoria - la habana - varadero]"
+                                        class="img-responsive center-block" />
+                                </div>
+
                             </div>
 
                         </div>
-
                         <div class="col-md-6">
                             <div class="details-pro">
-                                <h1 class="title-head">{{ $tour->name }}</h1>
+                                <h1 class="title-head"></h1>
 
                                 <div class="sku-product hidden">
                                     SKU: <span class="variant-sku">(Đang cập nhật...)</span>
@@ -164,12 +128,65 @@
                                 <ul class="ct_course_list">
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                     <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
                                                 alt="Di chuyển bằng Ô tô" /></div>
                                         Di chuyển bằng Ô tô
                                     </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                     <li>
                                         <div class="ulimg"><img
@@ -178,12 +195,60 @@
                                         Di chuyển bằng tàu thủy
                                     </li>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                     <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
                                                 alt="Di chuyển bằng máy bay" /></div>
                                         Di chuyển bằng máy bay
                                     </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                     <li>
                                         <div class="ulimg"><img
@@ -192,25 +257,78 @@
                                         <span id="date-khoi-hanh">Thứ 2 - 5 hằng tuần</span>
                                     </li>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                     <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
                                                 alt="10 ngày 9 đêm" /></div>
                                         <?= $tour['schedule'] ?>
                                     </li>
+
+
+
                                 </ul>
 
                                 <div class="product-summary product_description margin-bottom-10 margin-top-5">
                                     <div class="rte description">
 
                                         -<?= $tour['description'] ?>
+
+
+
                                     </div>
                                 </div>
 
                                 <div class="call-me-back">
                                     <ul class="row">
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
-                                            <a href="#book-tour-now" title="Đặt tour" class="icon-mouse-scroll">
+                                            <a href="{{ route('tour.pre-booking',['id'=>$tour->id]) }}" id="btnIconMouseScroll" title="Đặt tour"
+                                                class="icon-mouse-scroll">
                                                 <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
                                             </a>
                                         </li>
@@ -274,42 +392,7 @@
                                                 <li class="col-xs-3 hidden-xss subtotal text-right" id="subtotal">
                                                     0₫</li>
                                             </ul>
-                                            {{-- <script>
-                                                // Lấy các phần tử cần thiết
-                                                const minusButton = document.querySelector(".minus");
-                                                const plusButton = document.querySelector(".plus");
-                                                const quantityInput = document.getElementById("quantity-0");
-                                                const variantPriceInput = document.querySelector("[name='variant_price']");
-                                                const subtotalElement = document.getElementById("subtotal");
 
-                                                // Chuyển giá trị từ input giá về số nguyên
-                                                const variantPrice = parseInt(variantPriceInput.value, 10);
-
-                                                // Hàm cập nhật tổng giá
-                                                function updateSubtotal(quantity) {
-                                                    const total = quantity > 0 ? variantPrice * quantity : 0; // Tính tổng hoặc giữ 0
-                                                    // Cập nhật nội dung hiển thị, định dạng lại thành số tiền
-                                                    subtotalElement.textContent = total.toLocaleString("vi-VN") + "₫";
-                                                }
-
-                                                // Sự kiện khi bấm nút giảm
-                                                minusButton.addEventListener("click", () => {
-                                                    let currentQuantity = parseInt(quantityInput.value, 10);
-                                                    if (currentQuantity > 0) { // Cho phép giảm về 0
-                                                        currentQuantity -= 1;
-                                                        quantityInput.value = currentQuantity;
-                                                        updateSubtotal(currentQuantity);
-                                                    }
-                                                });
-
-                                                // Sự kiện khi bấm nút tăng
-                                                plusButton.addEventListener("click", () => {
-                                                    let currentQuantity = parseInt(quantityInput.value, 10);
-                                                    currentQuantity += 1;
-                                                    quantityInput.value = currentQuantity;
-                                                    updateSubtotal(currentQuantity);
-                                                });
-                                            </script> --}}
 
 
 
@@ -360,12 +443,19 @@
                                                 </span>
                                                 <strong class="col-md-4 col-sm-3"></strong>
                                             </div>
-                                            {{-- <script>
+                                            <script>
+                                                var tourName = <?= json_encode($tour['name']) ?>; 
+                                                var startDate=<?= json_encode( $tour['start_date'] ) ?>; 
+                                                
+                                                
+
+                                                
                                                 // Lấy tất cả các phần tử nhóm sản phẩm
                                                 const variantLists = document.querySelectorAll(".variant_list");
 
                                                 // Phần tử hiển thị tổng tiền
                                                 const totalPriceElement = document.querySelector(".totalPrice strong");
+
 
                                                 // Hàm cập nhật tổng tiền
                                                 function updateTotalPrice() {
@@ -381,6 +471,23 @@
 
                                                     // Hiển thị tổng tiền đã định dạng
                                                     totalPriceElement.textContent = totalPrice.toLocaleString("vi-VN") + "₫";
+
+                                                    // Lưu thông tin vào sessionStorage
+                                                    const selectedTourInfo = {
+                                                        totalPrice: totalPrice,
+                                                        startDate: startDate,
+                                                        tourName: tourName,
+                                                        quantities: Array.from(variantLists).map((variantList) => {
+                                                            const quantityInput = variantList.querySelector(".qty");
+                                                            const variantPriceInput = variantList.querySelector("[name='variant_price']");
+                                                            return {
+                                                                quantity: parseInt(quantityInput.value, 10),
+                                                                price: parseInt(variantPriceInput.value, 10)
+                                                            };
+                                                        })
+                                                    };
+
+                                                    sessionStorage.setItem("selectedTourInfo", JSON.stringify(selectedTourInfo));
                                                 }
 
                                                 // Gắn sự kiện cho từng nhóm
@@ -417,8 +524,16 @@
                                                         updateSubtotal(currentQuantity); // Cập nhật subtotal khi tăng
                                                     });
                                                 });
+
                                                 updateTotalPrice();
-                                            </script> --}}
+                                            </script>
+
+
+
+
+
+
+
                                         </div>
                                     </div>
                                     <div class="row contact_btn_group">
@@ -435,18 +550,56 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
-                                            <button type="submit" id="submit-table"
-                                                class="pull-right btn btn-default buynow add-to-cart button nomargin">
-                                                <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
-                                            </button>
+                                            <a href="{{ route('tour.pre-booking',['id'=>$tour->id]) }}">
+                                                <button type="button" id="submit-table"
+                                                    class="pull-right btn btn-default buynow add-to-cart button nomargin">
+                                                    <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
+                                                </button>
+                                            </a>
+
                                         </div>
+                                        <script>
+                                            function handleBookingClick(event, url) {
+                                                event.preventDefault();
+
+                                                // Lấy giá trị số lượng người lớn và trẻ em
+                                                const adults = parseInt(document.getElementById('quantity-0').value, 10) || 0;
+                                                const children = parseInt(document.getElementById('quantity-1').value, 10) || 0;
+
+                                                // Kiểm tra số lượng
+                                                if (adults === 0 && children === 0) {
+                                                    alert('Vui lòng chọn số lượng người trước khi đặt tour!');
+                                                    return;
+                                                }
+
+                                                // Lưu thông tin vào sessionStorage
+                                                sessionStorage.setItem('tourBooking', JSON.stringify({
+                                                    adults: adults,
+                                                    children: children
+                                                }));
+
+
+                                                window.location.href = url;
+                                            }
+
+                                            // Gắn sự kiện click cho nút 1
+                                            document.getElementById('submit-table').addEventListener('click', function(e) {
+                                                handleBookingClick(e, this.closest('a').href);
+                                            });
+
+                                            // Gắn sự kiện click cho nút 2
+                                            document.getElementById('btnIconMouseScroll').addEventListener('click', function(e) {
+                                                handleBookingClick(e, this.href);
+                                            });
+                                        </script>
+
                                     </div>
                                     <div class="alert alert-warning alert-dismissible margin-top-20" role="alert">
                                         <button type="button" class="close" data-dismiss="alert"
                                             aria-label="Close"><span aria-hidden="true">×</span></button>
                                         Vui lòng liên hệ <strong><a href="tel:19006750">1900 6750</a></strong> để đặt Tour.
                                     </div>
-                                    {{-- <script>
+                                    <script>
                                         if ($('.pd_tour_variants .pd_variants_content ul').length == '0') {
                                             $('.pd_tour_variants').addClass('hidden');
                                             $('.contact_btn_group').addClass('hidden');
@@ -509,13 +662,19 @@
                                                 updatePrice();
                                             })
                                         }
-                                    </script> --}}
+                                    </script>
                                 </form>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-5 tour-policy">
 
                             <div class="tour-policy-content">
+
+
+
+
+
+
                                 <div class="main-project__tab--content tour-no-content">
                                     <div class="product-promotions-list">
                                         <h2 class="product-promotions-list-title">Chính sách Tour</h2>
@@ -524,6 +683,12 @@
                                         </div>
                                     </div>
                                 </div>
+
+
+
+
+
+
 
                                 <div class="main-project__tab--content">
                                     <div class="product-promotions-list">
@@ -587,7 +752,75 @@
                             <div class="product-tab">
 
 
-                                <p>{{ $tour->description }}</p>
+                                <p><strong>NGÀY 1: TP.HCM - BẮC KINH - VANCOUVER (Ăn trưa, tối)</strong><br />
+                                    Tự&nbsp; túc tập trung tại lầu 2 - Ga đi quốc tế sân bay Tân Sơn
+                                    Nhất&nbsp;(05&nbsp;:40-11:30) đi Bắc Kinh, chuyển tiếp chuyến bay&nbsp;<em><strong>CA997
+                                            (13:00-08:30) đi Vancouver&nbsp;</strong></em>- thành phố yên bình và trù phú
+                                    bên bờ Tây Canada. Ăn và nghỉ trên máy bay. Đến Vancouver, tham
+                                    quan&nbsp;<em><strong>Khu phố Người Hoa</strong></em>&nbsp;náo nhiệt với các hoạt động
+                                    thương mại, ẩm thực và văn hóa mang sắc màu Á Đông; chụp hình và tham quan bên
+                                    ngoài&nbsp;<em><strong>Tòa thị chính Thành phố</strong></em>. Nhận phòng khách sạn 3 sao
+                                    và nghỉ đêm tại Vancouver.</p>
+                                <p><img data-thumb="original" original-height="800" original-width="1200"
+                                        src="{{ url('client/bizweb.dktcdn.net/100/299/077/products/n45e5.jpg?v=1529553306293') }}" />
+                                </p>
+                                <p><strong>NGÀY 2: VANCOUVER - VICTORIA - VANCOUVER (Ăn sáng, trưa, tối)</strong><br />
+                                    <em><strong>Đến bến B.C ferry đón chuyến phà sang Victoria&nbsp;</strong></em>- mệnh
+                                    danh là thành phố hoa, thủ phủ của bang British Columbia. Tham
+                                    quan<em><strong>&nbsp;vườn Butchart&nbsp;</strong></em>tuyệt mỹ. Thư giãn dạo bước và
+                                    chiêm ngưỡng những hoa cỏ, cây cảnh tinh tế được chăm sóc bởi những người làm vườn tài
+                                    hoa. Trở lại Vancouver, tự do giải trí và nghỉ đêm.
+                                </p>
+                                <p><strong>NGÀY 3: VANCOUVER (Ăn sáng, trưa, tối)</strong><br />
+                                    Tản bộ trong không gian trong lành của&nbsp;<em><strong>Công viên
+                                            Stanley</strong></em>&nbsp;nổi bật với khoảng xanh của rừng cây bá hương quý
+                                    giá. Tham quan&nbsp;<em><strong>trang trại Salmon Hatchery</strong></em>, tìm hiểu về
+                                    chu kỳ sống của cá hồi. Tự do mua sắm. Nghỉ đêm tại Vancouver.</p>
+                                <p><strong>NGÀY 4&nbsp;: VANCOUVER (Ăn sáng, trưa, tối)</strong><br />
+                                    Khám phá&nbsp;<em><strong>Khu phố Gastown&nbsp;</strong></em>được thành lập từ năm 1867.
+                                    Khu phố còn giữ được nhiều nét đẹp cổ xưa đan xen với kiến trúc mới, thả bộ trên con
+                                    đường lát đá với các tiệm cà phê thơ mộng, những hàng quán xinh xắn. Chiêm
+                                    ngưỡng&nbsp;<em><strong>Tháp Đồng hồ chạy bằng hơi nước&nbsp;</strong></em>độc đáo. Ngắm
+                                    nhìn&nbsp;<em><strong>Tòa nhà Canada Place&nbsp;</strong></em>lộng lẫy bên bờ sông
+                                    Burrard Inlet với lớp mái bằng vải như những cánh buồm đón gió. Mua sắm tại những khu
+                                    bán hàng thời trang cao cấp, sầm uất của thành phố. Nghỉ đêm tại Vancouver.</p>
+                                <p><strong>NGÀY 5: VANCOUVER - LA HABANA (Ăn sáng)</strong><br />
+                                    Trả phòng. Ra sân bay làm thủ tục đón chuyến bay dự kiến&nbsp;<em><strong>AC110
+                                            (10:05-17:33) và AC1876 (19:35-23:05) từ Vancouver bay đi La Habana, quá cảnh
+                                            Toronto</strong></em>. Nhận phòng khách sạn 4 sao và nghỉ đêm tại La Habana.</p>
+                                <p><strong>NGÀY 6: LA HABANA (Ăn sáng, trưa, tối)</strong><br />
+                                    Chiêm ngưỡng và nghe giới thiệu về những công trình tiêu biểu của thành phố kỳ quan La
+                                    Habana:&nbsp;<em><strong>Quảng trường Armas&nbsp;</strong></em>được bao quanh bởi những
+                                    tòa nhà mang phong cách Baroque thanh lịch;&nbsp;<em><strong>Đài tưởng niệm&nbsp;anh
+                                            hùng Carlos Manuel de Cespedes&nbsp;</strong></em>- được mệnh danh là “cha đẻ
+                                    của Cuba;&nbsp;<em><strong>New Square - Quảng trường cổ thứ ba của&nbsp;La
+                                            Habana&nbsp;</strong></em>được xây dựng vào năm 1559;&nbsp;<em><strong>Quảng
+                                            trường Cách Mạng nằm trên đồi Catalanez; pháo đài cổ El
+                                            Morro</strong></em>&nbsp;tại đầu kênh đào Entrada trấn giữ lối vào vịnh La
+                                    Habana. Nghỉ đêm tại La Habana.</p>
+                                <p><strong>NGÀY 7: LA HABANA - VARADERO (Ăn sáng, trưa, tối)</strong><br />
+                                    Trả phòng. Khởi hành đi&nbsp;<em><strong>Varadero</strong></em>&nbsp;- một trong những
+                                    khu nghỉ mát lớn nhất của vùng Caribbean với những bãi cát trắng tuyệt đẹp, cách La
+                                    Habana khoảng 140km. Quý khách sẽ có một ngày trọn vẹn để&nbsp;<em><strong>tận hưởng
+                                            dịch vụ tại resort 4 sao Memories Varadero Beach Resort&nbsp;</strong></em>(hoặc
+                                    tương đương). Tự do thưởng thức các bữa trưa và tối tại các quầy buffets với thực đơn
+                                    phong phú. Cảm nhận hương vị tinh tế của các loại rượu, cocktail, cà phê miễn phí theo
+                                    tiêu chuẩn quy định. Tắm nắng và bơi lội trong làn nước biển xanh ngọc hoặc trải nghiệm
+                                    các dịch vụ spa và các hoạt động giải trí thể thao (chi phí tự túc). Nghỉ đêm tại
+                                    Varadero.</p>
+                                <p><strong>NGÀY 8: VARADERO - LA HABANA (Ăn sáng, trưa, tối)</strong><br />
+                                    Chia tay Varadero và trở lại La Habana. Tham quan&nbsp;<em><strong>bảo tàng rượu Rum,
+                                            đại lộ Malecon&nbsp;</strong></em>chạy dọc bờ biển,&nbsp;<em><strong>khách sạn
+                                            Ambos Mundos</strong></em>&nbsp;màu hồng nơi nhà văn Ernest Hemingway đặt bút
+                                    viết tác phẩm trứ danh «&nbsp;Chuông nguyện hồn ai&nbsp;». Nghỉ đêm tại khách sạn 4 sao
+                                    tại La Habana.</p>
+                                <p><strong>NGÀY 9: LA HABANA - BẮC KINH (Ăn sáng)</strong><br />
+                                    Khởi hành ra sân bay đón chuyến bay&nbsp;<em><strong>CA880 (10:00-17:20) từ La Habana về
+                                            Bắc Kinh, quá cảnh tại Montreal</strong></em>. Ăn và nghỉ trên máy bay.</p>
+                                <p><strong>NGÀY 10: BẮC KINH - TP. HCM</strong><br />
+                                    Đến sân bay Bắc Kinh, làm thủ tục nối chuyến bay&nbsp;<em><strong>CA903 (20:35-00: 40)
+                                            về Tp.HCM</strong></em>. Kết thúc chương trình du lịch Canada - Cuba.</p>
+
 
                             </div>
                         </div>
@@ -2880,57 +3113,4 @@
             top: auto !important;
         }
     </style>
-@endsection
-
-@section('script')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            var sync1 = $("#sync1");
-            var sync2 = $("#sync2");
-
-            // Khởi tạo carousel cho sync1 (carousel chính)
-            sync1.owlCarousel({
-                items: 1, // 1 ảnh mỗi lần hiển thị
-                margin: 10,
-                nav: true,
-                dots: false,
-                loop: false, // Tắt loop ở đây để tránh quay lại ảnh đầu tiên
-                autoplay: false,
-                responsiveRefreshRate: 200,
-            });
-
-            // Khởi tạo carousel cho sync2 (carousel thu nhỏ)
-            sync2.owlCarousel({
-                items: 5, // 5 ảnh thu nhỏ
-                margin: 10,
-                nav: true,
-                dots: false,
-                loop: false, // Tắt loop cho ảnh thu nhỏ để tránh ảnh đầu tiên
-                autoplay: false,
-                responsiveRefreshRate: 100,
-            });
-
-            // Đồng bộ hóa khi người dùng nhấn vào ảnh thu nhỏ (sync2)
-            sync2.on("click", ".item", function(e) {
-                e.preventDefault(); // Ngừng hành động mặc định
-                var index = $(this).index(); // Lấy chỉ số của ảnh được nhấn
-                sync1.trigger("to.owl.carousel", [index,
-                    300
-                ]); // Di chuyển carousel chính đến ảnh tương ứng
-            });
-
-            // Đồng bộ hóa lại khi carousel sync1 thay đổi
-            sync1.on("changed.owl.carousel", function(event) {
-                var index = event.item.index; // Lấy chỉ số của ảnh đang hiển thị trong sync1
-                sync2.find(".owl-item").removeClass("active").eq(index).addClass(
-                    "active"); // Đánh dấu ảnh thu nhỏ tương ứng
-            });
-
-            // Đảm bảo rằng ảnh thu nhỏ đầu tiên sẽ được làm nổi bật khi tải trang
-            sync2.find(".item").eq(0).addClass("active");
-        });
-    </script>
 @endsection

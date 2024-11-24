@@ -18,8 +18,8 @@ class Categoty_tour extends Model
         'status',
     ];
     Use SoftDeletes;
-    public function tour()
+    public function tours()
     {
-        return $this->hasMany(Tour::class);
+        return $this->hasMany(Tour::class, 'category_tour_id');
     }
 }

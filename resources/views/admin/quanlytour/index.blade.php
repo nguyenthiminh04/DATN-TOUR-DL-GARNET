@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Danh Mục</h4>
+                        <h4 class="mb-sm-0">Danh Sách Phiếu Giảm Giá</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -35,17 +35,23 @@
                                 </div><!--end col-->
                                 <div class="col-lg-2">
                                     <div class="search-box">
-                                        <input type="text" class="form-control search"
-                                            placeholder="Search for courses, price or something...">
-                                        <i class="ri-search-line search-icon"></i>
+                                        <!-- Form tìm kiếm -->
+                                        <form action="{{ route('dontour.index') }}" method="GET">
+                                            <div>
+                                                <label for="search_date">Chọn ngày:</label>
+                                                <input type="date" name="search_date" id="search_date" value="{{ request('search_date') }}">
+                                            </div>
+                                            <button type="submit">Tìm kiếm</button>
+                                        </form>
+                                        
                                     </div>
                                 </div><!--end col-->
                                 <div class="col-lg-auto">
                                     <div class="hstack flex-wrap gap-2">
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                            <a href="{{route('category.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
-                                                Thêm danh mục
+                                            <a href="{{route('coupons.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
+                                                Thêm chức vụ
                                             </a>
                                         <div>
                                             <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
@@ -68,46 +74,50 @@
                                         <tr>
 
                                             <th>ID</th>
-                                            <th>Tên danh mục</th>
-                                            <th>Ảnh</th>
-                                            {{-- <th>banner</th> --}}
-                                            {{-- <th>parent_id</th> --}}
-                                            {{-- <th>slug</th> --}}
-                                            <th>Mô tả</th>
-                                            <th>hot</th>
-                                            <th>Người Thêm</th>
-                                            <th scope="col">Trạng thái</th>
-                                            <th scope="col">Hành động </th>
+                                            <th>Người Đặt</th>
+                                            <th>Thông Tin Tour</th>
+                                            <th>Người Đặt Tour</th>
+                                            <th>Trạng Thái</th>
+                                            <th>Trạng Thái Tour</th>
+
+                                            <th>Hành Động</th>
+
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
-                                        @foreach ($listCategory as $index => $item)
-                                            <tr>
+                                        @foreach ($listTour as $index => $item)
+                                        <tr>
 
 
                                             <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
-                                            <td>{{ $item->name }}</td>
-                                            <td>
-                                              <img src="{{ Storage::url($item->avatar)}}" alt="" width="30px">
-
-
-                                          </td>
-                                          {{-- <td>
-                                            <img src="{{ Storage::url($item->banner)}}" alt="" width="30px">
-
-
-                                        </td> --}}
-                                        {{-- <td>{{ $item->parent ? $item->parent->name : 'Không có cha' }}</td> --}}
-
-                                            
-                                            {{-- <td>{{ $item->slugg }}</td> --}}
-                                            <td>{{ $item->description }}</td>
                                             <td>{{ $item->user->name }}</td>
-                                            <td class="{{ $item->hot == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $item->hot == 1 ? 'Hot' : 'Không Hot' }}</td>
-                                            <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                            <td>{{ $item->tour->name }}</td>
+                                            <td>{{ $item->name }}</td>
+                                           
+                                            <td>{{ $item->paymentstatus }}</td>
+                                            <td>
+                                                <form action="{{route('dontour.update',$item->id)}}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <select name="status" class="form-select w-75"
+                                                    onchange="confirmSubmit(this)"data-default-value="{{$item->trangThaiTour}}">
+                                                    
+                                                        @foreach ($trangThaiTour as $key => $value)
+                                                        <option value="{{ $key }}" {{$key == $item->status ? 'selected' : ''}}>
+                                                            {{-- <option value="{{ $key }}" {{$key == $item->trang_thai_don_hang ? 'selected' : ''}} {{$key == $type_huy_don_hang ? 'disabled' : ''}}> --}}
+      
+                                                                
+                                                                
+                                                                {{$value}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                   </form>
+                                            </td>
+                                            
+                                            
+
+                                           
                                             <td>
                                                 <ul class="d-flex gap-2 list-unstyled mb-0">
                                                     <li>
@@ -116,7 +126,7 @@
                                                                 class="ph-eye"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{route('location.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
+                                                        <a href="{{route('coupons.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
                                                     </li>
                                                     <li>
                                                         <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
@@ -137,17 +147,17 @@
                               <i class="bi bi-trash display-5"></i>
                           </div>
                           <div class="mt-4">
-                            <h4 class="mb-2">Xóa danh mục này?</h4>
-                            <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
+                              <h4 class="mb-2">Xóa mục này ?</h4>
+                              <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
                           </div>
                       </div>
                       <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('location.destroy', $item->id) }}"
+                        <form action="{{ route('coupons.destroy', $item->id) }}"
                           method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
                           <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn muốn xóa!</button>
+                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn!</button>
                         </form>
                       </div>
                   </div>
@@ -292,4 +302,16 @@
             });
         });
     </script>
+     <script>
+        function confirmSubmit(selectElement){
+            var form = selectElement.form;
+            var selectedOption = selectElement.options[selectElement.selectedIndex].text;
+            var defaultValue = selectElement.getAttribute('data-default-value');
+            if(confirm('Bạn có chắc chắn thay đổi trangj thái đơn hàng"'+ selectedOption +'"không?')){
+                form.submit();
+            }else{
+                selectElement.value = defaultValue;
+            }
+        }
+           </script>
 @endsection

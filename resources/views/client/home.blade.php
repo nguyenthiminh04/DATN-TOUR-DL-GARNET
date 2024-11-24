@@ -121,14 +121,28 @@
                         </ul>
                     </div>
                     <div class="col-md-6">
-
-                        <ul class="list-inline f-right ul-acccount">
-
-                            <li><a href="account/login.html"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
-                                    nhập</a></li>
-                            <li><a href="account/register.html"><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng
-                                    ký</a></li>
-                        </ul>
+                        <<<<<<< HEAD <ul class="list-inline f-right ul-account">
+                            @if (Auth::check())
+                                <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
+                                        {{ Auth::user()->name }}</a></li>
+                                <li>
+                                    <form action="{{ route('logouts') }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-link"
+                                            style="color: inherit; text-decoration: none;">
+                                            <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                        </button>
+                                    </form>
+                                </li>
+                            @else
+                                <li><a href="{{ url('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
+                                        Đăng
+                                        nhập</a></li>
+                                <li><a href="{{ url('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>
+                                        Đăng
+                                        ký</a></li>
+                            @endif
+                            </ul>
                     </div>
                 </div>
             </div>
@@ -144,7 +158,7 @@
                             <span class="icon-bar"></span>
                         </button>
                         <div class="logo">
-                            <a href="index.html" class="logo-wrapper ">
+                            <a href="{{ url('/') }}" class="logo-wrapper ">
                                 <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png"
                                     alt="logo Garnet Du lịch">
                             </a>
@@ -156,12 +170,12 @@
                     <div class="col-md-5">
                         <div class="search">
                             <div class="header_search search_form">
-                                <form class="input-group search-bar search_form"
-                                    action="https://ant-du-lich.mysapo.net/search" method="get" role="search">
-                                    <input type="search" name="query" value=""
+                                <form class="input-group search-bar search_form" action="{{ route('tour.search') }}"
+                                    method="get">
+                                    <input type="search" name="query" id="query"
+                                        value="{{ !empty(Request::get('query')) ? Request::get('query') : '' }}"
                                         placeholder="Tìm kiếm tour..."
-                                        class="input-group-field st-default-search-input search-text"
-                                        autocomplete="off">
+                                        class="input-group-field st-default-search-input search-text">
                                     <span class="input-group-btn">
                                         <button class="btn icon-fallback-text">
                                             <i class="fa fa-search"></i>
@@ -171,6 +185,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-4 hidden-sm hidden-xs">
                         <div class="top-fun">
                             <div class="hotline">
@@ -193,120 +208,57 @@
                 <div class="row">
                     <div class="col-md-12">
                         <ul id="nav" class="nav container">
+                            <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
+                            @foreach ($categoryes as $category)
+                                <li class="nav-item {{ $category->children->isNotEmpty() ? 'has-mega' : '' }}">
+                                    <a class="nav-link" href="{{ url($category->slugg) }}">
+                                        {{ $category->name }}
+                                        @if ($category->children->isNotEmpty())
+                                            <i class="fa fa-angle-right"></i>
+                                        @endif
+                                    </a>
 
-                            <li class="nav-item active"><a class="nav-link" href="index.html">Trang chủ</a></li>
-
-                            <li class="nav-item "><a class="nav-link" href="/gioi-thieu">Giới thiệu</a></li>
-                            <li class="nav-item  has-mega">
-                                <a href="tour-trong-nuoc.html" class="nav-link">Tour trong nước <i
-                                        class="fa fa-angle-right" data-toggle="dropdown"></i></a>
-
-                                <div class="mega-content">
-                                    <div class="level0-wrapper2">
-                                        <div class="nav-block nav-block-center">
-                                            <ul class="level0">
-                                                <li class="level1 parent item">
-                                                    <h2 class="h4"><a href="mien-bac.html"><span>Miền
-                                                                Bắc</span></a>
-                                                    </h2>
-                                                    <ul class="level1">
-
-                                                        <li class="level2"> <a href="du-lich-ha-noi.html"><span>Du
-                                                                    lịch
-                                                                    Hà Nội</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-ha-long.html"><span>Du
-                                                                    lịch
-                                                                    Hạ Long</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-sapa.html"><span>Du lịch
-                                                                    Sapa</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-ninh-binh.html"><span>Du
-                                                                    lịch Ninh Bình</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-hai-phong.html"><span>Du
-                                                                    lịch Hải Phòng</span></a> </li>
-
+                                    @if ($category->children->isNotEmpty())
+                                        <div class="mega-content">
+                                            <div class="level0-wrapper2">
+                                                <div class="nav-block nav-block-center">
+                                                    <ul class="level0">
+                                                        @foreach ($category->children as $child)
+                                                            <li class="level1 parent item">
+                                                                <h2 class="h4">
+                                                                    <a href="{{ url($child->slugg) }}">
+                                                                        <span>{{ $child->name }}</span>
+                                                                    </a>
+                                                                </h2>
+                                                                @if ($child->children->isNotEmpty())
+                                                                    <ul class="level1">
+                                                                        @foreach ($child->children as $subChild)
+                                                                            <li class="level2">
+                                                                                <a href="{{ url($subChild->slugg) }}">
+                                                                                    <span>{{ $subChild->name }}</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                @endif
+                                                            </li>
+                                                        @endforeach
                                                     </ul>
-                                                </li>
-
-                                                <li class="level1 parent item">
-                                                    <h2 class="h4"><a href="mien-trung.html"><span>Miền
-                                                                Trung</span></a>
-                                                    </h2>
-                                                    <ul class="level1">
-
-                                                        <li class="level2"> <a href="du-lich-quang-binh.html"><span>Du
-                                                                    lịch Quảng Bình</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-hue.html"><span>Du lịch
-                                                                    Huế</span></a> </li>
-
-                                                        <li class="level2"> <a href="/da-nang"><span>Du
-                                                                    lịch
-                                                                    Đà Nẵng</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-hoi-an.html"><span>Du
-                                                                    lịch
-                                                                    Hội An</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-nha-trang.html"><span>Du
-                                                                    lịch Nha Trang</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-phan-thiet.html"><span>Du
-                                                                    lịch Phan Thiết</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-da-lat.html"><span>Du
-                                                                    lịch
-                                                                    Đà Lạt</span></a> </li>
-
-                                                    </ul>
-                                                </li>
-                                                <li class="level1 parent item">
-                                                    <h2 class="h4"><a href="mien-nam.html"><span>Miền
-                                                                Nam</span></a>
-                                                    </h2>
-                                                    <ul class="level1">
-
-                                                        <li class="level2"> <a href="du-lich-phu-quoc.html"><span>Du
-                                                                    lịch Phú Quốc</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-con-dao.html"><span>Du
-                                                                    lịch
-                                                                    Côn Đảo</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-can-tho.html"><span>Du
-                                                                    lịch
-                                                                    Cần Thơ</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-vung-tau.html"><span>Du
-                                                                    lịch Vũng Tàu</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-ben-tre.html"><span>Du
-                                                                    lịch
-                                                                    Bến Tre</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-dao-nam-du.html"><span>Du
-                                                                    lịch Đảo Nam Du</span></a> </li>
-
-                                                    </ul>
-                                                </li>
-                                            </ul>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    @endif
+                                </li>
+                            @endforeach
 
-                            </li>
-
-                            <li class="nav-item "><a class="nav-link" href="/dich-vu">Dịch vụ tour</a></li>
-
-                            <li class="nav-item "><a class="nav-link" href="cam-nang">Cẩm nang du
-                                    lịch</a>
-                            </li>
-
-                            <li class="nav-item "><a class="nav-link" href="/lien-he">Liên hệ</a></li>
+                            <!-- Các menu tĩnh -->
+                            <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
+                            <li class="nav-item"><a class="nav-link" href="dich-vu-tour.html">Dịch vụ tour</a></li>
+                            <li class="nav-item"><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du
+                                    lịch</a></li>
+                            <li class="nav-item"><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
                         </ul>
+
                     </div>
                 </div>
             </div>
@@ -396,7 +348,8 @@
                 <div class="row">
 
 
-                    @foreach ($listtour as $item)
+
+                    {{-- @foreach ($listtour as $item)
                         <div class="col-md-4 col-sm-6 col-xs-6 col-100">
                             <div class="product-box">
                                 <div class="product-thumbnail">
@@ -406,25 +359,26 @@
                                             alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
                                     </a>
                                     <div class="sale-off">-
-                                        <?=$item['sale']?>%
+                                        <?= $item['sale'] ?>%
                                     </div>
                                 </div>
                                 <div class="product-info a-left">
                                     <h3 class="product-name"><a class="line-clamp"
                                             href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
                                             title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                            <?=$item['name'] ?>
-                                           </a></h3>
+                                            <?= $item['name'] ?>
+                                        </a></h3>
                                     <div class="clearfix">
                                         <div class="box-prices">
                                             <div class="price-box clearfix">
                                                 <div class="special-price f-left">
-                                                    <span class="price product-price"><?=number_format($item['price_children'],0,'',',') ?>đ</span>
+                                                    <span
+                                                        class="price product-price"><?= number_format($item['price_children'], 0, '', ',') ?>đ</span>
                                                 </div>
 
                                                 <div class="old-price">
                                                     <span class="price product-price-old">
-                                                        <?=number_format($item['price_old'],0,'',',') ?>đ
+                                                        <?= number_format($item['price_old'], 0, '', ',') ?>đ
                                                     </span>
                                                 </div>
                                             </div>
@@ -467,96 +421,100 @@
                                 </div>
                             </div>
                         </div>
+                    @endforeach --}}
+
+
+                    @foreach ($Tourmoinhat as $item)
+                        <div class="col-md-4 col-sm-6 col-xs-6 col-100">
+                            <div class="product-box">
+                                <div class="product-thumbnail">
+                                    <a href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
+                                        title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
+                                        <img src="{{ Storage::url($item->image) }}"
+                                            alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
+                                    </a>
+                                    <div class="sale-off">-
+                                        {{ $item->sale }}%
+                                    </div>
+                                </div>
+                                <div class="product-info a-left">
+                                    <h3 class="product-name"><a class="line-clamp"
+                                            href="{{ route('detail', $item->id) }}"
+                                            title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">{{ $item->name }}
+                                            [{{ $item->location->name }}] [{{ $item->journeys }}]</a></h3>
+                                    <div class="clearfix">
+                                        <div class="box-prices">
+                                            <div class="price-box clearfix">
+                                                <div class="special-price f-left">
+                                                    <span class="price product-price">
+                                                        {{ number_format($item->price_old * (1 - $item->sale / 100), 0, '', '.') }}
+                                                        VNĐ</span>
+
+                                                </div>
+
+
+
+                                                <div class="old-price">
+                                                    <span class="price product-price-old">
+                                                        {{ number_format($item->price_old, 0, '', '.') }}VNĐ
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="box-tag">
+                                            <ul class="ct_course_list">
+
+                                                <li data-toggle="tooltip" data-placement="top"
+                                                    title="Di chuyển bằng Ô tô">
+                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
+                                                        alt="Di chuyển bằng Ô tô" />
+                                                </li>
+                                                <li data-toggle="tooltip" data-placement="top"
+                                                    title="Di chuyển bằng máy bay">
+                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
+                                                        alt="Di chuyển bằng máy bay" />
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <div class="box-date-tour">
+                                        <ul class="ct_course_list">
+
+                                            <li class="clearfix">
+                                                <div class="ulimg"><img
+                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+                                                        alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành:
+                                                {{ $item->start_date }} - {{ $item->end_date }}
+                                            </li>
+                                            <li class="clearfix">
+                                                <div class="ulimg"><img
+                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+                                                        alt="6 ngày 5 đêm" /></div> Thời gian: {{ $item->schedule }}
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
 
 
-@foreach ($Tourmoinhat as $item)
-<div class="col-md-4 col-sm-6 col-xs-6 col-100">
-    <div class="product-box">
-        <div class="product-thumbnail">
-            <a href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                <img src="{{ Storage::url($item->image) }}"
-                    alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-            </a>
-            <div class="sale-off">-
-                {{$item->sale}}%
+
+
+                </div>
             </div>
         </div>
-        <div class="product-info a-left">
-            <h3 class="product-name"><a class="line-clamp"
-                    href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                    title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">{{$item->name}} [{{$item->location->name}}] [{{$item->journeys}}]</a></h3>
-            <div class="clearfix">
-                <div class="box-prices">
-                    <div class="price-box clearfix">
-                        <div class="special-price f-left">
-                            <span class="price product-price"> {{ number_format($item->price_old * (1 - $item->sale / 100), 0, '', '.') }} VNĐ</span>
 
-                        </div>
-
-                        
-
-                        <div class="old-price">
-                            <span class="price product-price-old">
-                                {{number_format($item->price_old,0,'','.')}}VNĐ
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="box-tag">
-                    <ul class="ct_course_list">
-
-                        <li data-toggle="tooltip" data-placement="top"
-                            title="Di chuyển bằng Ô tô">
-                            <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                alt="Di chuyển bằng Ô tô" />
-                        </li>
-                        <li data-toggle="tooltip" data-placement="top"
-                            title="Di chuyển bằng máy bay">
-                            <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                alt="Di chuyển bằng máy bay" />
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-            <div class="box-date-tour">
-                <ul class="ct_course_list">
-
-                    <li class="clearfix">
-                        <div class="ulimg"><img
-                                src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: {{$item->start_date}} - {{$item->end_date}}
-                    </li>
-                    <li class="clearfix">
-                        <div class="ulimg"><img
-                                src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                alt="6 ngày 5 đêm" /></div> Thời gian: {{$item->schedule}}
-                    </li>
-                </ul>
-            </div>
 
         </div>
-    </div>
-</div>
-@endforeach
-                    
-
-
-                            </div>
-                        </div>
-                    </div> --}}
-
-
-                </div>
-            </div>
+        </div>
         </div>
     </section>
 
     <section class="awe-section-3">
-
         <div class="section_tour-inbound">
             <div class="container">
                 <div class="row">
@@ -576,289 +534,85 @@
                 <div class="row tour-travel-item">
                     <div class="col-md-12 e-tabs not-dqtab ajax-tab-1" data-section="ajax-tab-1">
                         <div class="content">
-                            <div>
-                                <ul class="tabs tabs-title tab-mobile clearfix hidden-sm hidden-md hidden-lg">
-                                    <li class="prev"><i class="fa fa-angle-left"></i></li>
-                                    <li class="tab-link tab-title hidden-sm hidden-md hidden-lg current tab-titlexs"
-                                        data-tab="tab-1">
-
-                                        <span>Miền Trung</span>
-
+                            <ul class="tabs tabs-title ajax clearfix hidden-xs">
+                                @foreach ($categories as $index => $category)
+                                    <li class="tab-link has-content {{ $index == 0 ? 'active' : '' }}"
+                                        data-tab="tab-{{ $category->id }}">
+                                        <span>{{ $category->category_tour }}</span>
                                     </li>
-                                    <li class="next"><i class="fa fa-angle-right"></i></li>
-                                </ul>
-                                <ul class="tabs tabs-title ajax clearfix hidden-xs">
+                                @endforeach
+                            </ul>
 
-                                    <li class="tab-link has-content" data-tab="tab-1" data-url="/mien-trung">
-                                        <span>Miền Trung</span>
-                                    </li>
-
-                                    <li class="tab-link " data-tab="tab-2" data-url="/mien-bac">
-                                        <span>Miền Bắc</span>
-                                    </li>
-
-                                    <li class="tab-link " data-tab="tab-3" data-url="/mien-nam">
-                                        <span>Miền Nam</span>
-                                    </li>
-
-                                </ul>
-
-                                <div class="tab-1 tab-content">
-
+                            @foreach ($categories as $index => $category)
+                                <div class="tab-{{ $category->id }} tab-content"
+                                    style="{{ $index == 0 ? '' : 'display:none;' }}">
                                     <div class="section-tour-owl products products-view-grid owl-carousel"
                                         data-lg-items='3' data-md-items='3' data-sm-items='2' data-xs-items="2"
                                         data-xss-items="1" data-margin='20' data-nav="true" data-dot="true">
-
-                                        <div class="item">
-
-                                            <div class="product-box">
-                                                <div class="product-thumbnail">
-                                                    <a href="du-lich-da-nang-kdl-ba-na-hoi-an-co-do-hue.html"
-                                                        title="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế">
-                                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/53916-131503727972c4.jpg?v=1529554090113"
-                                                            alt="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế">
-                                                    </a>
-
-
-                                                    <div class="sale-off">-
-                                                        3%
+                                        @foreach ($category->tours as $tour)
+                                            <div class="item">
+                                                <div class="product-box">
+                                                    <div class="product-thumbnail">
+                                                        <a href="{{ $tour->link }}" title="{{ $tour->name }}">
+                                                            <img src="{{ Storage::url($tour->image) }}"
+                                                                alt="{{ $tour->name }}">
+                                                        </a>
+                                                        <div class="sale-off">{{ $tour->sale }}%</div>
                                                     </div>
-
-
-                                                </div>
-                                                <div class="product-info a-left">
-                                                    <h3 class="product-name"><a class="line-clamp"
-                                                            href="du-lich-da-nang-kdl-ba-na-hoi-an-co-do-hue.html"
-                                                            title="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế">Du
-                                                            lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế</a></h3>
-                                                    <div class="clearfix">
-                                                        <div class="box-prices">
-
-
-                                                            <div class="price-box clearfix">
-                                                                <div class="special-price f-left">
-                                                                    <span class="price product-price">6.300.000₫</span>
+                                                    <div class="product-info a-left">
+                                                        <h3 class="product-name">
+                                                            <a class="line-clamp" href="{{ $tour->link }}"
+                                                                title="{{ $tour->name }}">{{ $tour->name }}</a>
+                                                        </h3>
+                                                        <div class="clearfix">
+                                                            <div class="box-prices">
+                                                                <div class="price-box clearfix">
+                                                                    <div class="special-price f-left">
+                                                                        <span
+                                                                            class="price product-price">{{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}
+                                                                            VNĐ</span>
+                                                                    </div>
+                                                                    <div class="old-price">
+                                                                        <span
+                                                                            class="price product-price-old">{{ number_format($tour->price_old, 0, '', '.') }}VNĐ</span>
+                                                                    </div>
                                                                 </div>
-
-                                                                <div class="old-price">
-                                                                    <span class="price product-price-old">
-                                                                        6.500.000₫
-                                                                    </span>
-                                                                </div>
-
                                                             </div>
-
                                                         </div>
-
-                                                        <div class="box-tag">
+                                                        <div class="box-date-tour">
                                                             <ul class="ct_course_list">
 
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng Ô tô">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                                        alt="Di chuyển bằng Ô tô" />
+                                                                <li class="clearfix">
+                                                                    <div class="ulimg"><img
+                                                                            src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+                                                                            alt="Thứ 2 - 7 hằng tuần" /></div> Khởi
+                                                                    hành: {{ $tour->start_date }} -
+                                                                    {{ $item->end_date }}
                                                                 </li>
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng máy bay">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                                        alt="Di chuyển bằng máy bay" />
-                                                                </li>
-
-                                                            </ul>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="box-date-tour">
-                                                        <ul class="ct_course_list">
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                                        alt="Thứ 7 hằng tuần" /></div> Khởi hành: Thứ 7
-                                                                hằng tuần
-                                                            </li>
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                                        alt="3 ngày 2 đêm" /></div> Thời gian: 3 ngày 2
-                                                                đêm
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="product-box">
-                                                <div class="product-thumbnail">
-                                                    <a href="du-lich-hue-ho-truoi-da-nang-suoi-khoang-nong-nui-than-tai-kdl-ba-na.html"
-                                                        title="Du lịch Huế - Hồ Truồi - Đà Nẵng - Suối Khoáng Nóng Núi Thần Tài - KDL Bà Nà">
-                                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/bana-hillsc589.jpg?v=1529554384043"
-                                                            alt="Du lịch Huế - Hồ Truồi - Đà Nẵng - Suối Khoáng Nóng Núi Thần Tài - KDL Bà Nà">
-                                                    </a>
-                                                    <div class="sale-off">-
-                                                        5%
-                                                    </div>
-                                                </div>
-                                                <div class="product-info a-left">
-                                                    <h3 class="product-name"><a class="line-clamp"
-                                                            href="du-lich-hue-ho-truoi-da-nang-suoi-khoang-nong-nui-than-tai-kdl-ba-na.html"
-                                                            title="Du lịch Huế - Hồ Truồi - Đà Nẵng - Suối Khoáng Nóng Núi Thần Tài - KDL Bà Nà">Du
-                                                            lịch Huế - Hồ Truồi - Đà Nẵng - Suối Khoáng Nóng Núi Thần
-                                                            Tài - KDL Bà Nà</a></h3>
-                                                    <div class="clearfix">
-                                                        <div class="box-prices">
-
-
-                                                            <div class="price-box clearfix">
-                                                                <div class="special-price f-left">
-                                                                    <span class="price product-price">5.900.000₫</span>
-                                                                </div>
-
-                                                                <div class="old-price">
-                                                                    <span class="price product-price-old">
-                                                                        6.200.000₫
-                                                                    </span>
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="box-tag">
-                                                            <ul class="ct_course_list">
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng Ô tô">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                                        alt="Di chuyển bằng Ô tô" />
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng máy bay">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                                        alt="Di chuyển bằng máy bay" />
+                                                                <li class="clearfix">
+                                                                    <div class="ulimg"><img
+                                                                            src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+                                                                            alt="6 ngày 5 đêm" /></div> Thời gian:
+                                                                    {{ $tour->schedule }}
                                                                 </li>
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <div class="box-date-tour">
-                                                        <ul class="ct_course_list">
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                                        alt="Thứ 7 hằng tuần" /></div> Khởi hành: Thứ 7
-                                                                hằng tuần
-                                                            </li>
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                                        alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
-                                                                đêm
-                                                            </li>
-                                                        </ul>
-                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="item">
-
-                                            <div class="product-box">
-                                                <div class="product-thumbnail">
-                                                    <a href="du-lich-nha-trang-hon-lao-doc-let.html"
-                                                        title="Du lịch Nha Trang - Hòn Lao - Dốc Lết">
-                                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/ponagar-cham-temple-nha-trang-min10994.jpg?v=1529554507043"
-                                                            alt="Du lịch Nha Trang - Hòn Lao - Dốc Lết">
-                                                    </a>
-
-                                                    <div class="sale-off">-
-                                                        22%
-                                                    </div>
-
-                                                </div>
-                                                <div class="product-info a-left">
-                                                    <h3 class="product-name"><a class="line-clamp"
-                                                            href="du-lich-nha-trang-hon-lao-doc-let.html"
-                                                            title="Du lịch Nha Trang - Hòn Lao - Dốc Lết">Du lịch Nha
-                                                            Trang - Hòn Lao - Dốc Lết</a></h3>
-                                                    <div class="clearfix">
-                                                        <div class="box-prices">
-
-
-                                                            <div class="price-box clearfix">
-                                                                <div class="special-price f-left">
-                                                                    <span class="price product-price">3.410.000₫</span>
-                                                                </div>
-
-                                                                <div class="old-price">
-                                                                    <span class="price product-price-old">
-                                                                        4.400.000₫
-                                                                    </span>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="box-tag">
-                                                            <ul class="ct_course_list">
-
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng Ô tô">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                                        alt="Di chuyển bằng Ô tô" />
-                                                                </li>
-
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng máy bay">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                                        alt="Di chuyển bằng máy bay" />
-                                                                </li>
-
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="box-date-tour">
-                                                        <ul class="ct_course_list">
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                                        alt="Thứ 5; Chủ nhật" /></div> Khởi hành: Thứ
-                                                                5;
-                                                                Chủ nhật
-                                                            </li>
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                                        alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
-                                                                đêm
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
-
                                 </div>
-                                <div class="tab-2 tab-content">
-                                </div>
-                                <div class="tab-3 tab-content">
-                                </div>
-                                <script></script>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+
+
 
     <section class="awe-section-4">
 
@@ -1234,32 +988,33 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="section-location-owl owl-carousel owl-theme not-dqowl">
-@foreach ($locations as $item)
-<div class="item">
-    <div class="tourmaster-tour-category-item-wrap">
-        <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-            <img src="{{ Storage::url($item->image)}}"
-                alt="Phú Quốc" />
-        </div>
-        <div class="tourmaster-tour-category-overlay"></div>
-        <div class="tourmaster-tour-category-overlay-front"></div>
-        <div class="tourmaster-tour-category-head">
-            <div class="tourmaster-tour-category-head-display clearfix">
-                <h3 class="tourmaster-tour-category-title"><i
-                        class="fa fa-map-marker color-x"></i>Phú Quốc</h3>
-            </div>
-            <div class="tourmaster-tour-category-head-animate">
-                <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
-                    chi tiết</a>
-                <div class="tourmaster-tour-category-head-divider"></div>
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
-                       
+                        @foreach ($locations as $item)
+                            <div class="item">
+                                <div class="tourmaster-tour-category-item-wrap">
+                                    <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
+                                        <img src="{{ Storage::url($item->image) }}" alt="Phú Quốc" />
+                                    </div>
+                                    <div class="tourmaster-tour-category-overlay"></div>
+                                    <div class="tourmaster-tour-category-overlay-front"></div>
+                                    <div class="tourmaster-tour-category-head">
+                                        <div class="tourmaster-tour-category-head-display clearfix">
+                                            <h3 class="tourmaster-tour-category-title"><i
+                                                    class="fa fa-map-marker color-x"></i>Phú Quốc</h3>
+                                        </div>
+                                        <div class="tourmaster-tour-category-head-animate">
+                                            <a class="tourmaster-tour-category-head-link"
+                                                href="collections/all.html">Xem
+                                                chi tiết</a>
+                                            <div class="tourmaster-tour-category-head-divider"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
 
-                       
+
+
+
 
                     </div>
                 </div>
@@ -1739,16 +1494,16 @@
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
                 <rect x="16" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
             </svg>
         </span>
@@ -1757,32 +1512,32 @@
     <div class="loading awe-popup">
         <div class="overlay"></div>
         <div class="loader" title="2">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30"
-                style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;"
+                xml:space="preserve">
                 <rect x="0" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
                 <rect x="8" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
                 <rect x="16" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
             </svg>
         </div>
@@ -2367,8 +2122,7 @@
             </div>
             <div class="title-quantity-popup">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i> Giỏ hàng của bạn (<span
-                    class="cart-popup-count"></span> sản phẩm) <i class="fa fa-caret-right"
-                    aria-hidden="true"></i>
+                    class="cart-popup-count"></span> sản phẩm) <i class="fa fa-caret-right" aria-hidden="true"></i>
             </div>
             <div class="content-popup-cart">
                 <div class="thead-popup">
@@ -2390,8 +2144,7 @@
                         </div>
                     </div>
                     <div class="tfoot-popup-2 clearfix">
-                        <a class="button btn-proceed-checkout" title="Tiến hành đặt hàng"
-                            href="cart.html"><span>Tiến
+                        <a class="button btn-proceed-checkout" title="Tiến hành đặt hàng" href="cart.html"><span>Tiến
                                 hành đặt hàng <i class="fa fa-long-arrow-right" aria-hidden="true"></i></span></a>
                         <a class="button btn-continue" title="Tiếp tục mua hàng"
                             onclick="$('#popup-cart').modal('hide');"><span><span><i class="fa fa-caret-left"
@@ -2928,6 +2681,30 @@
             top: auto !important;
         }
     </style>
+    <script>
+        $(document).ready(function() {
+            // Khi nhấp vào tab
+            $(".tab-link").click(function() {
+                var tab = $(this).data('tab'); // Lấy giá trị data-tab
+
+                // Ẩn tất cả tab-content và hiển thị tab tương ứng
+                $(".tab-content").hide();
+                $("." + tab).show();
+
+                // Xóa active khỏi tất cả các tab-link và thêm vào tab hiện tại
+                $(".tab-link").removeClass("active");
+                $(this).addClass("active");
+            });
+
+            // Cài đặt owl-carousel
+            $(".owl-carousel").owlCarousel({
+                items: 3,
+                margin: 20,
+                nav: true,
+                dots: true,
+            });
+        });
+    </script>
 </body>
 
 </html>

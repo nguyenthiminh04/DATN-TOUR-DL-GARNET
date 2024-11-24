@@ -11,6 +11,7 @@
 
     <link rel="shortcut icon" href="{{ asset('admin/assets/images/favicon.ico') }}">
 
+    
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link id="fontsLink"
@@ -21,6 +22,8 @@
     <link href="{{ asset('admin/assets/libs/swiper/swiper-bundle.min.css') }}" rel="stylesheet" type="text/css">
 
     <script src="{{ asset('admin/assets/js/layout.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
+
 
     <link href="{{ asset('admin/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('admin/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
@@ -315,7 +318,9 @@
                 icon: "error",
                 title: "{{ Session::get('error') }}",
             });
+
         </script>
+
     @endif
 
     @yield('script-libs')
