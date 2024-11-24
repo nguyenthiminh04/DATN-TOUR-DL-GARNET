@@ -15,7 +15,6 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('tour_id');
-            $table->unsignedBigInteger('guide_id')->nullable();
             $table->string('name', 255);
             $table->string('email', 255);
             $table->string('phone', 255);
@@ -26,7 +25,7 @@ return new class extends Migration
             $table->integer('number_old')->default(0);
             $table->integer('number_children')->default(0);
             $table->decimal('total_money', 10, 2);
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->integer('sale')->default(0);
             $table->timestamps();
             $table->softDeletes();
@@ -34,7 +33,6 @@ return new class extends Migration
             // Foreign key constraints
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');
-            $table->foreign('guide_id')->references('id')->on('guides')->onDelete('set null');
         });
     }
 

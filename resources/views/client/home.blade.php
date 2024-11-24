@@ -121,7 +121,7 @@
                         </ul>
                     </div>
                     <div class="col-md-6">
-                        <<<<<<< HEAD <ul class="list-inline f-right ul-account">
+                        <ul class="list-inline f-right ul-account">
                             @if (Auth::check())
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
                                         {{ Auth::user()->name }}</a></li>
@@ -142,7 +142,7 @@
                                         Đăng
                                         ký</a></li>
                             @endif
-                            </ul>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -211,7 +211,7 @@
                             <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
                             @foreach ($categoryes as $category)
                                 <li class="nav-item {{ $category->children->isNotEmpty() ? 'has-mega' : '' }}">
-                                    <a class="nav-link" href="{{ url($category->slugg) }}">
+                                    <a class="nav-link" href="{{ url($category->slug) }}">
                                         {{ $category->name }}
                                         @if ($category->children->isNotEmpty())
                                             <i class="fa fa-angle-right"></i>
@@ -226,7 +226,7 @@
                                                         @foreach ($category->children as $child)
                                                             <li class="level1 parent item">
                                                                 <h2 class="h4">
-                                                                    <a href="{{ url($child->slugg) }}">
+                                                                    <a href="{{ url($child->slug) }}">
                                                                         <span>{{ $child->name }}</span>
                                                                     </a>
                                                                 </h2>
@@ -234,7 +234,7 @@
                                                                     <ul class="level1">
                                                                         @foreach ($child->children as $subChild)
                                                                             <li class="level2">
-                                                                                <a href="{{ url($subChild->slugg) }}">
+                                                                                <a href="{{ url($subChild->slug) }}">
                                                                                     <span>{{ $subChild->name }}</span>
                                                                                 </a>
                                                                             </li>
@@ -254,11 +254,12 @@
                             <!-- Các menu tĩnh -->
                             <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
                             <li class="nav-item"><a class="nav-link" href="dich-vu-tour.html">Dịch vụ tour</a></li>
-                            <li class="nav-item"><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du
-                                    lịch</a></li>
+                            <li class="nav-item"><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
+                                    
                             <li class="nav-item"><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{route('favorites.index')}}">Yêu Thích</a></li>
                         </ul>
-
+                        
                     </div>
                 </div>
             </div>

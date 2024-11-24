@@ -18,6 +18,7 @@ use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PaymentController;
 
 /*
@@ -35,12 +36,6 @@ use App\Http\Controllers\PaymentController;
 // client routes
 Route::group([], function () {
 
-
-    // Route::get('/', function () {
-    //     $listtour = Tour::orderBYDesc('id')->get();
-
-    //     return view('client.home',compact('listtour'));
-    // });
 
     // client dang ky/ dang nhap/quen mat khau/ login gg
     Route::get('/dang-nhap', [AuthClientController::class, 'DangNhap'])->name('dang-nhap');
@@ -129,6 +124,8 @@ Route::group([], function () {
     });
 
     Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
+
+    Route::resource('favorites', FavoriteController::class);
 });
 
 // admin routes
@@ -156,6 +153,3 @@ Route::group(['prefix' => 'admin'], function () {
 //     return view('client.auth.register');
 // });
 
-Route::get('/dang-ky', function () {
-    return view('client.auth.register');
-});
