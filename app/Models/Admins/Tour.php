@@ -2,6 +2,7 @@
 
 namespace App\Models\Admins;
 
+use App\Models\Favorite;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -89,5 +90,10 @@ class Tour extends Model
     public function images()
     {
         return $this->hasMany(ImageTour::class, 'tour_id');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 }

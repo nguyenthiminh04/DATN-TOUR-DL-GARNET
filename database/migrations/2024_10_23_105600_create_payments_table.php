@@ -22,11 +22,16 @@ return new class extends Migration
             $table->string('code_vnpay', 255)->nullable(); // Mã VNPay
             $table->string('code_bank', 255)->nullable(); // Mã ngân hàng
             $table->dateTime('time'); // Thời gian thanh toán
-            $table->string('trang_thai', 50)->nullable(); // Trạng thái thanh toán
+            $table->unsignedBigInteger('payment_method_id'); // Trạng thái thanh toán
+            $table->unsignedBigInteger('status_id')->nullable(); // Trạng thái thanh toán
+            $table->string('momo_transaction_id')->nullable(); // Mã giao dịch MoMo
+            $table->string('momo_response_code')->nullable(); // Mã phản hồi từ MoMo
             $table->timestamps(); // Cột created_at và updated_at
             $table->softDeletes(); // Cột delete_at để hỗ trợ xóa mềm
 
             // Ràng buộc khóa ngoại
+            $table->foreign('payment_method_id')->references('id')->on('payment_methods')->onDelete('cascade');
+            $table->foreign('status_id')->references('id')->on('statuses')->onDelete('cascade');
             $table->foreign('booking_id')->references('id')->on('book_tour')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
