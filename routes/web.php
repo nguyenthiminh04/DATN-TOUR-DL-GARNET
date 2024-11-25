@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Admin\BookTourController;
 use App\Models\Admins\Categoty_tour;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\FaqController;
@@ -18,6 +18,7 @@ use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,12 +38,6 @@ use Illuminate\Support\Facades\Auth;
 Route::group([], function () {
 
 
-    // Route::get('/', function () {
-    //     $listtour = Tour::orderBYDesc('id')->get();
-
-    //     return view('client.home',compact('listtour'));
-    // });
-
     // client dang ky/ dang nhap/quen mat khau/ login gg
     Route::get('/dang-nhap', [AuthClientController::class, 'DangNhap'])->name('dang-nhap');
     Route::post('/post-dang-nhap', [AuthClientController::class, 'postDangNhap'])->name('post-dang-nhap');
@@ -51,12 +46,14 @@ Route::group([], function () {
     Route::get('/auth/google', [AuthClientController::class, 'redirectToGoogle'])->name('auth.google');
     Route::get('/auth/google/callback', [AuthClientController::class, 'handleGoogleCallback']);
     Route::post('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
+
     Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetPasswordForm'])->name('reset-mat-khau');
     Route::post('reset-mat-khau/{token}', [AuthClientController::class, 'resetPassword'])->name('reset-mat-khau.xac-nhan');
 
     Route::post('quen-mat-khau', [AuthClientController::class, 'sendResetMK'])->name('password.request');
     Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetForm'])->name('password.reset');
     Route::post('reset-mat-khau', [AuthClientController::class, 'reset'])->name('password.update');
+
 
     Route::resource('tour', ClientTourController::class)->names([
 
@@ -88,16 +85,6 @@ Route::group([], function () {
 
     Route::get('payment/failed', [PaymentController::class, 'failure'])->name('payment.failed');
 
-
-
-
-
-
-
-
-
-
-
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
@@ -106,7 +93,6 @@ Route::group([], function () {
     //     return view('client.auth.login');
     // });
 
-    
     // Route::get('/dang-ky', function () {
     //     return view('client.auth.register');
     // });
@@ -140,15 +126,15 @@ Route::group([], function () {
         return view('client.pages.domesticTour');
     });
 
-    Route::get('/chi-tiet-tour', function () {
-        return view('client.pages.detailTour');
-    });
-    
+    Route::get('/chi-tiet-tour/{id}', [HomeController::class, 'detailTour'])->name('detail');
+
     Route::get('/chi-tiet-cam-nang', function () {
         return view('client.pages.detailHandbook');
     });
 
     Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
+
+    Route::resource('favorites', FavoriteController::class);
 });
 
 // admin routes
@@ -156,7 +142,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/home', function () {
         return view('admin.dashboard');
     })->name('home-admin');
+
     Route::resource('user', UserController::class);
+    Route::resource('dontour', BookTourController::class);
     Route::resource('faqs', FaqController::class);
     Route::resource('notifications', NotificationController::class);
     Route::resource('category_tour', Categoty_tour::class);
@@ -166,11 +154,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('category', CategoryController::class);
 });
 
-
-
-
-
-
 // Route::get('/dang-nhap', function () {
 //     return view('client.auth.login');
 // });
@@ -179,7 +162,9 @@ Route::group(['prefix' => 'admin'], function () {
 //     return view('client.auth.register');
 // });
 
+
 // Route::get('/dang-ky', function () {
 //     return view('client.auth.register');
 // });
+
 

@@ -19,13 +19,11 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('content')->nullable();
             $table->tinyInteger('status')->default(0);
-            $table->unsignedBigInteger('tour_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
             $table->softDeletes(); // Adds delete_at column
+            // Thêm ràng buộc khóa ngoại
 
-            // Foreign key constraints
-           
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

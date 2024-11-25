@@ -14,9 +14,8 @@ return new class extends Migration
             Schema::create('category_tour', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('category_tour', 255);
-                $table->decimal('price', 10, 2);
-                $table->text('description')->nullable();
-                $table->tinyInteger('status')->default(0);
+                $table->longText('description')->nullable();
+                $table->tinyInteger('status')->default(1);
                 $table->integer('responsibility')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
