@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
 use App\Http\Controllers\PaymentController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,7 +51,13 @@ Route::group([], function () {
     Route::get('/auth/google', [AuthClientController::class, 'redirectToGoogle'])->name('auth.google');
     Route::get('/auth/google/callback', [AuthClientController::class, 'handleGoogleCallback']);
     Route::post('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
-    
+    Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetPasswordForm'])->name('reset-mat-khau');
+    Route::post('reset-mat-khau/{token}', [AuthClientController::class, 'resetPassword'])->name('reset-mat-khau.xac-nhan');
+
+    Route::post('quen-mat-khau', [AuthClientController::class, 'sendResetMK'])->name('password.request');
+    Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetForm'])->name('password.reset');
+    Route::post('reset-mat-khau', [AuthClientController::class, 'reset'])->name('password.update');
+
     Route::resource('tour', ClientTourController::class)->names([
 
         'show' => 'client.tour.show',
@@ -172,7 +179,7 @@ Route::group(['prefix' => 'admin'], function () {
 //     return view('client.auth.register');
 // });
 
-Route::get('/dang-ky', function () {
-    return view('client.auth.register');
-});
+// Route::get('/dang-ky', function () {
+//     return view('client.auth.register');
+// });
 

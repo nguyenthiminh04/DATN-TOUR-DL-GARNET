@@ -1,13 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Reset mật khẩu</title>
-</head>
-<body>
-    <p>Chào bạn,</p>
-    <p>Mật khẩu mới của bạn là: <strong>{{ $newPassword }}</strong></p>
-    <p>Vui lòng đăng nhập và thay đổi mật khẩu để bảo mật.</p>
-    <p>Trân trọng,</p>
-    <p>Đội ngũ hỗ trợ {{ config('app.name') }}</p>
-</body>
-</html>
+<form method="POST" action="{{ route('reset-mat-khau.xac-nhan', $token) }}">
+    @csrf
+    <input type="hidden" name="token" value="{{ $token }}">
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+    </div>
+    <div>
+        <label for="password">Mật khẩu mới:</label>
+        <input type="password" name="password" id="password" required>
+    </div>
+    <div>
+        <label for="password_confirmation">Xác nhận mật khẩu:</label>
+        <input type="password" name="password_confirmation" id="password_confirmation" required>
+    </div>
+    <button type="submit">Đặt lại mật khẩu</button>
+</form>
+
+@if(session('success'))
+    <div>{{ session('success') }}</div>
+@endif
