@@ -193,7 +193,7 @@
                     </div>
                 </div>
 
-             
+
 
                 <div class="dropdown topbar-head-dropdown ms-1 header-item">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
@@ -686,9 +686,9 @@
                         <a class="dropdown-item" href="auth-lockscreen.html"><i
                                 class="mdi mdi-lock text-muted fs-lg align-middle me-1"></i> <span
                                 class="align-middle">Lock screen</span></a>
-                        <a class="dropdown-item" href="auth-logout.html"><i
+                        <a class="dropdown-item" href="{{ route('logout') }}"><i
                                 class="mdi mdi-logout text-muted fs-lg align-middle me-1"></i> <span
-                                class="align-middle" data-key="t-logout">Logout</span></a>
+                                class="align-middle">Logout</span></a>
                     </div>
                 </div>
             </div>

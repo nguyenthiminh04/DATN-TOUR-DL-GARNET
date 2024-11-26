@@ -76,9 +76,9 @@
                                         } return 0 == c.length ? "" : (b ? "?" : "") + c.join("&")
                                 }
                             </script>
-                            
-                            <a href="{{ route('auth.google') }}" class="social-login--google"><img
-                                    width="129px" height="37px" alt="google-login-button"
+
+                            <a href="{{ route('auth.google') }}" class="social-login--google"><img width="129px"
+                                    height="37px" alt="google-login-button"
                                     src="http://bizweb.dktcdn.net/assets/admin/images/login/gp-btn.svg"></a>
                         </div>
                         <form method="post" action="{{ route('post-dang-nhap') }}">
@@ -98,15 +98,15 @@
                                 <fieldset class="form-group">
                                     <label>Email<span class="required">*</span></label>
                                     <input type="email" class="form-control form-control-lg" name="email"
-                                        placeholder="Email"/>
+                                        placeholder="Email" />
                                 </fieldset>
                                 <fieldset class="form-group">
                                     <label>Mật khẩu<span class="required">*</span></label>
-                                    <input type="password" class="form-control form-control-lg" name="password"/>
+                                    <input type="password" class="form-control form-control-lg" name="password" />
                                 </fieldset>
                                 <div class="pull-xs-left" style="margin-top: 15px;">
                                     <input class="btn btn-style btn-blues" type="submit" value="Đăng nhập" />
-                                    <a href="{{ route('dang-ky') }}" class="btn-link-style btn-register"
+                                    <a href="" class="btn-link-style btn-register"
                                         style="margin-left: 20px;color:#007FF0;text-decoration: underline; ">Đăng ký</a>
                                 </div>
                             </div>
