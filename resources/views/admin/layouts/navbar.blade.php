@@ -30,11 +30,12 @@
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                 {{-- user --}}
-                <ul class="nav nav-sm flex-column">
-                    <li class="nav-item">
-                        <a href="{{ route('user.index') }}" class="nav-link">Dashboard</a>
-                    </li>
-                </ul>
+
+                <li class="nav-item">
+                    <a href="{{ route('home-admin') }}" class="nav-link"> <i class=" ri-dashboard-line"></i>
+                        Dashboard</a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#user" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="user">
@@ -71,7 +72,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#coupons" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="coupons">
-                        <i class="ph ph-seal-percent"></i> <span data-key="t-dashboards">Mã giảm giá</span>
+                        <i class=" ph-rug-light"></i> <span data-key="t-dashboards">Mã giảm giá</span>
                     </a>
                     <div class="collapse menu-dropdown" id="coupons">
                         <ul class="nav nav-sm flex-column">
