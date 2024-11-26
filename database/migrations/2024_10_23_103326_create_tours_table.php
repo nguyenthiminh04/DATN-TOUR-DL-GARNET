@@ -12,29 +12,29 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tours', function (Blueprint $table) {
+
             $table->bigIncrements('id');
-            $table->string('name')->nullable();
-            $table->string('title')->nullable();
-            $table->string('journeys')->nullable();
-            $table->string('schedule')->nullable();
-            $table->string('move_method')->nullable();
-            $table->string('starting_gate')->nullable();
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
-            $table->integer('number_guests')->nullable();
-            $table->integer('price_old')->nullable();
+            $table->string('name');
+            $table->string('journeys');
+            $table->string('schedule');
+            $table->string('move_method');
+            $table->string('starting_gate');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->integer('number_guests');
+            $table->integer('price_old');
             $table->integer('price_children')->nullable();
             $table->integer('sale')->nullable();
             $table->integer('view')->nullable();
-            $table->text('description')->nullable();
-            $table->text('content')->nullable();
+            $table->longText('description')->nullable();
+            $table->longText('content')->nullable();
             $table->string('image')->nullable();
-            $table->unsignedBigInteger('location_id')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('category_tour_id')->nullable();
-            $table->integer('number_registered')->nullable();
-            $table->text('album_img')->nullable();
-            $table->tinyInteger('status')->default(0);
+            $table->unsignedBigInteger('location_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('category_tour_id');
+            $table->integer('number_registered');
+            $table->unsignedBigInteger('star')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('category_tour_id')->references('id')->on('category_tour');

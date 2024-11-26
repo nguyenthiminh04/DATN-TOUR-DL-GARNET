@@ -36,7 +36,7 @@
                                 <div class="col-lg-2">
                                     <div class="search-box">
                                         <!-- Form tìm kiếm -->
-                                        <form action="{{ route('dontour.index') }}" method="GET">
+                                        <form action="{{ route('trangthaitour.index') }}" method="GET">
                                             <div>
                                                 <label for="search_date">Chọn ngày:</label>
                                                 <input type="date" name="search_date" id="search_date" value="{{ request('search_date') }}">
@@ -74,10 +74,9 @@
                                         <tr>
 
                                             <th>ID</th>
-                                            <th>Người Đặt</th>
+                                            <th>Tài Khoản Đặt Tour</th>
                                             <th>Thông Tin Tour</th>
                                             <th>Người Đặt Tour</th>
-                                            <th>Trạng Thái</th>
                                             <th>Trạng Thái Tour</th>
 
                                             <th>Hành Động</th>
@@ -91,30 +90,27 @@
 
                                             <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
-                                            <td>{{ $item->user->name }}</td>
-                                            <td>{{ $item->tour->name }}</td>
-                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->booking->user->name }}</td>
+                                            <td>{{ $item->booking->tour->name }}</td>
+                                            <td>{{ $item->booking->name }}</td>
+                                            {{-- <td>{{ $item->name }}</td> --}}
                                            
-                                            <td>{{ $item->name }}</td>
+                                            {{-- <td>{{ $item->name }}</td> --}}
+                                            
                                             <td>
-                                                <form action="{{route('dontour.update',$item->id)}}" method="POST">
+                                                <form action="{{route('trangthaitour.update',$item->id)}}" method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <select name="status" class="form-select w-75"
-                                                    onchange="confirmSubmit(this)"data-default-value="{{$item->trangThaiTour}}">
-                                                    
+                                                    <select name="status_id" class="form-select w-75" onchange="confirmSubmit(this)" data-default-value="{{ $item->status_id }}">
                                                         @foreach ($trangThaiTour as $key => $value)
-                                                        <option value="{{ $key }}" {{$key == $item->status ? 'selected' : ''}}>
-                                                            {{-- <option value="{{ $key }}" {{$key == $item->trang_thai_don_hang ? 'selected' : ''}} {{$key == $type_huy_don_hang ? 'disabled' : ''}}> --}}
-      
-                                                                
-                                                                
-                                                                {{$value}}</option>
+                                                            <option value="{{ $key }}" {{ $key == $item->status_id ? 'selected' : '' }}>
+                                                                {{ $value }} <!-- Đây là tên trạng thái -->
+                                                            </option>
                                                         @endforeach
                                                     </select>
-                                                   </form>
-                                            </td>
-                                            
+                                                </form>
+                                                
+                                                </td>
                                             
 
                                            

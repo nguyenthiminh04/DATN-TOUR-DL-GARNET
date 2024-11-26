@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admins\Categorys;
+use App\Models\Admins\Location;
 use App\Models\Admins\Tour;
 use App\Models\BookTour;
 use Illuminate\Http\Request;
@@ -21,6 +23,7 @@ class TourController extends Controller
 
     //     return view('client.home', compact('listtour'));
     // }
+
     public function show(string $id)
     {
 
@@ -41,22 +44,21 @@ class TourController extends Controller
         return view('client.tour.confirm', ['booking' => $booking]); // Trả về view confirm
     }
 
-//     public function confirm($id)
-// {
-//     $booking = BookTour::findOrFail($id); 
+    //     public function confirm($id)
+    // {
+    //     $booking = BookTour::findOrFail($id); 
 
-//     return view('client.tour.confirm', ['booking' => $booking]);
-// }
+    //     return view('client.tour.confirm', ['booking' => $booking]);
+    // }
 
-public function pre_booking($id)
-{
-    $tour = Tour::findOrFail($id); 
+    public function pre_booking($id)
+    {
+        $tour = Tour::findOrFail($id);
 
 
 
-    return view('client.tour.booking', ['tour' => $tour]);
-}
-
+        return view('client.tour.booking', ['tour' => $tour]);
+    }
 
     public  function searchTour(Request $request)
     {
@@ -64,4 +66,16 @@ public function pre_booking($id)
         $tours = Tour::search($query)->paginate(12);
         return view('client.pages.search', compact('tours'));
     }
+    public function detailTour($id)
+    {
+        $data['tour'] = Tour::find($id);
+        $data['category'] = Categorys::find($data['tour']->category_tour_id);
+        $data['location'] = Location::find($data['tour']->location_id);
+        $data['images'] = $data['tour']->images;
+        $data['first_image'] = $data['images']->first();
+        // dd($data['images']);  
+
+        return view('client.tour.detail', $data);
+    }
+    
 }

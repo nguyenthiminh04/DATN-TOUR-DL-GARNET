@@ -1,22 +1,24 @@
 <?php
 
-namespace App\Models\Admins;
+namespace App\Models;
 
+use App\Models\Admins\Tour;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ImageTour extends Model
+class Favorite extends Model
 {
     use HasFactory;
-    protected $table = 'images';
-    protected $fillable = [
-        'tour_id',
-        'image',
 
+    protected $table = 'favorites';
+
+    protected $fillable = [
+        'user_id ',
+        'tour_id',
     ];
 
     public function tour()
     {
-        return $this->belongsTo(Tour::class, 'album_img');
+        return $this->belongsTo(Tour::class);
     }
 }

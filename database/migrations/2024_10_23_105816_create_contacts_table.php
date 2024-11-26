@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable(); // ID của người dùng (có thể null)
             $table->string('name', 255); // Tên người gửi
             $table->string('email', 255); // Địa chỉ email
-            $table->string('subject', 255); // Tiêu đề của liên hệ
+            $table->string('subject', 255)->nullable(); // Tiêu đề của liên hệ
             $table->text('message'); // Nội dung tin nhắn
             $table->timestamps(); // Cột created_at và updated_at
             $table->softDeletes(); // Cột delete_at để hỗ trợ xóa mềm

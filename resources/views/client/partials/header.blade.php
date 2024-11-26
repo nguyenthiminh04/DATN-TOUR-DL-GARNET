@@ -25,9 +25,9 @@
                                 </form>
                             </li>
                         @else
-                            <li><a href="{{ route('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
+                            <li><a href=""><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
                                     nhập</a></li>
-                            <li><a href="{{ route('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng
+                            <li><a href=""><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng
                                     ký</a></li>
                         @endif
                     </ul>

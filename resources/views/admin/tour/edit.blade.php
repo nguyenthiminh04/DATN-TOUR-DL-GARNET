@@ -38,13 +38,7 @@
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
-            <div class="mb-3">
-              <label for="title" class="form-label">Tiêu đề Tour<span class="text-danger">*</span></label>
-              <input type="text" id="title" name="title" value="{{  $tour->title }}" class="form-control" placeholder="Nhập tiêu đề tour...">
-              @error('title')
-                  <span class="text-danger">{{ $message }}</span>
-              @enderror
-          </div>
+            
           <div class="mb-3">
             <label for="journeys" class="form-label">Hành Trình<span class="text-danger">*</span></label>
             <input type="text" id="journeys" name="journeys" value="{{  $tour->journeys }}" class="form-control" placeholder="Nhập hành trình tour...">
@@ -178,15 +172,7 @@
                       </div>
                   </div><!--end col-->
                   <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label for="album_img" class="form-label">Album ảnh<span
-                                class="text-danger">*</span></label>
-                        <input type="number" id="album_img" name="album_img" value="{{  $tour->album_img }}" class="form-control"
-                            placeholder="Nhập album ảnh..." >
-                            @error('album_img')
-            <span class="text-danger">{{ $message }}</span>
-        @enderror
-                    </div>
+                    
                 </div><!--end col-->
                 <div class="mb-3 col-6">
                   <label for="status1" class="form-label">Location<span class="text-danger">*</span></label>

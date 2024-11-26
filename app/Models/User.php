@@ -19,7 +19,17 @@ class User extends Authenticatable
      */
     protected $table = 'users';
     protected $fillable = [
-      'name', 'email', 'phone', 'address', 'avatar', 'birth','gender', 'password', 'status', 'remember_token', 'role_id', 
+        'name',
+        'email',
+        'phone',
+        'address',
+        'avatar',
+        'birth',
+        'gender',
+        'password',
+        'status',
+        'remember_token',
+        'role_id',
     ];
 
     /**
@@ -45,5 +55,10 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->belongsToMany(Notification::class, 'notification_user');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 }

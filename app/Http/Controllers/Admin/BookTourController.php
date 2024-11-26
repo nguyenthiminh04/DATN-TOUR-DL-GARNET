@@ -31,7 +31,7 @@ class BookTourController extends Controller
     
 
     // Các dữ liệu khác
-    $trangThaiTour = DonTour::TRANG_THAI_TOUR;
+    $trangThaiTour = DonTour::all();
     $type_huy_tour = DonTour::HUY_TOUR;
 
     // Trả về view cùng dữ liệu

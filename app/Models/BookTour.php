@@ -15,7 +15,6 @@ class BookTour extends Model
     protected $fillable = [
         'user_id',
         'tour_id',
-        'guide_id',
         'name',
         'email',
         'phone',

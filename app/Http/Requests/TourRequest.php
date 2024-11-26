@@ -24,7 +24,6 @@ class TourRequest extends FormRequest
     {
         return [
           'name' => 'required',
-            'title' => 'required',
             'journeys' => 'required',
             'schedule' => 'required',
             'move_method' => 'required',
@@ -40,7 +39,6 @@ class TourRequest extends FormRequest
             'image' => 'required',
             'location_id' => 'required',
             'user_id' => 'required',
-            'album_img' => 'required',
             'status' => 'required',
         ];
     }
