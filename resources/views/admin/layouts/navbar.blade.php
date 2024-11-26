@@ -32,8 +32,11 @@
                 {{-- user --}}
 
                 <li class="nav-item">
-                    <a href="{{ route('home-admin') }}" class="nav-link"> <i class=" ri-dashboard-line"></i>
-                        Dashboard</a>
+                    <a href="{{ route('home-admin') }}"
+                        class="nav-link menu-link ">
+                        <i class="ri-dashboard-line"></i>
+                        <span data-key="t-calendar">Dashboard</span>
+                    </a>    
                 </li>
 
                 <li class="nav-item">
