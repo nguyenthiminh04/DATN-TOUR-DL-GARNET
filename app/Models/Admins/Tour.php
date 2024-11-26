@@ -74,7 +74,7 @@ class Tour extends Model
     public function scopeSearch($query, $searchTerm)
     {
         return $query->where('name', 'like', '%' . $searchTerm . '%')
-            ->orWhere('title', 'like', '%' . $searchTerm . '%')
+            // ->orWhere('title', 'like', '%' . $searchTerm . '%')
             ->orWhere('description', 'like', '%' . $searchTerm . '%')
             ->orWhere('content', 'like', '%' . $searchTerm . '%')
             ->orWhere('journeys', 'like', '%' . $searchTerm . '%')
