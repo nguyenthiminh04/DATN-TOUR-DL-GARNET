@@ -11,6 +11,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\AuthController;
 
 use App\Http\Controllers\Client\TourController as ClientTourController;
 
@@ -57,8 +58,6 @@ Route::group([], function () {
 
 
     ]);
-
-
 
     // Route::get('/pre-booking', function () {
     //     return view('client.tour.booking');
@@ -131,8 +130,14 @@ Route::group([], function () {
     Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
 });
 
+
+
+Route::get('login',                     [AuthController::class, 'login'])->name('login');
+Route::post('authLogin',                [AuthController::class, 'authLogin'])->name('authLogin');
+Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
+
 // admin routes
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/home', function () {
         return view('admin.dashboard');
     })->name('home-admin');
@@ -147,6 +152,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('location', LocationController::class);
     Route::resource('category', CategoryController::class);
 });
+
+
 
 // Route::get('/dang-nhap', function () {
 //     return view('client.auth.login');

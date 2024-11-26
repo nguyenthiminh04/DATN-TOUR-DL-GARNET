@@ -121,7 +121,7 @@
                         </ul>
                     </div>
                     <div class="col-md-6">
-                        <<<<<<< HEAD <ul class="list-inline f-right ul-account">
+                        <ul class="list-inline f-right ul-account">
                             @if (Auth::check())
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
                                         {{ Auth::user()->name }}</a></li>
@@ -142,7 +142,7 @@
                                         Đăng
                                         ký</a></li>
                             @endif
-                            </ul>
+                        </ul>
                     </div>
                 </div>
             </div>
