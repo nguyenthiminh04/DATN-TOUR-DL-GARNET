@@ -13,7 +13,8 @@
                 <div class="col-md-6">
                     <ul class="list-inline f-right ul-account">
                         @if (Auth::check())
-                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
+                            <li>
+                                <a href="#"><i class="fa fa-user" aria-hidden="true"></i>
                                     {{ Auth::user()->name }}</a></li>
                             <li>
                                 <form action="{{ route('logouts') }}" method="POST" style="display: inline;">
