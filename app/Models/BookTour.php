@@ -15,7 +15,6 @@ class BookTour extends Model
     protected $fillable = [
         'user_id',
         'tour_id',
-        'guide_id',
         'name',
         'email',
         'phone',
@@ -46,6 +45,11 @@ class BookTour extends Model
     {
         return $this->belongsTo(Tour::class);
     }
+    // app/Models/BookTour.php
+public function pay()
+{
+    return $this->belongsTo(Payment::class, 'pay_id');
+}
 
     // public function guide()
     // {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admins\Categorys;
+use App\Models\Admins\Location;
 use App\Models\Admins\Tour;
 use App\Models\BookTour;
 use Illuminate\Http\Request;
@@ -64,4 +66,16 @@ class TourController extends Controller
         $tours = Tour::search($query)->paginate(12);
         return view('client.pages.search', compact('tours'));
     }
+    public function detailTour($id)
+    {
+        $data['tour'] = Tour::find($id);
+        $data['category'] = Categorys::find($data['tour']->category_tour_id);
+        $data['location'] = Location::find($data['tour']->location_id);
+        $data['images'] = $data['tour']->images;
+        $data['first_image'] = $data['images']->first();
+        // dd($data['images']);  
+
+        return view('client.tour.detail', $data);
+    }
+    
 }

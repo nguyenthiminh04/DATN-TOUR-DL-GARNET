@@ -17,6 +17,6 @@ class ImageTour extends Model
 
     public function tour()
     {
-        return $this->belongsTo(Tour::class, 'tour_id');
+        return $this->belongsTo(Tour::class, 'album_img');
     }
 }

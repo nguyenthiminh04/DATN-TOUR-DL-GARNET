@@ -37,7 +37,7 @@ class BookingController extends Controller
             // 'tour_id' => $validated['tour_id'],
             'tour_id' => $validated['tour_id'],
 
-            'guide_id' => $validated['guide_id'] ?? null, // optional field
+            // 'guide_id' => $validated['guide_id'] ?? null, // optional field
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'],

@@ -17,6 +17,7 @@ use App\Http\Controllers\Client\TourController as ClientTourController;
 
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PayController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
 use App\Http\Controllers\FavoriteController;
@@ -47,12 +48,15 @@ Route::group([], function () {
     Route::get('/auth/google/callback', [AuthClientController::class, 'handleGoogleCallback']);
     Route::post('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
 
-    Route::resource('tour', ClientTourController::class)->names([
+    // Route::resource('tour', ClientTourController::class)->names([
 
-        'show' => 'client.tour.show',
+    //     'show' => 'client.tour.show',
 
 
-    ]);
+    // ]);
+    Route::get('detail-tour\{id}', [HomeController::class, 'detailTour'])->name('client.tour.show');
+    Route::post('/posts/{id}/comment', [HomeController::class, 'storeComment'])->name('posts.comment');
+
 
     // Route::get('/pre-booking', function () {
     //     return view('client.tour.booking');
@@ -147,6 +151,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('faqs', FaqController::class);
     Route::resource('notifications', NotificationController::class);
     Route::resource('category_tour', Categoty_tour::class);
+    Route::resource('trangthaitour', PayController::class);
     Route::resource('tour', TourController::class);
     Route::resource('coupons', CouponsController::class);
     Route::resource('location', LocationController::class);
@@ -157,6 +162,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
 // Route::get('/dang-nhap', function () {
 //     return view('client.auth.login');
+// });
+
+// Route::get('/dang-ky', function () {
+//     return view('client.auth.register');
 // });
 
 // Route::get('/dang-ky', function () {
