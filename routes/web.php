@@ -18,6 +18,7 @@ use App\Http\Controllers\Client\TourController as ClientTourController;
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PayController;
+use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
 use App\Http\Controllers\FavoriteController;
@@ -148,15 +149,8 @@ Route::post('authLogin',                [AuthController::class, 'authLogin'])->n
 Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
 
 // admin routes
-<<<<<<< HEAD
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/home', [StatisticalController::class,'index'])->name('home-admin');
-=======
-Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
-    Route::get('/home', function () {
-        return view('admin.dashboard');
-    })->name('home-admin');
->>>>>>> 6a425b73dbb753994e842bc9b82d644964f445d2
 
     Route::resource('user', UserController::class);
     Route::resource('dontour', BookTourController::class);
@@ -180,15 +174,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 //     return view('client.auth.register');
 // });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 6a425b73dbb753994e842bc9b82d644964f445d2
 // Route::get('/dang-ky', function () {
 //     return view('client.auth.register');
 // });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 6a425b73dbb753994e842bc9b82d644964f445d2
