@@ -6,19 +6,19 @@
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="index.html" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="admin/assets/images/logo-sm.png" alt="" height="22">
+                            <img src="{{ asset('admin/assets/images/logo-sm.png') }}" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="admin/assets/images/logo-dark.png" alt="" height="22">
+                            <img src="{{ asset('admin/assets/images/logo-dark.png') }}" alt="" height="22">
                         </span>
                     </a>
 
                     <a href="index.html" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="admin/assets/images/logo-sm.png" alt="" height="22">
+                            <img src="{{ asset('admin/assets/images/logo-sm.png') }}" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="admin/assets/images/logo-light.png" alt="" height="22">
+                            <img src="{{ asset('admin/assets/images/logo-light.png') }}" alt="" height="22">
                         </span>
                     </a>
                 </div>
@@ -86,7 +86,7 @@
 
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="admin/assets/images/users/avatar-2.jpg"
+                                        <img src="{{ asset('admin/assets/images/users/avatar-2.jpg') }}"
                                             class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-1">
                                             <h6 class="m-0">Angela Bernier</h6>
@@ -97,7 +97,7 @@
 
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="admin/assets/images/users/avatar-3.jpg"
+                                        <img src="{{ asset('admin/assets/images/users/avatar-3.jpg') }}"
                                             class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-1">
                                             <h6 class="m-0">David Grasso</h6>
@@ -108,7 +108,7 @@
 
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="admin/assets/images/users/avatar-5.jpg"
+                                        <img src="{{ asset('admin/assets/images/users/avatar-5.jpg') }}"
                                             class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-1">
                                             <h6 class="m-0">Mike Bunch</h6>
@@ -151,19 +151,22 @@
                             <div class="row g-0">
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="#!">
-                                        <img src="admin/assets/images/brands/github.png" alt="Github">
+                                        <img src="{{ asset('admin/assets/images/brands/github.png') }}"
+                                            alt="Github">
                                         <span>GitHub</span>
                                     </a>
                                 </div>
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="#!">
-                                        <img src="admin/assets/images/brands/bitbucket.png" alt="bitbucket">
+                                        <img src="{{ asset('admin/assets/images/brands/bitbucket.png') }}"
+                                            alt="bitbucket">
                                         <span>Bitbucket</span>
                                     </a>
                                 </div>
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="#!">
-                                        <img src="admin/assets/images/brands/dribbble.png" alt="dribbble">
+                                        <img src="{{ asset('admin/assets/images/brands/dribbble.png') }}"
+                                            alt="dribbble">
                                         <span>Dribbble</span>
                                     </a>
                                 </div>
@@ -172,19 +175,22 @@
                             <div class="row g-0">
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="#!">
-                                        <img src="admin/assets/images/brands/dropbox.png" alt="dropbox">
+                                        <img src="{{ asset('admin/assets/images/brands/dropbox.png') }}"
+                                            alt="dropbox">
                                         <span>Dropbox</span>
                                     </a>
                                 </div>
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="#!">
-                                        <img src="admin/assets/images/brands/mail_chimp.png" alt="mail_chimp">
+                                        <img src="{{ asset('admin/assets/images/brands/mail_chimp.png') }}"
+                                            alt="mail_chimp">
                                         <span>Mail Chimp</span>
                                     </a>
                                 </div>
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="#!">
-                                        <img src="admin/assets/images/brands/slack.png" alt="slack">
+                                        <img src="{{ asset('admin/assets/images/brands/slack.png') }}"
+                                            alt="slack">
                                         <span>Slack</span>
                                     </a>
                                 </div>
@@ -232,8 +238,8 @@
                                     <div class="d-flex">
                                         <div class="avatar-sm me-3 flex-shrink-0">
                                             <div class="avatar-title bg-light rounded">
-                                                <img src="admin/assets/images/products/32/img-1.png" class="avatar-xs"
-                                                    alt="user-pic">
+                                                <img src="{{ asset('admin/assets/images/products/32/img-1.png') }}"
+                                                    class="avatar-xs" alt="user-pic">
                                             </div>
                                         </div>
                                         <div class="flex-grow-1">
@@ -266,8 +272,8 @@
                                     <div class="d-flex">
                                         <div class="avatar-sm me-3 flex-shrink-0">
                                             <div class="avatar-title bg-light rounded">
-                                                <img src="admin/assets/images/products/32/img-5.png" class="avatar-xs"
-                                                    alt="user-pic">
+                                                <img src="{{ asset('admin/assets/images/products/32/img-5.png') }}"
+                                                    class="avatar-xs" alt="user-pic">
                                             </div>
                                         </div>
                                         <div class="flex-grow-1">
@@ -299,7 +305,7 @@
                                     <div class="d-flex">
                                         <div class="avatar-sm me-3 flex-shrink-0">
                                             <div class="avatar-title bg-light rounded">
-                                                <img src="admin/assets/images/products/32/img-10.png"
+                                                <img src="{{ asset('admin/assets/images/products/32/img-10.png') }}"
                                                     class="avatar-xs" alt="user-pic">
                                             </div>
                                         </div>
@@ -333,7 +339,7 @@
                                     <div class="d-flex">
                                         <div class="avatar-sm me-3 flex-shrink-0">
                                             <div class="avatar-title bg-light rounded">
-                                                <img src="admin/assets/images/products/32/img-11.png"
+                                                <img src="{{ asset('admin/assets/images/products/32/img-11.png') }}"
                                                     class="avatar-xs" alt="user-pic">
                                             </div>
                                         </div>
@@ -366,8 +372,8 @@
                                     <div class="d-flex">
                                         <div class="avatar-sm me-3 flex-shrink-0">
                                             <div class="avatar-title bg-light rounded">
-                                                <img src="admin/assets/images/products/32/img-8.png" class="avatar-xs"
-                                                    alt="user-pic">
+                                                <img src="{{ asset('admin/assets/images/products/32/img-8.png') }}"
+                                                    class="avatar-xs" alt="user-pic">
                                             </div>
                                         </div>
                                         <div class="flex-grow-1">
@@ -537,7 +543,7 @@
                                     class="text-reset notification-item d-block dropdown-item position-relative unread-message">
                                     <div class="d-flex">
                                         <div class="position-relative me-3 flex-shrink-0">
-                                            <img src="admin/assets/images/users/32/avatar-2.jpg"
+                                            <img src="{{ asset('admin/assets/images/users/32/avatar-2.jpg') }}"
                                                 class="rounded-circle avatar-xs" alt="user-pic">
                                             <span
                                                 class="active-badge position-absolute start-100 translate-middle p-1 bg-success rounded-circle">
@@ -652,17 +658,21 @@
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
                             <img class="rounded-circle header-profile-user"
-                                src="admin/assets/images/users/32/avatar-1.jpg" alt="Header Avatar">
+                                src="{{ asset('admin/assets/images/users/32/avatar-1.jpg') }}" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Richard
-                                    Marshall</span>
-                                <span class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">Founder</span>
+                                <span
+                                    class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name }}</span>
+                                <span class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">
+                                    @if (Auth::user()->role_id == 2 || Auth::user()->role_id == 3)
+                                        Admin
+                                    @endif
+                                </span>
                             </span>
                         </span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
 
-                        <h6 class="dropdown-header">Welcome Richard!</h6>
+                        <h6 class="dropdown-header">Welcome {{ Auth::user()->name }}</h6>
                         <a class="dropdown-item" href="pages-profile.html"><i
                                 class="mdi mdi-account-circle text-muted fs-lg align-middle me-1"></i> <span
                                 class="align-middle">Profile</span></a>
