@@ -203,69 +203,7 @@
                 </div>
             </div>
         </div>
-        <nav>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <ul id="nav" class="nav container">
-                            <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
-                            @foreach ($categoryes as $category)
-                                <li class="nav-item {{ $category->children->isNotEmpty() ? 'has-mega' : '' }}">
-                                    <a class="nav-link" href="{{ url($category->slug) }}">
-                                        {{ $category->name }}
-                                        @if ($category->children->isNotEmpty())
-                                            <i class="fa fa-angle-right"></i>
-                                        @endif
-                                    </a>
-
-                                    @if ($category->children->isNotEmpty())
-                                        <div class="mega-content">
-                                            <div class="level0-wrapper2">
-                                                <div class="nav-block nav-block-center">
-                                                    <ul class="level0">
-                                                        @foreach ($category->children as $child)
-                                                            <li class="level1 parent item">
-                                                                <h2 class="h4">
-                                                                    <a href="{{ url($child->slug) }}">
-                                                                        <span>{{ $child->name }}</span>
-                                                                    </a>
-                                                                </h2>
-                                                                @if ($child->children->isNotEmpty())
-                                                                    <ul class="level1">
-                                                                        @foreach ($child->children as $subChild)
-                                                                            <li class="level2">
-                                                                                <a href="{{ url($subChild->slug) }}">
-                                                                                    <span>{{ $subChild->name }}</span>
-                                                                                </a>
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                @endif
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </li>
-                            @endforeach
-
-                            <!-- Các menu tĩnh -->
-                            <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
-                            <li class="nav-item"><a class="nav-link" href="dich-vu-tour.html">Dịch vụ tour</a></li>
-                            <li class="nav-item"><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du
-                                    lịch</a></li>
-
-                            <li class="nav-item"><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('favorite.index') }}">Yêu
-                                    Thích</a></li>
-                        </ul>
-
-                    </div>
-                </div>
-            </div>
-        </nav>
+        @include('client.partials.navbar')
     </header>
 
     <h1 class="hidden">Ant Du lịch - Ant Du lịch - Chúng tôi cam kết luôn nỗ lực đem đến những giá trị dịch vụ tốt nhất
@@ -352,7 +290,7 @@
 
 
 
-                    
+
 
 
                     @foreach ($Tourmoinhat as $item)
@@ -371,7 +309,7 @@
                                 <div class="product-info a-left">
                                     <h3 class="product-name"><a class="line-clamp"
                                             href="{{ route('detail', $item->id) }}"
-                                            title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">{{ $item->name }}
+                                            title="">{{ $item->name }}
                                             [{{ $item->location->name }}] [{{ $item->journeys }}]</a></h3>
                                     <div class="clearfix">
                                         <div class="box-prices">
@@ -481,56 +419,66 @@
                             </ul>
 
                             @foreach ($categories as $index => $category)
-                            <div class="tab-{{ $category->id }} tab-content" style="{{ $index == 0 ? '' : 'display:none;' }}">
-                                <div class="section-tour-owl products products-view-grid owl-carousel"
-                                    data-lg-items='3' data-md-items='3' data-sm-items='2' data-xs-items="2"
-                                    data-xss-items="1" data-margin='20' data-nav="true" data-dot="true">
-                                    @foreach ($category->tours as $tour)
-                                    <div class="item">
-                                        <div class="product-box">
-                                            <div class="product-thumbnail">
-                                                <a href="{{ $tour->link }}" title="{{ $tour->name }}">
-                                                    <img src="{{ Storage::url($tour->image) }}" alt="{{ $tour->name }}">
-                                                </a>
-                                                <div class="sale-off">{{$tour->sale}}%</div>
-                                            </div>
-                                            <div class="product-info a-left">
-                                                <h3 class="product-name">
-                                                    <a class="line-clamp" href="{{ route('client.tour.show', $tour->id) }}" title="{{ $tour->name }}">{{ $tour->name }}</a>
-                                                </h3>
-                                                <div class="clearfix">
-                                                    <div class="box-prices">
-                                                        <div class="price-box clearfix">
-                                                            <div class="special-price f-left">
-                                                                <span class="price product-price">{{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }} VNĐ</span>
+                                <div class="tab-{{ $category->id }} tab-content"
+                                    style="{{ $index == 0 ? '' : 'display:none;' }}">
+                                    <div class="section-tour-owl products products-view-grid owl-carousel"
+                                        data-lg-items='3' data-md-items='3' data-sm-items='2' data-xs-items="2"
+                                        data-xss-items="1" data-margin='20' data-nav="true" data-dot="true">
+                                        @foreach ($category->tours as $tour)
+                                            <div class="item">
+                                                <div class="product-box">
+                                                    <div class="product-thumbnail">
+                                                        <a href="{{ $tour->link }}" title="{{ $tour->name }}">
+                                                            <img src="{{ Storage::url($tour->image) }}"
+                                                                alt="{{ $tour->name }}">
+                                                        </a>
+                                                        <div class="sale-off">{{ $tour->sale }}%</div>
+                                                    </div>
+                                                    <div class="product-info a-left">
+                                                        <h3 class="product-name">
+                                                            <a class="line-clamp"
+                                                                href="{{ route('client.tour.show', $tour->id) }}"
+                                                                title="{{ $tour->name }}">{{ $tour->name }}</a>
+                                                        </h3>
+                                                        <div class="clearfix">
+                                                            <div class="box-prices">
+                                                                <div class="price-box clearfix">
+                                                                    <div class="special-price f-left">
+                                                                        <span
+                                                                            class="price product-price">{{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}
+                                                                            VNĐ</span>
+                                                                    </div>
+                                                                    <div class="old-price">
+                                                                        <span
+                                                                            class="price product-price-old">{{ number_format($tour->price_old, 0, '', '.') }}VNĐ</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="old-price">
-                                                                <span class="price product-price-old">{{number_format($tour->price_old,0,'','.')}}VNĐ</span>
-                                                            </div>
+                                                        </div>
+                                                        <div class="box-date-tour">
+                                                            <ul class="ct_course_list">
+
+                                                                <li class="clearfix">
+                                                                    <div class="ulimg"><img
+                                                                            src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+                                                                            alt="Thứ 2 - 7 hằng tuần" /></div> Khởi
+                                                                    hành: {{ $tour->start_date }} -
+                                                                    {{ $item->end_date }}
+                                                                </li>
+                                                                <li class="clearfix">
+                                                                    <div class="ulimg"><img
+                                                                            src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+                                                                            alt="6 ngày 5 đêm" /></div> Thời gian:
+                                                                    {{ $tour->schedule }}
+                                                                </li>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="box-date-tour">
-                                                    <ul class="ct_course_list">
-                                    
-                                                        <li class="clearfix">
-                                                            <div class="ulimg"><img
-                                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                                    alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: {{$tour->start_date}} - {{$item->end_date}}
-                                                        </li>
-                                                        <li class="clearfix">
-                                                            <div class="ulimg"><img
-                                                                    src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                                    alt="6 ngày 5 đêm" /></div> Thời gian: {{$tour->schedule}}
-                                                        </li>
-                                                    </ul>
-                                                </div>
                                             </div>
-                                        </div>
+                                        @endforeach
                                     </div>
-                                    @endforeach
                                 </div>
-                            </div>
                             @endforeach
                         </div>
                     </div>
@@ -2642,7 +2590,7 @@
             }
         })
     </script>
-    
+
     {{-- Sweet alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -2685,9 +2633,7 @@
                 icon: "error",
                 title: "{{ Session::get('error') }}",
             });
-
         </script>
-
     @endif
 
     @yield('script-libs')
