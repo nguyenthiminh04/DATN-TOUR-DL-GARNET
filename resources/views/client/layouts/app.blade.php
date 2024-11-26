@@ -96,12 +96,15 @@
         }
     </script>
     @yield('style')
-    <script src="{{ url('client/ant-du-lich.mysapo.net/dist/js/stats.minbadf.js?v=96f2ff2')}}"></script>
+    <script src="{{ url('client/ant-du-lich.mysapo.net/dist/js/stats.minbadf.js?v=96f2ff2') }}"></script>
 
 </head>
 
 <body>
-
+    <?php
+    use App\Models\Admins\Categorys;
+    $categoryes = Categorys::whereNull('parent_id')->with('children')->get();
+    ?>
     @include('client.partials.header')
 
     @yield('content')

@@ -73,6 +73,7 @@ class Tour extends Model
 
     public function scopeSearch($query, $searchTerm)
     {
+
         return $query->where('name', 'like', '%' . $searchTerm . '%');
             // ->orWhere('title', 'like', '%' . $searchTerm . '%')  
             // ->orWhere('description', 'like', '%' . $searchTerm . '%')
@@ -86,6 +87,9 @@ class Tour extends Model
             // ->orWhere('price_old', 'like', '%' . $searchTerm . '%')
             // ->orWhere('price_children', 'like', '%' . $searchTerm . '%')
             // ->orWhere('sale', 'like', '%' . $searchTerm . '%');
+
+       
+
     }
 
     public function images()
