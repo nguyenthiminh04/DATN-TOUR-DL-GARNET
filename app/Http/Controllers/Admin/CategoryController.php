@@ -44,16 +44,16 @@ return view('admin.category.add', compact('parents','listUser'));
             $params['status'] = $request->input('status');
     
             // Xử lý hình ảnh đại diện
-            if ($request->hasFile('banner')) {
-                $params['banner'] = $request->file('banner')->store('uploads/location', 'public');
-            } else {
-                $params['banner'] = null;
-            }
-            if ($request->hasFile('avatar')) {
-                $params['avatar'] = $request->file('avatar')->store('uploads/location', 'public');
-            } else {
-                $params['avatar'] = null;
-            }
+            // if ($request->hasFile('banner')) {
+            //     $params['banner'] = $request->file('banner')->store('uploads/location', 'public');
+            // } else {
+            //     $params['banner'] = null;
+            // }
+            // if ($request->hasFile('avatar')) {
+            //     $params['avatar'] = $request->file('avatar')->store('uploads/location', 'public');
+            // } else {
+            //     $params['avatar'] = null;
+            // }
     // Nếu không có giá trị hot trong request, mặc định là 0 (không hot)
     $params['hot'] = $request->has('hot') ? 1 : 0;
             // Thêm sản phẩm

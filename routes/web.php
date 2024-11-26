@@ -16,6 +16,7 @@ use App\Http\Controllers\Client\TourController as ClientTourController;
 
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
 use App\Http\Controllers\FavoriteController;
@@ -139,9 +140,7 @@ Route::group([], function () {
 
 // admin routes
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/home', function () {
-        return view('admin.dashboard');
-    })->name('home-admin');
+    Route::get('/home', [StatisticalController::class,'index'])->name('home-admin');
 
     Route::resource('user', UserController::class);
     Route::resource('dontour', BookTourController::class);
