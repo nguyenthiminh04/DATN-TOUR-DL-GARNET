@@ -274,47 +274,7 @@
                                                 <li class="col-xs-3 hidden-xss subtotal text-right" id="subtotal">
                                                     0₫</li>
                                             </ul>
-                                            {{-- <script>
-                                                // Lấy các phần tử cần thiết
-                                                const minusButton = document.querySelector(".minus");
-                                                const plusButton = document.querySelector(".plus");
-                                                const quantityInput = document.getElementById("quantity-0");
-                                                const variantPriceInput = document.querySelector("[name='variant_price']");
-                                                const subtotalElement = document.getElementById("subtotal");
-
-                                                // Chuyển giá trị từ input giá về số nguyên
-                                                const variantPrice = parseInt(variantPriceInput.value, 10);
-
-                                                // Hàm cập nhật tổng giá
-                                                function updateSubtotal(quantity) {
-                                                    const total = quantity > 0 ? variantPrice * quantity : 0; // Tính tổng hoặc giữ 0
-                                                    // Cập nhật nội dung hiển thị, định dạng lại thành số tiền
-                                                    subtotalElement.textContent = total.toLocaleString("vi-VN") + "₫";
-                                                }
-
-                                                // Sự kiện khi bấm nút giảm
-                                                minusButton.addEventListener("click", () => {
-                                                    let currentQuantity = parseInt(quantityInput.value, 10);
-                                                    if (currentQuantity > 0) { // Cho phép giảm về 0
-                                                        currentQuantity -= 1;
-                                                        quantityInput.value = currentQuantity;
-                                                        updateSubtotal(currentQuantity);
-                                                    }
-                                                });
-
-                                                // Sự kiện khi bấm nút tăng
-                                                plusButton.addEventListener("click", () => {
-                                                    let currentQuantity = parseInt(quantityInput.value, 10);
-                                                    currentQuantity += 1;
-                                                    quantityInput.value = currentQuantity;
-                                                    updateSubtotal(currentQuantity);
-                                                });
-                                            </script> --}}
-
-
-
-
-
+                                            
                                             <ul class="nostyled variant_list clearfix" id="16258401">
                                                 <li class="col-xs-4 variant_title">
                                                     <div class="variant_mutiple" title="Trẻ em">Trẻ em</div>
@@ -343,82 +303,13 @@
                                                 <li class="col-xs-3 hidden-xss subtotal text-right">0₫</li>
                                             </ul>
 
-
-
-
-
-
-
-
-
-
-
-
                                             <div class="totalPrice ohidden text-right clearfix">
                                                 <span class="col-md-8 col-sm-9">
                                                     Tổng tiền
                                                 </span>
                                                 <strong class="col-md-4 col-sm-3"></strong>
                                             </div>
-                                            {{-- <script>
-                                                // Lấy tất cả các phần tử nhóm sản phẩm
-                                                const variantLists = document.querySelectorAll(".variant_list");
-
-                                                // Phần tử hiển thị tổng tiền
-                                                const totalPriceElement = document.querySelector(".totalPrice strong");
-
-                                                // Hàm cập nhật tổng tiền
-                                                function updateTotalPrice() {
-                                                    let totalPrice = 0;
-
-                                                    variantLists.forEach((variantList) => {
-                                                        const quantityInput = variantList.querySelector(".qty");
-                                                        const variantPriceInput = variantList.querySelector("[name='variant_price']");
-                                                        const variantPrice = parseInt(variantPriceInput.value, 10);
-                                                        const quantity = parseInt(quantityInput.value, 10);
-                                                        totalPrice += variantPrice * quantity; // Cộng tổng tiền từ từng nhóm
-                                                    });
-
-                                                    // Hiển thị tổng tiền đã định dạng
-                                                    totalPriceElement.textContent = totalPrice.toLocaleString("vi-VN") + "₫";
-                                                }
-
-                                                // Gắn sự kiện cho từng nhóm
-                                                variantLists.forEach((variantList) => {
-                                                    const minusButton = variantList.querySelector(".minus");
-                                                    const plusButton = variantList.querySelector(".plus");
-                                                    const quantityInput = variantList.querySelector(".qty");
-                                                    const variantPriceInput = variantList.querySelector("[name='variant_price']");
-                                                    const subtotalElement = variantList.querySelector(".subtotal");
-                                                    const variantPrice = parseInt(variantPriceInput.value, 10);
-
-                                                    // Hàm cập nhật tổng giá từng nhóm
-                                                    function updateSubtotal(quantity) {
-                                                        const total = quantity > 0 ? variantPrice * quantity : 0; // Nếu số lượng là 0 thì tổng là 0
-                                                        subtotalElement.textContent = total.toLocaleString("vi-VN") + "₫"; // Cập nhật subtotal
-                                                        updateTotalPrice(); // Cập nhật tổng tiền
-                                                    }
-
-                                                    // Sự kiện khi bấm nút giảm
-                                                    minusButton.addEventListener("click", () => {
-                                                        let currentQuantity = parseInt(quantityInput.value, 10);
-                                                        if (currentQuantity > 0) {
-                                                            currentQuantity -= 1;
-                                                            quantityInput.value = currentQuantity;
-                                                            updateSubtotal(currentQuantity); // Cập nhật subtotal khi giảm
-                                                        }
-                                                    });
-
-                                                    // Sự kiện khi bấm nút tăng
-                                                    plusButton.addEventListener("click", () => {
-                                                        let currentQuantity = parseInt(quantityInput.value, 10);
-                                                        currentQuantity += 1;
-                                                        quantityInput.value = currentQuantity;
-                                                        updateSubtotal(currentQuantity); // Cập nhật subtotal khi tăng
-                                                    });
-                                                });
-                                                updateTotalPrice();
-                                            </script> --}}
+                                         
                                         </div>
                                     </div>
                                     <div class="row contact_btn_group">
@@ -573,7 +464,6 @@
                                 </style>
 
 
-
                             </div>
 
                         </div>
@@ -594,9 +484,6 @@
 
                         <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
                             <div class="right_module">
-
-
-
 
 
                                 <div class="similar-product">
@@ -2891,45 +2778,45 @@
             var sync1 = $("#sync1");
             var sync2 = $("#sync2");
 
-            // Khởi tạo carousel cho sync1 (carousel chính)
+          
             sync1.owlCarousel({
-                items: 1, // 1 ảnh mỗi lần hiển thị
+                items: 1,
                 margin: 10,
                 nav: true,
                 dots: false,
-                loop: false, // Tắt loop ở đây để tránh quay lại ảnh đầu tiên
+                loop: false
                 autoplay: false,
                 responsiveRefreshRate: 200,
             });
 
-            // Khởi tạo carousel cho sync2 (carousel thu nhỏ)
+          
             sync2.owlCarousel({
-                items: 5, // 5 ảnh thu nhỏ
+                items: 5, 
                 margin: 10,
                 nav: true,
                 dots: false,
-                loop: false, // Tắt loop cho ảnh thu nhỏ để tránh ảnh đầu tiên
+                loop: false, 
                 autoplay: false,
                 responsiveRefreshRate: 100,
             });
 
-            // Đồng bộ hóa khi người dùng nhấn vào ảnh thu nhỏ (sync2)
+            
             sync2.on("click", ".item", function(e) {
-                e.preventDefault(); // Ngừng hành động mặc định
-                var index = $(this).index(); // Lấy chỉ số của ảnh được nhấn
+                e.preventDefault(); 
+                var index = $(this).index()
                 sync1.trigger("to.owl.carousel", [index,
                     300
-                ]); // Di chuyển carousel chính đến ảnh tương ứng
+                ]);
             });
 
-            // Đồng bộ hóa lại khi carousel sync1 thay đổi
+           
             sync1.on("changed.owl.carousel", function(event) {
-                var index = event.item.index; // Lấy chỉ số của ảnh đang hiển thị trong sync1
+                var index = event.item.index
                 sync2.find(".owl-item").removeClass("active").eq(index).addClass(
-                    "active"); // Đánh dấu ảnh thu nhỏ tương ứng
+                    "active"); 
             });
 
-            // Đảm bảo rằng ảnh thu nhỏ đầu tiên sẽ được làm nổi bật khi tải trang
+          
             sync2.find(".item").eq(0).addClass("active");
         });
     </script>

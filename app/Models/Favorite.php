@@ -13,12 +13,16 @@ class Favorite extends Model
     protected $table = 'favorites';
 
     protected $fillable = [
-        'user_id ',
+        'user_id',
         'tour_id',
     ];
 
     public function tour()
     {
         return $this->belongsTo(Tour::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
