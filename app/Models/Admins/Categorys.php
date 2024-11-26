@@ -14,7 +14,7 @@ class Categorys extends Model
         'name',
         'parent_id',
         'slug',
-        'banner',
+        'img_thumb',
         'description',
         'hot',
         'user_id',

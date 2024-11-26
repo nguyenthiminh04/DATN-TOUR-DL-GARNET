@@ -2,6 +2,7 @@
 
 namespace App\Models\Admins;
 
+use App\Models\BookTour;
 use App\Models\Favorite;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
@@ -73,7 +74,7 @@ class Tour extends Model
     public function scopeSearch($query, $searchTerm)
     {
         return $query->where('name', 'like', '%' . $searchTerm . '%')
-            ->orWhere('title', 'like', '%' . $searchTerm . '%')
+            // ->orWhere('title', 'like', '%' . $searchTerm . '%')
             ->orWhere('description', 'like', '%' . $searchTerm . '%')
             ->orWhere('content', 'like', '%' . $searchTerm . '%')
             ->orWhere('journeys', 'like', '%' . $searchTerm . '%')
@@ -95,5 +96,9 @@ class Tour extends Model
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
+    }
+    public function bookTours()
+    {
+        return $this->hasMany(BookTour::class, 'tour_id');
     }
 }

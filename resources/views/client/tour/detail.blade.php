@@ -1,4 +1,90 @@
 @extends('client.layouts.app')
+@section('style')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <style>
+        .owl-prev:hover,
+        .owl-next:hover {
+            opacity: 1;
+            /* Khi hover sẽ hiện rõ */
+        }
+
+        .owl-prev.disabled,
+        .owl-next.disabled {
+            opacity: 0.3;
+            /* Giảm độ mờ khi nút bị vô hiệu hóa */
+            cursor: not-allowed;
+            /* Thêm con trỏ chuột không cho phép khi vô hiệu hóa */
+        }
+
+        #sync1 .item,
+        #sync2 .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #sync1 .item img,
+        #sync2 .item img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Nếu bạn muốn điều chỉnh độ cao của ảnh */
+        #sync1,
+        #sync2 {
+            margin: 0;
+            padding: 0;
+        }
+
+        #sync2 .owl-item {
+            width: 80px;
+            /* Thu nhỏ ảnh thu nhỏ */
+            margin-right: 10px;
+        }
+
+        #sync1 {
+            margin-bottom: 20px;
+        }
+        /* styles.css hoặc file CSS chung */
+.tour-policy-content {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.product-promotions-list-content {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+form textarea {
+    width: 100%;
+    height: 50px;
+    resize: vertical;
+}
+
+
+    </style>
+    {{-- <style>
+        .tour-no-contentt {
+    display: block; /* Hiển thị thẻ */
+    position: fixed; /* Để thẻ cố định ở một vị trí */
+    bottom: 0; /* Gắn thẻ vào phía dưới màn hình */
+    left: 0; /* Canh sát mép trái */
+    width: 100%; /* Chiếm toàn bộ chiều rộng màn hình */
+    height: 40%; /* Chiếm 40% chiều cao màn hình (tùy chỉnh theo ý muốn) */
+    background-color: white; /* Màu nền */
+    z-index: 1000; /* Đảm bảo thẻ ở trên các phần tử khác */
+    overflow: auto; /* Đảm bảo nội dung có thể cuộn nếu cần */
+    padding: 20px; /* Tùy chỉnh khoảng cách bên trong */
+    box-sizing: border-box; /* Tính padding trong kích thước */
+    border-top: 2px solid #ccc; /* Tùy chọn thêm viền phía trên */
+}
+
+
+    </style> --}}
+    
+@endsection
 @section('content')
     <section class="bread-crumb margin-bottom-10">
         <div class="container">
@@ -76,39 +162,26 @@
         </div>
         <div class="container">
             <div class="row">
+                
                 <div class="col-lg-12 details-product">
                     <div class="row margin-bottom-10 margin-bottom-20">
                         <div class="col-md-6">
-                            <div id="sync1" class="owl-carousel owl-theme not-dqowl">
-
-                                <div class="item">
-                                    <img src="{{ url('client/bizweb.dktcdn.net/thumb/grande/100/299/077/products/vancouver-145e5.jpg?v=1529553306293') }}"
-                                        alt="Du lịch Canada - Cuba [vancouver - victoria - la habana - varadero]"
-                                        class="img-responsive center-block" />
-                                </div>
-
-                                <div class="item">
-                                    <img src="{{ url('client/bizweb.dktcdn.net/thumb/grande/100/299/077/products/n45e5.jpg?v=1529553306293') }}"
-                                        alt="Du lịch Canada - Cuba [vancouver - victoria - la habana - varadero]"
-                                        class="img-responsive center-block" />
-                                </div>
-
+                            <div id="sync1" class="owl-carousel owl-theme">
+                                @foreach ($images as $img)
+                                    <div class="item">
+                                        <img src="{{ asset('storage/' . $img->image) }}" alt="{{ $img->name }}"
+                                            style="width: 555px; height: 370px;" class="img-responsive center-block" />
+                                    </div>
+                                @endforeach
                             </div>
 
-                            <div id="sync2" class="owl-carousel owl-theme not-dqowl">
-
-                                <div class="item">
-                                    <img src="{{ url('client/bizweb.dktcdn.net/thumb/medium/100/299/077/products/vancouver-145e5.jpg?v=1529553306293') }}"
-                                        alt="Du lịch Canada - Cuba [vancouver - victoria - la habana - varadero]"
-                                        class="img-responsive center-block" />
-                                </div>
-
-                                <div class="item">
-                                    <img src="{{ url('client/bizweb.dktcdn.net/thumb/medium/100/299/077/products/n45e5.jpg?v=1529553306293') }}"
-                                        alt="Du lịch Canada - Cuba [vancouver - victoria - la habana - varadero]"
-                                        class="img-responsive center-block" />
-                                </div>
-
+                            <div id="sync2" class="owl-carousel owl-theme">
+                                @foreach ($images as $img)
+                                    <div class="item">
+                                        <img src="{{ asset('storage/' . $img->image) }}" alt="{{ $img->name }}"
+                                            style=": 70px;" class="img-responsive center-block" />
+                                    </div>
+                                @endforeach
                             </div>
 
                         </div>
@@ -669,20 +742,76 @@
                         <div class="col-xs-12 col-sm-12 col-md-5 tour-policy">
 
                             <div class="tour-policy-content">
+    <div class="main-project__tab--content">
+        <div class="product-promotions-list">
+            <h2 class="product-promotions-list-title">Bình Luận</h2>
+            <div class="product-promotions-list-content">
+                @foreach($comments as $comment)
+                    <div style="margin-left: {{ $comment->parent_id ? '20px' : '0' }}">
+                        <strong>
+                            @if($comment->user)
+                                {{ $comment->user->name }}
+                            @elseif($comment->anonymous_name)
+                                {{ $comment->anonymous_name }}
+                            @else
+                                Ẩn danh
+                            @endif
+                        </strong>
+                        <p>{{ $comment->content }}</p>
 
-
-
-
-
-
-                                <div class="main-project__tab--content tour-no-content">
-                                    <div class="product-promotions-list">
-                                        <h2 class="product-promotions-list-title">Chính sách Tour</h2>
-                                        <div class="product-promotions-list-content">
-                                            Chính sách đang được cập nhật.
-                                        </div>
-                                    </div>
+                        <!-- Form trả lời -->
+                        <form method="POST" action="{{ route('posts.comment', $tour->id) }}">
+                            @csrf
+                            <input type="hidden" name="parent_id" value="{{ $comment->id }}">
+                            @if(!auth()->check())
+                                <div>
+                                    <label for="anonymous_name">Tên của bạn:</label>
+                                    <input type="text" name="anonymous_name" placeholder="Tên của bạn">
                                 </div>
+                            @endif
+                            <textarea name="content" rows="2" placeholder="Trả lời bình luận này" required></textarea>
+                            <button type="submit">Trả lời</button>
+                        </form>
+
+                        <!-- Hiển thị bình luận con -->
+                        @if($comment->children->count())
+                            @include('client.tour.comment', ['comments' => $comment->children])
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Form bình luận mới -->
+            <form method="POST" action="{{ route('posts.comment', $tour->id) }}">
+                @csrf
+                @if(!auth()->check())
+                    <div>
+                        <label for="anonymous_name">Tên của bạn:</label>
+                        <input type="text" name="anonymous_name" placeholder="Tên của bạn">
+                    </div>
+                @endif
+                <textarea name="content" rows="3" placeholder="Viết bình luận..." required></textarea>
+                <button type="submit">Gửi</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+                            <div class="tour-policy-content">
+
+
+
+
+
+
+<div class="main-project__tab--content tour-no-contentt">
+    <div class="product-promotions-list">
+        <h2 class="product-promotions-list-title">Chính sách Tour</h2>
+        <div class="product-promotions-list-content">
+            Chính sách đang được cập nhật.
+        </div>
+    </div>
+</div>
 
 
 
@@ -690,140 +819,69 @@
 
 
 
-                                <div class="main-project__tab--content">
-                                    <div class="product-promotions-list">
-                                        <h2 class="product-promotions-list-title">Chính sách Tour</h2>
-                                        <div class="product-promotions-list-content">
+<div class="main-project__tab--content">
+    <div class="product-promotions-list">
+        <h2 class="product-promotions-list-title">Chính sách Tour</h2>
+        <div class="product-promotions-list-content">
 
-                                            <strong>* Giá tour bao gồm:</strong><br />
-                                            <?= $tour['content'] ?>
-                                            <p><strong>* Giá tour không bao
-                                                    gồm:&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
-                                                -&nbsp;Chi phí làm hộ chiếu, các chương trình tự chọn, nước uống, giặt ủi,
-                                                điện thoại... và các chi phí cá nhân khác của khách ngoài chương
-                                                trình.<br />
-                                                -&nbsp;Hành lý quá cước, chi phí dời ngày và đổi chặng bay theo qui định của
-                                                hàng không.<br />
-                                                -&nbsp;Phí phòng đơn (dành cho khách yêu cầu ở phòng đơn).<br />
-                                                -&nbsp;Tiền bồi dưỡng cho HDV&nbsp;và lái xe địa phương (8 CAD/ khách/
-                                                ngày).</p>
-                                            <p><strong>Điều khoản hủy tour (Thời gian hủy tour được tính cho ngày làm việc,
-                                                    không tính ngày Thứ Bảy, Chủ Nhật và các ngày nghỉ Lễ).</strong><br />
-                                                -&nbsp;Sau khi đặt cọc tour, nếu Qúy khách báo hủy tour Công ty chúng tôi sẽ
-                                                không hoàn lại tiền cọc. Đồng thời Chúng tôi&nbsp;sẽ báo hủy hồ sơ &nbsp;của
-                                                khách.<br />
-                                                -&nbsp;Nếu Qúy khách báo hủy/chuyển tour, vui lòng thanh toán lệ phí
-                                                hủy/chuyển tour cụ thể như sau:<br />
-                                                1/ Trước ngày đi 30 - 35 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
-                                                &amp; ngày nghỉ Tết) thanh toán: 50% giá tour&nbsp;<br />
-                                                2/ Trước ngày đi từ 10 - 29 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
-                                                &amp; ngày nghỉ Tết) thanh toán: 70% giá tour<br />
-                                                3/ Trước ngày đi từ 02 - 09 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
-                                                &amp; ngày nghỉ Tết) thanh toán: 90% giá tour<br />
-                                                4/ Hủy trước ngày đi trong vòng 24h trước ngày khởi hành (không tính thứ Bảy
-                                                &amp; Chủ Nhật &amp; ngày nghỉ Tết): 100% giá tour<br />
-                                                -&nbsp;Vì bất cứ lí do gì, nếu quý khách bị từ chối visa Canada, quý khách
-                                                vui lòng nộp lệ phí là: 5.000.000 vnđ<br />
-                                                -&nbsp;Quý khách có nhu cầu lưu trú tại Canada thêm ngoài chương trình tour
-                                                vui lòng thông báo tại thời điểm đăng kí tour, đóng thêm chênh lệch tiền vé
-                                                máy bay phụ trội ở lại về sau và các chặng bay nội địa theo quy định của
-                                                hàng không.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <style>
-                                    .tour-no-content {
-                                        display: none;
-                                    }
-                                </style>
+            <strong>* Giá tour bao gồm:</strong><br />
+            <?= $tour['content'] ?>
+            <p><strong>* Giá tour không bao
+                    gồm:&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+                -&nbsp;Chi phí làm hộ chiếu, các chương trình tự chọn, nước uống, giặt ủi,
+                điện thoại... và các chi phí cá nhân khác của khách ngoài chương
+                trình.<br />
+                -&nbsp;Hành lý quá cước, chi phí dời ngày và đổi chặng bay theo qui định của
+                hàng không.<br />
+                -&nbsp;Phí phòng đơn (dành cho khách yêu cầu ở phòng đơn).<br />
+                -&nbsp;Tiền bồi dưỡng cho HDV&nbsp;và lái xe địa phương (8 CAD/ khách/
+                ngày).</p>
+            <p><strong>Điều khoản hủy tour (Thời gian hủy tour được tính cho ngày làm việc,
+                    không tính ngày Thứ Bảy, Chủ Nhật và các ngày nghỉ Lễ).</strong><br />
+                -&nbsp;Sau khi đặt cọc tour, nếu Qúy khách báo hủy tour Công ty chúng tôi sẽ
+                không hoàn lại tiền cọc. Đồng thời Chúng tôi&nbsp;sẽ báo hủy hồ sơ &nbsp;của
+                khách.<br />
+                -&nbsp;Nếu Qúy khách báo hủy/chuyển tour, vui lòng thanh toán lệ phí
+                hủy/chuyển tour cụ thể như sau:<br />
+                1/ Trước ngày đi 30 - 35 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
+                &amp; ngày nghỉ Tết) thanh toán: 50% giá tour&nbsp;<br />
+                2/ Trước ngày đi từ 10 - 29 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
+                &amp; ngày nghỉ Tết) thanh toán: 70% giá tour<br />
+                3/ Trước ngày đi từ 02 - 09 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
+                &amp; ngày nghỉ Tết) thanh toán: 90% giá tour<br />
+                4/ Hủy trước ngày đi trong vòng 24h trước ngày khởi hành (không tính thứ Bảy
+                &amp; Chủ Nhật &amp; ngày nghỉ Tết): 100% giá tour<br />
+                -&nbsp;Vì bất cứ lí do gì, nếu quý khách bị từ chối visa Canada, quý khách
+                vui lòng nộp lệ phí là: 5.000.000 vnđ<br />
+                -&nbsp;Quý khách có nhu cầu lưu trú tại Canada thêm ngoài chương trình tour
+                vui lòng thông báo tại thời điểm đăng kí tour, đóng thêm chênh lệch tiền vé
+                máy bay phụ trội ở lại về sau và các chặng bay nội địa theo quy định của
+                hàng không.</p>
+        </div>
+    </div>
+</div>
+<style>
+    .tour-no-content {
+        display: none;
+    }
+</style>
 
 
 
-                            </div>
+</div>
 
                         </div>
                     </div>
                     <div class="row">
 
                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9 margin-top-15 margin-bottom-10">
-                            <div class="tour-tab-title">
-                                Lịch trình Tour
-                            </div>
-                            <div class="product-tab">
-
-
-                                <p><strong>NGÀY 1: TP.HCM - BẮC KINH - VANCOUVER (Ăn trưa, tối)</strong><br />
-                                    Tự&nbsp; túc tập trung tại lầu 2 - Ga đi quốc tế sân bay Tân Sơn
-                                    Nhất&nbsp;(05&nbsp;:40-11:30) đi Bắc Kinh, chuyển tiếp chuyến bay&nbsp;<em><strong>CA997
-                                            (13:00-08:30) đi Vancouver&nbsp;</strong></em>- thành phố yên bình và trù phú
-                                    bên bờ Tây Canada. Ăn và nghỉ trên máy bay. Đến Vancouver, tham
-                                    quan&nbsp;<em><strong>Khu phố Người Hoa</strong></em>&nbsp;náo nhiệt với các hoạt động
-                                    thương mại, ẩm thực và văn hóa mang sắc màu Á Đông; chụp hình và tham quan bên
-                                    ngoài&nbsp;<em><strong>Tòa thị chính Thành phố</strong></em>. Nhận phòng khách sạn 3 sao
-                                    và nghỉ đêm tại Vancouver.</p>
-                                <p><img data-thumb="original" original-height="800" original-width="1200"
-                                        src="{{ url('client/bizweb.dktcdn.net/100/299/077/products/n45e5.jpg?v=1529553306293') }}" />
-                                </p>
-                                <p><strong>NGÀY 2: VANCOUVER - VICTORIA - VANCOUVER (Ăn sáng, trưa, tối)</strong><br />
-                                    <em><strong>Đến bến B.C ferry đón chuyến phà sang Victoria&nbsp;</strong></em>- mệnh
-                                    danh là thành phố hoa, thủ phủ của bang British Columbia. Tham
-                                    quan<em><strong>&nbsp;vườn Butchart&nbsp;</strong></em>tuyệt mỹ. Thư giãn dạo bước và
-                                    chiêm ngưỡng những hoa cỏ, cây cảnh tinh tế được chăm sóc bởi những người làm vườn tài
-                                    hoa. Trở lại Vancouver, tự do giải trí và nghỉ đêm.
-                                </p>
-                                <p><strong>NGÀY 3: VANCOUVER (Ăn sáng, trưa, tối)</strong><br />
-                                    Tản bộ trong không gian trong lành của&nbsp;<em><strong>Công viên
-                                            Stanley</strong></em>&nbsp;nổi bật với khoảng xanh của rừng cây bá hương quý
-                                    giá. Tham quan&nbsp;<em><strong>trang trại Salmon Hatchery</strong></em>, tìm hiểu về
-                                    chu kỳ sống của cá hồi. Tự do mua sắm. Nghỉ đêm tại Vancouver.</p>
-                                <p><strong>NGÀY 4&nbsp;: VANCOUVER (Ăn sáng, trưa, tối)</strong><br />
-                                    Khám phá&nbsp;<em><strong>Khu phố Gastown&nbsp;</strong></em>được thành lập từ năm 1867.
-                                    Khu phố còn giữ được nhiều nét đẹp cổ xưa đan xen với kiến trúc mới, thả bộ trên con
-                                    đường lát đá với các tiệm cà phê thơ mộng, những hàng quán xinh xắn. Chiêm
-                                    ngưỡng&nbsp;<em><strong>Tháp Đồng hồ chạy bằng hơi nước&nbsp;</strong></em>độc đáo. Ngắm
-                                    nhìn&nbsp;<em><strong>Tòa nhà Canada Place&nbsp;</strong></em>lộng lẫy bên bờ sông
-                                    Burrard Inlet với lớp mái bằng vải như những cánh buồm đón gió. Mua sắm tại những khu
-                                    bán hàng thời trang cao cấp, sầm uất của thành phố. Nghỉ đêm tại Vancouver.</p>
-                                <p><strong>NGÀY 5: VANCOUVER - LA HABANA (Ăn sáng)</strong><br />
-                                    Trả phòng. Ra sân bay làm thủ tục đón chuyến bay dự kiến&nbsp;<em><strong>AC110
-                                            (10:05-17:33) và AC1876 (19:35-23:05) từ Vancouver bay đi La Habana, quá cảnh
-                                            Toronto</strong></em>. Nhận phòng khách sạn 4 sao và nghỉ đêm tại La Habana.</p>
-                                <p><strong>NGÀY 6: LA HABANA (Ăn sáng, trưa, tối)</strong><br />
-                                    Chiêm ngưỡng và nghe giới thiệu về những công trình tiêu biểu của thành phố kỳ quan La
-                                    Habana:&nbsp;<em><strong>Quảng trường Armas&nbsp;</strong></em>được bao quanh bởi những
-                                    tòa nhà mang phong cách Baroque thanh lịch;&nbsp;<em><strong>Đài tưởng niệm&nbsp;anh
-                                            hùng Carlos Manuel de Cespedes&nbsp;</strong></em>- được mệnh danh là “cha đẻ
-                                    của Cuba;&nbsp;<em><strong>New Square - Quảng trường cổ thứ ba của&nbsp;La
-                                            Habana&nbsp;</strong></em>được xây dựng vào năm 1559;&nbsp;<em><strong>Quảng
-                                            trường Cách Mạng nằm trên đồi Catalanez; pháo đài cổ El
-                                            Morro</strong></em>&nbsp;tại đầu kênh đào Entrada trấn giữ lối vào vịnh La
-                                    Habana. Nghỉ đêm tại La Habana.</p>
-                                <p><strong>NGÀY 7: LA HABANA - VARADERO (Ăn sáng, trưa, tối)</strong><br />
-                                    Trả phòng. Khởi hành đi&nbsp;<em><strong>Varadero</strong></em>&nbsp;- một trong những
-                                    khu nghỉ mát lớn nhất của vùng Caribbean với những bãi cát trắng tuyệt đẹp, cách La
-                                    Habana khoảng 140km. Quý khách sẽ có một ngày trọn vẹn để&nbsp;<em><strong>tận hưởng
-                                            dịch vụ tại resort 4 sao Memories Varadero Beach Resort&nbsp;</strong></em>(hoặc
-                                    tương đương). Tự do thưởng thức các bữa trưa và tối tại các quầy buffets với thực đơn
-                                    phong phú. Cảm nhận hương vị tinh tế của các loại rượu, cocktail, cà phê miễn phí theo
-                                    tiêu chuẩn quy định. Tắm nắng và bơi lội trong làn nước biển xanh ngọc hoặc trải nghiệm
-                                    các dịch vụ spa và các hoạt động giải trí thể thao (chi phí tự túc). Nghỉ đêm tại
-                                    Varadero.</p>
-                                <p><strong>NGÀY 8: VARADERO - LA HABANA (Ăn sáng, trưa, tối)</strong><br />
-                                    Chia tay Varadero và trở lại La Habana. Tham quan&nbsp;<em><strong>bảo tàng rượu Rum,
-                                            đại lộ Malecon&nbsp;</strong></em>chạy dọc bờ biển,&nbsp;<em><strong>khách sạn
-                                            Ambos Mundos</strong></em>&nbsp;màu hồng nơi nhà văn Ernest Hemingway đặt bút
-                                    viết tác phẩm trứ danh «&nbsp;Chuông nguyện hồn ai&nbsp;». Nghỉ đêm tại khách sạn 4 sao
-                                    tại La Habana.</p>
-                                <p><strong>NGÀY 9: LA HABANA - BẮC KINH (Ăn sáng)</strong><br />
-                                    Khởi hành ra sân bay đón chuyến bay&nbsp;<em><strong>CA880 (10:00-17:20) từ La Habana về
-                                            Bắc Kinh, quá cảnh tại Montreal</strong></em>. Ăn và nghỉ trên máy bay.</p>
-                                <p><strong>NGÀY 10: BẮC KINH - TP. HCM</strong><br />
-                                    Đến sân bay Bắc Kinh, làm thủ tục nối chuyến bay&nbsp;<em><strong>CA903 (20:35-00: 40)
-                                            về Tp.HCM</strong></em>. Kết thúc chương trình du lịch Canada - Cuba.</p>
-
-
-                            </div>
-                        </div>
+    <div class="tour-tab-title">
+        Lịch trình Tour
+    </div>
+    <div class="product-tab">
+        {!! $tour->content !!}
+    </div>
+</div>
 
                         <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
                             <div class="right_module">
@@ -3113,4 +3171,73 @@
             top: auto !important;
         }
     </style>
+@endsection
+@section('script')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var sync1 = $("#sync1");
+            var sync2 = $("#sync2");
+
+            // Khởi tạo carousel cho sync1 (carousel chính)
+            sync1.owlCarousel({
+                items: 1, // 1 ảnh mỗi lần hiển thị
+                margin: 10,
+                nav: true,
+                dots: false,
+                loop: false, // Tắt loop ở đây để tránh quay lại ảnh đầu tiên
+                autoplay: false,
+                responsiveRefreshRate: 200,
+            });
+
+            // Khởi tạo carousel cho sync2 (carousel thu nhỏ)
+            sync2.owlCarousel({
+                items: 5, // 5 ảnh thu nhỏ
+                margin: 10,
+                nav: true,
+                dots: false,
+                loop: false, // Tắt loop cho ảnh thu nhỏ để tránh ảnh đầu tiên
+                autoplay: false,
+                responsiveRefreshRate: 100,
+            });
+
+            // Đồng bộ hóa khi người dùng nhấn vào ảnh thu nhỏ (sync2)
+            sync2.on("click", ".item", function(e) {
+                e.preventDefault(); // Ngừng hành động mặc định
+                var index = $(this).index(); // Lấy chỉ số của ảnh được nhấn
+                sync1.trigger("to.owl.carousel", [index,
+                    300
+                ]); // Di chuyển carousel chính đến ảnh tương ứng
+            });
+
+            // Đồng bộ hóa lại khi carousel sync1 thay đổi
+            sync1.on("changed.owl.carousel", function(event) {
+                var index = event.item.index; // Lấy chỉ số của ảnh đang hiển thị trong sync1
+                sync2.find(".owl-item").removeClass("active").eq(index).addClass(
+                    "active"); // Đánh dấu ảnh thu nhỏ tương ứng
+            });
+
+            // Đảm bảo rằng ảnh thu nhỏ đầu tiên sẽ được làm nổi bật khi tải trang
+            sync2.find(".item").eq(0).addClass("active");
+        });
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Kiểm tra nếu phần tử .product-promotions-list-content tồn tại
+    var commentContainer = document.querySelector('.product-promotions-list-content');
+    if (commentContainer) {
+        // Lắng nghe sự kiện submit của form
+        var form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function(event) {
+                // Cuộn đến cuối container khi form được gửi
+                commentContainer.scrollTop = commentContainer.scrollHeight;
+            });
+        }
+    }
+});
+</script>
+
 @endsection

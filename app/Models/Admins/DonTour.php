@@ -2,6 +2,7 @@
 
 namespace App\Models\Admins;
 
+use App\Models\Payment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -53,7 +54,7 @@ public function user(){
 public function tour(){
     return $this->belongsTo(Tour::class);
 }
-// public function chiTietDonHang(){
-//     return $this->hasMany(ChiTietDonHang::class);
-// }
+public function pay(){
+    return $this->hasMany(Payment::class);
+}
 }

@@ -203,67 +203,7 @@
                 </div>
             </div>
         </div>
-        <nav>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <ul id="nav" class="nav container">
-                            <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
-                            @foreach ($categoryes as $category)
-                                <li class="nav-item {{ $category->children->isNotEmpty() ? 'has-mega' : '' }}">
-                                    <a class="nav-link" href="{{ url($category->slug) }}">
-                                        {{ $category->name }}
-                                        @if ($category->children->isNotEmpty())
-                                            <i class="fa fa-angle-right"></i>
-                                        @endif
-                                    </a>
-
-                                    @if ($category->children->isNotEmpty())
-                                        <div class="mega-content">
-                                            <div class="level0-wrapper2">
-                                                <div class="nav-block nav-block-center">
-                                                    <ul class="level0">
-                                                        @foreach ($category->children as $child)
-                                                            <li class="level1 parent item">
-                                                                <h2 class="h4">
-                                                                    <a href="{{ url($child->slug) }}">
-                                                                        <span>{{ $child->name }}</span>
-                                                                    </a>
-                                                                </h2>
-                                                                @if ($child->children->isNotEmpty())
-                                                                    <ul class="level1">
-                                                                        @foreach ($child->children as $subChild)
-                                                                            <li class="level2">
-                                                                                <a href="{{ url($subChild->slug) }}">
-                                                                                    <span>{{ $subChild->name }}</span>
-                                                                                </a>
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                @endif
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </li>
-                            @endforeach
-
-                            <!-- Các menu tĩnh -->
-                            <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
-                            <li class="nav-item"><a class="nav-link" href="dich-vu-tour.html">Dịch vụ tour</a></li>
-                            <li class="nav-item"><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
-                                    
-                            <li class="nav-item"><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{route('favorites.index')}}">Yêu Thích</a></li>
-                        </ul>
-                        
-                    </div>
-                </div>
-            </div>
-        </nav>
+        @include('client.partials.navbar')
     </header>
 
     <h1 class="hidden">Ant Du lịch - Ant Du lịch - Chúng tôi cam kết luôn nỗ lực đem đến những giá trị dịch vụ tốt nhất
@@ -350,86 +290,14 @@
 
 
 
-                    {{-- @foreach ($listtour as $item)
-                        <div class="col-md-4 col-sm-6 col-xs-6 col-100">
-                            <div class="product-box">
-                                <div class="product-thumbnail">
-                                    <a href="{{ route('client.tour.show', $item->id) }}"
-                                        title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/83864b64404979-5ad0e1bdba9b284f3.jpg?v=1529553163227"
-                                            alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                    </a>
-                                    <div class="sale-off">-
-                                        <?= $item['sale'] ?>%
-                                    </div>
-                                </div>
-                                <div class="product-info a-left">
-                                    <h3 class="product-name"><a class="line-clamp"
-                                            href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                                            title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                            <?= $item['name'] ?>
-                                        </a></h3>
-                                    <div class="clearfix">
-                                        <div class="box-prices">
-                                            <div class="price-box clearfix">
-                                                <div class="special-price f-left">
-                                                    <span
-                                                        class="price product-price"><?= number_format($item['price_children'], 0, '', ',') ?>đ</span>
-                                                </div>
 
-                                                <div class="old-price">
-                                                    <span class="price product-price-old">
-                                                        <?= number_format($item['price_old'], 0, '', ',') ?>đ
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="box-tag">
-                                            <ul class="ct_course_list">
-
-                                                <li data-toggle="tooltip" data-placement="top"
-                                                    title="Di chuyển bằng Ô tô">
-                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                        alt="Di chuyển bằng Ô tô" />
-                                                </li>
-                                                <li data-toggle="tooltip" data-placement="top"
-                                                    title="Di chuyển bằng máy bay">
-                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                        alt="Di chuyển bằng máy bay" />
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                    <div class="box-date-tour">
-                                        <ul class="ct_course_list">
-
-                                            <li class="clearfix">
-                                                <div class="ulimg"><img
-                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                        alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: Thứ 2 - 7 hằng
-                                                tuần
-                                            </li>
-                                            <li class="clearfix">
-                                                <div class="ulimg"><img
-                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                        alt="6 ngày 5 đêm" /></div> Thời gian: 6 ngày 5 đêm
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach --}}
 
 
                     @foreach ($Tourmoinhat as $item)
                         <div class="col-md-4 col-sm-6 col-xs-6 col-100">
                             <div class="product-box">
                                 <div class="product-thumbnail">
-                                    <a href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
+                                    <a href="{{ route('client.tour.show', $item->id) }}"
                                         title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
                                         <img src="{{ Storage::url($item->image) }}"
                                             alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
@@ -441,7 +309,7 @@
                                 <div class="product-info a-left">
                                     <h3 class="product-name"><a class="line-clamp"
                                             href="{{ route('detail', $item->id) }}"
-                                            title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">{{ $item->name }}
+                                            title="">{{ $item->name }}
                                             [{{ $item->location->name }}] [{{ $item->journeys }}]</a></h3>
                                     <div class="clearfix">
                                         <div class="box-prices">
@@ -465,6 +333,10 @@
 
                                         <div class="box-tag">
                                             <ul class="ct_course_list">
+                                                <li>
+                                                    <i class="fa fa-heart add-to-favorite"
+                                                        data-id="{{ $item->id }}"></i>
+                                                </li>
 
                                                 <li data-toggle="tooltip" data-placement="top"
                                                     title="Di chuyển bằng Ô tô">
@@ -505,8 +377,10 @@
 
 
 
+
                 </div>
             </div>
+        </div>
         </div>
 
 
@@ -562,7 +436,8 @@
                                                     </div>
                                                     <div class="product-info a-left">
                                                         <h3 class="product-name">
-                                                            <a class="line-clamp" href="{{ $tour->link }}"
+                                                            <a class="line-clamp"
+                                                                href="{{ route('client.tour.show', $tour->id) }}"
                                                                 title="{{ $tour->name }}">{{ $tour->name }}</a>
                                                         </h3>
                                                         <div class="clearfix">
@@ -2703,6 +2578,101 @@
                 margin: 20,
                 nav: true,
                 dots: true,
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+    </script>
+
+    {{-- Sweet alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+    @if (Session::has('success'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ Session::get('success') }}",
+            });
+        </script>
+    @endif
+    @if (Session::has('error'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ Session::get('error') }}",
+            });
+        </script>
+    @endif
+
+    @yield('script-libs')
+    @yield('script')
+
+    {{-- add favorite --}}
+    <script>
+        $(document).on('click', '.add-to-favorite', function() {
+            let tourId = $(this).data('id');
+
+            $.ajax({
+                url: "{{ route('favorite.add') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tour_id: tourId
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: response.message,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Thất bại!',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã có lỗi xảy ra, vui lòng thử lại.',
+                    });
+                }
             });
         });
     </script>

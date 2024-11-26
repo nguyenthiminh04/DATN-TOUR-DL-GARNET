@@ -13,57 +13,46 @@ class FavoriteController extends Controller
      */
     public function index()
     {
-        $favorite_tours = Favorite::where('user_id', Auth::id())
-        ->with('name,image,price_old,price_children,sale,') // Chỉ lấy các trường cần thiết
-        ->get();
-        return view('client.pages.favorite', compact('favorite_tour'));
+        $userId = auth()->id(); // ID người dùng hiện tại
+
+        $favorite_tours = Favorite::with('tour') // lấy data của tour
+            ->where('user_id', $userId)
+            ->get();
+
+        return view('client.pages.favorite', compact('favorite_tours'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function addToFavorite(Request $request)
     {
-        //
+        $userId = auth()->id(); // Lấy ID người dùng hiện tại
+
+        if (!$userId) {
+            return response()->json(['status' => 'error', 'message' => 'Bạn cần đăng nhập để thêm vào danh sách yêu thích!']);
+        }
+
+        $tourId = $request->tour_id;
+
+        // Kiểm tra nếu đã tồn tại
+        $exists = Favorite::where('user_id', $userId)->where('tour_id', $tourId)->exists();
+
+        if ($exists) {
+            return response()->json(['status' => 'error', 'message' => 'Tour đã có trong danh sách yêu thích!']);
+        }
+
+        // Lưu vào cơ sở dữ liệu
+        Favorite::create([
+            'user_id' => $userId, // Truyền giá trị user_id
+            'tour_id' => $tourId,
+        ]);
+
+        return response()->json(['status' => 'success', 'message' => 'Đã thêm vào danh sách yêu thích!']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function removeFavorite(Request $request)
     {
-        //
-    }
+        $favorite = Favorite::findOrFail($request->id);
+        $favorite->delete();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Favorite $favorite)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Favorite $favorite)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Favorite $favorite)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Favorite $favorite)
-    {
-        //
+        return response()->json(['status' => true, 'message' => 'Xóa thành công!']);
     }
 }

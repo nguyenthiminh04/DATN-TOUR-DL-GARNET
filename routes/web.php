@@ -11,12 +11,13 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\AuthController;
 
 use App\Http\Controllers\Client\TourController as ClientTourController;
 
 
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\StatisticalController;
+use App\Http\Controllers\Admin\PayController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
 use App\Http\Controllers\FavoriteController;
@@ -54,15 +55,14 @@ Route::group([], function () {
     Route::post('quen-mat-khau', [AuthClientController::class, 'sendResetMK'])->name('password.request');
     Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetForm'])->name('password.reset');
     Route::post('reset-mat-khau', [AuthClientController::class, 'reset'])->name('password.update');
+    // Route::resource('tour', ClientTourController::class)->names([
+
+    //     'show' => 'client.tour.show',
 
 
-    Route::resource('tour', ClientTourController::class)->names([
-
-        'show' => 'client.tour.show',
-
-
-    ]);
-
+    // ]);
+    Route::get('detail-tour\{id}', [HomeController::class, 'detailTour'])->name('client.tour.show');
+    Route::post('/posts/{id}/comment', [HomeController::class, 'storeComment'])->name('posts.comment');
 
 
     // Route::get('/pre-booking', function () {
@@ -135,23 +135,42 @@ Route::group([], function () {
 
     Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
 
-    Route::resource('favorites', FavoriteController::class);
+    Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index');
+    Route::post('/favorite', [FavoriteController::class, 'addToFavorite'])->name('favorite.add');
+    Route::delete('/favorite/{id}', [FavoriteController::class, 'removeFavorite'])->name('favorite.delete');
+
 });
 
+
+
+Route::get('login',                     [AuthController::class, 'login'])->name('login');
+Route::post('authLogin',                [AuthController::class, 'authLogin'])->name('authLogin');
+Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
+
 // admin routes
+<<<<<<< HEAD
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/home', [StatisticalController::class,'index'])->name('home-admin');
+=======
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+    Route::get('/home', function () {
+        return view('admin.dashboard');
+    })->name('home-admin');
+>>>>>>> 6a425b73dbb753994e842bc9b82d644964f445d2
 
     Route::resource('user', UserController::class);
     Route::resource('dontour', BookTourController::class);
     Route::resource('faqs', FaqController::class);
     Route::resource('notifications', NotificationController::class);
     Route::resource('category_tour', Categoty_tour::class);
+    Route::resource('trangthaitour', PayController::class);
     Route::resource('tour', TourController::class);
     Route::resource('coupons', CouponsController::class);
     Route::resource('location', LocationController::class);
     Route::resource('category', CategoryController::class);
 });
+
+
 
 // Route::get('/dang-nhap', function () {
 //     return view('client.auth.login');
@@ -161,9 +180,15 @@ Route::group(['prefix' => 'admin'], function () {
 //     return view('client.auth.register');
 // });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6a425b73dbb753994e842bc9b82d644964f445d2
 // Route::get('/dang-ky', function () {
 //     return view('client.auth.register');
 // });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6a425b73dbb753994e842bc9b82d644964f445d2
