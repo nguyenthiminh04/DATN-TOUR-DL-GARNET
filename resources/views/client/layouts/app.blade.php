@@ -96,7 +96,7 @@
         }
     </script>
     @yield('style')
-    <script src="dist/js/stats.minbadf.js?v=96f2ff2"></script>
+    <script src="{{ url('client/ant-du-lich.mysapo.net/dist/js/stats.minbadf.js?v=96f2ff2')}}"></script>
 
 </head>
 
@@ -109,7 +109,8 @@
     @include('client.partials.footer')
     </div>
 
+    @yield('script')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
-@yield('script')
 
 </html>

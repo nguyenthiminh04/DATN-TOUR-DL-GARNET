@@ -254,12 +254,14 @@
                             <!-- Các menu tĩnh -->
                             <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
                             <li class="nav-item"><a class="nav-link" href="dich-vu-tour.html">Dịch vụ tour</a></li>
-                            <li class="nav-item"><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
-                                    
+                            <li class="nav-item"><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du
+                                    lịch</a></li>
+
                             <li class="nav-item"><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{route('favorites.index')}}">Yêu Thích</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('favorite.index') }}">Yêu
+                                    Thích</a></li>
                         </ul>
-                        
+
                     </div>
                 </div>
             </div>
@@ -465,6 +467,10 @@
 
                                         <div class="box-tag">
                                             <ul class="ct_course_list">
+                                                <li>
+                                                    <i class="fa fa-heart add-to-favorite"
+                                                        data-id="{{ $item->id }}"></i>
+                                                </li>
 
                                                 <li data-toggle="tooltip" data-placement="top"
                                                     title="Di chuyển bằng Ô tô">
@@ -2703,6 +2709,103 @@
                 margin: 20,
                 nav: true,
                 dots: true,
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+    </script>
+    
+    {{-- Sweet alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+    @if (Session::has('success'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ Session::get('success') }}",
+            });
+        </script>
+    @endif
+    @if (Session::has('error'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ Session::get('error') }}",
+            });
+
+        </script>
+
+    @endif
+
+    @yield('script-libs')
+    @yield('script')
+
+    {{-- add favorite --}}
+    <script>
+        $(document).on('click', '.add-to-favorite', function() {
+            let tourId = $(this).data('id');
+
+            $.ajax({
+                url: "{{ route('favorite.add') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tour_id: tourId
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: response.message,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Thất bại!',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã có lỗi xảy ra, vui lòng thử lại.',
+                    });
+                }
             });
         });
     </script>

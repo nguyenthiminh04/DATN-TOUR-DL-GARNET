@@ -124,7 +124,10 @@ Route::group([], function () {
 
     Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
 
-    Route::resource('favorites', FavoriteController::class);
+    Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index');
+    Route::post('/favorite', [FavoriteController::class, 'addToFavorite'])->name('favorite.add');
+    Route::delete('/favorite/{id}', [FavoriteController::class, 'removeFavorite'])->name('favorite.delete');
+
 });
 
 
