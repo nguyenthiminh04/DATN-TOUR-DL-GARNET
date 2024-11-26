@@ -64,18 +64,7 @@
            
          
 
-        <div class="mb-3 col-6">
-          <label for="status1" class="form-label">Tour<span class="text-danger">*</span></label>
-          <select name="tour_id" class="form-select w-100" id="status1">
-              <option value="">Chọn Tour</option>
-              @foreach ($listTour as $status)
-                  <option value="{{ $status->id }}" {{ $location->tour_id == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
-              @endforeach
-          </select>
-          @error('tour_id')
-              <span class="text-danger">{{ $message }}</span>
-          @enderror
-      </div>
+        
 
 <div class="mb-3 col-6">
                   <label for="status1" class="form-label">User<span class="text-danger">*</span></label>
