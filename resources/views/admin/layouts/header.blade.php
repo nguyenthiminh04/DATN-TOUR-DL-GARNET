@@ -661,11 +661,12 @@
                                 src="{{ asset('admin/assets/images/users/32/avatar-1.jpg') }}" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
                                 <span
-                                    class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name }}</span>
+                                    class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name ??'Guest'}}</span>
                                 <span class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">
                                     @if (Auth::user()->role_id == 2 || Auth::user()->role_id == 3)
                                         Admin
                                     @endif
+                                    
                                 </span>
                             </span>
                         </span>

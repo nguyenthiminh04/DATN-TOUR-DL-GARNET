@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\PayController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
+use App\Http\Controllers\Client\myAccountController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
@@ -57,8 +58,15 @@ Route::group([], function () {
     Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetForm'])->name('password.reset');
     Route::post('reset-mat-khau', [AuthClientController::class, 'reset'])->name('password.update');
     // Route::resource('tour', ClientTourController::class)->names([
+    //đổi pass trang profile
+    Route::post('/change-password', [myAccountController::class, 'changePassword'])->name('user.changePassword');
+    //them dia chi moi
+    Route::post('/address', [myAccountController::class, 'addressNew'])->name('user.address');
+
 
     //     'show' => 'client.tour.show',
+    //thông tin tài khoản
+    Route::get('/my-account', [myAccountController::class, 'index'])->name('my-account.index');
 
 
     // ]);
