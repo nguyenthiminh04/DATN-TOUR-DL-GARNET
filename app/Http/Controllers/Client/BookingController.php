@@ -34,6 +34,8 @@ class BookingController extends Controller
         $bookTour = BookTour::create([
             // 'user_id' => auth()->id(), 
             'user_id' => 1,
+            'user_id' => auth()->user()->id,
+
             // 'tour_id' => $validated['tour_id'],
             'tour_id' => $validated['tour_id'],
 
