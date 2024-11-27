@@ -14,11 +14,18 @@
                     <ul class="list-inline f-right ul-account">
                         @if (Auth::check())
                             <li>
-                                <a href="#"><i class="fa fa-user" aria-hidden="true"></i>
+                                <a href="{{route('my-account.index')}}"><i class="fa fa-user" aria-hidden="true"></i>
                                     {{ Auth::user()->name }}</a>
                             </li>
-                            <li><a href="{{ route('logouts') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>
-                                    Đăng xuất</a></li>
+                            <li>
+                                <form method="POST" action="{{ route('logouts') }}" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" style="border: none; background: none; padding: 0; color: inherit;">
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                    </button>
+                                </form>
+                            </li>
+                            
                        
                         @else
                             <li><a href=""><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng

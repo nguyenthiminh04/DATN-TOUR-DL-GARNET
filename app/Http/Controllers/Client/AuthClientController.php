@@ -133,6 +133,7 @@ class AuthClientController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('dang-nhap')->with('error', 'Đăng nhập bằng Google thất bại');
         }
+    }
     
 
     public function sendResetMK(Request $request)
@@ -183,4 +184,4 @@ class AuthClientController extends Controller
         }
     }
 
-
+    }
