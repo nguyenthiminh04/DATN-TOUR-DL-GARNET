@@ -38,17 +38,10 @@ class AuthClientController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            if ($user->role_id == 2) {
-                return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
-            }else{
-                return redirect()->route('dang-nhap')->withErrors([
-                    'email' => 'Email hoặc mật khẩu không chính xác.',
-                ])->withInput();
-            }
+            return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
         } else {
             return redirect()->route('dang-nhap')->withErrors([
-                'email' => 'Tài khoản không có quyền.',
+                'email' => 'Email hoặc mật khẩu không chính xác.',
             ])->withInput();
         }
     }

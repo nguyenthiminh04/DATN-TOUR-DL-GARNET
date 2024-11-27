@@ -161,19 +161,20 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
     Route::group(['middleware' => 'admin'], function(){
         Route::get('/home', [StatisticalController::class,'index'])->name('home-admin');
+        Route::resource('user', UserController::class);
+        Route::resource('dontour', BookTourController::class);
+        Route::resource('faqs', FaqController::class);
+        Route::resource('notifications', NotificationController::class);
+        Route::resource('category_tour', Categoty_tour::class);
+        Route::resource('trangthaitour', PayController::class);
+        Route::resource('tour', TourController::class);
+        Route::resource('coupons', CouponsController::class);
+        Route::resource('location', LocationController::class);
+        Route::resource('category', CategoryController::class);
     });
 
 
-    Route::resource('user', UserController::class);
-    Route::resource('dontour', BookTourController::class);
-    Route::resource('faqs', FaqController::class);
-    Route::resource('notifications', NotificationController::class);
-    Route::resource('category_tour', Categoty_tour::class);
-    Route::resource('trangthaitour', PayController::class);
-    Route::resource('tour', TourController::class);
-    Route::resource('coupons', CouponsController::class);
-    Route::resource('location', LocationController::class);
-    Route::resource('category', CategoryController::class);
+   
 });
 
 
