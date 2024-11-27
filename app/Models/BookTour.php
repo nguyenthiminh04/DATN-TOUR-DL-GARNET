@@ -55,4 +55,9 @@ public function pay()
     // {
     //     return $this->belongsTo(Guide::class);
     // }
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status', 'id');
+    }
+
 }

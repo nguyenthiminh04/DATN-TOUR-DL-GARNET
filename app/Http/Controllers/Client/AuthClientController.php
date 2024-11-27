@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 
 class AuthClientController extends Controller
 {
@@ -24,10 +27,10 @@ class AuthClientController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ], [
-            
+
             'email.required' => 'Email là bắt buộc.',
             'email.email' => 'Email phải có định dạng hợp lệ.',
-            
+
             'password.required' => 'Mật khẩu là bắt buộc.',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
         ]);
@@ -40,7 +43,7 @@ class AuthClientController extends Controller
                 // return redirect()->route('')->with('success', 'Đăng nhập thành công với quyền Admin');
                 echo '123 admin';
             } elseif ($user->role_id == 2) {
-                return redirect()->route('home')->with('success', 'Đăng nhập thành công với quyền User');
+                return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
             }
         } else {
             return redirect()->route('dang-nhap')->withErrors([
@@ -65,15 +68,15 @@ class AuthClientController extends Controller
             'lastName.required' => 'Họ là bắt buộc.',
             'lastName.string' => 'Họ phải là chuỗi ký tự.',
             'lastName.max' => 'Họ không được vượt quá 50 ký tự.',
-            
+
             'firstName.required' => 'Tên là bắt buộc.',
             'firstName.string' => 'Tên phải là chuỗi ký tự.',
             'firstName.max' => 'Tên không được vượt quá 50 ký tự.',
-            
+
             'email.required' => 'Email là bắt buộc.',
             'email.email' => 'Email phải có định dạng hợp lệ.',
             'email.unique' => 'Email này đã được đăng ký.',
-            
+
             'password.required' => 'Mật khẩu là bắt buộc.',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
             'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
@@ -137,4 +140,51 @@ class AuthClientController extends Controller
         }
     }
 
+    public function sendResetMK(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ], [
+            'email.required' => 'Email là bắt buộc.',
+            'email.email' => 'Email không hợp lệ.',
+            'email.exists' => 'Email này không tồn tại.',
+        ]);
+
+        $response = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        if ($response == Password::RESET_LINK_SENT) {
+            return back()->with('success', 'Một liên kết để đặt lại mật khẩu đã được gửi đến email của bạn.');
+        } else {
+            return back()->withErrors(['email' => 'Đã có lỗi xảy ra. Vui lòng thử lại.']);
+        }
+    }
+    public function showResetForm($token)
+    {
+        return view('auth.passwords.reset', ['token' => $token]);
+    }
+
+    public function reset(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|min:6|confirmed',
+            'token' => 'required',
+        ]);
+
+        $response = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                $user->save();
+            }
+        );
+
+        if ($response == Password::PASSWORD_RESET) {
+            return redirect()->route('login')->with('status', 'Mật khẩu của bạn đã được cập nhật thành công.');
+        } else {
+            return back()->withErrors(['email' => trans($response)]);
+        }
+    }
 }

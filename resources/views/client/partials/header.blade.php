@@ -17,15 +17,9 @@
                                 <a href="#"><i class="fa fa-user" aria-hidden="true"></i>
                                     {{ Auth::user()->name }}</a>
                             </li>
-                            <li>
-                                <form action="{{ route('logouts') }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <button type="submit" class="btn btn-link"
-                                        style="color: inherit; text-decoration: none;">
-                                        <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
-                                    </button>
-                                </form>
-                            </li>
+                            <li><a href="{{ route('logouts') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                                    Đăng xuất</a></li>
+                       
                         @else
                             <li><a href=""><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
                                     nhập</a></li>
@@ -93,5 +87,5 @@
             </div>
         </div>
     </div>
- @include('client.partials.navbar')
+    @include('client.partials.navbar')
 </header>

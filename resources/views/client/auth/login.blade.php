@@ -119,9 +119,10 @@
                     <span>
                         Bạn quên mật khẩu? Nhập địa chỉ email để lấy lại mật khẩu qua email.
                     </span>
-                    <form method="post" action="https://ant-du-lich.mysapo.net/account/recover"
-                        id="recover_customer_password" accept-charset="UTF-8"><input name="FormType" type="hidden"
-                            value="recover_customer_password" /><input name="utf8" type="hidden" value="true" />
+                    <form method="post" action="{{ route('password.request') }}"
+                        id="recover_customer_password" accept-charset="UTF-8">
+                        @csrf
+                        @method("POST")
                         <div class="form-signup aaaaaaaa">
 
                         </div>
@@ -129,15 +130,14 @@
                         <div class="form-signup clearfix">
                             <fieldset class="form-group">
                                 <label>Email<span class="required">*</span></label>
-                                <input type="email" class="form-control form-control-lg" value="" name="Email"
+                                <input type="email" class="form-control form-control-lg" value="" name="email"
                                     id="recover-email" placeholder="Email" data-validation="email"
                                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"
                                     data-validation-error-msg="Email sai định dạng" />
                             </fieldset>
                         </div>
                         <div class="action_bottom">
-                            <input class="btn btn-style btn-blues" style="margin-top: 15px;" type="submit"
-                                value="Lấy lại mật khẩu" />
+                                <button class="btn btn-style btn-blues" style="margin-top: 15px;" type="submit">Gửi liên kết đặt lại mật khẩu</button>
                         </div>
                     </form>
                 </div>

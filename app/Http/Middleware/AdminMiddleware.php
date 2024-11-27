@@ -21,7 +21,7 @@ class AdminMiddleware
                 return $next($request);
             } else {
                 Auth::logout();
-                return redirect()->route('login')->with('error', 'Bạn không có quyền truy cập!');;
+                return redirect()->route('login')->with('error', 'Bạn không có quyền truy cập!');
             }
         } else {
             Auth::logout();
