@@ -104,6 +104,20 @@
                                 $('.count_item_pr').text(count);
 
                                 Swal.fire('Xóa thành công!', '', 'success');
+
+                                // Nếu không còn tour nào, hiển thị thông báo trống
+                                if (count === 0) {
+                                    $('.shopping-cart-table').html(`
+                                    <div class="col-md-6 col-md-offset-3">
+                                        <div class="cart-empty">
+                                            <img src="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/empty-bags6d1d.jpg?1705894518705') }}" class="img-responsive center-block" alt="Giỏ hàng trống" />
+                                            <div class="btn-cart-empty">
+                                                <a class="btn btn-default" href="{{ route('home') }}" title="Tiếp tục mua sắm">Tiếp tục mua sắm</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `);
+                                }
                             } else {
                                 Swal.fire(res.message, '', 'error');
                             }
