@@ -149,23 +149,36 @@
                         </div>
                     </div>
                     @if(session('success'))
-                        <div class="alert alert-success alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>Thành công!</strong> {{ session('success') }}
-                        </div>
-                    @endif
+                    <div class="alert alert-success alert-dismissible" role="alert" id="successAlert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Thành công!</strong> {{ session('success') }}
+                    </div>
+                @endif
 
-                    @if($errors->any())
-                        <div class="alert alert-danger alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>Lỗi!</strong>
-                            <ul>
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                @if($errors->any())
+                    <div class="alert alert-danger alert-dismissible" role="alert" id="errorAlert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Lỗi!</strong>
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <script>
+                    setTimeout(function() {
+                        $('#successAlert').fadeOut('slow');
+                    }, 1000);
+                    setTimeout(function() {
+                        $('#errorAlert').fadeOut('slow');
+                    }, 1000);
+                </script>
+
 
                     <div id="change-password" class="content-section" style="display: none;">
                         <h1 class="title-head">Đổi mật khẩu</h1>

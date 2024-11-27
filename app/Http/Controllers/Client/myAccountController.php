@@ -51,6 +51,18 @@ class myAccountController extends Controller
             'address' => 'required|string|max:255',
             'zip' => 'nullable|string|max:10',
             'IsDefault' => 'nullable|boolean',
+        ],[
+            'name.required' => 'Tên là bắt buộc.',
+            'name.string' => 'Tên phải là một chuỗi ký tự.',
+            'name.max' => 'Tên không được vượt quá 255 ký tự.',
+            'phone.required' => 'Số điện thoại là bắt buộc.',
+            'phone.numeric' => 'Số điện thoại phải là một số.',
+            'phone.digits' => 'Số điện thoại phải có đúng 10 chữ số.',
+            'address.required' => 'Địa chỉ là bắt buộc.',
+            'address.string' => 'Địa chỉ phải là một chuỗi ký tự.',
+            'address.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
+            'zip.string' => 'Mã bưu chính phải là một chuỗi ký tự.',
+            'zip.max' => 'Mã bưu chính không được vượt quá 10 ký tự.',
         ]);
         $user = auth()->user();
         $user->name = $request->name ?? auth()->user()->name;
