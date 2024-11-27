@@ -19,8 +19,6 @@ class AuthController extends Controller
 
                 if (Auth::user()->role_id == 2) {
                     return redirect()->route('home-admin');
-                } else if (Auth::user()->role_id == 3) {
-                    return redirect()->route('home-admin');
                 }
                 return redirect()->route('home-admin');
             }
@@ -41,10 +39,7 @@ class AuthController extends Controller
 
             if (Auth::user()->role_id == 2) {
                 return redirect()->route('home-admin');
-            } else if (Auth::user()->role_id == 3) {
-                return redirect()->route('home-admin');
             }
-
             return redirect()->route('home-admin');
         } else {
             return redirect()->back()->with('error', 'Vui lòng nhập đúng email và mật khẩu!');

@@ -24,10 +24,10 @@ class AuthClientController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ], [
-            
+
             'email.required' => 'Email là bắt buộc.',
             'email.email' => 'Email phải có định dạng hợp lệ.',
-            
+
             'password.required' => 'Mật khẩu là bắt buộc.',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
         ]);
@@ -36,12 +36,7 @@ class AuthClientController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if ($user->role_id == 1) {
-                // return redirect()->route('')->with('success', 'Đăng nhập thành công với quyền Admin');
-                echo '123 admin';
-            } elseif ($user->role_id == 2) {
-                return redirect()->route('home')->with('success', 'Đăng nhập thành công với quyền User');
-            }
+            return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
         } else {
             return redirect()->route('dang-nhap')->withErrors([
                 'email' => 'Email hoặc mật khẩu không chính xác.',
@@ -65,15 +60,15 @@ class AuthClientController extends Controller
             'lastName.required' => 'Họ là bắt buộc.',
             'lastName.string' => 'Họ phải là chuỗi ký tự.',
             'lastName.max' => 'Họ không được vượt quá 50 ký tự.',
-            
+
             'firstName.required' => 'Tên là bắt buộc.',
             'firstName.string' => 'Tên phải là chuỗi ký tự.',
             'firstName.max' => 'Tên không được vượt quá 50 ký tự.',
-            
+
             'email.required' => 'Email là bắt buộc.',
             'email.email' => 'Email phải có định dạng hợp lệ.',
             'email.unique' => 'Email này đã được đăng ký.',
-            
+
             'password.required' => 'Mật khẩu là bắt buộc.',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
             'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
@@ -120,7 +115,7 @@ class AuthClientController extends Controller
                     'name' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'password' => Hash::make(uniqid()),
-                    'role_id' => 2,
+                    'role_id' => 1,
                 ]);
             }
 
@@ -136,5 +131,4 @@ class AuthClientController extends Controller
             return redirect()->route('dang-nhap')->with('error', 'Đăng nhập bằng Google thất bại');
         }
     }
-
 }

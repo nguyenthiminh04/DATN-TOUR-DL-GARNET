@@ -46,7 +46,7 @@ Route::group([], function () {
     Route::post('/post-dang-ky', [AuthClientController::class, 'postDangKy'])->name('post-dang-ky');
     Route::get('/auth/google', [AuthClientController::class, 'redirectToGoogle'])->name('auth.google');
     Route::get('/auth/google/callback', [AuthClientController::class, 'handleGoogleCallback']);
-    Route::post('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
+    Route::get('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
 
     // Route::resource('tour', ClientTourController::class)->names([
 
@@ -131,7 +131,6 @@ Route::group([], function () {
     Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index');
     Route::post('/favorite', [FavoriteController::class, 'addToFavorite'])->name('favorite.add');
     Route::delete('/favorite/{id}', [FavoriteController::class, 'removeFavorite'])->name('favorite.delete');
-
 });
 
 
@@ -171,4 +170,3 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 // Route::get('/dang-ky', function () {
 //     return view('client.auth.register');
 // });
-
