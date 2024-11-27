@@ -39,7 +39,12 @@ class AuthClientController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
+            if ($user->role_id == 1) {
+                // return redirect()->route('')->with('success', 'Đăng nhập thành công với quyền Admin');
+                echo '123 admin';
+            } elseif ($user->role_id == 2) {
+                return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
+            }
         } else {
             return redirect()->route('dang-nhap')->withErrors([
                 'email' => 'Email hoặc mật khẩu không chính xác.',
@@ -118,7 +123,7 @@ class AuthClientController extends Controller
                     'name' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'password' => Hash::make(uniqid()),
-                    'role_id' => 1,
+                    'role_id' => 2,
                 ]);
             }
 
@@ -133,28 +138,28 @@ class AuthClientController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('dang-nhap')->with('error', 'Đăng nhập bằng Google thất bại');
         }
-    
+    }
 
     public function sendResetMK(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email|exists:users,email',
-    ], [
-        'email.required' => 'Email là bắt buộc.',
-        'email.email' => 'Email không hợp lệ.',
-        'email.exists' => 'Email này không tồn tại.',
-    ]);
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ], [
+            'email.required' => 'Email là bắt buộc.',
+            'email.email' => 'Email không hợp lệ.',
+            'email.exists' => 'Email này không tồn tại.',
+        ]);
 
-    $response = Password::sendResetLink(
-        $request->only('email')
-    );
+        $response = Password::sendResetLink(
+            $request->only('email')
+        );
 
-    if ($response == Password::RESET_LINK_SENT) {
-        return back()->with('success', 'Một liên kết để đặt lại mật khẩu đã được gửi đến email của bạn.');
-    } else {
-        return back()->withErrors(['email' => 'Đã có lỗi xảy ra. Vui lòng thử lại.']);
+        if ($response == Password::RESET_LINK_SENT) {
+            return back()->with('success', 'Một liên kết để đặt lại mật khẩu đã được gửi đến email của bạn.');
+        } else {
+            return back()->withErrors(['email' => 'Đã có lỗi xảy ra. Vui lòng thử lại.']);
+        }
     }
-}
     public function showResetForm($token)
     {
         return view('auth.passwords.reset', ['token' => $token]);
@@ -182,5 +187,4 @@ class AuthClientController extends Controller
             return back()->withErrors(['email' => trans($response)]);
         }
     }
-
-
+}
