@@ -151,13 +151,18 @@ Route::group([], function () {
 
 
 
-Route::get('login',                     [AuthController::class, 'login'])->name('login');
-Route::post('authLogin',                [AuthController::class, 'authLogin'])->name('authLogin');
-Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
+
 
 // admin routes
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/home', [StatisticalController::class,'index'])->name('home-admin');
+    
+    Route::get('login',                     [AuthController::class, 'login'])->name('login');
+    Route::post('authLogin',                [AuthController::class, 'authLogin'])->name('authLogin');
+    Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
+    Route::group(['middleware' => 'admin'], function(){
+        Route::get('/home', [StatisticalController::class,'index'])->name('home-admin');
+    });
+
 
     Route::resource('user', UserController::class);
     Route::resource('dontour', BookTourController::class);
