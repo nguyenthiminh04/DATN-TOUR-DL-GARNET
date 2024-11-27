@@ -19,6 +19,7 @@
                             </li>
                             <li><a href="{{ route('logouts') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>
                                     Đăng xuất</a></li>
+                       
                         @else
                             <li><a href=""><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
                                     nhập</a></li>
