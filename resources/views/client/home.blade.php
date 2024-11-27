@@ -102,15 +102,7 @@
     </script>
 
     <script src="client/ant-du-lich.mysapo.net/dist/js/stats.minbadf.js"></script>
-    <style>
-        .dropdown:hover .dropdown-menu {
-        display: block;
-    }
-    .dropdown-menu .dropdown-item:hover {
-        background-color: #f4f4f4;
-        color: #6cacf1;
-    }
-    </style>
+
 </head>
 
 <body>
@@ -130,10 +122,10 @@
                     </div>
                     <div class="col-md-6">
                         <ul class="list-inline f-right ul-account">
-
+                            @if (Auth::check())
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
                                         {{ Auth::user()->name }}</a></li>
-                            
+
                                 <li><a href="{{ route('logouts') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>
                                         Đăng xuất</a></li>
                             @else
@@ -2678,8 +2670,6 @@
             });
         });
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 
 </html>
