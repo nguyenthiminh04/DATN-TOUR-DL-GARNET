@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\AuthController;
-
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 
 
@@ -168,6 +168,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('tour', TourController::class);
     Route::resource('coupons', CouponsController::class);
     Route::resource('location', LocationController::class);
+    Route::resource('comments', CommentController::class);
     Route::resource('category', CategoryController::class);
 });
 
