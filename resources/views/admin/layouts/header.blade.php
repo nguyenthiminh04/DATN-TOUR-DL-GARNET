@@ -663,7 +663,7 @@
                                 <span
                                     class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name ??'Guest'}}</span>
                                 <span class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">
-                                    @if (Auth::user()->role_id == 2 || Auth::user()->role_id == 3)
+                                    @if (Auth::user()->role_id == 1 )
                                         Admin
                                     @endif
                                     

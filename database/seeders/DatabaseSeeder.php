@@ -37,18 +37,29 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // for ($i=1; $i < 6; $i++) { 
-        //     User::create([
-        //         'name' => 'User '. $i,
-        //         'email' => 'user'. $i. '@example.com',
-        //         'password' => Hash::make('12345'),
-        //         'phone' => 00000 . $i,
-        //         'address' => "Hòa Bình",
-        //         'avatar' => 'avt1',
-        //         'birth' => fake()->date(),
-        //         'gender' => 'nam',
-        //         'role_id' => 2,
-        //     ]);
+            // User::create([
+            //     'name' => 'User '. $i,
+            //     'email' => 'user'. $i. '@example.com',
+            //     'password' => Hash::make('12345'),
+            //     'phone' => 00000 . $i,
+            //     'address' => "Hòa Bình",
+            //     'avatar' => 'avt1',
+            //     'birth' => fake()->date(),
+            //     'gender' => 'nam',
+            //     'role_id' => 2,
+            // ]);
         // }
+            User::create([
+                'name' => 'User ',
+                'email' => 'anhtu4156@gmail.com',
+                'password' => Hash::make('123456'),
+                'phone' => 00000,
+                'address' => "Hòa Bình",
+                'avatar' => 'avt1',
+                'birth' => fake()->date(),
+                'gender' => 'nam',
+                'role_id' => 2,
+            ]);
 
         // for ($i = 1; $i < 6; $i++) {
         //     Faq::create([
@@ -58,11 +69,11 @@ class DatabaseSeeder extends Seeder
         //     ]);
         // }
 
-        for ($i = 1; $i < 21; $i++) {
-            Notification::create([ 
-                'content' => $i .'muốn ăn cơm',
-                'status' => 1,
-            ]);
-        }
+        // for ($i = 1; $i < 21; $i++) {
+        //     Notification::create([ 
+        //         'content' => $i .'muốn ăn cơm',
+        //         'status' => 1,
+        //     ]);
+        // }
     }
 }
