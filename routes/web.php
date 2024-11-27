@@ -18,10 +18,13 @@ use App\Http\Controllers\Client\TourController as ClientTourController;
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PayController;
+use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
+use App\Http\Controllers\Client\myAccountController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PaymentController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,9 +51,22 @@ Route::group([], function () {
     Route::get('/auth/google/callback', [AuthClientController::class, 'handleGoogleCallback']);
     Route::post('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
 
+    Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetPasswordForm'])->name('reset-mat-khau');
+    Route::post('reset-mat-khau/{token}', [AuthClientController::class, 'resetPassword'])->name('reset-mat-khau.xac-nhan');
+
+    Route::post('quen-mat-khau', [AuthClientController::class, 'sendResetMK'])->name('password.request');
+    Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetForm'])->name('password.reset');
+    Route::post('reset-mat-khau', [AuthClientController::class, 'reset'])->name('password.update');
     // Route::resource('tour', ClientTourController::class)->names([
+    //đổi pass trang profile
+    Route::post('/change-password', [myAccountController::class, 'changePassword'])->name('user.changePassword');
+    //them dia chi moi
+    Route::post('/address', [myAccountController::class, 'addressNew'])->name('user.address');
+
 
     //     'show' => 'client.tour.show',
+    //thông tin tài khoản
+    Route::get('/my-account', [myAccountController::class, 'index'])->name('my-account.index');
 
 
     // ]);
@@ -141,10 +157,8 @@ Route::post('authLogin',                [AuthController::class, 'authLogin'])->n
 Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
 
 // admin routes
-Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
-    Route::get('/home', function () {
-        return view('admin.dashboard');
-    })->name('home-admin');
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/home', [StatisticalController::class,'index'])->name('home-admin');
 
     Route::resource('user', UserController::class);
     Route::resource('dontour', BookTourController::class);

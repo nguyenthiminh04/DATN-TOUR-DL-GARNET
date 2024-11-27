@@ -44,7 +44,15 @@
         href="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/jquery-2.2.3.min6d1d.js') }}" />
     <script src="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/jquery-2.2.3.min6d1d.js') }}"
         type="text/javascript"></script>
-
+        <style>
+            .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #f4f4f4;
+            color: #6cacf1;
+        }
+        </style>
     <script>
         var Bizweb = Bizweb || {};
         Bizweb.store = 'ant-du-lich.mysapo.net';

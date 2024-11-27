@@ -36,15 +36,15 @@
                                             </div>
                                             <div class="mt-4">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
-                                                    Total Revenue</p>
-                                                <h4 class="fw-semibold mb-3">$<span class="counter-value"
-                                                        data-target="750.36">0</span>M </h4>
+                                                    Doanh thu</p>
+                                                <h4 class="fw-semibold mb-3"><span class="counter-value"
+                                                        data-target="{{$totalMoney}}">0</span>VND </h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
                                                     <h5 class="text-success fs-xs mb-0">
                                                         <i class="ri-arrow-right-up-line fs-sm align-middle"></i>
                                                         +19.07 %
                                                     </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
+                                                    <p class="text-muted mb-0">hơn tuần trước</p>
                                                 </div>
                                             </div>
                                         </div><!-- end card body -->
@@ -76,7 +76,7 @@
                                                 <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
                                                     Orders</p>
                                                 <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="684">0</span></h4>
+                                                        data-target="{{$OderCount}}">0</span></h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
                                                     <h5 class="text-success fs-xs mb-0">
                                                         <i class="ri-arrow-right-up-line fs-sm align-middle"></i>

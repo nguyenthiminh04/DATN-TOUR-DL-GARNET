@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favorite::class);
     }
+    public function bookTours()
+    {
+        return $this->hasMany(BookTour::class, 'user_id');
+    }
+    
 }
