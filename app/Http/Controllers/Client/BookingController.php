@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admins\Location;
 use App\Http\Controllers\Controller;
 use App\Models\BookTour;
+use App\Models\Payment;
 use Carbon\Carbon;
 
 class BookingController extends Controller
@@ -33,7 +34,7 @@ class BookingController extends Controller
         // Tạo mới bản ghi đặt tour
         $bookTour = BookTour::create([
             // 'user_id' => auth()->id(), 
-            'user_id' => 1,
+            // 'user_id' => 1,
             'user_id' => auth()->user()->id,
 
             // 'tour_id' => $validated['tour_id'],
@@ -61,6 +62,7 @@ class BookingController extends Controller
     {
         // Lấy thông tin đặt tour từ bảng book_tour
         $booking = BookTour::findOrFail($id);
+        $pay = Payment::findOrFail($id);
         $booking1 = BookTour::with('tour')->find($id);
 
         if (!$booking1) {
@@ -71,6 +73,6 @@ class BookingController extends Controller
 
         
         // Trả về view và truyền dữ liệu
-        return view('client.tour.confirm', compact('booking', 'tourName','booking1'));
+        return view('client.tour.confirm', compact('booking', 'tourName','booking1','pay'));
     }
 }
