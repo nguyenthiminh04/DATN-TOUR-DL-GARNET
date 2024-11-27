@@ -130,31 +130,12 @@
                     </div>
                     <div class="col-md-6">
                         <ul class="list-inline f-right ul-account">
-                            @if (Auth::check())
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                    {{ Auth::user()->name }}
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('my-account.index') }}" class="btn btn-link dropdown-item"
-                                            style="color: black; text-decoration: none; padding: 5px 15px; display: block; width: 100%;  text-align: left;">
-                                            <i class="fa fa-sign-out" aria-hidden="true"></i> Thông tin tài khoản
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <form action="{{ route('logouts') }}" method="POST" style="display: inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-link dropdown-item"
-                                                style="color: black; text-decoration: none; padding: 5px 15px; display: block; width: 100%; text-align: left;">
-                                                <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
-                                            </button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li> 
+
+                                <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
+                                        {{ Auth::user()->name }}</a></li>
+                            
+                                <li><a href="{{ route('logouts') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                                        Đăng xuất</a></li>
                             @else
                                 <li><a href="{{ url('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
                                         Đăng
