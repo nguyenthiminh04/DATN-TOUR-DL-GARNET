@@ -34,8 +34,8 @@ class BookingController extends Controller
         // Tạo mới bản ghi đặt tour
         $bookTour = BookTour::create([
             // 'user_id' => auth()->id(), 
-            // 'user_id' => 1,
-            'user_id' => auth()->user()->id,
+            'user_id' => 1,
+            // 'user_id' => auth()->user()->id,
 
             // 'tour_id' => $validated['tour_id'],
             'tour_id' => $validated['tour_id'],

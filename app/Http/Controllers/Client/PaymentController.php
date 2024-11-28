@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
+use App\Http\Controllers\Controller;
+use App\Mail\BookingSuccess;
 use App\Models\BookTour;
 use App\Models\Payment;
 use Carbon\Carbon;
@@ -9,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -23,6 +26,7 @@ class PaymentController extends Controller
 
     
     $booking = BookTour::find($request->booking_id);
+  
 
     if (!$booking) {
         return redirect()->back()->with('error', 'Không tìm thấy thông tin đặt tour!');
@@ -51,6 +55,7 @@ class PaymentController extends Controller
 
     
     if ($paymentMethod->name === 'direct') {
+        Mail::to($booking['email'])->send(new BookingSuccess($payment));
         
         return redirect()->route('payment.success', ['payment_id' => $payment->id]);
     }
@@ -95,6 +100,7 @@ class PaymentController extends Controller
             // Cập nhật trạng thái thanh toán thành "Đã thanh toán"
             $payment->status_id = $paidStatus->id;
             $payment->save();
+            Mail::to($booking['email'])->send(new BookingSuccess($payment));
     
             // Trả về view success cho thanh toán online
             return view('client.payment.success-online', compact('payment', 'booking'));
@@ -132,9 +138,6 @@ class PaymentController extends Controller
 
 
 
-
-
-    // public function vnpay_payment()
     // {
     //     $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     //     $vnp_Returnurl = "http://datn-tour-dl-garnet.test/";
@@ -213,14 +216,7 @@ class PaymentController extends Controller
 
     public function vnpay_payment(Request $request)
     {
-        // Kiểm tra tính hợp lệ của dữ liệu nhận được từ form
-        // $request->validate([
-        //     'booking_id' => 'required|exists:book_tour,id',
-        //     'money' => 'required|numeric',
-        //     'payment_method' => 'required|string|in:vnpay',
-        // ]);
-
-        // Lấy thông tin booking
+     
         $booking = BookTour::find($request->booking_id);
 
         if (!$booking) {
