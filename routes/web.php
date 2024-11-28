@@ -173,8 +173,12 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('tour', TourController::class);
     Route::resource('coupons', CouponsController::class);
     Route::resource('location', LocationController::class);
-    Route::resource('comments', CommentController::class);
     Route::resource('category', CategoryController::class);
+
+    Route::get('binh-luan',                         [CommentController::class, 'index'])->name('comment.index');
+    Route::get('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
+    Route::post('comment/status/{id}',              [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
+
 });
 
 
