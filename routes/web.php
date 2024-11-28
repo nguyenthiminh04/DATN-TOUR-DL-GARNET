@@ -99,14 +99,14 @@ Route::group([], function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/test-email', function () {
-        $email = 'giangtg7dz@gmail.com';
-        Mail::raw('This is a test email!', function ($message) use ($email) {
-            $message->to($email)
-                    ->subject('Test Email');
-        });
-        return 'Test email sent!';
-    });
+    // Route::get('/test-email', function () {
+    //     $email = 'giangtg7dz@gmail.com';
+    //     Mail::raw('This is a test email!', function ($message) use ($email) {
+    //         $message->to($email)
+    //                 ->subject('Test Email');
+    //     });
+    //     return 'Test email sent!';
+    // });
 
 
     // Route::get('/dang-nhap', function () {

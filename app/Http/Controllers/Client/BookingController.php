@@ -62,7 +62,9 @@ class BookingController extends Controller
     {
         // Lấy thông tin đặt tour từ bảng book_tour
         $booking = BookTour::findOrFail($id);
-        $pay = Payment::findOrFail($id);
+        //dd($booking);
+        // $pay = Payment::findOrFail($id);
+        // dd($pay);
         $booking1 = BookTour::with('tour')->find($id);
 
         if (!$booking1) {
@@ -73,6 +75,6 @@ class BookingController extends Controller
 
         
         // Trả về view và truyền dữ liệu
-        return view('client.tour.confirm', compact('booking', 'tourName','booking1','pay'));
+        return view('client.tour.confirm', compact('booking', 'tourName','booking1'));
     }
 }
