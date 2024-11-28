@@ -2629,8 +2629,6 @@
             });
         </script>
     @endif
-
-    @yield('script-libs')
     @yield('script')
 
     {{-- add favorite --}}
