@@ -82,7 +82,7 @@
         </div>
     </section>
     <section class="product p-multiple" itemscope itemtype="http://schema.org/Product">
-        
+
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 details-product">
@@ -170,8 +170,8 @@
                                 <div class="call-me-back">
                                     <ul class="row">
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
-                                            <a href="#book-tour-now" title="Đặt tour" class="icon-mouse-scroll">
-                                                <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
+                                            <a href="{{route('favorite.add')}}">
+                                                <i class="fa fa-heart"></i> Thêm vào yêu thích
                                             </a>
                                         </li>
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
@@ -234,7 +234,7 @@
                                                 <li class="col-xs-3 hidden-xss subtotal text-right" id="subtotal">
                                                     0₫</li>
                                             </ul>
-                                            
+
                                             <ul class="nostyled variant_list clearfix" id="16258401">
                                                 <li class="col-xs-4 variant_title">
                                                     <div class="variant_mutiple" title="Trẻ em">Trẻ em</div>
@@ -269,7 +269,7 @@
                                                 </span>
                                                 <strong class="col-md-4 col-sm-3"></strong>
                                             </div>
-                                         
+
                                         </div>
                                     </div>
                                     <div class="row contact_btn_group">
@@ -748,8 +748,6 @@
             </div>
         </div>
     </section>
-
-
 @endsection
 
 @section('script')
@@ -761,7 +759,7 @@
             var sync1 = $("#sync1");
             var sync2 = $("#sync2");
 
-          
+
             sync1.owlCarousel({
                 items: 1,
                 margin: 10,
@@ -772,34 +770,34 @@
                 responsiveRefreshRate: 200,
             });
 
-          
+
             sync2.owlCarousel({
-                items: 5, 
+                items: 5,
                 margin: 10,
                 nav: true,
                 dots: false,
-                loop: false, 
+                loop: false,
                 autoplay: false,
                 responsiveRefreshRate: 100,
             });
 
-            
+
             sync2.on("click", ".item", function(e) {
-                e.preventDefault(); 
+                e.preventDefault();
                 var index = $(this).index()
                 sync1.trigger("to.owl.carousel", [index,
                     300
                 ]);
             });
 
-           
+
             sync1.on("changed.owl.carousel", function(event) {
                 var index = event.item.index
                 sync2.find(".owl-item").removeClass("active").eq(index).addClass(
-                    "active"); 
+                    "active");
             });
 
-          
+
             sync2.find(".item").eq(0).addClass("active");
         });
     </script>
