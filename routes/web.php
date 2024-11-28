@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\AuthController;
-
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 
 
@@ -161,13 +161,18 @@ Route::group([], function () {
 
 
 
-Route::get('login',                     [AuthController::class, 'login'])->name('login');
-Route::post('authLogin',                [AuthController::class, 'authLogin'])->name('authLogin');
-Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
+
 
 // admin routes
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/home', [StatisticalController::class,'index'])->name('home-admin');
+    
+    Route::get('login',                     [AuthController::class, 'login'])->name('login');
+    Route::post('authLogin',                [AuthController::class, 'authLogin'])->name('authLogin');
+    Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
+    Route::group(['middleware' => 'admin'], function(){
+        Route::get('/home', [StatisticalController::class,'index'])->name('home-admin');
+    });
+
 
     Route::resource('user', UserController::class);
     Route::resource('dontour', BookTourController::class);
@@ -178,6 +183,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('tour', TourController::class);
     Route::resource('coupons', CouponsController::class);
     Route::resource('location', LocationController::class);
+    Route::resource('comments', CommentController::class);
     Route::resource('category', CategoryController::class);
 });
 

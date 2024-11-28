@@ -33,6 +33,6 @@ class Comment extends Model
     // Quan hệ đến người dùng
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

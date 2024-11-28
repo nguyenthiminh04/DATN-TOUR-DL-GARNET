@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <ul id="nav" class="nav container">
-                    <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('home')}}">Trang chủ</a></li>
                     @foreach ($categoryes as $category)
                         <li class="nav-item {{ $category->children->isNotEmpty() ? 'has-mega' : '' }}">
                             <a class="nav-link" href="{{ url($category->slug) }}">

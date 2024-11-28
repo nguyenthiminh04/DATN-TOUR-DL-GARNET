@@ -123,7 +123,7 @@
                     <div class="col-md-6">
                         <ul class="list-inline f-right ul-account">
                             @if (Auth::check())
-                                <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
+                                <li><a href="{{route('my-account.index')}}"><i class="fa fa-user" aria-hidden="true"></i>
                                         {{ Auth::user()->name }}</a></li>
 
                                 <li><a href="{{ route('logouts') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>
@@ -2629,8 +2629,6 @@
             });
         </script>
     @endif
-
-    @yield('script-libs')
     @yield('script')
 
     {{-- add favorite --}}

@@ -63,7 +63,7 @@
            
          
 
-        <div class="mb-3 col-6">
+        {{-- <div class="mb-3 col-6">
           <label for="status1" class="form-label">Tour<span class="text-danger">*</span></label>
           <select name="tour_id" class="form-select w-100" id="status1">
               <option value="">Chọn Tour</option>
@@ -74,7 +74,7 @@
           @error('tour_id')
               <span class="text-danger">{{ $message }}</span>
           @enderror
-      </div>
+      </div> --}}
 
 <div class="mb-3 col-6">
                   <label for="status1" class="form-label">User<span class="text-danger">*</span></label>
@@ -111,3 +111,24 @@
         </div>
     </div>
 @endsection
+@section('script')
+    <script>
+        function showImage(event) {
+            const img_danh_muc = document.getElementById('img_danh_muc');
+
+            const file = event.target.files[0];
+
+            const reader = new FileReader();
+
+            reader.onload = function() {
+                img_danh_muc.src = reader.result;
+                img_danh_muc.style.display = 'block';
+
+
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+    @endsection
