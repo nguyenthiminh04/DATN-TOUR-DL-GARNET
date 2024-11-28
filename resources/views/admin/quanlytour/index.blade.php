@@ -206,12 +206,12 @@
 
     </div>
 @endsection
-@section('style-libs')
+@section('style')
     <!--datatable css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
 @endsection
-@section('script-libs')
+@section('script')
     <!--datatable js-->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -243,8 +243,6 @@
         });
     </script>
 @endsection
-@section('script')
-
 @section('script')
     <script>
         $(document).ready(function() {

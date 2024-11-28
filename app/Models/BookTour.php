@@ -27,6 +27,7 @@ class BookTour extends Model
         'total_money',
         'status',
         'sale',
+        'pay_id',
     ];
 
     // Nếu sử dụng Carbon để làm việc với ngày tháng
@@ -43,7 +44,7 @@ class BookTour extends Model
 
     public function tour()
     {
-        return $this->belongsTo(Tour::class);
+        return $this->belongsTo(Tour::class,'tour_id');
     }
     // app/Models/BookTour.php
 public function pay()

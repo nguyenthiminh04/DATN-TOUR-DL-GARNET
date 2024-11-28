@@ -39,15 +39,16 @@ class AuthClientController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if ($user->role_id == 1) {
-                // return redirect()->route('')->with('success', 'Đăng nhập thành công với quyền Admin');
-                echo '123 admin';
-            } elseif ($user->role_id == 2) {
+            if ($user->role_id == 2) {
                 return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
+            }else{
+                return redirect()->route('dang-nhap')->withErrors([
+                    'email' => 'Email hoặc mật khẩu không chính xác.',
+                ])->withInput();
             }
         } else {
             return redirect()->route('dang-nhap')->withErrors([
-                'email' => 'Email hoặc mật khẩu không chính xác.',
+                'email' => 'Tài khoản không có quyền.',
             ])->withInput();
         }
     }

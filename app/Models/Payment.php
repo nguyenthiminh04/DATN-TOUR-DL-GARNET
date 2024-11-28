@@ -22,14 +22,15 @@ class Payment extends Model
         'code_bank',
         'time',
         'status_id',
-        'payment_method_id'
+        'payment_method_id',
+        'pay_id',
     ];
 
     // Quan hệ với bảng book_tour (một payment thuộc một booking)
-    public function booking()
-    {
-        return $this->belongsTo(BookTour::class, 'booking_id');
-    }
+    // public function booking()
+    // {
+    //     return $this->belongsTo(BookTour::class, 'booking_id');
+    // }
 
     // Quan hệ với bảng users (một payment thuộc một người dùng)
     public function user()
@@ -43,6 +44,10 @@ class Payment extends Model
     public function paymentMethod()
     {
         return $this->belongsTo(PaymentMethod::class);
+    }
+    public function paymentStatus()
+    {
+        return $this->belongsTo(PaymentStatus::class,'payment_status_id');
     }
     // app/Models/Pay.php
 public function bookTours()
