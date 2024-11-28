@@ -355,7 +355,6 @@
                 console.error(error);
             });
     </script>
-@endsection
-@section('script-libs')
     <script src="https:////cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
 @endsection
+
