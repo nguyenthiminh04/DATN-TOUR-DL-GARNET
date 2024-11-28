@@ -89,7 +89,12 @@ class PaymentController extends Controller
         $guest=BookTour::find($payment->booking_id)?->number_old+BookTour::find($payment->booking_id)?->number_children;
         
         $name = BookTour::find($payment->booking_id)?->name;
+        if(PaymentMethod::find($payment->payment_method_id)?->name=="direct"){
+        $payment_method="Thanh toán trực tiếp tại điểm check-in";
+
+        }else{
         $payment_method=PaymentMethod::find($payment->payment_method_id)?->name;
+        }
         
         
         
