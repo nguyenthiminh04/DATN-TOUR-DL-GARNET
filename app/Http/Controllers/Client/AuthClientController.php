@@ -189,9 +189,4 @@ class AuthClientController extends Controller
             return back()->withErrors(['email' => trans($response)]);
         }
     }
-<<<<<<< HEAD
-
-    }
-=======
 }
->>>>>>> c5e59668274cd4ecd49a648a63a3a5b526004425
