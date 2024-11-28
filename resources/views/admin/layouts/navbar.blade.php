@@ -32,11 +32,10 @@
                 {{-- user --}}
 
                 <li class="nav-item">
-                    <a href="{{ route('home-admin') }}"
-                        class="nav-link menu-link ">
+                    <a href="{{ route('home-admin') }}" class="nav-link menu-link ">
                         <i class="ri-dashboard-line"></i>
                         <span data-key="t-calendar">Dashboard</span>
-                    </a>    
+                    </a>
                 </li>
 
                 <li class="nav-item">
@@ -112,6 +111,13 @@
                             </li>
                         </ul>
                     </div>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('comment.index') }}" class="nav-link menu-link ">
+                        <i class=" ri-message-2-line"></i>
+                        <span data-key="t-calendar">Bình luận</span>
+                    </a>
                 </li>
                 {{-- faq --}}
                 <li class="nav-item">
