@@ -723,6 +723,43 @@
     </script>
     @yield('script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- add favorite --}}
+    <script>
+        $(document).on('click', '.add-to-favorite', function() {
+            let tourId = $(this).data('id');
+
+            $.ajax({
+                url: "{{ route('favorite.add') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tour_id: tourId
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: response.message,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Thất bại!',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã có lỗi xảy ra, vui lòng thử lại.',
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

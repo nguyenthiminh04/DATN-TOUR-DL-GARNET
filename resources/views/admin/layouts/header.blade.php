@@ -611,7 +611,7 @@
                                     <div class="d-flex">
 
                                         <div class="position-relative me-3 flex-shrink-0">
-                                            <img src="admin/assets/images/users/32/avatar-8.jpg"
+                                            <img src=""
                                                 class="rounded-circle avatar-xs" alt="user-pic">
                                             <span
                                                 class="active-badge position-absolute start-100 translate-middle p-1 bg-warning rounded-circle">
