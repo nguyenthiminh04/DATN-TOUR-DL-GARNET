@@ -10,65 +10,119 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Thêm bài viết</li>
+                                <li class="breadcrumb-item"><a href="">Trang quản trị</a></li>
+                                <li class="breadcrumb-item active">Sửa bài viết</li>
                             </ol>
                         </div>
 
                     </div>
                 </div>
             </div>
-            {{-- <li class="breadcrumb-item"><a href="{{ route('article.index') }}">Bài viết</a></li>
-            <li class="breadcrumb-item active">Tạo mới bài viết</li> --}}
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
             <!-- end page title -->
-            <form action="{{ route('article.store') }}" method="POST" role="form" enctype="multipart/form-data">
+            <form class="col-6" action="{{ route('article.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                  @if(isset($article)) @method('POST') @endif
+                <div class="mb-3">
+                    <label for="avatar" class="form-label">Hình ảnh</label>
+
+                    <input type="file" id="avatar" name="avatar" class="form-control" onchange="showImage(event)">
+                    <img id="avatar" src="" alt="article" style="width: 150px;display:none">
+                </div>
                 <div class="mb-3">
                     <label for="title" class="form-label">Tiêu đề bài viết<span class="text-danger">*</span></label>
-                    <input type="text" id="title" name="title" value="{{ old('title') }}" class="form-control" placeholder="Nhập tiêu đề bài viết">
+                    <input type="text" id="title" name="title" value="{{ old('title') }}" class="form-control"
+                        placeholder="Nhập câu trả lời">
                     @error('title')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-
                 <div class="mb-3">
-                    <label for="description" class="form-label">Mô tả bài viết<span class="text-danger">*</span></label>
-                    <input type="text" id="description" name="description" value="{{ old('description') }}" class="form-control" placeholder="Nhập mô tả">
-                    @error('description')
+                    <label for="slug" class="form-label">Đường dẫn<span class="text-danger">*</span></label>
+                    <input type="text" id="slug"name="slug" value="{{ old('slug') }}" class="form-control"
+                        placeholder="Nhập câu trả lời">
+                    @error('slug')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
+                <div class="form-group mb-3">
+                    <label for="show_home">Hiển thị trên trang chủ</label>
+                    <select name="show_home" id="show_home" class="form-control">
+                        <option value=""></option>
+                        <option value="1" {{ old('show_home') == '1' ? 'selected' : '' }}>Có</option>
+                        <option value="0" {{ old('show_home') == '0' ? 'selected' : '' }}>Không</option>
+                    </select>
+                </div>
+
                 <div class="mb-3">
-                    <label for="content" class="form-label">Nội dung bài viết<span class="text-danger">*</span></label>
-                    <input type="text" id="content" name="content" value="{{ old('content') }}" class="form-control" placeholder="Nhập nội dung ">
+                    <label for="description" class="form-label">Mô tả<span class="text-danger">*</span></label>
+                    <input type="text" id="description" name="description" value="{{ old('description') }}"
+                        class="form-control" placeholder="Nhập câu trả lời">
+                    @error('description')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label">Nội dung<span class="text-danger">*</span></label>
+                    <input type="text" id="content" name="content" value="{{ old('content') }}" class="form-control"
+                        placeholder="Nhập câu trả lời">
                     @error('content')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <div div class="mb-3 col-6">
-                    <label for="" class="form-label">Trạng thái<span class="text-danger">*</span></label>
-                    <select class="custom-select" name="status">
-                        <option value="0" {{ old('status', isset($article->status) ? $article->status : '') == 0 ? 'selected' : '' }}>Hoạt động</option>
-                        <option value="1" {{ old('status', isset($article->status) ? $article->status : '') == 1 ? 'selected' : '' }}>Ngừng hoạt động</option>
+
+                <div class="mb-3 col-6">
+                    <label for="status1" class="form-label">Chọn danh mục<span class="text-danger">*</span></label>
+                    <select name="category_id" class="form-select w-100" id="status1">
+                        <option value="">Chọn danh mục</option>
+                        @foreach ($listCategory as $status)
+                            <option value="{{ $status->id }}" {{ old('category_id') == $status->id ? 'selected' : '' }}>
+                                {{ $status->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('category_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3 col-6">
+                    <label for="status1" class="form-label">User<span class="text-danger">*</span></label>
+                    <select name="user_id" class="form-select w-100" id="status1">
+                        <option value="">Chọn User</option>
+                        @foreach ($listUser as $status)
+                            <option value="{{ $status->id }}" {{ old('user_id') == $status->id ? 'selected' : '' }}>
+                                {{ $status->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('user_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="status1" class="form-label">Trạng Thái<span class="text-danger">*</span></label>
+                    <select class="form-select" id="status1" name="status">
+                        <option value="">Trạng Thái</option>
+                        <option value="1">Hiển Thị</option>
+                        <option value="0">Ẩn</option>
                     </select>
                 </div>
 
-                {{-- <div class="card-header">
-                    <label for="" class="form-label">Hình ảnh<span class="text-danger">*</span></label>
-                    <div class="form-group">
-                        <input type="file" name="image" class="form-control">
-                        @if(isset($article) && $article->image)
-                            <img src="{{ asset('storage/' . $article->image) }}" style="height: 150px; width:100%;">
-                        @endif
-                        <span class="text-danger">{{ $errors->first('image') }}</span>
-                    </div>
-                    </div> --}}
+
+
 
                 <div class="mb-3">
-                    <a href="{{route('article.index')}}" class="btn btn-info">trở về</a>
+                    <a href="{{ route('article.index') }}" class="btn btn-info">Trở về</a>
                     <button class="btn btn-primary" type="submit">Thêm mới</button>
                 </div>
 

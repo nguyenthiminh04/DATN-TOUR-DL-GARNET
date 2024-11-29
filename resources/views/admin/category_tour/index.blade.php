@@ -1,112 +1,84 @@
 @extends('admin.layouts.app')
 
-@section('style')
-@endsection
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
-
-                    <!-- Thông báo thành công -->
-        @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
 
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách bài viết</h4>
+                        <h4 class="mb-sm-0">Danh Sách Câu Hỏi</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Danh sách bài viết</li>
+                                <li class="breadcrumb-item active">Danh sách câu hỏi</li>
                             </ol>
                         </div>
 
                     </div>
                 </div>
             </div>
-            
+            <!-- end page title -->
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-                        <div class="card-body">
-                            <div class="row align-items-center g-2">
-                           
-
-                                <div class="col-lg-auto">
-                                    <div class="hstack flex-wrap gap-2">
-                                        {{-- <button class="btn btn-subtle-danger d-none" id="remove-actions"
-                                            onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button> --}}
-                                        <a href="{{ route('article.create') }}" class="btn btn-dark">
-                                            <i data-feather="plus-square"></i> Thêm danh bài viết
-                                        </a>
-                                                           
-                                    </div>
-                                </div><!--end col-->
-                            </div>
-                        </div>
+                        {{-- nút thêm  --}}
+                        <a href="{{route('category_tour.create')}}" class="btn btn-secondary col-2"><i
+                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm câu hỏi</a>
+                        {{-- end nút thêm  --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
 
-                                            <th>STT</th>
-                                            <th>Tên bài viết</th>
-                                            <th>Danh mục</th>
-                                            <th>Hình ảnh</th>
+                                            <th>ID</th>
+                                            <th>Tên danh mục</th>
+                                            <th>Tour</th>                                          
+                                            <th>Giá</th>
                                             <th>Mô tả</th>
-                                            <th>Nội dung</th>                                                                         
                                             <th>Ngày tạo</th>
                                             <th>Ngày cập nhật</th>
                                             <th scope="col">Trạng thái</th>
-                                            <th scope="col">Hành động</th>
+                                            <th scope="col">Hành động </th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
-                                    
-                                        @foreach ($listArticle as $index => $article)
-                                        <tr>
+                                        @foreach ($listCategoryTour as $index => $item)
+                                            <tr>
 
 
-                                            <td><a href="" class="text-reset">{{ $article->id }}</a></td>
+                                            <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
-                                            <td>{{ $article->title }}</td>
-                                            <td>{{ $article->category_id}}</td>
-                                            <td>
-                                              <img src="{{ Storage::url($article->image)}}" alt="" width="30px">
-
-
-                                          </td>
-                                            <td>{{ $article->description }}</td>
-                                            <td>{{ $article->content }}</td>
-                                            <td>{{ $article->created_at }}</td>                                         
-                                            <td>{{ $article->updated_at }}</td>
-                                            <td class="{{ $article->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $article->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                            <td>{{ $item->category_tour }}</td>
+                                            <td>{{ $item->tour_id }}</td>
+                                            <td>{{ $item->price}}</td>
+                                            <td>{{ $item->description }}</td>
+                                            <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->updated_at }}</td>
+                                            <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
+                                                {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
                                             <td>
                                                 <ul class="d-flex gap-2 list-unstyled mb-0">
                                                     <li>
-                                                        <a href="{{ route('article.show', $article->id) }}" class="btn btn-subtle-primary btn-icon btn-sm">
-                                                            <i class="ph-eye"></i>
-                                                        </a>
+                                                        <a href="apps-learning-overview.html"
+                                                            class="btn btn-subtle-primary btn-icon btn-sm "><i
+                                                                class="ph-eye"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{route('article.edit',$article->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
+                                                        <a href="{{route('category_tour.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="#deleteRecordModal{{ $article->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
+                                                        <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
                                                     </li>
                                                 </ul>
                                             </td>
                                         </tr>
                                              <!-- Xóa User -->
-        <div id="deleteRecordModal{{ $article->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+        <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                   <div class="modal-header">
@@ -118,12 +90,12 @@
                               <i class="bi bi-trash display-5"></i>
                           </div>
                           <div class="mt-4">
-                              <h4 class="mb-2">Xóa địa điểm này?</h4>
-                              <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
+                            <h4 class="mb-2">Xóa danh mục này?</h4>
+                            <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
                           </div>
                       </div>
                       <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('article.destroy', $article->id) }}"
+                        <form action="{{ route('category_tour.destroy', $item->id) }}"
                           method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
@@ -183,6 +155,7 @@
 @endsection
 @section('style-libs')
     <!--datatable css-->
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.css') }}" />
@@ -220,18 +193,6 @@
     </script>
 @endsection
 @section('script')
-    <script>
-        setTimeout(() => {
-    const alert = document.querySelector('.alert');
-    if (alert) {
-        alert.style.display = 'none';
-    }
-}, 3000);
-
-    </script>
-
-@endsection
-@section('script')
 
 @section('script')
     <script>
@@ -253,7 +214,7 @@
                         // Xử lý khi request thành công (có thể đóng modal, load lại danh sách FAQ)
                         // $('#addFaq').modal('hide');
                         // alert('Câu hỏi đã được thêm thành công!');
-                        window.article.reload();
+                        window.location.reload();
                     },
                     error: function(xhr) {
                         // Xử lý khi request bị lỗi

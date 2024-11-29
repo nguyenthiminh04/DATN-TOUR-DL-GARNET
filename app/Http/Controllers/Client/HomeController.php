@@ -6,8 +6,8 @@ use App\Models\Admins\Tour;
 use Illuminate\Http\Request;
 use App\Models\Admins\Location;
 use App\Http\Controllers\Controller;
-use App\Models\Admins\Categorys;
-use App\Models\Admins\Categoty_tour;
+use App\Models\Admins\Category;
+use App\Models\Admins\CategoryTour;
 use App\Models\Comment;
 
 class HomeController extends Controller
@@ -18,8 +18,8 @@ class HomeController extends Controller
         $listtour = Tour::orderBYDesc('id')->get();
 
         $Tourmoinhat = Tour::orderBy('view', 'desc')->take(6)->get();
-        $categoryes = Categorys::whereNull('parent_id')->with('children')->get();
-        $categories = Categoty_tour::with('tours')->get();
+        $categoryes = Category::whereNull('parent_id')->with('children')->get();
+        $categories = CategoryTour::with('tours')->get();
         $locations = Location::where('status', 1)
             ->whereNull('deleted_at') // Kiểm tra chưa bị xóa mềm
             ->inRandomOrder()
@@ -49,7 +49,7 @@ class HomeController extends Controller
         // Chuẩn bị dữ liệu cho view
         $data = [
             'tour' => $tour,
-            'category' => Categorys::find($tour->category_tour_id),
+            'category' => Category::find($tour->category_tour_id),
             'location' => Location::find($tour->location_id),
             'images' => $tour->images,
             'first_image' => $tour->images->first(),

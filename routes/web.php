@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BookTourController;
-use App\Models\Admins\Categoty_tour;
+use App\Http\Controllers\Admin\CategoryTourController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\TourController;
@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
-
+use App\Http\Controllers\Admin\ArticleController;
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PayController;
@@ -175,7 +175,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('dontour', BookTourController::class);
         Route::resource('faqs', FaqController::class);
         Route::resource('notifications', NotificationController::class);
-        Route::resource('category_tour', Categoty_tour::class);
+        Route::resource('category_tour', CategoryTourController::class);
+        Route::resource('article', ArticleController::class);
         Route::resource('trangthaitour', PayController::class);
         Route::resource('tour', TourController::class);
         Route::resource('coupons', CouponsController::class);

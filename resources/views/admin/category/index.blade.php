@@ -1,7 +1,5 @@
 @extends('admin.layouts.app')
 
-@section('style')
-@endsection
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -14,8 +12,8 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Courses</a></li>
-                                <li class="breadcrumb-item active">List View</li>
+                                <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
+                                <li class="breadcrumb-item active">Danh sách danh mục</li>
                             </ol>
                         </div>
 
@@ -27,40 +25,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-                        <div class="card-body">
-                            <div class="row align-items-center g-2">
-                                <div class="col-lg-3 me-auto">
-                                    {{-- <h6 class="card-title mb-0">Instructors List <span
-                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6> --}}
-                                </div><!--end col-->
-                                <div class="col-lg-2">
-                                    <div class="search-box">
-                                        <input type="text" class="form-control search"
-                                            placeholder="Search for courses, price or something...">
-                                        <i class="ri-search-line search-icon"></i>
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-lg-auto">
-                                    <div class="hstack flex-wrap gap-2">
-                                        <button class="btn btn-subtle-danger d-none" id="remove-actions"
-                                            onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                            <a href="{{route('category.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
-                                                Thêm danh mục
-                                            </a>
-                                        <div>
-                                            <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
-                                                data-bs-target="#courseFilters" aria-controls="courseFilters"><i
-                                                    class="bi bi-funnel align-baseline me-1"></i> Filter</button>
-                                            <a href="apps-learning-grid.html" class="btn btn-subtle-primary btn-icon"><i
-                                                    class="bi bi-grid"></i></a>
-                                            <a href="apps-learning-list.html"
-                                                class="btn btn-subtle-primary active btn-icon"><i
-                                                    class="bi bi-list-task"></i></a>
-                                        </div>
-                                    </div>
-                                </div><!--end col-->
-                            </div>
-                        </div>
+                        {{-- nút thêm  --}}
+                        <a href="{{ route('category.create') }}" class="btn btn-secondary col-2"><i
+                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm danh mục</a>
+                        {{-- end nút thêm  --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
@@ -69,13 +37,14 @@
 
                                             <th>ID</th>
                                             <th>Tên danh mục</th>
-                                            <th>Ảnh</th>
+                                            {{-- <th>Loại danh mục</th> --}}
+                                            <th>Hình ảnh</th>
                                             {{-- <th>banner</th> --}}
                                             {{-- <th>parent_id</th> --}}
                                             {{-- <th>slug</th> --}}
                                             <th>Mô tả</th>
-                                            <th>hot</th>
-                                            <th>Người Thêm</th>
+                                            {{-- <th>hot</th> --}}
+                                            {{-- <th>Người Thêm</th> --}}
                                             <th scope="col">Trạng thái</th>
                                             <th scope="col">Hành động </th>
                                         </tr>
@@ -85,76 +54,89 @@
                                             <tr>
 
 
-                                            <td><a href="" class="text-reset">{{ $item->id }}</a></td>
+                                                <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
-                                            <td>{{ $item->name }}</td>
-                                            <td>
-                                              <img src="{{ Storage::url($item->avatar)}}" alt="" width="30px">
+                                                <td>{{ $item->name }}</td>
+                                                <td>
+                                                    <img src="{{ Storage::url($item->avatar) }}" alt=""
+                                                        width="30px">
 
 
-                                          </td>
-                                          {{-- <td>
+                                                </td>
+                                                {{-- <td>
                                             <img src="{{ Storage::url($item->banner)}}" alt="" width="30px">
 
 
                                         </td> --}}
-                                        {{-- <td>{{ $item->parent ? $item->parent->name : 'Không có cha' }}</td> --}}
+                                                {{-- <td>{{ $item->parent_id}}</td> --}}
 
-                                            
-                                            {{-- <td>{{ $item->slugg }}</td> --}}
-                                            <td>{{ $item->description }}</td>
-                                            <td>{{ $item->user->name }}</td>
-                                            <td class="{{ $item->hot == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $item->hot == 1 ? 'Hot' : 'Không Hot' }}</td>
-                                            <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
-                                            <td>
-                                                <ul class="d-flex gap-2 list-unstyled mb-0">
-                                                    <li>
-                                                        <a href="apps-learning-overview.html"
-                                                            class="btn btn-subtle-primary btn-icon btn-sm "><i
-                                                                class="ph-eye"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{route('location.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                             <!-- Xóa User -->
-        <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="btn-close" id="deleteRecord-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body p-md-5">
-                      <div class="text-center">
-                          <div class="text-danger">
-                              <i class="bi bi-trash display-5"></i>
-                          </div>
-                          <div class="mt-4">
-                            <h4 class="mb-2">Xóa danh mục này?</h4>
-                            <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
-                          </div>
-                      </div>
-                      <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('location.destroy', $item->id) }}"
-                          method="POST" class="d-inline">
-                          @csrf
-                          @method('DELETE')
-                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn muốn xóa!</button>
-                        </form>
-                      </div>
-                  </div>
-              </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-      </div>
- 
+
+                                                {{-- <td>{{ $item->slugg }}</td> --}}
+                                                <td>{{ $item->description }}</td>
+                                                {{-- <td>{{ $item->user->name }}</td> --}}
+                                                {{-- <td class="{{ $item->hot == 1 ? 'text-success' : 'text-danger' }}"> --}}
+                                                    {{ $item->hot == 1 ? 'Hot' : 'Không Hot' }}</td>
+                                                <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
+                                                    {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                                <td>
+                                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+                                                        <li>
+                                                            <a href="apps-learning-overview.html"
+                                                                class="btn btn-subtle-primary btn-icon btn-sm "><i
+                                                                    class="ph-eye"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ route('category.edit', $item->id) }}"><i
+                                                                    class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#deleteRecordModal{{ $item->id }}"
+                                                                data-bs-toggle="modal"
+                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                                    class="ph-trash"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- Xóa User -->
+                                            <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn"
+                                                tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close" id="deleteRecord-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body p-md-5">
+                                                            <div class="text-center">
+                                                                <div class="text-danger">
+                                                                    <i class="bi bi-trash display-5"></i>
+                                                                </div>
+                                                                <div class="mt-4">
+                                                                    <h4 class="mb-2">Xóa mục này?
+                                                                    </h4>
+                                                                    <p class="text-muted mx-3 mb-0">Bạn có
+                                                                        chắc chắn muốn xóa không?</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
+                                                                <form action="{{ route('location.destroy', $item->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="button"
+                                                                        class="btn w-sm btn-light btn-hover"
+                                                                        data-bs-dismiss="modal">Đóng</button>
+                                                                    <button type="submit"
+                                                                        class="btn w-sm btn-danger btn-hover"
+                                                                        id="delete-record">Vâng, Tôi chắc
+                                                                        chắn muốn xóa!</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div>
                                         @endforeach
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
@@ -162,7 +144,8 @@
                                     <div class="text-center py-4">
                                         <i class="ph-magnifying-glass fs-1 text-primary"></i>
                                         <h5 class="mt-2">Sorry! No Result Found</h5>
-                                        <p class="text-muted mb-0">We've searched more than 150+ Courses We did not find
+                                        <p class="text-muted mb-0">We've searched more than 150+ Courses We
+                                            did not find
                                             any Courses for you search.</p>
                                     </div>
                                 </div>
@@ -190,20 +173,21 @@
                     </div><!--end card-->
                 </div><!--end col-->
             </div><!--end row-->
-            
-            
-           
-            
+
+
+
+
         </div>
         <!-- container-fluid -->
 
 
     </div>
 @endsection
-@section('style')
+@section('style-libs')
     <!--datatable css-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.css') }}" />
 @endsection
 @section('script-libs')
     <!--datatable js-->

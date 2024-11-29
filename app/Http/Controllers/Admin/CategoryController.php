@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Models\Admins\Categorys;
+use App\Models\Admins\Category;
 use App\Models\Admins\UserModel;
 use App\Http\Controllers\Controller;
 
@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $listCategory = Categorys::query()->get();
+        $listCategory = Category::query()->get();
         return view('admin.category.index', compact('listCategory'));
     }
 
@@ -27,7 +27,7 @@ class CategoryController extends Controller
         //
         // Truyền danh sách cha cho view để hiển thị trong form
         $listUser = UserModel::query()->get();
-        $parents = Categorys::all();
+        $parents = Category::all();
         return view('admin.category.add', compact('parents', 'listUser'));
     }
 
@@ -56,7 +56,7 @@ class CategoryController extends Controller
             // Nếu không có giá trị hot trong request, mặc định là 0 (không hot)
             $params['hot'] = $request->has('hot') ? 1 : 0;
             // Thêm sản phẩm
-            $user = Categorys::query()->create($params);
+            $user = Category::query()->create($params);
 
             // Lấy id sản phẩm vừa thêm để thêm được album
             $user = $user->id;
