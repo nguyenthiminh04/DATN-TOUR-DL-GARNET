@@ -1248,7 +1248,7 @@
 
                                     <li><a href="index.html">Trang chủ</a></li>
 
-                                    <li><a href="gioi-thieu.html">Giới thiệu</a></li>
+                                    <li><a href="{{route('introduce.index')}}">Giới thiệu</a></li>
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
 
@@ -1256,11 +1256,11 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="dich-vu-tour.html">Dịch vụ tour</a></li>
+                                    <li><a href="{{route('dich-vu')}}">Dịch vụ tour</a></li>
 
                                     <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
 
-                                    <li><a href="lien-he.html">Liên hệ</a></li>
+                                    <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
 
                                 </ul>
                             </div>
@@ -1272,7 +1272,7 @@
 
                                     <li><a href="index.html">Trang chủ</a></li>
 
-                                    <li><a href="gioi-thieu.html">Giới thiệu</a></li>
+                                    <li><a href="{{route('introduce.index')}}">Giới thiệu</a></li>
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
 
@@ -1280,11 +1280,11 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="dich-vu-tour.html">Dịch vụ tour</a></li>
+                                    <li><a href="{{route('dich-vu')}}">Dịch vụ tour</a></li>
 
                                     <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
 
-                                    <li><a href="lien-he.html">Liên hệ</a></li>
+                                    <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
 
                                 </ul>
                             </div>
@@ -1296,7 +1296,7 @@
 
                                     <li><a href="index.html">Trang chủ</a></li>
 
-                                    <li><a href="gioi-thieu.html">Giới thiệu</a></li>
+                                    <li><a href="{{route('introduce.index')}}">Giới thiệu</a></li>
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
 
@@ -1304,11 +1304,11 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="dich-vu-tour.html">Dịch vụ tour</a></li>
+                                    <li><a href="{{route('dich-vu')}}">Dịch vụ tour</a></li>
 
                                     <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
 
-                                    <li><a href="lien-he.html">Liên hệ</a></li>
+                                    <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
 
                                 </ul>
                             </div>
@@ -2073,7 +2073,7 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="gioi-thieu.html">Giới thiệu</a>
+                        <a href="{{route('introduce.index')}}">Giới thiệu</a>
                     </li>
 
                     <li class="ng-scope ng-has-child1">
@@ -2205,7 +2205,7 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="dich-vu-tour.html">Dịch vụ tour</a>
+                        <a href="{{route('dich-vu')}}">Dịch vụ tour</a>
                     </li>
 
                     <li class="ng-scope">

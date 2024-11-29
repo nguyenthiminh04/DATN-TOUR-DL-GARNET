@@ -21,8 +21,11 @@ use App\Http\Controllers\Admin\PayController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
+use App\Http\Controllers\Client\ContactController;
+use App\Http\Controllers\Client\IntroduceController;
 use App\Http\Controllers\Client\myAccountController;
 use App\Http\Controllers\Client\PaymentController;
+use App\Http\Controllers\Client\ServiceController;
 use App\Http\Controllers\FavoriteController;
 
 use Illuminate\Support\Facades\Auth;
@@ -108,40 +111,15 @@ Route::group([], function () {
     //     return 'Test email sent!';
     // });
 
-
-    // Route::get('/dang-nhap', function () {
-    //     return view('client.auth.login');
-    // });
-
-    // Route::get('/dang-ky', function () {
-    //     return view('client.auth.register');
-    // });
-    Route::get('/dich-vu', function () {
-        return view('client.pages.service');
-    });
-    Route::get('/gioi-thieu', function () {
-        return view('client.pages.introduce');
-    });
+    Route::get('/lien-he', [ContactController::class, 'index'])->name('contact.index');
+    Route::post('/post-lien-he', [ContactController::class, 'store'])->name('post.contact.index');
+    Route::get('/gioi-thieu', [IntroduceController::class, 'index'])->name('introduce.index');
+    Route::get('/dich-vu', [ServiceController::class, 'index'])->name('service.index');
+    Route::get('/cam-nang', [ServiceController::class, 'index'])->name('service.index');
+    
     Route::get('/cam-nang', function () {
         return view('client.pages.handbook');
     });
-    Route::get('/tour-trong-nuoc', function () {
-        return view('client.pages.domesticTour');
-    });
-
-
-    Route::get('/dich-vu', function () {
-        return view('client.pages.service');
-    });
-
-    Route::get('/gioi-thieu', function () {
-        return view('client.pages.introduce');
-    });
-
-    Route::get('/cam-nang', function () {
-        return view('client.pages.handbook');
-    });
-
     Route::get('/tour-trong-nuoc', function () {
         return view('client.pages.domesticTour');
     });

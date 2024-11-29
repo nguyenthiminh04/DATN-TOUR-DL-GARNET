@@ -335,7 +335,7 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="dich-vu-tour.html">Dịch vụ tour</a>
+                        <a href="{{route('dich-vu')}}">Dịch vụ tour</a>
                     </li>
 
                     <li class="ng-scope">
@@ -343,7 +343,7 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="lien-he.html">Liên hệ</a>
+                        <a href="{{ route('contact.index') }}">Liên hệ</a>
                     </li>
 
                 </ul>

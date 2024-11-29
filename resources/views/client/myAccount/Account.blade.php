@@ -36,7 +36,7 @@
         <div class="container">
             <div class="row">
                 <!-- Menu bên trái -->
-                <div class="col-xs-12 col-sm-12 col-lg-2 col-left-ac">
+                <div class="col-xs-12 col-sm-12 col-lg-2 col-left-ac alert ">
                     <div class="block-account">
                         <h5 class="title-account">Trang tài khoản</h5>
                         <p>Xin chào, <span style="color:#1ba0e2;">{{ $user->name }}</span>&nbsp;!</p>
@@ -60,7 +60,7 @@
                 </div>
 
                 <!-- Nội dung chính -->
-                <div class="col-xs-12 col-sm-12 col-lg-10 col-right-ac">
+                <div class="col-xs-12 col-sm-12 col-lg-10 col-right-ac " style="height: 500px">
                     <!-- Thông tin tài khoản -->
                     <div id="account-info" class="content-section" style="display: none;">
                         <h1 class="title-head">Thông tin tài khoản</h1>
@@ -349,13 +349,41 @@
                             data-target="#addAddressModal">
                             Thêm địa chỉ
                         </button>
+                        <div class="form-signup name-account m992">
+                            <table class="table table-cart table-order">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>Họ tên</th>
+                                        <th>Email</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Địa chỉ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>{{ $user->name }}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{ $user->email }}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{ $user->phone ?? 'Bạn chưa cập nhật số điện thoại' }}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{ $user->address ?? 'Bạn chưa cập nhật địa chỉ' }}</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div id="addAddressModal" class="modal fade" tabindex="-1" role="dialog"
                             aria-labelledby="addAddressLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title align-items-end justify-content-center"
-                                            id="addAddressLabel">Thêm địa chỉ mới</h4>
+                                            id="addAddressLabel">Thêm địa chỉ mới</h4>  
                                     </div>
                                     <div class="modal-body">
                                         <form method="post" action="{{ route('user.address') }}" id="customer_address"
