@@ -21,7 +21,7 @@ class BookingController extends Controller
             'phone' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
             // 'date_booking' => 'required|date',
-            'start_date' => 'required|date_format:Y-m-d H:i:s',
+            'start_date' => 'required',
             'note' => 'nullable|string',
             'number_old' => 'required|integer',
             'number_children' => 'required|integer',

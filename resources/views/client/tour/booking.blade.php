@@ -76,7 +76,7 @@
                             <div class="tour-details">
                                 <p><strong>Tour:</strong> <span id="selected-tour"></span></p>
                                 <div class="highlight-info">
-                                    <p><strong>Ngày khởi hành:</strong> <span id="selected-date">2024-12-01</span></p>
+                                    <p><strong>Ngày khởi hành:</strong> <span id="selected-date"></span></p>
                                     <p><strong>Số lượng:</strong> <span id="selected-quantity"></span></p>
                                 </div>
                                 <p><strong>Giá vé:</strong> <span id="selected-price">1,500,000 VND</span></p>
@@ -101,7 +101,8 @@
     
                 document.getElementById('selected-quantity').textContent =
                     `${adults} Người lớn, ${children} Trẻ em`;
-    
+                console.log(bookingInfo.startDate);
+                
                 // Hiển thị thông tin trong giao diện
                 document.getElementById('selected-tour').textContent = bookingInfo.tourName || 'Chưa xác định';
                 document.getElementById('selected-date').textContent = bookingInfo.startDate || 'Chưa xác định';

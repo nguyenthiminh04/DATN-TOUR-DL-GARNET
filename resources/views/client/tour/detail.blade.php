@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         .owl-prev:hover,
         .owl-next:hover {
@@ -450,8 +451,8 @@
                                 <div class="call-me-back">
                                     <ul class="row">
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
-                                            <a class="add-to-favorite" data-id="{{ $tour->id }}">                                     
-                                                <i class="fa fa-heart " ></i> Thêm vào yêu thích
+                                            <a class="add-to-favorite" data-id="{{ $tour->id }}">
+                                                <i class="fa fa-heart "></i> Thêm vào yêu thích
                                             </a>
                                         </li>
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
@@ -464,7 +465,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row" id="book-tour-now">
                         <div class="col-xs-12 col-sm-12 col-md-7 details-pro">
                             <div class="form-product">
@@ -557,7 +558,7 @@
                                             </div>
                                             <script>
                                                 var tourName = <?= json_encode($tour['name']) ?>;
-                                                var startDate = <?= json_encode($tour['start_date']) ?>;
+                                                // var startDate = <?= json_encode($tour['start_date']) ?>;
 
 
 
@@ -568,6 +569,9 @@
                                                 // Phần tử hiển thị tổng tiền
                                                 const totalPriceElement = document.querySelector(".totalPrice strong");
 
+                                                function getStartDate() {
+                                                    return document.getElementById('datepicker').value;
+                                                }
 
                                                 // Hàm cập nhật tổng tiền
                                                 function updateTotalPrice() {
@@ -583,6 +587,10 @@
 
                                                     // Hiển thị tổng tiền đã định dạng
                                                     totalPriceElement.textContent = totalPrice.toLocaleString("vi-VN") + "₫";
+
+                                                    // Lấy giá trị ngày từ input
+                                                    var startDate = getStartDate();
+                                                    console.log(startDate);
 
                                                     // Lưu thông tin vào sessionStorage
                                                     const selectedTourInfo = {
@@ -648,10 +656,8 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-calendar"
                                                             aria-hidden="true"></i></span>
-                                                    <input required class="required tourmaster-datepicker" id="datesss"
-                                                        name="properties[Ngày đi]" type="text"
-                                                        placeholder="Chọn Ngày đi" data-date-format="dd MM yyyy"
-                                                        value="<?= $tour['start_date'] ?>" readonly="readonly" />
+                                                    <input type="text" id="datepicker" placeholder="Chọn ngày"
+                                                        class="form-control" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1208,11 +1214,14 @@
             </div>
         </div>
     </section>
-
 @endsection
 @section('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+
 
     <script>
         $(document).ready(function() {
@@ -1275,6 +1284,24 @@
                     });
                 }
             }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            flatpickr("#datepicker", {
+                dateFormat: "Y-m-d", // Định dạng ngày (ví dụ: 29 Nov 2024)
+                minDate: "today", // Chỉ cho phép chọn từ hôm nay trở đi
+                defaultDate: "today", // Mặc định là ngày hôm nay
+                locale: "vn", // Cài đặt ngôn ngữ tiếng Việt (nếu có)
+                onChange: function(selectedDates, dateStr, instance) {
+                    console.log("Ngày đã chọn:", dateStr); // Hiển thị ngày đã chọn
+                    // Cập nhật lại giá trị startDate hoặc xử lý khác nếu cần
+                    startDate = dateStr; // Cập nhật giá trị startDate
+                    updateTotalPrice(); // Cập nhật tổng tiền nếu cần
+                }
+            });
+
         });
     </script>
 @endsection

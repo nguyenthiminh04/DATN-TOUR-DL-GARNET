@@ -77,5 +77,10 @@ class TourController extends Controller
 
         return view('client.tour.detail', $data);
     }
+
+
+    public function showTour(){
+        return view('client.tour.detail1');
+    }
     
 }
