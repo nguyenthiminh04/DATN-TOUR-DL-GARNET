@@ -351,14 +351,19 @@
 
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
-                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+                                                        src="https://img.icons8.com/?size=100&id=62290&format=png&color=000000"
                                                         alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành:
-                                                {{ $item->start_date }} - {{ $item->end_date }}
+                                               Từ Ngày  <b>{{ $item->start_date }}</b> Đến Ngày  <b>{{ $item->end_date }}</b>
                                             </li>
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
-                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                        alt="6 ngày 5 đêm" /></div> Thời gian: {{ $item->schedule }}
+                                                        src="https://img.icons8.com/?size=100&id=uqeIigsBdHt9&format=png&color=000000"
+                                                        alt="6 ngày 5 đêm" /></div> Thời gian: <b>{{ $item->schedule }}</b>
+                                            </li>
+                                            <li class="clearfix">
+                                                <div class="ulimg"><img
+                                                        src="https://img.icons8.com/?size=100&id=102656&format=png&color=000000"
+                                                        alt="6 ngày 5 đêm" /></div> Số chỗ còn trống :  <b>{{ $item->number }}</b> Chỗ
                                             </li>
                                         </ul>
                                     </div>
@@ -465,6 +470,7 @@
                                                                             alt="6 ngày 5 đêm" /></div> Thời gian:
                                                                     {{ $tour->schedule }}
                                                                 </li>
+                                                                
                                                             </ul>
                                                         </div>
                                                     </div>

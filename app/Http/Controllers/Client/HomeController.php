@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admins\Categorys;
 use App\Models\Admins\Categoty_tour;
 use App\Models\Comment;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -45,7 +46,19 @@ class HomeController extends Controller
     {
         // Tìm tour theo ID, nếu không tìm thấy thì trả về 404
         $tour = Tour::findOrFail($id);
-
+    // Tăng trường view
+    $tour->increment('view'); // Tăng giá trị của cột 'view' lên 1
+        // Kiểm tra xem người dùng hiện tại đã đặt tour này chưa (nếu đã đăng nhập)
+        $userHasBooked = false;
+    
+        if (auth()->check()) {
+            $userId = auth()->id();
+            $userHasBooked = DB::table('book_tour')
+                ->where('tour_id', $id)
+                ->where('user_id', $userId)
+                ->exists();
+        }
+    
         // Chuẩn bị dữ liệu cho view
         $data = [
             'tour' => $tour,
@@ -53,17 +66,17 @@ class HomeController extends Controller
             'location' => Location::find($tour->location_id),
             'images' => $tour->images,
             'first_image' => $tour->images->first(),
+            'comments' => Comment::where('tour_id', $tour->id)
+                ->whereNull('parent_id')
+                ->with('children.user')
+                ->get(),
+            'userHasBooked' => $userHasBooked, // Truyền trạng thái đặt tour
         ];
-
-        // Lấy bình luận gốc (parent_id = null) và các bình luận con, kèm thông tin người dùng
-        $data['comments'] = Comment::where('tour_id', $tour->id)
-            ->whereNull('parent_id')
-            ->with('children.user')
-            ->get();
-
+    
         // Trả về view cùng dữ liệu
         return view('client.tour.detail', $data);
     }
+    
     public function storeComment(Request $request, $id)
     {
         $tour = Tour::findOrFail($id);

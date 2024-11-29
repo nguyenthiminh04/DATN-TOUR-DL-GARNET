@@ -27,23 +27,24 @@
                             <div class="form-group">
                                 <label for="name">Họ và Tên</label>
                                 <input type="text" id="name" name="name" placeholder="Nhập tên của bạn"
-                                    value="{{ old('name') }}">
+                                    value="{{ auth()->check() ? auth()->user()->name : old('name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" id="email" name="email" placeholder="Nhập email của bạn"
-                                    value="{{ old('email') }}">
+                                    value="{{ auth()->check() ? auth()->user()->email : old('email') }}">
                             </div>
                             <div class="form-group">
                                 <label for="phone">Số điện thoại</label>
                                 <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại"
-                                    value="{{ old('phone') }}">
+                                    value="{{ auth()->check() ? auth()->user()->phone : old('phone') }}">
                             </div>
                             <div class="form-group">
                                 <label for="address">Địa chỉ</label>
                                 <input type="text" id="address" name="address" placeholder="Nhập địa chỉ của bạn"
-                                    value="{{ old('address') }}" />
+                                    value="{{ auth()->check() ? auth()->user()->address : old('address') }}">
                             </div>
+                            
                             <div class="form-group">
                                 <label for="total">Tổng tiền:</label>
                                 <p style="color: blue; font-weight: bolder" id="total-price-display">0₫</p>

@@ -21,7 +21,7 @@ class BookingController extends Controller
             'phone' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
             // 'date_booking' => 'required|date',
-            'start_date' => 'required|date_format:Y-m-d H:i:s',
+            'start_date' => 'required',
             'note' => 'nullable|string',
             'number_old' => 'required|integer',
             'number_children' => 'required|integer',
@@ -34,7 +34,8 @@ class BookingController extends Controller
         // Tạo mới bản ghi đặt tour
         $bookTour = BookTour::create([
             // 'user_id' => auth()->id(), 
-            'user_id' => 1,
+            'user_id' => auth()->check() ? auth()->user()->id : 1,
+
             // 'user_id' => auth()->user()->id,
 
             // 'tour_id' => $validated['tour_id'],

@@ -82,28 +82,18 @@ class PaymentController extends Controller
     {
         $payment = Payment::find($payment_id);
         
-        
-        $tour_id=BookTour::find($payment->booking_id)?->tour_id;
-        $tour_name=Tour::find($tour_id)?->name;
-        $start_date=Tour::find($tour_id)?->start_date;
-        $guest=BookTour::find($payment->booking_id)?->number_old+BookTour::find($payment->booking_id)?->number_children;
+        $tour_id = BookTour::find($payment->booking_id)?->tour_id;
+        $tour_name = Tour::find($tour_id)?->name;
+        $start_date = Tour::find($tour_id)?->start_date;
+        $guest = BookTour::find($payment->booking_id)?->number_old + BookTour::find($payment->booking_id)?->number_children;
         
         $name = BookTour::find($payment->booking_id)?->name;
-        if(PaymentMethod::find($payment->payment_method_id)?->name=="direct"){
-        $payment_method="Thanh toán trực tiếp tại điểm check-in";
-
-        }else{
-        $payment_method=PaymentMethod::find($payment->payment_method_id)?->name;
+        
+        if (PaymentMethod::find($payment->payment_method_id)?->name == "direct") {
+            $payment_method = "Thanh toán trực tiếp tại điểm check-in";
+        } else {
+            $payment_method = PaymentMethod::find($payment->payment_method_id)?->name;
         }
-        
-        
-        
-
-        // dd($payment->payment_status_id);
-        // dd($payment_status);
-
-        
-        // dd($data);
         
         if (!$payment) {
             return redirect()->route('payment.failed')->with('error', 'Không tìm thấy thông tin thanh toán!');
@@ -111,16 +101,13 @@ class PaymentController extends Controller
     
         // Lấy thông tin booking từ payment
         $booking = BookTour::findOrFail($payment->booking_id);
-        
     
-        // Lấy trạng thái "Đã thanh toán" từ bảng statuses
+        // Lấy trạng thái "Đã thanh toán" từ bảng payment_statuses
         $paidStatus = DB::table('payment_statuses')->where('name', 'Đã thanh toán')->first();
-        
-        // Lấy thông tin phương thức thanh toán từ bảng payment_methods
-        $paymentMethod = DB::table('payment_methods')->find($payment->payment_method_id);
-        
     
         // Kiểm tra phương thức thanh toán
+        $paymentMethod = DB::table('payment_methods')->find($payment->payment_method_id);
+    
         if (!$paymentMethod) {
             return redirect()->route('payment.failed')->with('error', 'Phương thức thanh toán không hợp lệ!');
         }
@@ -130,23 +117,26 @@ class PaymentController extends Controller
             // Cập nhật trạng thái thanh toán thành "Đã thanh toán"
             $payment->payment_status_id = $paidStatus->id;
             $payment->save();
-            $payment_status=PaymentStatus::find($payment->payment_status_id)?->name;
+    
+            // Giảm số lượng trong bảng Tour
+            $tour = Tour::find($tour_id);
+            $tour->decrement('number'); // Giảm 1 đơn vị số lượng
+    
+            // Xử lý dữ liệu gửi email
+            $payment_status = PaymentStatus::find($payment->payment_status_id)?->name;
             $data = [
                 'name_tour' => $tour_name,
                 'user' => $name,
                 'payment_status' => $payment_status,
                 'payment_method' => $payment_method,
                 'start_date' => $start_date,
-                'booked_time'=>$payment->time,
-                'money'=>$payment->money,
-                'guests'=>$guest,
-                'code'=>$payment->code_vnpay
-    
-    
-    
-                
+                'booked_time' => $payment->time,
+                'money' => $payment->money,
+                'guests' => $guest,
+                'code' => $payment->code_vnpay
             ];
-            
+    
+            // Gửi email thông báo cho khách hàng
             Mail::to($booking['email'])->send(new BookingSuccess($data));
     
             // Trả về view success cho thanh toán online
@@ -159,35 +149,36 @@ class PaymentController extends Controller
             $pendingStatus = DB::table('payment_statuses')->where('name', 'Chưa thanh toán')->first();
             $payment->payment_status_id = $pendingStatus->id;
             $payment->save();
-            $payment_status=PaymentStatus::find($payment->payment_status_id)?->name;
+    
+            // Giảm số lượng trong bảng Tour
+            $tour = Tour::find($tour_id);
+            $tour->decrement('number'); // Giảm 1 đơn vị số lượng
+    
+            // Xử lý dữ liệu gửi email
+            $payment_status = PaymentStatus::find($payment->payment_status_id)?->name;
             $data = [
                 'name_tour' => $tour_name,
                 'user' => $name,
                 'payment_status' => $payment_status,
                 'payment_method' => $payment_method,
                 'start_date' => $start_date,
-                'booked_time'=>$payment->time,
-                'money'=>$payment->money,
-                'guests'=>$guest,
-                'code'=>$payment->code_vnpay
-    
-    
-    
-                
+                'booked_time' => $payment->time,
+                'money' => $payment->money,
+                'guests' => $guest,
+                'code' => $payment->code_vnpay
             ];
-            $paymentLocation="Hà Nội";
+    
+            $paymentLocation = "Hà Nội"; // hoặc xác định nơi thanh toán
             Mail::to($booking['email'])->send(new BookingSuccess($data));
-            
-            
-
-            
+    
             // Trả về view success cho thanh toán trực tiếp
-            return view('client.payment.success-direct', compact('payment', 'booking','paymentLocation'));
+            return view('client.payment.success-direct', compact('payment', 'booking', 'paymentLocation'));
         }
     
         // Nếu phương thức thanh toán không hợp lệ
         return redirect()->route('payment.failed')->with('error', 'Phương thức thanh toán không hợp lệ!');
     }
+    
     
     
     public function vnpayCancel(Request $request)
