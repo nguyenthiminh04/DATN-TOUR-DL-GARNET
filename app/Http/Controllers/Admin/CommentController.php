@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
@@ -13,8 +14,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
-        $listComments = Comment::query()->get();
+        $listComments = Comment::query()->where('deleted_at', '=', 0)->get();
         return view('admin.comment.index', compact('listComments'));
     }
 
@@ -63,6 +63,31 @@ class CommentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // try {
+        $comment = Comment::getSingle($id);
+        $comment->delete_at = 1;
+        $comment->save();
+        return redirect()->route('comment.index')->with('success', 'Xóa bình luận thành công!');
+        // } catch (\Exception $e) {
+        //     Log::error('Lỗi khi xóa ' . $e->getMessage());
+
+        //     return response()->view('admin.errors.404', [], 404);
+        // }
+    }
+
+    public function commentStatus(Request $request, $id)
+    {
+        $comment = Comment::find($id);
+        if (!$comment) {
+            return response()->json(['success' => false, 'message' => 'Lỗi'], 404);
+        }
+
+        $comment->status = $comment->status == 1 ? 0 : 1;
+        $comment->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $comment->status
+        ]);
     }
 }

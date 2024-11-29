@@ -10,7 +10,7 @@ class Comment extends Model
 {
     use HasFactory;
     protected $table = 'comment';
-    protected $fillable = ['tour_id', 'user_id', 'parent_id','anonymous_name', 'content'];
+    protected $fillable = ['tour_id', 'user_id', 'parent_id', 'anonymous_name', 'content'];
 
     // Quan hệ đến bình luận cha
     public function parent()
@@ -34,5 +34,10 @@ class Comment extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    static public function getSingle($id)
+    {
+        return self::find($id);
     }
 }

@@ -22,9 +22,11 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
 use App\Http\Controllers\Client\myAccountController;
+use App\Http\Controllers\Client\PaymentController;
 use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\PaymentController;
+
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,7 +72,7 @@ Route::group([], function () {
 
 
     // ]);
-    Route::get('detail-tour\{id}', [HomeController::class, 'detailTour'])->name('client.tour.show');
+    Route::get('detail-tour/{id}', [HomeController::class, 'detailTour'])->name('client.tour.show');
     Route::post('/posts/{id}/comment', [HomeController::class, 'storeComment'])->name('posts.comment');
 
 
@@ -97,6 +99,14 @@ Route::group([], function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
+    // Route::get('/test-email', function () {
+    //     $email = 'giangtg7dz@gmail.com';
+    //     Mail::raw('This is a test email!', function ($message) use ($email) {
+    //         $message->to($email)
+    //                 ->subject('Test Email');
+    //     });
+    //     return 'Test email sent!';
+    // });
 
 
     // Route::get('/dang-nhap', function () {
@@ -172,10 +182,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('location', LocationController::class);
         Route::resource('category', CategoryController::class);
         Route::resource('comments', CommentController::class);
+        Route::get('binh-luan',                         [CommentController::class, 'index'])->name('comment.index');
+        Route::get('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
+        Route::post('comment/status/{id}',              [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
+      
     });
 
 
-   
 });
 
 

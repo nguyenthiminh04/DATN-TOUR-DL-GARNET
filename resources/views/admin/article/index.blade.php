@@ -108,12 +108,12 @@
     </section>
 @stop
 
-@section('style-libs')
+@section('style')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.css') }}" />
 @endsection
 
-@section('script-libs')
+@section('script')
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
 @endsection

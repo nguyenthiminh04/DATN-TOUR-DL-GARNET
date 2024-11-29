@@ -1,14 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
+use App\Http\Controllers\Controller;
+use App\Mail\BookingSuccess;
+use App\Models\Admins\Tour;
 use App\Models\BookTour;
 use App\Models\Payment;
+use App\Models\PaymentMethod;
+use App\Models\PaymentStatus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -23,13 +29,15 @@ class PaymentController extends Controller
 
     
     $booking = BookTour::find($request->booking_id);
+  
 
     if (!$booking) {
         return redirect()->back()->with('error', 'Không tìm thấy thông tin đặt tour!');
     }
 
     
-    $pendingStatus = DB::table('statuses')->where('name', 'Chờ thanh toán')->first();
+    $pendingStatus = DB::table('payment_statuses')->where('name', 'Chưa thanh toán')->first();
+    // dd($pendingStatus);
 
     
     $paymentMethod = DB::table('payment_methods')->find($request->payment_method_id);
@@ -44,13 +52,16 @@ class PaymentController extends Controller
         'user_id' => 1, 
         'money' => $request->money,
         'p_note' => $request->p_note,
+        'payment_status_id'=>$pendingStatus->id,
         'payment_method_id' => $paymentMethod->id, 
-        'status_id' => $pendingStatus->id,
+        
+        'status_id' => 1,
         'time' => now(),
     ]);
 
     
     if ($paymentMethod->name === 'direct') {
+        // Mail::to($booking['email'])->send(new BookingSuccess($payment));
         
         return redirect()->route('payment.success', ['payment_id' => $payment->id]);
     }
@@ -71,15 +82,39 @@ class PaymentController extends Controller
     {
         $payment = Payment::find($payment_id);
         
+        
+        $tour_id=BookTour::find($payment->booking_id)?->tour_id;
+        $tour_name=Tour::find($tour_id)?->name;
+        $start_date=Tour::find($tour_id)?->start_date;
+        $guest=BookTour::find($payment->booking_id)?->number_old+BookTour::find($payment->booking_id)?->number_children;
+        
+        $name = BookTour::find($payment->booking_id)?->name;
+        if(PaymentMethod::find($payment->payment_method_id)?->name=="direct"){
+        $payment_method="Thanh toán trực tiếp tại điểm check-in";
+
+        }else{
+        $payment_method=PaymentMethod::find($payment->payment_method_id)?->name;
+        }
+        
+        
+        
+
+        // dd($payment->payment_status_id);
+        // dd($payment_status);
+
+        
+        // dd($data);
+        
         if (!$payment) {
             return redirect()->route('payment.failed')->with('error', 'Không tìm thấy thông tin thanh toán!');
         }
     
         // Lấy thông tin booking từ payment
         $booking = BookTour::findOrFail($payment->booking_id);
+        
     
         // Lấy trạng thái "Đã thanh toán" từ bảng statuses
-        $paidStatus = DB::table('statuses')->where('name', 'Đã thanh toán')->first();
+        $paidStatus = DB::table('payment_statuses')->where('name', 'Đã thanh toán')->first();
         
         // Lấy thông tin phương thức thanh toán từ bảng payment_methods
         $paymentMethod = DB::table('payment_methods')->find($payment->payment_method_id);
@@ -93,8 +128,26 @@ class PaymentController extends Controller
         // Nếu thanh toán qua VNPay hoặc các phương thức online
         if ($paymentMethod->name === 'vnpay' || $paymentMethod->name === 'credit-card') {
             // Cập nhật trạng thái thanh toán thành "Đã thanh toán"
-            $payment->status_id = $paidStatus->id;
+            $payment->payment_status_id = $paidStatus->id;
             $payment->save();
+            $payment_status=PaymentStatus::find($payment->payment_status_id)?->name;
+            $data = [
+                'name_tour' => $tour_name,
+                'user' => $name,
+                'payment_status' => $payment_status,
+                'payment_method' => $payment_method,
+                'start_date' => $start_date,
+                'booked_time'=>$payment->time,
+                'money'=>$payment->money,
+                'guests'=>$guest,
+                'code'=>$payment->code_vnpay
+    
+    
+    
+                
+            ];
+            
+            Mail::to($booking['email'])->send(new BookingSuccess($data));
     
             // Trả về view success cho thanh toán online
             return view('client.payment.success-online', compact('payment', 'booking'));
@@ -103,10 +156,31 @@ class PaymentController extends Controller
         // Nếu thanh toán trực tiếp (Cash on Delivery)
         if ($paymentMethod->name === 'direct') {
             // Cập nhật trạng thái thanh toán thành "Chờ thanh toán"
-            $pendingStatus = DB::table('statuses')->where('name', 'Chờ thanh toán')->first();
-            $payment->status_id = $pendingStatus->id;
+            $pendingStatus = DB::table('payment_statuses')->where('name', 'Chưa thanh toán')->first();
+            $payment->payment_status_id = $pendingStatus->id;
             $payment->save();
+            $payment_status=PaymentStatus::find($payment->payment_status_id)?->name;
+            $data = [
+                'name_tour' => $tour_name,
+                'user' => $name,
+                'payment_status' => $payment_status,
+                'payment_method' => $payment_method,
+                'start_date' => $start_date,
+                'booked_time'=>$payment->time,
+                'money'=>$payment->money,
+                'guests'=>$guest,
+                'code'=>$payment->code_vnpay
+    
+    
+    
+                
+            ];
             $paymentLocation="Hà Nội";
+            Mail::to($booking['email'])->send(new BookingSuccess($data));
+            
+            
+
+            
             // Trả về view success cho thanh toán trực tiếp
             return view('client.payment.success-direct', compact('payment', 'booking','paymentLocation'));
         }
@@ -132,9 +206,6 @@ class PaymentController extends Controller
 
 
 
-
-
-    // public function vnpay_payment()
     // {
     //     $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     //     $vnp_Returnurl = "http://datn-tour-dl-garnet.test/";
@@ -213,14 +284,7 @@ class PaymentController extends Controller
 
     public function vnpay_payment(Request $request)
     {
-        // Kiểm tra tính hợp lệ của dữ liệu nhận được từ form
-        // $request->validate([
-        //     'booking_id' => 'required|exists:book_tour,id',
-        //     'money' => 'required|numeric',
-        //     'payment_method' => 'required|string|in:vnpay',
-        // ]);
-
-        // Lấy thông tin booking
+     
         $booking = BookTour::find($request->booking_id);
 
         if (!$booking) {
@@ -228,7 +292,7 @@ class PaymentController extends Controller
         }
 
         
-        $pendingStatus = DB::table('statuses')->where('name', 'Chờ thanh toán')->first();
+        $pendingStatus = DB::table('payment_statuses')->where('name', 'Chưa thanh toán')->first();
 
         
         $payment = Payment::create([
@@ -238,7 +302,7 @@ class PaymentController extends Controller
             'p_note' => $request->input('p_note', ''),
             'payment_method' => 'vnpay',
             'payment_method_id' => intval($request->payment_method_id), 
-            'status_id' => $pendingStatus->id,
+            'payment_status_id' => $pendingStatus->id,
             'time' => now(),
             
         ]);
@@ -338,7 +402,7 @@ class PaymentController extends Controller
             $payment->vnp_response_code = $vnp_response_code;
             $payment->transaction = $payment_id;  
             $payment->code_vnpay = $code_vnpay;
-            $payment->status_id = DB::table('statuses')->where('name', 'Đã thanh toán')->first()->id;
+            $payment->payment_status_id = DB::table('payment_statuses')->where('name', 'Đã thanh toán')->first()->id;
             $payment->save();
     
             

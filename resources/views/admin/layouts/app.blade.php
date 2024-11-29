@@ -31,7 +31,7 @@
     <link href="{{ asset('admin/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css">
 
 
-    @yield('style-libs')
+    @yield('style')
 
 </head>
 
@@ -152,7 +152,7 @@
 
     @endif
 
-    @yield('script-libs')
+   
     @yield('script')
 
 </body>
