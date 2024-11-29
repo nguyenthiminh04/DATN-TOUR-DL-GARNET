@@ -170,8 +170,8 @@
                                 <div class="call-me-back">
                                     <ul class="row">
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
-                                            <a href="#book-tour-now" title="Đặt tour" class="icon-mouse-scroll">
-                                                <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
+                                            <a href="{{route('favorite.add')}}">
+                                                <i class="fa fa-heart"></i> Thêm vào yêu thích
                                             </a>
                                         </li>
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">

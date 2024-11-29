@@ -450,9 +450,8 @@
                                 <div class="call-me-back">
                                     <ul class="row">
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
-                                            <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}"
-                                                id="btnIconMouseScroll" title="Đặt tour" class="icon-mouse-scroll">
-                                                <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
+                                            <a class="add-to-favorite" data-id="{{ $tour->id }}">                                     
+                                                <i class="fa fa-heart " ></i> Thêm vào yêu thích
                                             </a>
                                         </li>
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
