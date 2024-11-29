@@ -71,13 +71,13 @@
     </div>
 @endsection
 
-@section('style-libs')
+@section('style')
     {{-- <!--datatable css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> --}}
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.css') }}" />
 @endsection
-@section('script-libs')
+@section('script')
     
     
 @endsection

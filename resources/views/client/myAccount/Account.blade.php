@@ -1,13 +1,13 @@
 @extends('client.layouts.app')
 
 @section('content')
-    {{-- @if(session('success'))
+    {{-- @if (session('success'))
         <p>{{ session('success') }}</p>
     @endif
 
-    @if($errors->any())
+    @if ($errors->any())
         <ul>
-            @foreach($errors->all() as $error)
+            @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
@@ -126,14 +126,15 @@
                                                 </tr>
                                                 @foreach ($bookTours as $bookTour)
                                                     <tr>
-                                                        <td>{{$bookTour->tour->name}}</td>
-                                                        <td>{{$bookTour->tour->journeys}}</td>
-                                                        <td>{{$bookTour->tour->starting_gate}}</td>
-                                                        <td>{{$bookTour->start_date}}</td>
-                                                        <td>{{$bookTour->status->name ?? 'chưa cập nhật'}}</td>
-                                                        <td>{{number_format($bookTour->total_money)}} đ</td>
-                                                        <td>{{$bookTour->tour->move_method}}</td>
-                                                        <td><a href="" class="btn btn-click btn-success">Xem chi tiết</a></td>
+                                                        <td>{{ $bookTour->tour->name }}</td>
+                                                        <td>{{ $bookTour->tour->journeys }}</td>
+                                                        <td>{{ $bookTour->tour->starting_gate }}</td>
+                                                        <td>{{ $bookTour->start_date }}</td>
+                                                        <td>{{ $bookTour->status->name ?? 'chưa cập nhật' }}</td>
+                                                        <td>{{ number_format($bookTour->total_money) }} đ</td>
+                                                        <td>{{ $bookTour->tour->move_method }}</td>
+                                                        <td><a href="" class="btn btn-click btn-success">Xem chi
+                                                                tiết</a></td>
                                                     </tr>
                                                 @endforeach
                                                 @endif
@@ -148,19 +149,21 @@
                             </div>
                         </div>
                     </div>
-                    @if(session('success'))
+                    @if (session('success'))
                         <div class="alert alert-success alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
                             <strong>Thành công!</strong> {{ session('success') }}
                         </div>
                     @endif
 
-                    @if($errors->any())
+                    @if ($errors->any())
                         <div class="alert alert-danger alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
                             <strong>Lỗi!</strong>
                             <ul>
-                                @foreach($errors->all() as $error)
+                                @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
@@ -180,18 +183,21 @@
                                     <fieldset class="form-group">
                                         <label for="current_password">Mật khẩu cũ <span class="error">*</span></label>
                                         <input type="password" placeholder="Mật khẩu cũ" name="current_password"
-                                             class="form-control form-control-lg">
+                                            class="form-control form-control-lg">
                                     </fieldset>
                                     <fieldset class="form-group">
                                         <label for="new_password">Mật khẩu mới <span class="error">*</span></label>
                                         <input type="password" placeholder="Mật khẩu mới" name="new_password"
-                                             class="form-control form-control-lg">
+                                            class="form-control form-control-lg">
                                     </fieldset>
                                     <fieldset class="form-group">
-                                        <label for="new_password_confirmation">Xác nhận lại mật khẩu <span class="error">*</span></label>
-                                        <input type="password" placeholder="Xác nhận lại mật khẩu" name="new_password_confirmation" class="form-control form-control-lg">
+                                        <label for="new_password_confirmation">Xác nhận lại mật khẩu <span
+                                                class="error">*</span></label>
+                                        <input type="password" placeholder="Xác nhận lại mật khẩu"
+                                            name="new_password_confirmation" class="form-control form-control-lg">
                                     </fieldset>
-                                    <button type="submit" class="button btn-edit-addr btn btn-blues btn-more margin-top-15"><i
+                                    <button type="submit"
+                                        class="button btn-edit-addr btn btn-blues btn-more margin-top-15"><i
                                             class="hoverButton"></i>Đặt lại mật khẩu</button>
                                 </div>
                             </form>
@@ -328,24 +334,29 @@
                             </form>
                         </div>
                         end? --}}
-                        <button class="btn-edit-addr btn btn-blues btn-more" type="button" data-toggle="modal" data-target="#addAddressModal">
+                        <button class="btn-edit-addr btn btn-blues btn-more" type="button" data-toggle="modal"
+                            data-target="#addAddressModal">
                             Thêm địa chỉ
                         </button>
-                        <div id="addAddressModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addAddressLabel">
+                        <div id="addAddressModal" class="modal fade" tabindex="-1" role="dialog"
+                            aria-labelledby="addAddressLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title align-items-end justify-content-center" id="addAddressLabel">Thêm địa chỉ mới</h4>
+                                        <h4 class="modal-title align-items-end justify-content-center"
+                                            id="addAddressLabel">Thêm địa chỉ mới</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="post" action="{{route('user.address')}}" id="customer_address" accept-charset="UTF-8">
+                                        <form method="post" action="{{ route('user.address') }}" id="customer_address"
+                                            accept-charset="UTF-8">
                                             @csrf
                                             <input name="FormType" type="hidden" value="customer_address" />
                                             <input name="utf8" type="hidden" value="true" />
 
                                             <div class="form-group">
                                                 <label>Họ tên</label>
-                                                <input type="text" placeholder="Họ tên" name="name" class="form-control" value="{{auth()->user()->name}}">
+                                                <input type="text" placeholder="Họ tên" name="name"
+                                                    class="form-control" value="{{ auth()->user()->name }}">
                                                 {{-- @error('name')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror --}}
@@ -353,7 +364,8 @@
 
                                             <div class="form-group">
                                                 <label>Số điện thoại</label>
-                                                <input type="number" placeholder="Số điện thoại" class="form-control" name="phone" maxlength="12">
+                                                <input type="number" placeholder="Số điện thoại" class="form-control"
+                                                    name="phone" maxlength="12">
                                                 {{-- @error('phone')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror --}}
@@ -361,26 +373,30 @@
 
                                             <div class="form-group">
                                                 <label>Địa chỉ</label>
-                                                <input type="text" placeholder="Địa chỉ" class="form-control" name="address">
+                                                <input type="text" placeholder="Địa chỉ" class="form-control"
+                                                    name="address">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Mã Zip</label>
-                                                <input type="text" placeholder="Mã Zip" class="form-control" name="zip">
+                                                <input type="text" placeholder="Mã Zip" class="form-control"
+                                                    name="zip">
                                             </div>
 
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="IsDefault" value="true"> Đặt là địa chỉ mặc định
+                                                    <input type="checkbox" name="IsDefault" value="true"> Đặt là địa
+                                                    chỉ mặc định
                                                 </label>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">Hủy</button>
                                                 <button type="submit" class="btn btn-primary">Thêm địa chỉ</button>
                                             </div>
                                         </form>
                                     </div>
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -393,9 +409,8 @@
 
             </div>
         </div>
-        
-        <script>
 
+        <script>
             document.addEventListener("DOMContentLoaded", function() {
                 const menuLinks = document.querySelectorAll(".title-info");
                 const contentSections = document.querySelectorAll(".content-section");
@@ -417,7 +432,6 @@
                 });
             });
             //địa chỉ danh sách
-            
         </script>
     </section>
 @endsection

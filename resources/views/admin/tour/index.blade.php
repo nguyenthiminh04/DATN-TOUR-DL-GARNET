@@ -44,9 +44,10 @@
                                     <div class="hstack flex-wrap gap-2">
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                            <a href="{{route('tour.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
-                                                Thêm Tour
-                                            </a>
+                                        <a href="{{ route('tour.create') }}" class="btn btn-success"><i
+                                                data-feather="plus-square"></i>
+                                            Thêm Tour
+                                        </a>
                                         <div>
                                             <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
                                                 data-bs-target="#courseFilters" aria-controls="courseFilters"><i
@@ -93,84 +94,95 @@
                                     </thead>
                                     <tbody class="list form-check-all">
                                         @foreach ($listtour as $index => $item)
-                                        <tr>
+                                            <tr>
 
 
-                                            <td><a href="" class="text-reset">{{ $item->id }}</a></td>
+                                                <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
-                                            <td>{{ $item->name }}</td>
-                                            <td>
-                                                <img src="{{ Storage::url($item->image)}}" alt="" width="30px">
+                                                <td>{{ $item->name }}</td>
+                                                <td>
+                                                    <img src="{{ Storage::url($item->image) }}" alt=""
+                                                        width="30px">
 
 
-                                            </td>
-                                            {{-- <td>{{ $item->title }}</td> --}}
-                                            <td>{{ $item->journeys }}</td>
-                                            {{-- <td>{{ $item->schedule }}</td> --}}
-                                            {{-- <td>{{ $item->move_method }}</td> --}}
-                                            {{-- <td>{{ $item->starting_gate }}</td> --}}
-                                            <td>{{ $item->start_date }}</td>
-                                            <td>{{ $item->end_date }}</td>
-                                            <td>{{ $item->number_guests }}</td>
-                                            <td>{{ $item->price_old }}</td>
-                                            <td>{{ $item->price_children }}</td>
-                                            {{-- <td>{{ $item->sale }}</td> --}}
-                                            {{-- <td>{{ $item->view }}</td> --}}
-                                            <td>{{ $item->description }}</td>
-                                            {{-- <td>{{ $item->content }}</td> --}}
-                                            {{-- <td>{{ $item->location_id }}</td> --}}
-                                            {{-- <td>{{ $item->user_id }}</td> --}}
-                                            {{-- <td>{{ $item->album_img }}</td> --}}
+                                                </td>
+                                                {{-- <td>{{ $item->title }}</td> --}}
+                                                <td>{{ $item->journeys }}</td>
+                                                {{-- <td>{{ $item->schedule }}</td> --}}
+                                                {{-- <td>{{ $item->move_method }}</td> --}}
+                                                {{-- <td>{{ $item->starting_gate }}</td> --}}
+                                                <td>{{ $item->start_date }}</td>
+                                                <td>{{ $item->end_date }}</td>
+                                                <td>{{ $item->number_guests }}</td>
+                                                <td>{{ $item->price_old }}</td>
+                                                <td>{{ $item->price_children }}</td>
+                                                {{-- <td>{{ $item->sale }}</td> --}}
+                                                {{-- <td>{{ $item->view }}</td> --}}
+                                                <td>{{ $item->description }}</td>
+                                                {{-- <td>{{ $item->content }}</td> --}}
+                                                {{-- <td>{{ $item->location_id }}</td> --}}
+                                                {{-- <td>{{ $item->user_id }}</td> --}}
+                                                {{-- <td>{{ $item->album_img }}</td> --}}
 
-                                            <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
-                                            <td>
-                                                <ul class="d-flex gap-2 list-unstyled mb-0">
-                                                    <li>
-                                                        <a href="apps-learning-overview.html"
-                                                            class="btn btn-subtle-primary btn-icon btn-sm "><i
-                                                                class="ph-eye"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{route('tour.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                             <!-- Xóa User -->
-        <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="btn-close" id="deleteRecord-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body p-md-5">
-                      <div class="text-center">
-                          <div class="text-danger">
-                              <i class="bi bi-trash display-5"></i>
-                          </div>
-                          <div class="mt-4">
-                              <h4 class="mb-2">Are you sure ?</h4>
-                              <p class="text-muted mx-3 mb-0">Are you sure you want to remove this record ?</p>
-                          </div>
-                      </div>
-                      <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('tour.destroy', $item->id) }}"
-                          method="POST" class="d-inline">
-                          @csrf
-                          @method('DELETE')
-                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Close</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Yes, Delete It!</button>
-                        </form>
-                      </div>
-                  </div>
-              </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-      </div>
- 
+                                                <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
+                                                    {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                                <td>
+                                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+                                                        <li>
+                                                            <a href="apps-learning-overview.html"
+                                                                class="btn btn-subtle-primary btn-icon btn-sm "><i
+                                                                    class="ph-eye"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ route('tour.edit', $item->id) }}"><i
+                                                                    class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#deleteRecordModal{{ $item->id }}"
+                                                                data-bs-toggle="modal"
+                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                                    class="ph-trash"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- Xóa User -->
+                                            <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn"
+                                                tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close" id="deleteRecord-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body p-md-5">
+                                                            <div class="text-center">
+                                                                <div class="text-danger">
+                                                                    <i class="bi bi-trash display-5"></i>
+                                                                </div>
+                                                                <div class="mt-4">
+                                                                    <h4 class="mb-2">Are you sure ?</h4>
+                                                                    <p class="text-muted mx-3 mb-0">Are you sure you want to
+                                                                        remove this record ?</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
+                                                                <form action="{{ route('tour.destroy', $item->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="button"
+                                                                        class="btn w-sm btn-light btn-hover"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit"
+                                                                        class="btn w-sm btn-danger btn-hover"
+                                                                        id="delete-record">Yes, Delete It!</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div>
                                         @endforeach
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
@@ -206,22 +218,22 @@
                     </div><!--end card-->
                 </div><!--end col-->
             </div><!--end row-->
-            
-            
-           
-            
+
+
+
+
         </div>
         <!-- container-fluid -->
 
 
     </div>
 @endsection
-@section('style-libs')
+@section('style')
     <!--datatable css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
 @endsection
-@section('script-libs')
+@section('script')
     <!--datatable js-->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -253,7 +265,7 @@
         });
     </script>
 @endsection
-@section('script')
+
 
 @section('script')
     <script>

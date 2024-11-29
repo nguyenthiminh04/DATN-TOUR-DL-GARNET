@@ -45,6 +45,10 @@ class Payment extends Model
     {
         return $this->belongsTo(PaymentMethod::class);
     }
+    public function paymentStatus()
+    {
+        return $this->belongsTo(PaymentStatus::class,'payment_status_id');
+    }
     // app/Models/Pay.php
 public function bookTours()
 {
