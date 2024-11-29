@@ -4,6 +4,102 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
+        
+/* Css Form Ngày */
+#datesss {
+    background-color: white; /* White background for the input field */
+    border: 1px solid #ccc;  /* Light grey border */
+    padding: 8px;
+    color: #333;             /* Text color */
+}
+
+/* Target the calendar popup */
+.ui-datepicker {
+    background-color: white !important; /* Set the background of the calendar to white */
+    border: 1px solid #ccc;  /* Border for the calendar */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow to make it pop */
+}
+
+/* Make the whole day cell change color for valid dates */
+.ui-datepicker td:not(.ui-state-disabled):not(.ui-datepicker-other-month):hover {
+    background-color: #007bff; /* Change the background of the entire cell */
+    color: white; /* Change the text color to white */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+/* Optional: Adjust text color for day cells */
+.ui-datepicker td:not(.ui-state-disabled) a {
+    color: #333; /* Default text color for valid dates */
+}
+
+/* Hover effect for links (valid dates) */
+.ui-datepicker td:not(.ui-state-disabled) a:hover {
+    color: white; /* Change the text color to white on hover */
+}
+
+/* Style the previous and next buttons */
+.ui-datepicker-prev, .ui-datepicker-next {
+    color: #007bff; /* Set the text color to blue */
+    font-weight: bold; /* Make the text bold */
+    font-size: 14px; /* Adjust the font size for better visibility */
+    padding: 5px; /* Add padding for better spacing */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+.ui-datepicker-prev:hover, .ui-datepicker-next:hover {
+    color: #0056b3; /* Darker blue for hover effect */
+    background-color: #e6f0ff; /* Light blue background */
+    border-radius: 4px; /* Rounded corners */
+}
+
+/* Style the month and year dropdowns */
+.ui-datepicker-title select {
+    background-color: #f9f9f9; /* Light background for dropdowns */
+    color: #333; /* Text color */
+    font-size: 14px; /* Font size for better readability */
+    border: 1px solid #ccc; /* Border for the dropdown */
+    padding: 4px; /* Padding for spacing */
+    border-radius: 4px; /* Rounded corners for dropdowns */
+}
+
+/* On hover or focus */
+.ui-datepicker-title select:hover,
+.ui-datepicker-title select:focus {
+    border-color: #007bff; /* Change border color on hover/focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add shadow effect */
+}
+
+/* Optional: Align the month and year dropdowns */
+.ui-datepicker-title {
+    display: flex;
+    justify-content: center; /* Center align the dropdowns */
+    align-items: center; /* Center align vertically */
+    gap: 5px; /* Add spacing between the dropdowns */
+}
+
+/* Style for days not in the current month */
+.ui-datepicker .ui-datepicker-other-month {
+    color: #aaa; /* Dimmed text color for other months */
+    background-color: #f9f9f9; /* Optional: light background */
+    pointer-events: none; /* Disable click for other months */
+}
+
+/* Prevent hover effect for days not in the current month */
+.ui-datepicker .ui-datepicker-other-month:hover {
+    background-color: #f9f9f9; /* Prevent hover effect */
+    color: #aaa; /* Keep the text color dimmed */
+}
+
+/* Style for disabled days */
+.ui-datepicker td.ui-state-disabled {
+    color: #ccc !important; /* Dimmed text for disabled days */
+    background-color: #f9f9f9 !important; /* Light gray background for disabled days */
+    pointer-events: none; /* Disable hover and click */
+    cursor: not-allowed; /* Show 'not-allowed' cursor */
+}
+
+/* Hết Css Form NGày  */
         .owl-prev:hover,
         .owl-next:hover {
             opacity: 1;
@@ -647,15 +743,19 @@ function DisablePastDays(date) {
                                           </div>
                                         </div>
                                       </div>
-                                        <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
+                                      <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
+                                        @if($tour['number'] > 0)
                                             <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}">
-                                                <button type="button" id="submit-table"
-                                                    class="pull-right btn btn-default buynow add-to-cart button nomargin">
+                                                <button type="button" id="submit-table" class="pull-right btn btn-default buynow add-to-cart button nomargin">
                                                     <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
                                                 </button>
                                             </a>
-
-                                        </div>
+                                        @else
+                                            <p class="text-danger text-center" style="font-size: 20px; font-weight: bold;">Tour tạm dừng, vui lòng quay lại sau.</p>
+                                        @endif
+                                    </div>
+                                    
+                                    
                                         <script>
                                           var tourName = <?= json_encode($tour['name']) ?>;
                                           var startDate = document.getElementById('datesss').value;
