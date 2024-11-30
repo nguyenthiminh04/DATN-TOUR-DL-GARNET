@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         
 /* Css Form Ngày */
@@ -546,8 +547,8 @@
                                 <div class="call-me-back">
                                     <ul class="row">
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
-                                            <a class="add-to-favorite" data-id="{{ $tour->id }}">                                     
-                                                <i class="fa fa-heart " ></i> Thêm vào yêu thích
+                                            <a class="add-to-favorite" data-id="{{ $tour->id }}">
+                                                <i class="fa fa-heart "></i> Thêm vào yêu thích
                                             </a>
                                         </li>
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
@@ -560,7 +561,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row" id="book-tour-now">
                         <div class="col-xs-12 col-sm-12 col-md-7 details-pro">
                             <div class="form-product">
@@ -652,114 +653,8 @@
                                                 <strong class="col-md-4 col-sm-3"></strong>
                                             </div>
                                             <script>
-                                              $(document).ready(function() {
-                                                  var length = 3;
-                                          
-                                                  // Lấy ngày từ server
-                                                  var startDate = new Date("{{ $tour->start_date }}"); // Ngày bắt đầu từ server
-                                                  var dateToday = new Date(); // Ngày hôm nay
-                                          
-                                                  // Đặt focus vào ô đầu tiên khi tải trang
-                                                  $("#quantity-0").focus();
-                                          
-                                                  // Xử lý sự kiện khi bấm nút "submit"
-                                                  $("#submit-table").click(function(e) {
-                                                      e.preventDefault();
-                                          
-                                                      var toAdd = []; // Mảng chứa các sản phẩm cần thêm vào giỏ hàng
-                                                      for (let i = 0; i < length; i++) {
-                                                          var qty = $("#quantity-" + i).val(); // Lấy số lượng
-                                                          if (qty > 0) {
-                                                              toAdd.push({
-                                                                  variant_id: $("#variant-" + i).val(),
-                                                                  variant_date: $("#datesss").val(),
-                                                                  quantity_id: qty || 0
-                                                              });
-                                                          }
-                                                      }
-                                          
-                                                      // Hàm xử lý tuần tự gửi từng yêu cầu thêm vào giỏ hàng
-                                                      function moveAlong() {
-                                                          if (toAdd.length) {
-                                                              var request = toAdd.shift(); // Lấy phần tử đầu tiên trong mảng
-                                                              var data = {
-                                                                  "quantity": request.quantity_id,
-                                                                  "variantId": request.variant_id,
-                                                                  "properties[Ngày đi]": request.variant_date
-                                                              };
-                                          
-                                                              var params = {
-                                                                  type: 'POST',
-                                                                  url: '/cart/add.js',
-                                                                  data: data,
-                                                                  dataType: 'json',
-                                                                  success: function() {
-                                                                      moveAlong(); // Xử lý phần tử tiếp theo
-                                                                  },
-                                                                  error: function() {
-                                                                      moveAlong(); // Tiếp tục dù lỗi
-                                                                  }
-                                                              };
-                                                              $.ajax(params); // Gửi yêu cầu AJAX
-                                                          } 
-                                                      }
-                                          
-                                                      moveAlong(); // Bắt đầu xử lý các yêu cầu
-                                                  });
-                                          
-                                                 // Hàm chỉ cho phép chọn các ngày lớn hơn hoặc bằng hôm nay và ngày start_date
-function DisablePastDays(date) {
-    // Lấy ngày mà không xét đến giờ (giờ: 00:00:00)
-    var today = new Date(dateToday.getFullYear(), dateToday.getMonth(), dateToday.getDate()); 
-    var start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-    // So sánh ngày mà không xét đến giờ
-    return [date >= today && date >= start];
-}
-                                          
-                                                  // Cấu hình Datepicker
-                                                  $(".tourmaster-datepicker").datepicker({
-    defaultDate: "",
-    changeMonth: true,
-    changeYear: true,
-    numberOfMonths: 1,
-    minDate: (dateToday > startDate) ? dateToday : startDate, // Lấy ngày lớn hơn trong 2 ngày
-    beforeShowDay: DisablePastDays, // Áp dụng logic kiểm tra ngày
-    dateFormat: "yy-mm-dd" // Định dạng ngày là YYYY-MM-DD
-});
-
-                                              });
-                                          </script>
-                                            
-
-                                        </div>
-                                    </div>
-                                    <div class="row contact_btn_group">
-                                      <div class="col-md-6 col-sm-7 col-xs-6 col-100">
-                                        <div class="line-item-property__field">
-                                          <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                            <input required class="required tourmaster-datepicker" id="datesss" name="properties[Ngày đi]" type="text"  placeholder="Chọn Ngày đi" data-date-format="yyyy MM dd" readonly="readonly" />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
-                                        @if($tour['number'] > 0)
-                                            <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}">
-                                                <button type="button" id="submit-table" class="pull-right btn btn-default buynow add-to-cart button nomargin">
-                                                    <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
-                                                </button>
-                                            </a>
-                                        @else
-                                            <p class="text-danger text-center" style="font-size: 20px; font-weight: bold;">Tour tạm dừng, vui lòng quay lại sau.</p>
-                                        @endif
-                                    </div>
-                                    
-                                    
-                                        <script>
-                                          var tourName = <?= json_encode($tour['name']) ?>;
-                                          var startDate = document.getElementById('datesss').value;
-                                          // var startDate =  document.getElementById('datesss').value;
+                                                var tourName = <?= json_encode($tour['name']) ?>;
+                                                // var startDate = <?= json_encode($tour['start_date']) ?>;
 
 
 
@@ -770,6 +665,9 @@ function DisablePastDays(date) {
                                           // Phần tử hiển thị tổng tiền
                                           const totalPriceElement = document.querySelector(".totalPrice strong");
 
+                                                function getStartDate() {
+                                                    return document.getElementById('datepicker').value;
+                                                }
 
                                           // Hàm cập nhật tổng tiền
                                           function updateTotalPrice() {
@@ -783,23 +681,27 @@ function DisablePastDays(date) {
                                                   totalPrice += variantPrice * quantity; // Cộng tổng tiền từ từng nhóm
                                               });
 
-                                              // Hiển thị tổng tiền đã định dạng
-                                              totalPriceElement.textContent = totalPrice.toLocaleString("vi-VN") + "₫";
- var startDate = document.getElementById('datesss').value;
-                                              // Lưu thông tin vào sessionStorage
-                                              const selectedTourInfo = {
-                                                  totalPrice: totalPrice,
-                                                  startDate: startDate,
-                                                  tourName: tourName,
-                                                  quantities: Array.from(variantLists).map((variantList) => {
-                                                      const quantityInput = variantList.querySelector(".qty");
-                                                      const variantPriceInput = variantList.querySelector("[name='variant_price']");
-                                                      return {
-                                                          quantity: parseInt(quantityInput.value, 10),
-                                                          price: parseInt(variantPriceInput.value, 10)
-                                                      };
-                                                  })
-                                              };
+                                                    // Hiển thị tổng tiền đã định dạng
+                                                    totalPriceElement.textContent = totalPrice.toLocaleString("vi-VN") + "₫";
+
+                                                    // Lấy giá trị ngày từ input
+                                                    var startDate = getStartDate();
+                                                    console.log(startDate);
+
+                                                    // Lưu thông tin vào sessionStorage
+                                                    const selectedTourInfo = {
+                                                        totalPrice: totalPrice,
+                                                        startDate: startDate,
+                                                        tourName: tourName,
+                                                        quantities: Array.from(variantLists).map((variantList) => {
+                                                            const quantityInput = variantList.querySelector(".qty");
+                                                            const variantPriceInput = variantList.querySelector("[name='variant_price']");
+                                                            return {
+                                                                quantity: parseInt(quantityInput.value, 10),
+                                                                price: parseInt(variantPriceInput.value, 10)
+                                                            };
+                                                        })
+                                                    };
 
                                               sessionStorage.setItem("selectedTourInfo", JSON.stringify(selectedTourInfo));
                                           }
@@ -839,8 +741,33 @@ function DisablePastDays(date) {
                                               });
                                           });
 
-                                          updateTotalPrice();
-                                      </script>
+                                                updateTotalPrice();
+                                            </script>
+
+                                        </div>
+                                    </div>
+                                    <div class="row contact_btn_group">
+                                        <div class="col-md-6 col-sm-7 col-xs-6 col-100">
+                                            <div class="line-item-property__field">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"
+                                                            aria-hidden="true"></i></span>
+                                                    <input type="text" id="datepicker" placeholder="Chọn ngày"
+                                                        class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
+                                        @if($tour['number'] > 0)
+                                            <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}">
+                                                <button type="button" id="submit-table" class="pull-right btn btn-default buynow add-to-cart button nomargin">
+                                                    <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
+                                                </button>
+                                            </a>
+                                        @else
+                                            <p class="text-danger text-center" style="font-size: 20px; font-weight: bold;">Tour tạm dừng, vui lòng quay lại sau.</p>
+                                        @endif
+                                    </div>
                                         <script>
                                             function handleBookingClick(event, url) {
                                                 event.preventDefault();
@@ -1295,25 +1222,14 @@ function DisablePastDays(date) {
             </div>
         </div>
     </section>
-
 @endsection
 @section('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="{{asset('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/datepicker.min6d1d.js')}}" type="text/javascript"></script>
-<script>
-    // Hàm toggle (hiển thị/ẩn) form trả lời ngay dưới bình luận
-    function toggleReplyForm(commentId) {
-        var form = document.getElementById('reply-form-' + commentId);
-        
-        // Kiểm tra trạng thái form trả lời, hiển thị hoặc ẩn
-        if (form.style.display === 'none' || form.style.display === '') {
-            form.style.display = 'block';  // Hiển thị form trả lời dưới bình luận
-        } else {
-            form.style.display = 'none';   // Ẩn form trả lời
-        }
-    }
-</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+
 
     <script>
         $(document).ready(function() {
@@ -1376,6 +1292,24 @@ function DisablePastDays(date) {
                     });
                 }
             }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            flatpickr("#datepicker", {
+                dateFormat: "Y-m-d", // Định dạng ngày (ví dụ: 29 Nov 2024)
+                minDate: "today", // Chỉ cho phép chọn từ hôm nay trở đi
+                defaultDate: "today", // Mặc định là ngày hôm nay
+                locale: "vn", // Cài đặt ngôn ngữ tiếng Việt (nếu có)
+                onChange: function(selectedDates, dateStr, instance) {
+                    console.log("Ngày đã chọn:", dateStr); // Hiển thị ngày đã chọn
+                    // Cập nhật lại giá trị startDate hoặc xử lý khác nếu cần
+                    startDate = dateStr; // Cập nhật giá trị startDate
+                    updateTotalPrice(); // Cập nhật tổng tiền nếu cần
+                }
+            });
+
         });
     </script>
 @endsection
