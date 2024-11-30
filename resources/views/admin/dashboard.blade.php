@@ -38,7 +38,7 @@
                                                 <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
                                                     Doanh thu</p>
                                                 <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="{{$totalMoney}}">0</span>VND </h4>
+                                                        data-target="{{$totalMoney}}">0</span> đ </h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
                                                     <h5 class="text-success fs-xs mb-0">
                                                         <i class="ri-arrow-right-up-line fs-sm align-middle"></i>

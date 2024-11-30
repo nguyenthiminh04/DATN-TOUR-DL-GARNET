@@ -9,18 +9,16 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $categotyTour = Categoty_tour::all();
-        $article = Article::limit(4)->get();
+        $article = Article::with('user')->limit(4)->get();
         return view('client.pages.service',compact('categotyTour','article'));
     }
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
-        $showArticle = Categoty_tour::find($id);
+        $showArticle = Article::find($id);
+        // dd($showArticle);
         return view('client.pages.detailHandbook', compact('showArticle'));
     }
 

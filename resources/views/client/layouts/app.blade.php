@@ -338,9 +338,9 @@
                         <a href="{{route('service.index')}}">Dịch vụ tour</a>
                     </li>
 
-                    <li class="ng-scope">
+                    {{-- <li class="ng-scope">
                         <a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a>
-                    </li>
+                    </li> --}}
 
                     <li class="ng-scope">
                         <a href="{{ route('contact.index') }}">Liên hệ</a>

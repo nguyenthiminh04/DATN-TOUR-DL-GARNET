@@ -23,7 +23,7 @@ class Article extends Model
         'avatar',
         'content',
         'category_id',
-        // 'user_id',
+        'user_id',
         'status',
     ];
 
