@@ -48,9 +48,8 @@
 
                     <!-- Các menu tĩnh -->
                     <li class="nav-item"><a class="nav-link" href="{{route('introduce.index')}}">Giới thiệu</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{route('dich-vu')}}">Dịch vụ tour</a></li>
-                    <li class="nav-item"><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du
-                            lịch</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('service.index')}}">Dịch vụ tour</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li>
 
                     <li class="nav-item"><a class="nav-link" href="{{ route('contact.index') }}">Liên hệ</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('favorite.index') }}">Yêu

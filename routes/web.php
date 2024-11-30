@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
 use App\Http\Controllers\Client\ContactController;
+use App\Http\Controllers\Client\HandbookController;
 use App\Http\Controllers\Client\IntroduceController;
 use App\Http\Controllers\Client\myAccountController;
 use App\Http\Controllers\Client\PaymentController;
@@ -115,20 +116,16 @@ Route::group([], function () {
     Route::post('/post-lien-he', [ContactController::class, 'store'])->name('post.contact.index');
     Route::get('/gioi-thieu', [IntroduceController::class, 'index'])->name('introduce.index');
     Route::get('/dich-vu', [ServiceController::class, 'index'])->name('service.index');
-    Route::get('/cam-nang', [ServiceController::class, 'index'])->name('service.index');
-    
-    Route::get('/cam-nang', function () {
-        return view('client.pages.handbook');
-    });
+    Route::get('/dich-vu/{id}', [ServiceController::class, 'show'])->name('service.show');
+    Route::get('/cam-nang', [HandbookController::class, 'index'])->name('handbook.index');
+    Route::get('/cam-nang/{id}', [HandbookController::class, 'show'])->name('handbook.show');
+
     Route::get('/tour-trong-nuoc', function () {
         return view('client.pages.domesticTour');
     });
 
     Route::get('/chi-tiet-tour/{id}', [HomeController::class, 'detailTour'])->name('detail');
 
-    Route::get('/chi-tiet-cam-nang', function () {
-        return view('client.pages.detailHandbook');
-    });
 
     Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
 

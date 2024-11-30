@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admins\Categoty_tour;
+use App\Models\Article;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -12,54 +14,14 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return view('client.pages.service');
+        $categotyTour = Categoty_tour::all();
+        $article = Article::limit(4)->get();
+        return view('client.pages.service',compact('categotyTour','article'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $showArticle = Categoty_tour::find($id);
+        return view('client.pages.detailHandbook', compact('showArticle'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

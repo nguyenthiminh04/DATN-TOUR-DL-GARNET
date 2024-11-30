@@ -25,7 +25,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<h1 class="title-head">Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!</h1>
+						<h1 class="title-head">{{$showArticle->title}}</h1>
 						
 						<div class="postby">
 							<span>Đăng bởi <b>Nguyễn Chánh Bảo Trung</b> vào lúc 10/03/2018</span>

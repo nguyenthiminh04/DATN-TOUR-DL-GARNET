@@ -1256,9 +1256,9 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="{{route('dich-vu')}}">Dịch vụ tour</a></li>
+                                    <li><a href="{{route('service.index')}}">Dịch vụ tour</a></li>
 
-                                    <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
+                                    <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li>
 
                                     <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
 
@@ -1280,9 +1280,9 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="{{route('dich-vu')}}">Dịch vụ tour</a></li>
+                                    <li><a href="{{route('service.index')}}">Dịch vụ tour</a></li>
 
-                                    <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
+                                    <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li>
 
                                     <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
 
@@ -1304,9 +1304,9 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="{{route('dich-vu')}}">Dịch vụ tour</a></li>
+                                    <li><a href="{{route('service.index')}}">Dịch vụ tour</a></li>
 
-                                    <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
+                                    <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li>
 
                                     <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
 
@@ -2205,11 +2205,11 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="{{route('dich-vu')}}">Dịch vụ tour</a>
+                        <a href="{{route('service.index')}}">Dịch vụ tour</a>
                     </li>
 
                     <li class="ng-scope">
-                        <a href="cam-nang-du-lich.html">Cẩm nang du lịch</a>
+                        <a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a>
                     </li>
 
                     <li class="ng-scope">
