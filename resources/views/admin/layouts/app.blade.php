@@ -11,7 +11,6 @@
 
     <link rel="shortcut icon" href="{{ asset('admin/assets/images/favicon.ico') }}">
 
-    
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link id="fontsLink"
@@ -147,12 +146,10 @@
                 icon: "error",
                 title: "{{ Session::get('error') }}",
             });
-
         </script>
-
     @endif
 
-   
+
     @yield('script')
 
 </body>

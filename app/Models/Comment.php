@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Models\Admins\Tour;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'comment';
     protected $fillable = ['tour_id', 'user_id', 'parent_id', 'anonymous_name', 'content'];
 
