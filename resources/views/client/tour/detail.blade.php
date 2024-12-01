@@ -1302,7 +1302,7 @@
             flatpickr("#datepicker", {
                 dateFormat: "Y-m-d", // Định dạng ngày (ví dụ: 29 Nov 2024)
                 startDate: '0d',// Chỉ cho phép chọn từ hôm nay trở đi
-                endDate: endDateTour,// ngày kết thúc chọn
+                maxDate: endDateTour,// ngày kết thúc chọn
                 minDate: startDateTour, //ngày tour bắt đầu hoạt động
                 defaultDate: "today", // Mặc định là ngày hôm nay
                 locale: "vn", // Cài đặt ngôn ngữ tiếng Việt (nếu có)
