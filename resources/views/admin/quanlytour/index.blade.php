@@ -298,6 +298,7 @@
     </script>
      <script>
         function confirmSubmit(selectElement){
+            console.log("Hàm confirmSubmit đã được gọi!");
             var form = selectElement.form;
             var selectedOption = selectElement.options[selectElement.selectedIndex].text;
             var defaultValue = selectElement.getAttribute('data-default-value');
