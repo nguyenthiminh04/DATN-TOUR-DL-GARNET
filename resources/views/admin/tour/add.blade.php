@@ -54,6 +54,14 @@
                     @enderror
                 </div>
                 <div class="mb-3">
+                    <label for="number" class="form-label">Số Lượng Chuyến Tour<span class="text-danger">*</span></label>
+                    <input type="number" id="number" name="number" value="{{ old('number') }}" class="form-control"
+                        placeholder="Nhập số lượng chuyến tour...">
+                    @error('number')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="mb-3">
                     <label for="move_method" class="form-label">Phương Tiện Di Chuyển<span
                             class="text-danger">*</span></label>
                     <input type="text" id="move_method" name="move_method" value="{{ old('move_method') }}"

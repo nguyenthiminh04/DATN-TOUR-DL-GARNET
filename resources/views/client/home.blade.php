@@ -67,6 +67,30 @@
         });
     </script>
     <script>
+        $(document).ready(function() {
+            // Khi nhấp vào tab
+            $(".tab-link").click(function() {
+                var tab = $(this).data('tab'); // Lấy giá trị data-tab
+
+                // Ẩn tất cả tab-content và hiển thị tab tương ứng
+                $(".tab-content").hide();
+                $("." + tab).show();
+
+                // Xóa active khỏi tất cả các tab-link và thêm vào tab hiện tại
+                $(".tab-link").removeClass("active");
+                $(this).addClass("active");
+            });
+
+            // Cài đặt owl-carousel
+            $(".owl-carousel").owlCarousel({
+                items: 3,
+                margin: 20,
+                nav: true,
+                dots: true,
+            });
+        });
+    </script>
+    <script>
         (function() {
             function asyncLoad() {
                 var urls = [
