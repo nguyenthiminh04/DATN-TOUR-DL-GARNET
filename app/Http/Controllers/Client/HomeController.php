@@ -18,7 +18,7 @@ class HomeController extends Controller
     {
         $listtour = Tour::orderBYDesc('id')->get();
 
-        $Tourmoinhat = Tour::orderBy('view', 'desc')->take(6)->get();
+        $Tourmoinhat = Tour::withoutTrashed()->orderBy('view', 'desc')->take(6)->get();
         $categoryes = Categorys::whereNull('parent_id')->with('children')->get();
         $categories = Categoty_tour::with('tours')->get();
         $locations = Location::where('status', 1)

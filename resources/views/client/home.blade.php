@@ -900,7 +900,7 @@
                                     <div class="tourmaster-tour-category-head">
                                         <div class="tourmaster-tour-category-head-display clearfix">
                                             <h3 class="tourmaster-tour-category-title"><i
-                                                    class="fa fa-map-marker color-x"></i>Phú Quốc</h3>
+                                                    class="fa fa-map-marker color-x"></i>{{$item->name}}</h3>
                                         </div>
                                         <div class="tourmaster-tour-category-head-animate">
                                             <a class="tourmaster-tour-category-head-link"
@@ -912,11 +912,6 @@
                                 </div>
                             </div>
                         @endforeach
-
-
-
-
-
                     </div>
                 </div>
             </div>
