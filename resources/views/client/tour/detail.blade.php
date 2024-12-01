@@ -1230,7 +1230,18 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    // Hàm xử lý hiển thị hoặc ẩn form trả lời
+    window.toggleReplyForm = function (commentId) {
+        const replyForm = document.getElementById(`reply-form-${commentId}`);
+        if (replyForm) {
+            const isHidden = replyForm.style.display === 'none' || replyForm.style.display === '';
+            replyForm.style.display = isHidden ? 'block' : 'none';
+        }
+    };
+});
+</script>
     <script>
         $(document).ready(function() {
             var sync1 = $("#sync1");

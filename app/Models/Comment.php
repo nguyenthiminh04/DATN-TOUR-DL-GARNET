@@ -12,7 +12,7 @@ class Comment extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'comment';
     protected $fillable = ['tour_id', 'user_id', 'parent_id', 'anonymous_name', 'content'];
-
+    use SoftDeletes;  // Thêm trait SoftDeletes
     // Quan hệ đến bình luận cha
     public function parent()
     {
@@ -28,7 +28,7 @@ class Comment extends Model
     // Quan hệ đến bài viết
     public function tour()
     {
-        return $this->belongsTo(Tour::class);
+        return $this->belongsTo(Tour::class,'tour_id');
     }
 
     // Quan hệ đến người dùng
