@@ -23,8 +23,7 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div>
-                                {{-- <a href="" class="btn btn-success add-btn" id="create-btn"><i
-                                        class="bi bi-plus-circle align-baseline me-1"></i>Create</a> --}}
+
                             </div>
                         </div>
 
@@ -69,41 +68,50 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($listComments as $index => $item)
+                                                @if ($listComments->isEmpty())
                                                     <tr>
-                                                        <td><a href="" class="text-reset">{{ $loop->index + 1 }}</a>
+                                                        <td colspan="11" class="text-center text-muted">
+                                                            Trống.
                                                         </td>
-                                                        <td>
+                                                    </tr>
+                                                @else
+                                                    @foreach ($listComments as $index => $item)
+                                                        <tr>
+                                                            <td><a href=""
+                                                                    class="text-reset">{{ $loop->index + 1 }}</a>
+                                                            </td>
+                                                            <td>
                                                                 {{ $item->user->name }}
-                                                        </td>
-                                                        <td>{{ $item->tour->name }}</td>
-                                                        <td>{{ $item->content }}</td>
-                                                        <td>{{ $item->parent ? $item->parent->user->name : 'Bình Luận Chính' }}
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" style="width: 100px;"
-                                                                class="btn btn-toggle-status {{ $item->status == 0 ? 'btn-success' : 'btn-danger' }}"
-                                                                data-id="{{ $item->id }}"
-                                                                onclick="toggleStatus({{ $item->id }})">
-                                                                {{ $item->status == 0 ? 'Hiện' : 'Ẩn' }}
-                                                            </button>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex gap-2">
+                                                            </td>
+                                                            <td>{{ $item->tour->name }}</td>
+                                                            <td>{{ $item->content }}</td>
+                                                            <td>{{ $item->parent ? $item->parent->user->name : 'Bình Luận Chính' }}
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" style="width: 100px;"
+                                                                    class="btn btn-toggle-status {{ $item->status == 0 ? 'btn-success' : 'btn-danger' }}"
+                                                                    data-id="{{ $item->id }}"
+                                                                    onclick="toggleStatus({{ $item->id }})">
+                                                                    {{ $item->status == 0 ? 'Hiện' : 'Ẩn' }}
+                                                                </button>
+                                                            </td>
+                                                            <td>
+                                                                <div class="d-flex gap-2">
 
-                                                                <div class="remove">
                                                                     <div class="remove">
                                                                         <div class="remove">
-                                                                            <a href="javascript:void(0);"
-                                                                                onclick="confirmDelete({{ $item->id }})"
-                                                                                class="btn btn-sm btn-outline-danger remove-item-btn">Remove</a>
+                                                                            <div class="remove">
+                                                                                <a href="javascript:void(0);"
+                                                                                    onclick="confirmDelete({{ $item->id }})"
+                                                                                    class="btn btn-sm btn-outline-danger remove-item-btn">Remove</a>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
 
