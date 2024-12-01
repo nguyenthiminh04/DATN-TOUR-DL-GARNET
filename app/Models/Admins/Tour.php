@@ -3,6 +3,7 @@
 namespace App\Models\Admins;
 
 use App\Models\BookTour;
+use App\Models\Comment;
 use App\Models\Favorite;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
@@ -56,6 +57,10 @@ class Tour extends Model
     public function imagetour()
     {
         return $this->hasMany(ImageTour::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'tour_id');  // 'tour_id' là khóa ngoại trong bảng comments
     }
     // Định nghĩa quan hệ Tour thuộc về Location
     public function location()

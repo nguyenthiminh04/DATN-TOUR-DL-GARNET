@@ -76,14 +76,7 @@
                                                         <td><a href="" class="text-reset">{{ $loop->index + 1 }}</a>
                                                         </td>
                                                         <td>
-                                                            @if ($item->user)
                                                                 {{ $item->user->name }}
-                                                            @elseif($item->anonymous_name)
-                                                                {{ $item->anonymous_name }}
-                                                            @else
-                                                                Ẩn Danh
-                                                            @endif
-
                                                         </td>
                                                         <td>{{ $item->tour->name }}</td>
                                                         <td>{{ $item->content }}</td>

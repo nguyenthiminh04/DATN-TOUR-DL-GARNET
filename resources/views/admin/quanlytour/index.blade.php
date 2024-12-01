@@ -77,6 +77,7 @@
                                             <th>Tài Khoản Đặt Tour</th>
                                             <th>Thông Tin Tour</th>
                                             <th>Người Đặt Tour</th>
+                                            <th>Trạng Thái Thanh Toán</th>
                                             <th>Trạng Thái Tour</th>
 
                                             <th>Hành Động</th>
@@ -93,6 +94,8 @@
                                             <td>{{ $item->booking->user->name }}</td>
                                             <td>{{ $item->booking->tour->name }}</td>
                                             <td>{{ $item->booking->name }}</td>
+                                            <td class="{{ $item->payment_status_id == 1 ? 'text-danger' : 'text-success' }}">
+                                                {{ $item->payment_status_id == 1 ? 'Chưa Thanh Toán' : 'Đã Thanh Toán' }}</td>
                                             {{-- <td>{{ $item->name }}</td> --}}
                                            
                                             {{-- <td>{{ $item->name }}</td> --}}

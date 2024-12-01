@@ -75,7 +75,6 @@
 
                                             <th>description</th>
                                             <th>content</th>
-                                            <th>Tour</th>
                                             <th>Người Thêm</th>
 
                                            
@@ -100,7 +99,6 @@
                                             <td>{{ $item->description }}</td>
                                             <td>{{ $item->content }}</td>
                                             {{-- <td>{{ $item->tours->name }}</td> --}}
-                                            <td>Tour đang lỗi</td>
                                             <td>{{ $item->user_id }}</td>
 
                                             <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
