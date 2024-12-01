@@ -3,10 +3,10 @@
         <div class="row">
             <div class="col-md-12">
                 <ul id="nav" class="nav container">
-                    <li class="nav-item"><a class="nav-link" href="{{route('home')}}">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Trang chủ</a></li>
                     @foreach ($categoryes as $category)
                         <li class="nav-item {{ $category->children->isNotEmpty() ? 'has-mega' : '' }}">
-                            <a class="nav-link" href="{{ url($category->slug) }}">
+                            <a class="nav-link" href="{{ url('tour/' . $category->slug) }}">
                                 {{ $category->name }}
                                 @if ($category->children->isNotEmpty())
                                     <i class="fa fa-angle-right"></i>
@@ -21,7 +21,7 @@
                                                 @foreach ($category->children as $child)
                                                     <li class="level1 parent item">
                                                         <h2 class="h4">
-                                                            <a href="{{ url($child->slug) }}">
+                                                            <a href="{{ url('tour/' . $child->slug) }}">
                                                                 <span>{{ $child->name }}</span>
                                                             </a>
                                                         </h2>
@@ -29,7 +29,7 @@
                                                             <ul class="level1">
                                                                 @foreach ($child->children as $subChild)
                                                                     <li class="level2">
-                                                                        <a href="{{ url($subChild->slug) }}">
+                                                                        <a href="{{ url('tour/' . $subChild->slug) }}">
                                                                             <span>{{ $subChild->name }}</span>
                                                                         </a>
                                                                     </li>
