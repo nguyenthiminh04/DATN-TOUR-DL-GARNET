@@ -157,6 +157,8 @@ Route::group([], function () {
     Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index');
     Route::post('/favorite', [FavoriteController::class, 'addToFavorite'])->name('favorite.add');
     Route::delete('/favorite/{id}', [FavoriteController::class, 'removeFavorite'])->name('favorite.delete');
+
+    Route::get('/test', [ClientTourController::class, 'showTour'])->name('test.showTour');
 });
 
 
