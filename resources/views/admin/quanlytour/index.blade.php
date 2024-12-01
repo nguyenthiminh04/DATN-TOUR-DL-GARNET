@@ -218,6 +218,19 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
     <script>
+        function confirmSubmit(selectElement){
+            console.log("Hàm confirmSubmit đã được gọi!"); // Dòng này kiểm tra sự kiện onchange
+            var form = selectElement.form;
+            var selectedOption = selectElement.options[selectElement.selectedIndex].text;
+            var defaultValue = selectElement.getAttribute('data-default-value');
+            if(confirm('Bạn có chắc chắn thay đổi trạng thái đơn hàng"'+ selectedOption +'"không?')){
+                form.submit();
+            }else{
+                selectElement.value = defaultValue;
+            }
+        }
+           </script>
+    <script>
         $('#example').DataTable({
             language: {
                 "sEmptyTable": "Không có dữ liệu trong bảng",
@@ -256,7 +269,7 @@
                 $('#status-error').text('');
 
                 $.ajax({
-                    url: "{{ route('coupons.store') }}", // URL action của form
+                    url: "{{ route('trangthaitour.store') }}", // URL action của form
                     type: 'POST',
                     data: $(this).serialize(), // Lấy dữ liệu từ form và bao gồm CSRF token
                     success: function(response) {
@@ -298,10 +311,11 @@
     </script>
      <script>
         function confirmSubmit(selectElement){
+            console.log("Hàm confirmSubmit đã được gọi!"); // Dòng này kiểm tra sự kiện onchange
             var form = selectElement.form;
             var selectedOption = selectElement.options[selectElement.selectedIndex].text;
             var defaultValue = selectElement.getAttribute('data-default-value');
-            if(confirm('Bạn có chắc chắn thay đổi trangj thái đơn hàng"'+ selectedOption +'"không?')){
+            if(confirm('Bạn có chắc chắn thay đổi trạng thái đơn hàng"'+ selectedOption +'"không?')){
                 form.submit();
             }else{
                 selectElement.value = defaultValue;
