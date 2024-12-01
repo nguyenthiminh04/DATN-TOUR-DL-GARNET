@@ -153,6 +153,7 @@ Route::group([], function () {
     });
 
     Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
+    Route::get('/tour/{slug}', [ClientTourController::class, 'tour'])->name('tour.category');
 
     Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index');
     Route::post('/favorite', [FavoriteController::class, 'addToFavorite'])->name('favorite.add');
@@ -167,12 +168,12 @@ Route::group([], function () {
 
 // admin routes
 Route::group(['prefix' => 'admin'], function () {
-    
+
     Route::get('login',                     [AuthController::class, 'login'])->name('login');
     Route::post('authLogin',                [AuthController::class, 'authLogin'])->name('authLogin');
     Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
-    Route::group(['middleware' => 'admin'], function(){
-        Route::get('/home', [StatisticalController::class,'index'])->name('home-admin');
+    Route::group(['middleware' => 'admin'], function () {
+        Route::get('/home', [StatisticalController::class, 'index'])->name('home-admin');
         Route::resource('user', UserController::class);
         Route::resource('dontour', BookTourController::class);
         Route::resource('faqs', FaqController::class);
@@ -187,10 +188,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('binh-luan',                         [CommentController::class, 'index'])->name('comment.index');
         Route::get('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
         Route::post('comment/status/{id}',              [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
-      
     });
-
-
 });
 
 
