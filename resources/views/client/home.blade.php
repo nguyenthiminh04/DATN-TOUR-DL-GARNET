@@ -67,6 +67,30 @@
         });
     </script>
     <script>
+        $(document).ready(function() {
+            // Khi nhấp vào tab
+            $(".tab-link").click(function() {
+                var tab = $(this).data('tab'); // Lấy giá trị data-tab
+
+                // Ẩn tất cả tab-content và hiển thị tab tương ứng
+                $(".tab-content").hide();
+                $("." + tab).show();
+
+                // Xóa active khỏi tất cả các tab-link và thêm vào tab hiện tại
+                $(".tab-link").removeClass("active");
+                $(this).addClass("active");
+            });
+
+            // Cài đặt owl-carousel
+            $(".owl-carousel").owlCarousel({
+                items: 3,
+                margin: 20,
+                nav: true,
+                dots: true,
+            });
+        });
+    </script>
+    <script>
         (function() {
             function asyncLoad() {
                 var urls = [
@@ -123,7 +147,8 @@
                     <div class="col-md-6">
                         <ul class="list-inline f-right ul-account">
                             @if (Auth::check())
-                                <li><a href="{{route('my-account.index')}}"><i class="fa fa-user" aria-hidden="true"></i>
+                                <li><a href="{{ route('my-account.index') }}"><i class="fa fa-user"
+                                            aria-hidden="true"></i>
                                         {{ Auth::user()->name }}</a></li>
 
                                         <li>
@@ -358,14 +383,19 @@
 
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
-                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+                                                        src="https://img.icons8.com/?size=100&id=62290&format=png&color=000000"
                                                         alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành:
-                                                {{ $item->start_date }} - {{ $item->end_date }}
+                                               Từ Ngày  <b>{{ $item->start_date }}</b> Đến Ngày  <b>{{ $item->end_date }}</b>
                                             </li>
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
-                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                        alt="6 ngày 5 đêm" /></div> Thời gian: {{ $item->schedule }}
+                                                        src="https://img.icons8.com/?size=100&id=uqeIigsBdHt9&format=png&color=000000"
+                                                        alt="6 ngày 5 đêm" /></div> Thời gian: <b>{{ $item->schedule }}</b>
+                                            </li>
+                                            <li class="clearfix">
+                                                <div class="ulimg"><img
+                                                        src="https://img.icons8.com/?size=100&id=102656&format=png&color=000000"
+                                                        alt="6 ngày 5 đêm" /></div> Số chỗ còn trống :  <b>{{ $item->number }}</b> Chỗ
                                             </li>
                                         </ul>
                                     </div>
@@ -472,6 +502,7 @@
                                                                             alt="6 ngày 5 đêm" /></div> Thời gian:
                                                                     {{ $tour->schedule }}
                                                                 </li>
+                                                                
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -876,7 +907,7 @@
                                     <div class="tourmaster-tour-category-head">
                                         <div class="tourmaster-tour-category-head-display clearfix">
                                             <h3 class="tourmaster-tour-category-title"><i
-                                                    class="fa fa-map-marker color-x"></i>Phú Quốc</h3>
+                                                    class="fa fa-map-marker color-x"></i>{{$item->name}}</h3>
                                         </div>
                                         <div class="tourmaster-tour-category-head-animate">
                                             <a class="tourmaster-tour-category-head-link"
@@ -888,11 +919,6 @@
                                 </div>
                             </div>
                         @endforeach
-
-
-
-
-
                     </div>
                 </div>
             </div>

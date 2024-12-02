@@ -3,104 +3,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
-        
-/* Css Form Ngày */
-#datesss {
-    background-color: white; /* White background for the input field */
-    border: 1px solid #ccc;  /* Light grey border */
-    padding: 8px;
-    color: #333;             /* Text color */
-}
-
-/* Target the calendar popup */
-.ui-datepicker {
-    background-color: white !important; /* Set the background of the calendar to white */
-    border: 1px solid #ccc;  /* Border for the calendar */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow to make it pop */
-}
-
-/* Make the whole day cell change color for valid dates */
-.ui-datepicker td:not(.ui-state-disabled):not(.ui-datepicker-other-month):hover {
-    background-color: #007bff; /* Change the background of the entire cell */
-    color: white; /* Change the text color to white */
-    cursor: pointer; /* Change cursor to pointer */
-}
-
-/* Optional: Adjust text color for day cells */
-.ui-datepicker td:not(.ui-state-disabled) a {
-    color: #333; /* Default text color for valid dates */
-}
-
-/* Hover effect for links (valid dates) */
-.ui-datepicker td:not(.ui-state-disabled) a:hover {
-    color: white; /* Change the text color to white on hover */
-}
-
-/* Style the previous and next buttons */
-.ui-datepicker-prev, .ui-datepicker-next {
-    color: #007bff; /* Set the text color to blue */
-    font-weight: bold; /* Make the text bold */
-    font-size: 14px; /* Adjust the font size for better visibility */
-    padding: 5px; /* Add padding for better spacing */
-    cursor: pointer; /* Change cursor to pointer */
-}
-
-.ui-datepicker-prev:hover, .ui-datepicker-next:hover {
-    color: #0056b3; /* Darker blue for hover effect */
-    background-color: #e6f0ff; /* Light blue background */
-    border-radius: 4px; /* Rounded corners */
-}
-
-/* Style the month and year dropdowns */
-.ui-datepicker-title select {
-    background-color: #f9f9f9; /* Light background for dropdowns */
-    color: #333; /* Text color */
-    font-size: 14px; /* Font size for better readability */
-    border: 1px solid #ccc; /* Border for the dropdown */
-    padding: 4px; /* Padding for spacing */
-    border-radius: 4px; /* Rounded corners for dropdowns */
-}
-
-/* On hover or focus */
-.ui-datepicker-title select:hover,
-.ui-datepicker-title select:focus {
-    border-color: #007bff; /* Change border color on hover/focus */
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add shadow effect */
-}
-
-/* Optional: Align the month and year dropdowns */
-.ui-datepicker-title {
-    display: flex;
-    justify-content: center; /* Center align the dropdowns */
-    align-items: center; /* Center align vertically */
-    gap: 5px; /* Add spacing between the dropdowns */
-}
-
-/* Style for days not in the current month */
-.ui-datepicker .ui-datepicker-other-month {
-    color: #aaa; /* Dimmed text color for other months */
-    background-color: #f9f9f9; /* Optional: light background */
-    pointer-events: none; /* Disable click for other months */
-}
-
-/* Prevent hover effect for days not in the current month */
-.ui-datepicker .ui-datepicker-other-month:hover {
-    background-color: #f9f9f9; /* Prevent hover effect */
-    color: #aaa; /* Keep the text color dimmed */
-}
-
-/* Style for disabled days */
-.ui-datepicker td.ui-state-disabled {
-    color: #ccc !important; /* Dimmed text for disabled days */
-    background-color: #f9f9f9 !important; /* Light gray background for disabled days */
-    pointer-events: none; /* Disable hover and click */
-    cursor: not-allowed; /* Show 'not-allowed' cursor */
-}
-
-/* Hết Css Form NGày  */
         .owl-prev:hover,
         .owl-next:hover {
             opacity: 1;
@@ -547,8 +450,9 @@
                                 <div class="call-me-back">
                                     <ul class="row">
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
-                                            <a class="add-to-favorite" data-id="{{ $tour->id }}">
-                                                <i class="fa fa-heart "></i> Thêm vào yêu thích
+                                            <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}"
+                                                id="btnIconMouseScroll" title="Đặt tour" class="icon-mouse-scroll">
+                                                <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
                                             </a>
                                         </li>
                                         <li class="col-md-6 col-sm-6 col-xs-6 col-100">
@@ -561,7 +465,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="row" id="book-tour-now">
                         <div class="col-xs-12 col-sm-12 col-md-7 details-pro">
                             <div class="form-product">
@@ -653,40 +557,108 @@
                                                 <strong class="col-md-4 col-sm-3"></strong>
                                             </div>
                                             <script>
+                                                $(document).ready(function() {
+                                                    var length = 3;
+                                            
+                                                    // Lấy ngày từ server
+                                                    var startDate = new Date("{{ $tour->start_date }}"); // Ngày bắt đầu từ server
+                                                    var dateToday = new Date(); // Ngày hôm nay
+                                            
+                                                    // Đặt focus vào ô đầu tiên khi tải trang
+                                                    $("#quantity-0").focus();
+                                            
+                                                    // Xử lý sự kiện khi bấm nút "submit"
+                                                    $("#submit-table").click(function(e) {
+                                                        e.preventDefault();
+                                            
+                                                        var toAdd = []; // Mảng chứa các sản phẩm cần thêm vào giỏ hàng
+                                                        for (let i = 0; i < length; i++) {
+                                                            var qty = $("#quantity-" + i).val(); // Lấy số lượng
+                                                            if (qty > 0) {
+                                                                toAdd.push({
+                                                                    variant_id: $("#variant-" + i).val(),
+                                                                    variant_date: $("#datesss").val(),
+                                                                    quantity_id: qty || 0
+                                                                });
+                                                            }
+                                                        }
+                                            
+                                                        // Hàm xử lý tuần tự gửi từng yêu cầu thêm vào giỏ hàng
+                                                        function moveAlong() {
+                                                            if (toAdd.length) {
+                                                                var request = toAdd.shift(); // Lấy phần tử đầu tiên trong mảng
+                                                                var data = {
+                                                                    "quantity": request.quantity_id,
+                                                                    "variantId": request.variant_id,
+                                                                    "properties[Ngày đi]": request.variant_date
+                                                                };
+                                            
+                                                                var params = {
+                                                                    type: 'POST',
+                                                                    url: '/cart/add.js',
+                                                                    data: data,
+                                                                    dataType: 'json',
+                                                                    success: function() {
+                                                                        moveAlong(); // Xử lý phần tử tiếp theo
+                                                                    },
+                                                                    error: function() {
+                                                                        moveAlong(); // Tiếp tục dù lỗi
+                                                                    }
+                                                                };
+                                                                $.ajax(params); // Gửi yêu cầu AJAX
+                                                            } else {
+                                                                document.location.href = 'cart.html'; // Chuyển hướng sau khi hoàn thành
+                                                            }
+                                                        }
+                                            
+                                                        moveAlong(); // Bắt đầu xử lý các yêu cầu
+                                                    });
+                                            
+                                                    // Hàm chỉ cho phép chọn các ngày lớn hơn hoặc bằng hôm nay và ngày start_date
+                                                    function DisablePastDays(date) {
+                                                        return [date >= dateToday && date >= startDate]; // Chỉ cho phép ngày hợp lệ
+                                                    }
+                                            
+                                                    // Cấu hình Datepicker
+                                                    $(".tourmaster-datepicker").datepicker({
+                                                        defaultDate: "",
+                                                        changeMonth: true,
+                                                        changeYear: true,
+                                                        numberOfMonths: 1,
+                                                        minDate: (dateToday > startDate) ? dateToday : startDate, // Lấy ngày lớn hơn trong 2 ngày
+                                                        beforeShowDay: DisablePastDays // Áp dụng logic kiểm tra ngày
+                                                    });
+                                                });
+                                            </script>
+                                            
+                                            <script>
                                                 var tourName = <?= json_encode($tour['name']) ?>;
-                                                // var startDate = <?= json_encode($tour['start_date']) ?>;
+                                                var startDate = document.getElementById('datesss').value;
+                                                
 
 
 
+                                                // Lấy tất cả các phần tử nhóm sản phẩm
+                                                const variantLists = document.querySelectorAll(".variant_list");
 
-                                          // Lấy tất cả các phần tử nhóm sản phẩm
-                                          const variantLists = document.querySelectorAll(".variant_list");
+                                                // Phần tử hiển thị tổng tiền
+                                                const totalPriceElement = document.querySelector(".totalPrice strong");
 
-                                          // Phần tử hiển thị tổng tiền
-                                          const totalPriceElement = document.querySelector(".totalPrice strong");
 
-                                                function getStartDate() {
-                                                    return document.getElementById('datepicker').value;
-                                                }
+                                                // Hàm cập nhật tổng tiền
+                                                function updateTotalPrice() {
+                                                    let totalPrice = 0;
 
-                                          // Hàm cập nhật tổng tiền
-                                          function updateTotalPrice() {
-                                              let totalPrice = 0;
-
-                                              variantLists.forEach((variantList) => {
-                                                  const quantityInput = variantList.querySelector(".qty");
-                                                  const variantPriceInput = variantList.querySelector("[name='variant_price']");
-                                                  const variantPrice = parseInt(variantPriceInput.value, 10);
-                                                  const quantity = parseInt(quantityInput.value, 10);
-                                                  totalPrice += variantPrice * quantity; // Cộng tổng tiền từ từng nhóm
-                                              });
+                                                    variantLists.forEach((variantList) => {
+                                                        const quantityInput = variantList.querySelector(".qty");
+                                                        const variantPriceInput = variantList.querySelector("[name='variant_price']");
+                                                        const variantPrice = parseInt(variantPriceInput.value, 10);
+                                                        const quantity = parseInt(quantityInput.value, 10);
+                                                        totalPrice += variantPrice * quantity; // Cộng tổng tiền từ từng nhóm
+                                                    });
 
                                                     // Hiển thị tổng tiền đã định dạng
                                                     totalPriceElement.textContent = totalPrice.toLocaleString("vi-VN") + "₫";
-
-                                                    // Lấy giá trị ngày từ input
-                                                    var startDate = getStartDate();
-                                                    console.log(startDate);
 
                                                     // Lưu thông tin vào sessionStorage
                                                     const selectedTourInfo = {
@@ -703,43 +675,43 @@
                                                         })
                                                     };
 
-                                              sessionStorage.setItem("selectedTourInfo", JSON.stringify(selectedTourInfo));
-                                          }
+                                                    sessionStorage.setItem("selectedTourInfo", JSON.stringify(selectedTourInfo));
+                                                }
 
-                                          // Gắn sự kiện cho từng nhóm
-                                          variantLists.forEach((variantList) => {
-                                              const minusButton = variantList.querySelector(".minus");
-                                              const plusButton = variantList.querySelector(".plus");
-                                              const quantityInput = variantList.querySelector(".qty");
-                                              const variantPriceInput = variantList.querySelector("[name='variant_price']");
-                                              const subtotalElement = variantList.querySelector(".subtotal");
-                                              const variantPrice = parseInt(variantPriceInput.value, 10);
+                                                // Gắn sự kiện cho từng nhóm
+                                                variantLists.forEach((variantList) => {
+                                                    const minusButton = variantList.querySelector(".minus");
+                                                    const plusButton = variantList.querySelector(".plus");
+                                                    const quantityInput = variantList.querySelector(".qty");
+                                                    const variantPriceInput = variantList.querySelector("[name='variant_price']");
+                                                    const subtotalElement = variantList.querySelector(".subtotal");
+                                                    const variantPrice = parseInt(variantPriceInput.value, 10);
 
-                                              // Hàm cập nhật tổng giá từng nhóm
-                                              function updateSubtotal(quantity) {
-                                                  const total = quantity > 0 ? variantPrice * quantity : 0; // Nếu số lượng là 0 thì tổng là 0
-                                                  subtotalElement.textContent = total.toLocaleString("vi-VN") + "₫"; // Cập nhật subtotal
-                                                  updateTotalPrice(); // Cập nhật tổng tiền
-                                              }
+                                                    // Hàm cập nhật tổng giá từng nhóm
+                                                    function updateSubtotal(quantity) {
+                                                        const total = quantity > 0 ? variantPrice * quantity : 0; // Nếu số lượng là 0 thì tổng là 0
+                                                        subtotalElement.textContent = total.toLocaleString("vi-VN") + "₫"; // Cập nhật subtotal
+                                                        updateTotalPrice(); // Cập nhật tổng tiền
+                                                    }
 
-                                              // Sự kiện khi bấm nút giảm
-                                              minusButton.addEventListener("click", () => {
-                                                  let currentQuantity = parseInt(quantityInput.value, 10);
-                                                  if (currentQuantity > 0) {
-                                                      currentQuantity -= 1;
-                                                      quantityInput.value = currentQuantity;
-                                                      updateSubtotal(currentQuantity); // Cập nhật subtotal khi giảm
-                                                  }
-                                              });
+                                                    // Sự kiện khi bấm nút giảm
+                                                    minusButton.addEventListener("click", () => {
+                                                        let currentQuantity = parseInt(quantityInput.value, 10);
+                                                        if (currentQuantity > 0) {
+                                                            currentQuantity -= 1;
+                                                            quantityInput.value = currentQuantity;
+                                                            updateSubtotal(currentQuantity); // Cập nhật subtotal khi giảm
+                                                        }
+                                                    });
 
-                                              // Sự kiện khi bấm nút tăng
-                                              plusButton.addEventListener("click", () => {
-                                                  let currentQuantity = parseInt(quantityInput.value, 10);
-                                                  currentQuantity += 1;
-                                                  quantityInput.value = currentQuantity;
-                                                  updateSubtotal(currentQuantity); // Cập nhật subtotal khi tăng
-                                              });
-                                          });
+                                                    // Sự kiện khi bấm nút tăng
+                                                    plusButton.addEventListener("click", () => {
+                                                        let currentQuantity = parseInt(quantityInput.value, 10);
+                                                        currentQuantity += 1;
+                                                        quantityInput.value = currentQuantity;
+                                                        updateSubtotal(currentQuantity); // Cập nhật subtotal khi tăng
+                                                    });
+                                                });
 
                                                 updateTotalPrice();
                                             </script>
@@ -748,26 +720,24 @@
                                     </div>
                                     <div class="row contact_btn_group">
                                         <div class="col-md-6 col-sm-7 col-xs-6 col-100">
-                                            <div class="line-item-property__field">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="fa fa-calendar"
-                                                            aria-hidden="true"></i></span>
-                                                    <input type="text" id="datepicker" placeholder="Chọn ngày"
-                                                        class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
+										<div class="line-item-property__field">
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-calendar" 
+                                                    aria-hidden="true"></i></span>
+												<input required class="required tourmaster-datepicker" id="datesss" 
+                                                name="properties[Ngày đi]" type="text"  placeholder="Chọn Ngày đi" data-date-format="dd MM yyyy" readonly="readonly" />
+											</div>
+										</div>
+									</div>
                                         <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
-                                        @if($tour['number'] > 0)
                                             <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}">
-                                                <button type="button" id="submit-table" class="pull-right btn btn-default buynow add-to-cart button nomargin">
+                                                <button type="button" id="submit-table"
+                                                    class="pull-right btn btn-default buynow add-to-cart button nomargin">
                                                     <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
                                                 </button>
                                             </a>
-                                        @else
-                                            <p class="text-danger text-center" style="font-size: 20px; font-weight: bold;">Tour tạm dừng, vui lòng quay lại sau.</p>
-                                        @endif
-                                    </div>
+
+                                        </div>
                                         <script>
                                             function handleBookingClick(event, url) {
                                                 event.preventDefault();
@@ -775,17 +745,13 @@
                                                 // Lấy giá trị số lượng người lớn và trẻ em
                                                 const adults = parseInt(document.getElementById('quantity-0').value, 10) || 0;
                                                 const children = parseInt(document.getElementById('quantity-1').value, 10) || 0;
-                                                const maxGuests = {{ $tour['number_guests'] }};
-                                                const totalGuests = adults + children;
+
                                                 // Kiểm tra số lượng
                                                 if (adults === 0 && children === 0) {
                                                     alert('Vui lòng chọn số lượng người trước khi đặt tour!');
                                                     return;
                                                 }
-                                                if (totalGuests > maxGuests) {
-    alert(`Số lượng khách không được vượt quá ${maxGuests} người!`);
-    return;
-}
+
                                                 // Lưu thông tin vào sessionStorage
                                                 sessionStorage.setItem('tourBooking', JSON.stringify({
                                                     adults: adults,
@@ -1130,118 +1096,199 @@
                     </div>
 
                     <div class="row">
-    <div class="container bootdey">
-        <div class="col-md-12 bootstrap snippets">
-            <!-- Hiển thị form bình luận nếu người dùng đã đặt tour -->
-            @if ($userHasBooked)
-                <div class="panel">
-                    <div class="panel-body">
-                        <form method="POST" action="{{ route('posts.comment', $tour->id) }}">
-                            @csrf
-                            <textarea class="form-control" name="content" rows="2" placeholder="Bạn đang nghĩ gì?" required></textarea>
-                            <div class="mar-top clearfix">
-                                <button class="btn btn-primary pull-right" type="submit">
-                                    <i class="fa fa-pencil fa-fw"></i> Gửi
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            @else
-                <!-- Hiển thị thông báo nếu chưa đặt tour -->
-                <div class="alert alert-warning">
-                    <strong>Bạn chưa đặt tour này!</strong> Vui lòng Đặt để gửi bình luận1.
-                </div>
-            @endif
+                        <div class="container bootdey">
+                            <div class="col-md-12 bootstrap snippets">
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        <textarea class="form-control" rows="2" placeholder="What are you thinking?"></textarea>
+                                        <div class="mar-top clearfix">
+                                            <button class="btn  btn-primary pull-right" type="submit"><i
+                                                    class="fa fa-pencil fa-fw"></i> Share</button>
+                                            <a class="btn btn-trans btn-icon fa fa-video-camera add-tooltip"
+                                                href="#"></a>
+                                            <a class="btn btn-trans btn-icon fa fa-camera add-tooltip" href="#"></a>
+                                            <a class="btn btn-trans btn-icon fa fa-file add-tooltip" href="#"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <div class="panel-body">
 
-            <!-- Hiển thị danh sách bình luận -->
-            @foreach ($comments as $comment)
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="media-block">
-                            <a class="media-left" href="#">
-                                <img class="img-circle img-sm" alt="Profile Picture"
-                                     src="{{ Storage::url($comment->user->avatar) }}">
-                            </a>
-                            <div class="media-body">
-                                <div class="mar-btm">
-                                    <strong class="btn-link text-semibold media-heading box-inline">
-                                        {{ $comment->user ? $comment->user->name : 'Ẩn danh' }}
-                                    </strong>
-                                    <p class="text-muted text-sm">
-                                        <i class="fa fa-clock-o"></i> {{ $comment->created_at }}
-                                    </p>
-                                </div>
-                                <p>{{ $comment->content }}</p>
-                                <div class="pad-ver">
-                                    <div class="btn-group">
-                                        <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
-                                        <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+                                        <div class="media-block">
+                                            <a class="media-left" href="#"><img class="img-circle img-sm"
+                                                    alt="Profile Picture"
+                                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
+                                            <div class="media-body">
+                                                <div class="mar-btm">
+                                                    <a href="#"
+                                                        class="btn-link text-semibold media-heading box-inline">Lisa D.</a>
+                                                    <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> -
+                                                        From Mobile - 11 min ago</p>
+                                                </div>
+                                                <p>consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+                                                    laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim
+                                                    veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+                                                    aliquip ex ea commodo consequat.</p>
+                                                <div class="pad-ver">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-sm btn-default btn-hover-success"
+                                                            href="#"><i class="fa fa-thumbs-up"></i></a>
+                                                        <a class="btn btn-sm btn-default btn-hover-danger"
+                                                            href="#"><i class="fa fa-thumbs-down"></i></a>
+                                                    </div>
+                                                    <a class="btn btn-sm btn-default btn-hover-primary"
+                                                        href="#">Comment</a>
+                                                </div>
+                                                <hr>
+
+
+                                                <div>
+                                                    <div class="media-block">
+                                                        <a class="media-left" href="#"><img
+                                                                class="img-circle img-sm" alt="Profile Picture"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar2.png"></a>
+                                                        <div class="media-body">
+                                                            <div class="mar-btm">
+                                                                <a href="#"
+                                                                    class="btn-link text-semibold media-heading box-inline">Bobby
+                                                                    Marz</a>
+                                                                <p class="text-muted text-sm"><i
+                                                                        class="fa fa-mobile fa-lg"></i> - From Mobile - 7
+                                                                    min ago</p>
+                                                            </div>
+                                                            <p>Sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                                                                magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                                                                quis nostrud exerci tation ullamcorper suscipit lobortis
+                                                                nisl ut aliquip ex ea commodo consequat.</p>
+                                                            <div class="pad-ver">
+                                                                <div class="btn-group">
+                                                                    <a class="btn btn-sm btn-default btn-hover-success active"
+                                                                        href="#"><i class="fa fa-thumbs-up"></i> You
+                                                                        Like it</a>
+                                                                    <a class="btn btn-sm btn-default btn-hover-danger"
+                                                                        href="#"><i
+                                                                            class="fa fa-thumbs-down"></i></a>
+                                                                </div>
+                                                                <a class="btn btn-sm btn-default btn-hover-primary"
+                                                                    href="#">Comment</a>
+                                                            </div>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="media-block">
+                                                        <a class="media-left" href="#"><img
+                                                                class="img-circle img-sm" alt="Profile Picture"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar3.png">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <div class="mar-btm">
+                                                                <a href="#"
+                                                                    class="btn-link text-semibold media-heading box-inline">Lucy
+                                                                    Moon</a>
+                                                                <p class="text-muted text-sm"><i
+                                                                        class="fa fa-globe fa-lg"></i> - From Web - 2 min
+                                                                    ago</p>
+                                                            </div>
+                                                            <p>Duis autem vel eum iriure dolor in hendrerit in vulputate ?
+                                                            </p>
+                                                            <div class="pad-ver">
+                                                                <div class="btn-group">
+                                                                    <a class="btn btn-sm btn-default btn-hover-success"
+                                                                        href="#"><i class="fa fa-thumbs-up"></i></a>
+                                                                    <a class="btn btn-sm btn-default btn-hover-danger"
+                                                                        href="#"><i
+                                                                            class="fa fa-thumbs-down"></i></a>
+                                                                </div>
+                                                                <a class="btn btn-sm btn-default btn-hover-primary"
+                                                                    href="#">Comment</a>
+                                                            </div>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="media-block pad-all">
+                                            <a class="media-left" href="#"><img class="img-circle img-sm"
+                                                    alt="Profile Picture"
+                                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
+                                            <div class="media-body">
+                                                <div class="mar-btm">
+                                                    <a href="#"
+                                                        class="btn-link text-semibold media-heading box-inline">John
+                                                        Doe</a>
+                                                    <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> -
+                                                        From Mobile - 11 min ago</p>
+                                                </div>
+                                                <p>Lorem ipsum dolor sit amet.</p>
+                                                <img class="img-responsive thumbnail"
+                                                    src="https://www.bootdey.com/image/400x300" alt="Image">
+                                                <div class="pad-ver">
+                                                    <span class="tag tag-sm"><i class="fa fa-heart text-danger"></i> 250
+                                                        Likes</span>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-sm btn-default btn-hover-success"
+                                                            href="#"><i class="fa fa-thumbs-up"></i></a>
+                                                        <a class="btn btn-sm btn-default btn-hover-danger"
+                                                            href="#"><i class="fa fa-thumbs-down"></i></a>
+                                                    </div>
+                                                    <a class="btn btn-sm btn-default btn-hover-primary"
+                                                        href="#">Comment</a>
+                                                </div>
+                                                <hr>
+
+                                                <!-- Comments -->
+                                                <div>
+                                                    <div class="media-block pad-all">
+                                                        <a class="media-left" href="#"><img
+                                                                class="img-circle img-sm" alt="Profile Picture"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar2.png"></a>
+                                                        <div class="media-body">
+                                                            <div class="mar-btm">
+                                                                <a href="#"
+                                                                    class="btn-link text-semibold media-heading box-inline">Maria
+                                                                    Leanz</a>
+                                                                <p class="text-muted text-sm"><i
+                                                                        class="fa fa-globe fa-lg"></i> - From Web - 2 min
+                                                                    ago</p>
+                                                            </div>
+                                                            <p>Duis autem vel eum iriure dolor in hendrerit in vulputate ?
+                                                            </p>
+                                                            <div>
+                                                                <div class="btn-group">
+                                                                    <a class="btn btn-sm btn-default btn-hover-success"
+                                                                        href="#"><i class="fa fa-thumbs-up"></i></a>
+                                                                    <a class="btn btn-sm btn-default btn-hover-danger"
+                                                                        href="#"><i
+                                                                            class="fa fa-thumbs-down"></i></a>
+                                                                </div>
+                                                                <a class="btn btn-sm btn-default btn-hover-primary"
+                                                                    href="#">Comment</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <!-- Nút Trả lời -->
-                                    @if ($userHasBooked)
-                                        <button class="btn btn-sm btn-default btn-hover-primary" onclick="toggleReplyForm({{ $comment->id }})">Trả lời</button>
-                                    @else
-                                        <span class="text-muted">Chỉ người đã đặt tour mới có thể trả lời.</span>
-                                    @endif
                                 </div>
-                                <hr>
-                                <!-- Hiển thị bình luận con -->
-                                @if ($comment->children->count())
-                                    @include('client.tour.comment', ['comments' => $comment->children])
-                                @endif
-                                <!-- Form trả lời bình luận -->
-                                @if ($userHasBooked)
-                                    <div id="reply-form-{{ $comment->id }}" class="mt-3" style="display: none;">
-                                        <form method="POST" action="{{ route('posts.comment', $tour->id) }}">
-                                            @csrf
-                                            <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-                                            <textarea class="form-control" name="content" rows="2" placeholder="Trả lời bình luận này" required></textarea>
-                                            <button class="btn btn-primary btn-sm mt-2" type="submit">Gửi trả lời</button>
-                                        </form>
-                                    </div>
-                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
-            @endforeach
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-                </div>
             </div>
         </div>
     </section>
+
 @endsection
 @section('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="{{asset('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/datepicker.min6d1d.js')}}" type="text/javascript"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-    // Hàm xử lý hiển thị hoặc ẩn form trả lời
-    window.toggleReplyForm = function (commentId) {
-        const replyForm = document.getElementById(`reply-form-${commentId}`);
-        if (replyForm) {
-            const isHidden = replyForm.style.display === 'none' || replyForm.style.display === '';
-            replyForm.style.display = isHidden ? 'block' : 'none';
-        }
-    };
-});
-</script>
     <script>
         $(document).ready(function() {
             var sync1 = $("#sync1");
@@ -1303,28 +1350,6 @@
                     });
                 }
             }
-        });
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var startDateTour = <?= json_encode($tour['start_date']) ?>;
-            var endDateTour = <?= json_encode($tour['end_date']) ?>;
-            flatpickr("#datepicker", {
-                dateFormat: "Y-m-d", // Định dạng ngày (ví dụ: 29 Nov 2024)
-                startDate: '0d',// Chỉ cho phép chọn từ hôm nay trở đi
-                maxDate: endDateTour,// ngày kết thúc chọn
-                minDate: startDateTour, //ngày tour bắt đầu hoạt động
-                defaultDate: "today", // Mặc định là ngày hôm nay
-                locale: "vn", // Cài đặt ngôn ngữ tiếng Việt (nếu có)
-                onChange: function(selectedDates, dateStr, instance) {
-                    console.log("Ngày đã chọn:", dateStr); // Hiển thị ngày đã chọn
-                    // Cập nhật lại giá trị startDate hoặc xử lý khác nếu cần
-                    startDate = dateStr; // Cập nhật giá trị startDate
-                    updateTotalPrice(); // Cập nhật tổng tiền nếu cần
-                }
-            });
-
         });
     </script>
 @endsection

@@ -14,7 +14,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $listComments = Comment::query()->where('deleted_at', '=', 0)->get();
+
+        $listComments = Comment::query()->where('deleted_at', '=', null)->get();
         return view('admin.comment.index', compact('listComments'));
     }
 
@@ -63,17 +64,22 @@ class CommentController extends Controller
      */
     public function destroy(string $id)
     {
-        // try {
-        $comment = Comment::getSingle($id);
-        $comment->delete_at = 1;
-        $comment->save();
-        return redirect()->route('comment.index')->with('success', 'Xóa bình luận thành công!');
-        // } catch (\Exception $e) {
-        //     Log::error('Lỗi khi xóa ' . $e->getMessage());
+        try {
+            $comment = Comment::findOrFail($id);
 
-        //     return response()->view('admin.errors.404', [], 404);
-        // }
+            $comment->deleted_at = now();
+            $comment->save();
+
+            return redirect()->route('comment.index')->with('success', 'Xóa bình luận thành công!');
+        } catch (\Exception $e) {
+            Log::error('Lỗi khi xóa ' . $e->getMessage());
+
+            return response()->view('admin.errors.404', [], 404);
+        }
     }
+
+
+
 
     public function commentStatus(Request $request, $id)
     {

@@ -7,6 +7,7 @@ use App\Models\Admins\Categorys;
 use App\Models\Admins\Location;
 use App\Models\Admins\Tour;
 use App\Models\BookTour;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class TourController extends Controller
@@ -77,5 +78,17 @@ class TourController extends Controller
 
         return view('client.tour.detail', $data);
     }
-    
+
+
+    public function showTour()
+    {
+        return view('client.tour.detail1');
+    }
+
+    public function tour($slug)
+    {
+        $category = Category::with('tours')->where('slug', $slug)->firstOrFail();
+      
+        return view('client.pages.tour', compact('category'));
+    }
 }

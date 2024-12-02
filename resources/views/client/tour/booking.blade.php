@@ -27,23 +27,24 @@
                             <div class="form-group">
                                 <label for="name">Họ và Tên</label>
                                 <input type="text" id="name" name="name" placeholder="Nhập tên của bạn"
-                                    value="{{ old('name') }}">
+                                    value="{{ auth()->check() ? auth()->user()->name : old('name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" id="email" name="email" placeholder="Nhập email của bạn"
-                                    value="{{ old('email') }}">
+                                    value="{{ auth()->check() ? auth()->user()->email : old('email') }}">
                             </div>
                             <div class="form-group">
                                 <label for="phone">Số điện thoại</label>
                                 <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại"
-                                    value="{{ old('phone') }}">
+                                    value="{{ auth()->check() ? auth()->user()->phone : old('phone') }}">
                             </div>
                             <div class="form-group">
                                 <label for="address">Địa chỉ</label>
                                 <input type="text" id="address" name="address" placeholder="Nhập địa chỉ của bạn"
-                                    value="{{ old('address') }}" />
+                                    value="{{ auth()->check() ? auth()->user()->address : old('address') }}">
                             </div>
+                            
                             <div class="form-group">
                                 <label for="total">Tổng tiền:</label>
                                 <p style="color: blue; font-weight: bolder" id="total-price-display">0₫</p>
@@ -76,7 +77,7 @@
                             <div class="tour-details">
                                 <p><strong>Tour:</strong> <span id="selected-tour"></span></p>
                                 <div class="highlight-info">
-                                    <p><strong>Ngày khởi hành:</strong> <span id="selected-date">2024-12-01</span></p>
+                                    <p><strong>Ngày khởi hành:</strong> <span id="selected-date"></span></p>
                                     <p><strong>Số lượng:</strong> <span id="selected-quantity"></span></p>
                                 </div>
                                 <p><strong>Giá vé:</strong> <span id="selected-price">1,500,000 VND</span></p>
@@ -101,7 +102,8 @@
     
                 document.getElementById('selected-quantity').textContent =
                     `${adults} Người lớn, ${children} Trẻ em`;
-    
+                console.log(bookingInfo.startDate);
+                
                 // Hiển thị thông tin trong giao diện
                 document.getElementById('selected-tour').textContent = bookingInfo.tourName || 'Chưa xác định';
                 document.getElementById('selected-date').textContent = bookingInfo.startDate || 'Chưa xác định';

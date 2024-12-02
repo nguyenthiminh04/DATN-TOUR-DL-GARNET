@@ -128,10 +128,13 @@ Route::group([], function () {
 
 
     Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
+    Route::get('/tour/{slug}', [ClientTourController::class, 'tour'])->name('tour.category');
 
     Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index');
     Route::post('/favorite', [FavoriteController::class, 'addToFavorite'])->name('favorite.add');
     Route::delete('/favorite/{id}', [FavoriteController::class, 'removeFavorite'])->name('favorite.delete');
+
+    Route::get('/test', [ClientTourController::class, 'showTour'])->name('test.showTour');
 });
 
 
@@ -140,30 +143,27 @@ Route::group([], function () {
 
 // admin routes
 Route::group(['prefix' => 'admin'], function () {
-    
+
     Route::get('login',                     [AuthController::class, 'login'])->name('login');
     Route::post('authLogin',                [AuthController::class, 'authLogin'])->name('authLogin');
     Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
-    Route::group(['middleware' => 'admin'], function(){
-        Route::get('/home', [StatisticalController::class,'index'])->name('home-admin');
+    Route::group(['middleware' => 'admin'], function () {
+        Route::get('/home', [StatisticalController::class, 'index'])->name('home-admin');
+        Route::resource('user', UserController::class);
+        Route::resource('dontour', BookTourController::class);
+        Route::resource('faqs', FaqController::class);
+        Route::resource('notifications', NotificationController::class);
+        Route::resource('category_tour', Categoty_tour::class);
+        Route::resource('trangthaitour', PayController::class);
+        Route::resource('tour', TourController::class);
+        Route::resource('coupons', CouponsController::class);
+        Route::resource('location', LocationController::class);
+        Route::resource('category', CategoryController::class);
+        Route::resource('comments', CommentController::class);
+        Route::get('comment',                           [CommentController::class, 'index'])->name('comment.index');
+        Route::get('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
+        Route::post('comment/status/{id}',              [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
     });
-
-
-    Route::resource('user', UserController::class);
-    Route::resource('dontour', BookTourController::class);
-    Route::resource('faqs', FaqController::class);
-    Route::resource('notifications', NotificationController::class);
-    Route::resource('category_tour', Categoty_tour::class);
-    Route::resource('trangthaitour', PayController::class);
-    Route::resource('tour', TourController::class);
-    Route::resource('coupons', CouponsController::class);
-    Route::resource('location', LocationController::class);
-    Route::resource('category', CategoryController::class);
-
-    Route::get('binh-luan',                         [CommentController::class, 'index'])->name('comment.index');
-    Route::get('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
-    Route::post('comment/status/{id}',              [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
-
 });
 
 

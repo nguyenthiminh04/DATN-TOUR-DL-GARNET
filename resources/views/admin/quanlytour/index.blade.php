@@ -77,6 +77,7 @@
                                             <th>Tài Khoản Đặt Tour</th>
                                             <th>Thông Tin Tour</th>
                                             <th>Người Đặt Tour</th>
+                                            <th>Trạng Thái Thanh Toán</th>
                                             <th>Trạng Thái Tour</th>
 
                                             <th>Hành Động</th>
@@ -93,6 +94,8 @@
                                             <td>{{ $item->booking->user->name }}</td>
                                             <td>{{ $item->booking->tour->name }}</td>
                                             <td>{{ $item->booking->name }}</td>
+                                            <td class="{{ $item->payment_status_id == 1 ? 'text-danger' : 'text-success' }}">
+                                                {{ $item->payment_status_id == 1 ? 'Chưa Thanh Toán' : 'Đã Thanh Toán' }}</td>
                                             {{-- <td>{{ $item->name }}</td> --}}
                                            
                                             {{-- <td>{{ $item->name }}</td> --}}
@@ -218,6 +221,19 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
     <script>
+        function confirmSubmit(selectElement){
+            console.log("Hàm confirmSubmit đã được gọi!"); // Dòng này kiểm tra sự kiện onchange
+            var form = selectElement.form;
+            var selectedOption = selectElement.options[selectElement.selectedIndex].text;
+            var defaultValue = selectElement.getAttribute('data-default-value');
+            if(confirm('Bạn có chắc chắn thay đổi trạng thái đơn hàng"'+ selectedOption +'"không?')){
+                form.submit();
+            }else{
+                selectElement.value = defaultValue;
+            }
+        }
+           </script>
+    <script>
         $('#example').DataTable({
             language: {
                 "sEmptyTable": "Không có dữ liệu trong bảng",
@@ -256,7 +272,7 @@
                 $('#status-error').text('');
 
                 $.ajax({
-                    url: "{{ route('coupons.store') }}", // URL action của form
+                    url: "{{ route('trangthaitour.store') }}", // URL action của form
                     type: 'POST',
                     data: $(this).serialize(), // Lấy dữ liệu từ form và bao gồm CSRF token
                     success: function(response) {
@@ -298,10 +314,13 @@
     </script>
      <script>
         function confirmSubmit(selectElement){
+
+            console.log("Hàm confirmSubmit đã được gọi!"); // Dòng này kiểm tra sự kiện onchange
+
             var form = selectElement.form;
             var selectedOption = selectElement.options[selectElement.selectedIndex].text;
             var defaultValue = selectElement.getAttribute('data-default-value');
-            if(confirm('Bạn có chắc chắn thay đổi trangj thái đơn hàng"'+ selectedOption +'"không?')){
+            if(confirm('Bạn có chắc chắn thay đổi trạng thái đơn hàng"'+ selectedOption +'"không?')){
                 form.submit();
             }else{
                 selectElement.value = defaultValue;

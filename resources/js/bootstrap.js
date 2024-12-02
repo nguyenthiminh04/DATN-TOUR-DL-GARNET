@@ -30,3 +30,16 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+import Echo from 'laravel-echo';
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'local', // Đảm bảo trùng với PUSHER_APP_KEY trong .env
+    cluster: 'mt1', // Trùng với PUSHER_APP_CLUSTER trong .env
+    wsHost: window.location.hostname, // Địa chỉ máy chủ WebSocket
+    wsPort: 6001, // Cổng WebSocket
+    forceTLS: false, // Không sử dụng HTTPS
+    disableStats: true,
+});
+    

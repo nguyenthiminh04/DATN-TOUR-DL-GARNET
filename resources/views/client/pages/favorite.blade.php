@@ -15,8 +15,8 @@
                                         </h1>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    @if ($favorite_tours->isEmpty())
+                                @if ($favorite_tours->isEmpty())
+                                    <div class="row">
                                         <div class="col-md-6 col-md-offset-3">
                                             <div class="cart-empty">
                                                 <img src="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/empty-bags6d1d.jpg?1705894518705') }}"
@@ -29,7 +29,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @else
+                                    </div>
+                                @else
+                                    <div class="row">
                                         <table class="table">
                                             <thead>
                                                 <tr class="text-center">
@@ -65,8 +67,9 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
-                                    @endif
-                                </div>
+                                    </div>
+                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -108,6 +111,14 @@
                                 // Nếu không còn tour nào, hiển thị thông báo trống
                                 if (count === 0) {
                                     $('.shopping-cart-table').html(`
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 class="lbl-shopping-cart lbl-shopping-cart-gio-hang">Danh sách yêu thích
+                                                <span>(<span class="count_item_pr">0</span>
+                                                    tour)</span>
+                                            </h1>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6 col-md-offset-3">
                                         <div class="cart-empty">
                                             <img src="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/empty-bags6d1d.jpg?1705894518705') }}" class="img-responsive center-block" alt="Giỏ hàng trống" />
