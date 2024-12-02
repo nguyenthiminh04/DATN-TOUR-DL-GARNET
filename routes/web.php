@@ -179,6 +179,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('faqs', FaqController::class);
         Route::resource('notifications', NotificationController::class);
         Route::resource('category_tour', Categoty_tour::class);
+        Route::post('/trangthaitour/{id}/thanh-toan', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
+
         Route::resource('trangthaitour', PayController::class);
         Route::resource('tour', TourController::class);
         Route::resource('coupons', CouponsController::class);
