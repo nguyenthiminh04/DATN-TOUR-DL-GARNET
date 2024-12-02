@@ -126,7 +126,114 @@
     </script>
 
     <script src="client/ant-du-lich.mysapo.net/dist/js/stats.minbadf.js"></script>
+    <style>
+        .notification-container {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            z-index: 1000;
+        }
 
+        .notification-toggle {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notification-toggle:hover {
+            background-color: #0056b3;
+        }
+
+        .notification-popup {
+            display: none;
+            position: absolute;
+            top: 310px;
+            right: 20px;
+            width: 350px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .notification-header {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .notification-body {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        /* .notification-item {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #f1f1f1;
+    transition: background 0.3s ease;
+} */
+
+        .notification-item:hover {
+            background: #f9f9f9;
+        }
+
+        .notification-icon img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .notification-content .title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .notification-footer {
+            padding: 10px;
+            background: #f1f1f1;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hiệu ứng hiển thị */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -378,17 +485,20 @@
                                                 <div class="ulimg"><img
                                                         src="https://img.icons8.com/?size=100&id=62290&format=png&color=000000"
                                                         alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành:
-                                               Từ Ngày  <b>{{ $item->start_date }}</b> Đến Ngày  <b>{{ $item->end_date }}</b>
+                                                Từ Ngày <b>{{ $item->start_date }}</b> Đến Ngày
+                                                <b>{{ $item->end_date }}</b>
                                             </li>
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
                                                         src="https://img.icons8.com/?size=100&id=uqeIigsBdHt9&format=png&color=000000"
-                                                        alt="6 ngày 5 đêm" /></div> Thời gian: <b>{{ $item->schedule }}</b>
+                                                        alt="6 ngày 5 đêm" /></div> Thời gian:
+                                                <b>{{ $item->schedule }}</b>
                                             </li>
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
                                                         src="https://img.icons8.com/?size=100&id=102656&format=png&color=000000"
-                                                        alt="6 ngày 5 đêm" /></div> Số chỗ còn trống :  <b>{{ $item->number }}</b> Chỗ
+                                                        alt="6 ngày 5 đêm" /></div> Số chỗ còn trống :
+                                                <b>{{ $item->number }}</b> Chỗ
                                             </li>
                                         </ul>
                                     </div>
@@ -495,7 +605,7 @@
                                                                             alt="6 ngày 5 đêm" /></div> Thời gian:
                                                                     {{ $tour->schedule }}
                                                                 </li>
-                                                                
+
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -900,7 +1010,7 @@
                                     <div class="tourmaster-tour-category-head">
                                         <div class="tourmaster-tour-category-head-display clearfix">
                                             <h3 class="tourmaster-tour-category-title"><i
-                                                    class="fa fa-map-marker color-x"></i>{{$item->name}}</h3>
+                                                    class="fa fa-map-marker color-x"></i>{{ $item->name }}</h3>
                                         </div>
                                         <div class="tourmaster-tour-category-head-animate">
                                             <a class="tourmaster-tour-category-head-link"
@@ -2694,6 +2804,32 @@
             });
         });
     </script>
+
+    {{-- popup thông báo --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notificationIcon = document.getElementById('showNotifications');
+            const notificationPopup = document.getElementById('notificationPopup');
+
+
+
+            // Hiển thị popup khi click
+            notificationIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                notificationPopup.style.display =
+                    notificationPopup.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Ẩn popup khi click ra ngoài
+            window.addEventListener('click', function(e) {
+                if (!notificationIcon.contains(e.target) && !notificationPopup.contains(e.target)) {
+                    notificationPopup.style.display = 'none';
+                }
+            });
+        });
+    </script>
+   
+    
 </body>
 
 </html>

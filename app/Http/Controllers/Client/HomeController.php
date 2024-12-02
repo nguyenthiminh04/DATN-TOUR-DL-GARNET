@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admins\Categorys;
 use App\Models\Admins\Categoty_tour;
 use App\Models\Comment;
+use App\Models\Notification;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -27,7 +28,21 @@ class HomeController extends Controller
             ->take(5)
             ->get();
 
-        return view('client.home', compact('Tourmoinhat', 'locations', 'categories', 'categoryes'));
+
+        // thông báo
+
+        $user = auth()->user();
+
+    // Lấy tất cả thông báo dành cho tất cả người dùng
+    $allUserNotifications = Notification::where('all_user', 1)->get();
+
+    // Lấy thông báo dành riêng cho người dùng
+    $userNotifications = $user->notifications()->get();
+
+    // Hợp nhất các thông báo
+    $notifications = $allUserNotifications->merge($userNotifications);
+
+        return view('client.home', compact('Tourmoinhat', 'locations', 'categories', 'categoryes', 'notifications'));
     }
     public function show($id)
     {
@@ -46,11 +61,11 @@ class HomeController extends Controller
     {
         // Tìm tour theo ID, nếu không tìm thấy thì trả về 404
         $tour = Tour::findOrFail($id);
-    // Tăng trường view
-    $tour->increment('view'); // Tăng giá trị của cột 'view' lên 1
+        // Tăng trường view
+        $tour->increment('view'); // Tăng giá trị của cột 'view' lên 1
         // Kiểm tra xem người dùng hiện tại đã đặt tour này chưa (nếu đã đăng nhập)
         $userHasBooked = false;
-    
+
         if (auth()->check()) {
             $userId = auth()->id();
             $userHasBooked = DB::table('book_tour')
@@ -58,7 +73,7 @@ class HomeController extends Controller
                 ->where('user_id', $userId)
                 ->exists();
         }
-    
+
         // Chuẩn bị dữ liệu cho view
         $data = [
             'tour' => $tour,
@@ -72,11 +87,11 @@ class HomeController extends Controller
                 ->get(),
             'userHasBooked' => $userHasBooked, // Truyền trạng thái đặt tour
         ];
-    
+
         // Trả về view cùng dữ liệu
         return view('client.tour.detail', $data);
     }
-    
+
     public function storeComment(Request $request, $id)
     {
         $tour = Tour::findOrFail($id);

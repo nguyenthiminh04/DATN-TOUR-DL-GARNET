@@ -55,6 +55,7 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->belongsToMany(Notification::class, 'notification_user');
+                    
     }
 
     public function favorites()
