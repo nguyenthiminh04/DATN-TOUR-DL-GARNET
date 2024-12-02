@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'comment';
     protected $fillable = ['tour_id', 'user_id', 'parent_id', 'anonymous_name', 'content'];
     use SoftDeletes;  // Thêm trait SoftDeletes

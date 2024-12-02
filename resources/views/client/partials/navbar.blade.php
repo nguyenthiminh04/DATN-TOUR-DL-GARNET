@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <ul id="nav" class="nav container">
+                <ul id="nav" class="nav navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Trang chủ</a></li>
                     @foreach ($categoryes as $category)
                         <li class="nav-item {{ $category->children->isNotEmpty() ? 'has-mega' : '' }}">
@@ -56,8 +56,35 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('favorite.index') }}">Yêu
                             Thích</a></li>
                 </ul>
-
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" class="notification-icon" id="showNotifications">
+                            <i class="fa fa-bell"></i> Thông báo
+                            <span class="badge badge-danger">{{ $notifications->where('is_read', false)->count() }}</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </nav>
+<!-- Modal hiển thị thông báo -->
+<div class="notification-popup" id="notificationPopup">
+    <div class="notification-header">
+        <h4>Thông Báo Mới Nhận</h4>
+    </div>
+    <div class="notification-body">
+        <!-- Hiển thị các thông báo -->
+        @foreach ($notifications as $notification)
+            <div class="notification-item">
+                <div class="notification-content">
+                    <p class="title">{{ $notification->title }}</p>
+                    <p class="description">--{{ $notification->content }}</p>
+                </div>
+            </div>
+        @endforeach
+    </div>
+    {{-- <div class="notification-footer text-center">
+        <a href="#" class="btn btn-primary">Xem tất cả</a>
+    </div> --}}
+</div>

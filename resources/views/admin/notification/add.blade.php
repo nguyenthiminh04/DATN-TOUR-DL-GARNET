@@ -23,8 +23,16 @@
                 @csrf
 
                 <div class="mb-3">
-                    <label for="content" class="form-label">Nội dung thông báo<span class="text-danger">*</span></label>
-                    <input type="text" id="content" name="content" class="form-control" placeholder="Nhập thông báo"
+                    <label for="title" class="form-label">Tiêu đề thông báo<span class="text-danger">*</span></label>
+                    <input type="text" id="title" name="title" class="form-control" placeholder="Nhập tiêu đề thông báo"
+                        value="{{ old('title') }}">
+                    @error('title')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label">Nội dung thông báo</label>
+                    <input type="text" id="content" name="content" class="form-control" placeholder="Nhập nội dung thông báo"
                         value="{{ old('content') }}">
                     @error('content')
                         <span class="text-danger">{{ $message }}</span>
@@ -32,12 +40,32 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="status1" class="form-label">Trạng thái<span class="text-danger">*</span></label>
-                    <select name="status" class="form-select" id="status1">
-                        <option value="1">Hiển thị</option>
-                        <option value="0">Ẩn</option>
+                    <label for="all_user" class="form-label">Cấu hình thông báo<span class="text-danger">*</span></label>
+                    <select name="all_user" class="form-select" id="all_user">
+                        <option value="1" {{ old('all_user') == 1 ? 'selected' : '' }}>Tới tất cả người dùng</option>
+                        <option value="0" {{ old('all_user') == 0 ? 'selected' : '' }}>Tùy chọn</option>
                     </select>
-                    @error('status')
+                    @error('all_user')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="type" class="form-label">Loại thông báo</label>
+                    <input type="text" id="type" name="type" class="form-control" placeholder="Nhập loại thông báo. VD: voucher, tour, alert, system"
+                        value="{{ old('type') }}">
+                    @error('type')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="is_active" class="form-label">Trạng thái<span class="text-danger">*</span></label>
+                    <select name="is_active" class="form-select" id="is_active">
+                        <option value="1" {{ old('is_active') == 1 ? 'selected' : '' }}>Hiển thị</option>
+                        <option value="0" {{ old('is_active') == 0 ? 'selected' : '' }}>Ẩn</option>
+                    </select>
+                    @error('is_active')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>

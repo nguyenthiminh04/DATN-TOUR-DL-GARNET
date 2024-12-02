@@ -154,6 +154,14 @@
                                 <a href="{{ route('notifications.create') }}" class="nav-link">
                                     Thêm mới thông báo</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('notification-user.create') }}" class="nav-link">
+                                    Gán thông báo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('notification-user.index') }}" class="nav-link">
+                                    Thông báo đã gán</a>
+                            </li>
 
                         </ul>
                     </div>

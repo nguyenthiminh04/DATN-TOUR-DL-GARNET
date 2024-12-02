@@ -31,28 +31,26 @@
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
                         {{-- nút thêm faq --}}
-                        <a href="{{ route('notifications.create') }}" class="btn btn-secondary col-2"><i
-                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm thông báo</a>
+                        <a href="{{ route('notification-user.create') }}" class="btn btn-secondary col-2"><i
+                                class="bi bi-plus-circle align-baseline me-1"></i> Gán thông báo</a>
                         {{-- end nút thêm faq --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
-                                <table id="notification" class="table table-striped" style="width:100%">
+                                <table id="notification_user" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
 
                                             <th>ID</th>
-                                            
-                                            <th>Tên thông báo</th>
 
-                                            <th>Nội dung</th>
+                                            <th>Tiêu đề thông báo</th>
 
-                                            <th>Tới tất cả người dùng</th>
+                                            <th>Người nhận</th>
 
                                             <th>Loại thông báo</th>
 
-                                            <th>Trạng thái</th>
+                                            <th>Trạng thái đọc</th>
 
-                                            <th>Ngày tạo</th>
+                                            <th>Ngày gán</th>
 
                                             <th>Ngày cập nhật</th>
 
@@ -86,12 +84,13 @@
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script>
         $(document).ready(function() {
-            // khởi tạo tabe
-            let table = $('#notification').DataTable({
+            // khởi tạo table
+            var route = "{{ route('notification-user.index') }}"
+            let table = $('#notification_user').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '{{ route('notifications.index') }}', // Cập nhật với URL đúng
+                    url: route, // Cập nhật với URL đúng
                     type: 'GET'
                 },
                 columns: [{
@@ -99,27 +98,21 @@
                         name: 'id'
                     },
                     {
-                        data: 'title',
-                        name: 'title'
-                    },
+                        data: 'notification.title',
+                        name: 'notification.title'
+                    }, // Lấy tiêu đề thông báo từ quan hệ notification
                     {
-                        data: 'content',
-                        name: 'content'
-                    },
+                        data: 'user.name',
+                        name: 'user.name'
+                    }, // Lấy tên người nhận từ quan hệ user
                     {
-                        data: 'all_user',
-                        name: 'all_user'
-                    },
+                        data: 'notification.type',
+                        name: 'notification.type'
+                    }, // Lấy loại thông báo từ quan hệ notification
                     {
-                        data: 'type',
-                        name: 'type'
-                    },
-                    {
-                        data: 'is_active',
-                        name: 'is_active',
-                        orderable: true,
-                        searchable: true
-                    },
+                        data: 'is_read',
+                        name: 'is_read'
+                    }, // Hiển thị trạng thái đã đọc
                     {
                         data: 'created_at',
                         name: 'created_at',
@@ -127,7 +120,7 @@
                             return moment(data).format(
                                 'YYYY-MM-DD HH:mm:ss'); // Chuyển đổi định dạng ngày tháng
                         }
-                    },
+                    }, // Ngày gán
                     {
                         data: 'updated_at',
                         name: 'updated_at',
@@ -135,12 +128,12 @@
                             return moment(data).format(
                                 'YYYY-MM-DD HH:mm:ss'); // Chuyển đổi định dạng ngày tháng
                         }
-                    },
+                    }, // Ngày cập nhật
                     {
                         data: 'action',
                         name: 'action',
-                        orderable: false,
-                    },
+                        orderable: false
+                    } // Các hành động như Xóa
                 ],
                 order: [
                     [0, 'desc']
@@ -170,7 +163,7 @@
 
             // xóa faq
 
-            $('#notification').on('click', '#deleteItem', function() {
+            $('#notification_user').on('click', '#deleteItem', function() {
                 let id = $(this).data('id');
                 Swal.fire({
                     title: 'Bạn có chắc muốn xóa?',

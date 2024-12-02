@@ -16,8 +16,16 @@ class NotificationController extends Controller
         if (request()->ajax()) {
             
             return DataTables()->of(Notification::select('*'))
-                ->addColumn('status', function ($notification) {
-                    if($notification->status == 1){
+                ->addColumn('all_user', function ($notification) {
+                    if($notification->all_user == 1){
+                        return '<span class="text-success">Có</span>';
+                    }else{
+                        return '<span class="text-danger">Không</span>';
+                    }
+                    
+                })
+                ->addColumn('is_active', function ($notification) {
+                    if($notification->is_active == 1){
                         return '<span class="text-success">Hiển thị</span>';
                     }else{
                         return '<span class="text-danger">Ẩn</span>';
@@ -31,7 +39,7 @@ class NotificationController extends Controller
                         <a href="#deleteRecordModal" id="deleteItem" data-bs-toggle="modal" data-id="' . $notification->id . '" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
                     ';
                 })
-                ->rawColumns(['status', 'action']) // Cho phép HTML hiển thị trong các cột này
+                ->rawColumns(['all_user','is_active', 'action']) // Cho phép HTML hiển thị trong các cột này
                 ->make(true);
         }
 
@@ -54,8 +62,11 @@ class NotificationController extends Controller
     {
         
         $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
             'content' => 'required|string|max:255',
-            'status' => 'required|boolean',
+            'all_user' => 'required|in:0,1',
+            'type' => 'nullable|string|max:255',
+            'is_active' => 'required|in:0,1',
         ]);
 
         // dd($request);
@@ -93,8 +104,11 @@ class NotificationController extends Controller
     public function update(Request $request, Notification $notification)
     {
         $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
             'content' => 'required|string|max:255',
-            'status' => 'required|boolean',
+            'all_user' => 'required|in:0,1',
+            'type' => 'nullable|string|max:255',
+            'is_active' => 'required|in:0,1',
         ]);
 
         // dd($request);
@@ -127,4 +141,5 @@ class NotificationController extends Controller
             ]);
         }
     }
+
 }
