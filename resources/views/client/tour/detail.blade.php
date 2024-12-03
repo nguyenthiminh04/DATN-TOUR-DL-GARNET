@@ -799,9 +799,22 @@
                                                     </button>
                                                 </a>
                                             @else
-                                                <p class="text-danger text-center"
-                                                    style="font-size: 20px; font-weight: bold;">Tour tạm dừng, vui lòng
-                                                    quay lại sau.</p>
+                                                <span
+                                                    style=" margin-top: 30px; 
+                                                            width: 100%;    
+                                                            height: 40px;                                          
+                                                            display: inline-block;
+                                                            padding: 5px 20px;
+                                                            background-color: #f8d7da; /* Màu nền nhạt */
+                                                            color: #721c24; /* Màu chữ nổi bật */
+                                                            border: 1px solid #f5c6cb; /* Viền cùng tông */
+                                                            border-radius: 5px; /* Bo góc mềm mại */
+                                                            font-size: 14px; /* Cỡ chữ vừa phải */
+                                                            font-weight: bold; /* Chữ đậm */
+                                                            text-align: center;
+                                                            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng */">
+                                                    Đã tạm dừng tour. Hãy quay lại sau!
+                                                </span>
                                             @endif
                                         </div>
 
