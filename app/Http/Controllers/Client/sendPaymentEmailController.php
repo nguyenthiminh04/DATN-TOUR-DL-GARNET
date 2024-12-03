@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Mail\BookingSuccess;
+use App\Mail\ThankYouMail;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -39,13 +40,31 @@ class sendPaymentEmailController extends Controller
         }),
     ];
 
-    // Gửi email
+    //Gửi email
     try {
-        Mail::to($payment->user->email)->send(new BookingSuccess($emailData));
+        Mail::to($payment->user->email)->send(new ThankYouMail($emailData));
     } catch (\Exception $e) {
         Log::error('Failed to send email: ' . $e->getMessage());
     }
-
+    // try {
+    //     // Gửi email cảm ơn
+    //     Mail::to($payment->user->email)->send(new ThankYouMail($emailData));
+    //     Log::info('Email cảm ơn đã được gửi thành công đến: ' . $payment->user->email);
+    // } catch (\Exception $e) {
+    //     // Ghi lỗi vào log thay vì chỉ echo
+    //     Log::error('Lỗi khi gửi email cảm ơn: ' . $e->getMessage());
+    // }
+    
+    // try {
+    //     // Gửi email chi tiết đơn hàng
+    //     Mail::to($payment->user->email)->send(new BookingSuccess($emailData));
+    //     Log::info('Email chi tiết đơn hàng đã được gửi thành công đến: ' . $payment->user->email);
+    // } catch (\Exception $e) {
+    //     // Ghi lỗi vào log thay vì chỉ echo
+    //     Log::error('Lỗi khi gửi email chi tiết đơn hàng: ' . $e->getMessage());
+    // }
+    
+    
     return response()->json(['message' => 'Email sent successfully']);
 }
 

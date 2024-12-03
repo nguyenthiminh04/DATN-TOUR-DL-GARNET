@@ -119,6 +119,9 @@ Route::group([], function () {
     Route::get('/dich-vu', function () {
         return view('client.pages.service');
     });
+    Route::get('/testviet', function () {
+        return view('client.email.emailviet.new-email');
+    });
     Route::get('/gioi-thieu', function () {
         return view('client.pages.introduce');
     });
