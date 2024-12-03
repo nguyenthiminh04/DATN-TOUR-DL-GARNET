@@ -59,8 +59,7 @@
                     </a>
                     <div class="collapse menu-dropdown" id="tour">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('tour.index') }}" class="nav-link">Danh mục tour</a>
+                            <li class="nav-item">/-strong/-heart:>:o:-((:-h <a href="{{ route('tour.index') }}" class="nav-link">Danh mục tour</a>
                             </li>
                         </ul>
                         <ul class="nav nav-sm flex-column">
@@ -111,6 +110,12 @@
                             </li>
                         </ul>
                     </div>
+                </li>
+
+                <li class="nav-item">/-strong/-heart:>:o:-((:-h <a href="{{ route('advisory.index') }}" class="nav-link menu-link ">
+                        <i class="ri-contacts-book-line"></i>
+                        <span data-key="t-calendar">Hỗ trợ tư vấn</span>
+                    </a>
                 </li>
 
                 <li class="nav-item">

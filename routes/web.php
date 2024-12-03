@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdvisoryController;
 use App\Http\Controllers\Admin\BookTourController;
 use App\Models\Admins\Categoty_tour;
 use Illuminate\Support\Facades\Route;
@@ -160,6 +161,7 @@ Route::group([], function () {
     Route::delete('/favorite/{id}', [FavoriteController::class, 'removeFavorite'])->name('favorite.delete');
 
     Route::get('/test', [ClientTourController::class, 'showTour'])->name('test.showTour');
+    Route::post('/advisory', [ClientTourController::class, 'advisory'])->name('advisory');
 });
 
 
@@ -190,6 +192,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('comment',                           [CommentController::class, 'index'])->name('comment.index');
         Route::get('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
         Route::post('comment/status/{id}',              [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
+        Route::get('advisory',                           [AdvisoryController::class, 'index'])->name('advisory.index');
+        Route::get('advisory/delete/{id}',               [AdvisoryController::class, 'destroy'])->name('advisory.delete');
+        Route::post('advisory/status/{id}',              [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');
     });
 });
 

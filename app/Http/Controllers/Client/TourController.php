@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdvisoryRequest;
 use App\Models\Admins\Categorys;
 use App\Models\Admins\Location;
 use App\Models\Admins\Tour;
+use App\Models\Advisory;
 use App\Models\BookTour;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -90,5 +92,28 @@ class TourController extends Controller
         $category = Category::with('tours')->where('slug', $slug)->firstOrFail();
       
         return view('client.pages.tour', compact('category'));
+    }
+    public function advisory(AdvisoryRequest $request)
+    {
+        try {
+            $advisory               = new Advisory;
+            $advisory->tour_id      = $request->tour_id;
+            $advisory->name         = $request->name;
+            $advisory->phone_number = $request->phone_number;
+            $advisory->email        = $request->email;
+            $advisory->content      = $request->content;
+            $advisory->status       = "Đang chờ xử lý";
+            $advisory->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Thông tin tư vấn đã được gửi thành công.',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Đã có lỗi. Vui lòng thử lại',
+            ]);
+        }
     }
 }
