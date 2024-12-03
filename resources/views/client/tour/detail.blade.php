@@ -5,102 +5,143 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
-        
-/* Css Form Ngày */
-#datesss {
-    background-color: white; /* White background for the input field */
-    border: 1px solid #ccc;  /* Light grey border */
-    padding: 8px;
-    color: #333;             /* Text color */
-}
+        /* Css Form Ngày */
+        #datesss {
+            background-color: white;
+            /* White background for the input field */
+            border: 1px solid #ccc;
+            /* Light grey border */
+            padding: 8px;
+            color: #333;
+            /* Text color */
+        }
 
-/* Target the calendar popup */
-.ui-datepicker {
-    background-color: white !important; /* Set the background of the calendar to white */
-    border: 1px solid #ccc;  /* Border for the calendar */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow to make it pop */
-}
+        /* Target the calendar popup */
+        .ui-datepicker {
+            background-color: white !important;
+            /* Set the background of the calendar to white */
+            border: 1px solid #ccc;
+            /* Border for the calendar */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            /* Optional: add a shadow to make it pop */
+        }
 
-/* Make the whole day cell change color for valid dates */
-.ui-datepicker td:not(.ui-state-disabled):not(.ui-datepicker-other-month):hover {
-    background-color: #007bff; /* Change the background of the entire cell */
-    color: white; /* Change the text color to white */
-    cursor: pointer; /* Change cursor to pointer */
-}
+        /* Make the whole day cell change color for valid dates */
+        .ui-datepicker td:not(.ui-state-disabled):not(.ui-datepicker-other-month):hover {
+            background-color: #007bff;
+            /* Change the background of the entire cell */
+            color: white;
+            /* Change the text color to white */
+            cursor: pointer;
+            /* Change cursor to pointer */
+        }
 
-/* Optional: Adjust text color for day cells */
-.ui-datepicker td:not(.ui-state-disabled) a {
-    color: #333; /* Default text color for valid dates */
-}
+        /* Optional: Adjust text color for day cells */
+        .ui-datepicker td:not(.ui-state-disabled) a {
+            color: #333;
+            /* Default text color for valid dates */
+        }
 
-/* Hover effect for links (valid dates) */
-.ui-datepicker td:not(.ui-state-disabled) a:hover {
-    color: white; /* Change the text color to white on hover */
-}
+        /* Hover effect for links (valid dates) */
+        .ui-datepicker td:not(.ui-state-disabled) a:hover {
+            color: white;
+            /* Change the text color to white on hover */
+        }
 
-/* Style the previous and next buttons */
-.ui-datepicker-prev, .ui-datepicker-next {
-    color: #007bff; /* Set the text color to blue */
-    font-weight: bold; /* Make the text bold */
-    font-size: 14px; /* Adjust the font size for better visibility */
-    padding: 5px; /* Add padding for better spacing */
-    cursor: pointer; /* Change cursor to pointer */
-}
+        /* Style the previous and next buttons */
+        .ui-datepicker-prev,
+        .ui-datepicker-next {
+            color: #007bff;
+            /* Set the text color to blue */
+            font-weight: bold;
+            /* Make the text bold */
+            font-size: 14px;
+            /* Adjust the font size for better visibility */
+            padding: 5px;
+            /* Add padding for better spacing */
+            cursor: pointer;
+            /* Change cursor to pointer */
+        }
 
-.ui-datepicker-prev:hover, .ui-datepicker-next:hover {
-    color: #0056b3; /* Darker blue for hover effect */
-    background-color: #e6f0ff; /* Light blue background */
-    border-radius: 4px; /* Rounded corners */
-}
+        .ui-datepicker-prev:hover,
+        .ui-datepicker-next:hover {
+            color: #0056b3;
+            /* Darker blue for hover effect */
+            background-color: #e6f0ff;
+            /* Light blue background */
+            border-radius: 4px;
+            /* Rounded corners */
+        }
 
-/* Style the month and year dropdowns */
-.ui-datepicker-title select {
-    background-color: #f9f9f9; /* Light background for dropdowns */
-    color: #333; /* Text color */
-    font-size: 14px; /* Font size for better readability */
-    border: 1px solid #ccc; /* Border for the dropdown */
-    padding: 4px; /* Padding for spacing */
-    border-radius: 4px; /* Rounded corners for dropdowns */
-}
+        /* Style the month and year dropdowns */
+        .ui-datepicker-title select {
+            background-color: #f9f9f9;
+            /* Light background for dropdowns */
+            color: #333;
+            /* Text color */
+            font-size: 14px;
+            /* Font size for better readability */
+            border: 1px solid #ccc;
+            /* Border for the dropdown */
+            padding: 4px;
+            /* Padding for spacing */
+            border-radius: 4px;
+            /* Rounded corners for dropdowns */
+        }
 
-/* On hover or focus */
-.ui-datepicker-title select:hover,
-.ui-datepicker-title select:focus {
-    border-color: #007bff; /* Change border color on hover/focus */
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add shadow effect */
-}
+        /* On hover or focus */
+        .ui-datepicker-title select:hover,
+        .ui-datepicker-title select:focus {
+            border-color: #007bff;
+            /* Change border color on hover/focus */
+            outline: none;
+            /* Remove default outline */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            /* Add shadow effect */
+        }
 
-/* Optional: Align the month and year dropdowns */
-.ui-datepicker-title {
-    display: flex;
-    justify-content: center; /* Center align the dropdowns */
-    align-items: center; /* Center align vertically */
-    gap: 5px; /* Add spacing between the dropdowns */
-}
+        /* Optional: Align the month and year dropdowns */
+        .ui-datepicker-title {
+            display: flex;
+            justify-content: center;
+            /* Center align the dropdowns */
+            align-items: center;
+            /* Center align vertically */
+            gap: 5px;
+            /* Add spacing between the dropdowns */
+        }
 
-/* Style for days not in the current month */
-.ui-datepicker .ui-datepicker-other-month {
-    color: #aaa; /* Dimmed text color for other months */
-    background-color: #f9f9f9; /* Optional: light background */
-    pointer-events: none; /* Disable click for other months */
-}
+        /* Style for days not in the current month */
+        .ui-datepicker .ui-datepicker-other-month {
+            color: #aaa;
+            /* Dimmed text color for other months */
+            background-color: #f9f9f9;
+            /* Optional: light background */
+            pointer-events: none;
+            /* Disable click for other months */
+        }
 
-/* Prevent hover effect for days not in the current month */
-.ui-datepicker .ui-datepicker-other-month:hover {
-    background-color: #f9f9f9; /* Prevent hover effect */
-    color: #aaa; /* Keep the text color dimmed */
-}
+        /* Prevent hover effect for days not in the current month */
+        .ui-datepicker .ui-datepicker-other-month:hover {
+            background-color: #f9f9f9;
+            /* Prevent hover effect */
+            color: #aaa;
+            /* Keep the text color dimmed */
+        }
 
-/* Style for disabled days */
-.ui-datepicker td.ui-state-disabled {
-    color: #ccc !important; /* Dimmed text for disabled days */
-    background-color: #f9f9f9 !important; /* Light gray background for disabled days */
-    pointer-events: none; /* Disable hover and click */
-    cursor: not-allowed; /* Show 'not-allowed' cursor */
-}
+        /* Style for disabled days */
+        .ui-datepicker td.ui-state-disabled {
+            color: #ccc !important;
+            /* Dimmed text for disabled days */
+            background-color: #f9f9f9 !important;
+            /* Light gray background for disabled days */
+            pointer-events: none;
+            /* Disable hover and click */
+            cursor: not-allowed;
+            /* Show 'not-allowed' cursor */
+        }
 
-/* Hết Css Form NGày  */
+        /* Hết Css Form NGày  */
         .owl-prev:hover,
         .owl-next:hover {
             opacity: 1;
@@ -426,6 +467,7 @@
         }
     </style>
 @endsection
+
 @section('content')
     <section class="bread-crumb margin-bottom-10">
         <div class="container">
@@ -487,7 +529,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="details-pro">
-                                <h1 class="title-head"></h1>
+                                <h1 class="title-head">{{ $tour->name }}</h1>
 
                                 <div class="sku-product hidden">
                                     SKU: <span class="variant-sku">(Đang cập nhật...)</span>
@@ -506,8 +548,6 @@
                                                 alt="Di chuyển bằng Ô tô" /></div>
                                         Di chuyển bằng Ô tô
                                     </li>
-
-
                                     <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg?1705894518705"
@@ -659,27 +699,27 @@
 
 
 
-                                          // Lấy tất cả các phần tử nhóm sản phẩm
-                                          const variantLists = document.querySelectorAll(".variant_list");
+                                                // Lấy tất cả các phần tử nhóm sản phẩm
+                                                const variantLists = document.querySelectorAll(".variant_list");
 
-                                          // Phần tử hiển thị tổng tiền
-                                          const totalPriceElement = document.querySelector(".totalPrice strong");
+                                                // Phần tử hiển thị tổng tiền
+                                                const totalPriceElement = document.querySelector(".totalPrice strong");
 
                                                 function getStartDate() {
                                                     return document.getElementById('datepicker').value;
                                                 }
 
-                                          // Hàm cập nhật tổng tiền
-                                          function updateTotalPrice() {
-                                              let totalPrice = 0;
+                                                // Hàm cập nhật tổng tiền
+                                                function updateTotalPrice() {
+                                                    let totalPrice = 0;
 
-                                              variantLists.forEach((variantList) => {
-                                                  const quantityInput = variantList.querySelector(".qty");
-                                                  const variantPriceInput = variantList.querySelector("[name='variant_price']");
-                                                  const variantPrice = parseInt(variantPriceInput.value, 10);
-                                                  const quantity = parseInt(quantityInput.value, 10);
-                                                  totalPrice += variantPrice * quantity; // Cộng tổng tiền từ từng nhóm
-                                              });
+                                                    variantLists.forEach((variantList) => {
+                                                        const quantityInput = variantList.querySelector(".qty");
+                                                        const variantPriceInput = variantList.querySelector("[name='variant_price']");
+                                                        const variantPrice = parseInt(variantPriceInput.value, 10);
+                                                        const quantity = parseInt(quantityInput.value, 10);
+                                                        totalPrice += variantPrice * quantity; // Cộng tổng tiền từ từng nhóm
+                                                    });
 
                                                     // Hiển thị tổng tiền đã định dạng
                                                     totalPriceElement.textContent = totalPrice.toLocaleString("vi-VN") + "₫";
@@ -703,43 +743,43 @@
                                                         })
                                                     };
 
-                                              sessionStorage.setItem("selectedTourInfo", JSON.stringify(selectedTourInfo));
-                                          }
+                                                    sessionStorage.setItem("selectedTourInfo", JSON.stringify(selectedTourInfo));
+                                                }
 
-                                          // Gắn sự kiện cho từng nhóm
-                                          variantLists.forEach((variantList) => {
-                                              const minusButton = variantList.querySelector(".minus");
-                                              const plusButton = variantList.querySelector(".plus");
-                                              const quantityInput = variantList.querySelector(".qty");
-                                              const variantPriceInput = variantList.querySelector("[name='variant_price']");
-                                              const subtotalElement = variantList.querySelector(".subtotal");
-                                              const variantPrice = parseInt(variantPriceInput.value, 10);
+                                                // Gắn sự kiện cho từng nhóm
+                                                variantLists.forEach((variantList) => {
+                                                    const minusButton = variantList.querySelector(".minus");
+                                                    const plusButton = variantList.querySelector(".plus");
+                                                    const quantityInput = variantList.querySelector(".qty");
+                                                    const variantPriceInput = variantList.querySelector("[name='variant_price']");
+                                                    const subtotalElement = variantList.querySelector(".subtotal");
+                                                    const variantPrice = parseInt(variantPriceInput.value, 10);
 
-                                              // Hàm cập nhật tổng giá từng nhóm
-                                              function updateSubtotal(quantity) {
-                                                  const total = quantity > 0 ? variantPrice * quantity : 0; // Nếu số lượng là 0 thì tổng là 0
-                                                  subtotalElement.textContent = total.toLocaleString("vi-VN") + "₫"; // Cập nhật subtotal
-                                                  updateTotalPrice(); // Cập nhật tổng tiền
-                                              }
+                                                    // Hàm cập nhật tổng giá từng nhóm
+                                                    function updateSubtotal(quantity) {
+                                                        const total = quantity > 0 ? variantPrice * quantity : 0; // Nếu số lượng là 0 thì tổng là 0
+                                                        subtotalElement.textContent = total.toLocaleString("vi-VN") + "₫"; // Cập nhật subtotal
+                                                        updateTotalPrice(); // Cập nhật tổng tiền
+                                                    }
 
-                                              // Sự kiện khi bấm nút giảm
-                                              minusButton.addEventListener("click", () => {
-                                                  let currentQuantity = parseInt(quantityInput.value, 10);
-                                                  if (currentQuantity > 0) {
-                                                      currentQuantity -= 1;
-                                                      quantityInput.value = currentQuantity;
-                                                      updateSubtotal(currentQuantity); // Cập nhật subtotal khi giảm
-                                                  }
-                                              });
+                                                    // Sự kiện khi bấm nút giảm
+                                                    minusButton.addEventListener("click", () => {
+                                                        let currentQuantity = parseInt(quantityInput.value, 10);
+                                                        if (currentQuantity > 0) {
+                                                            currentQuantity -= 1;
+                                                            quantityInput.value = currentQuantity;
+                                                            updateSubtotal(currentQuantity); // Cập nhật subtotal khi giảm
+                                                        }
+                                                    });
 
-                                              // Sự kiện khi bấm nút tăng
-                                              plusButton.addEventListener("click", () => {
-                                                  let currentQuantity = parseInt(quantityInput.value, 10);
-                                                  currentQuantity += 1;
-                                                  quantityInput.value = currentQuantity;
-                                                  updateSubtotal(currentQuantity); // Cập nhật subtotal khi tăng
-                                              });
-                                          });
+                                                    // Sự kiện khi bấm nút tăng
+                                                    plusButton.addEventListener("click", () => {
+                                                        let currentQuantity = parseInt(quantityInput.value, 10);
+                                                        currentQuantity += 1;
+                                                        quantityInput.value = currentQuantity;
+                                                        updateSubtotal(currentQuantity); // Cập nhật subtotal khi tăng
+                                                    });
+                                                });
 
                                                 updateTotalPrice();
                                             </script>
@@ -758,16 +798,19 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
-                                        @if($tour['number'] > 0)
-                                            <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}">
-                                                <button type="button" id="submit-table" class="pull-right btn btn-default buynow add-to-cart button nomargin">
-                                                    <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
-                                                </button>
-                                            </a>
-                                        @else
-                                            <p class="text-danger text-center" style="font-size: 20px; font-weight: bold;">Tour tạm dừng, vui lòng quay lại sau.</p>
-                                        @endif
-                                    </div>
+                                            @if ($tour['number'] > 0)
+                                                <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}">
+                                                    <button type="button" id="submit-table"
+                                                        class="pull-right btn btn-default buynow add-to-cart button nomargin">
+                                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
+                                                    </button>
+                                                </a>
+                                            @else
+                                                <p class="text-danger text-center"
+                                                    style="font-size: 20px; font-weight: bold;">Tour tạm dừng, vui lòng
+                                                    quay lại sau.</p>
+                                            @endif
+                                        </div>
                                         <script>
                                             function handleBookingClick(event, url) {
                                                 event.preventDefault();
@@ -783,9 +826,9 @@
                                                     return;
                                                 }
                                                 if (totalGuests > maxGuests) {
-    alert(`Số lượng khách không được vượt quá ${maxGuests} người!`);
-    return;
-}
+                                                    alert(`Số lượng khách không được vượt quá ${maxGuests} người!`);
+                                                    return;
+                                                }
                                                 // Lưu thông tin vào sessionStorage
                                                 sessionStorage.setItem('tourBooking', JSON.stringify({
                                                     adults: adults,
@@ -1130,118 +1173,185 @@
                     </div>
 
                     <div class="row">
-    <div class="container bootdey">
-        <div class="col-md-12 bootstrap snippets">
-            <!-- Hiển thị form bình luận nếu người dùng đã đặt tour -->
-            @if ($userHasBooked)
-                <div class="panel">
-                    <div class="panel-body">
-                        <form method="POST" action="{{ route('posts.comment', $tour->id) }}">
-                            @csrf
-                            <textarea class="form-control" name="content" rows="2" placeholder="Bạn đang nghĩ gì?" required></textarea>
-                            <div class="mar-top clearfix">
-                                <button class="btn btn-primary pull-right" type="submit">
-                                    <i class="fa fa-pencil fa-fw"></i> Gửi
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            @else
-                <!-- Hiển thị thông báo nếu chưa đặt tour -->
-                <div class="alert alert-warning">
-                    <strong>Bạn chưa đặt tour này!</strong> Vui lòng Đặt để gửi bình luận1.
-                </div>
-            @endif
-
-            <!-- Hiển thị danh sách bình luận -->
-            @foreach ($comments as $comment)
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="media-block">
-                            <a class="media-left" href="#">
-                                <img class="img-circle img-sm" alt="Profile Picture"
-                                     src="{{ Storage::url($comment->user->avatar) }}">
-                            </a>
-                            <div class="media-body">
-                                <div class="mar-btm">
-                                    <strong class="btn-link text-semibold media-heading box-inline">
-                                        {{ $comment->user ? $comment->user->name : 'Ẩn danh' }}
-                                    </strong>
-                                    <p class="text-muted text-sm">
-                                        <i class="fa fa-clock-o"></i> {{ $comment->created_at }}
-                                    </p>
-                                </div>
-                                <p>{{ $comment->content }}</p>
-                                <div class="pad-ver">
-                                    <div class="btn-group">
-                                        <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
-                                        <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
-                                    </div>
-                                    <!-- Nút Trả lời -->
-                                    @if ($userHasBooked)
-                                        <button class="btn btn-sm btn-default btn-hover-primary" onclick="toggleReplyForm({{ $comment->id }})">Trả lời</button>
-                                    @else
-                                        <span class="text-muted">Chỉ người đã đặt tour mới có thể trả lời.</span>
-                                    @endif
-                                </div>
-                                <hr>
-                                <!-- Hiển thị bình luận con -->
-                                @if ($comment->children->count())
-                                    @include('client.tour.comment', ['comments' => $comment->children])
-                                @endif
-                                <!-- Form trả lời bình luận -->
+                        <div class="container bootdey">
+                            <div class="col-md-12 bootstrap snippets">
+                                <!-- Hiển thị form bình luận nếu người dùng đã đặt tour -->
                                 @if ($userHasBooked)
-                                    <div id="reply-form-{{ $comment->id }}" class="mt-3" style="display: none;">
-                                        <form method="POST" action="{{ route('posts.comment', $tour->id) }}">
-                                            @csrf
-                                            <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-                                            <textarea class="form-control" name="content" rows="2" placeholder="Trả lời bình luận này" required></textarea>
-                                            <button class="btn btn-primary btn-sm mt-2" type="submit">Gửi trả lời</button>
-                                        </form>
+                                    <div class="panel">
+                                        <div class="panel-body">
+                                            <form method="POST" action="{{ route('posts.comment', $tour->id) }}">
+                                                @csrf
+                                                <textarea class="form-control" name="content" rows="2" placeholder="Bạn đang nghĩ gì?" required></textarea>
+                                                <div class="mar-top clearfix">
+                                                    <button class="btn btn-primary pull-right" type="submit">
+                                                        <i class="fa fa-pencil fa-fw"></i> Gửi
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @else
+                                    <!-- Hiển thị thông báo nếu chưa đặt tour -->
+                                    <div class="alert alert-warning">
+                                        <strong>Bạn chưa đặt tour này!</strong> Vui lòng Đặt để gửi bình luận1.
                                     </div>
                                 @endif
+
+                                <!-- Hiển thị danh sách bình luận -->
+                                @foreach ($comments as $comment)
+                                    <div class="panel">
+                                        <div class="panel-body">
+                                            <div class="media-block">
+                                                <a class="media-left" href="#">
+                                                    <img class="img-circle img-sm" alt="Profile Picture"
+                                                        src="{{ Storage::url($comment->user->avatar) }}">
+                                                </a>
+                                                <div class="media-body">
+                                                    <div class="mar-btm">
+                                                        <strong class="btn-link text-semibold media-heading box-inline">
+                                                            {{ $comment->user ? $comment->user->name : 'Ẩn danh' }}
+                                                        </strong>
+                                                        <p class="text-muted text-sm">
+                                                            <i class="fa fa-clock-o"></i> {{ $comment->created_at }}
+                                                        </p>
+                                                    </div>
+                                                    <p>{{ $comment->content }}</p>
+                                                    <div class="pad-ver">
+                                                        <div class="btn-group">
+                                                            <a class="btn btn-sm btn-default btn-hover-success"
+                                                                href="#"><i class="fa fa-thumbs-up"></i></a>
+                                                            <a class="btn btn-sm btn-default btn-hover-danger"
+                                                                href="#"><i class="fa fa-thumbs-down"></i></a>
+                                                        </div>
+                                                        <!-- Nút Trả lời -->
+                                                        @if ($userHasBooked)
+                                                            <button class="btn btn-sm btn-default btn-hover-primary"
+                                                                onclick="toggleReplyForm({{ $comment->id }})">Trả
+                                                                lời</button>
+                                                        @else
+                                                            <span class="text-muted">Chỉ người đã đặt tour mới có thể trả
+                                                                lời.</span>
+                                                        @endif
+                                                    </div>
+                                                    <hr>
+                                                    <!-- Hiển thị bình luận con -->
+                                                    @if ($comment->children->count())
+                                                        @include('client.tour.comment', [
+                                                            'comments' => $comment->children,
+                                                        ])
+                                                    @endif
+                                                    <!-- Form trả lời bình luận -->
+                                                    @if ($userHasBooked)
+                                                        <div id="reply-form-{{ $comment->id }}" class="mt-3"
+                                                            style="display: none;">
+                                                            <form method="POST"
+                                                                action="{{ route('posts.comment', $tour->id) }}">
+                                                                @csrf
+                                                                <input type="hidden" name="parent_id"
+                                                                    value="{{ $comment->id }}">
+                                                                <textarea class="form-control" name="content" rows="2" placeholder="Trả lời bình luận này" required></textarea>
+                                                                <button class="btn btn-primary btn-sm mt-2"
+                                                                    type="submit">Gửi trả lời</button>
+                                                            </form>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
-            @endforeach
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-                </div>
             </div>
         </div>
     </section>
+
+    <div class="callmeback-form modal fade" id="myModal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Hỗ trợ tư vấn miễn phí</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5">
+                            <img src="{{ asset('storage/' . $img->image) }}" width="220px" height="150px"
+                                alt="Du lịch Cao Bằng - Bản Giốc - Bắc Kạn - Ba Bể - Hà Nội"
+                                class="img-responsive center-block" />
+                            <h3 class="cta-name-pro">{{ $tour->name }}</h3>
+                        </div>
+                        <div class="col-md-7 col-sm-7">
+                            <form method="post" id="advisoryForm" action="{{ route('advisory') }}">
+                                @csrf
+                                <input type="hidden" name="tour_id" value="{{ $tour->id }}">
+                                <div class="form-signup clearfix">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <fieldset class="form-group">
+                                                <input placeholder="Họ tên" type="text" name="name" id="name"
+                                                    class="form-control" />
+
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <fieldset class="form-group">
+                                                <input placeholder="Điện thoại" type="text" name="phone_number"
+                                                    id="phone" class="form-control number-sidebar" />
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <fieldset class="form-group">
+                                                <input placeholder="Email" type="email" name="email" id="email"
+                                                    class="form-control" />
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <fieldset class="form-group">
+                                                <textarea placeholder="Nội dung" name="content" id="comment" class="form-control" rows="3"></textarea>
+                                            </fieldset>
+                                            <div class="pull-xs-right text-center" style="margin-top:10px;">
+                                                <button type="submit"
+                                                    class="btn btn-blues btn-style btn-style-active">Gửi thông
+                                                    tin</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
 @section('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-    // Hàm xử lý hiển thị hoặc ẩn form trả lời
-    window.toggleReplyForm = function (commentId) {
-        const replyForm = document.getElementById(`reply-form-${commentId}`);
-        if (replyForm) {
-            const isHidden = replyForm.style.display === 'none' || replyForm.style.display === '';
-            replyForm.style.display = isHidden ? 'block' : 'none';
-        }
-    };
-});
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hàm xử lý hiển thị hoặc ẩn form trả lời
+            window.toggleReplyForm = function(commentId) {
+                const replyForm = document.getElementById(`reply-form-${commentId}`);
+                if (replyForm) {
+                    const isHidden = replyForm.style.display === 'none' || replyForm.style.display === '';
+                    replyForm.style.display = isHidden ? 'block' : 'none';
+                }
+            };
+        });
+    </script>
     <script>
         $(document).ready(function() {
             var sync1 = $("#sync1");
@@ -1312,8 +1422,8 @@
             var endDateTour = <?= json_encode($tour['end_date']) ?>;
             flatpickr("#datepicker", {
                 dateFormat: "Y-m-d", // Định dạng ngày (ví dụ: 29 Nov 2024)
-                startDate: '0d',// Chỉ cho phép chọn từ hôm nay trở đi
-                maxDate: endDateTour,// ngày kết thúc chọn
+                startDate: '0d', // Chỉ cho phép chọn từ hôm nay trở đi
+                maxDate: endDateTour, // ngày kết thúc chọn
                 minDate: startDateTour, //ngày tour bắt đầu hoạt động
                 defaultDate: "today", // Mặc định là ngày hôm nay
                 locale: "vn", // Cài đặt ngôn ngữ tiếng Việt (nếu có)
@@ -1325,6 +1435,43 @@
                 }
             });
 
+        });
+    </script>
+    <script>
+        $('#advisoryForm').on('submit', function(e) {
+            e.preventDefault();
+
+            let formData = $(this).serialize();
+
+            $.ajax({
+                url: '/advisory',
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire('Thành công', response.message, 'success');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+
+
+                        let errorMessages = '';
+                        for (let field in errors) {
+                            errorMessages += `<p style="color: red;">${errors[field].join('<br>')}</p>`;
+                        }
+
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            html: errorMessages,
+                            icon: 'error',
+                        });
+                    } else {
+                        Swal.fire('Lỗi', 'Đã có lỗi xảy ra, vui lòng thử lại.', 'error');
+                    }
+                }
+            });
         });
     </script>
 @endsection

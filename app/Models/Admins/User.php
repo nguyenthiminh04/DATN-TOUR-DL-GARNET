@@ -6,7 +6,7 @@ use App\Models\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserModel extends Model
+class User extends Model
 {
     use HasFactory;
     protected $table = 'users';  // Tên bảng thực sự trong cơ sở dữ liệu
@@ -41,7 +41,7 @@ public function Role()
  }
  public function categories()
 {
-    return $this->hasMany(Categorys::class, 'user_id');
+    return $this->hasMany(Category::class, 'user_id');
 }
 
 }

@@ -8,12 +8,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Người Dùng</h4>
+                        <h4 class="mb-sm-0">Danh Sách Câu Hỏi</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Danh sách người dùng</li>
+                                <li class="breadcrumb-item active">Danh sách câu hỏi</li>
                             </ol>
                         </div>
 
@@ -25,10 +25,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-                      
-                        <a href="{{route('user.create')}}" class="btn btn-secondary col-2"><i
-                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm người dùng</a>
-                        {{-- end --}}
+                        {{-- nút thêm  --}}
+                        <a href="{{ route('categorytour.create') }}" class="btn btn-secondary col-2"><i
+                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm câu hỏi</a>
+                        {{-- end nút thêm  --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
@@ -36,54 +36,37 @@
                                         <tr>
 
                                             <th>ID</th>
-
-                                            <th>Họ tên</th>
-
-                                            <th>Ảnh Đại Diện</th>
-
-                                            <th>Email</th>
-
-                                            <th>Số điện thoại</th>
-
-                                            <th>Địa chỉ</th>
-                                            <th>Ngày sinh</th>
-                                            <th>Giới tính</th>
+                                            <th>Tên danh mục</th>
+                                            <th>Tour</th>
+                                            <th>Ngày tạo</th>
+                                            <th>Ngày cập nhật</th>
                                             <th scope="col">Trạng thái</th>
                                             <th scope="col">Hành động </th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
-                                        @foreach ($listuser as $index => $item)
+                                        @foreach ($listCategoryTour as $index => $item)
                                             <tr>
 
 
                                                 <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
-                                                <td>{{ $item->name }}</td>
-                                                <td>
-                                                    <img src="{{ Storage::url($item->avatar) }}" alt=""
-                                                        width="30px">
-
-
-                                                </td>
-                                                <td>{{ $item->email }}</td>
-                                                <td>{{ $item->phone }}</td>
-                                                <td>{{ $item->address }}</td>
-                                                <td>{{ $item->birth }}</td>
-                                                <td>{{ $item->gender }}</td>
-
+                                                <td>{{ $item->category_tour }}</td>
+                                                <td>{{ $item->tour_id }}</td>
+                                                <td>{{ $item->created_at }}</td>
+                                                <td>{{ $item->updated_at }}</td>
                                                 <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                     {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
-                                                            <button class="btn btn-subtle-primary btn-icon btn-sm view-user"
+                                                            <button class="btn btn-subtle-primary btn-icon btn-sm view-categorytour"
                                                             data-id="{{ $item->id }}">
                                                             <i class="ph-eye"></i>
                                                         </button>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('user.edit', $item->id) }}"><i
+                                                            <a href="{{ route('categorytour.edit', $item->id) }}"><i
                                                                     class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
                                                         </li>
                                                         <li>
@@ -110,13 +93,14 @@
                                                                     <i class="bi bi-trash display-5"></i>
                                                                 </div>
                                                                 <div class="mt-4">
-                                                                    <h4 class="mb-2">Xóa người dùng này ?</h4>
+                                                                    <h4 class="mb-2">Xóa danh mục này?</h4>
                                                                     <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn
-                                                                        xóa không ?</p>
+                                                                        xóa không?</p>
                                                                 </div>
                                                             </div>
                                                             <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                                                                <form action="{{ route('user.destroy', $item->id) }}"
+                                                                <form
+                                                                    action="{{ route('categorytour.destroy', $item->id) }}"
                                                                     method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -125,7 +109,8 @@
                                                                         data-bs-dismiss="modal">Đóng</button>
                                                                     <button type="submit"
                                                                         class="btn w-sm btn-danger btn-hover"
-                                                                        id="delete-record">Vâng, Tôi chắc chắn!</button>
+                                                                        id="delete-record">Vâng, Tôi chắc chắn muốn
+                                                                        xóa!</button>
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -167,21 +152,30 @@
                     </div><!--end card-->
                 </div><!--end col-->
             </div><!--end row-->
+
+
+
+
         </div>
         <!-- container-fluid -->
+
+
     </div>
-    <div class="modal fade" id="userDetailModal" tabindex="-1" aria-labelledby="userDetailModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="userDetailModalLabel">Chi Tiết Tài Khoản Người Dùng</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="userDetailContent">
-                    <!-- Nội dung chi tiết địa điểm sẽ được tải ở đây -->
-                </div>
+</div>
+<div class="modal fade" id="categorytourDetailModal" tabindex="-1" aria-labelledby="categorytourDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="categorytourDetailModalLabel">Chi Tiết Địa Điểm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="categorytourDetailContent">
+                <!-- Nội dung chi tiết địa điểm sẽ được tải ở đây -->
             </div>
         </div>
+    </div>
+</div>
+
 @endsection
 @section('style')
     <!--datatable css-->
@@ -194,7 +188,6 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.css') }}" />
 @endsection
-
 @section('script')
     <!--datatable js-->
 
@@ -227,33 +220,35 @@
         });
         $(document).ready(function() {
     // Sự kiện nhấn vào biểu tượng con mắt
-    $('.view-user').on('click', function(e) {
+    $('.view-categorytour').on('click', function(e) {
         e.preventDefault();
         
-        const userId = $(this).data('id'); // Lấy ID của user
+        const categorytourId = $(this).data('id'); // Lấy ID của categorytour
 
         $.ajax({
-            url: '/admin/user/' + userId,  // Đảm bảo URL này đúng với route trong web.php
+            url: '/admin/categorytour/' + categorytourId,  // Đảm bảo URL này đúng với route trong web.php
             type: 'GET',
             success: function(response) {
-                // Hiển thị chi tiết user trong modal
-                $('#userDetailContent').html(response);
-                $('#userDetailModal').modal('show');  // Mở modal
+                // Hiển thị chi tiết categorytour trong modal
+                $('#categorytourDetailContent').html(response);
+                $('#categorytourDetailModal').modal('show');  // Mở modal
             },
             error: function(xhr, status, error) {
-                alert('Có lỗi xảy ra khi tải chi tiết nguời dùng!');
+                alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
             }
         });
     });
 });
+
     </script>
+@endsection
 
 
-
+@section('script')
     <script>
         $(document).ready(function() {
             // thêm faq
-            $('#adduserForm').on('submit', function(e) {
+            $('#addcategorytourForm').on('submit', function(e) {
                 e.preventDefault(); // Ngăn chặn submit mặc định của form
 
                 // Xóa thông báo lỗi cũ
@@ -262,14 +257,14 @@
                 $('#status-error').text('');
 
                 $.ajax({
-                    url: "{{ route('user.store') }}", // URL action của form
+                    url: "{{ route('categorytour.store') }}", // URL action của form
                     type: 'POST',
                     data: $(this).serialize(), // Lấy dữ liệu từ form và bao gồm CSRF token
                     success: function(response) {
                         // Xử lý khi request thành công (có thể đóng modal, load lại danh sách FAQ)
                         // $('#addFaq').modal('hide');
-                        // alert('Câu hỏi đã được thêm thành công!');
-                        window.user.reload();
+                        // alert('địa điểm đã được thêm thành công!');
+                        window.categorytour.reload();
                     },
                     error: function(xhr) {
                         // Xử lý khi request bị lỗi
@@ -296,7 +291,7 @@
             $('.remove-item-btn').on('click', function() {
                 // Lấy ID của item cần xóa từ thuộc tính data-id
                 const itemId = $(this).data('id');
-                const url = "{{ route('user.destroy', ':id') }}"; // Tạo URL với placeholder :id
+                const url = "{{ route('categorytour.destroy', ':id') }}"; // Tạo URL với placeholder :id
                 const deleteUrl = url.replace(':id', itemId); // Thay thế :id bằng itemId
                 $('#deleteForm').attr('action', deleteUrl); // Cập nhật action của form xóa 
             });

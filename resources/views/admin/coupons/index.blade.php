@@ -1,7 +1,5 @@
 @extends('admin.layouts.app')
 
-@section('style')
-@endsection
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -10,12 +8,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Phiếu Giảm Giá</h4>
+                        <h4 class="mb-sm-0">Danh Sách địa điểm</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Courses</a></li>
-                                <li class="breadcrumb-item active">List View</li>
+                                <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
+                                <li class="breadcrumb-item active">Danh sách địa điểm</li>
                             </ol>
                         </div>
 
@@ -27,40 +25,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-                        <div class="card-body">
-                            <div class="row align-items-center g-2">
-                                <div class="col-lg-3 me-auto">
-                                    {{-- <h6 class="card-title mb-0">Instructors List <span
-                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6> --}}
-                                </div><!--end col-->
-                                <div class="col-lg-2">
-                                    <div class="search-box">
-                                        <input type="text" class="form-control search"
-                                            placeholder="Search for courses, price or something...">
-                                        <i class="ri-search-line search-icon"></i>
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-lg-auto">
-                                    <div class="hstack flex-wrap gap-2">
-                                        <button class="btn btn-subtle-danger d-none" id="remove-actions"
-                                            onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                            <a href="{{route('coupons.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
-                                                Thêm chức vụ
-                                            </a>
-                                        <div>
-                                            <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
-                                                data-bs-target="#courseFilters" aria-controls="courseFilters"><i
-                                                    class="bi bi-funnel align-baseline me-1"></i> Filter</button>
-                                            <a href="apps-learning-grid.html" class="btn btn-subtle-primary btn-icon"><i
-                                                    class="bi bi-grid"></i></a>
-                                            <a href="apps-learning-list.html"
-                                                class="btn btn-subtle-primary active btn-icon"><i
-                                                    class="bi bi-list-task"></i></a>
-                                        </div>
-                                    </div>
-                                </div><!--end col-->
-                            </div>
-                        </div>
+                      
+                        <a href="{{route('location.create')}}" class="btn btn-secondary col-2"><i
+                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm địa điểm</a>
+                        {{-- end --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
@@ -192,11 +160,32 @@
 
 
     </div>
+   <!-- Modal để hiển thị chi tiết coupons -->
+   <div class="modal fade" id="couponsDetailModal" tabindex="-1" aria-labelledby="couponsDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="couponsDetailModalLabel">Chi Tiết Địa Điểm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="couponsDetailContent">
+                <!-- Nội dung chi tiết địa điểm sẽ được tải ở đây -->
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 @section('style')
     <!--datatable css-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+@endsection
+@section('style-libs')
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.css') }}" />
 @endsection
 @section('script')
     <!--datatable js-->
@@ -228,9 +217,31 @@
                 }
             }
         });
+        $(document).ready(function() {
+    // Sự kiện nhấn vào biểu tượng con mắt
+    $('.view-coupons').on('click', function(e) {
+        e.preventDefault();
+        
+        const couponsId = $(this).data('id'); // Lấy ID của coupons
+
+        $.ajax({
+            url: '/admin/coupons/' + couponsId,  // Đảm bảo URL này đúng với route trong web.php
+            type: 'GET',
+            success: function(response) {
+                // Hiển thị chi tiết coupons trong modal
+                $('#couponsDetailContent').html(response);
+                $('#couponsDetailModal').modal('show');  // Mở modal
+            },
+            error: function(xhr, status, error) {
+                alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
+            }
+        });
+    });
+});
+
     </script>
 @endsection
-@section('script')
+
 
 @section('script')
     <script>
@@ -251,8 +262,8 @@
                     success: function(response) {
                         // Xử lý khi request thành công (có thể đóng modal, load lại danh sách FAQ)
                         // $('#addFaq').modal('hide');
-                        // alert('Câu hỏi đã được thêm thành công!');
-                        window.location.reload();
+                        // alert('địa điểm đã được thêm thành công!');
+                        window.coupons.reload();
                     },
                     error: function(xhr) {
                         // Xử lý khi request bị lỗi

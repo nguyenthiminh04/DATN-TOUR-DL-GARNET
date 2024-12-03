@@ -262,7 +262,7 @@
 
                 <div class="mb-3">
                     <a href="{{ route('tour.index') }}" class="btn btn-info">Trở về</a>
-                    <button class="btn btn-primary" type="submit">Thêm mới</button>
+                    <button class="btn btn-primary" type="submit">Cập nhật</button>
                 </div>
 
             </form>
