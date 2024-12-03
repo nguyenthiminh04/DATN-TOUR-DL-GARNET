@@ -59,7 +59,7 @@
                     </a>
                     <div class="collapse menu-dropdown" id="tour">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">/-strong/-heart:>:o:-((:-h <a href="{{ route('tour.index') }}" class="nav-link">Danh mục tour</a>
+                            <li class="nav-item"><a href="{{ route('tour.index') }}" class="nav-link">Danh mục tour</a>
                             </li>
                         </ul>
                         <ul class="nav nav-sm flex-column">
