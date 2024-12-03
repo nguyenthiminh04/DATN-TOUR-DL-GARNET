@@ -170,9 +170,6 @@ Route::group([], function () {
 });
 
 
-
-
-
 // admin routes
 Route::group(['prefix' => 'admin'], function () {
 
@@ -207,14 +204,3 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 
-// Route::get('/dang-nhap', function () {
-//     return view('client.auth.login');
-// });
-
-// Route::get('/dang-ky', function () {
-//     return view('client.auth.register');
-// });
-
-// Route::get('/dang-ky', function () {
-//     return view('client.auth.register');
-// });

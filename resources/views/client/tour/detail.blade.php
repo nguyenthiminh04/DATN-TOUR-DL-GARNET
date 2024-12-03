@@ -623,8 +623,6 @@
                                         </ul>
                                         <div class="pd_variants_content clearfix">
 
-
-
                                             <ul class="nostyled variant_list clearfix" id="16258400">
                                                 <li class="col-xs-4 variant_title">
                                                     <div class="variant_mutiple" title="Người lớn">Người lớn</div>
@@ -652,11 +650,6 @@
                                                 <li class="col-xs-3 hidden-xss subtotal text-right" id="subtotal">
                                                     0₫</li>
                                             </ul>
-
-
-
-
-
 
                                             <ul class="nostyled variant_list clearfix" id="16258401">
                                                 <li class="col-xs-4 variant_title">
@@ -811,44 +804,7 @@
                                                     quay lại sau.</p>
                                             @endif
                                         </div>
-                                        <script>
-                                            function handleBookingClick(event, url) {
-                                                event.preventDefault();
 
-                                                // Lấy giá trị số lượng người lớn và trẻ em
-                                                const adults = parseInt(document.getElementById('quantity-0').value, 10) || 0;
-                                                const children = parseInt(document.getElementById('quantity-1').value, 10) || 0;
-                                                const maxGuests = {{ $tour['number_guests'] }};
-                                                const totalGuests = adults + children;
-                                                // Kiểm tra số lượng
-                                                if (adults === 0 && children === 0) {
-                                                    alert('Vui lòng chọn số lượng người trước khi đặt tour!');
-                                                    return;
-                                                }
-                                                if (totalGuests > maxGuests) {
-                                                    alert(`Số lượng khách không được vượt quá ${maxGuests} người!`);
-                                                    return;
-                                                }
-                                                // Lưu thông tin vào sessionStorage
-                                                sessionStorage.setItem('tourBooking', JSON.stringify({
-                                                    adults: adults,
-                                                    children: children
-                                                }));
-
-
-                                                window.location.href = url;
-                                            }
-
-                                            // Gắn sự kiện click cho nút 1
-                                            document.getElementById('submit-table').addEventListener('click', function(e) {
-                                                handleBookingClick(e, this.closest('a').href);
-                                            });
-
-                                            // Gắn sự kiện click cho nút 2
-                                            document.getElementById('btnIconMouseScroll').addEventListener('click', function(e) {
-                                                handleBookingClick(e, this.href);
-                                            });
-                                        </script>
 
                                     </div>
                                     <div class="alert alert-warning alert-dismissible margin-top-20" role="alert">
@@ -1340,9 +1296,57 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
     <script>
+        function handleBookingClick(event, url) {
+            event.preventDefault();
+
+            const adults = parseInt(document.getElementById('quantity-0').value, 10) || 0;
+            const children = parseInt(document.getElementById('quantity-1').value, 10) || 0;
+            const maxGuests = {{ $tour['number_guests'] }};
+            const totalGuests = adults + children;
+
+
+            if (adults === 0 && children === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Chưa chọn số lượng!',
+                    text: 'Vui lòng chọn số lượng người trước khi đặt tour!',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+            if (totalGuests > maxGuests) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Quá số lượng!',
+                    text: `Số lượng khách không được vượt quá ${maxGuests} người!`,
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            sessionStorage.setItem('tourBooking', JSON.stringify({
+                adults: adults,
+                children: children
+            }));
+
+            window.location.href = url;
+        }
+
+        // Gắn sự kiện click cho nút 1
+        document.getElementById('submit-table').addEventListener('click', function(e) {
+            handleBookingClick(e, this.closest('a').href);
+        });
+
+        // Gắn sự kiện click cho nút 2
+        document.getElementById('btnIconMouseScroll').addEventListener('click', function(e) {
+            handleBookingClick(e, this.href);
+        });
+
+
         document.addEventListener('DOMContentLoaded', () => {
-            // Hàm xử lý hiển thị hoặc ẩn form trả lời
+
             window.toggleReplyForm = function(commentId) {
                 const replyForm = document.getElementById(`reply-form-${commentId}`);
                 if (replyForm) {
@@ -1351,55 +1355,52 @@
                 }
             };
         });
-    </script>
-    <script>
         $(document).ready(function() {
             var sync1 = $("#sync1");
             var sync2 = $("#sync2");
 
-            // Khởi tạo carousel cho sync1 (carousel chính)
+
             sync1.owlCarousel({
-                items: 1, // 1 ảnh mỗi lần hiển thị
+                items: 1,
                 margin: 10,
                 nav: true,
                 dots: false,
-                loop: false, // Tắt loop ở đây để tránh quay lại ảnh đầu tiên
+                loop: false,
                 autoplay: false,
                 responsiveRefreshRate: 200,
             });
 
-            // Khởi tạo carousel cho sync2 (carousel thu nhỏ)
+
             sync2.owlCarousel({
-                items: 5, // 5 ảnh thu nhỏ
+                items: 5,
                 margin: 10,
                 nav: true,
                 dots: false,
-                loop: false, // Tắt loop cho ảnh thu nhỏ để tránh ảnh đầu tiên
+                loop: false,
                 autoplay: false,
                 responsiveRefreshRate: 100,
             });
 
-            // Đồng bộ hóa khi người dùng nhấn vào ảnh thu nhỏ (sync2)
+
             sync2.on("click", ".item", function(e) {
-                e.preventDefault(); // Ngừng hành động mặc định
-                var index = $(this).index(); // Lấy chỉ số của ảnh được nhấn
+                e.preventDefault();
+                var index = $(this).index();
                 sync1.trigger("to.owl.carousel", [index,
                     300
-                ]); // Di chuyển carousel chính đến ảnh tương ứng
+                ]);
             });
 
-            // Đồng bộ hóa lại khi carousel sync1 thay đổi
+
             sync1.on("changed.owl.carousel", function(event) {
-                var index = event.item.index; // Lấy chỉ số của ảnh đang hiển thị trong sync1
+                var index = event.item.index;
                 sync2.find(".owl-item").removeClass("active").eq(index).addClass(
-                    "active"); // Đánh dấu ảnh thu nhỏ tương ứng
+                    "active");
             });
 
-            // Đảm bảo rằng ảnh thu nhỏ đầu tiên sẽ được làm nổi bật khi tải trang
+
             sync2.find(".item").eq(0).addClass("active");
         });
-    </script>
-    <script>
+
         document.addEventListener('DOMContentLoaded', function() {
             // Kiểm tra nếu phần tử .product-promotions-list-content tồn tại
             var commentContainer = document.querySelector('.product-promotions-list-content');
@@ -1414,9 +1415,7 @@
                 }
             }
         });
-    </script>
 
-    <script>
         document.addEventListener("DOMContentLoaded", function() {
             var startDateTour = <?= json_encode($tour['start_date']) ?>;
             var endDateTour = <?= json_encode($tour['end_date']) ?>;
@@ -1436,8 +1435,7 @@
             });
 
         });
-    </script>
-    <script>
+
         $('#advisoryForm').on('submit', function(e) {
             e.preventDefault();
 
