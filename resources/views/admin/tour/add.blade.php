@@ -11,7 +11,7 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Thêm Tour</li>
+                                <li class="breadcrumb-item active">Thêm mới Tour</li>
                             </ol>
                         </div>
 
@@ -102,12 +102,6 @@
                         <textarea id="editor" name="content"></textarea>
                     </div>
                 </div>
-
-
-
-
-
-
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="mb-3">

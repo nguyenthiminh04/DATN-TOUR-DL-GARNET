@@ -59,12 +59,27 @@
                     </a>
                     <div class="collapse menu-dropdown" id="tour">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="{{ route('tour.index') }}" class="nav-link">Danh mục tour</a>
+                            <li class="nav-item">
+                                <a href="{{route('categorytour.index')}}" class="nav-link">Danh mục tour</a>
                             </li>
                         </ul>
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="{{ route('tour.index') }}" class="nav-link">Danh sách tour</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#article" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="article">
+                        <i class="ph-gauge"></i> <span data-key="t-dashboards">Bài viết</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="article">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{route('article.index')}}" class="nav-link">Danh sách bài viết</a>
                             </li>
                         </ul>
                     </div>

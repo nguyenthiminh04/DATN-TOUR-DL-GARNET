@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\AdvisoryController;
 use App\Http\Controllers\Admin\BookTourController;
-use App\Models\Admins\Categoty_tour;
+use App\Models\Admins\CategoryTour;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\TourController;
@@ -11,9 +11,11 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 
 
@@ -179,8 +181,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('user', UserController::class);
         Route::resource('dontour', BookTourController::class);
         Route::resource('faqs', FaqController::class);
+        Route::resource('article', ArticleController::class);
         Route::resource('notifications', NotificationController::class);
-        Route::resource('category_tour', Categoty_tour::class);
+        Route::resource('categorytour', CategoryTour::class);
         Route::post('/trangthaitour/{id}/thanh-toan', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
 
         Route::resource('trangthaitour', PayController::class);
@@ -188,6 +191,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('coupons', CouponsController::class);
         Route::resource('location', LocationController::class);
         Route::resource('category', CategoryController::class);
+        Route::resource('categorytour', CategoryTourController::class);
         Route::resource('comments', CommentController::class);
         Route::get('comment',                           [CommentController::class, 'index'])->name('comment.index');
         Route::get('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');

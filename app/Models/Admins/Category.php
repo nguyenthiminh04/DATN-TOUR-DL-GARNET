@@ -6,7 +6,7 @@ use App\Models\Status;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Categorys extends Model
+class Category extends Model
 {
     use HasFactory;
     protected $table = 'categories';  // Tên bảng thực sự trong cơ sở dữ liệu
@@ -26,15 +26,15 @@ class Categorys extends Model
  }
  public function user()
 {
-    return $this->belongsTo(UserModel::class, 'user_id');
+    return $this->belongsTo(User::class, 'user_id');
 }
 
 public function parent()
 {
-    return $this->belongsTo(Categorys::class, 'parent_id');
+    return $this->belongsTo(Category::class, 'parent_id');
 }
 public function children()
     {
-        return $this->hasMany(Categorys::class, 'parent_id');
+        return $this->hasMany(Category::class, 'parent_id');
     }
 }

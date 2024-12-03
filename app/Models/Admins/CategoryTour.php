@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Categoty_tour extends Model
+
+class CategoryTour extends Model
 {
+    
     use HasFactory;
-    protected $table = 'category_tour';  // Tên bảng thực sự trong cơ sở dữ liệu
+    protected $table = 'category_tour';  // Tên bảng trong cơ sở dữ liệu
     protected $fillable = [
         'tour_id',
         'category_tour',
@@ -20,6 +22,6 @@ class Categoty_tour extends Model
     Use SoftDeletes;
     public function tours()
     {
-        return $this->hasMany(Tour::class, 'category_tour_id');
+        return $this->hasMany(Tour::class, 'category_tour_id', 'id');
     }
 }
