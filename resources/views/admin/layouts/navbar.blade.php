@@ -112,7 +112,7 @@
                     </div>
                 </li>
 
-                <li class="nav-item">/-strong/-heart:>:o:-((:-h <a href="{{ route('advisory.index') }}" class="nav-link menu-link ">
+                <li class="nav-item"><a href="{{ route('advisory.index') }}" class="nav-link menu-link ">
                         <i class="ri-contacts-book-line"></i>
                         <span data-key="t-calendar">Hỗ trợ tư vấn</span>
                     </a>
