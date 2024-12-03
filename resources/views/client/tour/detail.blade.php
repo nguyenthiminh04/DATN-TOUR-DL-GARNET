@@ -1346,7 +1346,9 @@
 
             window.location.href = url;
         }
+    </script>
 
+    <script>
         // Gắn sự kiện click cho nút 1
         document.getElementById('submit-table').addEventListener('click', function(e) {
             handleBookingClick(e, this.closest('a').href);
@@ -1356,7 +1358,6 @@
         document.getElementById('btnIconMouseScroll').addEventListener('click', function(e) {
             handleBookingClick(e, this.href);
         });
-
 
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -1368,6 +1369,9 @@
                 }
             };
         });
+    </script>
+
+    <script>
         $(document).ready(function() {
             var sync1 = $("#sync1");
             var sync2 = $("#sync2");
@@ -1428,7 +1432,9 @@
                 }
             }
         });
+    </script>
 
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
             var startDateTour = <?= json_encode($tour['start_date']) ?>;
             var endDateTour = <?= json_encode($tour['end_date']) ?>;
@@ -1455,7 +1461,7 @@
             let formData = $(this).serialize();
 
             $.ajax({
-                url: '/advisory',
+                url: '/advisory/',
                 method: 'POST',
                 data: formData,
                 success: function(response) {
