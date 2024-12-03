@@ -38,15 +38,13 @@
                                     <div class="col-100 col-xs-6 col-sm-4 col-md-3 col-lg-3">
                                         <div class="product-box">
                                             <div class="product-thumbnail">
-                                                <a href="{{ route('tour.category', $tour->id) }}"
-                                                    title="{{ $tour->title }}">
+                                                <a href="{{ route('detail', $tour->id) }}" title="{{ $tour->title }}">
                                                     <img src="{{ Storage::url($tour->image) }}" alt="{{ $tour->title }}">
                                                 </a>
                                             </div>
                                             <div class="product-info a-left">
                                                 <h3 class="product-name">
-                                                    <a href="{{ route('tour.category', $tour->id) }}"
-                                                        title="{{ $tour->title }}">
+                                                    <a href="{{ route('detail', $tour->id) }}" title="{{ $tour->title }}">
                                                         {{ $tour->name }}
                                                         [{{ $tour->journeys }}]
                                                     </a>
