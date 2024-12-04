@@ -127,31 +127,13 @@
 
     <script src="client/ant-du-lich.mysapo.net/dist/js/stats.minbadf.js"></script>
     <style>
-        .notification-container {
+        .notification-popup {
             position: fixed;
             top: 10px;
             right: 20px;
             z-index: 1000;
         }
 
-        .notification-toggle {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .notification-toggle:hover {
-            background-color: #0056b3;
-        }
 
         .notification-popup {
             display: none;
@@ -164,6 +146,10 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
             overflow: hidden;
             animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .notification-header h4 {
+            color: #fff
         }
 
         .notification-header {
@@ -179,15 +165,9 @@
             padding: 10px;
         }
 
-        /* .notification-item {
-    display: flex;
-    padding: 10px;
-    border-bottom: 1px solid #f1f1f1;
-    transition: background 0.3s ease;
-} */
-
-        .notification-item:hover {
-            background: #f9f9f9;
+        .notification-time {
+            color: #aaa;
+            font-size: 12px;
         }
 
         .notification-icon img {
@@ -208,18 +188,7 @@
             text-align: center;
         }
 
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            text-decoration: none;
-        }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
 
         /* Hiệu ứng hiển thị */
         @keyframes fadeIn {

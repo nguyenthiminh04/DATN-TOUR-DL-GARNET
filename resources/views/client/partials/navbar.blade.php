@@ -110,15 +110,16 @@ if ($user) {
             @foreach ($notifications as $notification)
                 <div class="notification-item">
                     <div class="notification-content">
-                        <p class="title">{{ $notification->title }}</p>
+                        <p class="title col-3">{{ $notification->title }}</p>
                         <p class="description">--{{ $notification->content }}</p>
+                        <p class="notification-time">{{ $notification->created_at }}</p>
                     </div>
                 </div>
             @endforeach
 
         </div>
         <div class="notification-footer text-center">
-            <button class="btn btn-sm btn-success mark-all-read" id="markAllRead">Đọc Tất Cả</button>
+            <button class="btn btn-md btn-primary mark-all-read" id="markAllRead">Đọc Tất Cả</button>
         </div>
     </div>
 @endif
