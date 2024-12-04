@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use App\Models\NotificationUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,23 +15,21 @@ class NotificationController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            
+
             return DataTables()->of(Notification::select('*'))
                 ->addColumn('all_user', function ($notification) {
-                    if($notification->all_user == 1){
+                    if ($notification->all_user == 1) {
                         return '<span class="text-success">Có</span>';
-                    }else{
+                    } else {
                         return '<span class="text-danger">Không</span>';
                     }
-                    
                 })
                 ->addColumn('is_active', function ($notification) {
-                    if($notification->is_active == 1){
+                    if ($notification->is_active == 1) {
                         return '<span class="text-success">Hiển thị</span>';
-                    }else{
+                    } else {
                         return '<span class="text-danger">Ẩn</span>';
                     }
-                    
                 })
                 ->addColumn('action', function ($notification) {
                     $editUrl = route('notifications.edit', $notification->id);
@@ -39,7 +38,7 @@ class NotificationController extends Controller
                         <a href="#deleteRecordModal" id="deleteItem" data-bs-toggle="modal" data-id="' . $notification->id . '" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
                     ';
                 })
-                ->rawColumns(['all_user','is_active', 'action']) // Cho phép HTML hiển thị trong các cột này
+                ->rawColumns(['all_user', 'is_active', 'action']) // Cho phép HTML hiển thị trong các cột này
                 ->make(true);
         }
 
@@ -60,7 +59,6 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
-        
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:255',
@@ -69,16 +67,41 @@ class NotificationController extends Controller
             'is_active' => 'required|in:0,1',
         ]);
 
-        // dd($request);
-        if ($validatedData) {
-            Notification::create($validatedData);
+        try {
+            // Tạo thông báo
+            $notification = Notification::create($validatedData);
+
+            // Nếu là thông báo cho tất cả người dùng
+            if ($request->all_user == 1) {
+                // Lấy danh sách tất cả người dùng
+                $users = User::all();
+
+                // Tạo dữ liệu để lưu vào bảng notification_user
+                $notificationUsers = $users->map(function ($user) use ($notification) {
+                    return [
+                        'notification_id' => $notification->id,
+                        'user_id' => $user->id,
+                        'is_read' => 0,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                })->toArray();
+
+                // Thêm dữ liệu vào bảng notification_user
+                NotificationUser::insert($notificationUsers);
+            }
+
             session()->flash('success', 'Thêm mới thành công.');
             return back();
-        } else {
+        } catch (\Exception $e) {
+            // Ghi log nếu cần thiết
+            // Log::error($e->getMessage());
+
             session()->flash('error', 'Thêm mới thất bại.');
-            return back();
+            return back()->withErrors($e->getMessage());
         }
     }
+
 
 
     /**
@@ -113,7 +136,7 @@ class NotificationController extends Controller
 
         // dd($request);
         if ($validatedData) {
-           $notification->update($validatedData);
+            $notification->update($validatedData);
             session()->flash('success', 'Sửa thành công.');
             return back();
         } else {
@@ -141,5 +164,41 @@ class NotificationController extends Controller
             ]);
         }
     }
+    public function markAllRead()
+    {
+        try {
+            $user = auth()->user();
+
+            if (!$user) {
+                return response()->json(['success' => false, 'message' => 'Bạn chưa đăng nhập.'], 401);
+            }
+
+            // Cập nhật tất cả thông báo của người dùng thành đã đọc
+            $user->notifications()->update(['is_read' => 1]);
+
+            return response()->json(['success' => true, 'message' => 'Đã đánh dấu tất cả thông báo là đã đọc.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra.'], 500);
+        }
+    }
+
+    public function getUnreadCount()
+{
+    $user = auth()->user();
+
+    if (!$user) {
+        return response()->json(['success' => false, 'message' => 'Bạn chưa đăng nhập.'], 401);
+    }
+
+    // Lấy thông báo chưa đọc
+    $unreadCount = Notification::query()
+        ->whereHas('users', function ($q) use ($user) {
+            $q->where('user_id', $user->id)->where('is_read', 0); // Chỉ lấy thông báo chưa đọc
+        })
+        ->where('is_active', 1)
+        ->count(); // Đếm trực tiếp số lượng
+
+    return response()->json(['success' => true, 'unreadCount' => $unreadCount]);
+}
 
 }

@@ -130,7 +130,7 @@ Route::group([], function () {
     Route::get('/dich-vu/{id}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/cam-nang', [HandbookController::class, 'index'])->name('handbook.index');
     Route::get('/cam-nang/{id}', [HandbookController::class, 'show'])->name('handbook.show');
-    
+
     Route::get('/tour-trong-nuoc', function () {
         return view('client.pages.domesticTour');
     });
@@ -176,9 +176,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('comment',                           [CommentController::class, 'index'])->name('comment.index');
         Route::get('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
         Route::post('comment/status/{id}',              [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
+        // thông báo
         Route::resource('notification-user', NotificationUserController::class);
         Route::get('/users/search', [NotificationUserController::class, 'searchUsers'])->name('users.search');
-        
+        Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.markAllRead');
+        Route::get('admin/notifications/unread-count', [NotificationController::class, 'getUnreadCount'])->name('notifications.unreadCount');
+
+        // end thông báo
         Route::get('advisory',                           [AdvisoryController::class, 'index'])->name('advisory.index');
         Route::get('advisory/delete/{id}',               [AdvisoryController::class, 'destroy'])->name('advisory.delete');
         Route::post('advisory/status/{id}',              [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');

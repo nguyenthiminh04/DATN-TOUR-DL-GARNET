@@ -336,7 +336,7 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="{{route('service.index')}}">Dịch vụ tour</a>
+                        <a href="{{ route('service.index') }}">Dịch vụ tour</a>
                     </li>
 
                     {{-- <li class="ng-scope">
@@ -763,6 +763,76 @@
             });
         });
     </script>
+
+    {{-- popup thông báo --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notificationIcon = document.getElementById('showNotifications');
+            const notificationPopup = document.getElementById('notificationPopup');
+
+
+
+            // Hiển thị popup khi click
+            notificationIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                notificationPopup.style.display =
+                    notificationPopup.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Ẩn popup khi click ra ngoài
+            window.addEventListener('click', function(e) {
+                if (!notificationIcon.contains(e.target) && !notificationPopup.contains(e.target)) {
+                    notificationPopup.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    {{-- đọc thông báo --}}
+    <script>
+        document.getElementById('markAllRead').addEventListener('click', function() {
+            fetch("{{ route('notifications.markAllRead') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: data.message,
+                        });
+                        // Gửi AJAX để lấy số lượng thông báo chưa đọc
+                        $.ajax({
+                            url: "{{ route('notifications.unreadCount') }}",
+                            type: "GET",
+                            success: function(response) {
+                                if (response.success) {
+                                    // Cập nhật số lượng trong badge
+                                    $('.badge-danger').text(response.unreadCount);
+                                }
+                            },
+                            error: function() {
+                                console.error('Lỗi khi lấy số lượng thông báo chưa đọc.');
+                            }
+                        });
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Thất bại!',
+                            text: data.message,
+                        });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+
 </body>
 
 </html>

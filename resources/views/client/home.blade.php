@@ -258,15 +258,15 @@
                                             aria-hidden="true"></i>
                                         {{ Auth::user()->name }}</a></li>
 
-                                        <li>
-                                            <form method="POST" action="{{ route('logouts') }}" style="display:inline;">
-                                                @csrf
-                                                <button type="submit" style="border: none; background: none; padding: 0; color: inherit;">
-                                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
-                                                </button>
-                                            </form>
-                                        </li>
-                                        
+                                <li>
+                                    <form method="POST" action="{{ route('logouts') }}" style="display:inline;">
+                                        @csrf
+                                        <button type="submit"
+                                            style="border: none; background: none; padding: 0; color: inherit;">
+                                            <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                        </button>
+                                    </form>
+                                </li>
                             @else
                                 <li><a href="{{ url('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
                                         Đăng
@@ -1384,7 +1384,7 @@
 
                                     <li><a href="index.html">Trang chủ</a></li>
 
-                                    <li><a href="{{route('introduce.index')}}">Giới thiệu</a></li>
+                                    <li><a href="{{ route('introduce.index') }}">Giới thiệu</a></li>
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
 
@@ -1392,7 +1392,7 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="{{route('service.index')}}">Dịch vụ tour</a></li>
+                                    <li><a href="{{ route('service.index') }}">Dịch vụ tour</a></li>
 
                                     {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
@@ -1408,7 +1408,7 @@
 
                                     <li><a href="index.html">Trang chủ</a></li>
 
-                                    <li><a href="{{route('introduce.index')}}">Giới thiệu</a></li>
+                                    <li><a href="{{ route('introduce.index') }}">Giới thiệu</a></li>
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
 
@@ -1416,7 +1416,7 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="{{route('service.index')}}">Dịch vụ tour</a></li>
+                                    <li><a href="{{ route('service.index') }}">Dịch vụ tour</a></li>
 
                                     {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
@@ -1432,7 +1432,7 @@
 
                                     <li><a href="index.html">Trang chủ</a></li>
 
-                                    <li><a href="{{route('introduce.index')}}">Giới thiệu</a></li>
+                                    <li><a href="{{ route('introduce.index') }}">Giới thiệu</a></li>
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
 
@@ -1440,7 +1440,7 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="{{route('service.index')}}">Dịch vụ tour</a></li>
+                                    <li><a href="{{ route('service.index') }}">Dịch vụ tour</a></li>
 
                                     {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
@@ -2209,7 +2209,7 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="{{route('introduce.index')}}">Giới thiệu</a>
+                        <a href="{{ route('introduce.index') }}">Giới thiệu</a>
                     </li>
 
                     <li class="ng-scope ng-has-child1">
@@ -2341,7 +2341,7 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="{{route('service.index')}}">Dịch vụ tour</a>
+                        <a href="{{ route('service.index') }}">Dịch vụ tour</a>
                     </li>
 
                     {{-- <li class="ng-scope">
@@ -2835,8 +2835,54 @@
             });
         });
     </script>
-   
-    
+    {{-- đọc thông báo --}}
+    <script>
+        document.getElementById('markAllRead').addEventListener('click', function() {
+            fetch("{{ route('notifications.markAllRead') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: data.message,
+                        });
+                        // Gửi AJAX để lấy số lượng thông báo chưa đọc
+                        $.ajax({
+                            url: "{{ route('notifications.unreadCount') }}",
+                            type: "GET",
+                            success: function(response) {
+                                if (response.success) {
+                                    $('.badge-danger').text(response.unreadCount);
+                                }
+                            },
+                            error: function(error) {
+                                console.error(error.responseJSON.message);
+                            }
+                        });
+
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Thất bại!',
+                            text: data.message,
+                        });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+
+
+
 </body>
 
 </html>

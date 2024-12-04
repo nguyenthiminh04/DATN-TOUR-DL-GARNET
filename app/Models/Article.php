@@ -30,7 +30,7 @@ class Article extends Model
     // Thiết lập mối quan hệ với model Category
     public function category()
     {
-        return $this->belongsTo(Categorys::class);
+        return $this->belongsTo(Category::class);
     }
 
     // Thiết lập mối quan hệ với model User

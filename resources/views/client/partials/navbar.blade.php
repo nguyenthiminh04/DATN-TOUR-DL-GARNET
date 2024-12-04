@@ -1,3 +1,29 @@
+<?php
+use App\Models\Notification;
+// Lấy thông báo
+$notifications = collect(); // Tạo một collection rỗng mặc định
+$unreadNotifications = collect(); // Thông báo chưa đọc
+$user = auth()->user();
+
+if ($user) {
+    $notifications = Notification::query()
+        ->whereHas('users', function ($q) use ($user) {
+            $q->where('user_id', $user->id); // Lấy thông báo dành riêng cho người dùng
+        })
+        ->where('is_active', 1) // Chỉ lấy thông báo đang hoạt động
+        ->orderByDesc('created_at') // Sắp xếp thông báo mới nhất
+        ->get();
+
+    // Lấy thông báo chưa đọc
+    $unreadNotifications = Notification::query()
+        ->whereHas('users', function ($q) use ($user) {
+            $q->where('user_id', $user->id)->where('is_read', 0); // Chỉ lấy thông báo chưa đọc
+        })
+        ->where('is_active', 1)
+        ->orderByDesc('created_at')
+        ->get();
+}
+?>
 <nav>
     <div class="container">
         <div class="row">
@@ -47,8 +73,8 @@
                     @endforeach
 
                     <!-- Các menu tĩnh -->
-                    <li class="nav-item"><a class="nav-link" href="{{route('introduce.index')}}">Giới thiệu</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{route('service.index')}}">Dịch vụ tour</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('introduce.index') }}">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('service.index') }}">Dịch vụ tour</a></li>
                     {{-- <li class="nav-item"><a class="nav-link" href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
                     <li class="nav-item"><a class="nav-link" href="{{ route('contact.index') }}">Liên hệ</a></li>
@@ -59,7 +85,12 @@
                     <li>
                         <a href="#" class="notification-icon" id="showNotifications">
                             <i class="fa fa-bell"></i> Thông báo
-                            <span class="badge badge-danger">{{ $notifications->where('is_read', false)->count() }}</span>
+                            @if (Auth()->user())
+                                <span class="badge badge-danger">{{ $unreadNotifications->count() }}</span>
+                            @else
+                                <span class="badge badge-danger">0</span>
+                            @endif
+
                         </a>
                     </li>
                 </ul>
@@ -68,22 +99,26 @@
     </div>
 </nav>
 <!-- Modal hiển thị thông báo -->
-<div class="notification-popup" id="notificationPopup">
-    <div class="notification-header">
-        <h4>Thông Báo Mới Nhận</h4>
-    </div>
-    <div class="notification-body">
-        <!-- Hiển thị các thông báo -->
-        @foreach ($notifications as $notification)
-            <div class="notification-item">
-                <div class="notification-content">
-                    <p class="title">{{ $notification->title }}</p>
-                    <p class="description">--{{ $notification->content }}</p>
+@if (Auth()->user())
+    <div class="notification-popup" id="notificationPopup">
+        <div class="notification-header">
+            <h4>Thông Báo Mới Nhận</h4>
+            {{-- <button class="btn btn-sm btn-success mark-all-read" id="markAllRead">Đọc Tất Cả</button> --}}
+        </div>
+        <div class="notification-body">
+            <!-- Hiển thị các thông báo -->
+            @foreach ($notifications as $notification)
+                <div class="notification-item">
+                    <div class="notification-content">
+                        <p class="title">{{ $notification->title }}</p>
+                        <p class="description">--{{ $notification->content }}</p>
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+
+        </div>
+        <div class="notification-footer text-center">
+            <button class="btn btn-sm btn-success mark-all-read" id="markAllRead">Đọc Tất Cả</button>
+        </div>
     </div>
-    {{-- <div class="notification-footer text-center">
-        <a href="#" class="btn btn-primary">Xem tất cả</a>
-    </div> --}}
-</div>
+@endif
