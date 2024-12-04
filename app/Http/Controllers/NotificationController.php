@@ -181,4 +181,24 @@ class NotificationController extends Controller
             return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra.'], 500);
         }
     }
+
+    public function getUnreadCount()
+{
+    $user = auth()->user();
+
+    if (!$user) {
+        return response()->json(['success' => false, 'message' => 'Bạn chưa đăng nhập.'], 401);
+    }
+
+    // Lấy thông báo chưa đọc
+    $unreadCount = Notification::query()
+        ->whereHas('users', function ($q) use ($user) {
+            $q->where('user_id', $user->id)->where('is_read', 0); // Chỉ lấy thông báo chưa đọc
+        })
+        ->where('is_active', 1)
+        ->count(); // Đếm trực tiếp số lượng
+
+    return response()->json(['success' => true, 'unreadCount' => $unreadCount]);
+}
+
 }
