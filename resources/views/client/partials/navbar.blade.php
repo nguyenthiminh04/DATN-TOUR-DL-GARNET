@@ -47,8 +47,8 @@
                     @endforeach
 
                     <!-- Các menu tĩnh -->
-                    <li class="nav-item"><a class="nav-link" href="{{route('introduce.index')}}">Giới thiệu</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{route('service.index')}}">Dịch vụ tour</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('introduce.index') }}">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('service.index') }}">Dịch vụ tour</a></li>
                     {{-- <li class="nav-item"><a class="nav-link" href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
                     <li class="nav-item"><a class="nav-link" href="{{ route('contact.index') }}">Liên hệ</a></li>
@@ -59,7 +59,13 @@
                     <li>
                         <a href="#" class="notification-icon" id="showNotifications">
                             <i class="fa fa-bell"></i> Thông báo
-                            <span class="badge badge-danger">{{ $notifications->where('is_read', false)->count() }}</span>
+                            @if (Auth()->user())
+                                <span
+                                    class="badge badge-danger">{{ $notifications->where('is_read', false)->count() }}</span>
+                            @else
+                                <span class="badge badge-danger">0</span>
+                            @endif
+
                         </a>
                     </li>
                 </ul>
@@ -68,22 +74,25 @@
     </div>
 </nav>
 <!-- Modal hiển thị thông báo -->
-<div class="notification-popup" id="notificationPopup">
-    <div class="notification-header">
-        <h4>Thông Báo Mới Nhận</h4>
-    </div>
-    <div class="notification-body">
-        <!-- Hiển thị các thông báo -->
-        @foreach ($notifications as $notification)
-            <div class="notification-item">
-                <div class="notification-content">
-                    <p class="title">{{ $notification->title }}</p>
-                    <p class="description">--{{ $notification->content }}</p>
+@if (Auth()->user())
+    <div class="notification-popup" id="notificationPopup">
+        <div class="notification-header">
+            <h4>Thông Báo Mới Nhận</h4>
+        </div>
+        <div class="notification-body">
+            <!-- Hiển thị các thông báo -->
+            @foreach ($notifications as $notification)
+                <div class="notification-item">
+                    <div class="notification-content">
+                        <p class="title">{{ $notification->title }}</p>
+                        <p class="description">--{{ $notification->content }}</p>
+                    </div>
                 </div>
-            </div>
-        @endforeach
-    </div>
-    {{-- <div class="notification-footer text-center">
+            @endforeach
+
+        </div>
+        {{-- <div class="notification-footer text-center">
         <a href="#" class="btn btn-primary">Xem tất cả</a>
     </div> --}}
-</div>
+    </div>
+@endif
