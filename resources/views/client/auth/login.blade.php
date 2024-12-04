@@ -1,6 +1,7 @@
 @extends('client.layouts.app')
 
 @section('style')
+
 @endsection
 
 @section('content')
@@ -81,10 +82,10 @@
                                     height="37px" alt="google-login-button"
                                     src="http://bizweb.dktcdn.net/assets/admin/images/login/gp-btn.svg"></a>
                         </div>
-                        <form method="post" action="{{ route('post-dang-nhap') }}">
+                        <form method="post" id="loginForm" action="{{ route('post-dang-nhap') }}">
                             @csrf
                             <div class="form-signup">
-                                @if ($errors->any())
+                                {{-- @if ($errors->any())
                                     <div class="alert alert-danger mt-3">
                                         <ul>
                                             @foreach ($errors->all() as $error)
@@ -92,7 +93,7 @@
                                             @endforeach
                                         </ul>
                                     </div>
-                                @endif
+                                @endif --}}
                             </div>
                             <div class="form-signup clearfix">
                                 <fieldset class="form-group">
@@ -105,7 +106,7 @@
                                     <input type="password" class="form-control form-control-lg" name="password" />
                                 </fieldset>
                                 <div class="pull-xs-left" style="margin-top: 15px;">
-                                    <input class="btn btn-style btn-blues" type="submit" value="Đăng nhập" />
+                                    <button class="btn btn-style btn-blues" type="submit" >Đăng nhập</button>
                                     <a href="" class="btn-link-style btn-register"
                                         style="margin-left: 20px;color:#007FF0;text-decoration: underline; ">Đăng ký</a>
                                 </div>
@@ -119,10 +120,10 @@
                     <span>
                         Bạn quên mật khẩu? Nhập địa chỉ email để lấy lại mật khẩu qua email.
                     </span>
-                    <form method="post" action="{{ route('password.request') }}"
-                        id="recover_customer_password" accept-charset="UTF-8">
+                    <form method="post" action="{{ route('password.request') }}" id="recover_customer_password"
+                        accept-charset="UTF-8">
                         @csrf
-                        @method("POST")
+                        @method('POST')
                         <div class="form-signup aaaaaaaa">
 
                         </div>
@@ -137,7 +138,8 @@
                             </fieldset>
                         </div>
                         <div class="action_bottom">
-                                <button class="btn btn-style btn-blues" style="margin-top: 15px;" type="submit">Gửi liên kết đặt lại mật khẩu</button>
+                            <button class="btn btn-style btn-blues" style="margin-top: 15px;" type="submit">Gửi liên kết
+                                đặt lại mật khẩu</button>
                         </div>
                     </form>
                 </div>
@@ -157,5 +159,65 @@
             document.getElementById('recover-password').style.display = 'none';
             document.getElementById('login').style.display = 'block';
         }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('{{ route('post-dang-nhap') }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: data.message,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = '{{ route('home') }}';
+                        });
+                    } else if (data.status === 'validation_error') {
+                        // Xử lý lỗi xác thực
+                        let errors = '';
+                        for (let field in data.errors) {
+                            errors += `${data.errors[field].join('<br>')}<br>`;
+                        }
+
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Lỗi xác thực',
+                            html: errors,
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Thất bại',
+                            text: data.message,
+                            confirmButtonText: 'Thử lại'
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Đã xảy ra lỗi trong quá trình xử lý.',
+                        confirmButtonText: 'OK'
+                    });
+                    console.error('Error:', error);
+                });
+        });
     </script>
 @endsection

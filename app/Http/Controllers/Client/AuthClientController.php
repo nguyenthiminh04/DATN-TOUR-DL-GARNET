@@ -23,28 +23,38 @@ class AuthClientController extends Controller
     }
     public function postDangNhap(Request $request)
     {
-        $request->validate([
+        $validator = \Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|min:6',
         ], [
-
             'email.required' => 'Email là bắt buộc.',
             'email.email' => 'Email phải có định dạng hợp lệ.',
-
             'password.required' => 'Mật khẩu là bắt buộc.',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'validation_error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Đăng nhập thành công!',
+            ]);
         } else {
-            return redirect()->route('dang-nhap')->withErrors([
-                'email' => 'Email hoặc mật khẩu không chính xác.',
-            ])->withInput();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Email hoặc mật khẩu không chính xác.',
+            ]);
         }
     }
+
 
     public function DangKy()
     {
