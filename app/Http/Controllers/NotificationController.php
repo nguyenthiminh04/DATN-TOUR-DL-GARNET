@@ -164,4 +164,21 @@ class NotificationController extends Controller
             ]);
         }
     }
+    public function markAllRead()
+    {
+        try {
+            $user = auth()->user();
+
+            if (!$user) {
+                return response()->json(['success' => false, 'message' => 'Bạn chưa đăng nhập.'], 401);
+            }
+
+            // Cập nhật tất cả thông báo của người dùng thành đã đọc
+            $user->notifications()->update(['is_read' => 1]);
+
+            return response()->json(['success' => true, 'message' => 'Đã đánh dấu tất cả thông báo là đã đọc.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra.'], 500);
+        }
+    }
 }

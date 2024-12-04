@@ -60,8 +60,7 @@
                         <a href="#" class="notification-icon" id="showNotifications">
                             <i class="fa fa-bell"></i> Thông báo
                             @if (Auth()->user())
-                                <span
-                                    class="badge badge-danger">{{ $notifications->where('is_read', false)->count() }}</span>
+                                <span class="badge badge-danger">{{ $unreadNotifications->count() }}</span>
                             @else
                                 <span class="badge badge-danger">0</span>
                             @endif
@@ -78,6 +77,7 @@
     <div class="notification-popup" id="notificationPopup">
         <div class="notification-header">
             <h4>Thông Báo Mới Nhận</h4>
+            {{-- <button class="btn btn-sm btn-success mark-all-read" id="markAllRead">Đọc Tất Cả</button> --}}
         </div>
         <div class="notification-body">
             <!-- Hiển thị các thông báo -->
@@ -91,8 +91,8 @@
             @endforeach
 
         </div>
-        {{-- <div class="notification-footer text-center">
-        <a href="#" class="btn btn-primary">Xem tất cả</a>
-    </div> --}}
+        <div class="notification-footer text-center">
+            <button class="btn btn-sm btn-success mark-all-read" id="markAllRead">Đọc Tất Cả</button>
+        </div>
     </div>
 @endif

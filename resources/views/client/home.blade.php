@@ -2835,6 +2835,38 @@
             });
         });
     </script>
+    {{-- đọc thông báo --}}
+    <script>
+        document.getElementById('markAllRead').addEventListener('click', function () {
+            fetch("{{ route('notifications.markAllRead') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon:'success',
+                        title: 'Thành công!',
+                        text: data.message,
+                    });
+                    
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Thất bại!',
+                        text: data.message,
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+    
    
     
 </body>

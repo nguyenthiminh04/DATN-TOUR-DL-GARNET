@@ -52,10 +52,16 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * Mối quan hệ với Notification thông qua bảng trung gian notification_user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function notifications()
     {
-        return $this->belongsToMany(Notification::class, 'notification_user');
-                    
+        return $this->belongsToMany(Notification::class, 'notification_user')
+            ->withPivot('is_read', 'created_at')
+            ->withTimestamps();
     }
 
     public function favorites()
@@ -66,5 +72,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(BookTour::class, 'user_id');
     }
-    
 }

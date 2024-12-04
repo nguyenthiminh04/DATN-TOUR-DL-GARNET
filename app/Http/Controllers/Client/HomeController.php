@@ -31,6 +31,7 @@ class HomeController extends Controller
 
         // Lấy thông báo
         $notifications = collect(); // Tạo một collection rỗng mặc định
+        $unreadNotifications = collect(); // Thông báo chưa đọc
         $user = auth()->user();
 
         if ($user) {
@@ -41,10 +42,20 @@ class HomeController extends Controller
                 ->where('is_active', 1) // Chỉ lấy thông báo đang hoạt động
                 ->orderByDesc('created_at') // Sắp xếp thông báo mới nhất
                 ->get();
+
+            // Lấy thông báo chưa đọc
+            $unreadNotifications = Notification::query()
+            ->whereHas('users', function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->where('is_read', 0); // Chỉ lấy thông báo chưa đọc
+            })
+            ->where('is_active', 1)
+            ->orderByDesc('created_at')
+            ->get();
         }
 
 
-        return view('client.home', compact('Tourmoinhat', 'locations', 'categories', 'categoryes', 'notifications'));
+        return view('client.home', compact('Tourmoinhat', 'locations', 'categories', 'categoryes', 'notifications', 'unreadNotifications'));
     }
     public function show($id)
     {
