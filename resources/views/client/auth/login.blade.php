@@ -188,7 +188,7 @@
                             window.location.href = '{{ route('home') }}';
                         });
                     } else if (data.status === 'validation_error') {
-                        // Xử lý lỗi xác thực
+                       
                         let errors = '';
                         for (let field in data.errors) {
                             errors += `${data.errors[field].join('<br>')}<br>`;
