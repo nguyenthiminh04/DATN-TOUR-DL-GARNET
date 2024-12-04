@@ -172,21 +172,31 @@
                         <div class="row g-0">
                             <div class="col-xl-9">
                                 <div class="card-header border-0 align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Tour hot</h4>
-                                    <div>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            ALL
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            1M
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            6M
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-primary btn-sm">
-                                            1Y
-                                        </button>
-                                    </div>
+                                    
+                                 
+                                        <form autocomplete="off" action="" method="POST">
+                                            @csrf
+                                            <div class="d-flex">
+                                                <h4 class="card-title mb-0 flex-grow-1">Tour hot</h4>
+                                                <div class="col-md-2 d-flex">
+                                                    <input type="text" id="datepicker" class="form-control" placeholder="Từ ngày">
+                                                </div>
+                                                <div class="col-md-2 d-flex">
+                                                    <input type="text" id="datepicker2" class="form-control" placeholder="Đến ngày">
+                                                </div>
+                                                <div class="col-md-4 d-flex">
+                                                    <input type="button" name="" id="btn-dashboard-filter" class="btn btn-primary" value="Lọc">
+                                                    <select id="dashboard-filter" class="form-control">
+                                                        <option value="7day">7 ngày qua</option>
+                                                        <option value="thangTrc">Tháng trước</option>
+                                                        <option value="thangNay">Tháng này</option>
+                                                        <option value="365day">365 ngày qua</option>
+                                                    </select>
+                                                </div>
+                                                
+                                            </div>
+                                        </form>
+                                 
                                 </div><!-- end card header -->
                                 <div class="card-body ps-0">
                                     <div class="w-100">
