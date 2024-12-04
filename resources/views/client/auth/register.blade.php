@@ -170,8 +170,12 @@
                                             </div>
                                             <div class="col-md-12" style="margin-bottom: 10px">
                                                 <button type="submit" class="btn btn-primary"
-                                                    style="background-color: #007FF0">Đăng ký</button>
+                                                    style="background-color: #007FF0; width: 120px">Đăng ký</button>
+                                                <a href="{{ url('dang-nhap') }}" class="btn btn-style btn-dark"
+                                                    style="width: 120px">Đăng
+                                                    nhập</a>
                                             </div>
+
                                         </form>
 
                                     </div>
