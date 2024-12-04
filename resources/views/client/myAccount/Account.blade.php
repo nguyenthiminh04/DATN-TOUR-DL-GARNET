@@ -149,42 +149,42 @@
                             </div>
                         </div>
                     </div>
-                    @if(session('success'))
-                    <div class="alert alert-success alert-dismissible" role="alert" id="successAlert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong>Thành công!</strong> {{ session('success') }}
-                    </div>
-                @endif
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible" role="alert" id="successAlert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Thành công!</strong> {{ session('success') }}
+                        </div>
+                    @endif
 
-                @if($errors->any())
-                    <div class="alert alert-danger alert-dismissible" role="alert" id="errorAlert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong>Lỗi!</strong>
-                        <ul>
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <script>
-                    setTimeout(function() {
-                        $('#successAlert').fadeOut('slow');
-                    }, 1000);
-                    setTimeout(function() {
-                        $('#errorAlert').fadeOut('slow');
-                    }, 1000);
-                </script>
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible" role="alert" id="errorAlert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Lỗi!</strong>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <script>
+                        setTimeout(function() {
+                            $('#successAlert').fadeOut('slow');
+                        }, 1000);
+                        setTimeout(function() {
+                            $('#errorAlert').fadeOut('slow');
+                        }, 1000);
+                    </script>
 
 
                     <div id="change-password" class="content-section" style="display: none;">
                         <h1 class="title-head">Đổi mật khẩu</h1>
                         <div class="page-login">
-                            <form method="POST" action="{{ route('user.changePassword') }}" id="yourFormID change_customer_password"
+                            <form method="POST" action="{{ route('user.changePassword') }}" id="changePasswordForm"
                                 accept-charset="UTF-8">
                                 @csrf
                                 <p>
@@ -346,7 +346,7 @@
                         </div>
                         end? --}}
                         <button class="btn-edit-addr btn btn-blues btn-more" type="button" data-toggle="modal"
-                            data-target="#addAddressModal">
+                            data-target="#addAddressModal" style="margin-bottom: 15px">
                             Thêm địa chỉ
                         </button>
                         <div class="form-signup name-account m992">
@@ -383,10 +383,10 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title align-items-end justify-content-center"
-                                            id="addAddressLabel">Thêm địa chỉ mới</h4>  
+                                            id="addAddressLabel">Thêm địa chỉ mới</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="post" action="{{ route('user.address') }}" id="yourFormID customer_address"
+                                        <form method="post" action="{{ route('user.address') }}" id="addressForm"
                                             accept-charset="UTF-8">
                                             @csrf
                                             <input name="FormType" type="hidden" value="customer_address" />
@@ -472,6 +472,114 @@
             });
             //địa chỉ danh sách 
         </script>
-        
+
     </section>
+@endsection
+@section('script')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('{{ route('user.changePassword') }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content'),
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: data.message,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else if (data.status === 'error') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: data.message,
+                            confirmButtonText: 'OK'
+                        });
+                    } else if (data.errors) {
+
+                        let errors = '';
+                        for (let field in data.errors) {
+                            errors += `${data.errors[field].join('<br>')}<br>`;
+                        }
+
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Lỗi xác thực',
+                            html: errors,
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Đã xảy ra lỗi trong quá trình xử lý.',
+                        confirmButtonText: 'OK'
+                    });
+                    console.error('Error:', error);
+                });
+        });
+
+
+        document.getElementById('addressForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('{{ route('user.address') }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content'),
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: data.message,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: data.message,
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Đã xảy ra lỗi trong quá trình xử lý.',
+                        confirmButtonText: 'OK'
+                    });
+                    console.error('Error:', error);
+                });
+        });
+    </script>
 @endsection

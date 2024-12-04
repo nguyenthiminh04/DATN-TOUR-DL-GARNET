@@ -105,9 +105,10 @@
                                     <input type="password" class="form-control form-control-lg" name="password" />
                                 </fieldset>
                                 <div class="pull-xs-left" style="margin-top: 15px;">
-                                    <button class="btn btn-style btn-blues" type="submit">Đăng nhập</button>
-                                    <a href="{{ url('dang-ky') }}" class="btn-link-style btn-register"
-                                        style="margin-left: 20px;color:#007FF0;text-decoration: underline; ">Đăng ký</a>
+                                    <button class="btn btn-style btn-blues" type="submit" style="width: 120px">Đăng
+                                        nhập</button>
+                                    <a href="{{ url('dang-ky') }}" class="btn btn-style btn-dark" style="width: 120px">Đăng
+                                        ký</a>
                                 </div>
                             </div>
                         </form>
