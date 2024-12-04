@@ -100,7 +100,7 @@ if ($user) {
 </nav>
 <!-- Modal hiển thị thông báo -->
 @if (Auth()->user())
-    <div class="notification-popup" id="notificationPopup">
+    <div class="notification-popup" id="notificationPopup" style="display: none">
         <div class="notification-header">
             <h4>Thông Báo Mới Nhận</h4>
             {{-- <button class="btn btn-sm btn-success mark-all-read" id="markAllRead">Đọc Tất Cả</button> --}}
