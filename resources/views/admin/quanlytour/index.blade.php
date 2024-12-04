@@ -1,6 +1,36 @@
 @extends('admin.layouts.app')
 
 @section('style')
+<style>
+    .filter-form {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+    }
+
+    .filter-form .form-group {
+        margin-bottom: 15px;
+    }
+
+    .filter-form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .filter-form .form-control {
+        border-radius: 5px;
+    }
+
+    .filter-form button {
+        width: 100%;
+    }
+
+    #filter-form-container {
+        margin-top: 15px;
+    }
+</style>
+
 @endsection
 @section('content')
     <div class="page-content">
@@ -30,42 +60,46 @@
                         <div class="card-body">
                             <div class="row align-items-center g-2">
                                 <div class="col-lg-3 me-auto">
-                                    {{-- <h6 class="card-title mb-0">Instructors List <span
-                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6> --}}
+                                    {{-- Tựa đề --}}
                                 </div><!--end col-->
+                            
                                 <div class="col-lg-2">
-                                    <div class="search-box">
+                                    <div class="search-box" id="filter-form-container" style="display: none;">
                                         <!-- Form tìm kiếm -->
-                                        <form action="{{ route('trangthaitour.index') }}" method="GET">
-                                            <div>
-                                                <label for="search_date">Chọn ngày:</label>
-                                                <input type="date" name="search_date" id="search_date" value="{{ request('search_date') }}">
+                                        <form action="{{ route('trangthaitour.index') }}" method="GET" class="filter-form">
+                                            <div class="form-group">
+                                                <label for="start_date">Từ ngày:</label>
+                                                <input type="date" name="start_date" id="start_date" value="{{ request('start_date') }}" class="form-control">
                                             </div>
-                                            <button type="submit">Tìm kiếm</button>
+                                            <div class="form-group">
+                                                <label for="end_date">Đến ngày:</label>
+                                                <input type="date" name="end_date" id="end_date" value="{{ request('end_date') }}" class="form-control">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mt-2">Tìm kiếm</button>
                                         </form>
-                                        
                                     </div>
                                 </div><!--end col-->
+                            
                                 <div class="col-lg-auto">
                                     <div class="hstack flex-wrap gap-2">
-                                        <button class="btn btn-subtle-danger d-none" id="remove-actions"
-                                            onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                            <a href="{{route('coupons.create')}}" class="btn btn-success"><i data-feather="plus-square"></i>
-                                                Thêm chức vụ
-                                            </a>
+                                        <button class="btn btn-subtle-danger d-none" id="remove-actions" onClick="deleteMultiple()">
+                                            <i class="ri-delete-bin-2-line"></i>
+                                        </button>
+                                        <a href="{{route('coupons.create')}}" class="btn btn-success">
+                                            <i data-feather="plus-square"></i> Thêm chức vụ
+                                        </a>
                                         <div>
-                                            <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
-                                                data-bs-target="#courseFilters" aria-controls="courseFilters"><i
-                                                    class="bi bi-funnel align-baseline me-1"></i> Filter</button>
-                                            <a href="apps-learning-grid.html" class="btn btn-subtle-primary btn-icon"><i
-                                                    class="bi bi-grid"></i></a>
-                                            <a href="apps-learning-list.html"
-                                                class="btn btn-subtle-primary active btn-icon"><i
-                                                    class="bi bi-list-task"></i></a>
+                                            <!-- Nút Filter -->
+                                            <button type="button" class="btn btn-info" id="filter-button">
+                                                <i class="bi bi-funnel align-baseline me-1"></i> Filter
+                                            </button>
+                                            <a href="apps-learning-grid.html" class="btn btn-subtle-primary btn-icon"><i class="bi bi-grid"></i></a>
+                                            <a href="apps-learning-list.html" class="btn btn-subtle-primary active btn-icon"><i class="bi bi-list-task"></i></a>
                                         </div>
                                     </div>
                                 </div><!--end col-->
                             </div>
+                            
                         </div>
                         <div class="card-body">
                             <div class="table-responsive table-card">
@@ -94,12 +128,26 @@
                                             <td>{{ $item->booking->user->name }}</td>
                                             <td>{{ $item->booking->tour->name }}</td>
                                             <td>{{ $item->booking->name }}</td>
-                                            <td class="{{ $item->payment_status_id == 1 ? 'text-danger' : 'text-success' }}">
-                                                {{ $item->payment_status_id == 1 ? 'Chưa Thanh Toán' : 'Đã Thanh Toán' }}</td>
+                                            {{-- <td class="{{ $item->payment_status_id == 1 ? 'text-danger' : 'text-success' }}">
+                                                {{ $item->payment_status_id == 1 ? 'Chưa Thanh Toán' : 'Đã Thanh Toán' }}</td> --}}
                                             {{-- <td>{{ $item->name }}</td> --}}
                                            
                                             {{-- <td>{{ $item->name }}</td> --}}
-                                            
+                                            <td>
+                                                <form action="{{ route('trangthaitour.updateThanhToan', $item->id) }}" method="POST">
+                                                    @csrf
+                                                    <select name="payment_status_id" class="form-select w-75" onchange="confirmSubmitThanhToan(this)" data-default-value="{{ $item->payment_status_id }}">
+                                                        @foreach ($trangThaiThanhToan as $key => $value)
+                                                            <option value="{{ $key }}" {{ $key == $item->payment_status_id ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </form>
+                                                
+                                                
+                                                
+                                                </td>
                                             <td>
                                                 <form action="{{route('trangthaitour.update',$item->id)}}" method="POST">
                                                     @csrf
@@ -233,6 +281,31 @@
             }
         }
            </script>
+           <script>
+            document.getElementById('filter-button').addEventListener('click', function () {
+                const filterFormContainer = document.getElementById('filter-form-container');
+                // Toggle hiển thị/ẩn
+                if (filterFormContainer.style.display === 'none' || !filterFormContainer.style.display) {
+                    filterFormContainer.style.display = 'block';
+                } else {
+                    filterFormContainer.style.display = 'none';
+                }
+            });
+        </script>
+        
+           <script>
+            function confirmSubmitThanhToan(selectElement){
+                console.log("Hàm confirmSubmit đã được gọi!"); // Dòng này kiểm tra sự kiện onchange
+                var form = selectElement.form;
+                var selectedOption = selectElement.options[selectElement.selectedIndex].text;
+                var defaultValue = selectElement.getAttribute('data-default-value');
+                if(confirm('Bạn có chắc chắn thay đổi trạng thái "'+ selectedOption +'"không?')){
+                    form.submit();
+                }else{
+                    selectElement.value = defaultValue;
+                }
+            }
+               </script>
     <script>
         $('#example').DataTable({
             language: {

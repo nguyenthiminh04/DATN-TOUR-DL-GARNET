@@ -258,8 +258,15 @@
                                             aria-hidden="true"></i>
                                         {{ Auth::user()->name }}</a></li>
 
-                                <li><a href="{{ route('logouts') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>
-                                        Đăng xuất</a></li>
+                                        <li>
+                                            <form method="POST" action="{{ route('logouts') }}" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" style="border: none; background: none; padding: 0; color: inherit;">
+                                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                                </button>
+                                            </form>
+                                        </li>
+                                        
                             @else
                                 <li><a href="{{ url('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
                                         Đăng
@@ -1377,7 +1384,7 @@
 
                                     <li><a href="index.html">Trang chủ</a></li>
 
-                                    <li><a href="gioi-thieu.html">Giới thiệu</a></li>
+                                    <li><a href="{{route('introduce.index')}}">Giới thiệu</a></li>
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
 
@@ -1385,11 +1392,11 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="dich-vu-tour.html">Dịch vụ tour</a></li>
+                                    <li><a href="{{route('service.index')}}">Dịch vụ tour</a></li>
 
-                                    <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
+                                    {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
-                                    <li><a href="lien-he.html">Liên hệ</a></li>
+                                    <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
 
                                 </ul>
                             </div>
@@ -1401,7 +1408,7 @@
 
                                     <li><a href="index.html">Trang chủ</a></li>
 
-                                    <li><a href="gioi-thieu.html">Giới thiệu</a></li>
+                                    <li><a href="{{route('introduce.index')}}">Giới thiệu</a></li>
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
 
@@ -1409,11 +1416,11 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="dich-vu-tour.html">Dịch vụ tour</a></li>
+                                    <li><a href="{{route('service.index')}}">Dịch vụ tour</a></li>
 
-                                    <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
+                                    {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
-                                    <li><a href="lien-he.html">Liên hệ</a></li>
+                                    <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
 
                                 </ul>
                             </div>
@@ -1425,7 +1432,7 @@
 
                                     <li><a href="index.html">Trang chủ</a></li>
 
-                                    <li><a href="gioi-thieu.html">Giới thiệu</a></li>
+                                    <li><a href="{{route('introduce.index')}}">Giới thiệu</a></li>
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
 
@@ -1433,11 +1440,11 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="dich-vu-tour.html">Dịch vụ tour</a></li>
+                                    <li><a href="{{route('service.index')}}">Dịch vụ tour</a></li>
 
-                                    <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
+                                    {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
-                                    <li><a href="lien-he.html">Liên hệ</a></li>
+                                    <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
 
                                 </ul>
                             </div>
@@ -2185,8 +2192,8 @@
             </div>
             <div class="la-action-link-nav text-center">
 
-                <a href="account/login.html" class="uppercase">ĐĂNG NHẬP</a>
-                <a href="account/register.html" class="uppercase">ĐĂNG KÝ</a>
+                <a href="{{ route('dang-nhap') }}" class="uppercase">ĐĂNG NHẬP</a>
+                <a href="{{ route('dang-ky') }}" class="uppercase">ĐĂNG KÝ</a>
 
             </div>
         </div>
@@ -2202,7 +2209,7 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="gioi-thieu.html">Giới thiệu</a>
+                        <a href="{{route('introduce.index')}}">Giới thiệu</a>
                     </li>
 
                     <li class="ng-scope ng-has-child1">
@@ -2334,12 +2341,12 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="dich-vu-tour.html">Dịch vụ tour</a>
+                        <a href="{{route('service.index')}}">Dịch vụ tour</a>
                     </li>
 
-                    <li class="ng-scope">
-                        <a href="cam-nang-du-lich.html">Cẩm nang du lịch</a>
-                    </li>
+                    {{-- <li class="ng-scope">
+                        <a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a>
+                    </li> --}}
 
                     <li class="ng-scope">
                         <a href="lien-he.html">Liên hệ</a>

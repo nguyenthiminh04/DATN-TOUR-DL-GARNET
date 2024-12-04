@@ -4,6 +4,13 @@
 
 <head>
 
+         <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <meta charset="utf-8">
     <title>Dashboard | Steex - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -108,6 +115,71 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    {{-- thống kê ajax --}}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+        $(function() {
+        $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" });
+        $("#datepicker2").datepicker({ dateFormat: "yy-mm-dd" });
+    });
+    
+    var chart = new Morris.Bar({
+        element: 'myfirstchart',
+        data: [],
+        xkey: 'ngayDat', 
+        ykeys: ['total', 'soLuongDon'], // Tổng doanh thu và số lượng đơn
+        labels: ['Doanh thu', 'Số lượng đơn'], // Nhãn cột
+        parseTime: false,
+        hoverCallback: function (index, options, content, row) {
+            return content + '<br>Số lượng đơn hàng: ' + row.soLuongDon;
+        }
+    });
+    
+    $('#btn-dashboard-filter').click(function(){
+        var _token = $('input[name="_token"]').val();
+        var from_date = $('#datepicker').val();
+        var to_date = $('#datepicker2').val();
+    
+        // $.ajax({
+        //     method: "POST",
+        //     dataType: "JSON",
+        //     data: {from_date: from_date, to_date: to_date, _token: _token},
+        //     success: function(data) {   
+        //         chart.setData(data);
+        //         console.log("Data loaded successfully.");
+        //     },
+        //     error: function(xhr, status, error) {
+        //         console.error("Lỗi:", error);
+        //     }
+        // });
+    });
+    
+    
+    $('#dashboard-filter').change(function() {
+        var dashboard_value = $(this).val();
+        var _token = $('input[name="_token"]').val();
+    
+        // $.ajax({
+        //     method: "POST",
+        //     dataType: "JSON",
+        //     data: {
+        //         dashboard_value: dashboard_value,
+        //         _token: _token
+        //     },
+        //     success: function(data) {
+        //         chart.setData(data);
+        //         console.log("Data loaded successfully.");
+        //     },
+        //     error: function(xhr, status, error) {
+        //         console.error("Error:", error);
+        //         console.log("Response:", xhr.responseText);
+        //     }
+        // });
+    });
+    </script>
 
 
     @if (Session::has('success'))

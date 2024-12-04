@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
+use App\Models\PaymentStatus;
 use App\Models\Status;
 use Illuminate\Http\Request;
 
@@ -14,34 +15,35 @@ class PayController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        //
-        $title = "Danh sách Tour";
+{
+    $title = "Danh sách Tour";
 
-        // Lấy ngày tìm kiếm từ request
-        $searchDate = $request->input('search_date');
-    
-        // Khởi tạo query để lấy danh sách tour
-        $query = Payment::query()->orderByDesc('id');
-    
-        // Nếu có ngày tìm kiếm, áp dụng điều kiện lọc
-        if ($searchDate) {
-            $query->whereDate('time', '=', $searchDate); // Lọc theo ngày cụ thể
-        }
-    
-        // Lấy danh sách tour sau khi áp dụng điều kiện (nếu có)
-        $listTour = $query->get();
-        
-    
-        // Các dữ liệu khác
-        $trangThaiTour = Status::pluck('name', 'id')->toArray();
+    // Lấy giá trị ngày bắt đầu và ngày kết thúc từ request
+    $startDate = $request->input('start_date');
+    $endDate = $request->input('end_date');
 
-        // $type_huy_tour = DonTour::HUY_TOUR;
-    
-        // Trả về view cùng dữ liệu
-        return view('admin.quanlytour.index', compact('title', 'listTour', 'trangThaiTour'));
+    // Khởi tạo query để lấy danh sách tour
+    $query = Payment::query()->orderByDesc('id');
 
+    // Áp dụng điều kiện lọc theo khoảng ngày
+    if ($startDate && $endDate) {
+        $query->whereBetween('time', [$startDate, $endDate]);
+    } elseif ($startDate) {
+        $query->whereDate('time', '>=', $startDate);
+    } elseif ($endDate) {
+        $query->whereDate('time', '<=', $endDate);
     }
+
+    // Lấy danh sách tour sau khi áp dụng điều kiện
+    $listTour = $query->get();
+
+    // Các dữ liệu khác
+    $trangThaiTour = Status::pluck('name', 'id')->toArray();
+    $trangThaiThanhToan = PaymentStatus::pluck('name','id')->toArray();
+
+    // Trả về view cùng dữ liệu
+    return view('admin.quanlytour.index', compact('title', 'listTour', 'trangThaiTour','trangThaiThanhToan'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -108,4 +110,17 @@ class PayController extends Controller
     {
         //
     }
+    public function ThanhToan(Request $request, string $id)
+    {
+        // Tìm Payment bằng ID
+        $tour = Payment::findOrFail($id);
+    
+        // Cập nhật trạng thái thanh toán
+        $tour->payment_status_id = $request->input('payment_status_id');
+        $tour->save();
+    
+        // Chuyển hướng về danh sách tour với thông báo thành công
+        return redirect()->route('trangthaitour.index')->with('success', 'Cập nhật trạng thái thanh toán thành công');
+    }
+    
 }

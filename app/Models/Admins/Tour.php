@@ -52,7 +52,7 @@ class Tour extends Model
     // Định nghĩa quan hệ Tour thuộc về User
     public function user()
     {
-        return $this->belongsTo(UserModel::class);
+        return $this->belongsTo(User::class);
     }
     public function imagetour()
     {
@@ -75,7 +75,7 @@ class Tour extends Model
     }
     public function category_tour()
     {
-        return $this->belongsTo(Categoty_tour::class, 'tour_id');
+        return $this->belongsTo(CategoryTour::class, 'tour_id');
     }
 
     public function scopeSearch($query, $searchTerm)

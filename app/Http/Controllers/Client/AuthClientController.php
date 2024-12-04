@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,74 +24,75 @@ class AuthClientController extends Controller
     }
     public function postDangNhap(Request $request)
     {
-        $request->validate([
+        $validator = \Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|min:6',
         ], [
-
             'email.required' => 'Email là bắt buộc.',
             'email.email' => 'Email phải có định dạng hợp lệ.',
-
             'password.required' => 'Mật khẩu là bắt buộc.',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'validation_error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Đăng nhập thành công!',
+            ]);
         } else {
-            return redirect()->route('dang-nhap')->withErrors([
-                'email' => 'Email hoặc mật khẩu không chính xác.',
-            ])->withInput();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Email hoặc mật khẩu không chính xác.',
+            ]);
         }
     }
+
 
     public function DangKy()
     {
         return view('client.auth.register');
     }
-    public function postDangKy(Request $request)
+    public function postDangKy(RegisterRequest $request)
     {
-        // dd($request->all());
-        $request->validate([
-            'lastName' => 'required|string|max:50',
-            'firstName' => 'required|string|max:50',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-        ], [
-            'lastName.required' => 'Họ là bắt buộc.',
-            'lastName.string' => 'Họ phải là chuỗi ký tự.',
-            'lastName.max' => 'Họ không được vượt quá 50 ký tự.',
+        try {
+            $name = $request->lastName . ' ' . $request->firstName;
+            $user = User::create([
+                'name' => $name,
+                'email' => $request->email,
+                'phone' => $request->phone ?? null,
+                'address' => $request->address ?? null,
+                'avatar' => $request->avatar ?? null,
+                'birth' => $request->birth ?? null,
+                'gender' => $request->gender ?? null,
+                'password' => Hash::make($request->password),
+                'status' => 1,
+                'remember_token' => $request->session()->token(),
+                'role_id' => 2,
+            ]);
 
-            'firstName.required' => 'Tên là bắt buộc.',
-            'firstName.string' => 'Tên phải là chuỗi ký tự.',
-            'firstName.max' => 'Tên không được vượt quá 50 ký tự.',
-
-            'email.required' => 'Email là bắt buộc.',
-            'email.email' => 'Email phải có định dạng hợp lệ.',
-            'email.unique' => 'Email này đã được đăng ký.',
-
-            'password.required' => 'Mật khẩu là bắt buộc.',
-            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
-            'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
-        ]);
-        $name = $request->lastName . ' ' . $request->firstName;
-        $user = User::create([
-            'name' => $name,
-            'email' => $request->email,
-            'phone' => $request->phone ?? null,
-            'address' => $request->address ?? null,
-            'avatar' => $request->avatar ?? null,
-            'birth' => $request->birth ?? null,
-            'gender' => $request->gender ?? null,
-            'password' => Hash::make($request->password),
-            'status' => 1,
-            'remember_token' => $request->session()->token(),
-            'role_id' => 2,
-        ]);
-        return redirect()->route('dang-nhap')->with('success', 'Đăng ký thành công');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Đăng ký thành công!',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Đã xảy ra lỗi trong quá trình xử lý, vui lòng thử lại.',
+            ], 500);
+        }
     }
+
+
+
     public function logouts(Request $request)
     {
         Auth::logout();
@@ -133,6 +135,7 @@ class AuthClientController extends Controller
             return redirect()->route('dang-nhap')->with('error', 'Đăng nhập bằng Google thất bại');
         }
     }
+
 
     public function sendResetMK(Request $request)
     {
