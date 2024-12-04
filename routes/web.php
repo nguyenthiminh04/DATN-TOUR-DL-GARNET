@@ -68,14 +68,22 @@ Route::group([], function () {
     Route::post('reset-mat-khau', [AuthClientController::class, 'reset'])->name('password.update');
     // Route::resource('tour', ClientTourController::class)->names([
     //đổi pass trang profile
+    Route::get('/change-password', [myAccountController::class, 'indexChangePassword'])->name('user.indexChangePassword');
     Route::post('/change-password', [myAccountController::class, 'changePassword'])->name('user.changePassword');
     //them dia chi moi
+    Route::get('/address', [myAccountController::class, 'indexAddressNew'])->name('user.indexAddress');
     Route::post('/address', [myAccountController::class, 'addressNew'])->name('user.address');
+
+    Route::get('/don-hang', [myAccountController::class, 'indexOrderMy'])->name('user.indexOrderMy');
+    Route::post('/don-hang', [myAccountController::class, 'orderMy'])->name('user.orderMy');
+    Route::get('/don-hang/{id}', [myAccountController::class, 'details'])->name('orders.donHangDetails');
 
 
     //     'show' => 'client.tour.show',
     //thông tin tài khoản
     Route::get('/my-account', [myAccountController::class, 'index'])->name('my-account.index');
+    Route::get('/my-account/{id}', [myAccountController::class, 'edit'])->name('my-account.edit');
+    Route::put('/my-account{id}', [myAccountController::class, 'update'])->name('my-account.update');
 
 
     // ]);
@@ -122,7 +130,7 @@ Route::group([], function () {
     Route::get('/dich-vu/{id}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/cam-nang', [HandbookController::class, 'index'])->name('handbook.index');
     Route::get('/cam-nang/{id}', [HandbookController::class, 'show'])->name('handbook.show');
-
+    
     Route::get('/tour-trong-nuoc', function () {
         return view('client.pages.domesticTour');
     });

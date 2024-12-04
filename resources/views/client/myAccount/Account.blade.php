@@ -184,7 +184,7 @@
                     <div id="change-password" class="content-section" style="display: none;">
                         <h1 class="title-head">Đổi mật khẩu</h1>
                         <div class="page-login">
-                            <form method="POST" action="{{ route('user.changePassword') }}" id="change_customer_password"
+                            <form method="POST" action="{{ route('user.changePassword') }}" id="yourFormID change_customer_password"
                                 accept-charset="UTF-8">
                                 @csrf
                                 <p>
@@ -386,7 +386,7 @@
                                             id="addAddressLabel">Thêm địa chỉ mới</h4>  
                                     </div>
                                     <div class="modal-body">
-                                        <form method="post" action="{{ route('user.address') }}" id="customer_address"
+                                        <form method="post" action="{{ route('user.address') }}" id="yourFormID customer_address"
                                             accept-charset="UTF-8">
                                             @csrf
                                             <input name="FormType" type="hidden" value="customer_address" />
@@ -470,7 +470,8 @@
                     });
                 });
             });
-            //địa chỉ danh sách
+            //địa chỉ danh sách 
         </script>
+        
     </section>
 @endsection
