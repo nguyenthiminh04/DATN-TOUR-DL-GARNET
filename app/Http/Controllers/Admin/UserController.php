@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Models\Admins\UserModel;
+use App\Models\Admins\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequests;
 use App\Models\Status;
@@ -19,7 +19,7 @@ class UserController extends Controller
         //
         $title ="Danh Mục User";
 
-        $listuser = UserModel::orderBYDesc('id')->get();
+        $listuser = User::orderBYDesc('id')->get();
         return view('admin.user.index', compact('title','listuser'));
     }
 
@@ -52,7 +52,7 @@ class UserController extends Controller
         }
 
         // Thêm sản phẩm
-        $user = UserModel::query()->create($params);
+        $user = User::query()->create($params);
 
         // Lấy id sản phẩm vừa thêm để thêm được album
         $user = $user->id;
@@ -65,17 +65,19 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('admin.user.details', compact('user'));  // Tạo một partial để hiển thị chi tiết tour
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        $user = UserModel::query()->findOrFail($id);
+        $user = User::query()->findOrFail($id);
         return view('admin.user.edit', compact('user'));
     }
 
@@ -88,7 +90,7 @@ class UserController extends Controller
 
         if ($request->isMethod('PUT')) {
             $params = $request->except('_token', '_method');
-            $user = UserModel::findOrFail($id);
+            $user = User::findOrFail($id);
         
             // Xử lý Hình Ảnh
             if ($request->hasFile('avatar')) {
@@ -120,7 +122,7 @@ class UserController extends Controller
            
             if ($request->isMethod('DELETE')) {
                 
-                $user = UserModel::findOrFail($id);
+                $user = User::findOrFail($id);
     
                 if ($user) {
                     

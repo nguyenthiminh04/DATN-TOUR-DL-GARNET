@@ -31,7 +31,7 @@ class Location extends Model
     }
     public function user()
     {
-        return $this->hasMany(UserModel::class);
+        return $this->hasMany(User::class);
     }
 
 }

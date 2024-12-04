@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admins\CategoryTour;
 use App\Models\Admins\Categoty_tour;
 use App\Models\Article;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $categotyTour = Categoty_tour::all();
+        $categotyTour = CategoryTour::all();
         $article = Article::with('user')->limit(4)->get();
         return view('client.pages.service',compact('categotyTour','article'));
     }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admins\Location;
 use App\Models\Admins\Tour;
-use App\Models\Admins\UserModel;
+use App\Models\Admins\User;
 use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +20,7 @@ class LocationController extends Controller
         //
        
         $listLocation = Location::query()->get();
-        return view('admin.locations.index', compact('listLocation'));
+        return view('admin.location.index', compact('listLocation'));
     }
 
     /**
@@ -30,9 +30,9 @@ class LocationController extends Controller
     {
         //
         $listStatus = Status::query()->get();
-        $listUser = UserModel::query()->get();
+        $listUser = User::query()->get();
         $listTour = Tour::query()->get();
-        return view('admin.locations.add', compact('listStatus','listUser','listTour'));
+        return view('admin.location.add', compact('listStatus','listUser','listTour'));
     }
 
     /**
@@ -67,10 +67,12 @@ class LocationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $location = Location::findOrFail($id); // Lấy thông tin của location
+        return view('admin.location.details', compact('location'));  // Trả về view chi tiết
     }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -79,9 +81,9 @@ class LocationController extends Controller
     {
         //
         $location = Location::query()->findOrFail($id);
-        $listUser = UserModel::query()->get();
+        $listUser = User::query()->get();
         $listTour = Tour::query()->get();
-        return view('admin.locations.edit', compact('location','listUser','listTour'));
+        return view('admin.location.edit', compact('location','listUser','listTour'));
     }
 
     /**

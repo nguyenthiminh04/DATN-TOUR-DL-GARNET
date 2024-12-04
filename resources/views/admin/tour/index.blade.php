@@ -1,7 +1,5 @@
 @extends('admin.layouts.app')
 
-@section('style')
-@endsection
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -10,12 +8,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Tour</h4>
+                        <h4 class="mb-sm-0">Danh Sách Tour</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Courses</a></li>
-                                <li class="breadcrumb-item active">List View</li>
+                                <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
+                                <li class="breadcrumb-item active">Danh sách Tour</li>
                             </ol>
                         </div>
 
@@ -27,111 +25,51 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-                        <div class="card-body">
-                            <div class="row align-items-center g-2">
-                                <div class="col-lg-3 me-auto">
-                                    {{-- <h6 class="card-title mb-0">Instructors List <span
-                                            class="badge bg-primary ms-1 align-baseline">9999</span></h6> --}}
-                                </div><!--end col-->
-                                <div class="col-lg-2">
-                                    <div class="search-box">
-                                        <input type="text" class="form-control search"
-                                            placeholder="Search for courses, price or something...">
-                                        <i class="ri-search-line search-icon"></i>
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-lg-auto">
-                                    <div class="hstack flex-wrap gap-2">
-                                        <button class="btn btn-subtle-danger d-none" id="remove-actions"
-                                            onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                        <a href="{{ route('tour.create') }}" class="btn btn-success"><i
-                                                data-feather="plus-square"></i>
-                                            Thêm Tour
-                                        </a>
-                                        <div>
-                                            <button type="button" class="btn btn-info" data-bs-toggle="offcanvas"
-                                                data-bs-target="#courseFilters" aria-controls="courseFilters"><i
-                                                    class="bi bi-funnel align-baseline me-1"></i> Filter</button>
-                                            <a href="apps-learning-grid.html" class="btn btn-subtle-primary btn-icon"><i
-                                                    class="bi bi-grid"></i></a>
-                                            <a href="apps-learning-list.html"
-                                                class="btn btn-subtle-primary active btn-icon"><i
-                                                    class="bi bi-list-task"></i></a>
-                                        </div>
-                                    </div>
-                                </div><!--end col-->
-                            </div>
-                        </div>
+                        {{-- nút thêm faq --}}
+                        <a href="{{route('tour.create')}}" class="btn btn-secondary col-2"><i
+                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm mới Tour</a>
+                        {{-- end nút thêm faq --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
-
                                             <th>ID</th>
                                             <th>Tên Tour</th>
-                                            <th>Hình ảnh</th>
-                                            {{-- <th>title</th> --}}
                                             <th>Lịch trình</th>
-                                            {{-- <th>Hành trình</th> --}}
-                                            {{-- <th>Phương tiện di chuyển</th> --}}
-                                            {{-- <th>starting_gate</th> --}}
                                             <th>Ngày khởi hành</th>
                                             <th>Ngày kết thúc</th>
                                             <th>Số khách</th>
                                             <th>Giá người lớn</th>
                                             <th>Giá trẻ em</th>
-                                            {{-- <th>sale</th> --}}
-                                            {{-- <th>view</th> --}}
-                                            <th>Mô tả</th>
-                                            {{-- <th>Nội dung</th> --}}
-                                            {{-- <th>location_id</th> --}}
-                                            {{-- <th>user_id</th> --}}
-                                            {{-- <th>album_img</th> --}}
+                                            {{-- <th>Mô tả</th> --}}
                                             <th>Trạng thái</th>
-                                            <th scope="col">Hành Động</th>
+                                            <th>Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
                                         @foreach ($listtour as $index => $item)
                                             <tr>
-
-
                                                 <td><a href="" class="text-reset">{{ $item->id }}</a></td>
-
                                                 <td>{{ $item->name }}</td>
-                                                <td>
-                                                    <img src="{{ Storage::url($item->image) }}" alt=""
-                                                        width="30px">
-
-
-                                                </td>
-                                                {{-- <td>{{ $item->title }}</td> --}}
                                                 <td>{{ $item->journeys }}</td>
-                                                {{-- <td>{{ $item->schedule }}</td> --}}
-                                                {{-- <td>{{ $item->move_method }}</td> --}}
-                                                {{-- <td>{{ $item->starting_gate }}</td> --}}
                                                 <td>{{ $item->start_date }}</td>
                                                 <td>{{ $item->end_date }}</td>
                                                 <td>{{ $item->number_guests }}</td>
                                                 <td>{{ $item->price_old }}</td>
                                                 <td>{{ $item->price_children }}</td>
-                                                {{-- <td>{{ $item->sale }}</td> --}}
-                                                {{-- <td>{{ $item->view }}</td> --}}
-                                                <td>{{ $item->description }}</td>
-                                                {{-- <td>{{ $item->content }}</td> --}}
-                                                {{-- <td>{{ $item->location_id }}</td> --}}
-                                                {{-- <td>{{ $item->user_id }}</td> --}}
-                                                {{-- <td>{{ $item->album_img }}</td> --}}
-
+                                                {{-- <td>{{ $item->description }}</td> --}}
                                                 <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                     {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
-                                                            <a href="apps-learning-overview.html"
-                                                                class="btn btn-subtle-primary btn-icon btn-sm "><i
-                                                                    class="ph-eye"></i></a>
+                                                            <!-- Nút xem chi tiết -->
+                                                            <button class="btn btn-subtle-primary btn-icon btn-sm view-tour"
+                                                                data-id="{{ $item->id }}">
+                                                                <i class="ph-eye"></i>
+                                                            </button>
+
                                                         </li>
                                                         <li>
                                                             <a href="{{ route('tour.edit', $item->id) }}"><i
@@ -224,14 +162,31 @@
 
         </div>
         <!-- container-fluid -->
-
-
+    </div>
+    <div class="modal fade" id="tourDetailModal" tabindex="-1" aria-labelledby="tourDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tourDetailModalLabel">Chi Tiết Tour</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="tourDetailContent">
+                    <!-- Chi tiết tour sẽ được load vào đây -->
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @section('style')
     <!--datatable css-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+@endsection
+@section('style-libs')
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.css') }}" />
 @endsection
 @section('script')
     <!--datatable js-->
@@ -263,6 +218,28 @@
                 }
             }
         });
+        $(document).ready(function() {
+    // Sự kiện nhấn vào biểu tượng con mắt
+    $('.view-tour').on('click', function(e) {
+        e.preventDefault();
+        
+        const tourId = $(this).data('id'); // Lấy ID của tour
+
+        $.ajax({
+            url: '/admin/tour/' + tourId,  // Đảm bảo URL này đúng với route trong web.php
+            type: 'GET',
+            success: function(response) {
+                // Hiển thị chi tiết tour trong modal
+                $('#tourDetailContent').html(response);
+                $('#tourDetailModal').modal('show');  // Mở modal
+            },
+            error: function(xhr, status, error) {
+                alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
+            }
+        });
+    });
+});
+
     </script>
 @endsection
 
@@ -286,8 +263,8 @@
                     success: function(response) {
                         // Xử lý khi request thành công (có thể đóng modal, load lại danh sách FAQ)
                         // $('#addFaq').modal('hide');
-                        // alert('Câu hỏi đã được thêm thành công!');
-                        window.location.reload();
+                        // alert('địa điểm đã được thêm thành công!');
+                        window.tour.reload();
                     },
                     error: function(xhr) {
                         // Xử lý khi request bị lỗi

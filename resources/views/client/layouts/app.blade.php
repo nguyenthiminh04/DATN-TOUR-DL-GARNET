@@ -111,8 +111,8 @@
 
 <body>
     <?php
-    use App\Models\Admins\Categorys;
-    $categoryes = Categorys::whereNull('parent_id')->with('children')->get();
+    use App\Models\Admins\Category;
+    $categoryes = Category::whereNull('parent_id')->with('children')->get();
     ?>
     @include('client.partials.header')
 
@@ -518,6 +518,8 @@
             </a>
         </div>
     </div>
+
+
     <script>
         $('.popup-sapo .icon').click(function() {
             $(".popup-sapo").toggleClass("active");
