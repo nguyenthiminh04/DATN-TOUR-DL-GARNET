@@ -605,7 +605,7 @@
             $(".popup-sapo").toggleClass("active");
         });
     </script>
-    <a class="wolf-chat-plugin" href="https://m.me/sapo.vn" target="_blank">
+    {{-- <a class="wolf-chat-plugin" href="https://m.me/sapo.vn" target="_blank">
         <div style="margin-left: -2px; margin-right: 6px;">
             <div style="display: flex; align-items: center;"><svg width="24" height="24" viewBox="0 0 24 24"
                     fill="none">
@@ -617,7 +617,7 @@
         <div
             style="color: white; display: flex; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size: 17px; font-style: normal; font-weight: 600; line-height: 22px; user-select: none; white-space: nowrap;">
             Chat</div>
-    </a>
+    </a> --}}
     <style>
         .popup-sapo {
             position: fixed;

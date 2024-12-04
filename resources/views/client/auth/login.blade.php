@@ -102,7 +102,8 @@
                                 </fieldset>
                                 <fieldset class="form-group">
                                     <label>Mật khẩu<span class="required">*</span></label>
-                                    <input type="password" class="form-control form-control-lg" name="password" />
+                                    <input type="password" class="form-control form-control-lg" name="password"
+                                        placeholder="Mật khẩu" />
                                 </fieldset>
                                 <div class="pull-xs-left" style="margin-top: 15px;">
                                     <button class="btn btn-style btn-blues" type="submit" style="width: 120px">Đăng
