@@ -192,7 +192,7 @@
                         <label for="status1" class="form-label">Mục Tour<span class="text-danger">*</span></label>
                         <select name="category_tour_id" class="form-select w-100" id="status1">
                             <option value="">Chọn Mục Tour</option>
-                            @foreach ($listcategory_tour as $status)
+                            @foreach ($listCategoryTour as $status)
                                 <option value="{{ $status->id }}"
                                     {{ old('category_tour_id') == $status->id ? 'selected' : '' }}>
                                     {{ $status->category_tour }}</option>

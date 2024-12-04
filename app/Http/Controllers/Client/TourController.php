@@ -72,7 +72,7 @@ class TourController extends Controller
     public function detailTour($id)
     {
         $data['tour'] = Tour::find($id);
-        $data['category'] = Categorys::find($data['tour']->category_tour_id);
+        $data['category'] = Category::find($data['tour']->category_tour_id);
         $data['location'] = Location::find($data['tour']->location_id);
         $data['images'] = $data['tour']->images;
         $data['first_image'] = $data['images']->first();

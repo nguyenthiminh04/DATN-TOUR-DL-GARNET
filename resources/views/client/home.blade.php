@@ -127,6 +127,19 @@
 
     <script src="client/ant-du-lich.mysapo.net/dist/js/stats.minbadf.js"></script>
     <style>
+        /* Hiển thị 1 sao đánh giá */
+.rating .star-filled {
+    color: gold; /* Màu sao vàng */
+    font-size: 1.5rem;
+}
+
+.rating .rating-number {
+    font-size: 1rem;
+    color: #555;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
         .notification-container {
             position: fixed;
             top: 10px;
@@ -506,6 +519,12 @@
                                                         src="https://img.icons8.com/?size=100&id=102656&format=png&color=000000"
                                                         alt="6 ngày 5 đêm" /></div> Số chỗ còn trống :
                                                 <b>{{ $item->number }}</b> Chỗ
+                                            </li>
+                                            <li>
+                                                <div class="rating">
+                                                    <span class="star-filled">&#9733;</span>
+                                                    <span class="rating-number">{{ round($item->average_rating, 1) }} ({{ $item->rating_count }})</span>
+                                                </div>
                                             </li>
                                         </ul>
                                     </div>

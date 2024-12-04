@@ -5,6 +5,72 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
+        /* Hiển thị sao cho điểm trung bình */
+.average-rating .stars {
+    font-size: 1.5rem;
+    color: #d3d3d3; /* Màu sao chưa được đánh giá */
+}
+
+.average-rating .stars .star.filled {
+    color: gold; /* Màu sao đã được đánh giá */
+}
+
+.average-rating .rating-number {
+    font-size: 1rem;
+    color: #555;
+}
+
+        /* Định dạng riêng cho khối đánh giá */
+.tour-review {
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.tour-review .star-rating {
+    display: flex;
+    justify-content: center;
+    direction: rtl; /* Hiển thị ngôi sao từ phải sang trái */
+    margin: 10px 0;
+}
+
+.tour-review .star-rating input[type="radio"] {
+    display: none; /* Ẩn các input radio */
+}
+
+.tour-review .star-rating label {
+    font-size: 2rem; /* Kích thước ngôi sao */
+    color: #ccc; /* Màu mặc định cho ngôi sao */
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.tour-review .star-rating input[type="radio"]:checked ~ label {
+    color: #ffc107; /* Màu vàng cho ngôi sao được chọn */
+}
+
+.tour-review .star-rating label:hover,
+.tour-review .star-rating label:hover ~ label {
+    color: #ffc107; /* Màu vàng khi hover qua các ngôi sao */
+}
+
+.tour-review button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 10px;
+}
+
+.tour-review button:hover {
+    background-color: #218838;
+}
+
         /* Css Form Ngày */
         #datesss {
             background-color: white;
@@ -560,6 +626,7 @@
                                                 alt="Di chuyển bằng máy bay" /></div>
                                         Di chuyển bằng máy bay
                                     </li>
+                                    
                                     <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
@@ -573,7 +640,21 @@
                                                 alt="10 ngày 9 đêm" /></div>
                                         <?= $tour['schedule'] ?>
                                     </li>
-
+                                    <div class="tour-rating">
+                                        <h4>Đánh giá tour</h4>
+                                        <div class="average-rating">
+                                            @if($averageRating)
+                                                <div class="stars">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <span class="star {{ $i <= $averageRating ? 'filled' : '' }}">&#9733;</span>
+                                                    @endfor
+                                                </div>
+                                                <span class="rating-number">({{ $averageRating }} sao)</span>
+                                            @else
+                                                <p>Chưa có đánh giá nào.</p>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </ul>
 
                                 <div class="product-summary product_description margin-bottom-10 margin-top-5">
@@ -1140,6 +1221,30 @@
                             </div>
                         </div>
                     </div>
+                    @if($canReview)
+    <div class="tour-review">
+        <form method="POST" action="{{ route('reviews.store', $tour->id) }}">
+            @csrf
+            <div class="star-rating">
+                <input type="radio" id="star5" name="rating" value="5" required />
+                <label for="star5" title="5 sao">☆</label>
+                <input type="radio" id="star4" name="rating" value="4" />
+                <label for="star4" title="4 sao">☆</label>
+                <input type="radio" id="star3" name="rating" value="3" />
+                <label for="star3" title="3 sao">☆</label>
+                <input type="radio" id="star2" name="rating" value="2" />
+                <label for="star2" title="2 sao">☆</label>
+                <input type="radio" id="star1" name="rating" value="1" />
+                <label for="star1" title="1 sao">☆</label>
+            </div>
+         
+            <button type="submit">Gửi đánh giá</button>
+        </form>
+    </div>
+@else
+    <p>Bạn cần hoàn tất tour để có thể đánh giá.</p>
+@endif
+
 
                     <div class="row">
                         <div class="container bootdey">

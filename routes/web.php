@@ -130,7 +130,7 @@ Route::group([], function () {
     Route::get('/dich-vu/{id}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/cam-nang', [HandbookController::class, 'index'])->name('handbook.index');
     Route::get('/cam-nang/{id}', [HandbookController::class, 'show'])->name('handbook.show');
-
+    Route::post('/tour/{tourId}/reviews', [HomeController::class, 'store'])->name('reviews.store');
     Route::get('/tour-trong-nuoc', function () {
         return view('client.pages.domesticTour');
     });
