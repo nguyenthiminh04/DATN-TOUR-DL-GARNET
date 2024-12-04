@@ -22,10 +22,10 @@
                                                             class="mdi mdi-dots-vertical align-middle"></i></span>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
+                                                    <a class="dropdown-item" href="hom-qua">Hôm nay</a>
+                                                    <a class="dropdown-item" href="tuan-truoc">Tuần trước</a>
+                                                    <a class="dropdown-item" href="thang-nay">Tháng này</a>
+                                                    <a class="dropdown-item" href="nam-nay">Năm nay</a>
                                                 </div>
                                             </div>
                                             <div class="avatar-sm">
@@ -38,13 +38,12 @@
                                                 <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
                                                     Doanh thu</p>
                                                 <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="{{$totalMoney}}">0</span>VND </h4>
+                                                        data-target="{{ $totalMoney }}">0</span> đ </h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
                                                     <h5 class="text-success fs-xs mb-0">
-                                                        <i class="ri-arrow-right-up-line fs-sm align-middle"></i>
-                                                        +19.07 %
+                                                        {{$percentage}} %
                                                     </h5>
-                                                    <p class="text-muted mb-0">hơn tuần trước</p>
+                                                    <p class="text-muted mb-0">hơn ngày trước</p>
                                                 </div>
                                             </div>
                                         </div><!-- end card body -->
@@ -61,10 +60,10 @@
                                                             class="mdi mdi-dots-vertical align-middle"></i></span>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
+                                                    <a class="dropdown-item" href="#">Hôm nay</a>
+                                                    <a class="dropdown-item" href="#">Tuần trước</a>
+                                                    <a class="dropdown-item" href="#">Tháng này</a>
+                                                    <a class="dropdown-item" href="#">Năm nay</a>
                                                 </div>
                                             </div>
                                             <div class="avatar-sm">
@@ -76,13 +75,12 @@
                                                 <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
                                                     Orders</p>
                                                 <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="{{$OderCount}}">0</span></h4>
+                                                        data-target="{{ $OderCount }}">0</span></h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-success fs-xs mb-0">
-                                                        <i class="ri-arrow-right-up-line fs-sm align-middle"></i>
-                                                        +8.13 %
+                                                    <h5 class="text-success fs-xs mb-0"></i>
+                                                        {{$percentageChange}} %
                                                     </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
+                                                    <p class="text-muted mb-0">hơn ngày trước</p>
                                                 </div>
                                             </div>
                                         </div><!-- end card body -->
@@ -112,7 +110,7 @@
                                             </div>
                                             <div class="mt-4">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
-                                                    Product Views</p>
+                                                    Số lượng khách hàng truy cập web</p>
                                                 <h4 class="fw-semibold mb-3"><span class="counter-value"
                                                         data-target="113870">0</span></h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
@@ -151,9 +149,9 @@
                                             </div>
                                             <div class="mt-4">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
-                                                    Customers</p>
+                                                    Khách hàng đặt tour hôm nay</p>
                                                 <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="2500">0</span>k </h4>
+                                                        data-target="{{$customerCount}}">0</span></h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
                                                     <h5 class="text-success fs-xs mb-0">
                                                         <i class="ri-arrow-right-up-line fs-sm align-middle"></i>
@@ -174,59 +172,66 @@
                         <div class="row g-0">
                             <div class="col-xl-9">
                                 <div class="card-header border-0 align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Revenue</h4>
-                                    <div>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            ALL
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            1M
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            6M
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-primary btn-sm">
-                                            1Y
-                                        </button>
-                                    </div>
+                                    
+                                 
+                                        <form autocomplete="off" action="" method="POST">
+                                            @csrf
+                                            <div class="d-flex">
+                                                <h4 class="card-title mb-0 flex-grow-1">Tour hot</h4>
+                                                <div class="col-md-2 d-flex">
+                                                    <input type="text" id="datepicker" class="form-control" placeholder="Từ ngày">
+                                                </div>
+                                                <div class="col-md-2 d-flex">
+                                                    <input type="text" id="datepicker2" class="form-control" placeholder="Đến ngày">
+                                                </div>
+                                                <div class="col-md-4 d-flex">
+                                                    <input type="button" name="" id="btn-dashboard-filter" class="btn btn-primary" value="Lọc">
+                                                    <select id="dashboard-filter" class="form-control">
+                                                        <option value="7day">7 ngày qua</option>
+                                                        <option value="thangTrc">Tháng trước</option>
+                                                        <option value="thangNay">Tháng này</option>
+                                                        <option value="365day">365 ngày qua</option>
+                                                    </select>
+                                                </div>
+                                                
+                                            </div>
+                                        </form>
+                                 
                                 </div><!-- end card header -->
                                 <div class="card-body ps-0">
                                     <div class="w-100">
-                                        <div id="market-overview" data-colors='["--tb-primary", "--tb-secondary"]'
-                                            class="apex-charts" dir="ltr"></div>
+                                        {{-- <div id="market-overview" data-colors='["--tb-primary", "--tb-secondary"]'
+                                            class="apex-charts" dir="ltr"></div> --}}
+                                        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+                                        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+
+                                        <script>
+                                            var xValues = ["Hà Giang", "Discover Amazing Thailand Tour"];
+                                            var yValues = [55, 49, 44];
+                                            var barColors = ["red", "green", "blue"];
+
+                                            new Chart("myChart", {
+                                                type: "bar",
+                                                data: {
+                                                    labels: xValues,
+                                                    datasets: [{
+                                                        backgroundColor: barColors,
+                                                        data: yValues
+                                                    }]
+                                                },
+                                                options: {
+                                                    legend: {
+                                                        display: false
+                                                    },
+                                                    title: {
+                                                        display: true,
+                                                        text: ""
+                                                    }
+                                                }
+                                            });
+                                        </script>
                                     </div>
                                 </div><!-- end card body -->
-                            </div>
-                            <div class="col-xl-3">
-                                <div class="card-body border-start-xl border-top border-top-xl-0 border-2 h-100">
-                                    <div>
-                                        <p class="text-muted mb-2">Budget (USD)</p>
-                                        <h4>$750.36M <small class="text-success fs-sm fw-normal"><i
-                                                    class="ph-arrow-up align-baseline"></i> 2.17%</small></h4>
-                                        <p class="text-muted text-truncate">Budget in than last years</p>
-                                        <div class="mx-3">
-                                            <div id="mini-chart-6" data-colors='["--tb-primary"]' class="apex-charts"
-                                                dir="ltr"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <p class="text-muted mb-2">Payouts (USD)</p>
-                                        <h4>$7,45,123 <small class="text-danger fs-sm fw-normal"><i
-                                                    class="ph-arrow-down align-baseline"></i> -1.36%</small>
-                                        </h4>
-                                        <p class="text-muted text-truncate">Payouts in than last years</p>
-                                        <div class="mx-3">
-                                            <div id="mini-chart-7" data-colors='["--tb-info"]' class="apex-charts"
-                                                dir="ltr"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-4">
-                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                            data-bs-target="#addAmount">Add
-                                            Amount</button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div><!-- end card -->
@@ -236,9 +241,9 @@
             <div class="row">
                 <div class="col-xl-6">
                     <!-- card -->
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Sales by Countries</h4>
+                            <h4 class="card-title mb-0 flex-grow-1"></h4>
                             <div class="flex-shrink-0">
                                 <button type="button" class="btn btn-subtle-primary btn-sm">
                                     Export Report
@@ -297,7 +302,7 @@
                             </div>
                         </div>
                         <!-- end card body -->
-                    </div>
+                    </div> --}}
                     <!-- end card -->
                 </div>
                 <!-- end col -->
@@ -305,7 +310,7 @@
                 <div class="col-xl-3 col-lg-6">
                     <div class="card card-height-100">
                         <div class="card-header d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Traffic Source</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">Số lượng đặt tour hôm nay/hôm trước</h4>
                             <div class="dropdown card-header-dropdown float-end">
                                 <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
@@ -328,139 +333,33 @@
                 <div class="col-xl-3 col-lg-6">
                     <div class="card card-height-100">
                         <div class="card-header d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Recent Sales</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">Top 5 Tours hot</h4>
                             <a href="#!" class="text-muted">View All <i class="ph-caret-right align-middle"></i></a>
                         </div>
                         <div class="card-body px-0">
                             <div data-simplebar class="px-3" style="max-height: 360px;">
                                 <table class="table mb-0">
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-2.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
+                                        @foreach ($top5Tours as $k => $top5Tour)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-1">
+                                                        <div class="flex-shrink-0">
+                                                            <img src="admin/assets/images/users/48/avatar-8.jpg"
+                                                                alt="" class="avatar-sm rounded-circle p-1">
+                                                        </div>
+                                                        <div class="flex-grow-1 overflow-hidden">
+                                                            <h6 class="fs-md mb-1">{{$top5Tour->name}}</h6>
+                                                            <p class="text-muted text-truncate mb-0">{{ \Carbon\Carbon::parse($top5Tour->start_date)->format('d/m/Y') }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Bethany Nienow</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$630.73</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-7.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Sonia Conn</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$1,452.64</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-4.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Talon Bradtke</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$478.87</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-5.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Tyrell Kerluke</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$82.14</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-6.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Ross Zieme</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$79.00</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-1.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Hollis Spencer</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$849.05</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-8.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Cordia Grady</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$254.32</h6>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td class="text-end">
+                                                    <h6 class="fs-md"></h6>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

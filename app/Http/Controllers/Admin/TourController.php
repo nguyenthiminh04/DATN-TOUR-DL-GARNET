@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Admins\Tour;
 use Illuminate\Http\Request;
 use App\Models\Admins\Location;
-use App\Models\Admins\UserModel;
+use App\Models\Admins\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TourRequest;
-use App\Models\Admins\Categoty_tour;
+use App\Models\Admins\CategoryTour;
 use App\Models\Admins\ImageTour;
 use App\Models\Status;
 use Illuminate\Support\Facades\Storage;
@@ -24,10 +24,10 @@ class TourController extends Controller
         $title = "Danh Mục User";
 
         $listtour = Tour::orderBYDesc('id')->get();
-        $listuser = UserModel::query()->get();
+        $listuser = User::query()->get();
         $listlocation = Location::query()->get();
-        $listcategory_tour = Categoty_tour::query()->get();
-        return view('admin.tour.index', compact('title', 'listtour', 'listuser', 'listlocation', 'listcategory_tour'));
+        $listCategoryTour = CategoryTour::query()->get();
+        return view('admin.tour.index', compact('title', 'listtour', 'listuser', 'listlocation', 'listCategoryTour'));
     }
 
     /**
@@ -36,10 +36,10 @@ class TourController extends Controller
     public function create()
     {
         //
-        $listuser = UserModel::query()->get();
+        $listuser = User::query()->get();
         $listlocation = Location::query()->get();
-        $listcategory_tour = Categoty_tour::query()->get();
-        return view('admin.tour.add', compact('listuser', 'listlocation', 'listcategory_tour'));
+        $listCategoryTour = CategoryTour::query()->get();
+        return view('admin.tour.add', compact('listuser', 'listlocation', 'listCategoryTour'));
     }
 
     /**
@@ -90,9 +90,10 @@ class TourController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $tour = Tour::findOrFail($id);
+        return view('admin.tour.details', compact('tour'));  // Tạo một partial để hiển thị chi tiết tour
     }
 
     /**
@@ -100,13 +101,13 @@ class TourController extends Controller
      */
     public function edit(string $id)
     {
-        $listuser = UserModel::query()->get();
+        $listuser = User::query()->get();
         $listlocation = Location::query()->get();
         // $listStatus = Status::query()->get();
-        $listcategory_tour = Categoty_tour::query()->get();
+        $listCategoryTour = CategoryTour::query()->get();
         $tour = Tour::query()->findOrFail($id);
-        // return view('admin.tour.edit', compact('listuser', 'listlocation', 'listStatus', 'tour', 'listcategory_tour'));
-        return view('admin.tour.edit', compact('listuser','listlocation','tour','listcategory_tour'));
+        // return view('admin.tour.edit', compact('listuser', 'listlocation', 'listStatus', 'tour', 'listCategoryTour'));
+        return view('admin.tour.edit', compact('listuser','listlocation','tour','listCategoryTour'));
     }
 
     /**

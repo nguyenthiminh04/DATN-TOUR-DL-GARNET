@@ -5,7 +5,6 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
@@ -13,21 +12,55 @@ class BookingSuccess extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $emailData;
+
     /**
      * Create a new message instance.
+     *
+     * @param  mixed  $emailData
      */
     public function __construct($emailData)
     {
         $this->emailData = $emailData;
     }
 
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
     public function build()
     {
-        // dd($this->emailData);
+        // Danh sách các ảnh bạn muốn đính kèm
+        $images = [
+            'top-header.png' => public_path('storage/images/top-header.png'),
+            'logo6d1d.png' => public_path('storage/images/logo6d1d.png'),
+            'top.png' => public_path('storage/images/top.png'),
+            'FLIGHT.png' => public_path('storage/images/FLIGHT.png'),
+            'instagram2x.png' => public_path('storage/images/instagram2x.png'),
+            'facebook2x.png' => public_path('storage/images/facebook2x.png'),
+        ];
+    
+        // Đính kèm các ảnh và gán CID
+        foreach ($images as $cid => $imagePath) {
+            if (file_exists($imagePath)) {
+                // Đính kèm ảnh và gán CID
+                $this->attach($imagePath, [
+                    'as' => $cid,            // Đặt tên file (cid) trong email
+                    'mime' => 'image/png',   // Loại MIME của file
+                    'encoding' => 'base64',  // Đảm bảo ảnh được mã hóa base64
+                    'cid' => $cid            // Gán CID để tham chiếu trong email
+                ]);
+            }
+        }
+    
         return $this->subject('Booking Confirmation')
-            ->view('client.email.booking_success')
-            ->with(['data' => $this->emailData]);
+                    ->view('client.email.emailviet.new-email')  // View của email
+                    ->with(['data' => $this->emailData]);       // Truyền dữ liệu vào view
     }
+    
+
+
     /**
      * Get the message envelope.
      */
@@ -39,22 +72,15 @@ class BookingSuccess extends Mailable
     }
 
     /**
-     * Get the message content definition.
-     */
-    // public function content(): Content
-    // {
-    //     return new Content(
-    //         view: 'view.name',
-    //     );
-    // }
-
-    /**
      * Get the attachments for the message.
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
     public function attachments(): array
     {
-        return [];
+        return [
+            // Nếu cần đính kèm ảnh
+            public_path('storage/uploads/image_tour/id_2/WtQTOeFm15ElbaIkz3zNcEwRR6Q38GlxW3wQKuBf.webp'), // Đính kèm ảnh .webp
+        ];
     }
 }
