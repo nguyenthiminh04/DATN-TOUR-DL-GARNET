@@ -107,7 +107,83 @@
     </script>
     @yield('style')
     <script src="{{ url('client/ant-du-lich.mysapo.net/dist/js/stats.minbadf.js?v=96f2ff2') }}"></script>
+    <style>
+        .notification-popup {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            z-index: 1000;
+        }
 
+
+        .notification-popup {
+            display: none;
+            position: absolute;
+            top: 310px;
+            right: 20px;
+            width: 350px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .notification-header h4 {
+            color: #fff
+        }
+
+        .notification-header {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .notification-body {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .notification-time {
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        .notification-icon img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .notification-content .title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .notification-footer {
+            padding: 10px;
+            background: #f1f1f1;
+            text-align: center;
+        }
+
+
+
+        /* Hiệu ứng hiển thị */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
