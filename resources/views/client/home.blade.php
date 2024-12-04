@@ -378,17 +378,20 @@
                                                 <div class="ulimg"><img
                                                         src="https://img.icons8.com/?size=100&id=62290&format=png&color=000000"
                                                         alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành:
-                                               Từ Ngày  <b>{{ $item->start_date }}</b> Đến Ngày  <b>{{ $item->end_date }}</b>
+                                                Từ Ngày <b>{{ $item->start_date }}</b> Đến Ngày
+                                                <b>{{ $item->end_date }}</b>
                                             </li>
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
                                                         src="https://img.icons8.com/?size=100&id=uqeIigsBdHt9&format=png&color=000000"
-                                                        alt="6 ngày 5 đêm" /></div> Thời gian: <b>{{ $item->schedule }}</b>
+                                                        alt="6 ngày 5 đêm" /></div> Thời gian:
+                                                <b>{{ $item->schedule }}</b>
                                             </li>
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
                                                         src="https://img.icons8.com/?size=100&id=102656&format=png&color=000000"
-                                                        alt="6 ngày 5 đêm" /></div> Số chỗ còn trống :  <b>{{ $item->number }}</b> Chỗ
+                                                        alt="6 ngày 5 đêm" /></div> Số chỗ còn trống :
+                                                <b>{{ $item->number }}</b> Chỗ
                                             </li>
                                         </ul>
                                     </div>
@@ -495,7 +498,7 @@
                                                                             alt="6 ngày 5 đêm" /></div> Thời gian:
                                                                     {{ $tour->schedule }}
                                                                 </li>
-                                                                
+
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -900,7 +903,7 @@
                                     <div class="tourmaster-tour-category-head">
                                         <div class="tourmaster-tour-category-head-display clearfix">
                                             <h3 class="tourmaster-tour-category-title"><i
-                                                    class="fa fa-map-marker color-x"></i>{{$item->name}}</h3>
+                                                    class="fa fa-map-marker color-x"></i>{{ $item->name }}</h3>
                                         </div>
                                         <div class="tourmaster-tour-category-head-animate">
                                             <a class="tourmaster-tour-category-head-link"
@@ -2075,8 +2078,8 @@
             </div>
             <div class="la-action-link-nav text-center">
 
-                <a href="account/login.html" class="uppercase">ĐĂNG NHẬP</a>
-                <a href="account/register.html" class="uppercase">ĐĂNG KÝ</a>
+                <a href="{{ route('dang-nhap') }}" class="uppercase">ĐĂNG NHẬP</a>
+                <a href="{{ route('dang-ky') }}" class="uppercase">ĐĂNG KÝ</a>
 
             </div>
         </div>

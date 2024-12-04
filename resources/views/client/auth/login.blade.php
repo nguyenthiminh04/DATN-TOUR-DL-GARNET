@@ -1,7 +1,6 @@
 @extends('client.layouts.app')
 
 @section('style')
-
 @endsection
 
 @section('content')
@@ -106,8 +105,8 @@
                                     <input type="password" class="form-control form-control-lg" name="password" />
                                 </fieldset>
                                 <div class="pull-xs-left" style="margin-top: 15px;">
-                                    <button class="btn btn-style btn-blues" type="submit" >Đăng nhập</button>
-                                    <a href="" class="btn-link-style btn-register"
+                                    <button class="btn btn-style btn-blues" type="submit">Đăng nhập</button>
+                                    <a href="{{ url('dang-ky') }}" class="btn-link-style btn-register"
                                         style="margin-left: 20px;color:#007FF0;text-decoration: underline; ">Đăng ký</a>
                                 </div>
                             </div>
@@ -188,7 +187,7 @@
                             window.location.href = '{{ route('home') }}';
                         });
                     } else if (data.status === 'validation_error') {
-                       
+
                         let errors = '';
                         for (let field in data.errors) {
                             errors += `${data.errors[field].join('<br>')}<br>`;

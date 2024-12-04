@@ -45,6 +45,7 @@ use Illuminate\Support\Facades\Mail;
 
 // client routes
 Route::group([], function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
     // client dang ky/ dang nhap/quen mat khau/ login gg
@@ -100,25 +101,7 @@ Route::group([], function () {
 
     Route::get('payment/failed', [PaymentController::class, 'failure'])->name('payment.failed');
 
-    Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    // Route::get('/test-email', function () {
-    //     $email = 'giangtg7dz@gmail.com';
-    //     Mail::raw('This is a test email!', function ($message) use ($email) {
-    //         $message->to($email)
-    //                 ->subject('Test Email');
-    //     });
-    //     return 'Test email sent!';
-    // });
-
-
-    // Route::get('/dang-nhap', function () {
-    //     return view('client.auth.login');
-    // });
-
-    // Route::get('/dang-ky', function () {
-    //     return view('client.auth.register');
-    // });
     Route::get('/dich-vu', function () {
         return view('client.pages.service');
     });
@@ -201,6 +184,3 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('advisory/status/{id}',              [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');
     });
 });
-
-
-
