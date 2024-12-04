@@ -25,23 +25,17 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<h1 class="title-head">Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!</h1>
+						<h1 class="title-head">{{$showArticle->title}}</h1>
 						
 						<div class="postby">
-							<span>Đăng bởi <b>Nguyễn Chánh Bảo Trung</b> vào lúc 10/03/2018</span>
+							<span>Đăng bởi <b>{{$showArticle->user->name}}</b> vào lúc {{$showArticle->created_at->format('d-m-Y')}}</span>
 						</div>
 						<div class="article-details">						
 							<div class="article-content">
 								<div class="rte">
 									<div class="caption">
-										<h2>Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!</h2>
-<p>Mỗi khi nghe đến những lời rủ rê đi Đà Lạt, chúng ta thường sẽ nghĩ ngay trong đầu khung cảnh lãng mạn, trữ tình, những dáng post hơi e ấp, thẹn thùng cùng những bộ trang phục nhẹ nhàng, hơi thơ thẩn một chút.</p>
-<p>Ấy vậy mà mới đây, có một đôi bạn thân khác giới đã khiến mọi người phải thay đổi hoàn toàn cái nhìn về thành phố Đà Lạt. Thay vì chụp một bộ ảnh giống như bao người khác, đôi bạn thân này lại khiến người xem phải mắt tròn mắt dẹt với thần thái cũng như độ cool ngầu của mình trong album ảnh&nbsp;<strong>Đà Lạt.</strong></p>
-<p><img alt="ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro-anh-than-thai-ivivu-4" height="960" src="client/cdn3.ivivu.com/2018/03/ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro-anh-than-thai-ivivu-4.jpg" width="960" /></p>
-<p>Đăng Khoa và Ý Nhi là hai người bạn thân từ lâu, tuy nhiên cả hai lại sống xa nhau đến hàng trăm cây số. Người thì ở An Giang, người lại ở tít Bình Dương nên tần suất gặp gỡ rất hạn chế. Nhân dịp Tết vừa qua, Khoa và Nhi đã tranh thủ thời gian rảnh rỗi để cùng nhau làm một chuyến du xuân tại thành phố sương mù.</p>
-<p>Xem qua bộ ảnh này, có thể thấy đôi bạn thân có duy nhất một dáng pose đó là nắm chặt tay nhau, mặt không cảm xúc rồi nhìn thẳng về hướng máy ảnh. Chia sẻ về kiểu chụp ảnh này, Đăng Khoa chia sẻ: “Concept chụp ảnh này là do hai bọn tớ tự nghĩ. Ban đầu cả hai có nhiều ý tưởng lạ lắm, rồi cả những kiểu “high fashion” nữa cơ, nhưng cuối cùng bọn mình quyết định chọn dáng pose tối giản như trong album ảnh vì thấy vừa đơn giản lại vừa rất “thần thái”. Không nghĩ đến khi đăng lên lại được mọi người ủng hộ nhiều đến thế.”</p>
-<p>Tuy chỉ có 3 ngày ở trên Đà Lạt thôi nhưng Khoa và Nhi đã đi được khá nhiều nơi. Một số địa điểm nổi bật xuất hiện trong album lần này là Làng Cù Lần, Quảng Trường Lâm Viên, hồ Xuân Hương, trường Cao đẳng Sư phạm, Nguyệt Vọng Lầu, tiệm bánh cối xoay gió, cây thông cô đơn, đồi chè… Ngoài ra trên đường di chuyển bằng xe máy, cứ thấy nơi nào xinh xinh là đôi bạn lại tấp xe vào để tạo dáng chụp hình.</p>
-<p>Bên cạnh thần thái xuất thần cùng sự đa dạng về mặt địa điểm thì trang phục của hai người bạn này cũng rất được quan tâm. Những bộ trang phục “all black” kết hợp với hoạ tiết quân đội của Khoa và Nhi được đánh giá là rất lạ mắt nhưng vẫn không kém phần thời trang. Được biết trước chuyến đi, cả hai đã Facetime với nhau liên tục để bàn bạc về trang phục cho chuyến đi.</p>
+										<h2>{{$showArticle->description}}</h2>
+										<p>{{$showArticle->content}}</p>
 									</div>
 								</div>
 							</div>
@@ -63,31 +57,6 @@
 							<article class="blog_entry clearfix">
 								<h3 class="blog_entry-title"><a rel="bookmark" href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html" title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương"><i class="fa fa-angle-right" aria-hidden="true"></i> Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương</a></h3>
 							</article>
-							
-							
-							
-							
-							<article class="blog_entry clearfix">
-								<h3 class="blog_entry-title"><a rel="bookmark" href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html" title="Tràng An cổ – điểm đến đang hot ở Ninh Bình"><i class="fa fa-angle-right" aria-hidden="true"></i> Tràng An cổ – điểm đến đang hot ở Ninh Bình</a></h3>
-							</article>
-							
-							
-							
-							
-							<article class="blog_entry clearfix">
-								<h3 class="blog_entry-title"><a rel="bookmark" href="mua-hoa-phan-phu-hong-troi-bao-loc.html" title="Mùa hoa phấn phủ hồng trời Bảo Lộc"><i class="fa fa-angle-right" aria-hidden="true"></i> Mùa hoa phấn phủ hồng trời Bảo Lộc</a></h3>
-							</article>
-							
-							
-							
-							
-							
-							
-							
-							<article class="blog_entry clearfix">
-								<h3 class="blog_entry-title"><a rel="bookmark" href="net-binh-di-viet-nam-qua-anh-cua-tay-may-ha-lan.html" title="Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan"><i class="fa fa-angle-right" aria-hidden="true"></i> Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan</a></h3>
-							</article>
-							
 							
 						</div>
 					</div>

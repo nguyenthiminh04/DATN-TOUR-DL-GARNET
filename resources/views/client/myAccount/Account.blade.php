@@ -36,7 +36,7 @@
         <div class="container">
             <div class="row">
                 <!-- Menu bên trái -->
-                <div class="col-xs-12 col-sm-12 col-lg-2 col-left-ac">
+                <div class="col-xs-12 col-sm-12 col-lg-2 col-left-ac alert ">
                     <div class="block-account">
                         <h5 class="title-account">Trang tài khoản</h5>
                         <p>Xin chào, <span style="color:#1ba0e2;">{{ $user->name }}</span>&nbsp;!</p>
@@ -60,7 +60,7 @@
                 </div>
 
                 <!-- Nội dung chính -->
-                <div class="col-xs-12 col-sm-12 col-lg-10 col-right-ac">
+                <div class="col-xs-12 col-sm-12 col-lg-10 col-right-ac " style="height: 500px">
                     <!-- Thông tin tài khoản -->
                     <div id="account-info" class="content-section" style="display: none;">
                         <h1 class="title-head">Thông tin tài khoản</h1>
@@ -149,31 +149,42 @@
                             </div>
                         </div>
                     </div>
-                    @if (session('success'))
-                        <div class="alert alert-success alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <strong>Thành công!</strong> {{ session('success') }}
-                        </div>
-                    @endif
+                    @if(session('success'))
+                    <div class="alert alert-success alert-dismissible" role="alert" id="successAlert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Thành công!</strong> {{ session('success') }}
+                    </div>
+                @endif
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <strong>Lỗi!</strong>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                @if($errors->any())
+                    <div class="alert alert-danger alert-dismissible" role="alert" id="errorAlert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Lỗi!</strong>
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <script>
+                    setTimeout(function() {
+                        $('#successAlert').fadeOut('slow');
+                    }, 1000);
+                    setTimeout(function() {
+                        $('#errorAlert').fadeOut('slow');
+                    }, 1000);
+                </script>
+
 
                     <div id="change-password" class="content-section" style="display: none;">
                         <h1 class="title-head">Đổi mật khẩu</h1>
                         <div class="page-login">
-                            <form method="POST" action="{{ route('user.changePassword') }}" id="change_customer_password"
+                            <form method="POST" action="{{ route('user.changePassword') }}" id="yourFormID change_customer_password"
                                 accept-charset="UTF-8">
                                 @csrf
                                 <p>
@@ -338,16 +349,44 @@
                             data-target="#addAddressModal">
                             Thêm địa chỉ
                         </button>
+                        <div class="form-signup name-account m992">
+                            <table class="table table-cart table-order">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>Họ tên</th>
+                                        <th>Email</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Địa chỉ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>{{ $user->name }}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{ $user->email }}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{ $user->phone ?? 'Bạn chưa cập nhật số điện thoại' }}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{ $user->address ?? 'Bạn chưa cập nhật địa chỉ' }}</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div id="addAddressModal" class="modal fade" tabindex="-1" role="dialog"
                             aria-labelledby="addAddressLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title align-items-end justify-content-center"
-                                            id="addAddressLabel">Thêm địa chỉ mới</h4>
+                                            id="addAddressLabel">Thêm địa chỉ mới</h4>  
                                     </div>
                                     <div class="modal-body">
-                                        <form method="post" action="{{ route('user.address') }}" id="customer_address"
+                                        <form method="post" action="{{ route('user.address') }}" id="yourFormID customer_address"
                                             accept-charset="UTF-8">
                                             @csrf
                                             <input name="FormType" type="hidden" value="customer_address" />
@@ -431,7 +470,8 @@
                     });
                 });
             });
-            //địa chỉ danh sách
+            //địa chỉ danh sách 
         </script>
+        
     </section>
 @endsection

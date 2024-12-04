@@ -336,15 +336,15 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="dich-vu-tour.html">Dịch vụ tour</a>
+                        <a href="{{route('service.index')}}">Dịch vụ tour</a>
                     </li>
 
-                    <li class="ng-scope">
-                        <a href="cam-nang-du-lich.html">Cẩm nang du lịch</a>
-                    </li>
+                    {{-- <li class="ng-scope">
+                        <a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a>
+                    </li> --}}
 
                     <li class="ng-scope">
-                        <a href="lien-he.html">Liên hệ</a>
+                        <a href="{{ route('contact.index') }}">Liên hệ</a>
                     </li>
 
                 </ul>
@@ -716,7 +716,7 @@
         });
     </script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {

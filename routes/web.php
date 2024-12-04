@@ -24,8 +24,12 @@ use App\Http\Controllers\Admin\PayController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Client\BookingController;
+use App\Http\Controllers\Client\ContactController;
+use App\Http\Controllers\Client\HandbookController;
+use App\Http\Controllers\Client\IntroduceController;
 use App\Http\Controllers\Client\myAccountController;
 use App\Http\Controllers\Client\PaymentController;
+use App\Http\Controllers\Client\ServiceController;
 use App\Http\Controllers\FavoriteController;
 
 use Illuminate\Support\Facades\Auth;
@@ -55,7 +59,7 @@ Route::group([], function () {
     Route::post('/post-dang-ky', [AuthClientController::class, 'postDangKy'])->name('post-dang-ky');
     Route::get('/auth/google', [AuthClientController::class, 'redirectToGoogle'])->name('auth.google');
     Route::get('/auth/google/callback', [AuthClientController::class, 'handleGoogleCallback']);
-    Route::get('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
+    Route::post('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
 
     Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetPasswordForm'])->name('reset-mat-khau');
     Route::post('reset-mat-khau/{token}', [AuthClientController::class, 'resetPassword'])->name('reset-mat-khau.xac-nhan');
@@ -65,14 +69,22 @@ Route::group([], function () {
     Route::post('reset-mat-khau', [AuthClientController::class, 'reset'])->name('password.update');
     // Route::resource('tour', ClientTourController::class)->names([
     //đổi pass trang profile
+    Route::get('/change-password', [myAccountController::class, 'indexChangePassword'])->name('user.indexChangePassword');
     Route::post('/change-password', [myAccountController::class, 'changePassword'])->name('user.changePassword');
     //them dia chi moi
+    Route::get('/address', [myAccountController::class, 'indexAddressNew'])->name('user.indexAddress');
     Route::post('/address', [myAccountController::class, 'addressNew'])->name('user.address');
+
+    Route::get('/don-hang', [myAccountController::class, 'indexOrderMy'])->name('user.indexOrderMy');
+    Route::post('/don-hang', [myAccountController::class, 'orderMy'])->name('user.orderMy');
+    Route::get('/don-hang/{id}', [myAccountController::class, 'details'])->name('orders.donHangDetails');
 
 
     //     'show' => 'client.tour.show',
     //thông tin tài khoản
     Route::get('/my-account', [myAccountController::class, 'index'])->name('my-account.index');
+    Route::get('/my-account/{id}', [myAccountController::class, 'edit'])->name('my-account.edit');
+    Route::put('/my-account{id}', [myAccountController::class, 'update'])->name('my-account.update');
 
 
     // ]);
@@ -102,44 +114,29 @@ Route::group([], function () {
     Route::get('payment/failed', [PaymentController::class, 'failure'])->name('payment.failed');
 
 
-    Route::get('/dich-vu', function () {
-        return view('client.pages.service');
-    });
-    Route::get('/testviet', function () {
-        return view('client.email.emailviet.new-email');
-    });
-    Route::get('/gioi-thieu', function () {
-        return view('client.pages.introduce');
-    });
-    Route::get('/cam-nang', function () {
-        return view('client.pages.handbook');
-    });
-    Route::get('/tour-trong-nuoc', function () {
-        return view('client.pages.domesticTour');
-    });
+    // Route::get('/test-email', function () {
+    //     $email = 'giangtg7dz@gmail.com';
+    //     Mail::raw('This is a test email!', function ($message) use ($email) {
+    //         $message->to($email)
+    //                 ->subject('Test Email');
+    //     });
+    //     return 'Test email sent!';
+    // });
 
-
-    Route::get('/dich-vu', function () {
-        return view('client.pages.service');
-    });
-
-    Route::get('/gioi-thieu', function () {
-        return view('client.pages.introduce');
-    });
-
-    Route::get('/cam-nang', function () {
-        return view('client.pages.handbook');
-    });
-
+    Route::get('/lien-he', [ContactController::class, 'index'])->name('contact.index');
+    Route::post('/post-lien-he', [ContactController::class, 'store'])->name('post.contact.index');
+    Route::get('/gioi-thieu', [IntroduceController::class, 'index'])->name('introduce.index');
+    Route::get('/dich-vu', [ServiceController::class, 'index'])->name('service.index');
+    Route::get('/dich-vu/{id}', [ServiceController::class, 'show'])->name('service.show');
+    Route::get('/cam-nang', [HandbookController::class, 'index'])->name('handbook.index');
+    Route::get('/cam-nang/{id}', [HandbookController::class, 'show'])->name('handbook.show');
+    
     Route::get('/tour-trong-nuoc', function () {
         return view('client.pages.domesticTour');
     });
 
     Route::get('/chi-tiet-tour/{id}', [HomeController::class, 'detailTour'])->name('detail');
 
-    Route::get('/chi-tiet-cam-nang', function () {
-        return view('client.pages.detailHandbook');
-    });
 
     Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
     Route::get('/tour/{slug}', [ClientTourController::class, 'tour'])->name('tour.category');
