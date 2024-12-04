@@ -49,6 +49,7 @@ use Illuminate\Support\Facades\Mail;
 
 // client routes
 Route::group([], function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
     // client dang ky/ dang nhap/quen mat khau/ login gg
@@ -112,7 +113,6 @@ Route::group([], function () {
 
     Route::get('payment/failed', [PaymentController::class, 'failure'])->name('payment.failed');
 
-    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Route::get('/test-email', function () {
     //     $email = 'giangtg7dz@gmail.com';
@@ -181,6 +181,3 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('advisory/status/{id}',              [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');
     });
 });
-
-
-

@@ -111,64 +111,67 @@
                             <div class="row">
                                 <div class="col-md-6 col-md-offset-3">
                                     <div class="row">
-                                        <form action="{{ route('post-dang-ky') }}" method="POST">
+                                        <form id="registerForm" action="{{ route('post-dang-ky') }}" method="POST">
                                             @csrf
                                             @method('POST')
                                             <div class="col-md-12">
                                                 <fieldset class="form-group">
                                                     <label>Họ<span class="required">*</span></label>
                                                     <input type="text" class="form-control form-control-lg"
-                                                        name="lastName" id="lastName" 
+                                                        name="lastName" id="lastName"
                                                         data-validation-error-msg="Không được để trống"
                                                         data-validation="required">
-                                                        @error('lastName')
-                                                            <span style="color: red;">{{ $message }}</span>
-                                                        @enderror
+                                                    @error('lastName')
+                                                        <span style="color: red;">{{ $message }}</span>
+                                                    @enderror
                                                 </fieldset>
                                             </div>
                                             <div class="col-md-12">
                                                 <fieldset class="form-group">
                                                     <label>Tên<span class="required">*</span></label>
                                                     <input type="text" class="form-control form-control-lg"
-                                                        name="firstName" id="firstName" 
+                                                        name="firstName" id="firstName"
                                                         data-validation-error-msg="Không được để trống"
                                                         data-validation="required">
-                                                        @error('firstName')
-                                                            <span style="color: red;">{{ $message }}</span>
-                                                        @enderror
+                                                    @error('firstName')
+                                                        <span style="color: red;">{{ $message }}</span>
+                                                    @enderror
                                                 </fieldset>
                                             </div>
                                             <div class="col-md-12">
                                                 <fieldset class="form-group">
                                                     <label>Email<span class="required">*</span></label>
                                                     <input type="email" class="form-control form-control-lg"
-                                                        name="email" id="email" >
-                                                        @error('email')
-                                                            <span style="color: red;">{{ $message }}</span>
-                                                        @enderror
+                                                        name="email" id="email">
+                                                    @error('email')
+                                                        <span style="color: red;">{{ $message }}</span>
+                                                    @enderror
                                                 </fieldset>
                                             </div>
                                             <div class="col-md-12">
                                                 <fieldset class="form-group">
                                                     <label>Mật khẩu<span class="required">*</span></label>
                                                     <input type="password" class="form-control form-control-lg"
-                                                        name="password" id="password" >
-                                                        @error('password')
-                                                            <span style="color: red;">{{ $message }}</span>
-                                                        @enderror
+                                                        name="password" id="password">
+                                                    @error('password')
+                                                        <span style="color: red;">{{ $message }}</span>
+                                                    @enderror
                                                 </fieldset>
                                             </div>
                                             <div class="col-md-12">
                                                 <fieldset class="form-group">
                                                     <label>Xác nhận mật khẩu<span class="required">*</span></label>
                                                     <input type="password" class="form-control form-control-lg"
-                                                        name="password_confirmation" id="password_confirmation" >
-                                                        @error('password_confirmation')
-                                                            <span style="color: red;">{{ $message }}</span>
-                                                        @enderror
+                                                        name="password_confirmation" id="password_confirmation">
+                                                    @error('password_confirmation')
+                                                        <span style="color: red;">{{ $message }}</span>
+                                                    @enderror
                                                 </fieldset>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Đăng ký</button>
+                                            <div class="col-md-12" style="margin-bottom: 10px">
+                                                <button type="submit" class="btn btn-primary"
+                                                    style="background-color: #007FF0">Đăng ký</button>
+                                            </div>
                                         </form>
 
                                     </div>
@@ -190,4 +193,64 @@
 @endsection
 
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('{{ route('post-dang-ky') }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: data.message,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = '{{ route('dang-nhap') }}';
+                        });
+                    } else if (data.status === 'validation_error' || data.errors) {
+
+                        let errors = '';
+                        for (let field in data.errors) {
+                            errors += `${data.errors[field].join('<br>')}<br>`;
+                        }
+
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Lỗi xác thực',
+                            html: errors,
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        console.log('Error response from server:', data);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Thất bại',
+                            text: data.message,
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Đã xảy ra lỗi trong quá trình xử lý.',
+                        confirmButtonText: 'OK'
+                    });
+                });
+        })
+    </script>
 @endsection
