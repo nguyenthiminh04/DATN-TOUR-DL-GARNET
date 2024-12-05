@@ -95,12 +95,11 @@ Route::group([], function () {
     // Route::get('/pre-booking', function () {
     //     return view('client.tour.booking');
     // })->name('pre-booking');
+    
     Route::get('/pre-booking/{id}', [ClientTourController::class, 'pre_booking'])->name('tour.pre-booking');
     Route::get('/confirm/{id}', [BookingController::class, 'showBookingInfo'])->name('tour.confirm');
 
     Route::post('/booking', [BookingController::class, 'store'])->name('tour.booking');
-
-
 
 
     Route::post('/payment/store', [PaymentController::class, 'storePayment'])->name('payment.store');

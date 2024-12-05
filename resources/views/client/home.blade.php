@@ -127,21 +127,21 @@
 
     <script src="client/ant-du-lich.mysapo.net/dist/js/stats.minbadf.js"></script>
     <style>
-
         /* Hiển thị 1 sao đánh giá */
-.rating .star-filled {
-    color: gold; /* Màu sao vàng */
-    font-size: 1.5rem;
-}
+        .rating .star-filled {
+            color: gold;
+            /* Màu sao vàng */
+            font-size: 1.5rem;
+        }
 
-.rating .rating-number {
-    font-size: 1rem;
-    color: #555;
-    margin-left: 5px;
-    font-weight: bold;
-}
+        .rating .rating-number {
+            font-size: 1rem;
+            color: #555;
+            margin-left: 5px;
+            font-weight: bold;
+        }
 
-        
+
         .notification-popup {
 
             position: fixed;
@@ -149,7 +149,6 @@
             right: 20px;
             z-index: 1000;
         }
-
 
         .notification-popup {
             display: none;
@@ -204,8 +203,6 @@
             text-align: center;
         }
 
-
-
         /* Hiệu ứng hiển thị */
         @keyframes fadeIn {
             from {
@@ -217,6 +214,35 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 10px !important;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .back-to-top:hover {
+            background-color: #0056b3;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
         }
     </style>
 </head>
@@ -495,7 +521,9 @@
                                             <li>
                                                 <div class="rating">
                                                     <span class="star-filled">&#9733;</span>
-                                                    <span class="rating-number">{{ round($item->average_rating, 1) }} ({{ $item->rating_count }})</span>
+                                                    <span class="rating-number">{{ round($item->average_rating, 1) }}
+                                                        ({{ $item->rating_count }})
+                                                    </span>
                                                 </div>
                                             </li>
                                         </ul>
@@ -1463,7 +1491,10 @@
                             class="fa fa-phone"></i></button>
                 </div>
 
-                <div class="back-to-top"><i class="fa fa-arrow-circle-up"></i></div>
+                <div class="back-to-top" cursorshover="true">
+                    <i class="fa fa-arrow-circle-up"></i>
+                </div>
+
 
             </div>
         </div>
@@ -2450,71 +2481,7 @@
         </div>
     </div>
 
-    <div class="popup-sapo">
-        <div class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-                <path
-                    d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z" />
-            </svg>
-        </div>
-        <div class="content">
-            <div class="title">Tích hợp sẵn các ứng dụng</div>
-            <ul>
-                <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                        <path
-                            d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
-                    </svg>
-                    <a href="https://apps.sapo.vn/danh-gia-san-pham-v2" target="_blank"
-                        title="Đánh giá sản phẩm">Đánh
-                        giá sản phẩm</a>
-                </li>
-                <li><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                        <path
-                            d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
-                    </svg>
-                    <a href="https://apps.sapo.vn/mua-x-tang-y-v2" target="_blank" title="Mua X tặng Y">Mua X tặng
-                        Y</a>
-                </li>
-                <li><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                        <path
-                            d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
-                    </svg>
-                    <a href="https://apps.sapo.vn/quan-ly-affiliate-v2" target="_blank"
-                        title="Ứng dụng Affiliate">Ứng
-                        dụng Affiliate</a>
-                </li>
-                <li><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                        <path
-                            d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
-                    </svg>
-                    <a href="https://apps.sapo.vn/ae-da-ngon-ngu" target="_blank" title="Đa ngôn ngữ">Đa ngôn
-                        ngữ</a>
-                </li>
-                <li><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                        <path
-                            d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
-                    </svg>
-                    <a href="https://m.me/sapo.vn" target="_blank" title="Chatlive Facebook">Chatlive Facebook</a>
-                </li>
-            </ul>
-            <div class="ghichu">Lưu ý với các ứng dụng trả phí bạn cần cài đặt và mua ứng dụng này trên App store Sapo
-                để sử dụng ngay</div>
-            <a href="javascript:;" title="Đóng" class="close-popup-sapo">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-                    x="0px" y="0px" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;"
-                    xml:space="preserve">
-                    <g>
-                        <g>
-                            <path
-                                d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717    L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859    c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287    l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285    L284.286,256.002z">
-                            </path>
-                        </g>
-                    </g>
-                </svg>
-            </a>
-        </div>
-    </div>
+
     <script>
         $('.popup-sapo .icon').click(function() {
             $(".popup-sapo").toggleClass("active");
@@ -2523,19 +2490,7 @@
             $(".popup-sapo").toggleClass("active");
         });
     </script>
-    {{-- <a class="wolf-chat-plugin" href="https://m.me/sapo.vn" target="_blank">
-        <div style="margin-left: -2px; margin-right: 6px;">
-            <div style="display: flex; align-items: center;"><svg width="24" height="24"
-                    viewBox="0 0 24 24" fill="none">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M0.75 11.9125C0.75 5.6422 5.66254 1 12 1C18.3375 1 23.25 5.6422 23.25 11.9125C23.25 18.1828 18.3375 22.825 12 22.825C10.8617 22.825 9.76958 22.6746 8.74346 22.3925C8.544 22.3376 8.33188 22.3532 8.1426 22.4368L5.90964 23.4224C5.32554 23.6803 4.66618 23.2648 4.64661 22.6267L4.58535 20.6253C4.57781 20.3789 4.46689 20.1483 4.28312 19.9839C2.09415 18.0264 0.75 15.1923 0.75 11.9125ZM8.54913 9.86084L5.24444 15.1038C4.92731 15.6069 5.54578 16.1739 6.01957 15.8144L9.56934 13.1204C9.80947 12.9381 10.1413 12.9371 10.3824 13.118L13.0109 15.0893C13.7996 15.6809 14.9252 15.4732 15.451 14.6392L18.7556 9.39616C19.0727 8.893 18.4543 8.326 17.9805 8.68555L14.4307 11.3796C14.1906 11.5618 13.8587 11.5628 13.6176 11.3819L10.9892 9.41061C10.2005 8.81909 9.07479 9.02676 8.54913 9.86084Z"
-                        fill="white"></path>
-                </svg></div>
-        </div>
-        <div
-            style="color: white; display: flex; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size: 17px; font-style: normal; font-weight: 600; line-height: 22px; user-select: none; white-space: nowrap;">
-            Chat</div>
-    </a> --}}
+
     <style>
         .popup-sapo {
             position: fixed;
@@ -2872,7 +2827,26 @@
         });
     </script>
 
+    <script>
+        const backToTop = document.querySelector('.back-to-top');
 
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 
 </body>
 

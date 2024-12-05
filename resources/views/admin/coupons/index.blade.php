@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách địa điểm</h4>
+                        <h4 class="mb-sm-0">Danh sách mã giảm giảm</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -18,107 +18,108 @@
                         </div>
 
                     </div>
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm-auto">
+                            <a href="{{ route('coupons.create') }}" class="btn btn-secondary "><i
+                                    class="bi bi-plus-circle align-baseline me-1"></i>Thêm mã giảm giá</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- end page title -->
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-                      
-                        <a href="{{route('location.create')}}" class="btn btn-secondary col-2"><i
-                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm địa điểm</a>
-                        {{-- end --}}
+
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
-
                                             <th>ID</th>
-
                                             <th>Tên phiếu</th>
-
                                             <th>Mã</th>
-
                                             <th>Ngày bắt đầu</th>
-
                                             <th>Ngày kết thúc</th>
-
                                             <th>Tỉ lệ</th>
-
                                             <th>Tour áp dụng</th>
-
                                             <th scope="col">Trạng thái</th>
                                             <th scope="col">Hành Động</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
                                         @foreach ($listcoupons as $index => $item)
-                                        <tr>
+                                            <tr>
+                                                <td><a href="" class="text-reset">{{ $item->id }}</a></td>
+                                                <td>{{ $item->name }}</td>
+                                                <td>{{ $item->code }}</td>
+                                                <td>{{ $item->start_date }}</td>
+                                                <td>{{ $item->end_date }}</td>
+                                                <td>{{ $item->percentage_price }}</td>
+                                                <td>{{ $item->tour->name }}</td>
+                                                <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
+                                                    {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                                <td>
+                                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+                                                        <li>
+                                                            <a href="apps-learning-overview.html"
+                                                                class="btn btn-subtle-primary btn-icon btn-sm "><i
+                                                                    class="ph-eye"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ route('coupons.edit', $item->id) }}"
+                                                                class="btn btn-subtle-success btn-icon btn-sm">
+                                                                <i class="ri-edit-2-line"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#deleteRecordModal{{ $item->id }}"
+                                                                data-bs-toggle="modal"
+                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                                    class="ph-trash"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
 
-
-                                            <td><a href="" class="text-reset">{{ $item->id }}</a></td>
-
-                                            <td>{{ $item->name }}</td>
-                                            <td>{{ $item->code }}</td>
-                                            <td>{{ $item->start_date }}</td>
-                                            <td>{{ $item->end_date }}</td>
-                                            <td>{{ $item->percentage_price }}</td>
-                                            <td>{{ $item->tour->name }}</td>
-
-                                            <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
-                                            <td>
-                                                <ul class="d-flex gap-2 list-unstyled mb-0">
-                                                    <li>
-                                                        <a href="apps-learning-overview.html"
-                                                            class="btn btn-subtle-primary btn-icon btn-sm "><i
-                                                                class="ph-eye"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{route('coupons.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                             <!-- Xóa User -->
-        <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="btn-close" id="deleteRecord-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body p-md-5">
-                      <div class="text-center">
-                          <div class="text-danger">
-                              <i class="bi bi-trash display-5"></i>
-                          </div>
-                          <div class="mt-4">
-                              <h4 class="mb-2">Xóa mục này ?</h4>
-                              <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
-                          </div>
-                      </div>
-                      <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('coupons.destroy', $item->id) }}"
-                          method="POST" class="d-inline">
-                          @csrf
-                          @method('DELETE')
-                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn!</button>
-                        </form>
-                      </div>
-                  </div>
-              </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-      </div>
- 
+                                            <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn"
+                                                tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close" id="deleteRecord-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body p-md-5">
+                                                            <div class="text-center">
+                                                                <div class="text-danger">
+                                                                    <i class="bi bi-trash display-5"></i>
+                                                                </div>
+                                                                <div class="mt-4">
+                                                                    <h4 class="mb-2">Xóa mục này ?</h4>
+                                                                    <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn
+                                                                        xóa không?</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
+                                                                <form action="{{ route('coupons.destroy', $item->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="button"
+                                                                        class="btn w-sm btn-light btn-hover"
+                                                                        data-bs-dismiss="modal">Đóng</button>
+                                                                    <button type="submit"
+                                                                        class="btn w-sm btn-danger btn-hover"
+                                                                        id="delete-record">Vâng, Tôi chắc chắn!</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
-                                    </tbody><!-- end tbody -->
-                                </table><!-- end table -->
+                                    </tbody>
+                                </table>
                                 <div class="noresult" style="display: none">
                                     <div class="text-center py-4">
                                         <i class="ph-magnifying-glass fs-1 text-primary"></i>
@@ -128,53 +129,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row align-items-center mt-4 pt-2" id="pagination-element">
-                                <div class="col-sm">
-                                    <div class="text-muted text-center text-sm-start">
-                                        Showing <span class="fw-semibold">10</span> of <span class="fw-semibold">15</span>
-                                        Results
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-sm-auto mt-3 mt-sm-0">
-                                    <div class="pagination-wrap hstack gap-2 justify-content-center">
-                                        <a class="page-item pagination-prev disabled" href="javascript:void(0)">
-                                            Previous
-                                        </a>
-                                        <ul class="pagination listjs-pagination mb-0"></ul>
-                                        <a class="page-item pagination-next" href="javascript:void(0)">
-                                            Next
-                                        </a>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
                         </div>
-                    </div><!--end card-->
-                </div><!--end col-->
-            </div><!--end row-->
-            
-            
-           
-            
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- container-fluid -->
-
 
     </div>
-   <!-- Modal để hiển thị chi tiết coupons -->
-   <div class="modal fade" id="couponsDetailModal" tabindex="-1" aria-labelledby="couponsDetailModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="couponsDetailModalLabel">Chi Tiết Địa Điểm</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="couponsDetailContent">
-                <!-- Nội dung chi tiết địa điểm sẽ được tải ở đây -->
+    <!-- Modal để hiển thị chi tiết coupons -->
+    <div class="modal fade" id="couponsDetailModal" tabindex="-1" aria-labelledby="couponsDetailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="couponsDetailModalLabel">Chi Tiết Địa Điểm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="couponsDetailContent">
+                    <!-- Nội dung chi tiết địa điểm sẽ được tải ở đây -->
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 @endsection
 @section('style')
     <!--datatable css-->
@@ -218,27 +194,27 @@
             }
         });
         $(document).ready(function() {
-    // Sự kiện nhấn vào biểu tượng con mắt
-    $('.view-coupons').on('click', function(e) {
-        e.preventDefault();
-        
-        const couponsId = $(this).data('id'); // Lấy ID của coupons
+            // Sự kiện nhấn vào biểu tượng con mắt
+            $('.view-coupons').on('click', function(e) {
+                e.preventDefault();
 
-        $.ajax({
-            url: '/admin/coupons/' + couponsId,  // Đảm bảo URL này đúng với route trong web.php
-            type: 'GET',
-            success: function(response) {
-                // Hiển thị chi tiết coupons trong modal
-                $('#couponsDetailContent').html(response);
-                $('#couponsDetailModal').modal('show');  // Mở modal
-            },
-            error: function(xhr, status, error) {
-                alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
-            }
+                const couponsId = $(this).data('id'); // Lấy ID của coupons
+
+                $.ajax({
+                    url: '/admin/coupons/' +
+                        couponsId, // Đảm bảo URL này đúng với route trong web.php
+                    type: 'GET',
+                    success: function(response) {
+                        // Hiển thị chi tiết coupons trong modal
+                        $('#couponsDetailContent').html(response);
+                        $('#couponsDetailModal').modal('show'); // Mở modal
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
+                    }
+                });
+            });
         });
-    });
-});
-
     </script>
 @endsection
 
