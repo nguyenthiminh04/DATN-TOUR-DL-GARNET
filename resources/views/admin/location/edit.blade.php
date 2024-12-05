@@ -93,7 +93,7 @@
 
 
                 <div class="mb-3">
-                    <a href="{{route('coupons.index')}}" class="btn btn-info">Trở về</a>
+                    <a href="{{route('location.index')}}" class="btn btn-info">Trở về</a>
                     <button class="btn btn-primary" type="submit">Cập nhật</button>
                 </div>
 

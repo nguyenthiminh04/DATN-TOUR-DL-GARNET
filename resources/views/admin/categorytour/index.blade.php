@@ -8,12 +8,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Câu Hỏi</h4>
+                        <h4 class="mb-sm-0">Danh Sách Danh Mục Tour</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Danh sách câu hỏi</li>
+                                <li class="breadcrumb-item active">Danh sách danh mục Tour</li>
                             </ol>
                         </div>
 
@@ -27,7 +27,7 @@
                     <div class="card" id="coursesList">
                         {{-- nút thêm  --}}
                         <a href="{{ route('categorytour.create') }}" class="btn btn-secondary col-2"><i
-                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm câu hỏi</a>
+                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm danh mục Tour</a>
                         {{-- end nút thêm  --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
@@ -37,7 +37,7 @@
 
                                             <th>ID</th>
                                             <th>Tên danh mục</th>
-                                            <th>Tour</th>
+                                            <th>Mô tả</th>
                                             <th>Ngày tạo</th>
                                             <th>Ngày cập nhật</th>
                                             <th scope="col">Trạng thái</th>
@@ -52,7 +52,7 @@
                                                 <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
                                                 <td>{{ $item->category_tour }}</td>
-                                                <td>{{ $item->tour_id }}</td>
+                                                <td>{{ $item->description }}</td>
                                                 <td>{{ $item->created_at }}</td>
                                                 <td>{{ $item->updated_at }}</td>
                                                 <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">

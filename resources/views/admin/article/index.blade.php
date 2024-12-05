@@ -262,8 +262,8 @@
                 e.preventDefault(); // Ngăn chặn submit mặc định của form
 
                 // Xóa thông báo lỗi cũ
-                $('#question-error').text('');
-                $('#answer-error').text('');
+                $('#title-error').text('');
+                $('#description-error').text('');
                 $('#status-error').text('');
 
                 $.ajax({
@@ -280,11 +280,11 @@
                         // Xử lý khi request bị lỗi
                         if (xhr.status === 422) { // Lỗi xác thực
                             let errors = xhr.responseJSON.errors;
-                            if (errors.question) {
-                                $('#question-error').text(errors.question[0]);
+                            if (errors.title) {
+                                $('#title-error').text(errors.title[0]);
                             }
-                            if (errors.answer) {
-                                $('#answer-error').text(errors.answer[0]);
+                            if (errors.description) {
+                                $('#description-error').text(errors.description[0]);
                             }
                             if (errors.status_id) {
                                 $('#status-error').text(errors.status_id[0]);
