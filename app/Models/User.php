@@ -74,4 +74,27 @@ class User extends Authenticatable
     {
         return $this->hasMany(BookTour::class, 'user_id');
     }
+
+
+    // permissions
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'user_permission');
+    }
+
+    public function hasPermission($permissionName)
+    {
+        return $this->permissions()->where('name', $permissionName)->exists();
+    }
+
+    // gán và thu hồi quyền
+    public function assignPermission($permissionId)
+    {
+        $this->permissions()->attach($permissionId);
+    }
+
+    public function revokePermission($permissionId)
+    {
+        $this->permissions()->detach($permissionId);
+    }
 }

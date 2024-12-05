@@ -13,12 +13,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Câu Hỏi</h4>
+                        <h4 class="mb-sm-0">Danh Sách quyền</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Danh sách câu hỏi</li>
+                                <li class="breadcrumb-item active">Danh sách quyền</li>
                             </ol>
                         </div>
 
@@ -31,31 +31,29 @@
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
                         {{-- nút thêm faq --}}
-                        <a href="{{route('faqs.create')}}" class="btn btn-secondary col-2"><i
-                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm câu hỏi</a>
+                        <a href="{{ route('permissions.create') }}" class="btn btn-secondary col-2"><i
+                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm quyền</a>
                         {{-- end nút thêm faq --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
-                                <table id="example" class="table table-striped" style="width:100%">
+                                <table id="permission" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
 
                                             <th>ID</th>
+                                            
+                                            <th>Tên quyền</th>
 
-                                            <th>Câu hỏi</th>
-
-                                            <th>Câu trả lời</th>
+                                            <th>Mô tả</th>
 
                                             <th>Ngày tạo</th>
 
                                             <th>Ngày cập nhật</th>
 
-                                            <th>Trạng thái</th>
-
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
-                                   
+
                                 </table><!-- end table -->
 
                             </div>
@@ -83,11 +81,11 @@
     <script>
         $(document).ready(function() {
             // khởi tạo tabe
-            let table = $('#example').DataTable({
+            let table = $('#permission').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '{{ route('faqs.index') }}', // Cập nhật với URL đúng
+                    url: '{{ route('permissions.index') }}', // Cập nhật với URL đúng
                     type: 'GET'
                 },
                 columns: [{
@@ -95,12 +93,12 @@
                         name: 'id'
                     },
                     {
-                        data: 'question',
-                        name: 'question'
+                        data: 'name',
+                        name: 'name'
                     },
                     {
-                        data: 'answer',
-                        name: 'answer'
+                        data: 'description',
+                        name: 'description',
                     },
                     {
                         data: 'created_at',
@@ -117,12 +115,6 @@
                             return moment(data).format(
                                 'YYYY-MM-DD HH:mm:ss'); // Chuyển đổi định dạng ngày tháng
                         }
-                    },
-                    {
-                        data: 'status', // Sử dụng đường dẫn đầy đủ cho quan hệ status
-                        name: 'status',
-                        orderable: true,
-                        searchable: true
                     },
                     {
                         data: 'action',
@@ -158,7 +150,7 @@
 
             // xóa faq
 
-            $('#example').on('click', '#deleteItem', function() {
+            $('#permission').on('click', '#deleteItem', function() {
                 let id = $(this).data('id');
                 Swal.fire({
                     title: 'Bạn có chắc muốn xóa?',
@@ -172,7 +164,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('faqs.destroy', ':id') }}".replace(
+                            url: "{{ route('permissions.destroy', ':id') }}".replace(
                                 ':id', id),
                             method: "DELETE",
                             dataType: "json",

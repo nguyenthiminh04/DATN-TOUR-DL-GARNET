@@ -32,6 +32,7 @@ use App\Http\Controllers\Client\PaymentController;
 use App\Http\Controllers\Client\ServiceController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\NotificationUserController;
+use App\Http\Controllers\PermissionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -186,5 +187,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('advisory',                           [AdvisoryController::class, 'index'])->name('advisory.index');
         Route::get('advisory/delete/{id}',               [AdvisoryController::class, 'destroy'])->name('advisory.delete');
         Route::post('advisory/status/{id}',              [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');
+
+
+        // permissions
+        Route::resource('permissions', PermissionController::class);
+        // end permissions
+        
     });
 });
