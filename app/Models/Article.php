@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Admins\Categorys;
+use App\Models\Admins\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

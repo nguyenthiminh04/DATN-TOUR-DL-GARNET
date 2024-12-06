@@ -84,8 +84,6 @@
 						
 						
 
-						<form method="post" action="https://ant-du-lich.mysapo.net/posts/ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro/comments" id="article_comments" accept-charset="UTF-8"><input name="FormType" type="hidden" value="article_comments"/><input name="utf8" type="hidden" value="true"/><input type="hidden" id="Token-56b950e7d49b439d86b392a76d260156" name="Token" /><script src="../www.google.com/recaptcha/apif78f.js?render=6Ldtu4IUAAAAAMQzG1gCw3wFlx_GytlZyLrXcsuK"></script><script>grecaptcha.ready(function() {grecaptcha.execute("6Ldtu4IUAAAAAMQzG1gCw3wFlx_GytlZyLrXcsuK", {action: "article_comments"}).then(function(token) {document.getElementById("Token-56b950e7d49b439d86b392a76d260156").value = token});});</script> 
-						
 						
 						<div class="col-lg-12">
 							<div class="form-coment margin-bottom-30">
@@ -108,7 +106,6 @@
 								</div>
 							</div> <!-- End form mail -->
 						</div>
-						</form>
 					</div>
 					
 				</div>				

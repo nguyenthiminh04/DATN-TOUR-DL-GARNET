@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
@@ -48,8 +49,23 @@ class Article extends Model
     }
 
     // Scope bài viết hiển thị trên trang chủ
-    public function scopeShowOnHome($query)
-    {
-        return $query->where('show_home', 1);
-    }
+    // public function scopeShowOnHome($query)
+    // {
+    //     return $query->where('show_home', 1);
+    // }
+
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::creating(function ($article) {
+    //         $article->slug = Str::slug($article->title); // Tạo slug từ tiêu đề
+    //     });
+
+    //     static::updating(function ($article) {
+    //         $article->slug = Str::slug($article->title); // Cập nhật slug khi tiêu đề thay đổi
+    //     });
+    // }
 }
+
+
