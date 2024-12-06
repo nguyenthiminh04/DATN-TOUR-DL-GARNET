@@ -168,7 +168,7 @@ if ($user) {
                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Trang chủ</a></li>
                     @foreach ($categoryes as $category)
                         <li class="nav-item {{ $category->children->isNotEmpty() ? 'has-mega' : '' }}">
-                            <a class="nav-link" href="{{ url('tour/' . $category->slug) }}">
+                            <a class="nav-link" ">
                                 {{ $category->name }}
                                 @if ($category->children->isNotEmpty())
                                     <i class="fa fa-angle-right"></i>
@@ -209,9 +209,10 @@ if ($user) {
                     @endforeach
 
                     <!-- Các menu tĩnh -->
-                    <li class="nav-item"><a class="nav-link" href="{{ route('tour.index') }}">Tour</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home.allTour') }}">Tất cảTour</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('introduce.index') }}">Giới thiệu</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('service.index') }}">Cẩm nang du lịch</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('service.index') }}">Cẩm nang du lịch</a>
+                    </li>
                     {{-- <li class="nav-item"><a class="nav-link" href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
                     <li class="nav-item"><a class="nav-link" href="{{ route('contact.index') }}">Liên hệ</a></li>
