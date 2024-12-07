@@ -117,7 +117,6 @@ Route::group([], function () {
 
     Route::get('payment/failed', [PaymentController::class, 'failure'])->name('payment.failed');
 
-
     // Route::get('/test-email', function () {
     //     $email = 'giangtg7dz@gmail.com';
     //     Mail::raw('This is a test email!', function ($message) use ($email) {
@@ -141,6 +140,8 @@ Route::group([], function () {
 
     Route::get('/chi-tiet-tour/{id}',   [HomeController::class, 'detailTour'])->name('detail');
     Route::get('/tat-ca-tour',          [HomeController::class, 'allTour'])->name('home.allTour');
+    Route::get('/tat-ca-tour/loc',      [HomeController::class, 'filter'])->name('tour.filter');
+
 
     Route::get('/tim-kiem',             [ClientTourController::class, 'searchTour'])->name('tour.search');
     Route::get('/tour/{slug}',          [ClientTourController::class, 'tour'])->name('tour.category');
@@ -178,7 +179,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('categorytour', CategoryTourController::class);
         Route::resource('comments', CommentController::class);
         Route::get('comment',                           [CommentController::class, 'index'])->name('comment.index');
-        Route::get('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
+        Route::delete('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
         Route::post('comment/status/{id}',              [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
         // thông báo
         Route::resource('notification-user', NotificationUserController::class);
@@ -188,7 +189,7 @@ Route::group(['prefix' => 'admin'], function () {
 
         // end thông báo
         Route::get('advisory',                           [AdvisoryController::class, 'index'])->name('advisory.index');
-        Route::get('advisory/delete/{id}',               [AdvisoryController::class, 'destroy'])->name('advisory.delete');
+        Route::delete('advisory/delete/{id}',               [AdvisoryController::class, 'destroy'])->name('advisory.delete');
         Route::post('advisory/status/{id}',              [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');
     });
 });

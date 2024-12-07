@@ -18,17 +18,20 @@
                         </div>
 
                     </div>
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm-auto">
+                            <a href="{{ route('category.create') }}" class="btn btn-secondary "><i
+                                    class="bi bi-plus-circle align-baseline me-1"></i> Thêm danh mục</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- end page title -->
+
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
 
-                        <a href="{{ route('category.create') }}" class="btn btn-secondary col-2"><i
-                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm danh mục</a>
-                        {{-- end --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
@@ -70,7 +73,7 @@
                                                             </button>
                                                         </li>
                                                         <li>
-                                                          
+
                                                             <a href="{{ route('category.edit', $item->id) }}"
                                                                 class="btn btn-subtle-success btn-icon btn-sm">
                                                                 <i class="ri-edit-2-line"></i></a>
@@ -134,36 +137,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row align-items-center mt-4 pt-2" id="pagination-element">
-                                <div class="col-sm">
-                                    <div class="text-muted text-center text-sm-start">
-                                        Showing <span class="fw-semibold">10</span> of <span class="fw-semibold">15</span>
-                                        Results
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-sm-auto mt-3 mt-sm-0">
-                                    <div class="pagination-wrap hstack gap-2 justify-content-center">
-                                        <a class="page-item pagination-prev disabled" href="javascript:void(0)">
-                                            Previous
-                                        </a>
-                                        <ul class="pagination listjs-pagination mb-0"></ul>
-                                        <a class="page-item pagination-next" href="javascript:void(0)">
-                                            Next
-                                        </a>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
+
                         </div>
-                    </div><!--end card-->
-                </div><!--end col-->
-            </div><!--end row-->
-
-
-
-
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- container-fluid -->
-
 
     </div>
     <div class="modal fade" id="categoryDetailModal" tabindex="-1" aria-labelledby="categoryDetailModalLabel"

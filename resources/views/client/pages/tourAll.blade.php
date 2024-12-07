@@ -1,5 +1,62 @@
 @extends('client.layouts.app')
+@section('style')
+    <style>
+        .select-style .form-control {
+            border-radius: 0;
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-size: 14px;
+            height: auto;
+            box-shadow: none;
+        }
 
+        .select-style .form-control:hover {
+            border-color: #007bff;
+        }
+
+        .select-style aside.aside-item {
+            margin-bottom: 15px;
+        }
+
+        .select-style aside.aside-item select {
+            width: 100%;
+            display: block;
+            background-color: #fff
+        }
+
+        .select-style .form-control {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: #fff url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"%3E%3Cpath fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/%3E%3C/svg%3E') no-repeat right 10px center;
+            background-size: 16px 16px;
+            padding-right: 30px;
+        }
+
+        .select-style .form-control:hover {
+            border-color: #007bff;
+        }
+
+
+        @media (max-width: 768px) {
+            .select-style .form-control {
+                font-size: 12px;
+                padding-right: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .select-style .form-control {
+                font-size: 12px;
+            }
+        }
+
+        .star {
+            color: #ffc107 !important;
+            font-size: 14px !important;
+        }
+    </style>
+@endsection
 @section('content')
     <section class="bread-crumb margin-bottom-10">
         <div class="container">
@@ -28,370 +85,157 @@
         <div class="row">
             <section class="main_container collection col-md-12 tour-grid">
                 <h1 class="title-head margin-top-0 text-center">Tất cả các tour</h1>
-                <div class="sortPagiBar tour-sortby row-filter">
-                    <div class="clearfix row">
-                        <div class="col-md-3 col-sm-6">
-                            <aside class="aside-item filter-price" data-group="Khoảng giá">
-                                <div class="aside-title">
-                                    <h2 class="title-head margin-top-0"><span data-count="0" data-title="Theo mức giá">Theo
-                                            mức giá</span></h2>
-                                </div>
-                                <div class="aside-content filter-group">
-                                    <ul>
-
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-duoi-2-000-000d">
-                                                    <input type="checkbox" id="filter-duoi-2-000-000d"
-                                                        onchange="toggleFilter(this);" data-group="Khoảng giá"
-                                                        data-field="price_min" data-text="Dưới 2.000.000đ"
-                                                        value="(<2000000)" data-operator="OR">
-                                                    <i class="fa"></i>
-                                                    Dưới 2.000.000đ
-                                                </label>
-                                            </span>
-                                        </li>
-
-
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-2-000-000d-4-000-000d">
-                                                    <input type="checkbox" id="filter-2-000-000d-4-000-000d"
-                                                        onchange="toggleFilter(this)" data-count="0" data-group="Khoảng giá"
-                                                        data-field="price_min" data-text="2.000.000đ - 4.000.000đ"
-                                                        value="(>=2000000 AND <=4000000)" data-operator="OR">
-                                                    <i class="fa"></i>
-                                                    2.000.000đ - 4.000.000đ
-                                                </label>
-                                            </span>
-                                        </li>
-
-
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-4-000-000d-6-000-000d">
-                                                    <input type="checkbox" id="filter-4-000-000d-6-000-000d"
-                                                        onchange="toggleFilter(this)" data-count="0" data-group="Khoảng giá"
-                                                        data-field="price_min" data-text="4.000.000đ - 6.000.000đ"
-                                                        value="(>=4000000 AND <=6000000)" data-operator="OR">
-                                                    <i class="fa"></i>
-                                                    4.000.000đ - 6.000.000đ
-                                                </label>
-                                            </span>
-                                        </li>
-
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-6-000-000d-8-000-000d">
-                                                    <input type="checkbox" id="filter-6-000-000d-8-000-000d"
-                                                        onchange="toggleFilter(this)" data-count="0" data-group="Khoảng giá"
-                                                        data-field="price_min" data-text="6.000.000đ - 8.000.000đ"
-                                                        value="(>=6000000 AND <=8000000)" data-operator="OR">
-                                                    <i class="fa"></i>
-                                                    6.000.000đ - 8.000.000đ
-                                                </label>
-                                            </span>
-                                        </li>
-
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-8-000-000d-10-000-000d">
-                                                    <input type="checkbox" id="filter-8-000-000d-10-000-000d"
-                                                        onchange="toggleFilter(this)" data-count="0" data-group="Khoảng giá"
-                                                        data-field="price_min" data-text="8.000.000đ - 10.000.000đ"
-                                                        value="(>=8000000 AND <=10000000)" data-operator="OR">
-                                                    <i class="fa"></i>
-                                                    8.000.000đ - 10.000.000đ
-                                                </label>
-                                            </span>
-                                        </li>
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-tren10-000-000d">
-                                                    <input type="checkbox" id="filter-tren10-000-000d"
-                                                        onchange="toggleFilter(this)" data-count="0"
-                                                        data-group="Khoảng giá" data-field="price_min"
-                                                        data-text="Trên 10.000.000đ" value="(>10000000)"
-                                                        data-operator="OR">
-                                                    <i class="fa"></i>
-                                                    Trên 10.000.000đ
-                                                </label>
-                                            </span>
-                                        </li>
-
-
-
-                                    </ul>
-                                </div>
+                <div class="sortPagiBar tour-sortby row-filter d-flex ">
+                    <div class="clearfix row select-style">
+                        <div class="col-md-4 col-sm-6">
+                            <aside class="aside-item ">
+                                <select id="filter-price" class="form-control">
+                                    <option value="" selected>Chọn khoảng giá</option>
+                                    <option value="0,2000000">Dưới 2.000.000đ</option>
+                                    <option value="2000000,4000000">2.000.000đ - 4.000.000đ</option>
+                                    <option value="4000000,6000000">4.000.000đ - 6.000.000đ</option>
+                                    <option value="6000000,8000000">6.000.000đ - 8.000.000đ</option>
+                                    <option value="8000000,10000000">8.000.000đ - 10.000.000đ</option>
+                                    <option value="10000000,9999999999">Trên 10.000.000đ</option>
+                                </select>
                             </aside>
                         </div>
-                        <div class="col-md-3 col-sm-6">
-                            <aside class="aside-item filter-type" data-group="Loại">
-                                <div class="aside-title">
-                                    <h2 class="title-head margin-top-0"><span data-count="0" data-title="Điểm đi">Điểm
-                                            đi</span></h2>
-                                </div>
-                                <div class="aside-content filter-group">
-                                    <ul>
 
-
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-ho-chi-minh">
-                                                    <input type="checkbox" id="filter-ho-chi-minh"
-                                                        onchange="toggleFilter(this)" data-group="Loại"
-                                                        data-field="product_type" data-text="Hồ Chí Minh"
-                                                        value="(Hồ Chí Minh)" data-operator="OR">
-                                                    <i class="fa"></i>
-                                                    Hồ Chí Minh
-                                                </label>
-                                            </span>
-                                        </li>
-
-
-                                    </ul>
-                                </div>
+                        <div class="col-md-4 col-sm-6">
+                            <aside class="aside-item ">
+                                <select id="filter-location" class="form-control">
+                                    <option value="" selected>Chọn điểm du lịch</option>
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                    @endforeach
+                                </select>
                             </aside>
                         </div>
-                        <div class="col-md-3 col-sm-6">
-                            <aside class="aside-item filter-vendor" data-group="Hãng">
-                                <div class="aside-title">
-                                    <h2 class="title-head margin-top-0"><span data-count="0" data-title="Điểm đến">Điểm
-                                            đến</span></h2>
-                                </div>
-                                <div class="aside-content filter-group" data-group="Hãng">
-                                    <ul>
 
-
-                                        <li class="filter-item filter-item--check-box filter-item--green ">
-                                            <span>
-                                                <label for="filter-cao-bang">
-                                                    <input type="checkbox" id="filter-cao-bang"
-                                                        onchange="toggleFilter(this)" data-group="Hãng"
-                                                        data-field="vendor" data-text="Cao Bằng" value="(Cao Bằng)"
-                                                        data-operator="OR">
-                                                    <i class="fa"></i>
-                                                    Cao Bằng
-                                                </label>
-                                            </span>
-                                        </li>
-
-
-
-                                        <li class="filter-item filter-item--check-box filter-item--green ">
-                                            <span>
-                                                <label for="filter-ha-noi">
-                                                    <input type="checkbox" id="filter-ha-noi"
-                                                        onchange="toggleFilter(this)" data-group="Hãng"
-                                                        data-field="vendor" data-text="Hà Nội" value="(Hà Nội)"
-                                                        data-operator="OR">
-                                                    <i class="fa"></i>
-                                                    Hà Nội
-                                                </label>
-                                            </span>
-                                        </li>
-
-
-
-                                        <li class="filter-item filter-item--check-box filter-item--green ">
-                                            <span>
-                                                <label for="filter-hai-duong">
-                                                    <input type="checkbox" id="filter-hai-duong"
-                                                        onchange="toggleFilter(this)" data-group="Hãng"
-                                                        data-field="vendor" data-text="Hải Dương" value="(Hải Dương)"
-                                                        data-operator="OR">
-                                                    <i class="fa"></i>
-                                                    Hải Dương
-                                                </label>
-                                            </span>
-                                        </li>
-
-
-                                    </ul>
-                                </div>
+                        <div class="col-md-4 col-sm-6">
+                            <aside class="aside-item ">
+                                <select id="filter-rating" class="form-control">
+                                    <option value="" selected style="color: #000000">Chọn đánh giá</option>
+                                    @foreach ($ratings as $rating)
+                                        <option value="{{ $rating->id }}" style="color: #ffc107">
+                                            @for ($i = 1; $i <= $rating->star; $i++)
+                                                <span class="star">&#9733;</span>
+                                            @endfor
+                                        </option>
+                                    @endforeach
+                                </select>
                             </aside>
                         </div>
-                        <div class="col-md-3 col-sm-6">
-                            <aside class="aside-item filter-tag-style-1" data-group="tag2">
-                                <div class="aside-title">
-                                    <h2 class="title-head margin-top-0"><span data-count="0" data-title="Đánh giá">Đánh
-                                            giá</span></h2>
-                                </div>
-                                <div class="aside-content filter-group">
-                                    <ul>
 
-
-
-
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-1sao">
-                                                    <input type="checkbox" id="filter-1sao" onchange="toggleFilter(this)"
-                                                        data-group="tag2" data-field="tags" data-text="1sao"
-                                                        value="(1sao)" data-operator="OR">
-                                                    <i class="fa"></i>
-
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                </label>
-                                            </span>
-                                        </li>
-
-
-
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-2sao">
-                                                    <input type="checkbox" id="filter-2sao" onchange="toggleFilter(this)"
-                                                        data-group="tag2" data-field="tags" data-text="2sao"
-                                                        value="(2sao)" data-operator="OR">
-                                                    <i class="fa"></i>
-
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                </label>
-                                            </span>
-                                        </li>
-
-
-
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-3sao">
-                                                    <input type="checkbox" id="filter-3sao" onchange="toggleFilter(this)"
-                                                        data-group="tag2" data-field="tags" data-text="3sao"
-                                                        value="(3sao)" data-operator="OR">
-                                                    <i class="fa"></i>
-
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                </label>
-                                            </span>
-                                        </li>
-
-
-
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-4sao">
-                                                    <input type="checkbox" id="filter-4sao" onchange="toggleFilter(this)"
-                                                        data-group="tag2" data-field="tags" data-text="4sao"
-                                                        value="(4sao)" data-operator="OR">
-                                                    <i class="fa"></i>
-
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                </label>
-                                            </span>
-                                        </li>
-
-
-
-                                        <li class="filter-item filter-item--check-box filter-item--green">
-                                            <span>
-                                                <label for="filter-5sao">
-                                                    <input type="checkbox" id="filter-5sao" onchange="toggleFilter(this)"
-                                                        data-group="tag2" data-field="tags" data-text="5sao"
-                                                        value="(5sao)" data-operator="OR">
-                                                    <i class="fa"></i>
-
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                </label>
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                </div>
-                            </aside>
-                        </div>
                     </div>
                 </div>
                 <div class="category-products products">
                     <section class="products-view products-view-grid">
-                        <div id="tours-container" class="row"></div>
-                        @foreach ($getTour as $tour)
-                            <div class="col-100 col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                                <div class="product-box">
-                                    <div class="product-thumbnail">
-                                        <a href="{{ route('detail', $tour->id) }}" title="{{ $tour->title }}">
-                                            <img src="{{ Storage::url($tour->image) }}" alt="{{ $tour->title }}">
-                                        </a>
-                                    </div>
-                                    <div class="product-info a-left">
-                                        <h3 class="product-name">
+                        <div id="tours-container" class="row">
+                            @foreach ($getTour as $tour)
+                                <div class="col-100 col-xs-6 col-sm-4 col-md-3 col-lg-3">
+                                    <div class="product-box">
+                                        <div class="product-thumbnail">
                                             <a href="{{ route('detail', $tour->id) }}" title="{{ $tour->title }}">
-                                                {{ $tour->name }}
-                                                [{{ $tour->journeys }}]
+                                                <img src="{{ Storage::url($tour->image) }}" alt="{{ $tour->title }}">
                                             </a>
-                                        </h3>
-                                        <div class="clearfix">
-                                            <div class="box-prices">
-                                                <div class="price-box clearfix">
-                                                    <div class="special-price f-left">
-                                                        <span class="price product-price">
-                                                            {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}
-                                                            VNĐ
-                                                        </span>
-                                                    </div>
-                                                    <div class="old-price">
-                                                        <span class="price product-price-old">
-                                                            {{ number_format($tour->price_old, 0, '', '.') }} VNĐ
-                                                        </span>
+                                        </div>
+                                        <div class="product-info a-left">
+                                            <h3 class="product-name">
+                                                <a href="{{ route('detail', $tour->id) }}" title="{{ $tour->title }}">
+                                                    {{ $tour->name }}
+                                                    [{{ $tour->journeys }}]
+                                                </a>
+                                            </h3>
+                                            <div class="clearfix">
+                                                <div class="box-prices">
+                                                    <div class="price-box clearfix">
+                                                        <div class="special-price f-left">
+                                                            <span class="price product-price">
+                                                                {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}
+                                                                VNĐ
+                                                            </span>
+                                                        </div>
+                                                        <div class="old-price">
+                                                            <span class="price product-price-old">
+                                                                {{ number_format($tour->price_old, 0, '', '.') }} VNĐ
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="box-date-tour">
-                                            <ul class="ct_course_list">
-                                                <li class="clearfix">
-                                                    <div class="ulimg"><img
-                                                            src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                            alt="Khởi hành" /></div>
-                                                    Khởi hành: {{ $tour->start_date }} - {{ $tour->end_date }}
-                                                </li>
-                                                <li class="clearfix">
-                                                    <div class="ulimg"><img
-                                                            src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                            alt="Thời gian" /></div>
-                                                    Thời gian: {{ $tour->schedule }}
-                                                </li>
-                                            </ul>
+                                            <div class="box-date-tour">
+                                                <ul class="ct_course_list">
+                                                    <li class="clearfix">
+                                                        <div class="ulimg"><img
+                                                                src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+                                                                alt="Khởi hành" /></div>
+                                                        Khởi hành: {{ $tour->start_date }} - {{ $tour->end_date }}
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <div class="ulimg"><img
+                                                                src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+                                                                alt="Thời gian" /></div>
+                                                        Thời gian: {{ $tour->schedule }}
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
+                    </section>
                 </div>
             </section>
         </div>
-        </section>
     </div>
-    </div>
+@endsection
+@section('script')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $('#filter-price, #filter-location, #filter-rating').on('change', function() {
+                let price = $('#filter-price').val();
+                let location = $('#filter-location').val();
+                let rating = $('#filter-rating').val();
+
+
+                // console.log("Price:", price, "Location:", location, "Rating:", rating);
+
+                let priceRange = price ? price.split(',') : [null, null];
+                $.ajax({
+                    url: '{{ route('tour.filter') }}',
+                    method: 'GET',
+                    data: {
+                        min_price: priceRange[0],
+                        max_price: priceRange[1],
+                        location: location,
+                        rating: rating
+                    },
+                    success: function(response) {
+                        // console.log(response);
+                        if (response.success) {
+                            $('#tours-container').html(response.html);
+                        } else {
+                            $('#tours-container').html(
+                                '<p style="text-align: center; font-size: 20px; font-weight: bold;">Không có tour nào phù hợp.</p>'
+                            );
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("Có lỗi xảy ra khi tải dữ liệu:", xhr, status, error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Đã có lỗi xảy ra',
+                            text: 'Vui lòng thử lại sau.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
