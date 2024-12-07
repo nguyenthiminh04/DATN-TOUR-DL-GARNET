@@ -53,7 +53,7 @@
                                     khẩu</a>
                             </li>
                             <li>
-                                <a class="title-info" href="javascript:void(0);" data-target="#addresses">Sổ địa chỉ</a>
+                                <a class="title-info" href="javascript:void(0);" data-target="#addresses">Thông tin tài khoản</a>
                             </li>
                         </ul>
                     </div>
@@ -133,7 +133,7 @@
                                                         <td>{{ $bookTour->status->name ?? 'chưa cập nhật' }}</td>
                                                         <td>{{ number_format($bookTour->total_money) }} đ</td>
                                                         <td>{{ $bookTour->tour->move_method }}</td>
-                                                        <td><a href="" class="btn btn-click btn-success">Xem chi
+                                                        <td><a href="{{route('usser.detailDoHang',$bookTour->id)}}" class="btn btn-click btn-success">Xem chi
                                                                 tiết</a></td>
                                                     </tr>
                                                 @endforeach
@@ -216,7 +216,7 @@
                     </div>
 
                     <div id="addresses" class="content-section" style="display: none;">
-                        <h1 class="title-head">Địa chỉ của bạn</h1>
+                        <h1 class="title-head">Thông tin tài khoản</h1>
                         {{-- <p class="btn-row">
                             <button class="btn-edit-addr btn btn-blues btn-more" type="button">Thêm địa chỉ</button>
                         </p>
@@ -347,7 +347,7 @@
                         end? --}}
                         <button class="btn-edit-addr btn btn-blues btn-more" type="button" data-toggle="modal"
                             data-target="#addAddressModal" style="margin-bottom: 15px">
-                            Thêm địa chỉ
+                            Cập nhật thông tin tài khoản 
                         </button>
                         <div class="form-signup name-account m992">
                             <table class="table table-cart table-order">
@@ -383,7 +383,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title align-items-end justify-content-center"
-                                            id="addAddressLabel">Thêm địa chỉ mới</h4>
+                                            id="addAddressLabel">Cập nhật thông tin tài khoản</h4>
                                     </div>
                                     <div class="modal-body">
                                         <form method="post" action="{{ route('user.address') }}" id="addressForm"

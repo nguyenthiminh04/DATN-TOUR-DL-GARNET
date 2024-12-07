@@ -41,7 +41,7 @@
                                                         data-target="{{ $totalMoney }}">0</span> đ </h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
                                                     <h5 class="text-success fs-xs mb-0">
-                                                        {{$percentage}} %
+                                                        {{ $percentage }} %
                                                     </h5>
                                                     <p class="text-muted mb-0">hơn ngày trước</p>
                                                 </div>
@@ -78,7 +78,7 @@
                                                         data-target="{{ $OderCount }}">0</span></h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
                                                     <h5 class="text-success fs-xs mb-0"></i>
-                                                        {{$percentageChange}} %
+                                                        {{ $percentageChange }} %
                                                     </h5>
                                                     <p class="text-muted mb-0">hơn ngày trước</p>
                                                 </div>
@@ -151,7 +151,7 @@
                                                 <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
                                                     Khách hàng đặt tour hôm nay</p>
                                                 <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="{{$customerCount}}">0</span></h4>
+                                                        data-target="{{ $customerCount }}">0</span></h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
                                                     <h5 class="text-success fs-xs mb-0">
                                                         <i class="ri-arrow-right-up-line fs-sm align-middle"></i>
@@ -172,64 +172,39 @@
                         <div class="row g-0">
                             <div class="col-xl-9">
                                 <div class="card-header border-0 align-items-center d-flex">
-                                    
-                                 
-                                        <form autocomplete="off" action="" method="POST">
-                                            @csrf
-                                            <div class="d-flex">
-                                                <h4 class="card-title mb-0 flex-grow-1">Tour hot</h4>
-                                                <div class="col-md-2 d-flex">
-                                                    <input type="text" id="datepicker" class="form-control" placeholder="Từ ngày">
-                                                </div>
-                                                <div class="col-md-2 d-flex">
-                                                    <input type="text" id="datepicker2" class="form-control" placeholder="Đến ngày">
-                                                </div>
-                                                <div class="col-md-4 d-flex">
-                                                    <input type="button" name="" id="btn-dashboard-filter" class="btn btn-primary" value="Lọc">
-                                                    <select id="dashboard-filter" class="form-control">
-                                                        <option value="7day">7 ngày qua</option>
-                                                        <option value="thangTrc">Tháng trước</option>
-                                                        <option value="thangNay">Tháng này</option>
-                                                        <option value="365day">365 ngày qua</option>
-                                                    </select>
-                                                </div>
-                                                
+
+
+                                    <form autocomplete="off" action="" method="POST">
+                                        @csrf
+                                        <div class="d-flex">
+                                            <h4 class="card-title mb-0 flex-grow-1">Tour hot</h4>
+                                            <div class="col-md-2 d-flex">
+                                                <input type="text" id="datepicker" class="form-control"
+                                                    placeholder="Từ ngày">
                                             </div>
-                                        </form>
-                                 
+                                            <div class="col-md-2 d-flex">
+                                                <input type="text" id="datepicker2" class="form-control"
+                                                    placeholder="Đến ngày">
+                                            </div>
+                                            <div class="col-md-4 d-flex">
+                                                <input type="button" name="" id="btn-dashboard-filter"
+                                                    class="btn btn-primary" value="Lọc">
+                                                <select id="dashboard-filter" class="form-control">
+                                                    <option value="7day">7 ngày qua</option>
+                                                    <option value="thangTrc">Tháng trước</option>
+                                                    <option value="thangNay">Tháng này</option>
+                                                    <option value="365day">365 ngày qua</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </form>
+
                                 </div><!-- end card header -->
                                 <div class="card-body ps-0">
                                     <div class="w-100">
                                         {{-- <div id="market-overview" data-colors='["--tb-primary", "--tb-secondary"]'
                                             class="apex-charts" dir="ltr"></div> --}}
-                                        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-                                        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-
-                                        <script>
-                                            var xValues = ["Hà Giang", "Discover Amazing Thailand Tour"];
-                                            var yValues = [55, 49, 44];
-                                            var barColors = ["red", "green", "blue"];
-
-                                            new Chart("myChart", {
-                                                type: "bar",
-                                                data: {
-                                                    labels: xValues,
-                                                    datasets: [{
-                                                        backgroundColor: barColors,
-                                                        data: yValues
-                                                    }]
-                                                },
-                                                options: {
-                                                    legend: {
-                                                        display: false
-                                                    },
-                                                    title: {
-                                                        display: true,
-                                                        text: ""
-                                                    }
-                                                }
-                                            });
-                                        </script>
                                     </div>
                                 </div><!-- end card body -->
                             </div>
@@ -241,7 +216,7 @@
             <div class="row">
                 <div class="col-xl-6">
                     <!-- card -->
-                    {{-- <div class="card">
+                    <div class="card">
                         <div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1"></h4>
                             <div class="flex-shrink-0">
@@ -255,54 +230,14 @@
                         <div class="card-body">
 
                             <div class="row">
-                                <div class="col-lg-8">
-                                    <div id="world-map-line-markers" data-colors='["--tb-light"]' style="height: 340px">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-4">
-                                        <h6 class="text-muted mb-3 fw-medium fs-xs text-uppercase">Compared to
-                                            last month</h6>
-                                        <h3><span class="counter-value" data-target="53736"></span> <small
-                                                class="text-muted fw-normal fs-sm">Sales</small></h3>
-                                    </div>
-                                    <div>
-                                        <ul class="list-unstyled vstack gap-2">
-                                            <li class="p-2 rounded">
-                                                <i
-                                                    class="ri-checkbox-blank-circle-fill text-primary align-bottom me-1"></i>
-                                                United States <span class="float-end">15,364</span>
-                                            </li>
-                                            <li class="bg-light-subtle p-2 rounded">
-                                                <i
-                                                    class="ri-checkbox-blank-circle-fill text-secondary align-bottom me-1"></i>
-                                                Greenland <span class="float-end">12,387</span>
-                                            </li>
-                                            <li class="p-2 rounded">
-                                                <i class="ri-checkbox-blank-circle-fill text-info align-bottom me-1"></i>
-                                                Serbia <span class="float-end">9,123</span>
-                                            </li>
-                                            <li class="bg-light-subtle p-2 rounded">
-                                                <i
-                                                    class="ri-checkbox-blank-circle-fill text-success align-bottom me-1"></i>
-                                                Russia <span class="float-end">7,108</span>
-                                            </li>
-                                            <li class="p-2 rounded">
-                                                <i class="ri-checkbox-blank-circle-fill text-danger align-bottom me-1"></i>
-                                                Brazil <span class="float-end">6,731</span>
-                                            </li>
-                                            <li class="bg-light-subtle p-2 rounded">
-                                                <i
-                                                    class="ri-checkbox-blank-circle-fill text-warning align-bottom me-1"></i>
-                                                Sydney <span class="float-end">3,023</span>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <div class="col-lg-12">
+                                    {{-- chart --}}
+                                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
                                 </div>
                             </div>
                         </div>
                         <!-- end card body -->
-                    </div> --}}
+                    </div>
                     <!-- end card -->
                 </div>
                 <!-- end col -->
@@ -310,7 +245,7 @@
                 <div class="col-xl-3 col-lg-6">
                     <div class="card card-height-100">
                         <div class="card-header d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Số lượng đặt tour hôm nay/hôm trước</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">Trạng thái các tour ngày hôm nay</h4>
                             <div class="dropdown card-header-dropdown float-end">
                                 <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
@@ -325,8 +260,31 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div id="column_chart" data-colors='["--tb-primary", "--tb-light"]' class="apex-charts"
-                                dir="ltr"></div>
+                            {{-- <script>
+                                window.onload = function() {
+                                
+                                var chart = new CanvasJS.Chart("chartContainer1", {
+                                    theme: "light1", // "light1", "light2", "dark1", "dark2"
+                                    exportEnabled: true,
+                                    animationEnabled: true,
+                                    data: [{
+                                        type: "pie",
+                                        startAngle: 25,
+                                        toolTipContent: "<b>{label}</b>: {y}%",
+                                        showInLegend: "true",
+                                        legendText: "{label}",
+                                        indexLabelFontSize: 13,
+                                        indexLabel: "{label} - {y}%",
+                                        dataPoints: @json($chartData)
+                                    }]
+                                });
+                                chart.render();
+                                }
+                                </script>
+                                </head>
+                                <body>
+                                <div id="chartContainer1" style="height: 370px; width: 100%;"></div>
+                                <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script> --}}
                         </div>
                     </div>
                 </div><!--end col-->
@@ -345,12 +303,13 @@
                                                 <td>
                                                     <div class="d-flex align-items-center gap-1">
                                                         <div class="flex-shrink-0">
-                                                            <img src="admin/assets/images/users/48/avatar-8.jpg"
-                                                                alt="" class="avatar-sm rounded-circle p-1">
+                                                            <img src="{{ Storage::url($top5Tour->image) }}" alt=""
+                                                                class="avatar-sm rounded-circle p-1">
                                                         </div>
                                                         <div class="flex-grow-1 overflow-hidden">
-                                                            <h6 class="fs-md mb-1">{{$top5Tour->name}}</h6>
-                                                            <p class="text-muted text-truncate mb-0">{{ \Carbon\Carbon::parse($top5Tour->start_date)->format('d/m/Y') }}
+                                                            <h6 class="fs-md mb-1">{{ $top5Tour->name }}</h6>
+                                                            <p class="text-muted text-truncate mb-0">
+                                                                {{ \Carbon\Carbon::parse($top5Tour->start_date)->format('d/m/Y') }}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -372,12 +331,12 @@
                 <div class="col-lg-8">
                     <div class="card" id="contactList">
                         <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Latest Orders</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">Tour đánh giá cao</h4>
                             <div class="flex-shrink-0">
                                 <div class="dropdown card-header-dropdown sortble-dropdown">
                                     <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
-                                        <span class="fw-semibold text-uppercase fs-12">Sort by:
+                                        <span class="fw-semibold text-uppercase fs-12">Lọc:
                                         </span><span class="text-muted dropdown-title">Order Date</span> <i
                                             class="mdi mdi-chevron-down ms-1"></i>
                                     </a>
@@ -398,7 +357,7 @@
                                     <thead class="text-muted table-light">
                                         <tr>
                                             <th scope="col" class="sort cursor-pointer" data-sort="order_date">
-                                                Order Date</th>
+                                                STT</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="order_id">
                                                 Order ID</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="shop">Shop
@@ -416,145 +375,6 @@
                                         </tr>
                                     </thead>
                                     <tbody class="list">
-                                        <tr>
-                                            <td class="order_date">
-                                                15 Feb, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250011</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="admin/assets/images/companies/img-7.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Alex Smith
-                                            </td>
-                                            <td class="products">Clothes</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$109.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-secondary-subtle text-secondary">New</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0">-</h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                14 Feb, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250010</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="admin/assets/images/companies/img-1.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Jansh Brown
-                                            </td>
-                                            <td class="products">Kitchen Storage</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$149.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-warning-subtle text-warning">Pending</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i
-                                                        class="ph-star align-baseline text-warning"></i> 4.5
-                                                </h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                30 Jan, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250009</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="admin/assets/images/companies/img-2.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Ayaan Bowen
-                                            </td>
-                                            <td class="products">Bike Accessories</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$215.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-danger-subtle text-danger">Out of
-                                                    Delivered</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i
-                                                        class="ph-star align-baseline text-warning"></i> 4.9
-                                                </h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                25 Jan, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250008</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="admin/assets/images/companies/img-3.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Prezy Mark
-                                            </td>
-                                            <td class="products">Furniture</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$199.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-primary-subtle text-primary">Shipping</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i
-                                                        class="ph-star align-baseline text-warning"></i> 4.3
-                                                </h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                19 Jan, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250007</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="admin/assets/images/companies/img-4.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Vihan Hudda
-                                            </td>
-                                            <td class="products">Bags and Wallets</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$330.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-success-subtle text-success">Delivered</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i
-                                                        class="ph-star align-baseline text-warning"></i> 4.7
-                                                </h5>
-                                            </td>
-                                        </tr><!-- end tr -->
                                         <tr>
                                             <td class="order_date">
                                                 16 Jan, 2023
@@ -599,6 +419,7 @@
                         </div>
                     </div>
                 </div><!--end col-->
+                
                 <div class="col-lg-4">
                     <div class="card">
                         <div class="card-header d-flex align-items-center">
@@ -837,113 +658,18 @@
                                 <div class="col-lg-4">
                                     <div class="hstack gap-2">
                                         <p class="mb-0 flex-grow-1">New</p>
-                                        <h6 class="mb-0">307</h6>
+                                        <h6 class="mb-0">Đại</h6>
                                     </div>
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
                                         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                                         <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
-                                            style="width: 50%"></div>
+                                            style="width: 100%"></div>
                                     </div>
                                 </div><!--end col-->
                             </div><!--end row-->
 
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Pending</p>
-                                        <h6 class="mb-0">177</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
-                                            style="width: 37%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Rejected</p>
-                                        <h6 class="mb-0">39</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary"
-                                            style="width: 12%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Returns</p>
-                                        <h6 class="mb-0">17</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger bg-opacity-75"
-                                            style="width: 3%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Dispatched</p>
-                                        <h6 class="mb-0">661</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
-                                            style="width: 57%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Delivered</p>
-                                        <h6 class="mb-0">1320</h6>
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-                                            style="width: 86%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Cancelled</p>
-                                        <h6 class="mb-0">74</h6>
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
-                                            style="width: 13%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
                         </div>
                     </div>
                 </div><!--end col-->

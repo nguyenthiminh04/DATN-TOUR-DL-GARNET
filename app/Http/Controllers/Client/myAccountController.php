@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\BookTour;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -92,4 +93,25 @@ class myAccountController extends Controller
             'message' => 'Cập nhật địa chỉ thành công!',
         ]);
     }
+    public function detailDoHang($id){
+        $bookTour = BookTour::with([
+            'tour',             
+            'pay.paymentMethod',  
+            'pay.paymentStatus'
+        ])->findOrFail($id);
+            return view('client.myAccount.detailDonHang', compact('bookTour'));
+    }
+    public function cancelOrder(Request $request, $id)
+    {
+        $request->validate([
+            'ly_do_huy' => 'required|string|max:255',
+        ]);
+        $bookTour = BookTour::findOrFail($id);
+        $bookTour->ly_do_huy = $request->ly_do_huy;
+        $bookTour->status = 13;
+        $bookTour->save();
+
+        return redirect()->back()->with('success', 'Đơn hàng đã được hủy thành công.');
+    }
+
 }

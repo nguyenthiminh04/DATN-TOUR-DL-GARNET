@@ -35,6 +35,7 @@
     <link href="{{ asset('admin/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('admin/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
 
 
     @yield('style')
@@ -120,23 +121,57 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script>
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+                const timeframe = this.getAttribute('href'); // Lấy khoảng thời gian từ href
+                fetch(`/doanh-thu/${timeframe}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Cập nhật doanh thu và phần trăm thay đổi trong view
+                        document.querySelector('.counter-value').setAttribute('data-target', data.totalMoney);
+                        document.querySelector('.counter-value').textContent = new Intl.NumberFormat().format(data.totalMoney) + ' đ';
+                        document.querySelector('.text-success').textContent = data.percentage + ' %';
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    </script>
+    
+    <script>
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2",
+            animationEnabled: true,
+            title: {
+                text: "Top 5 Tours được đặt nhiều nhất"
+            },
+            axisY: {
+                title: "Số lượt đặt",
+                includeZero: true
+            },
+            data: [{
+                type: "bar",
+                yValueFormatString: "#,### lượt",
+                // showInLegend: true, 
+                legendText: "{label}",
+                indexLabel: "",
+                dataPoints: @json($chartData)
+            }]
+        });
+
+            chart.render();
+        }
+    </script>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script>
         $(function() {
         $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" });
         $("#datepicker2").datepicker({ dateFormat: "yy-mm-dd" });
     });
     
-    var chart = new Morris.Bar({
-        element: 'myfirstchart',
-        data: [],
-        xkey: 'ngayDat', 
-        ykeys: ['total', 'soLuongDon'], // Tổng doanh thu và số lượng đơn
-        labels: ['Doanh thu', 'Số lượng đơn'], // Nhãn cột
-        parseTime: false,
-        hoverCallback: function (index, options, content, row) {
-            return content + '<br>Số lượng đơn hàng: ' + row.soLuongDon;
-        }
-    });
     
     $('#btn-dashboard-filter').click(function(){
         var _token = $('input[name="_token"]').val();

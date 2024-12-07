@@ -87,6 +87,10 @@ Route::group([], function () {
     Route::post('/don-hang', [myAccountController::class, 'orderMy'])->name('user.orderMy');
     Route::get('/don-hang/{id}', [myAccountController::class, 'details'])->name('orders.donHangDetails');
 
+    Route::get('/detail-don-hang/{id}', [myAccountController::class, 'detailDoHang'])->name('usser.detailDoHang');
+    Route::put('/huy-don-hang/{id}', [myAccountController::class, 'cancelOrder'])->name('usser.cancelOrder');
+
+
 
     //     'show' => 'client.tour.show',
     //thông tin tài khoản
