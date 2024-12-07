@@ -12,8 +12,11 @@ use App\Models\Admins\CategoryTour;
 use App\Models\Comment;
 use App\Models\Notification;
 use App\Models\Payment;
+use App\Models\Rating;
 use App\Models\Review;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class HomeController extends Controller
 {
@@ -195,8 +198,47 @@ class HomeController extends Controller
         $data = [
             'header_title' => "Tất Cả Tour",
             'getTour' => Tour::getAll(),
+            'locations' => Location::select('locations.*')->get(),
+            'ratings' => Rating::select('ratings.*')->get(),
         ];
 
         return view('client.pages.tourAll', $data);
+    }
+
+    public function filter(Request $request)
+    {
+        try {
+            $query = Tour::query();
+
+            if ($request->has('min_price') && $request->has('max_price')) {
+                $minPrice = $request->min_price;
+                $maxPrice = $request->max_price;
+                if (is_numeric($minPrice) && is_numeric($maxPrice)) {
+                    $query->whereBetween('price_old', [$minPrice, $maxPrice]);
+                }
+            }
+
+            if ($request->has('location') && !empty($request->location)) {
+                $location = $request->location;
+                $query->where('location_id', $location);
+            }
+
+            if ($request->has('rating') && !empty($request->rating)) {
+                $ratingId = $request->rating;
+
+                $query->where('star', $ratingId);
+            }
+
+            $tours = $query->get();
+
+            return response()->json([
+                'success' => true,
+                'html' => view('client.pages.filter_results', compact('tours'))->render()
+            ]);
+        } catch (\Exception $e) {
+
+            Log::error('Lỗi trong filter: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra'], 500);
+        }
     }
 }

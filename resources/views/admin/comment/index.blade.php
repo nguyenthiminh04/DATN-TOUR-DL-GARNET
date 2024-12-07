@@ -1,8 +1,8 @@
 @extends('admin.layouts.app')
 
 @section('style')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css"> --}}
 @endsection
 @section('content')
     <div class="page-content">
@@ -52,72 +52,71 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-xl-12">
-                                    <div class="table-responsive mt-4 mt-xl-0">
-                                        <table class="table table-hover table-striped align-middle table-nowrap mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Người Bình Luận</th>
-                                                    <th>Tour Bình Luận</th>
-                                                    <th>Nội Dung Bình Luận</th>
-                                                    <th>Trả Lời Bình Luận Của</th>
-                                                    <th>Trạng thái</th>
-                                                    <th scope="col">Hành động </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if ($listComments->isEmpty())
-                                                    <tr>
-                                                        <td colspan="11" class="text-center text-muted">
-                                                            Trống.
-                                                        </td>
-                                                    </tr>
-                                                @else
-                                                    @foreach ($listComments as $index => $item)
-                                                        <tr>
-                                                            <td><a href=""
-                                                                    class="text-reset">{{ $loop->index + 1 }}</a>
-                                                            </td>
-                                                            <td>
-                                                                {{ $item->user->name }}
-                                                            </td>
-                                                            <td>{{ $item->tour->name }}</td>
-                                                            <td>{{ $item->content }}</td>
-                                                            <td>{{ $item->parent ? $item->parent->user->name : 'Bình Luận Chính' }}
-                                                            </td>
-                                                            <td>
-                                                                <button type="button" style="width: 100px;"
-                                                                    class="btn btn-toggle-status {{ $item->status == 0 ? 'btn-success' : 'btn-danger' }}"
-                                                                    data-id="{{ $item->id }}"
-                                                                    onclick="toggleStatus({{ $item->id }})">
-                                                                    {{ $item->status == 0 ? 'Hiện' : 'Ẩn' }}
-                                                                </button>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex gap-2">
 
+                            <div class="table-responsive table-card">
+                                <div class="table-responsive mt-4 mt-xl-0">
+                                    <table id="example" class="table table-striped" style="width:100%">
+                                        <thead class="text-muted">
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Người Bình Luận</th>
+                                                <th>Tour Bình Luận</th>
+                                                <th>Nội Dung Bình Luận</th>
+                                                <th>Trả Lời Bình Luận Của</th>
+                                                <th>Trạng thái</th>
+                                                <th scope="col">Hành động </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="list form-check-all">
+                                            @if ($listComments->isEmpty())
+                                                <tr>
+                                                    <td colspan="11" class="text-center text-muted">
+                                                        Trống.
+                                                    </td>
+                                                </tr>
+                                            @else
+                                                @foreach ($listComments as $index => $item)
+                                                    <tr>
+                                                        <td><a href="" class="text-reset">{{ $loop->index + 1 }}</a>
+                                                        </td>
+                                                        <td>
+                                                            {{ $item->user->name }}
+                                                        </td>
+                                                        <td>{{ $item->tour->name }}</td>
+                                                        <td>{{ $item->content }}</td>
+                                                        <td>{{ $item->parent ? $item->parent->user->name : 'Bình Luận Chính' }}
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" style="width: 100px;"
+                                                                class="btn btn-toggle-status {{ $item->status == 0 ? 'btn-success' : 'btn-danger' }}"
+                                                                data-id="{{ $item->id }}"
+                                                                onclick="toggleStatus({{ $item->id }})">
+                                                                {{ $item->status == 0 ? 'Hiện' : 'Ẩn' }}
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex gap-2">
+
+                                                                <div class="remove">
                                                                     <div class="remove">
                                                                         <div class="remove">
-                                                                            <div class="remove">
-                                                                                <a href="javascript:void(0);"
-                                                                                    onclick="confirmDelete({{ $item->id }})"
-                                                                                    class="btn btn-sm btn-outline-danger remove-item-btn">Remove</a>
-                                                                            </div>
+                                                                            <a href="javascript:void(0);"
+                                                                                onclick="confirmDelete({{ $item->id }})"
+                                                                                class="btn btn-sm btn-outline-danger remove-item-btn">Xóa</a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @endif
-                                            </tbody>
-                                        </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
 
-                                    </div>
                                 </div>
                             </div>
+
                         </div>
                         <div class="card-body bg-light border-bottom border-top bg-opacity-25">
                             <h5 class="fs-xs text-muted mb-0"></h5>
@@ -127,6 +126,8 @@
             </div>
         </div>
     </div>
+
+
 @endsection
 
 

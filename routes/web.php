@@ -117,7 +117,6 @@ Route::group([], function () {
 
     Route::get('payment/failed', [PaymentController::class, 'failure'])->name('payment.failed');
 
-
     // Route::get('/test-email', function () {
     //     $email = 'giangtg7dz@gmail.com';
     //     Mail::raw('This is a test email!', function ($message) use ($email) {
@@ -141,6 +140,8 @@ Route::group([], function () {
 
     Route::get('/chi-tiet-tour/{id}',   [HomeController::class, 'detailTour'])->name('detail');
     Route::get('/tat-ca-tour',          [HomeController::class, 'allTour'])->name('home.allTour');
+    Route::get('/tat-ca-tour/loc',      [HomeController::class, 'filter'])->name('tour.filter');
+
 
     Route::get('/tim-kiem',             [ClientTourController::class, 'searchTour'])->name('tour.search');
     Route::get('/tour/{slug}',          [ClientTourController::class, 'tour'])->name('tour.category');

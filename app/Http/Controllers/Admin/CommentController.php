@@ -14,8 +14,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-
-        $listComments = Comment::query()->where('deleted_at', '=', null)->get();
+        $listComments = Comment::getAll();
         return view('admin.comment.index', compact('listComments'));
     }
 
