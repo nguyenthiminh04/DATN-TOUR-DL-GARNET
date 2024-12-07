@@ -209,7 +209,7 @@ if ($user) {
                     @endforeach
 
                     <!-- Các menu tĩnh -->
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home.allTour') }}">Tất cảTour</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home.allTour') }}">Tất cả Tour</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('introduce.index') }}">Giới thiệu</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('service.index') }}">Cẩm nang du lịch</a>
                     </li>

@@ -1,9 +1,11 @@
 @extends('admin.layouts.app')
 
 @section('style')
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> --}}
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css"> --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.css') }}" />
 @endsection
+
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -41,89 +43,133 @@
                                 </div>
                             </form>
                         </div>
-
                     </div>
                 </div>
             </div>
-
-
 
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card">
+                    <div class="card" id="coursesList">
+
                         <div class="card-body">
-
                             <div class="table-responsive table-card">
-                                <div class="table-responsive mt-4 mt-xl-0">
-                                    <table id="example" class="table table-striped" style="width:100%">
-                                        <thead class="text-muted">
+                                <table id="example" class="table table-striped" style="width:100%">
+                                    <thead class="text-muted">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Họ và Tên</th>
+                                            <th>Tên tour</th>
+                                            <th>Nội dung</th>
+                                            <th>Trả lời từ</th>
+                                            <th scope="col">Trạng thái</th>
+                                            <th scope="col">Hành động </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="list form-check-all">
+                                        @if ($listComments->isEmpty())
                                             <tr>
-                                                <th>STT</th>
-                                                <th>Người Bình Luận</th>
-                                                <th>Tour Bình Luận</th>
-                                                <th>Nội Dung Bình Luận</th>
-                                                <th>Trả Lời Bình Luận Của</th>
-                                                <th>Trạng thái</th>
-                                                <th scope="col">Hành động </th>
+                                                <td colspan="11" class="text-center text-muted">
+                                                    Trống.
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody class="list form-check-all">
-                                            @if ($listComments->isEmpty())
-                                                <tr>
-                                                    <td colspan="11" class="text-center text-muted">
-                                                        Trống.
+                                        @else
+                                            @foreach ($listComments as $index => $item)
+                                                <tr class="comment-item" data-id="{{ $item->id }}">
+                                                    <td><a href="" class="text-reset">{{ $loop->index + 1 }}</a>
                                                     </td>
-                                                </tr>
-                                            @else
-                                                @foreach ($listComments as $index => $item)
-                                                    <tr>
-                                                        <td><a href="" class="text-reset">{{ $loop->index + 1 }}</a>
-                                                        </td>
-                                                        <td>
-                                                            {{ $item->user->name }}
-                                                        </td>
-                                                        <td>{{ $item->tour->name }}</td>
-                                                        <td>{{ $item->content }}</td>
-                                                        <td>{{ $item->parent ? $item->parent->user->name : 'Bình Luận Chính' }}
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" style="width: 100px;"
-                                                                class="btn btn-toggle-status {{ $item->status == 0 ? 'btn-success' : 'btn-danger' }}"
-                                                                data-id="{{ $item->id }}"
-                                                                onclick="toggleStatus({{ $item->id }})">
-                                                                {{ $item->status == 0 ? 'Hiện' : 'Ẩn' }}
-                                                            </button>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex gap-2">
+                                                    <td>
+                                                        {{ $item->user->name }}
+                                                    </td>
+                                                    <td>{{ $item->tour->name }}</td>
+                                                    <td>{{ $item->content }}</td>
+                                                    <td>{{ $item->parent ? $item->parent->user->name : 'Bình Luận Chính' }}
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" style="width: 100px;"
+                                                            class="btn btn-toggle-status {{ $item->status == 0 ? 'btn-success' : 'btn-danger' }}"
+                                                            data-id="{{ $item->id }}"
+                                                            onclick="toggleStatus({{ $item->id }})">
+                                                            {{ $item->status == 0 ? 'Hiện' : 'Ẩn' }}
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex gap-2">
 
+                                                            <div class="remove">
                                                                 <div class="remove">
                                                                     <div class="remove">
-                                                                        <div class="remove">
-                                                                            <a href="javascript:void(0);"
-                                                                                onclick="confirmDelete({{ $item->id }})"
-                                                                                class="btn btn-sm btn-outline-danger remove-item-btn">Xóa</a>
-                                                                        </div>
+                                                                        <a href="javascript:void(0);"
+                                                                            data-id="{{ $item->id }}"
+                                                                            class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
+                                                                            onclick="confirmDelete({{ $item->id }})">
+                                                                            <i class="ph-trash"></i>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
-                                        </tbody>
-                                    </table>
-
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                            <div class="row align-items-center mt-4 pt-3" id="pagination-element"
+                            style="width: 100%; overflow: hidden;">
+                            <div class="col-sm">
+                                <div class="text-muted text-center text-sm-start">
+                                    Hiển thị <span class="fw-semibold">{{ $listComments->count() }}</span>
+                                    trên <span class="fw-semibold">{{ $listComments->total() }}</span>
+                                    mục
                                 </div>
                             </div>
 
+                            <div class="col-sm-auto mt-3 mt-sm-0">
+                                <div class="pagination-wrap hstack justify-content-center gap-2">
+
+                                    @if ($listComments->onFirstPage())
+                                        <a class="page-item pagination-prev disabled" href="#">
+                                            Trước
+                                        </a>
+                                    @else
+                                        <a class="page-item pagination-prev"
+                                            href="{{ $listComments->previousPageUrl() }}">
+                                            Trước
+                                        </a>
+                                    @endif
+
+                                    <ul class="pagination listjs-pagination mb-0">
+                                        @foreach ($listComments->getUrlRange(1, $listComments->lastPage()) as $page => $url)
+                                            <li
+                                                class="{{ $listComments->currentPage() == $page ? 'active' : '' }}">
+                                                <a class="page" href="{{ $url }}"
+                                                    data-i="{{ $page }}"
+                                                    data-page="{{ $page }}">{{ $page }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+
+                                    @if ($listComments->hasMorePages())
+                                        <a class="page-item pagination-next"
+                                            href="{{ $listComments->nextPageUrl() }}">
+                                            Tiếp
+                                        </a>
+                                    @else
+                                        <a class="page-item pagination-next disabled" href="#">
+                                            Tiếp
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body bg-light border-bottom border-top bg-opacity-25">
-                            <h5 class="fs-xs text-muted mb-0"></h5>
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 
@@ -132,21 +178,39 @@
 
 
 @section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        function confirmDelete(id) {
-
-            if (confirm('Are you sure you want to delete this parent?')) {
-
-                window.location.href = "{{ url('admin/comment/delete/') }}/" + id;
-            } else {
-
-                return false;
+        $('#example').DataTable({
+            language: {
+                "sEmptyTable": "Không có dữ liệu trong bảng",
+                "sInfo": "Hiển thị _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                "sInfoEmpty": "Hiển thị 0 đến 0 trong tổng số 0 mục",
+                "sInfoFiltered": "(đã lọc từ _MAX_ mục)",
+                "sLengthMenu": "Hiển thị _MENU_ mục",
+                "sLoadingRecords": "Đang tải...",
+                "sProcessing": "Đang xử lý...",
+                "sSearch": "Tìm kiếm:",
+                "sZeroRecords": "Không tìm thấy kết quả nào",
+                "oPaginate": {
+                    "sFirst": "Đầu tiên",
+                    "sLast": "Cuối cùng",
+                    "sNext": "Tiếp theo",
+                    "sPrevious": "Trước"
+                },
+                "oAria": {
+                    "sSortAscending": ": kích hoạt để sắp xếp cột theo thứ tự tăng dần",
+                    "sSortDescending": ": kích hoạt để sắp xếp cột theo thứ tự giảm dần"
+                }
             }
-        }
+        });
+    </script>
 
+    <script>
         function toggleStatus(commentId) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -193,6 +257,57 @@
                         showConfirmButton: true,
                     });
                     console.error(xhr.responseText || error); // In ra lỗi để debug
+                }
+            });
+        }
+
+        function confirmDelete(commentId) {
+            Swal.fire({
+                title: 'Bạn có chắc muốn xóa bình luận này?',
+                text: "Hành động này không thể hoàn tác!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/admin/comment/delete/' + commentId,
+                        method: 'DELETE',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Xóa bình luận thành công!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(() => {
+                                    // Thử tìm và xóa trực tiếp phần tử chứa bình luận
+                                    $('[data-id="' + commentId + '"]').closest('.comment-item')
+                                        .remove();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Có lỗi xảy ra',
+                                    text: 'Vui lòng thử lại sau.',
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr, status, error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Có lỗi xảy ra',
+                                text: 'Không thể xóa bình luận. Vui lòng thử lại.',
+                            });
+                        }
+                    });
                 }
             });
         }

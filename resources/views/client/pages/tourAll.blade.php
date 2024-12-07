@@ -211,7 +211,7 @@
                     method: 'GET',
                     data: {
                         min_price: priceRange[0],
-                        max_price: priceRange[1], 
+                        max_price: priceRange[1],
                         location: location,
                         rating: rating
                     },

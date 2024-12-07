@@ -179,7 +179,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('categorytour', CategoryTourController::class);
         Route::resource('comments', CommentController::class);
         Route::get('comment',                           [CommentController::class, 'index'])->name('comment.index');
-        Route::get('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
+        Route::delete('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
         Route::post('comment/status/{id}',              [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
         // thông báo
         Route::resource('notification-user', NotificationUserController::class);
@@ -189,7 +189,7 @@ Route::group(['prefix' => 'admin'], function () {
 
         // end thông báo
         Route::get('advisory',                           [AdvisoryController::class, 'index'])->name('advisory.index');
-        Route::get('advisory/delete/{id}',               [AdvisoryController::class, 'destroy'])->name('advisory.delete');
+        Route::delete('advisory/delete/{id}',               [AdvisoryController::class, 'destroy'])->name('advisory.delete');
         Route::post('advisory/status/{id}',              [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');
     });
 });

@@ -35,20 +35,30 @@ class AdvisoryController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
 
+    public function destroy(string $id)
+    {
         try {
+
             $advisory = Advisory::findOrFail($id);
 
             $advisory->deleted_at = now();
             $advisory->save();
 
-            return redirect()->route('advisory.index')->with('success', 'Xóa thành công!');
-        } catch (\Exception $e) {
-            Log::error('Lỗi khi xóa ' . $e->getMessage());
 
-            return response()->view('admin.errors.404', [], 404);
+            return response()->json([
+                'success' => true,
+                'message' => 'Xóa  thành công!',
+            ]);
+        } catch (\Exception $e) {
+
+            Log::error('Lỗi khi xóa : ' . $e->getMessage());
+
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra, vui lòng thử lại sau.',
+            ], 500);
         }
     }
 }
