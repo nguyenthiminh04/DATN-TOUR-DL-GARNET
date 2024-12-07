@@ -8,6 +8,7 @@ use App\Models\Admins\Tour;
 use App\Models\Admins\User;
 use App\Models\Status;
 use Illuminate\Http\Request;
+use App\Http\Requests\LocationRequest;
 use Illuminate\Support\Facades\Storage;
 
 class LocationController extends Controller
@@ -38,7 +39,7 @@ class LocationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(LocationRequest $request)
     {
         //
         if ($request->isMethod('POST')) {

@@ -16,19 +16,19 @@
                                 <li class="breadcrumb-item active">Danh sách Tour</li>
                             </ol>
                         </div>
-
+                    </div>
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm-auto">
+                            <a href="{{ route('tour.create') }}" class="btn btn-secondary"><i
+                                    class="bi bi-plus-circle align-baseline me-1"></i> Thêm mới Tour</a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- end page title -->
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-                        {{-- nút thêm faq --}}
-                        <a href="{{route('tour.create')}}" class="btn btn-secondary col-2"><i
-                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm mới Tour</a>
-                        {{-- end nút thêm faq --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
@@ -42,7 +42,6 @@
                                             <th>Số khách</th>
                                             <th>Giá người lớn</th>
                                             <th>Giá trẻ em</th>
-                                            {{-- <th>Mô tả</th> --}}
                                             <th>Trạng thái</th>
                                             <th>Hành động</th>
                                         </tr>
@@ -58,22 +57,20 @@
                                                 <td>{{ $item->number_guests }}</td>
                                                 <td>{{ $item->price_old }}</td>
                                                 <td>{{ $item->price_children }}</td>
-                                                {{-- <td>{{ $item->description }}</td> --}}
                                                 <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                     {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
-                                                            <!-- Nút xem chi tiết -->
                                                             <button class="btn btn-subtle-primary btn-icon btn-sm view-tour"
                                                                 data-id="{{ $item->id }}">
                                                                 <i class="ph-eye"></i>
                                                             </button>
-
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('tour.edit', $item->id) }}"><i
-                                                                    class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
+                                                            <a href="{{ route('tour.edit', $item->id) }}"
+                                                                class="btn btn-subtle-success btn-icon btn-sm">
+                                                                <i class="ri-edit-2-line"></i></a>
                                                         </li>
                                                         <li>
                                                             <a href="#deleteRecordModal{{ $item->id }}"
@@ -118,12 +115,12 @@
                                                                 </form>
                                                             </div>
                                                         </div>
-                                                    </div><!-- /.modal-content -->
-                                                </div><!-- /.modal-dialog -->
+                                                    </div>
+                                                </div>
                                             </div>
                                         @endforeach
-                                    </tbody><!-- end tbody -->
-                                </table><!-- end table -->
+                                    </tbody>
+                                </table>
                                 <div class="noresult" style="display: none">
                                     <div class="text-center py-4">
                                         <i class="ph-magnifying-glass fs-1 text-primary"></i>
@@ -133,35 +130,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row align-items-center mt-4 pt-2" id="pagination-element">
-                                <div class="col-sm">
-                                    <div class="text-muted text-center text-sm-start">
-                                        Showing <span class="fw-semibold">10</span> of <span class="fw-semibold">15</span>
-                                        Results
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-sm-auto mt-3 mt-sm-0">
-                                    <div class="pagination-wrap hstack gap-2 justify-content-center">
-                                        <a class="page-item pagination-prev disabled" href="javascript:void(0)">
-                                            Previous
-                                        </a>
-                                        <ul class="pagination listjs-pagination mb-0"></ul>
-                                        <a class="page-item pagination-next" href="javascript:void(0)">
-                                            Next
-                                        </a>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
                         </div>
-                    </div><!--end card-->
-                </div><!--end col-->
-            </div><!--end row-->
-
-
-
-
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- container-fluid -->
     </div>
     <div class="modal fade" id="tourDetailModal" tabindex="-1" aria-labelledby="tourDetailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -219,27 +192,26 @@
             }
         });
         $(document).ready(function() {
-    // Sự kiện nhấn vào biểu tượng con mắt
-    $('.view-tour').on('click', function(e) {
-        e.preventDefault();
-        
-        const tourId = $(this).data('id'); // Lấy ID của tour
+            // Sự kiện nhấn vào biểu tượng con mắt
+            $('.view-tour').on('click', function(e) {
+                e.preventDefault();
 
-        $.ajax({
-            url: '/admin/tour/' + tourId,  // Đảm bảo URL này đúng với route trong web.php
-            type: 'GET',
-            success: function(response) {
-                // Hiển thị chi tiết tour trong modal
-                $('#tourDetailContent').html(response);
-                $('#tourDetailModal').modal('show');  // Mở modal
-            },
-            error: function(xhr, status, error) {
-                alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
-            }
+                const tourId = $(this).data('id'); // Lấy ID của tour
+
+                $.ajax({
+                    url: '/admin/tour/' + tourId, // Đảm bảo URL này đúng với route trong web.php
+                    type: 'GET',
+                    success: function(response) {
+                        // Hiển thị chi tiết tour trong modal
+                        $('#tourDetailContent').html(response);
+                        $('#tourDetailModal').modal('show'); // Mở modal
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
+                    }
+                });
+            });
         });
-    });
-});
-
     </script>
 @endsection
 

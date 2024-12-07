@@ -139,9 +139,8 @@
                                                     <label for="email" class="form-label">Email <span
                                                             class="text-danger">*</span></label>
                                                     <div class="position-relative ">
-                                                        <input type="email" class="form-control  password-input"
-                                                            id="email" name="email" placeholder="Enter email"
-                                                            required>
+                                                        <input type="text" class="form-control  password-input"
+                                                            id="email" name="email" placeholder="Enter email">
                                                     </div>
                                                 </div>
 
@@ -153,7 +152,7 @@
                                                         <input type="password"
                                                             class="form-control pe-5 password-input "
                                                             placeholder="Nhập mật khẩu của bạn" name="password"
-                                                            id="password-input" required>
+                                                            id="password-input">
                                                         <button
                                                             class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
                                                             type="button" id="password-addon"><i

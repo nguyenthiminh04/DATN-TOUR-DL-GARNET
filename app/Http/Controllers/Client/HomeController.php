@@ -10,26 +10,71 @@ use App\Models\Admins\Category;
 use App\Models\Admins\CategoryTour;
 // use App\Models\Admins\Categoty_tour;
 use App\Models\Comment;
+use App\Models\Notification;
+use App\Models\Payment;
+use App\Models\Review;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     //
     public function index(Request $request)
-{
-    $listtour = Tour::orderByDesc('id')->get();
-    $Tourmoinhat = Tour::withoutTrashed()->orderBy('view', 'desc')->take(6)->get();
-    $categoryes = Category::whereNull('parent_id')->with('children')->get();
-    $categories = CategoryTour::with('tours')->get();
-    $locations = Location::where('status', 1)
-        ->whereNull('deleted_at')
-        ->inRandomOrder()
-        ->take(5)
-        ->get();
+    {
+        // Lấy tất cả các tour theo thứ tự giảm dần theo ID
+        $listtour = Tour::orderByDesc('id')->get();
 
-    return view('client.home', compact('Tourmoinhat', 'locations', 'categories', 'categoryes'));
-}
+        // Lấy 6 tour được xem nhiều nhất
+        $Tourmoinhat = Tour::withoutTrashed()->orderBy('view', 'desc')->take(6)->get();
 
+        // Tính điểm trung bình của mỗi tour trong danh sách mới nhất
+        foreach ($Tourmoinhat as $tour) {
+            $tour->average_rating = Review::where('tour_id', $tour->id)->avg('rating');
+            $tour->rating_count = Review::where('tour_id', $tour->id)->count();
+        }
+
+
+
+        // Lấy tất cả các danh mục cha (không có parent_id)
+        $categoryes = Category::whereNull('parent_id')->with('children')->get();
+
+        // Lấy tất cả các danh mục tour cùng với các tour thuộc mỗi danh mục
+        $categories = CategoryTour::with('tours')->get();
+
+        // Lấy ngẫu nhiên 5 địa điểm có trạng thái 'active' và chưa bị xóa
+        $locations = Location::where('status', 1)
+            ->whereNull('deleted_at')
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
+
+        // // Lấy thông báo
+        // $notifications = collect(); // Tạo một collection rỗng mặc định
+        // $unreadNotifications = collect(); // Thông báo chưa đọc
+        // $user = auth()->user();
+
+        // if ($user) {
+        //     $notifications = Notification::query()
+        //         ->whereHas('users', function ($q) use ($user) {
+        //             $q->where('user_id', $user->id); // Lấy thông báo dành riêng cho người dùng
+        //         })
+        //         ->where('is_active', 1) // Chỉ lấy thông báo đang hoạt động
+        //         ->orderByDesc('created_at') // Sắp xếp thông báo mới nhất
+        //         ->get();
+
+        //     // Lấy thông báo chưa đọc
+        //     $unreadNotifications = Notification::query()
+        //     ->whereHas('users', function ($q) use ($user) {
+        //         $q->where('user_id', $user->id)
+        //           ->where('is_read', 0); // Chỉ lấy thông báo chưa đọc
+        //     })
+        //     ->where('is_active', 1)
+        //     ->orderByDesc('created_at')
+        //     ->get();
+        // }
+
+
+        return view('client.home', compact('listtour', 'Tourmoinhat', 'locations', 'categories', 'categoryes'));
+    }
     public function show($id)
     {
         $tour = Tour::findOrFail($id);
@@ -47,22 +92,36 @@ class HomeController extends Controller
     {
         // Tìm tour theo ID, nếu không tìm thấy thì trả về 404
         $tour = Tour::findOrFail($id);
-    // Tăng trường view
-    $tour->increment('view'); // Tăng giá trị của cột 'view' lên 1
+        // Tính điểm trung bình của các đánh giá
+        $averageRating = Review::where('tour_id', $id)->avg('rating');
+        // Tăng trường view
+        $tour->increment('view'); // Tăng giá trị của cột 'view' lên 1
+
         // Kiểm tra xem người dùng hiện tại đã đặt tour này chưa (nếu đã đăng nhập)
         $userHasBooked = false;
-    
+        $canReview = false;
+
         if (auth()->check()) {
             $userId = auth()->id();
+
+            // Kiểm tra người dùng có đặt tour này không
             $userHasBooked = DB::table('book_tour')
                 ->where('tour_id', $id)
                 ->where('user_id', $userId)
                 ->exists();
+
+            // Kiểm tra xem người dùng đã hoàn tất tour (trạng thái = 6 trong bảng payments)
+            $canReview = Payment::join('book_tour', 'payments.booking_id', '=', 'book_tour.id')
+                ->where('book_tour.tour_id', $id)
+                ->where('book_tour.user_id', $userId)
+                ->where('payments.status_id', 6)
+                ->exists();
         }
-    
+
         // Chuẩn bị dữ liệu cho view
         $data = [
             'tour' => $tour,
+            'averageRating' => round($averageRating, 1), // Làm tròn đến 1 chữ số
             'category' => Category::find($tour->category_tour_id),
             'location' => Location::find($tour->location_id),
             'images' => $tour->images,
@@ -72,12 +131,14 @@ class HomeController extends Controller
                 ->with('children.user')
                 ->get(),
             'userHasBooked' => $userHasBooked, // Truyền trạng thái đặt tour
+            'canReview' => $canReview, // Truyền trạng thái có thể đánh giá tour hay không
         ];
-    
+
         // Trả về view cùng dữ liệu
         return view('client.tour.detail', $data);
     }
-    
+
+
     public function storeComment(Request $request, $id)
     {
         $tour = Tour::findOrFail($id);
@@ -99,5 +160,43 @@ class HomeController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Bình luận đã được lưu.');
+    }
+    public function store(Request $request, $tourId)
+    {
+        $userId = auth()->id();
+
+        // Kiểm tra người dùng đã hoàn tất tour (trạng thái tour = 6 trong bảng payments)
+
+
+        // Kiểm tra xem người dùng đã đánh giá tour này chưa
+        $existingReview = Review::where('user_id', $userId)->where('tour_id', $tourId)->first();
+        if ($existingReview) {
+            return response()->json(['error' => 'Bạn đã đánh giá tour này.'], 400);
+        }
+
+        // Lưu đánh giá
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:500',
+        ]);
+
+        Review::create([
+            'user_id' => $userId,
+            'tour_id' => $tourId,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+
+        return response()->json(['success' => 'Đánh giá của bạn đã được lưu!']);
+    }
+
+    public function allTour()
+    {
+        $data = [
+            'header_title' => "Tất Cả Tour",
+            'getTour' => Tour::getAll(),
+        ];
+
+        return view('client.pages.tourAll', $data);
     }
 }

@@ -26,22 +26,31 @@ class User extends Model
     protected $cats = [
         'status' => 'boolean',
     ];
-public function Role()
-{
-    return $this->belongsTo(Role::class);
-}
- // Định nghĩa quan hệ User có nhiều Tours
- public function tours()
- {
-     return $this->hasMany(Tour::class);
- }
- public function status()
- {
-     return $this->belongsTo(Status::class);
- }
- public function categories()
-{
-    return $this->hasMany(Category::class, 'user_id');
-}
+    public function Role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    // Định nghĩa quan hệ User có nhiều Tours
+    public function tours()
+    {
+        return $this->hasMany(Tour::class);
+    }
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+    public function categories()
+    {
+        return $this->hasMany(Category::class, 'user_id');
+    }
 
+    static public function getEmailSingle($email)
+    {
+        return User::where('email', '=', $email)->first();
+    }
+
+    static public function getTokenSingle($remember_token)
+    {
+        return User::where('remember_token', '=', $remember_token)->first();
+    }
 }

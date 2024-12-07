@@ -18,44 +18,60 @@
                     </div>
                 </div>
             </div>
-            <!-- end page title -->
-            <form class="col-6" action="{{ route('faqs.update', $faq) }}" method="POST">
-                @csrf
-                @method('PATCH')
-                <div class="mb-3">
-                    <label for="question" class="form-label">Câu hỏi<span class="text-danger">*</span></label>
-                    <input type="text" id="question" name="question" value="{{ $faq->question }}" class="form-control" placeholder="Nhập câu hỏi">
-                    @error('question')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
+            <div class="row">
+                <div class="col-xxl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="{{ route('faqs.update', $faq) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="question" class="form-label">Câu hỏi<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="question" name="question" value="{{ $faq->question }}"
+                                            class="form-control" placeholder="Nhập câu hỏi">
+                                        @error('question')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
 
-                <div class="mb-3">
-                    <label for="answer" class="form-label">Câu trả lời<span class="text-danger">*</span></label>
-                    <input type="text" id="answer" name="answer" value="{{ $faq->answer }}" class="form-control" placeholder="Nhập câu trả lời">
-                    @error('answer')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
+                                    <div class="mb-3">
+                                        <label for="answer" class="form-label">Câu trả lời<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="answer" name="answer" value="{{ $faq->answer }}"
+                                            class="form-control" placeholder="Nhập câu trả lời">
+                                        @error('answer')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
 
-                <div class="mb-3 col-6">
-                    <label for="status1" class="form-label">Status<span class="text-danger">*</span></label>
-                    <select name="status" class="form-select w-100" id="status1">
-                        <option value="">Chọn status</option>
-                        <option value="1" {{$faq->status == 1 ? 'selected': ''}}>Hiển thị</option>
-                        <option value="0" {{$faq->status == 0 ? 'selected': ''}}>Ẩn</option>
-                    </select>
-                    @error('status')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="status1" class="form-label">Status<span
+                                                class="text-danger">*</span></label>
+                                        <select name="status" class="form-select w-100" id="status1">
+                                            <option value="">Chọn status</option>
+                                            <option value="1" {{ $faq->status == 1 ? 'selected' : '' }}>Hiển thị
+                                            </option>
+                                            <option value="0" {{ $faq->status == 0 ? 'selected' : '' }}>Ẩn</option>
+                                        </select>
+                                        @error('status')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="text-end">
+                                        <button class="btn btn-primary" type="submit">Cập nhật</button>
+                                        <a href="{{ route('faqs.index') }}" class="btn btn-danger">Hủy</a>
+                                    </div>
+                                </div>
 
-                <div class="mb-3">
-                    <a href="{{route('faqs.index')}}" class="btn btn-info">Trở về</a>
-                    <button class="btn btn-primary" type="submit">Cập nhật</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-
-            </form>
+            </div>
         </div>
     </div>
 @endsection

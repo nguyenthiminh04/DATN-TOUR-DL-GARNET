@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admins\CategoryTour;
-use App\Models\Admins\Tour;
 use Illuminate\Http\Request;
-use App\Models\Status;
+use App\Http\Requests\CategoryTourRequest;
+use Illuminate\Support\Str;
+
 
 class CategoryTourController extends Controller
 {
@@ -28,45 +29,27 @@ class CategoryTourController extends Controller
     {
         //
         // $listStatus = Status::query()->get();
-        $listStatus = Status::query()->get();
-        $listTour = Tour::all();
-        return view('admin.categorytour.add', compact('listTour'));
+        $listCategoryTour = CategoryTour::query()->get();
+        return view('admin.categorytour.add', compact('listCategoryTour'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryTourRequest $request)
     {
-        // Hiển thị dữ liệu gửi lên
-        // dd($request->all());
-    
-        // Validate dữ liệu
-        $params['status'] = $request->input('status');
-        $request->validate([
-            'categorytour' => 'required|max:180',
-            'price' => 'required|numeric', // Đảm bảo price là số
-            'description' => 'required|string|max:255',
-            'tour_id' => 'required|exists:tours,id', // Kiểm tra tour_id có tồn tại trong bảng tours
-        ]);
-    
-        // Kiểm tra nếu tour_id có giá trị hợp lệ
-        if (is_null($request->input('tour_id'))) {
-            return back()->withErrors(['tour_id' => 'Tour không hợp lệ!']);
+        if ($request->isMethod('POST')) {
+            $params = $request->except('_token');
+            // dd($request);
+            if (empty($params['slug'])) {
+                $params['slug'] = Str::slug($params['category_tour']); // Chuyển đổi category_tour thành slug nếu không có
+            }
+
+            // Lấy trực tiếp giá trị từ dropdown
+            // Thêm sản phẩm
+            $categorytour = CategoryTour::query()->create($params);
+            return redirect()->route('categorytour.index')->with('success', 'Thêm thành công!');
         }
-    
-        // Tạo mới đối tượng CategoryTour
-        $categoryTour = new CategoryTour();
-        $categoryTour->categorytour = $request->input('categorytour');
-        $categoryTour->price = $request->input('price');
-        $categoryTour->description = $request->input('description');
-        $categoryTour->tour_id = $request->input('tour_id'); // Liên kết với tour
-    
-        // Lưu vào database
-        $categoryTour->save();
-    
-        // Chuyển hướng với thông báo thành công
-        return redirect()->route('categorytour.index')->with('success', 'Thêm danh mục Tour thành công!');
     }
     
     
@@ -84,50 +67,33 @@ class CategoryTourController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-    // Tìm CategoryTour theo ID
-    $listStatus = Status::query()->get();
-    $categoryTour = CategoryTour::findOrFail($id);
-    
-    // Lấy danh sách các tour để hiển thị trong dropdown
-    $listTour = Tour::all();
-    
-    // Trả về view và truyền dữ liệu
-    return view('admin.categorytour.edit', compact('categoryTour', 'listTour'));
-
+        // Lấy thông tin categorytour theo ID
+        $categorytour = CategoryTour::findOrFail($id);
+        
+        // Truyền dữ liệu vào view
+        return view('admin.categorytour.edit', compact('categorytour'));
     }
+    
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        // Validate dữ liệu
-        $request->validate([
-            'categorytour' => 'required|max:180',
-            'price' => 'required|numeric',
-            'description' => 'required|string|max:255',
-            'status' => 'required',
-            'tour_id' => 'required|exists:tours,id',
-        ]);
-        
-        // Tìm CategoryTour cần cập nhật
-        $categoryTour = CategoryTour::findOrFail($id);
-        
-        // Cập nhật các trường dữ liệu
-        $categoryTour->categorytour = $request->input('categorytour');
-        $categoryTour->price = $request->input('price');
-        $categoryTour->description = $request->input('description');
-        $categoryTour->status = $request->input('status');
-        $categoryTour->tour_id = $request->input('tour_id');
-        
-        // Lưu thay đổi vào database
-        $categoryTour->save();
-        
-        // Chuyển hướng về trang danh sách với thông báo thành công
-        return redirect()->route('categorytour.index')->with('success', 'Cập nhật danh mục Tour thành công!');
-    }
+        // Lấy thông tin danh mục cần cập nhật
+        $categorytour = CategoryTour::findOrFail($id);
+
+        // Lấy các tham số từ request, ngoại trừ `_token` và `_method`
+        $params = $request->except('_token', '_method');
+
+     
+            $categorytour->update($params);
+
+            return redirect()->route('categorytour.index')->with('success', 'Cập nhật thành công!');;
+        }
+ 
     
 
     /**
@@ -144,5 +110,5 @@ class CategoryTourController extends Controller
         // Chuyển hướng về trang danh sách với thông báo thành công
         return redirect()->route('categorytour.index')->with('success', 'Xóa danh mục Tour thành công!');
     }
-    
 }
+

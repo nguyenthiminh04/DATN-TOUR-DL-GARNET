@@ -31,7 +31,8 @@ use App\Http\Controllers\Client\myAccountController;
 use App\Http\Controllers\Client\PaymentController;
 use App\Http\Controllers\Client\ServiceController;
 use App\Http\Controllers\FavoriteController;
-
+use App\Http\Controllers\NotificationUserController;
+use App\Http\Controllers\PasswordController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -61,12 +62,19 @@ Route::group([], function () {
     Route::get('/auth/google/callback', [AuthClientController::class, 'handleGoogleCallback']);
     Route::post('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
 
-    Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetPasswordForm'])->name('reset-mat-khau');
-    Route::post('reset-mat-khau/{token}', [AuthClientController::class, 'resetPassword'])->name('reset-mat-khau.xac-nhan');
+    // Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetPasswordForm'])->name('reset-mat-khau');
+    // Route::post('reset-mat-khau/{token}', [AuthClientController::class, 'resetPassword'])->name('reset-mat-khau.xac-nhan');
 
-    Route::post('quen-mat-khau', [AuthClientController::class, 'sendResetMK'])->name('password.request');
-    Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetForm'])->name('password.reset');
-    Route::post('reset-mat-khau', [AuthClientController::class, 'reset'])->name('password.update');
+    // Route::post('quen-mat-khau', [AuthClientController::class, 'sendResetMK'])->name('password.request');
+    // Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetForm'])->name('password.reset');
+    // Route::post('reset-mat-khau', [AuthClientController::class, 'reset'])->name('password.update');
+
+    Route::get('quen-mat-khau',                             [PasswordController::class, 'forgotPassword'])->name('forgot-password');
+    Route::post('quen-mat-khau',                            [PasswordController::class, 'postForgotPassword'])->name('post-forgot-password');
+    Route::get('dat-lai-mat-khau/{token}',                  [PasswordController::class, 'resetPassword'])->name('reset-password');
+    Route::post('dat-lai-mat-khau/{token}',                 [PasswordController::class, 'postResetPassword'])->name('post-reset-password');
+
+
     // Route::resource('tour', ClientTourController::class)->names([
     //đổi pass trang profile
     Route::get('/change-password', [myAccountController::class, 'indexChangePassword'])->name('user.indexChangePassword');
@@ -91,17 +99,14 @@ Route::group([], function () {
     Route::get('detail-tour/{id}', [HomeController::class, 'detailTour'])->name('client.tour.show');
     Route::post('/posts/{id}/comment', [HomeController::class, 'storeComment'])->name('posts.comment');
 
-
     // Route::get('/pre-booking', function () {
     //     return view('client.tour.booking');
     // })->name('pre-booking');
+
     Route::get('/pre-booking/{id}', [ClientTourController::class, 'pre_booking'])->name('tour.pre-booking');
     Route::get('/confirm/{id}', [BookingController::class, 'showBookingInfo'])->name('tour.confirm');
 
     Route::post('/booking', [BookingController::class, 'store'])->name('tour.booking');
-
-
-
 
     Route::post('/payment/store', [PaymentController::class, 'storePayment'])->name('payment.store');
     Route::post('/payment/vnpay', [PaymentController::class, 'vnpay_payment'])->name('payment.vnpay');
@@ -109,7 +114,6 @@ Route::group([], function () {
 
     Route::get('/payment/success/{payment_id}', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/payment/cancel/{vnp_TxnRef}', [PaymentController::class, 'vnpayCancel'])->name('payment.vnpay.cancel');
-
 
     Route::get('payment/failed', [PaymentController::class, 'failure'])->name('payment.failed');
 
@@ -130,23 +134,23 @@ Route::group([], function () {
     Route::get('/dich-vu/{id}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/cam-nang', [HandbookController::class, 'index'])->name('handbook.index');
     Route::get('/cam-nang/{id}', [HandbookController::class, 'show'])->name('handbook.show');
-    
+    Route::post('/tour/{tourId}/reviews', [HomeController::class, 'store'])->name('reviews.store');
     Route::get('/tour-trong-nuoc', function () {
         return view('client.pages.domesticTour');
     });
 
-    Route::get('/chi-tiet-tour/{id}', [HomeController::class, 'detailTour'])->name('detail');
+    Route::get('/chi-tiet-tour/{id}',   [HomeController::class, 'detailTour'])->name('detail');
+    Route::get('/tat-ca-tour',          [HomeController::class, 'allTour'])->name('home.allTour');
 
+    Route::get('/tim-kiem',             [ClientTourController::class, 'searchTour'])->name('tour.search');
+    Route::get('/tour/{slug}',          [ClientTourController::class, 'tour'])->name('tour.category');
 
-    Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
-    Route::get('/tour/{slug}', [ClientTourController::class, 'tour'])->name('tour.category');
+    Route::get('/favorite',             [FavoriteController::class, 'index'])->name('favorite.index');
+    Route::post('/favorite',            [FavoriteController::class, 'addToFavorite'])->name('favorite.add');
+    Route::delete('/favorite/{id}',     [FavoriteController::class, 'removeFavorite'])->name('favorite.delete');
 
-    Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index');
-    Route::post('/favorite', [FavoriteController::class, 'addToFavorite'])->name('favorite.add');
-    Route::delete('/favorite/{id}', [FavoriteController::class, 'removeFavorite'])->name('favorite.delete');
-
-    Route::get('/test', [ClientTourController::class, 'showTour'])->name('test.showTour');
-    Route::post('/advisory', [ClientTourController::class, 'advisory'])->name('advisory');
+    Route::get('/test',                 [ClientTourController::class, 'showTour'])->name('test.showTour');
+    Route::post('/advisory',            [ClientTourController::class, 'advisory'])->name('advisory');
 });
 
 
@@ -176,6 +180,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('comment',                           [CommentController::class, 'index'])->name('comment.index');
         Route::get('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
         Route::post('comment/status/{id}',              [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
+        // thông báo
+        Route::resource('notification-user', NotificationUserController::class);
+        Route::get('/users/search', [NotificationUserController::class, 'searchUsers'])->name('users.search');
+        Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.markAllRead');
+        Route::get('admin/notifications/unread-count', [NotificationController::class, 'getUnreadCount'])->name('notifications.unreadCount');
+
+        // end thông báo
         Route::get('advisory',                           [AdvisoryController::class, 'index'])->name('advisory.index');
         Route::get('advisory/delete/{id}',               [AdvisoryController::class, 'destroy'])->name('advisory.delete');
         Route::post('advisory/status/{id}',              [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');

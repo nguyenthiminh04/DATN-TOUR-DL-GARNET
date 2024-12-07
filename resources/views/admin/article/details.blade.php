@@ -1,8 +1,6 @@
 <!-- admin/article/partials/detail.blade.php -->
 <h5 class="card-title">{{ $article->title }}</h5>
 <p><strong>Hình ảnh:</strong> <img src="{{ Storage::url($article->img_thumb) }}" alt="{{ $article->name }}" class="img-fluid"></p>
-<p><strong>Lịch trình:</strong> {{ $article->slug }}</p>
-<p><strong>Hành trình:</strong> {{ $article->show_home }}</p>
 <p><strong>Mô tả:</strong> {{ $article->description }}</p>
 <p><strong>Nội dung:</strong> {!! $article->content !!}</p>
 <p><strong>Danh mục:</strong> {!! $article->category->name !!}</p>
