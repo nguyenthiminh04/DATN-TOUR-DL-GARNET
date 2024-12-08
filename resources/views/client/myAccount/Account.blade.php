@@ -39,23 +39,29 @@
                 <div class="col-xs-12 col-sm-12 col-lg-2 col-left-ac alert ">
                     <div class="block-account">
                         <h5 class="title-account">Trang tài khoản</h5>
-                        <p>Xin chào, <span style="color:#1ba0e2;">{{ $user->name }}</span>&nbsp;!</p>
-                        <ul>
-                            <li>
-                                <a class="title-info" href="javascript:void(0);" data-target="#account-info">Thông tin tài
-                                    khoản</a>
-                            </li>
-                            <li>
-                                <a class="title-info" href="javascript:void(0);" data-target="#orders">Đơn hàng của bạn</a>
-                            </li>
-                            <li>
-                                <a class="title-info" href="javascript:void(0);" data-target="#change-password">Đổi mật
-                                    khẩu</a>
-                            </li>
-                            <li>
-                                <a class="title-info" href="javascript:void(0);" data-target="#addresses">Thông tin tài khoản</a>
-                            </li>
-                        </ul>
+                        @if(auth()->check())
+    <p>Xin chào, <span style="color:#1ba0e2;">{{ $user->name  }}</span>&nbsp;!</p>
+@else
+    <p> Chưa có tài khoản đăng kí ngay<a href="{{ url('dang-ky') }}" style="color:#1ba0e2;">Đăng kí</a></p>
+@endif
+
+<ul>
+    @if(auth()->check()) <!-- Kiểm tra nếu người dùng đã đăng nhập -->
+        <li>
+            <a class="title-info" href="javascript:void(0);" data-target="#account-info">Thông tin tài khoản</a>
+        </li>
+        <li>
+            <a class="title-info" href="javascript:void(0);" data-target="#change-password">Đổi mật khẩu</a>
+        </li>
+        <li>
+            <a class="title-info" href="javascript:void(0);" data-target="#addresses">Sổ địa chỉ</a>
+        </li>
+    @endif
+    <li>
+        <a class="title-info" href="javascript:void(0);" data-target="#orders">Đơn hàng của bạn</a>
+    </li>
+</ul>
+
                     </div>
                 </div>
 
@@ -75,22 +81,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <p>{{ $user->name }}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{ $user->email }}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{ $user->phone ?? 'Bạn chưa cập nhật số điện thoại' }}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{ $user->address ?? 'Bạn chưa cập nhật địa chỉ' }}</p>
-                                        </td>
-                                    </tr>
+                                    @if(auth()->check())
+                                        <tr>
+                                            <td>
+                                                <p>{{ $user->name ?? 'Ẩn Danh' }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ $user->email ?? 'Ẩn Danh' }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ $user->phone ?? 'Bạn chưa cập nhật số điện thoại' }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ $user->address ?? 'Bạn chưa cập nhật địa chỉ' }}</p>
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td colspan="4" class="text-center">
+                                                <a href="{{ url('dang-ky') }}" class="btn btn-primary">Đăng ký ngay để thêm thông tin tài khoản</a>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 </tbody>
                             </table>
+                            
                         </div>
                     </div>
 
@@ -362,10 +377,10 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>{{ $user->name }}</p>
+                                            <p>{{ $user->name ?? 'Ẩn Danh' }}</p>
                                         </td>
                                         <td>
-                                            <p>{{ $user->email }}</p>
+                                            <p>{{ $user->email ?? 'Ẩn Danh' }}</p>
                                         </td>
                                         <td>
                                             <p>{{ $user->phone ?? 'Bạn chưa cập nhật số điện thoại' }}</p>
@@ -395,7 +410,7 @@
                                             <div class="form-group">
                                                 <label>Họ tên</label>
                                                 <input type="text" placeholder="Họ tên" name="name"
-                                                    class="form-control" value="{{ auth()->user()->name }}">
+                                                    class="form-control" value="{{ auth()->user()->name ?? 'Ẩn Danh' }}">
                                                 {{-- @error('name')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror --}}

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admins\Customer;
 use App\Models\Admins\Tour;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +30,7 @@ class BookTour extends Model
         'ly_do_huy',
         'sale',
         'pay_id',
+        'customer_id',
     ];
 
     // Nếu sử dụng Carbon để làm việc với ngày tháng
@@ -41,6 +43,10 @@ class BookTour extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function custom()
+    {
+        return $this->belongsTo(Customer::class,'customer_id');
     }
 
     public function tour()

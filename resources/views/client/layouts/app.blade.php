@@ -710,9 +710,7 @@
         </div>
     </div>
 
-    <div class="back-to-top" cursorshover="true">
-        <i class="fa fa-arrow-circle-up"></i>
-    </div>
+    
 
 
     <script>
