@@ -725,7 +725,7 @@
                                                             <i class="fa fa-angle-down"></i>
                                                         </button>
                                                         <input type="number" step="1" min="1"
-                                                            name="quantity" value="0" title="Số lượng"
+                                                            name="quantity" value="1" title="Số lượng"
                                                             class="qty" size="4" id="quantity-0" disabled>
                                                         <button type="button" class="plus">
                                                             <i class="fa fa-angle-up"></i>
@@ -733,12 +733,12 @@
                                                     </div>
                                                 </li>
                                                 <li class="col-xs-3 col-xss-4 text-right variant_price">
-                                                    <?= number_format($tour['price_old'], 0, '', '.') ?>đ
+                                                    <?= number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') ?>đ
                                                     <input type="hidden" name="variant_price"
-                                                        value="<?= $tour['price_old'] ?>">
+                                                        value="<?= $tour->price_old * (1 - $tour->sale / 100) ?>">
                                                 </li>
                                                 <li class="col-xs-3 hidden-xss subtotal text-right" id="subtotal">
-                                                    0₫</li>
+                                                    {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}VNĐ</li>
                                             </ul>
 
                                             <ul class="nostyled variant_list clearfix" id="16258401">
