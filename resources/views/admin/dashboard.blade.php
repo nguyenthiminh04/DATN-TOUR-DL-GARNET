@@ -234,7 +234,7 @@
                                     {{-- chart --}}
                                     <div id="chartContainer" style="height: 370px; width: 100%;"></div>
                                     <script>
-                                        function initRevenueChart() {
+                                        window.onload = function () {
                                             var chart = new CanvasJS.Chart("chartContainer", {
                                             theme: "light2",
                                             animationEnabled: true,
@@ -681,9 +681,9 @@
                             </div>
 
                             <div class="row align-items-center mb-3">
-                                <div id="revenueChartContainer" style="height: 370px; width: 100%;"></div>
+                                {{-- <div id="revenueChartContainer" style="height: 370px; width: 100%;"></div> --}}
                                 
-                                <script>
+                                {{-- <script>
                                    function () {
                                         var revenueChart = new CanvasJS.Chart("revenueChartContainer", {
                                             animationEnabled: true,
@@ -709,7 +709,7 @@
                                         });
                                         revenueChart.render();
                                     }
-                                    </script>
+                                    </script> --}}
                                 
                             </div><!--end row-->
 
@@ -828,7 +828,7 @@
                 <div class="col-xl-4 col-lg-6">
                     <div class="card card-height-100">
                         <div class="card-header d-flex align-items-center">
-                            <h5 class="card-title flex-grow-1 mb-0">Insight</h5>
+                            <h5 class="card-title flex-grow-1 mb-0">Thông báo mới</h5>
                             <div class="flex-shrink-0">
                                 <div class="dropdown card-header-dropdown">
                                     <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
@@ -845,30 +845,12 @@
                         </div>
                         <div class="card-body">
                             <div class="vstack gap-2">
+                                
                                 <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
                                     <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">The recognition that one has a mental illness</h6>
+                                    <h6 class="mb-0">tin nhắn</h6>
                                 </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Review market characteristics and trends</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Digital analytics data including site analytics</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Check uikings theme and give customer support</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Success stories and case studies</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Preferences & purchase activity</h6>
-                                </div>
+
                             </div>
                         </div>
                     </div>

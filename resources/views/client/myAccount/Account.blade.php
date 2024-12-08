@@ -118,21 +118,21 @@
                                             <tbody>
 
                                                 <tr>
-                                                    @if ($bookTours->isEmpty())
+                                                    @if ($payments->isEmpty())
                                                         <td colspan="6">
                                                             <p>Không có đơn hàng nào.</p>
                                                         </td>
                                                     @else
                                                 </tr>
-                                                @foreach ($bookTours as $bookTour)
+                                                @foreach ($payments as $bookTour)
                                                     <tr>
-                                                        <td>{{ $bookTour->tour->name }}</td>
-                                                        <td>{{ $bookTour->tour->journeys }}</td>
-                                                        <td>{{ $bookTour->tour->starting_gate }}</td>
-                                                        <td>{{ $bookTour->start_date }}</td>
-                                                        <td>{{ $bookTour->status->name ?? 'chưa cập nhật' }}</td>
-                                                        <td>{{ number_format($bookTour->total_money) }} đ</td>
-                                                        <td>{{ $bookTour->tour->move_method }}</td>
+                                                        <td>{{ $bookTour->booking->tour->name ?? 'N/A' }}</td>
+                                                        <td>{{ $bookTour->booking->tour->journeys }}</td>
+                                                        <td>{{ $bookTour->booking->tour->starting_gate }}</td>
+                                                        <td>{{ $bookTour->booking->tour->start_date }}</td>
+                                                        <td>{{  $bookTour->status->name ?? 'N/A'}}</td>
+                                                        <td>{{ number_format($bookTour->money, 0, ',', '.') }} đ</td>
+                                                        <td>{{ $bookTour->booking->tour->move_method }}</td>
                                                         <td><a href="{{route('usser.detailDoHang',$bookTour->id)}}" class="btn btn-click btn-success">Xem chi
                                                                 tiết</a></td>
                                                     </tr>

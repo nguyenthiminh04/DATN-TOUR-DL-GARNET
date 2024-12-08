@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\BookTour;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,9 +17,18 @@ class myAccountController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $bookTours = $user->bookTours()->with(['tour', 'status'])->orderBy('created_at', 'desc')->get();
-        // dd($bookTours);
-        return view('client.myAccount.Account', compact('user', 'bookTours'));
+        $payments = Payment::where('user_id', $user->id)
+            ->with([
+                'booking' => function ($query) {
+                    $query->with(['tour', 'status']);
+                }
+            ])
+            ->orderBy('created_at', 'desc')
+            ->get();
+        // dd($payments);
+        // dd($bookTours->pay);
+
+        return view('client.myAccount.Account', compact('user', 'payments'));
     }
     public function changePassword(Request $request)
     {
@@ -93,25 +103,35 @@ class myAccountController extends Controller
             'message' => 'Cập nhật địa chỉ thành công!',
         ]);
     }
-    public function detailDoHang($id){
-        $bookTour = BookTour::with([
-            'tour',             
-            'pay.paymentMethod',  
-            'pay.paymentStatus'
-        ])->findOrFail($id);
-            return view('client.myAccount.detailDonHang', compact('bookTour'));
-    }
-    public function cancelOrder(Request $request, $id)
+    public function detailDoHang($id)
     {
-        $request->validate([
-            'ly_do_huy' => 'required|string|max:255',
-        ]);
-        $bookTour = BookTour::findOrFail($id);
+        $payment = Payment::with([
+            'booking.tour',
+            'booking.status', 
+            'paymentMethod',
+            'paymentStatus',
+            'user',
+            'booking'
+        ])->findOrFail($id);
+        // dd($payment);
+        return view('client.myAccount.detailDonHang', compact('payment'));
+    }
+
+    public function cancelOrder(Request $request, $id)
+{
+    $request->validate([
+        'ly_do_huy' => 'required|string|max:255',
+    ]);
+    $payment = Payment::findOrFail($id);
+    $bookTour = BookTour::where('id', $payment->booking_id)->first();
+    if ($bookTour) {
         $bookTour->ly_do_huy = $request->ly_do_huy;
         $bookTour->status = 13;
         $bookTour->save();
-
-        return redirect()->back()->with('success', 'Đơn hàng đã được hủy thành công.');
     }
+    $payment->status_id = 13;
+    $payment->save();
+    return redirect()->back()->with('success', 'Đơn hàng đã được hủy thành công.');
+}
 
 }

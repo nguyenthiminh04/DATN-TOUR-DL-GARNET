@@ -11,6 +11,7 @@ use App\Models\PaymentMethod;
 use App\Models\PaymentStatus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -21,6 +22,7 @@ class PaymentController extends Controller
     // Xử lý lưu thanh toán
     public function storePayment(Request $request)
 {
+    $user = Auth::user();
     $request->validate([
         'payment_method_id' => 'required|exists:payment_methods,id', 
         'money' => 'required|numeric',
