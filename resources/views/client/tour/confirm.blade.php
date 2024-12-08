@@ -21,6 +21,8 @@
                             <input type="hidden" name="code_bank" value="{{ old('code_bank') }}"> <!-- Mã ngân hàng -->
                             <input type="hidden" name="trang_thai" value="{{ old('trang_thai') }}"> <!-- Trạng thái thanh toán -->
                             <input type="hidden" name="redirect">
+                            <input type="hidden" name="coupon" value="{{$code}}">
+
                         
                             <div class="payment-options">
                                 <div class="payment-option">
