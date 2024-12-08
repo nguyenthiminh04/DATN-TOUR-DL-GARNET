@@ -203,8 +203,53 @@
                                 </div><!-- end card header -->
                                 <div class="card-body ps-0">
                                     <div class="w-100">
-                                        {{-- <div id="market-overview" data-colors='["--tb-primary", "--tb-secondary"]'
-                                            class="apex-charts" dir="ltr"></div> --}}
+                                        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.2.7/morris.min.js"></script> --}}
+                                        <canvas id="khachHangMuaNhieu" style="width:100%;max-width:900px"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Fake data
+    var customersData = [
+        { name: "Nguyễn Văn A", total_spent: 1500000 },
+        { name: "Trần Thị B", total_spent: 1200000 },
+        { name: "Lê Văn C", total_spent: 1000000 },
+        { name: "Phạm Thị D", total_spent: 800000 },
+        { name: "Vũ Văn E", total_spent: 600000 }
+    ];
+
+    // Extract data for the chart
+    var xValues = customersData.map(customer => customer.name);
+    var yValues = customersData.map(customer => customer.total_spent);
+    var barColors = ["#b91d47", "#00aba9", "#2b5797", "#e8c3b9", "#1e7145"];
+
+    // Render the chart
+    new Chart("khachHangMuaNhieu", {
+        type: "bar",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Top 5 Khách Hàng Mua Nhiều Nhất"
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
                                     </div>
                                 </div><!-- end card body -->
                             </div>
@@ -234,27 +279,26 @@
                                     {{-- chart --}}
                                     <div id="chartContainer" style="height: 370px; width: 100%;"></div>
                                     <script>
-                                        window.onload = function () {
+                                        window.onload = function() {
                                             var chart = new CanvasJS.Chart("chartContainer", {
-                                            theme: "light2",
-                                            animationEnabled: true,
-                                            title: {
-                                                text: "Top 5 Tours được đặt nhiều nhất"
-                                            },
-                                            axisY: {
-                                                title: "Số lượt đặt",
-                                                includeZero: true
-                                            },
-                                            data: [{
-                                                type: "bar",
-                                                yValueFormatString: "#,### lượt",
-                                                // showInLegend: true, 
-                                                legendText: "{label}",
-                                                indexLabel: "",
-                                                dataPoints: @json($chartData)
-                                            }]
-                                        });
-                                
+                                                theme: "light2",
+                                                animationEnabled: true,
+                                                title: {
+                                                    text: "Top 5 Tours được đặt nhiều nhất"
+                                                },
+                                                axisY: {
+                                                    title: "Số lượt đặt",
+                                                    includeZero: true
+                                                },
+                                                data: [{
+                                                    type: "bar",
+                                                    yValueFormatString: "#,### lượt",
+                                                    // showInLegend: true, 
+                                                    legendText: "{label}",
+                                                    indexLabel: "",
+                                                    dataPoints: @json($chartData)
+                                                }]
+                                            });
                                             chart.render();
                                         }
                                     </script>
@@ -286,31 +330,21 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            {{-- <script>
-                                window.onload = function() {
-                                
-                                var chart = new CanvasJS.Chart("chartContainer1", {
-                                    theme: "light1", // "light1", "light2", "dark1", "dark2"
-                                    exportEnabled: true,
-                                    animationEnabled: true,
-                                    data: [{
-                                        type: "pie",
-                                        startAngle: 25,
-                                        toolTipContent: "<b>{label}</b>: {y}%",
-                                        showInLegend: "true",
-                                        legendText: "{label}",
-                                        indexLabelFontSize: 13,
-                                        indexLabel: "{label} - {y}%",
-                                        dataPoints: @json($chartData)
-                                    }]
-                                });
-                                chart.render();
-                                }
-                                </script>
-                                </head>
-                                <body>
-                                <div id="chartContainer1" style="height: 370px; width: 100%;"></div>
-                                <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script> --}}
+                            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+                            <div id="myPlot" style="width:100%;max-width:900px"></div>
+                            <script>
+                                const xArray = ["Italy", "France", "Spain", "USA", "Argentina"];
+                                const yArray = [55, 49, 44, 24, 15];
+
+                                const data = [{
+                                    labels: xArray,
+                                    values: yArray,
+                                    type: "pie"
+                                }];
+
+                                Plotly.newPlot("myPlot", data);
+                            </script>
+
                         </div>
                     </div>
                 </div><!--end col-->
@@ -682,7 +716,7 @@
 
                             <div class="row align-items-center mb-3">
                                 {{-- <div id="revenueChartContainer" style="height: 370px; width: 100%;"></div> --}}
-                                
+
                                 {{-- <script>
                                    function () {
                                         var revenueChart = new CanvasJS.Chart("revenueChartContainer", {
@@ -710,7 +744,7 @@
                                         revenueChart.render();
                                     }
                                     </script> --}}
-                                
+
                             </div><!--end row-->
 
                         </div>
@@ -845,7 +879,7 @@
                         </div>
                         <div class="card-body">
                             <div class="vstack gap-2">
-                                
+
                                 <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
                                     <i class="bi bi-check2-square text-primary"></i>
                                     <h6 class="mb-0">tin nhắn</h6>
