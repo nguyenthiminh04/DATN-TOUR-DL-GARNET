@@ -42,7 +42,7 @@ class sendPaymentEmailController extends Controller
 
     //Gửi email
     try {
-        Mail::to($payment->user->email)->send(new ThankYouMail($emailData));
+        Mail::to($payment->user->email)->send(new BookingSuccess($emailData));
     } catch (\Exception $e) {
         Log::error('Failed to send email: ' . $e->getMessage());
     }

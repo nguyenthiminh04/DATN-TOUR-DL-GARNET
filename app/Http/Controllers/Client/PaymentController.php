@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\BookingSuccess;
 use App\Models\Admins\Tour;
 use App\Models\BookTour;
+use App\Models\Coupon;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\PaymentStatus;
@@ -39,6 +40,10 @@ class PaymentController extends Controller
     $pendingStatus = DB::table('payment_statuses')->where('name', 'Chưa thanh toán')->first();
     // dd($pendingStatus);
 
+    $coupon = Coupon::where('code', $request->coupon)->first();
+    
+
+
     
     $paymentMethod = DB::table('payment_methods')->find($request->payment_method_id);
 
@@ -54,10 +59,14 @@ class PaymentController extends Controller
         'p_note' => $request->p_note,
         'payment_status_id'=>$pendingStatus->id,
         'payment_method_id' => $paymentMethod->id, 
-        
+        'coupon_id' => $coupon ? $coupon->id : null,
         'status_id' => 1,
         'time' => now(),
     ]);
+if ($coupon && $coupon->number > 0) {
+    $coupon->decrement('number', 1); 
+    session()->forget('code');
+} 
 
     
     if ($paymentMethod->name === 'direct') {

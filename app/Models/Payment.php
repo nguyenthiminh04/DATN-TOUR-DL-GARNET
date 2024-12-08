@@ -15,6 +15,7 @@ class Payment extends Model
         'booking_id',
         'user_id',
         'money',
+        'coupon_id',
         'p_note',
         'vnp_response_code',
         'transaction',

@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Admins\Location;
 use App\Http\Controllers\Controller;
 use App\Models\BookTour;
+use App\Models\Coupon;
 use App\Models\Payment;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -30,6 +32,22 @@ class BookingController extends Controller
             'sale' => 'nullable|integer',
             'tour_id' => 'required|exists:tours,id',
         ]);
+        
+        // $coupon = DB::table('coupons')->where('code', $request->coupon)->first();
+        $coupon = DB::table('coupons')
+            ->where('code', $request->coupon)
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where('number', '>', 0)
+            ->first();
+        // dd($coupon);
+        if ($coupon) {
+            session(['code' => $coupon->code]);
+        }
+        
+
+        //dd($code);
+
 
         // Tạo mới bản ghi đặt tour
         $bookTour = BookTour::create([
@@ -61,11 +79,18 @@ class BookingController extends Controller
     }
     public function showBookingInfo($id)
     {
+        
+        $code = session('code');
+    //session()->forget('code');
+
+        // dd(session()->all());
+        //  dd($code);
+
+
         // Lấy thông tin đặt tour từ bảng book_tour
         $booking = BookTour::findOrFail($id);
         //dd($booking);
         // $pay = Payment::findOrFail($id);
-        // dd($pay);
         $booking1 = BookTour::with('tour')->find($id);
 
         if (!$booking1) {
@@ -74,8 +99,8 @@ class BookingController extends Controller
 
         $tourName = $booking1->tour ? $booking->tour->name : 'No Tour Found';
 
-        
+
         // Trả về view và truyền dữ liệu
-        return view('client.tour.confirm', compact('booking', 'tourName','booking1'));
+        return view('client.tour.confirm', compact('booking', 'tourName', 'booking1', 'code'));
     }
 }

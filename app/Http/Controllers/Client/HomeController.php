@@ -10,6 +10,7 @@ use App\Models\Admins\Category;
 use App\Models\Admins\CategoryTour;
 // use App\Models\Admins\Categoty_tour;
 use App\Models\Comment;
+use App\Models\Coupon;
 use App\Models\Notification;
 use App\Models\Payment;
 use App\Models\Review;
@@ -90,6 +91,8 @@ class HomeController extends Controller
 
     public function detailTour($id)
     {
+       
+        // dd($coupon);
         // Tìm tour theo ID, nếu không tìm thấy thì trả về 404
         $tour = Tour::findOrFail($id);
     // Tính điểm trung bình của các đánh giá
