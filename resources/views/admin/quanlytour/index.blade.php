@@ -125,7 +125,9 @@
 
                                             <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
-                                            <td>{{ $item->booking->user->name }}</td>
+                                            <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
+                                            
+
                                             <td>{{ $item->booking->tour->name }}</td>
                                             <td>{{ $item->booking->name }}</td>
                                             {{-- <td class="{{ $item->payment_status_id == 1 ? 'text-danger' : 'text-success' }}">

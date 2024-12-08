@@ -1,40 +1,41 @@
 <?php
 
-use App\Http\Controllers\Admin\AdvisoryController;
-use App\Http\Controllers\Admin\BookTourController;
 use App\Models\Admins\CategoryTour;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\PayController;
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\Admin\CouponsController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\CategoryTourController;
-use App\Http\Controllers\Admin\LocationController;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ArticleController;
-use App\Http\Controllers\Client\TourController as ClientTourController;
+use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\CouponsController;
 
 
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\PayController;
-use App\Http\Controllers\Admin\StatisticalController;
-use App\Http\Controllers\Client\AuthClientController;
+use App\Http\Controllers\Admin\AdvisoryController;
+use App\Http\Controllers\Admin\BookTourController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Client\BookingController;
 use App\Http\Controllers\Client\ContactController;
+use App\Http\Controllers\Client\PaymentController;
+use App\Http\Controllers\Client\ServiceController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Client\HandbookController;
 use App\Http\Controllers\Client\IntroduceController;
 use App\Http\Controllers\Client\myAccountController;
-use App\Http\Controllers\Client\PaymentController;
-use App\Http\Controllers\Client\ServiceController;
-use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\NotificationUserController;
-use App\Http\Controllers\PasswordController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\Admin\StatisticalController;
+use App\Http\Controllers\Client\AuthClientController;
+use App\Http\Controllers\Admin\CategoryTourController;
+use App\Http\Controllers\Client\TourController as ClientTourController;
 
 /*
 |--------------------------------------------------------------------------
@@ -174,6 +175,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('trangthaitour', PayController::class);
         Route::resource('tour', TourController::class);
         Route::resource('coupons', CouponsController::class);
+        Route::resource('review', ReviewController::class);
         Route::resource('location', LocationController::class);
         Route::resource('category', CategoryController::class);
         Route::resource('categorytour', CategoryTourController::class);

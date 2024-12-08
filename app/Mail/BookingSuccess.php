@@ -80,7 +80,7 @@ class BookingSuccess extends Mailable
     {
         return [
             // Nếu cần đính kèm ảnh
-            public_path('storage/uploads/image_tour/id_2/A0SRs9Wmn0B5J21Z2HJZdzH7jb4SZgi7vyThqWd3.jpg'), // Đính kèm ảnh .webp
+            public_path('storage/images/logo6d1d.png'), // Đính kèm ảnh .png
         ];
     }
 }

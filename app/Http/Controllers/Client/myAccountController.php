@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Http\Controllers\Controller;
+use App\Models\BookTour;
 use Illuminate\Http\Request;
+use App\Models\Admins\Customer;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 
 class myAccountController extends Controller
@@ -14,11 +17,43 @@ class myAccountController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $bookTours = $user->bookTours()->with(['tour', 'status'])->orderBy('created_at', 'desc')->get();
-        // dd($bookTours);
+        // Kiểm tra nếu người dùng đã đăng nhập
+        if (auth()->check()) {
+            // Lấy thông tin người dùng đã đăng nhập
+            $user = auth()->user();
+    
+            // Lấy các đơn hàng của người dùng đã đăng nhập
+            $bookTours = $user->bookTours()->with(['tour', 'status'])->orderBy('created_at', 'desc')->get();
+        } else {
+            // Nếu không đăng nhập, lấy temporary_user_id từ session
+            $temporaryUserId = Session::get('temporary_user_id');
+    
+            if (!$temporaryUserId) {
+                return redirect()->route('home')->with('error', 'Không tìm thấy thông tin khách hàng ẩn danh.');
+            }
+    
+            // Tìm khách hàng ẩn danh dựa trên temporary_user_id
+            $customer = Customer::where('temporary_user_id', $temporaryUserId)->first();
+    
+            if (!$customer) {
+                return redirect()->route('home')->with('error', 'Không tìm thấy khách hàng ẩn danh.');
+            }
+    
+            // Lấy các đơn hàng của khách hàng ẩn danh
+            $bookTours = BookTour::where('customer_id', $customer->id)
+                                 ->with(['tour', 'status'])
+                                 ->orderBy('created_at', 'desc')
+                                 ->get();
+    
+            // Vì không có người dùng đăng nhập, không cần truyền biến $user
+            $user = null;
+        }
+    
+        // Trả về view với thông tin người dùng và các đơn hàng
         return view('client.myAccount.Account', compact('user', 'bookTours'));
     }
+    
+
     public function changePassword(Request $request)
     {
         $request->validate([

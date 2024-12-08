@@ -285,6 +285,8 @@
                                 <li><a href="{{ url('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>
                                         Đăng
                                         ký</a></li>
+                                        <li><a href="{{ route('my-account.index') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
+                                            Tour Đã Đặt</a></li>
                             @endif
                         </ul>
                     </div>
