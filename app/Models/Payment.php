@@ -24,6 +24,7 @@ class Payment extends Model
         'time',
         'status_id',
         'payment_method_id',
+        'customer_id',
         'pay_id',
     ];
 

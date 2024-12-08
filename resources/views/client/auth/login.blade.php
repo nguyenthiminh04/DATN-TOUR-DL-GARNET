@@ -1,6 +1,21 @@
 @extends('client.layouts.app')
 
 @section('style')
+    <style>
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+           
+        }
+
+        .align-items-center {
+            align-items: center;
+          
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -101,7 +116,12 @@
                                         placeholder="Email" />
                                 </fieldset>
                                 <fieldset class="form-group">
-                                    <label>Mật khẩu<span class="required">*</span></label>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <label>Mật khẩu<span class="required">*</span></label>
+                                        <a href="{{ route('forgot-password') }}" class="text-muted">Quên mật khẩu?</a>
+                                    </div>
+
                                     <input type="password" class="form-control form-control-lg" name="password"
                                         placeholder="Mật khẩu" />
                                 </fieldset>
@@ -116,35 +136,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6">
-                <div id="recover-password" class="form-signup">
-                    <span>
-                        Bạn quên mật khẩu? Nhập địa chỉ email để lấy lại mật khẩu qua email.
-                    </span>
-                    <form method="post" action="{{ route('password.request') }}" id="recover_customer_password"
-                        accept-charset="UTF-8">
-                        @csrf
-                        @method('POST')
-                        <div class="form-signup aaaaaaaa">
 
-                        </div>
-
-                        <div class="form-signup clearfix">
-                            <fieldset class="form-group">
-                                <label>Email<span class="required">*</span></label>
-                                <input type="email" class="form-control form-control-lg" value="" name="email"
-                                    id="recover-email" placeholder="Email" data-validation="email"
-                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"
-                                    data-validation-error-msg="Email sai định dạng" />
-                            </fieldset>
-                        </div>
-                        <div class="action_bottom">
-                            <button class="btn btn-style btn-blues" style="margin-top: 15px;" type="submit">Gửi liên kết
-                                đặt lại mật khẩu</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 @endsection

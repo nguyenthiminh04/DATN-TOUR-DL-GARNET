@@ -28,7 +28,7 @@ class Comment extends Model
     // Quan hệ đến bài viết
     public function tour()
     {
-        return $this->belongsTo(Tour::class,'tour_id');
+        return $this->belongsTo(Tour::class, 'tour_id');
     }
 
     // Quan hệ đến người dùng
@@ -40,5 +40,29 @@ class Comment extends Model
     static public function getSingle($id)
     {
         return self::find($id);
+    }
+    static public function getAll()
+    {
+        $return = self::select(
+            'comment.*',
+            'users.name as user_name',
+            'tours.name as tour_name'
+        )
+            ->join('users', 'users.id', 'comment.user_id')
+            ->join('tours', 'tours.id', 'comment.tour_id')
+            ->where('comment.deleted_at', '=', null);
+
+        if (!empty(request()->get('search'))) {
+            $search = request()->get('search');
+            $return = $return->where(function ($query) use ($search) {
+                $query->Where('users.name', 'like', '%' . $search . '%')
+                    ->orWhere('tours.name', 'like', '%' . $search . '%');
+            });
+        }
+
+        $return = $return   ->orderBy('id', 'desc')
+            ->paginate(10);
+
+        return $return;
     }
 }

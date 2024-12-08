@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Http\Controllers\Controller;
+use App\Models\BookTour;
 use Illuminate\Http\Request;
+use App\Models\Admins\Customer;
+use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 
 class myAccountController extends Controller
@@ -13,12 +17,61 @@ class myAccountController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $user = Auth::user();
-        $bookTours = $user->bookTours()->with(['tour', 'status'])->orderBy('created_at', 'desc')->get();
-        // dd($bookTours);
-        return view('client.myAccount.Account', compact('user', 'bookTours'));
+{
+    // Kiểm tra nếu người dùng đã đăng nhập
+    if (auth()->check()) {
+        // Lấy thông tin người dùng đã đăng nhập
+        $user = auth()->user();
+
+        // Lấy `temporary_user_id` của người dùng (nếu có)
+        $temporaryUserId = $user->temporary_user_id;
+
+        // Lấy danh sách thanh toán dựa trên user_id hoặc customer_id thông qua temporary_user_id
+        $payments = Payment::where(function ($query) use ($user, $temporaryUserId) {
+            $query->where('user_id', $user->id); // Lấy các payment liên quan tới user_id
+            if ($temporaryUserId) {
+                // Tìm khách hàng ẩn danh theo temporary_user_id
+                $anonymousCustomer = Customer::where('temporary_user_id', $temporaryUserId)->first();
+                if ($anonymousCustomer) {
+                    $query->orWhere('customer_id', $anonymousCustomer->id);
+                }
+            }
+        })
+        ->with(['booking.tour', 'paymentStatus', 'paymentMethod'])
+        ->orderBy('created_at', 'desc')
+        ->get();
+    } else {
+        // Nếu không đăng nhập, lấy temporary_user_id từ session
+        $temporaryUserId = Session::get('temporary_user_id');
+
+        if (!$temporaryUserId) {
+            return redirect()->route('home')->with('error', 'Không tìm thấy thông tin khách hàng ẩn danh.');
+        }
+
+        // Tìm khách hàng ẩn danh dựa trên temporary_user_id
+        $customer = Customer::where('temporary_user_id', $temporaryUserId)->first();
+
+        if (!$customer) {
+            return redirect()->route('home')->with('error', 'Không tìm thấy khách hàng ẩn danh.');
+        }
+
+        // Lấy danh sách thanh toán của khách hàng ẩn danh
+        $payments = Payment::where('customer_id', $customer->id)
+            ->with(['booking.tour', 'paymentStatus', 'paymentMethod'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Vì không có người dùng đăng nhập, không cần truyền biến $user
+        $user = null;
     }
+
+    // Trả về view với thông tin người dùng và danh sách thanh toán
+    return view('client.myAccount.Account', compact('user', 'payments'));
+}
+
+    
+    
+
     public function changePassword(Request $request)
     {
         $request->validate([
@@ -92,4 +145,33 @@ class myAccountController extends Controller
             'message' => 'Cập nhật địa chỉ thành công!',
         ]);
     }
+    public function detailDoHang($id)
+    {
+        $payment = Payment::with([
+            'booking.tour',
+            'booking.status', 
+            'paymentMethod',
+            'paymentStatus',
+            'user',
+            'booking'
+        ])->findOrFail($id);
+        // dd($payment);
+        return view('client.myAccount.detailDonHang', compact('payment'));
+    }
+    public function cancelOrder(Request $request, $id)
+{
+    $request->validate([
+        'ly_do_huy' => 'required|string|max:255',
+    ]);
+    $payment = Payment::findOrFail($id);
+    $bookTour = BookTour::where('id', $payment->booking_id)->first();
+    if ($bookTour) {
+        $bookTour->ly_do_huy = $request->ly_do_huy;
+        $bookTour->status = 13;
+        $bookTour->save();
+    }
+    $payment->status_id = 13;
+    $payment->save();
+    return redirect()->back()->with('success', 'Đơn hàng đã được hủy thành công.');
+}
 }

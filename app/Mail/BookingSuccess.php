@@ -40,7 +40,7 @@ class BookingSuccess extends Mailable
             'instagram2x.png' => public_path('storage/images/instagram2x.png'),
             'facebook2x.png' => public_path('storage/images/facebook2x.png'),
         ];
-    
+
         // Đính kèm các ảnh và gán CID
         foreach ($images as $cid => $imagePath) {
             if (file_exists($imagePath)) {
@@ -53,12 +53,12 @@ class BookingSuccess extends Mailable
                 ]);
             }
         }
-    
+
         return $this->subject('Booking Confirmation')
-                    ->view('client.email.emailviet.new-email')  // View của email
-                    ->with(['data' => $this->emailData]);       // Truyền dữ liệu vào view
+            ->view('client.email.emailviet.new-email')  // View của email
+            ->with(['data' => $this->emailData]);       // Truyền dữ liệu vào view
     }
-    
+
 
 
     /**
@@ -80,7 +80,7 @@ class BookingSuccess extends Mailable
     {
         return [
             // Nếu cần đính kèm ảnh
-            public_path('storage/uploads/image_tour/id_2/WtQTOeFm15ElbaIkz3zNcEwRR6Q38GlxW3wQKuBf.webp'), // Đính kèm ảnh .webp
+            public_path('storage/images/logo6d1d.png'), // Đính kèm ảnh .png
         ];
     }
 }

@@ -5,6 +5,9 @@
  
 @endsection
 
+
+
+
 @section('content')
 <div class="container" itemscope itemtype="http://schema.org/Blog">
 	<meta itemprop="name" content="Dịch vụ tour"> 
@@ -26,23 +29,25 @@
 										
 										
 										<picture>
-											<source media="(min-width: 1200px)" srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/hue-deohaivan.jpg?v=1520693340917">
+											{{-- <source media="(min-width: 1200px)" srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/hue-deohaivan.jpg?v=1520693340917">
 											<source media="(min-width: 992px)" srcset="//bizweb.dktcdn.net/thumb/medium/100/299/077/articles/hue-deohaivan.jpg?v=1520693340917">
 											<source media="(min-width: 767px)" srcset="//bizweb.dktcdn.net/thumb/grande/100/299/077/articles/hue-deohaivan.jpg?v=1520693340917">
 											<source media="(min-width: 666px)" srcset="//bizweb.dktcdn.net/thumb/grande/100/299/077/articles/hue-deohaivan.jpg?v=1520693340917">
 											<source media="(min-width: 567px)" srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/hue-deohaivan.jpg?v=1520693340917">
-											<source media="(min-width: 480px)" srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/hue-deohaivan.jpg?v=1520693340917">
-											<img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/hue-deohaivanf84a.jpg?v=1520693340917" alt="{{$articles->title}}" class="img-responsive center-block" />
-										</picture>
+											<source media="(min-width: 480px)" srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/hue-deohaivan.jpg?v=1520693340917"> --}}
+												<img src="{{ $articles->img_thumb ? asset('storage/' . $articles->img_thumb) : asset('path/to/default-image.jpg') }}" alt="{{ $articles->title }}" class="img-responsive center-block" />
+											</picture>
 										
 									</a>
 									<div class="articles-date">
-										<span>10/03</span>
-										2018
+										<span>10/10</span>
+										2024
 									</div>
 								</div>
 								<h3 class="blog-item-name"><a href="{{ route('service.show', $articles->id) }}" title="{{$articles->title}}">{{$articles->title}}</a></h3>
 								<p class="blog-item-summary margin-bottom-5">{{$articles->description}}</p>
+								
+								
 							</article>
 						</div>
 					@endforeach
@@ -74,7 +79,7 @@
 				
 				
 				<li class="nav-item ">
-					<a href="" class="nav-link">Tour trong nước</a>
+					<a href="" class="nav-link">Tour theo vùng</a>
 					<i class="fa fa-angle-down" ></i>
 					<ul class="dropdown-menu">
 						
@@ -122,11 +127,11 @@
 				
 				
 				
-				<li class="nav-item active"><a class="nav-link" href="{{ route('service.index') }}">Dịch vụ tour</a></li>
+				<li class="nav-item active"><a class="nav-link" href="{{ route('service.index') }}">Cẩm nang du lịch</a></li>
 				
 				
 				
-				<li class="nav-item "><a class="nav-link" href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li>
+				{{-- <li class="nav-item "><a class="nav-link" href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 				
 				
 				
@@ -150,10 +155,11 @@
 		<div class="row">
 			@foreach ($article as $articles)
 				<article class="blog-item blog-item-list col-md-12">
-					<a href="{{ route('service.show', $articles->id) }}" class="panel-box-media"><img src="client/bizweb.dktcdn.net/thumb/small/100/299/077/articles/chua-huong9e3f.jpg?v=1520693664270" width="70" height="70" alt="{{$articles->title}}" /></a>
-					<div class="blogs-rights">
+					<a href="{{ route('service.show', $articles->id) }}" class="panel-box-media">
+						<img src="{{ $articles->img_thumb ? asset('storage/' . $articles->img_thumb) : asset('path/to/default-image.jpg') }}" alt="{{ $articles->title }}" class="img-responsive center-block" />
+						<div class="blogs-rights">
 						<h3 class="blog-item-name"><a href="{{ route('service.show', $articles->id) }}" title="{{$articles->title}}">{{$articles->title}}</a></h3>
-						<div class="post-time">10/03/2018</div>
+						<div class="post-time">10/10/2024</div>
 					</div>
 				</article>	
 			@endforeach						

@@ -13,7 +13,7 @@ class ServiceController extends Controller
     public function index()
     {
         $categotyTour = CategoryTour::all();
-        $article = Article::with('user')->limit(4)->get();
+        $article = Article::with('user')->limit(6)->get();
         return view('client.pages.service',compact('categotyTour','article'));
     }
     public function show(string $id, Request $request)

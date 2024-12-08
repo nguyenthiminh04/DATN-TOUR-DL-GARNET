@@ -1,5 +1,22 @@
 @extends('client.layouts.app')
 
+@section('style')
+    <style>
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+
+        }
+
+        .align-items-center {
+            align-items: center;
+
+        }
+    </style>
+@endsection
 @section('content')
     {{-- @if (session('success'))
         <p>{{ session('success') }}</p>
@@ -39,23 +56,33 @@
                 <div class="col-xs-12 col-sm-12 col-lg-2 col-left-ac alert ">
                     <div class="block-account">
                         <h5 class="title-account">Trang tài khoản</h5>
-                        <p>Xin chào, <span style="color:#1ba0e2;">{{ $user->name }}</span>&nbsp;!</p>
+                        @if (auth()->check())
+                            <p>Xin chào, <span style="color:#1ba0e2;">{{ $user->name }}</span>&nbsp;!</p>
+                        @else
+                            <p> Chưa có tài khoản đăng kí ngay<a href="{{ url('dang-ky') }}" style="color:#1ba0e2;">Đăng
+                                    kí</a></p>
+                        @endif
+
                         <ul>
-                            <li>
-                                <a class="title-info" href="javascript:void(0);" data-target="#account-info">Thông tin tài
-                                    khoản</a>
-                            </li>
+                            @if (auth()->check())
+                                <!-- Kiểm tra nếu người dùng đã đăng nhập -->
+                                <li>
+                                    <a class="title-info" href="javascript:void(0);" data-target="#account-info">Thông tin
+                                        tài khoản</a>
+                                </li>
+                                <li>
+                                    <a class="title-info" href="javascript:void(0);" data-target="#change-password">Đổi mật
+                                        khẩu</a>
+                                </li>
+                                <li>
+                                    <a class="title-info" href="javascript:void(0);" data-target="#addresses">Sổ địa chỉ</a>
+                                </li>
+                            @endif
                             <li>
                                 <a class="title-info" href="javascript:void(0);" data-target="#orders">Đơn hàng của bạn</a>
                             </li>
-                            <li>
-                                <a class="title-info" href="javascript:void(0);" data-target="#change-password">Đổi mật
-                                    khẩu</a>
-                            </li>
-                            <li>
-                                <a class="title-info" href="javascript:void(0);" data-target="#addresses">Sổ địa chỉ</a>
-                            </li>
                         </ul>
+
                     </div>
                 </div>
 
@@ -75,22 +102,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <p>{{ $user->name }}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{ $user->email }}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{ $user->phone ?? 'Bạn chưa cập nhật số điện thoại' }}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{ $user->address ?? 'Bạn chưa cập nhật địa chỉ' }}</p>
-                                        </td>
-                                    </tr>
+                                    @if (auth()->check())
+                                        <tr>
+                                            <td>
+                                                <p>{{ $user->name ?? 'Ẩn Danh' }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ $user->email ?? 'Ẩn Danh' }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ $user->phone ?? 'Bạn chưa cập nhật số điện thoại' }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ $user->address ?? 'Bạn chưa cập nhật địa chỉ' }}</p>
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td colspan="4" class="text-center">
+                                                <a href="{{ url('dang-ky') }}" class="btn btn-primary">Đăng ký ngay để thêm
+                                                    thông tin tài khoản</a>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
 
@@ -118,22 +155,22 @@
                                             <tbody>
 
                                                 <tr>
-                                                    @if ($bookTours->isEmpty())
+                                                    @if ($payments->isEmpty())
                                                         <td colspan="6">
                                                             <p>Không có đơn hàng nào.</p>
                                                         </td>
                                                     @else
                                                 </tr>
-                                                @foreach ($bookTours as $bookTour)
+                                                @foreach ($payments as $bookTour)
                                                     <tr>
-                                                        <td>{{ $bookTour->tour->name }}</td>
-                                                        <td>{{ $bookTour->tour->journeys }}</td>
-                                                        <td>{{ $bookTour->tour->starting_gate }}</td>
-                                                        <td>{{ $bookTour->start_date }}</td>
-                                                        <td>{{ $bookTour->status->name ?? 'chưa cập nhật' }}</td>
-                                                        <td>{{ number_format($bookTour->total_money) }} đ</td>
-                                                        <td>{{ $bookTour->tour->move_method }}</td>
-                                                        <td><a href="" class="btn btn-click btn-success">Xem chi
+                                                        <td>{{ $bookTour->booking->tour->name ?? 'N/A' }}</td>
+                                                        <td>{{ $bookTour->booking->tour->journeys }}</td>
+                                                        <td>{{ $bookTour->booking->tour->starting_gate }}</td>
+                                                        <td>{{ $bookTour->booking->tour->start_date }}</td>
+                                                        <td>{{  $bookTour->status->name ?? 'N/A'}}</td>
+                                                        <td>{{ number_format($bookTour->money, 0, ',', '.') }} đ</td>
+                                                        <td>{{ $bookTour->booking->tour->move_method }}</td>
+                                                        <td><a href="{{route('usser.detailDoHang',$bookTour->id)}}" class="btn btn-click btn-success">Xem chi
                                                                 tiết</a></td>
                                                     </tr>
                                                 @endforeach
@@ -191,8 +228,11 @@
                                     Để đảm bảo tính bảo mật vui lòng đặt mật khẩu với ít nhất 8 kí tự
                                 </p>
                                 <div class="form-signup clearfix">
-                                    <fieldset class="form-group">
-                                        <label for="current_password">Mật khẩu cũ <span class="error">*</span></label>
+                                    <fieldset class="form-group ">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label for="current_password">Mật khẩu cũ <span class="error">*</span></label>
+                                            <a href="{{ route('forgot-password') }}" class="text-muted">Quên mật khẩu?</a>
+                                        </div>
                                         <input type="password" placeholder="Mật khẩu cũ" name="current_password"
                                             class="form-control form-control-lg">
                                     </fieldset>
@@ -216,7 +256,7 @@
                     </div>
 
                     <div id="addresses" class="content-section" style="display: none;">
-                        <h1 class="title-head">Địa chỉ của bạn</h1>
+                        <h1 class="title-head">Thông tin tài khoản</h1>
                         {{-- <p class="btn-row">
                             <button class="btn-edit-addr btn btn-blues btn-more" type="button">Thêm địa chỉ</button>
                         </p>
@@ -347,7 +387,7 @@
                         end? --}}
                         <button class="btn-edit-addr btn btn-blues btn-more" type="button" data-toggle="modal"
                             data-target="#addAddressModal" style="margin-bottom: 15px">
-                            Thêm địa chỉ
+                            Cập nhật thông tin tài khoản 
                         </button>
                         <div class="form-signup name-account m992">
                             <table class="table table-cart table-order">
@@ -362,10 +402,10 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>{{ $user->name }}</p>
+                                            <p>{{ $user->name ?? 'Ẩn Danh' }}</p>
                                         </td>
                                         <td>
-                                            <p>{{ $user->email }}</p>
+                                            <p>{{ $user->email ?? 'Ẩn Danh' }}</p>
                                         </td>
                                         <td>
                                             <p>{{ $user->phone ?? 'Bạn chưa cập nhật số điện thoại' }}</p>
@@ -383,7 +423,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title align-items-end justify-content-center"
-                                            id="addAddressLabel">Thêm địa chỉ mới</h4>
+                                            id="addAddressLabel">Cập nhật thông tin tài khoản</h4>
                                     </div>
                                     <div class="modal-body">
                                         <form method="post" action="{{ route('user.address') }}" id="addressForm"
@@ -395,7 +435,7 @@
                                             <div class="form-group">
                                                 <label>Họ tên</label>
                                                 <input type="text" placeholder="Họ tên" name="name"
-                                                    class="form-control" value="{{ auth()->user()->name }}">
+                                                    class="form-control" value="{{ auth()->user()->name ?? 'Ẩn Danh' }}">
                                                 {{-- @error('name')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror --}}
@@ -575,7 +615,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Lỗi',
-                        text: 'Đã xảy ra lỗi trong quá trình xử lý.',
+                        text: 'Đã xảy ra lỗi trong quá trình xử lý2.',
                         confirmButtonText: 'OK'
                     });
                     console.error('Error:', error);

@@ -17800,12 +17800,12 @@
 
 											<div class="col col--md-two">
 												<h2>Thông tin mua hàng</h2>
-												<p>{{ $booking->user->name }}</p>
+												<p>{{ $booking->user->name ?? $booking->custom->name }}</p>
 
-												<p>{{ $booking->user->email }}</p>
+												<p>{{ $booking->user->email ?? $booking->custom->email }}</p>
 
 
-												<p>{{ $booking->user->phone }}</p>
+												<p>{{ $booking->user->phone ?? $booking->custom->phone }}</p>
 
 											</div>
 
@@ -18055,12 +18055,12 @@
 
 											<div class="col col--md-two">
 												<h2>Thông tin mua hàng</h2>
-												<p>{{ $booking->user->name }}</p>
+												<p>{{ $booking->user->name ?? $booking->custom->name }}</p>
 
-												<p>{{ $booking->user->email }}</p>
+												<p>{{ $booking->user->email ?? $booking->custom->email }}</p>
 
 
-												<p>{{ $booking->user->phone }}</p>
+												<p>{{ $booking->user->phone ?? $booking->custom->phone }}</p>
 
 											</div>
 
