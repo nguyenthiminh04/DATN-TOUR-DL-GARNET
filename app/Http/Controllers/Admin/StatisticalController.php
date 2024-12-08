@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Admins\DonTour;
 use App\Models\Admins\Tour;
 use App\Models\BookTour;
+use App\Models\Payment;
 use App\Models\Review;
+use App\Models\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StatisticalController extends Controller
 {
@@ -90,6 +93,19 @@ class StatisticalController extends Controller
 
         // thông kê số lượng đặt tour ngày
 
+        // Tính tỷ lệ hủy đơn hàng
+        $totalPayments = Payment::count();
+        $statuses = Status::withCount('payments')->get();
+        $tyLe = $statuses->map(function ($status) use ($totalPayments) {
+            return [
+                'name' => $status->name,
+                'count' => $status->payments_count,
+                'percentage' => $totalPayments > 0 ? round(($status->payments_count / $totalPayments) * 100, 2) : 0,
+            ];
+        });
+
+
+        //lọc theo nhày
 
         $data = [
             'totalMoney'        => $totalMoney,
@@ -99,7 +115,8 @@ class StatisticalController extends Controller
             'percentage'        => $percentage,
             'percentageChange'  => $percentageChange,
             'chartData'         => $chartData,
-            'dataPoints'         => $dataPoints,
+            'dataPoints'        => $dataPoints,
+            'tyLe'              => $tyLe,
 
 
         ];
@@ -116,6 +133,26 @@ class StatisticalController extends Controller
         ];
 
         return $statusNames[$statusId] ?? 'Không xác định';
+    }
+
+    public function filterByDate(Request $request)
+    {
+        $data = $request->all();
+        $from_date = $data['from_date'];
+        $to_date = $data['to_date'];
+    
+        // Lấy dữ liệu và nhóm theo ngày
+        $chart_data = Payment::select(
+            DB::raw('DATE(created_at) as ngayDat'), // Lấy ngày
+            DB::raw('SUM(money) as total'),        // Tổng doanh thu
+            DB::raw('COUNT(id) as soLuongDon')     // Số lượng đơn
+        )
+        ->whereBetween('created_at', [$from_date, $to_date])
+        ->groupBy('ngayDat') // Nhóm theo ngày
+        ->orderBy('ngayDat', 'ASC')
+        ->get();
+    
+        return response()->json($chart_data);
     }
     //     public function getRevenue($timeframe)
     // {
@@ -157,4 +194,40 @@ class StatisticalController extends Controller
     //     // ]);
     //     return view('admin.dashboard', compact('totalMoney'));
     // }
+    public function filterByBtn(Request $request)
+    {
+        $data = $request->all();
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+        $dauthangnay = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();
+        $dauthangtruoc = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->startOfMonth()->toDateString();
+        $cuoithangtrc = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->endOfMonth()->toDateString();
+        $sub7days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(7)->toDateString();
+        $sub365day = Carbon::now('Asia/Ho_Chi_Minh')->subdays(365)->toDateString();
+    
+        if ($data['dashboard_value'] == '7day') {
+            $from_date = $sub7days;
+            $to_date = $now;
+        } elseif ($data['dashboard_value'] == 'thangTrc') {
+            $from_date = $dauthangtruoc;
+            $to_date = $cuoithangtrc;
+        } elseif ($data['dashboard_value'] == 'thangNay') {
+            $from_date = $dauthangnay;
+            $to_date = $now;
+        } else {
+            $from_date = $sub365day;
+            $to_date = $now;
+        }
+
+        $chart_data = Payment::select(
+            DB::raw('DATE(created_at) as ngayDat'),
+            DB::raw('SUM(money) as total'),
+            DB::raw('COUNT(id) as soLuongDon')
+        )
+        ->whereBetween('created_at', [$from_date, $to_date])
+        ->groupBy('ngayDat')
+        ->orderBy('ngayDat', 'ASC')
+        ->get();
+    
+        return response()->json($chart_data);
+    }
 }

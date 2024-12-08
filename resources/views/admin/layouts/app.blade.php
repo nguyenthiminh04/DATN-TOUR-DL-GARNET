@@ -4,11 +4,11 @@
 
 <head>
 
-         <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
     <meta charset="utf-8">
@@ -139,56 +139,67 @@
             });
         });
     </script> --}}
-    
+
 
     <script>
         $(function() {
-        $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" });
-        $("#datepicker2").datepicker({ dateFormat: "yy-mm-dd" });
-    });
-    
-    
-    $('#btn-dashboard-filter').click(function(){
-        var _token = $('input[name="_token"]').val();
-        var from_date = $('#datepicker').val();
-        var to_date = $('#datepicker2').val();
-    
-        // $.ajax({
-        //     method: "POST",
-        //     dataType: "JSON",
-        //     data: {from_date: from_date, to_date: to_date, _token: _token},
-        //     success: function(data) {   
-        //         chart.setData(data);
-        //         console.log("Data loaded successfully.");
-        //     },
-        //     error: function(xhr, status, error) {
-        //         console.error("Lỗi:", error);
-        //     }
-        // });
-    });
-    
-    
-    $('#dashboard-filter').change(function() {
-        var dashboard_value = $(this).val();
-        var _token = $('input[name="_token"]').val();
-    
-        // $.ajax({
-        //     method: "POST",
-        //     dataType: "JSON",
-        //     data: {
-        //         dashboard_value: dashboard_value,
-        //         _token: _token
-        //     },
-        //     success: function(data) {
-        //         chart.setData(data);
-        //         console.log("Data loaded successfully.");
-        //     },
-        //     error: function(xhr, status, error) {
-        //         console.error("Error:", error);
-        //         console.log("Response:", xhr.responseText);
-        //     }
-        // });
-    });
+            $("#datepicker").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            $("#datepicker2").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        });
+
+
+        $('#btn-dashboard-filter').click(function() {
+            var _token = $('input[name="_token"]').val();
+            var from_date = $('#datepicker').val();
+            var to_date = $('#datepicker2').val();
+            // alert(from_date);
+            // alert(to_date);
+
+            $.ajax({
+                url: "{{ url('/home/filter-by-date') }}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    from_date: from_date,
+                    to_date: to_date,
+                    _token: _token
+                },
+                success: function(data) {
+                    chart.setData(data);
+                    console.log("Data loaded successfully.");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Lỗi:", error);
+                }
+            });
+        });
+
+        $('#dashboard-filter').change(function() {
+            var dashboard_value = $(this).val();
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url: "{{ route('dashboard.filterByBtn') }}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    dashboard_value: dashboard_value,
+                    _token: _token
+                },
+                success: function(data) {
+                    chart.setData(data);
+                    console.log("Data loaded successfully.");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    console.log("Response:", xhr.responseText);
+                }
+            });
+        });
     </script>
 
 

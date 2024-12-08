@@ -174,7 +174,7 @@
                                 <div class="card-header border-0 align-items-center d-flex">
 
 
-                                    <form autocomplete="off" action="" method="POST">
+                                    <form autocomplete="off" action="{{route('dashboard.filterByDate')}}" method="POST">
                                         @csrf
                                         <div class="d-flex">
                                             <h4 class="card-title mb-0 flex-grow-1">Tour hot</h4>
@@ -203,52 +203,22 @@
                                 </div><!-- end card header -->
                                 <div class="card-body ps-0">
                                     <div class="w-100">
-                                        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.2.7/morris.min.js"></script> --}}
-                                        <canvas id="khachHangMuaNhieu" style="width:100%;max-width:900px"></canvas>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Fake data
-    var customersData = [
-        { name: "Nguyễn Văn A", total_spent: 1500000 },
-        { name: "Trần Thị B", total_spent: 1200000 },
-        { name: "Lê Văn C", total_spent: 1000000 },
-        { name: "Phạm Thị D", total_spent: 800000 },
-        { name: "Vũ Văn E", total_spent: 600000 }
-    ];
-
-    // Extract data for the chart
-    var xValues = customersData.map(customer => customer.name);
-    var yValues = customersData.map(customer => customer.total_spent);
-    var barColors = ["#b91d47", "#00aba9", "#2b5797", "#e8c3b9", "#1e7145"];
-
-    // Render the chart
-    new Chart("khachHangMuaNhieu", {
-        type: "bar",
-        data: {
-            labels: xValues,
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Top 5 Khách Hàng Mua Nhiều Nhất"
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return value.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-                        }
-                    }
-                }
-            }
-        }
-    });
-</script>
+                                        <canvas id="myfirstchart" style="width:100%;max-width:900px"></canvas>
+                                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                        <script>
+                                            // Fake data
+                                            var chart = new Morris.Bar({
+                                                element: 'myfirstchart',
+                                                data: [],
+                                                xkey: 'ngayDat',
+                                                ykeys: ['total', 'soLuongDon'], // Tổng doanh thu và số lượng đơn
+                                                labels: ['Doanh thu', 'Số lượng đơn'], // Nhãn cột
+                                                parseTime: false,
+                                                hoverCallback: function(index, options, content, row) {
+                                                    return content + '<br>Số lượng đơn hàng: ' + row.soLuongDon;
+                                                }
+                                            });
+                                        </script>
 
                                     </div>
                                 </div><!-- end card body -->
@@ -331,18 +301,17 @@
                         </div>
                         <div class="card-body">
                             <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-                            <div id="myPlot" style="width:100%;max-width:900px"></div>
+                            <div id="myPlot" style="width:100%;max-width:500px"></div>
                             <script>
-                                const xArray = ["Italy", "France", "Spain", "USA", "Argentina"];
-                                const yArray = [55, 49, 44, 24, 15];
-
-                                const data = [{
-                                    labels: xArray,
-                                    values: yArray,
+                                const statusData = @json($tyLe);
+                                const labels = statusData.map(item => item.name);
+                                const values = statusData.map(item => item.percentage);
+                                const chartData = [{
+                                    labels: labels,
+                                    values: values,
                                     type: "pie"
                                 }];
-
-                                Plotly.newPlot("myPlot", data);
+                                Plotly.newPlot("myPlot", chartData);
                             </script>
 
                         </div>

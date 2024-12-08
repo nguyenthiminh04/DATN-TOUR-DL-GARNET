@@ -159,7 +159,8 @@ Route::group([], function () {
     Route::post('/advisory',            [ClientTourController::class, 'advisory'])->name('advisory');
 });
 
-
+Route::post('/admin/filter-by-date', [StatisticalController::class, 'filterByDate'])->name('dashboard.filterByDate');
+Route::post('/dashboard-btn', [StatisticalController::class, 'filterByBtn'])->name('dashboard.filterByBtn');
 // admin routes
 Route::group(['prefix' => 'admin'], function () {
 
@@ -168,7 +169,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
     Route::group(['middleware' => 'admin'], function () {
         Route::get('/home', [StatisticalController::class, 'index'])->name('home-admin');
-        Route::get('/doanh-thu/{timeframe}', [StatisticalController::class, 'getRevenue'])->name('revenue.get');
+        // Route::get('/doanh-thu/{timeframe}', [StatisticalController::class, 'getRevenue'])->name('revenue.get');
+       
 
         Route::resource('user', UserController::class);
         Route::resource('dontour', BookTourController::class);
