@@ -90,7 +90,7 @@ class TourController extends Controller
     public function tour($slug)
     {
         $category = Category::with('tours')->where('slug', $slug)->firstOrFail();
-      
+
         return view('client.pages.tour', compact('category'));
     }
     public function advisory(AdvisoryRequest $request)
@@ -115,5 +115,14 @@ class TourController extends Controller
                 'message' => 'Đã có lỗi. Vui lòng thử lại',
             ]);
         }
+    }
+
+    public function tourLocation($slug)
+    {
+        $location = Location::where('slug', $slug)->firstOrFail();
+
+        $tours = $location->tours()->with(['location'])->where('status', 1)->get();
+
+        return view('client.pages.tour_location', compact('location', 'tours'));
     }
 }

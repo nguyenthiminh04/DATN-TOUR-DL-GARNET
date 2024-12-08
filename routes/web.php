@@ -146,6 +146,7 @@ Route::group([], function () {
 
     Route::get('/tim-kiem',             [ClientTourController::class, 'searchTour'])->name('tour.search');
     Route::get('/tour/{slug}',          [ClientTourController::class, 'tour'])->name('tour.category');
+    Route::get('/tour-dia-diem/{slug}', [ClientTourController::class, 'tourLocation'])->name('tour.location');
 
     Route::get('/favorite',             [FavoriteController::class, 'index'])->name('favorite.index');
     Route::post('/favorite',            [FavoriteController::class, 'addToFavorite'])->name('favorite.add');

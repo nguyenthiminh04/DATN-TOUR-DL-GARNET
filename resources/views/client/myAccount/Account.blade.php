@@ -1,5 +1,22 @@
 @extends('client.layouts.app')
 
+@section('style')
+    <style>
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+
+        }
+
+        .align-items-center {
+            align-items: center;
+
+        }
+    </style>
+@endsection
 @section('content')
     {{-- @if (session('success'))
         <p>{{ session('success') }}</p>
@@ -39,28 +56,32 @@
                 <div class="col-xs-12 col-sm-12 col-lg-2 col-left-ac alert ">
                     <div class="block-account">
                         <h5 class="title-account">Trang tài khoản</h5>
-                        @if(auth()->check())
-    <p>Xin chào, <span style="color:#1ba0e2;">{{ $user->name  }}</span>&nbsp;!</p>
-@else
-    <p> Chưa có tài khoản đăng kí ngay<a href="{{ url('dang-ky') }}" style="color:#1ba0e2;">Đăng kí</a></p>
-@endif
+                        @if (auth()->check())
+                            <p>Xin chào, <span style="color:#1ba0e2;">{{ $user->name }}</span>&nbsp;!</p>
+                        @else
+                            <p> Chưa có tài khoản đăng kí ngay<a href="{{ url('dang-ky') }}" style="color:#1ba0e2;">Đăng
+                                    kí</a></p>
+                        @endif
 
-<ul>
-    @if(auth()->check()) <!-- Kiểm tra nếu người dùng đã đăng nhập -->
-        <li>
-            <a class="title-info" href="javascript:void(0);" data-target="#account-info">Thông tin tài khoản</a>
-        </li>
-        <li>
-            <a class="title-info" href="javascript:void(0);" data-target="#change-password">Đổi mật khẩu</a>
-        </li>
-        <li>
-            <a class="title-info" href="javascript:void(0);" data-target="#addresses">Sổ địa chỉ</a>
-        </li>
-    @endif
-    <li>
-        <a class="title-info" href="javascript:void(0);" data-target="#orders">Đơn hàng của bạn</a>
-    </li>
-</ul>
+                        <ul>
+                            @if (auth()->check())
+                                <!-- Kiểm tra nếu người dùng đã đăng nhập -->
+                                <li>
+                                    <a class="title-info" href="javascript:void(0);" data-target="#account-info">Thông tin
+                                        tài khoản</a>
+                                </li>
+                                <li>
+                                    <a class="title-info" href="javascript:void(0);" data-target="#change-password">Đổi mật
+                                        khẩu</a>
+                                </li>
+                                <li>
+                                    <a class="title-info" href="javascript:void(0);" data-target="#addresses">Sổ địa chỉ</a>
+                                </li>
+                            @endif
+                            <li>
+                                <a class="title-info" href="javascript:void(0);" data-target="#orders">Đơn hàng của bạn</a>
+                            </li>
+                        </ul>
 
                     </div>
                 </div>
@@ -81,7 +102,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if(auth()->check())
+                                    @if (auth()->check())
                                         <tr>
                                             <td>
                                                 <p>{{ $user->name ?? 'Ẩn Danh' }}</p>
@@ -99,13 +120,14 @@
                                     @else
                                         <tr>
                                             <td colspan="4" class="text-center">
-                                                <a href="{{ url('dang-ky') }}" class="btn btn-primary">Đăng ký ngay để thêm thông tin tài khoản</a>
+                                                <a href="{{ url('dang-ky') }}" class="btn btn-primary">Đăng ký ngay để thêm
+                                                    thông tin tài khoản</a>
                                             </td>
                                         </tr>
                                     @endif
                                 </tbody>
                             </table>
-                            
+
                         </div>
                     </div>
 
@@ -206,8 +228,11 @@
                                     Để đảm bảo tính bảo mật vui lòng đặt mật khẩu với ít nhất 8 kí tự
                                 </p>
                                 <div class="form-signup clearfix">
-                                    <fieldset class="form-group">
-                                        <label for="current_password">Mật khẩu cũ <span class="error">*</span></label>
+                                    <fieldset class="form-group ">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label for="current_password">Mật khẩu cũ <span class="error">*</span></label>
+                                            <a href="{{ route('forgot-password') }}" class="text-muted">Quên mật khẩu?</a>
+                                        </div>
                                         <input type="password" placeholder="Mật khẩu cũ" name="current_password"
                                             class="form-control form-control-lg">
                                     </fieldset>

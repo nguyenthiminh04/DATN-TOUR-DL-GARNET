@@ -7,36 +7,36 @@
                 <div class="recent-orders">
                     <div class="table-responsive tab-all">
                         <div class="page-login">
-                            @if(session('success'))
-                    <div class="alert alert-success alert-dismissible" role="alert" id="successAlert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong>Thành công!</strong> {{ session('success') }}
-                    </div>
-                @endif
+                            @if (session('success'))
+                                <div class="alert alert-success alert-dismissible" role="alert" id="successAlert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <strong>Thành công!</strong> {{ session('success') }}
+                                </div>
+                            @endif
 
-                @if($errors->any())
-                    <div class="alert alert-danger alert-dismissible" role="alert" id="errorAlert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong>Lỗi!</strong>
-                        <ul>
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <script>
-                    setTimeout(function() {
-                        $('#successAlert').fadeOut('slow');
-                    }, 3000);
-                    setTimeout(function() {
-                        $('#errorAlert').fadeOut('slow');
-                    }, 3000);
-                </script>
+                            @if ($errors->any())
+                                <div class="alert alert-danger alert-dismissible" role="alert" id="errorAlert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <strong>Lỗi!</strong>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <script>
+                                setTimeout(function() {
+                                    $('#successAlert').fadeOut('slow');
+                                }, 3000);
+                                setTimeout(function() {
+                                    $('#errorAlert').fadeOut('slow');
+                                }, 3000);
+                            </script>
                             <form method="POST" action="{{ route('user.changePassword') }}"
                                 id="yourFormID change_customer_password" accept-charset="UTF-8">
                                 @csrf
@@ -46,6 +46,7 @@
                                 <div class="form-signup clearfix">
                                     <fieldset class="form-group">
                                         <label for="current_password">Mật khẩu cũ <span class="error">*</span></label>
+                                        <a href="{{ route('forgot-password') }}" class="text-muted">Quên mật khẩu?</a>
                                         <input type="password" placeholder="Mật khẩu cũ" name="current_password"
                                             class="form-control form-control-lg">
                                     </fieldset>
