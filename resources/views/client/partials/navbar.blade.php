@@ -130,48 +130,48 @@ if ($user) {
                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Trang chủ</a></li>
                     @foreach ($categoryes as $category)
                         <li class="nav-item {{ $category->children->isNotEmpty() ? 'has-mega' : '' }}">
-                            <a class="nav-link" ">
+                            <a class="nav-link" href="{{ route('home.allTour') }}">
                                 {{ $category->name }}
-                                                              @if ($category->children->isNotEmpty())
-                                <i class="fa fa-angle-right"></i>
-                    @endif
-                    </a>
+                                @if ($category->children->isNotEmpty())
+                                    <i class="fa fa-angle-right"></i>
+                                @endif
+                            </a>
 
-                    @if ($category->children->isNotEmpty())
-                        <div class="mega-content">
-                            <div class="level0-wrapper2">
-                                <div class="nav-block nav-block-center">
-                                    <ul class="level0">
-                                        @foreach ($category->children as $child)
-                                            <li class="level1 parent item">
-                                                <h2 class="h4">
-                                                    <a href="{{ url('tour/' . $child->slug) }}">
-                                                        <span>{{ $child->name }}</span>
-                                                    </a>
-                                                </h2>
-                                                @if ($child->children->isNotEmpty())
-                                                    <ul class="level1">
-                                                        @foreach ($child->children as $subChild)
-                                                            <li class="level2">
-                                                                <a href="{{ url('tour/' . $subChild->slug) }}">
-                                                                    <span>{{ $subChild->name }}</span>
-                                                                </a>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                            @if ($category->children->isNotEmpty())
+                                <div class="mega-content">
+                                    <div class="level0-wrapper2">
+                                        <div class="nav-block nav-block-center">
+                                            <ul class="level0">
+                                                @foreach ($category->children as $child)
+                                                    <li class="level1 parent item">
+                                                        <h2 class="h4">
+                                                            <a href="{{ url('tour/' . $child->slug) }}">
+                                                                <span>{{ $child->name }}</span>
+                                                            </a>
+                                                        </h2>
+                                                        @if ($child->children->isNotEmpty())
+                                                            <ul class="level1">
+                                                                @foreach ($child->children as $subChild)
+                                                                    <li class="level2">
+                                                                        <a href="{{ url('tour/' . $subChild->slug) }}">
+                                                                            <span>{{ $subChild->name }}</span>
+                                                                        </a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    @endif
-                    </li>
+                            @endif
+                        </li>
                     @endforeach
 
                     <!-- Các menu tĩnh -->
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home.allTour') }}">Tất cả Tour</a></li>
+                    {{-- <li class="nav-item"><a class="nav-link" href="{{ route('home.allTour') }}">Tất cả Tour</a></li> --}}
                     <li class="nav-item"><a class="nav-link" href="{{ route('introduce.index') }}">Giới thiệu</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('service.index') }}">Cẩm nang du lịch</a>
                     </li>

@@ -8,12 +8,12 @@
 
         .justify-content-between {
             justify-content: space-between;
-            /* Khoảng cách giữa các phần tử */
+           
         }
 
         .align-items-center {
             align-items: center;
-            /* Căn giữa theo chiều dọc */
+          
         }
     </style>
 @endsection
