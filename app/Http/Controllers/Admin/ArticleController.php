@@ -19,7 +19,7 @@ class ArticleController extends Controller
     {
         //
 
-        $title = "Danh Mục User";
+        $title = "Danh Sách Bài Viết";
         $listUser = User::query()->get();
         $listCategory = Category::query()->get();
         $listArticle = Article::query()->get();
@@ -83,7 +83,7 @@ class ArticleController extends Controller
 
             // Lấy id sản phẩm vừa thêm để thêm được album
             $article = $article->id;
-            $article = Article::query()->create($params);
+            // $article = Article::query()->create($params);
             //Lấy id sản phẩm vừa thêm để thêm được album 
             //Xử lý thêm album
        
@@ -117,44 +117,47 @@ class ArticleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
         if ($request->isMethod('PUT')) {
             $params = $request->except('_token', '_method');
             $article = Article::findOrFail($id);
-
+    
             // Xử lý Hình Ảnh
-            $params['img_thumb'] = $request->file('img_thumb')
-                ? $request->file('img_thumb')->store('uploads/thumbnails', 'public')
-                : 'default-thumbnail.jpg'; // or set null if the column is nullable
-
-
+            if ($request->hasFile('img_thumb')) {
+                if ($article->img_thumb && Storage::disk('public')->exists($article->img_thumb)) {
+                    Storage::disk('public')->delete($article->img_thumb); // Xóa ảnh cũ
+                }
+                $params['img_thumb'] = $request->file('img_thumb')->store('uploads/thumbnails', 'public');
+            }
+    
             // Cập nhật dữ liệu
             $article->update($params);
-
-            return redirect()->route('article.index')->with('success', 'Cập nhật thành công!');;
+    
+            return redirect()->route('article.index')->with('success', 'Cập nhật thành công!');
         }
     }
+    
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Request $request, string $id)
     {
-        //
-        {
-
-            if ($request->isMethod('DELETE')) {
-
-                $article = Article::findOrFail($id);
-
-                if ($article) {
-
-                    $article->delete();
-
-                    return redirect()->route('article.index')->with('success', 'Xóa bài viết thành công.');
-                }
-                return redirect()->route('article.index')->with('success', 'Xóa bài viết thành công.');
+        if ($request->isMethod('DELETE')) {
+            $article = Article::find($id);
+    
+            if (!$article) {
+                return redirect()->route('article.index')->with('error', 'Bài viết không tồn tại.');
             }
+    
+            // Xóa ảnh đại diện nếu có
+            if ($article->img_thumb && Storage::disk('public')->exists($article->img_thumb)) {
+                Storage::disk('public')->delete($article->img_thumb);
+            }
+    
+            $article->delete();
+    
+            return redirect()->route('article.index')->with('success', 'Xóa bài viết thành công.');
         }
     }
+    
 }
