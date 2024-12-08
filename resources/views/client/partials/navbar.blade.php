@@ -37,6 +37,7 @@ if ($user) {
     }
 
     .navbar-nav .badge-danger {
+        margin-top: -10px;
         background-color: #dc3545;
         color: white;
         font-size: 1rem;
@@ -67,7 +68,6 @@ if ($user) {
 
     }
 
-    /* popup thông báo*/
     .notification-popup {
         position: fixed;
         bottom: 20px;
@@ -80,73 +80,35 @@ if ($user) {
         overflow: hidden;
         z-index: 1000;
         animation: slide-in 0.3s ease;
-
     }
 
-
-    .notification-header {
-        padding: 10px 15px;
-        background-color: #007bff;
-        color: white;
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    /* Nội dung bên trong */
     .notification-body {
-        max-height: 550px;
+        flex-grow: 1;
         overflow-y: auto;
         padding: 10px;
+        max-height: 270px;
+        min-height: 50px;
     }
 
-    .notification-item {
-        padding: 10px 15px;
-        border-bottom: 1px solid #f1f1f1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .notification-item:last-child {
-        border-bottom: none;
-
-    }
-
-    .notification-content .title {
-        font-weight: bold;
-        font-size: 14px;
+    .notification-body p {
         margin: 0;
-        color: #333;
-    }
-
-    .notification-content .description {
-        font-size: 12px;
-        color: #666;
-        margin: 5px 0;
-    }
-
-    .notification-content .notification-time {
-        font-size: 10px;
+        padding: 10px;
+        text-align: center;
         color: #999;
-        text-align: right;
     }
-
 
     .notification-footer {
         padding: 10px;
         background-color: #f9f9f9;
-
         border-top: 1px solid #ddd;
+        display: flex;
+        justify-content: center;
     }
 
     .notification-footer .btn {
         font-size: 14px;
-
         border-radius: 20px;
-
     }
-
 
     @keyframes slide-in {
         from {
@@ -170,42 +132,42 @@ if ($user) {
                         <li class="nav-item {{ $category->children->isNotEmpty() ? 'has-mega' : '' }}">
                             <a class="nav-link" ">
                                 {{ $category->name }}
-                                @if ($category->children->isNotEmpty())
-                                    <i class="fa fa-angle-right"></i>
-                                @endif
-                            </a>
+                                                              @if ($category->children->isNotEmpty())
+                                <i class="fa fa-angle-right"></i>
+                    @endif
+                    </a>
 
-                            @if ($category->children->isNotEmpty())
-                                <div class="mega-content">
-                                    <div class="level0-wrapper2">
-                                        <div class="nav-block nav-block-center">
-                                            <ul class="level0">
-                                                @foreach ($category->children as $child)
-                                                    <li class="level1 parent item">
-                                                        <h2 class="h4">
-                                                            <a href="{{ url('tour/' . $child->slug) }}">
-                                                                <span>{{ $child->name }}</span>
-                                                            </a>
-                                                        </h2>
-                                                        @if ($child->children->isNotEmpty())
-                                                            <ul class="level1">
-                                                                @foreach ($child->children as $subChild)
-                                                                    <li class="level2">
-                                                                        <a href="{{ url('tour/' . $subChild->slug) }}">
-                                                                            <span>{{ $subChild->name }}</span>
-                                                                        </a>
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        @endif
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    </div>
+                    @if ($category->children->isNotEmpty())
+                        <div class="mega-content">
+                            <div class="level0-wrapper2">
+                                <div class="nav-block nav-block-center">
+                                    <ul class="level0">
+                                        @foreach ($category->children as $child)
+                                            <li class="level1 parent item">
+                                                <h2 class="h4">
+                                                    <a href="{{ url('tour/' . $child->slug) }}">
+                                                        <span>{{ $child->name }}</span>
+                                                    </a>
+                                                </h2>
+                                                @if ($child->children->isNotEmpty())
+                                                    <ul class="level1">
+                                                        @foreach ($child->children as $subChild)
+                                                            <li class="level2">
+                                                                <a href="{{ url('tour/' . $subChild->slug) }}">
+                                                                    <span>{{ $subChild->name }}</span>
+                                                                </a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ul>
                                 </div>
-                            @endif
-                        </li>
+                            </div>
+                        </div>
+                    @endif
+                    </li>
                     @endforeach
 
                     <!-- Các menu tĩnh -->
@@ -217,21 +179,25 @@ if ($user) {
 
                     <li class="nav-item"><a class="nav-link" href="{{ route('contact.index') }}">Liên hệ</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('favorite.index') }}">Yêu
-                            Thích</a></li>
-                </ul>
-                <ul id="nav" class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#" class="notification-icon" id="showNotifications">
-                            <i class="fa fa-bell"></i> Thông báo
-                            @if (Auth()->user())
-                                <span class="badge badge-danger">{{ $unreadNotifications->count() }}</span>
-                            @else
-                                <span class="badge badge-danger">0</span>
-                            @endif
-
-                        </a>
+                            Thích</a>
                     </li>
+                    @if (Auth()->user())
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="showNotifications">
+                                Thông báo
+                                @if (Auth()->user())
+                                    <span class="badge badge-danger">{{ $unreadNotifications->count() }}</span>
+                                @else
+                                    <span class="badge badge-danger">0</span>
+                                @endif
+
+                            </a>
+                        </li>
+
+                    @endif
                 </ul>
+
             </div>
         </div>
     </div>
@@ -241,23 +207,29 @@ if ($user) {
     <div class="notification-popup" id="notificationPopup" style="display: none">
         <div class="notification-header">
             <h4>Thông Báo Mới Nhận</h4>
-            {{-- <button class="btn btn-sm btn-success mark-all-read" id="markAllRead">Đọc Tất Cả</button> --}}
         </div>
-        <div class="notification-body">
-            <!-- Hiển thị các thông báo -->
-            @foreach ($notifications as $notification)
-                <div class="notification-item">
-                    <div class="notification-content">
-                        <p class="title col-3">{{ $notification->title }}</p>
-                        <p class="description">--{{ $notification->content }}</p>
-                        <p class="notification-time">{{ $notification->created_at }}</p>
-                    </div>
-                </div>
-            @endforeach
+        @if ($notifications->isEmpty())
+            <div class="notification-body">
+                <p class="title col-3">Không có thông báo mới</p>
+            </div>
+        @else
+            <div class="notification-body">
 
-        </div>
-        <div class="notification-footer text-center">
-            <button class="btn btn-md btn-primary mark-all-read" id="markAllRead">Đọc Tất Cả</button>
-        </div>
+
+                @foreach ($notifications as $notification)
+                    <div class="notification-item">
+                        <div class="notification-content">
+                            <p class="title col-3">{{ $notification->title }}</p>
+                            <p class="description">--{{ $notification->content }}</p>
+                            <p class="notification-time">{{ $notification->created_at }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <div class="notification-footer text-center">
+                <button class="btn btn-md btn-primary mark-all-read" id="markAllRead">Đọc Tất Cả</button>
+            </div>
+        @endif
+
     </div>
 @endif
