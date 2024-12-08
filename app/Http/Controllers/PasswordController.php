@@ -57,7 +57,6 @@ class PasswordController extends Controller
 
             \Log::error('Lỗi truy xuất người dùng để đặt lại mật khẩu: ' . $e->getMessage());
 
-
             abort(503, 'Service Unavailable');
         }
     }
