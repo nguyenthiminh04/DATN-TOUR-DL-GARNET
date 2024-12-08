@@ -122,7 +122,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-    <script>
+    {{-- <script>
         document.querySelectorAll('.dropdown-item').forEach(item => {
             item.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -138,34 +138,9 @@
                     .catch(error => console.error('Error:', error));
             });
         });
-    </script>
+    </script> --}}
     
-    <script>
-        window.onload = function () {
-            var chart = new CanvasJS.Chart("chartContainer", {
-            theme: "light2",
-            animationEnabled: true,
-            title: {
-                text: "Top 5 Tours được đặt nhiều nhất"
-            },
-            axisY: {
-                title: "Số lượt đặt",
-                includeZero: true
-            },
-            data: [{
-                type: "bar",
-                yValueFormatString: "#,### lượt",
-                // showInLegend: true, 
-                legendText: "{label}",
-                indexLabel: "",
-                dataPoints: @json($chartData)
-            }]
-        });
 
-            chart.render();
-        }
-    </script>
-    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script>
         $(function() {
         $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" });

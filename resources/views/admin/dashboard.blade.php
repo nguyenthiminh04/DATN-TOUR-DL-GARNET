@@ -41,7 +41,7 @@
                                                         data-target="{{ $totalMoney }}">0</span> đ </h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
                                                     <h5 class="text-success fs-xs mb-0">
-                                                        {{ $percentage }} %
+                                                        {{ $percentage }}%
                                                     </h5>
                                                     <p class="text-muted mb-0">hơn ngày trước</p>
                                                 </div>
@@ -233,6 +233,32 @@
                                 <div class="col-lg-12">
                                     {{-- chart --}}
                                     <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                    <script>
+                                        function initRevenueChart() {
+                                            var chart = new CanvasJS.Chart("chartContainer", {
+                                            theme: "light2",
+                                            animationEnabled: true,
+                                            title: {
+                                                text: "Top 5 Tours được đặt nhiều nhất"
+                                            },
+                                            axisY: {
+                                                title: "Số lượt đặt",
+                                                includeZero: true
+                                            },
+                                            data: [{
+                                                type: "bar",
+                                                yValueFormatString: "#,### lượt",
+                                                // showInLegend: true, 
+                                                legendText: "{label}",
+                                                indexLabel: "",
+                                                dataPoints: @json($chartData)
+                                            }]
+                                        });
+                                
+                                            chart.render();
+                                        }
+                                    </script>
+                                    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
                                 </div>
                             </div>
                         </div>
@@ -419,7 +445,7 @@
                         </div>
                     </div>
                 </div><!--end col-->
-                
+
                 <div class="col-lg-4">
                     <div class="card">
                         <div class="card-header d-flex align-items-center">
@@ -637,7 +663,7 @@
                 <div class="col-xl-4">
                     <div class="card">
                         <div class="card-header d-flex align-items-center">
-                            <h5 class="card-title mb-0 flex-grow-1">Orders Status</h5>
+                            <h5 class="card-title mb-0 flex-grow-1">Khách hàng chi tiêu nhiều</h5>
                             <div class="dropdown card-header-dropdown">
                                 <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
@@ -655,19 +681,36 @@
                             </div>
 
                             <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">New</p>
-                                        <h6 class="mb-0">Đại</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
-                                            style="width: 100%"></div>
-                                    </div>
-                                </div><!--end col-->
+                                <div id="revenueChartContainer" style="height: 370px; width: 100%;"></div>
+                                
+                                <script>
+                                   function () {
+                                        var revenueChart = new CanvasJS.Chart("revenueChartContainer", {
+                                            animationEnabled: true,
+                                            title:{
+                                                text: "Doanh Thu Theo Ngày"
+                                            },
+                                            axisX:{
+                                                title: "Ngày"
+                                            },
+                                            axisY:{
+                                                title: "Doanh Thu (đ)",
+                                                titleFontColor: "#4F81BC",
+                                                lineColor: "#4F81BC",
+                                                labelFontColor: "#4F81BC",
+                                                tickColor: "#4F81BC"
+                                            },
+                                            data: [{
+                                                type: "line",
+                                                name: "Doanh Thu",
+                                                showInLegend: true,
+                                                dataPoints: @json_encode($dataPoints)
+                                            }]
+                                        });
+                                        revenueChart.render();
+                                    }
+                                    </script>
+                                
                             </div><!--end row-->
 
                         </div>

@@ -30,7 +30,7 @@ class StatisticalController extends Controller
         $bookTourToday = DonTour::whereDate('created_at', $today)->count();
         $bookTourYesterday = DonTour::whereDate('created_at', $yesterday)->count();
 
-    // Tính phần trăm thay đổi số lượng đơn đặt tour hôm nay so với ngày hôm qua
+        // Tính phần trăm thay đổi số lượng đơn đặt tour hôm nay so với ngày hôm qua
         $percentageChange = 0;
         if ($bookTourYesterday > 0) {
             $percentageChange = (($bookTourToday - $bookTourYesterday) / $bookTourYesterday) * 100;
@@ -41,19 +41,19 @@ class StatisticalController extends Controller
         //tính số lượng tour
         $OderCount = DonTour::whereDate('created_at', $today)->count();
         // Lấy top 5 tour được đặt nhiều nhất
-        $top5Tours = Tour::withCount('bookTours')->orderBy('book_tours_count', 'desc') ->take(5)->get();
+        $top5Tours = Tour::withCount('bookTours')->orderBy('book_tours_count', 'desc')->take(5)->get();
         // Đếm số khách hàng đã đặt tour hôm nay
-        $customerCount = DonTour::whereDate('created_at', $today)->distinct('user_id')->count('user_id'); 
+        $customerCount = DonTour::whereDate('created_at', $today)->distinct('user_id')->count('user_id');
         // dd($totalMoney);
 
         // $averageRating = Review::where('tour_id', $id)->avg('rating');
 
         // Lấy top 5 tour được đặt nhiều nhất
         $topBookedTours = BookTour::selectRaw('tour_id, COUNT(*) as total_bookings')
-        ->groupBy('tour_id')
-        ->orderBy('total_bookings', 'desc')
-        ->with('tour')
-        ->get();
+            ->groupBy('tour_id')
+            ->orderBy('total_bookings', 'desc')
+            ->with('tour')
+            ->get();
 
         $chartData = $topBookedTours->map(function ($item) {
             return [
@@ -74,21 +74,36 @@ class StatisticalController extends Controller
         //     ];
         // });
 
+
+        // Truy vấn tổng tiền đã chi tiêu của mỗi người dùng
+        $topUsers = \App\Models\User::select('users.id', 'users.name', \DB::raw('SUM(book_tour.total_money) as total_spent'))
+            ->join('book_tour', 'users.id', '=', 'book_tour.user_id')
+            ->groupBy('users.id', 'users.name')
+            ->orderByDesc('total_spent')
+            ->limit(10)
+            ->get();
+        $dataPoints = [];
+        foreach ($topUsers as $user) {
+            $dataPoints[] = ["label" => $user->name, "y" => (float) $user->total_spent];
+        }
+
+
         // thông kê số lượng đặt tour ngày
 
 
         $data = [
-            'totalMoney'        =>$totalMoney,
-            'OderCount'         =>$OderCount,
-            'top5Tours'         =>$top5Tours,
-            'customerCount'     =>$customerCount,
-            'percentage'        =>$percentage,
-            'percentageChange'  =>$percentageChange,
-            'chartData'         => $chartData, 
-            
-        
+            'totalMoney'        => $totalMoney,
+            'OderCount'         => $OderCount,
+            'top5Tours'         => $top5Tours,
+            'customerCount'     => $customerCount,
+            'percentage'        => $percentage,
+            'percentageChange'  => $percentageChange,
+            'chartData'         => $chartData,
+            'dataPoints'         => $dataPoints,
+
+
         ];
-        return view('admin.dashboard',$data);
+        return view('admin.dashboard', $data);
     }
     protected function getStatusName($statusId)
     {
@@ -99,47 +114,47 @@ class StatisticalController extends Controller
             6 => 'Đã hoàn thành',
             13 => 'Đã hủy',
         ];
-    
+
         return $statusNames[$statusId] ?? 'Không xác định';
     }
-    public function getRevenue($timeframe)
-{
-    // Khởi tạo biến để lưu tổng doanh thu
-    $totalMoney = 0;
-    $percentage = 0;
+    //     public function getRevenue($timeframe)
+    // {
+    //     // Khởi tạo biến để lưu tổng doanh thu
+    //     $totalMoney = 0;
+    //     $percentage = 0;
 
-    // Lấy dữ liệu theo khoảng thời gian
-    switch ($timeframe) {
-        case 'hom-qua':
-            $totalMoney = DonTour::whereDate('created_at', today()->subDay())->sum('total_money');
-            $previousDay = DonTour::whereDate('created_at', today()->subDays(2))->sum('total_money');
-            break;
-        case 'tuan-truoc':
-            $totalMoney = DonTour::whereBetween('created_at', [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()])->sum('total_money');
-            $previousDay = DonTour::whereBetween('created_at', [now()->subWeeks(2)->startOfWeek(), now()->subWeeks(2)->endOfWeek()])->sum('total_money');
-            break;
-        case 'thang-nay':
-            $totalMoney = DonTour::whereMonth('created_at', now()->month)->sum('total_money');
-            $previousDay = DonTour::whereMonth('created_at', now()->subMonth()->month)->sum('total_money');
-            break;
-        case 'nam-nay':
-            $totalMoney = DonTour::whereYear('created_at', now()->year)->sum('total_money');
-            $previousDay = DonTour::whereYear('created_at', now()->subYear()->year)->sum('total_money');
-            break;
-        default:
-            $totalMoney = DonTour::whereDate('created_at', today())->sum('total_money');
-            $previousDay = DonTour::whereDate('created_at', today()->subDay())->sum('total_money');
-            break;
-    }
+    //     // Lấy dữ liệu theo khoảng thời gian
+    //     switch ($timeframe) {
+    //         case 'hom-qua':
+    //             $totalMoney = DonTour::whereDate('created_at', today()->subDay())->sum('total_money');
+    //             $previousDay = DonTour::whereDate('created_at', today()->subDays(2))->sum('total_money');
+    //             break;
+    //         case 'tuan-truoc':
+    //             $totalMoney = DonTour::whereBetween('created_at', [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()])->sum('total_money');
+    //             $previousDay = DonTour::whereBetween('created_at', [now()->subWeeks(2)->startOfWeek(), now()->subWeeks(2)->endOfWeek()])->sum('total_money');
+    //             break;
+    //         case 'thang-nay':
+    //             $totalMoney = DonTour::whereMonth('created_at', now()->month)->sum('total_money');
+    //             $previousDay = DonTour::whereMonth('created_at', now()->subMonth()->month)->sum('total_money');
+    //             break;
+    //         case 'nam-nay':
+    //             $totalMoney = DonTour::whereYear('created_at', now()->year)->sum('total_money');
+    //             $previousDay = DonTour::whereYear('created_at', now()->subYear()->year)->sum('total_money');
+    //             break;
+    //         default:
+    //             $totalMoney = DonTour::whereDate('created_at', today())->sum('total_money');
+    //             $previousDay = DonTour::whereDate('created_at', today()->subDay())->sum('total_money');
+    //             break;
+    //     }
 
-    // Tính phần trăm thay đổi
-    $percentage = $previousDay > 0 ? round((($totalMoney - $previousDay) / $previousDay) * 100, 2) : 0;
+    //     // Tính phần trăm thay đổi
+    //     $percentage = $previousDay > 0 ? round((($totalMoney - $previousDay) / $previousDay) * 100, 2) : 0;
 
-    // Trả dữ liệu về dạng JSON
-    return response()->json([
-        'totalMoney' => $totalMoney,
-        'percentage' => $percentage,
-    ]);
-}
-
+    //     // Trả dữ liệu về dạng JSON
+    //     // return response()->json([
+    //     //     'totalMoney' => $totalMoney,
+    //     //     'percentage' => $percentage,
+    //     // ]);
+    //     return view('admin.dashboard', compact('totalMoney'));
+    // }
 }
