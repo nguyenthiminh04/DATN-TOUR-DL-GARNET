@@ -94,6 +94,7 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
+    
     public function show($id)
     {
         $article = Article::findOrFail($id); // Lấy thông tin của location

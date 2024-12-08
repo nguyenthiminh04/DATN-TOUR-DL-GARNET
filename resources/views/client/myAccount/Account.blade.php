@@ -155,22 +155,22 @@
                                             <tbody>
 
                                                 <tr>
-                                                    @if ($bookTours->isEmpty())
+                                                    @if ($payments->isEmpty())
                                                         <td colspan="6">
                                                             <p>Không có đơn hàng nào.</p>
                                                         </td>
                                                     @else
                                                 </tr>
-                                                @foreach ($bookTours as $bookTour)
+                                                @foreach ($payments as $bookTour)
                                                     <tr>
-                                                        <td>{{ $bookTour->tour->name }}</td>
-                                                        <td>{{ $bookTour->tour->journeys }}</td>
-                                                        <td>{{ $bookTour->tour->starting_gate }}</td>
-                                                        <td>{{ $bookTour->start_date }}</td>
-                                                        <td>{{ $bookTour->status->name ?? 'chưa cập nhật' }}</td>
-                                                        <td>{{ number_format($bookTour->total_money) }} đ</td>
-                                                        <td>{{ $bookTour->tour->move_method }}</td>
-                                                        <td><a href="" class="btn btn-click btn-success">Xem chi
+                                                        <td>{{ $bookTour->booking->tour->name ?? 'N/A' }}</td>
+                                                        <td>{{ $bookTour->booking->tour->journeys }}</td>
+                                                        <td>{{ $bookTour->booking->tour->starting_gate }}</td>
+                                                        <td>{{ $bookTour->booking->tour->start_date }}</td>
+                                                        <td>{{  $bookTour->status->name ?? 'N/A'}}</td>
+                                                        <td>{{ number_format($bookTour->money, 0, ',', '.') }} đ</td>
+                                                        <td>{{ $bookTour->booking->tour->move_method }}</td>
+                                                        <td><a href="{{route('usser.detailDoHang',$bookTour->id)}}" class="btn btn-click btn-success">Xem chi
                                                                 tiết</a></td>
                                                     </tr>
                                                 @endforeach
@@ -256,7 +256,7 @@
                     </div>
 
                     <div id="addresses" class="content-section" style="display: none;">
-                        <h1 class="title-head">Địa chỉ của bạn</h1>
+                        <h1 class="title-head">Thông tin tài khoản</h1>
                         {{-- <p class="btn-row">
                             <button class="btn-edit-addr btn btn-blues btn-more" type="button">Thêm địa chỉ</button>
                         </p>
@@ -387,7 +387,7 @@
                         end? --}}
                         <button class="btn-edit-addr btn btn-blues btn-more" type="button" data-toggle="modal"
                             data-target="#addAddressModal" style="margin-bottom: 15px">
-                            Thêm địa chỉ
+                            Cập nhật thông tin tài khoản 
                         </button>
                         <div class="form-signup name-account m992">
                             <table class="table table-cart table-order">
@@ -423,7 +423,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title align-items-end justify-content-center"
-                                            id="addAddressLabel">Thêm địa chỉ mới</h4>
+                                            id="addAddressLabel">Cập nhật thông tin tài khoản</h4>
                                     </div>
                                     <div class="modal-body">
                                         <form method="post" action="{{ route('user.address') }}" id="addressForm"
@@ -615,7 +615,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Lỗi',
-                        text: 'Đã xảy ra lỗi trong quá trình xử lý.',
+                        text: 'Đã xảy ra lỗi trong quá trình xử lý2.',
                         confirmButtonText: 'OK'
                     });
                     console.error('Error:', error);
