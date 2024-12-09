@@ -77,7 +77,7 @@
                         <h3>Thông tin vé bạn đã chọn</h3>
                         <div class="tour-horizontal-layout">
                             <div class="tour-image">
-                                <img src="https://via.placeholder.com/120" alt="Ảnh tour" id="tour-image">
+                                <img src="{{ Storage::url($tour->image) }}" alt="Ảnh tour" id="tour-image">
                             </div>
                             <div class="tour-details">
                                 <p><strong>Tour:</strong> <span id="selected-tour"></span></p>
