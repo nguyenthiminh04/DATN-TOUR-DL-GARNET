@@ -1,234 +1,152 @@
 @extends('admin.layouts.app')
 
-@section('style')
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endsection
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
 
             <div class="row">
-                <div class="col-xl-4">
-                    <div class="card card-height-100 border-0 overflow-hidden">
-                        <div class="card-body p-0">
-                            <div class="row g-0">
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i
-                                                            class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="hom-qua">Hôm nay</a>
-                                                    <a class="dropdown-item" href="tuan-truoc">Tuần trước</a>
-                                                    <a class="dropdown-item" href="thang-nay">Tháng này</a>
-                                                    <a class="dropdown-item" href="nam-nay">Năm nay</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span
-                                                    class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
-                                                    <i class="ph-wallet"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
-                                                    Doanh thu</p>
-                                                <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="{{ $totalMoney }}">0</span> đ </h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-success fs-xs mb-0">
-                                                        {{ $percentage }}%
-                                                    </h5>
-                                                    <p class="text-muted mb-0">so với ngày trước</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-bottom rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i
-                                                            class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="q2">Hôm nay</a>
-                                                    <a class="dropdown-item" href="1#">Tuần trước</a>
-                                                    <a class="dropdown-item" href="#1">Tháng này</a>
-                                                    <a class="dropdown-item" href="1#">Năm nay</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span class="avatar-title bg-dark-subtle text-dark rounded-circle fs-3">
-                                                    <i class="ph-bag"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
-                                                    Orders</p>
-                                                <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="{{ $OderCount }}">0</span></h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-success fs-xs mb-0"></i>
-                                                        {{ $percentageChange }} %
-                                                    </h5>
-                                                    <p class="text-muted mb-0">so với ngày trước</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-end-md rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i
-                                                            class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#1">Today</a>
-                                                    <a class="dropdown-item" href="2#">Last Week</a>
-                                                    <a class="dropdown-item" href="#3">Last Month</a>
-                                                    <a class="dropdown-item" href="4#">Current Year</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span class="avatar-title bg-light text-body rounded-circle fs-3">
-                                                    <i class="ph-eye"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
-                                                    Số lượng khách hàng truy cập web</p>
-                                                <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="{{$todayVisitors}}">0</span></h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-danger fs-xs mb-0">
-                                                        <i class="ri-arrow-right-down-line fs-sm align-middle"></i>
-                                                        {{$percentageChangeViewWev}}
-                                                    </h5>
-                                                    <p class="text-muted mb-0">so với ngày trước</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-top border-top-md-0 rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#"
-                                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i
-                                                            class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#1">Today</a>
-                                                    <a class="dropdown-item" href="#2">Last Week</a>
-                                                    <a class="dropdown-item" href="3#">Last Month</a>
-                                                    <a class="dropdown-item" href="#4">Current Year</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
-                                                    <i class="ph-users-three"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
-                                                    Khách hàng đặt tour hôm nay</p>
-                                                <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="{{ $customerCount }}">0</span></h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-success fs-xs mb-0">
-                                                        <i class="ri-arrow-right-up-line fs-sm align-middle"></i>
-                                                        +10.42 %
-                                                    </h5>
-                                                    <p class="text-muted mb-0">so với ngày trước</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-                            </div> <!-- end row-->
-                        </div>
-                    </div>
-                </div><!--end col-->
-                <div class="col-xl-8">
-                    <div class="card">
-                        <div class="row g-0">
-                            <div class="col-xl-9">
-                                <div class="card-header border-0 align-items-center d-flex">
-
-
-                                    <form autocomplete="off" action="{{ route('dashboard.filterByDate') }}"
-                                        method="POST">
-                                        @csrf
-                                        <div class="d-flex">
-                                            <h4 class="card-title mb-0 flex-grow-1">Tour hot</h4>
-                                            <div class="col-md-2 d-flex">
-                                                <input type="text" id="datepicker" class="form-control"
-                                                    placeholder="Từ ngày">
-                                            </div>
-                                            <div class="col-md-2 d-flex">
-                                                <input type="text" id="datepicker2" class="form-control"
-                                                    placeholder="Đến ngày">
-                                            </div>
-                                            <div class="col-md-4 d-flex">
-                                                <input type="button" name="" id="btn-dashboard-filter"
-                                                    class="btn btn-primary" value="Lọc">
-                                                <select id="dashboard-filter" class="form-control">
-                                                    <option value="7day">7 ngày qua</option>
-                                                    <option value="thangTrc">Tháng trước</option>
-                                                    <option value="thangNay">Tháng này</option>
-                                                    <option value="365day">365 ngày qua</option>
-                                                </select>
-                                            </div>
-
-                                        </div>
-                                    </form>
-
-                                </div><!-- end card header -->
-                                <div class="card-body ps-0">
-                                    <div class="w-100">
-                                        <canvas id="myfirstchart" style="width:100%;max-width:900px"></canvas>
-                                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                                        <script>
-                                            // Fake data
-                                            var chart = Morris.Bar({
-                                                element: 'myfirstchart',
-                                                data: [],
-                                                xkey: 'ngayDat',
-                                                ykeys: ['money', 'soLuongDon'],
-                                                labels: ['Doanh thu', 'Số lượng đơn'],
-                                                parseTime: false,
-                                                hoverCallback: function(index, options, content, row) {
-                                                    return content + '<br>Số lượng đơn hàng: ' + row.soLuongDon;
-                                                }
-                                            });
-                                            // chart.setData(data);
-                                        </script>
-
-                                    </div>
-                                </div><!-- end card body -->
+                <div class="col-md-2">
+                    <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
+                                    <i class="ph-wallet"></i>
+                                </span>
                             </div>
-                        </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase  text-muted text-truncate fs-sm">Doanh thu tháng này</p>
+                                <h4 class=" mb-2"><span class="counter-value" data-target="{{ $totalMoneyMonth }}">0</span>
+                                    đ</h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div>
+                <div class="col-md-2">
+                    <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
+                                    <i class="ph-wallet"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase  text-muted text-truncate fs-sm">Doanh thu hôm nay</p>
+                                <h4 class=" mb-2"><span class="counter-value" data-target="{{ $totalMoney }}">0</span> đ
+                                </h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div>
+                <div class="col-md-2">
+                    <div class="card shadow-none border-bottom rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-dark-subtle text-dark rounded-circle fs-3">
+                                    <i class="ph-bag"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase  text-muted text-truncate ">Đơn hàng tháng này</p>
+                                <h4 class=" mb-3"><span class="counter-value" data-target="{{ $orderCountMonth }}">0</span>
+                                </h4>
+                            </div>
+                        </div><!-- end card body -->
                     </div><!-- end card -->
                 </div><!-- end col -->
-            </div><!--end row-->
+                <div class="col-md-2">
+                    <div class="card shadow-none border-bottom rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-dark-subtle text-dark rounded-circle fs-3">
+                                    <i class="ph-bag"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase  text-muted text-truncate ">Đơn hàng hôm nay</p>
+                                <h4 class=" mb-3"><span class="counter-value" data-target="{{ $orderCountToday }}">0</span>
+                                </h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+
+                <div class="col-md-2">
+                    <div class="card shadow-none border-end-md rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-light text-body rounded-circle fs-2">
+                                    <i class="ph-eye"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Số lượng khách hàng truy
+                                    cập web</p>
+                                <h4 class="fw-semibold mb-3"><span class="counter-value"
+                                        data-target="{{ $todayVisitors }}">0</span></h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+
+                <div class="col-md-2">
+                    <div class="card shadow-none border-top border-top-md-0 rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-info-subtle text-info rounded-circle fs-2">
+                                    <i class="ph-users-three"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Khách hàng đặt tour hôm
+                                    nay</p>
+                                <h4 class="fw-semibold mb-3"><span class="counter-value"
+                                        data-target="{{ $customerCount }}">0</span></h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <div class="card" id="contactList">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Tour đánh giá cao</h4>
+                            <div class="flex-shrink-0">
+                                <div class="dropdown card-header-dropdown sortble-dropdown">
+                                    <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <span class="fw-semibold text-uppercase fs-12">Lọc:
+                                        </span><span class="text-muted dropdown-title">Order Date</span> <i
+                                            class="mdi mdi-chevron-down ms-1"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <button class="dropdown-item sort" data-sort="order_date">Order
+                                            Date</button>
+                                        <button class="dropdown-item sort" data-sort="order_id">Order
+                                            ID</button>
+                                        <button class="dropdown-item sort" data-sort="amount">Amount</button>
+                                        <button class="dropdown-item sort" data-sort="status">Status</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+                                    <div class="position-relative mb-4">
+                                        <canvas id="myChart" style="height:100;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-xl-6">
@@ -358,6 +276,85 @@
                 </div><!--end col-->
             </div><!--end row-->
 
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <div class="card" id="contactList">
+                        <div class="card-header align-items-center ">
+                            <h4 class="card-title mb-0 flex-grow-1">Đơn hàng mới hôm nay</h4>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                                        <thead class="text-muted table-light">
+                                            <tr>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="order_date">
+                                                    STT</th>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="order_id">
+                                                    Tên tour</th>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="shop">Lượt xem
+                                                </th>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="customer">
+                                                    Đã đặt</th>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="amount">
+                                                    Tổng tiền</th>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="status">
+                                                    Status</th>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="rating">
+                                                    Rating</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="list">
+                                            @foreach ($tourReview as $reviewk => $review)
+                                                <tr>
+                                                    <td class="order_date">
+                                                        {{ ++$reviewk }}
+                                                    </td>
+                                                    <td class="order_id">
+                                                        <a href="apps-ecommerce-order-overview.html"
+                                                            class="fw-medium link-primary">{{ $review->name }}</a>
+                                                    </td>
+                                                    <td class="shop">
+                                                        {{ $review->view ? $review->view : 'Chưa có view' }}
+                                                    </td>
+                                                    <td class="customer">
+                                                        {{ $review->total_bookings ?? 0 }}
+                                                    </td>
+                                                    <td class="amount">
+                                                        <span class="fw-medium">
+                                                            {{ number_format($review->total_revenue, 0, '', '.') }} VND
+                                                        </span>
+                                                    </td>
+                                                    <td class="status">
+                                                        <span
+                                                            class="badge bg-warning-subtle text-warning">{{ $review->status == 1 ? 'Hiện' : 'Ẩn' }}</span>
+                                                    </td>
+                                                    <td class="rating">
+                                                        <h5 class="fs-md fw-medium mb-0"><i
+                                                                class="ph-star align-baseline text-warning"></i>
+                                                            {{ $review->rating }}
+                                                        </h5>
+                                                    </td>
+                                                </tr><!-- end tr -->
+                                            @endforeach
+                                        </tbody><!-- end tbody -->
+                                    </table><!-- end table -->
+                                    <div class="noresult" style="display: none">
+                                        <div class="text-center">
+                                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
+                                                colors="primary:#405189,secondary:#0ab39c"
+                                                style="width:75px;height:75px"></lord-icon>
+                                            <h5 class="mt-2">Sorry! No Result Found</h5>
+                                            <p class="text-muted mb-0">We've searched more than 150+ transactions We
+                                                did not find any transactions for you search.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card" id="contactList">
@@ -405,34 +402,36 @@
                                     </thead>
                                     <tbody class="list">
                                         @foreach ($tourReview as $reviewk => $review)
-                                        <tr>
-                                            <td class="order_date">
-                                                {{++$reviewk}}
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">{{$review->name}}</a>
-                                            </td>
-                                            <td class="shop">
-                                                {{$review->view ? $review->view : 'Chưa có view'}}
-                                            </td>
-                                            <td class="customer">
-                                                {{ $review->total_bookings ?? 0 }}
-                                            </td>
-                                            <td class="amount">
-                                                <span class="fw-medium">
-                                                    {{ number_format($review->total_revenue, 0, '', '.') }} VND
-                                                </span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-warning-subtle text-warning">{{$review->status == 1 ? 'Hiện' : 'Ẩn'}}</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i
-                                                        class="ph-star align-baseline text-warning"></i> {{$review->rating}}
-                                                </h5>
-                                            </td>
-                                        </tr><!-- end tr -->
+                                            <tr>
+                                                <td class="order_date">
+                                                    {{ ++$reviewk }}
+                                                </td>
+                                                <td class="order_id">
+                                                    <a href="apps-ecommerce-order-overview.html"
+                                                        class="fw-medium link-primary">{{ $review->name }}</a>
+                                                </td>
+                                                <td class="shop">
+                                                    {{ $review->view ? $review->view : 'Chưa có view' }}
+                                                </td>
+                                                <td class="customer">
+                                                    {{ $review->total_bookings ?? 0 }}
+                                                </td>
+                                                <td class="amount">
+                                                    <span class="fw-medium">
+                                                        {{ number_format($review->total_revenue, 0, '', '.') }} VND
+                                                    </span>
+                                                </td>
+                                                <td class="status">
+                                                    <span
+                                                        class="badge bg-warning-subtle text-warning">{{ $review->status == 1 ? 'Hiện' : 'Ẩn' }}</span>
+                                                </td>
+                                                <td class="rating">
+                                                    <h5 class="fs-md fw-medium mb-0"><i
+                                                            class="ph-star align-baseline text-warning"></i>
+                                                        {{ $review->rating }}
+                                                    </h5>
+                                                </td>
+                                            </tr><!-- end tr -->
                                         @endforeach
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
@@ -682,57 +681,28 @@
                         </div>
                         <div class="card-body">
                             <div class="row align-items-center mb-3">
-                                {{-- <div id="revenueChartContainer" style="height: 370px; width: 100%;"></div> --}}
+                                <div id="myPlot2" style="width:100%;max-width:700px"></div>
 
-                                {{-- <script>
-                                   function () {
-                                        var revenueChart = new CanvasJS.Chart("revenueChartContainer", {
-                                            animationEnabled: true,
-                                            title:{
-                                                text: "Doanh Thu Theo Ngày"
-                                            },
-                                            axisX:{
-                                                title: "Ngày"
-                                            },
-                                            axisY:{
-                                                title: "Doanh Thu (đ)",
-                                                titleFontColor: "#4F81BC",
-                                                lineColor: "#4F81BC",
-                                                labelFontColor: "#4F81BC",
-                                                tickColor: "#4F81BC"
-                                            },
-                                            data: [{
-                                                type: "line",
-                                                name: "Doanh Thu",
-                                                showInLegend: true,
-                                                dataPoints: @json_encode($dataPoints)
-                                            }]
-                                        });
-                                        revenueChart.render();
-                                    }
-                                    </script> --}}
-                                    <div id="myPlot2" style="width:100%;max-width:700px"></div>
+                                <script>
+                                    // Dữ liệu người dùng chi tiêu nhiều nhất
+                                    const userNames = @json($userNames); // Lấy mảng tên người dùng từ Laravel
+                                    const totalSpent = @json($totalSpent); // Lấy mảng tổng tiền chi tiêu từ Laravel
 
-                                    <script>
-                                        // Dữ liệu người dùng chi tiêu nhiều nhất
-                                        const userNames = @json($userNames); // Lấy mảng tên người dùng từ Laravel
-                                        const totalSpent = @json($totalSpent); // Lấy mảng tổng tiền chi tiêu từ Laravel
+                                    // Tạo biểu đồ cột
+                                    const data = [{
+                                        x: userNames, // Tên người dùng
+                                        y: totalSpent, // Tổng tiền chi tiêu
+                                        type: "bar"
+                                    }];
 
-                                        // Tạo biểu đồ cột
-                                        const data = [{
-                                            x: userNames, // Tên người dùng
-                                            y: totalSpent, // Tổng tiền chi tiêu
-                                            type: "bar"
-                                        }];
-
-                                        const layout = {
-                                            yaxis: {
-                                                title: "Tiền chi tiêu"
-                                            }
-                                        };
-                                        // Vẽ biểu đồ
-                                        Plotly.newPlot("myPlot2", data, layout);
-                                    </script>
+                                    const layout = {
+                                        yaxis: {
+                                            title: "Tiền chi tiêu"
+                                        }
+                                    };
+                                    // Vẽ biểu đồ
+                                    Plotly.newPlot("myPlot2", data, layout);
+                                </script>
 
                             </div><!--end row-->
 
@@ -776,4 +746,83 @@
     </div>
 @endsection
 @section('script')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.ChangeYear').change(function() {
+            var year = $(this).val();
+            window.location.href = "{{ url('admin/home/dashboard-btn?year=') }}" + year;
+        });
+    });
+
+
+    var ticksStyle = {
+        fontColor: '#495057',
+        fontStyle: 'bold'
+    }
+
+    var mode = 'index'
+    var intersect = true
+
+    var $salesChart = $('#sales-chart-order')
+    var salesChart = new Chart($salesChart, {
+        type: 'bar',
+        data: {
+            labels: ['THÁNG 1', 'THÁNG 2', 'THÁNG 3', 'THÁNG 4', 'THÁNG 5', 'THÁNG 6', 'THÁNG 7 ', 'THÁNG 8',
+                'THÁNG 9', 'THÁNG 10', 'THÁNG 11', 'THÁNG 12'
+            ],
+            datasets: [{
+                backgroundColor: '#007bff',
+                borderColor: '#007bff',
+                data: []
+            }, {
+                backgroundColor: '#ced4da',
+                borderColor: '#ced4da',
+                data: []
+            }, {
+                backgroundColor: '#dc3545',
+                borderColor: '#dc3545',
+                data: []
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+                mode: mode,
+                intersect: intersect
+            },
+            hover: {
+                mode: mode,
+                intersect: intersect
+            },
+            legend: {
+                display: false
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: 200, // Thay đổi giá trị này tùy thuộc vào nhu cầu của bạn
+                    grid: {
+                        display: true,
+                        drawBorder: false,
+                        color: 'rgba(0, 0, 0, .2)',
+                        zeroLineColor: 'transparent',
+                        borderWidth: 1
+                    },
+                    ticks: $.extend({
+                        callback: function(value) {
+
+                            return '₫' + value;
+                        }
+                    }, ticksStyle)
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: ticksStyle
+                }
+            }
+        }
+    })
+</script>
 @endsection

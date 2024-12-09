@@ -122,6 +122,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     {{-- <script>
         document.querySelectorAll('.dropdown-item').forEach(item => {
             item.addEventListener('click', function (e) {
@@ -160,9 +161,11 @@
             alert(to_date);
             if (chart && typeof chart.setData === 'function') {
                 chart.setData(data);
-            } else {
-                console.error("loi.");
-            }
+                console.log("Dữ liệu đã được tải thành công.");
+                } else {
+                    console.error("Chart chưa được định nghĩa hoặc không có hàm setData.");
+                }
+
             $.ajax({
                 url: "{{ url('/admin/home/filter-by-date') }}",
                 method: "POST",
