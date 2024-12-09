@@ -77,11 +77,23 @@ class AuthClientController extends Controller
         
         // Lấy temporary_user_id từ session
         $temporaryUserId = Session::get('temporary_user_id');
+
+        if ($temporaryUserId) {
+            // Tìm khách hàng ẩn danh theo temporary_user_id
+            $anonymousCustomer = Customer::where('temporary_user_id', $temporaryUserId)->first();
+
+            // Kiểm tra nếu khách hàng ẩn danh tồn tại và email trùng khớp
+            if (!$anonymousCustomer || $anonymousCustomer->email !== $request->email) {
+                $temporaryUserId = null; // Xóa temporary_user_id nếu email không khớp
+            }
+        }
+
+        // Nếu không có temporary_user_id, tạo mới và lưu vào session
         if (!$temporaryUserId) {
-            $temporaryUserId = (string) Str::uuid(); // Tạo UUID
+            $temporaryUserId = (string) Str::uuid(); // Tạo UUID mới
             Session::put('temporary_user_id', $temporaryUserId);
         }
-       
+
         // Tạo người dùng mới
         $user = User::create([
             'name' => $name,
@@ -98,20 +110,12 @@ class AuthClientController extends Controller
             'temporary_user_id' => $temporaryUserId, // Lưu temporary_user_id vào bảng users
         ]);
 
-        // Kiểm tra nếu có temporary_user_id và khách ẩn danh tồn tại
-        if ($temporaryUserId) {
-            // Tìm khách hàng ẩn danh trong bảng `customers` theo temporary_user_id
-            $anonymousCustomer = Customer::where('temporary_user_id', $temporaryUserId)->first();
-            
-            if ($anonymousCustomer) {
-                // Chuyển đơn hàng từ khách hàng ẩn danh sang tài khoản mới
-                Payment::where('customer_id', $anonymousCustomer->id)
-                    ->update(['user_id' => $user->id]); // Cập nhật user_id trong bảng `book_tours`
-    
-                // Không xóa khách hàng ẩn danh, chỉ cần giữ lại để liên kết với user mới
-                // $anonymousCustomer->delete();   // Không xóa khách hàng ẩn danh nữa
-            }
-    
+        // Nếu temporary_user_id khớp với khách hàng ẩn danh
+        if ($anonymousCustomer && $anonymousCustomer->temporary_user_id === $temporaryUserId) {
+            // Chuyển đơn hàng từ khách hàng ẩn danh sang tài khoản mới
+            Payment::where('customer_id', $anonymousCustomer->id)
+                ->update(['user_id' => $user->id]); // Cập nhật user_id trong bảng payments
+
             // Xóa temporary_user_id khỏi session
             Session::forget('temporary_user_id');
         }
@@ -130,6 +134,7 @@ class AuthClientController extends Controller
         ], 500);
     }
 }
+
     
 
 
