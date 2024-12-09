@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\BookingSuccess;
 use App\Models\Admins\Tour;
 use App\Models\BookTour;
+use App\Models\Coupon;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\PaymentStatus;
@@ -40,8 +41,13 @@ class PaymentController extends Controller
 
     // Lấy trạng thái thanh toán mặc định
     $pendingStatus = DB::table('payment_statuses')->where('name', 'Chưa thanh toán')->first();
+    // dd($pendingStatus);
 
-    // Lấy phương thức thanh toán
+    $coupon = Coupon::where('code', $request->coupon)->first();
+    
+
+
+    
     $paymentMethod = DB::table('payment_methods')->find($request->payment_method_id);
     if (!$paymentMethod) {
         return redirect()->back()->with('error', 'Phương thức thanh toán không hợp lệ!');
@@ -87,13 +93,18 @@ class PaymentController extends Controller
         'user_id' => $userId, 
         'money' => $request->money,
         'p_note' => $request->p_note,
-        'payment_status_id' => $pendingStatus->id,
-        'payment_method_id' => $paymentMethod->id,
+        'payment_status_id'=>$pendingStatus->id,
+        'payment_method_id' => $paymentMethod->id, 
+        'coupon_id' => $coupon ? $coupon->id : null,
         'status_id' => 1,
         'time' => now(),
     ]);
+if ($coupon && $coupon->number > 0) {
+    $coupon->decrement('number', 1); 
+    session()->forget('code');
+} 
 
-    // Xử lý thanh toán trực tiếp
+    
     if ($paymentMethod->name === 'direct') {
         // Mail::to($booking['email'])->send(new BookingSuccess($payment));
         return redirect()->route('payment.success', ['payment_id' => $payment->id]);
