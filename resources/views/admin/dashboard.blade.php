@@ -711,6 +711,28 @@
                                         revenueChart.render();
                                     }
                                     </script> --}}
+                                    <div id="myPlot2" style="width:100%;max-width:700px"></div>
+
+                                    <script>
+                                        // Dữ liệu người dùng chi tiêu nhiều nhất
+                                        const userNames = @json($userNames); // Lấy mảng tên người dùng từ Laravel
+                                        const totalSpent = @json($totalSpent); // Lấy mảng tổng tiền chi tiêu từ Laravel
+
+                                        // Tạo biểu đồ cột
+                                        const data = [{
+                                            x: userNames, // Tên người dùng
+                                            y: totalSpent, // Tổng tiền chi tiêu
+                                            type: "bar"
+                                        }];
+
+                                        const layout = {
+                                            yaxis: {
+                                                title: "Tiền chi tiêu"
+                                            }
+                                        };
+                                        // Vẽ biểu đồ
+                                        Plotly.newPlot("myPlot2", data, layout);
+                                    </script>
 
                             </div><!--end row-->
 
