@@ -457,7 +457,7 @@
                                     <h3 class="product-name"><a class="line-clamp"
                                             href="{{ route('detail', $item->id) }}"
                                             title="">{{ $item->name }}
-                                            </a></h3>
+                                        </a></h3>
                                     <div class="clearfix">
                                         <div class="box-prices">
                                             <div class="price-box clearfix">
@@ -485,7 +485,7 @@
                                                         data-id="{{ $item->id }}"></i>
                                                 </li>
 
-                                                
+
                                             </ul>
                                         </div>
 
@@ -723,7 +723,7 @@
                                 </div>
                             </div>
                         @endforeach
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>
@@ -2354,6 +2354,47 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
+    @if (session('status_error'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: '{{ session('status_error') }}',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    @endif
+
+
+    <script>
+        fetch('', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: error.message,
+                            confirmButtonText: 'OK'
+                        });
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
 
     @if (Session::has('success'))
         <script>
