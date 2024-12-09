@@ -15,7 +15,7 @@ class HandbookController extends Controller
 
     public function show($slug)
     {
-        $article = Article::where('slug', $slug)->where('status', 'active')->firstOrFail();
+        $articles = Article::where('slug', $slug)->where('status', 'active')->firstOrFail();
         return view('client.pages.handbook_detail', compact('article'));
     }
 }

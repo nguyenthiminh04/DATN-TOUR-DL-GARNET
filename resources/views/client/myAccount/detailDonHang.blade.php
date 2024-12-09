@@ -64,7 +64,7 @@
                                 <p></strong>
                                     {{ $bookTour->pay->paymentStatus->name ?? 'Không có' }}</p>
                             @else
-                                <p>Chưa thanh toán.</p>
+<p>Chưa thanh toán.</p>
                             @endif --}}
                             {{ $payment->paymentStatus->name ?? 'N/A' }}
                         </td>
@@ -112,7 +112,7 @@
                                     <option value="Thay đổi kế hoạch cá nhân">Thay đổi kế hoạch cá nhân</option>
                                     <option value="Không đủ tài chính để thanh toán">Không đủ tài chính để thanh toán</option>
                                     <option value="Tìm được giá tốt hơn ở nơi khác">Tìm được giá tốt hơn ở nơi khác</option>
-                                    <option value="Không hài lòng với thông tin về tour">Không hài lòng với thông tin về tour</option>
+<option value="Không hài lòng với thông tin về tour">Không hài lòng với thông tin về tour</option>
                                     <option value="Lịch trình không phù hợp với kế hoạch cá nhân">Lịch trình không phù hợp với kế hoạch cá nhân</option>
                                     <option value="Đã đặt nhầm tour hoặc sai thông tin">Đã đặt nhầm tour hoặc sai thông tin</option>
                                     <option value="Không nhận được sự hỗ trợ từ nhà cung cấp">Không nhận được sự hỗ trợ từ nhà cung cấp</option>

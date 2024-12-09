@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\BookingSuccess;
 use App\Models\Admins\Tour;
 use App\Models\BookTour;
+use App\Models\Coupon;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\PaymentStatus;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
 
 class PaymentController extends Controller
 {
@@ -27,52 +30,91 @@ class PaymentController extends Controller
         'payment_method_id' => 'required|exists:payment_methods,id', 
         'money' => 'required|numeric',
         'p_note' => 'nullable|string|max:255',
+        'customer_name' => 'required_if:user_id,null|string|max:255',
+        'customer_email' => 'required_if:user_id,null|email|max:255',
+        'customer_phone' => 'required_if:user_id,null|string|max:20',
     ]);
 
-    
+    // Lấy thông tin booking
     $booking = BookTour::find($request->booking_id);
-  
-
     if (!$booking) {
         return redirect()->back()->with('error', 'Không tìm thấy thông tin đặt tour!');
     }
 
-    
+    // Lấy trạng thái thanh toán mặc định
     $pendingStatus = DB::table('payment_statuses')->where('name', 'Chưa thanh toán')->first();
     // dd($pendingStatus);
 
+    $coupon = Coupon::where('code', $request->coupon)->first();
+    
+
+
     
     $paymentMethod = DB::table('payment_methods')->find($request->payment_method_id);
-
     if (!$paymentMethod) {
         return redirect()->back()->with('error', 'Phương thức thanh toán không hợp lệ!');
     }
 
-    
+    // Xử lý thông tin khách hàng
+    if (auth()->check()) {
+        // Nếu người dùng đã đăng nhập
+        $customerId = auth()->user()->id;
+        $userId = auth()->user()->id;
+    } else {
+        // Nếu người dùng chưa đăng nhập, tạo khách hàng ẩn danh
+        $temporaryUserId = Session::get('temporary_user_id');
+        if (!$temporaryUserId) {
+            $temporaryUserId = (string) Str::uuid(); // Tạo UUID
+            Session::put('temporary_user_id', $temporaryUserId);
+        }
+
+        // Kiểm tra xem khách hàng ẩn danh đã tồn tại trong bảng customers chưa
+        $customer = DB::table('customers')->where('temporary_user_id', $temporaryUserId)->first();
+
+        if (!$customer) {
+            // Tạo khách hàng mới nếu chưa tồn tại
+            $customerId = DB::table('customers')->insertGetId([
+                'name' => $request->customer_name,
+                'email' => $request->customer_email,
+                'phone' => $request->customer_phone,
+                'temporary_user_id' => $temporaryUserId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        } else {
+            $customerId = $customer->id; // Sử dụng ID của khách hàng đã tồn tại
+        }
+
+        $userId = null; // Không có user_id vì người dùng không đăng nhập
+    }
+
+    // Tạo thanh toán
     $payment = Payment::create([
         'booking_id' => $booking->id,
-        'user_id' => 1, 
+        'customer_id' => $customerId,
+        'user_id' => $userId, 
         'money' => $request->money,
         'p_note' => $request->p_note,
         'payment_status_id'=>$pendingStatus->id,
         'payment_method_id' => $paymentMethod->id, 
-        
+        'coupon_id' => $coupon ? $coupon->id : null,
         'status_id' => 1,
         'time' => now(),
     ]);
+if ($coupon && $coupon->number > 0) {
+    $coupon->decrement('number', 1); 
+    session()->forget('code');
+} 
 
     
     if ($paymentMethod->name === 'direct') {
         // Mail::to($booking['email'])->send(new BookingSuccess($payment));
-        
         return redirect()->route('payment.success', ['payment_id' => $payment->id]);
     }
 
-    
-   
-
     return redirect()->back()->with('error', 'Phương thức thanh toán không hợp lệ!');
 }
+
 
 
     

@@ -31,6 +31,7 @@ class User extends Authenticatable
         'password',
         'status',
         'remember_token',
+        'temporary_user_id',
         'role_id',
     ];
 

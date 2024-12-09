@@ -10,6 +10,7 @@ use App\Models\Admins\Tour;
 use App\Models\Advisory;
 use App\Models\BookTour;
 use App\Models\Category;
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 
 class TourController extends Controller
@@ -57,10 +58,19 @@ class TourController extends Controller
     public function pre_booking($id)
     {
         $tour = Tour::findOrFail($id);
+        $coupons = Coupon::where('status', 1)
+                 ->where('start_date', '<=', now())
+                 ->where('end_date', '>=', now())
+                 ->where('tour_id', '=', $id)
+
+                 ->select('code', 'percentage_price', 'start_date', 'end_date')
+                 ->get();
+
+        //dd($coupons);
 
 
 
-        return view('client.tour.booking', ['tour' => $tour]);
+        return view('client.tour.booking', ['tour' => $tour,'coupons'=>$coupons]);
     }
 
     public  function searchTour(Request $request)
@@ -90,7 +100,7 @@ class TourController extends Controller
     public function tour($slug)
     {
         $category = Category::with('tours')->where('slug', $slug)->firstOrFail();
-      
+
         return view('client.pages.tour', compact('category'));
     }
     public function advisory(AdvisoryRequest $request)
@@ -115,5 +125,14 @@ class TourController extends Controller
                 'message' => 'Đã có lỗi. Vui lòng thử lại',
             ]);
         }
+    }
+
+    public function tourLocation($slug)
+    {
+        $location = Location::where('slug', $slug)->firstOrFail();
+
+        $tours = $location->tours()->with(['location'])->where('status', 1)->get();
+
+        return view('client.pages.tour_location', compact('location', 'tours'));
     }
 }

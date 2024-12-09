@@ -59,9 +59,16 @@
                                                     <td>{{ $article->description }}</td>
                                                     <td>{{ $article->created_at }}</td>
                                                     <td>{{ $article->updated_at }}</td>
-                                                    <td
-                                                        class="{{ $article->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                        {{ $article->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                                    <td>
+                                                        {{-- <td class="{{ $article->status == 1 ? 'text-success' : 'text-danger' }}">
+                                                            {{ $article->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                                        <td> --}}
+                                                        <button class="btn btn-sm toggle-status-btn"
+                                                            data-id="{{ $article->id }}"
+                                                            data-status="{{ $article->status }}">
+                                                            {{ $article->status == 1 ? 'Hiển thị' : 'Ẩn' }}
+                                                        </button>
+                                                    </td>
                                                     <td>
                                                         <ul class="d-flex gap-2 list-unstyled mb-0">
                                                             <li>
@@ -180,6 +187,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
         <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+        {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+
         <script>
             $('#example').DataTable({
                 language: {
@@ -204,6 +213,43 @@
                     }
                 }
             });
+            
+            $(document).on('click', '.toggle-status-btn', function() {
+                let button = $(this);
+                let articleId = button.data('id');
+                let currentStatus = button.data('status');
+
+                $.ajax({
+                 
+                    url: `/article/${articleId}/toggle-status`,
+                    type: 'PATCH',
+                    data: {
+                        _token: '{{ csrf_token() }}' // CSRF token
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Cập nhật nút trạng thái
+                            button.text(response.status == 1 ? 'Hiển thị' : 'Ẩn');
+                            button.data('status', response.status);
+
+                            // Hiển thị thông báo
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Không thể cập nhật trạng thái.',
+                        });
+                    }
+                });
+            });
+
             $(document).ready(function() {
                 // Sự kiện nhấn vào biểu tượng con mắt
                 $('.view-article').on('click', function(e) {
@@ -226,6 +272,8 @@
                     });
                 });
             });
+
+
         </script>
     @endsection
 

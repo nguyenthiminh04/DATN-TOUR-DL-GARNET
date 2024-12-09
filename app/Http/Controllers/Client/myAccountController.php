@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Client;
-
-use App\Http\Controllers\Controller;
 use App\Models\BookTour;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Models\Admins\Customer;
+
+use App\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
@@ -23,17 +24,24 @@ class myAccountController extends Controller
         if (auth()->check()) {
             // Lấy thông tin người dùng đã đăng nhập
             $user = auth()->user();
-            $payments = Payment::where('user_id', $user->id)
-                ->with([
-                    'booking' => function ($query) {
-                        $query->with(['tour', 'status']);
+    
+            // Lấy `temporary_user_id` của người dùng (nếu có)
+            $temporaryUserId = $user->temporary_user_id;
+    
+            // Lấy danh sách thanh toán dựa trên user_id hoặc customer_id thông qua temporary_user_id
+            $payments = Payment::where(function ($query) use ($user, $temporaryUserId) {
+                $query->where('user_id', $user->id); // Lấy các payment liên quan tới user_id
+                if ($temporaryUserId) {
+                    // Tìm khách hàng ẩn danh theo temporary_user_id
+                    $anonymousCustomer = Customer::where('temporary_user_id', $temporaryUserId)->first();
+                    if ($anonymousCustomer) {
+                        $query->orWhere('customer_id', $anonymousCustomer->id);
                     }
-                ])
-                ->orderBy('created_at', 'desc')
-                ->get();
-            // Lấy các đơn hàng của người dùng đã đăng nhập
-            $bookTours = $user->bookTours()->with(['tour', 'status'])->orderBy('created_at', 'desc')->get();
-
+                }
+            })
+            ->with(['booking.tour', 'paymentStatus', 'paymentMethod'])
+            ->orderBy('created_at', 'desc')
+            ->get();
         } else {
             // Nếu không đăng nhập, lấy temporary_user_id từ session
             $temporaryUserId = Session::get('temporary_user_id');
@@ -49,19 +57,22 @@ class myAccountController extends Controller
                 return redirect()->route('home')->with('error', 'Không tìm thấy khách hàng ẩn danh.');
             }
     
-            // Lấy các đơn hàng của khách hàng ẩn danh
-            $bookTours = BookTour::where('customer_id', $customer->id)
-                                 ->with(['tour', 'status'])
-                                 ->orderBy('created_at', 'desc')
-                                 ->get();
+            // Lấy danh sách thanh toán của khách hàng ẩn danh
+            $payments = Payment::where('customer_id', $customer->id)
+                ->with(['booking.tour', 'paymentStatus', 'paymentMethod'])
+                ->orderBy('created_at', 'desc')
+                ->get();
     
             // Vì không có người dùng đăng nhập, không cần truyền biến $user
             $user = null;
         }
     
-        // Trả về view với thông tin người dùng và các đơn hàng
-        return view('client.myAccount.Account', compact('user', 'bookTours','payments'));
+        // Trả về view với thông tin người dùng và danh sách thanh toán
+        return view('client.myAccount.Account', compact('user', 'payments'));
     }
+    
+
+    
     
 
     public function changePassword(Request $request)
@@ -150,7 +161,6 @@ class myAccountController extends Controller
         // dd($payment);
         return view('client.myAccount.detailDonHang', compact('payment'));
     }
-
     public function cancelOrder(Request $request, $id)
 {
     $request->validate([
@@ -167,5 +177,4 @@ class myAccountController extends Controller
     $payment->save();
     return redirect()->back()->with('success', 'Đơn hàng đã được hủy thành công.');
 }
-
 }

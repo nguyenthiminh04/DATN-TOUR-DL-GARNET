@@ -285,8 +285,9 @@
                                 <li><a href="{{ url('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>
                                         Đăng
                                         ký</a></li>
-                                        <li><a href="{{ route('my-account.index') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
-                                            Tour Đã Đặt</a></li>
+                                <li><a href="{{ route('my-account.index') }}"><i class="fa fa-sign-in"
+                                            aria-hidden="true"></i>
+                                        Tour Đã Đặt</a></li>
                             @endif
                         </ul>
                     </div>
@@ -653,7 +654,7 @@
 
 
 
-   
+
     <section class="awe-section-5">
         <div class="section_tour-holiday">
             <div class="container">
@@ -723,7 +724,7 @@
                                         </div>
                                         <div class="tourmaster-tour-category-head-animate">
                                             <a class="tourmaster-tour-category-head-link"
-                                                href="collections/all.html">Xem
+                                                href="{{ route('tour.location', $item->slug) }}">Xem
                                                 chi tiết</a>
                                             <div class="tourmaster-tour-category-head-divider"></div>
                                         </div>
@@ -731,7 +732,7 @@
                                 </div>
                             </div>
                         @endforeach
-                    </div>
+                    </div>  
                 </div>
             </div>
         </div>

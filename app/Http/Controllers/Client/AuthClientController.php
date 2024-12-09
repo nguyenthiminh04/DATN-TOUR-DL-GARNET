@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Models\BookTour;
 use Illuminate\Http\Request;
+use App\Models\Admins\Customer;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
+use App\Http\Requests\RegisterRequest;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthClientController extends Controller
 {
@@ -62,34 +68,74 @@ class AuthClientController extends Controller
         return view('client.auth.register');
     }
     public function postDangKy(RegisterRequest $request)
-    {
-        try {
-            $name = $request->lastName . ' ' . $request->firstName;
-            $user = User::create([
-                'name' => $name,
-                'email' => $request->email,
-                'phone' => $request->phone ?? null,
-                'address' => $request->address ?? null,
-                'avatar' => $request->avatar ?? null,
-                'birth' => $request->birth ?? null,
-                'gender' => $request->gender ?? null,
-                'password' => Hash::make($request->password),
-                'status' => 1,
-                'remember_token' => $request->session()->token(),
-                'role_id' => 2,
-            ]);
+{
+    try {
+        DB::beginTransaction(); // Bắt đầu transaction để đảm bảo tính toàn vẹn dữ liệu
+    
+        // Tạo tài khoản người dùng mới
+        $name = $request->lastName . ' ' . $request->firstName;
+        
+        // Lấy temporary_user_id từ session
+        $temporaryUserId = Session::get('temporary_user_id');
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Đăng ký thành công!',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Đã xảy ra lỗi trong quá trình xử lý, vui lòng thử lại.',
-            ], 500);
+        if ($temporaryUserId) {
+            // Tìm khách hàng ẩn danh theo temporary_user_id
+            $anonymousCustomer = Customer::where('temporary_user_id', $temporaryUserId)->first();
+
+            // Kiểm tra nếu khách hàng ẩn danh tồn tại và email trùng khớp
+            if (!$anonymousCustomer || $anonymousCustomer->email !== $request->email) {
+                $temporaryUserId = null; // Xóa temporary_user_id nếu email không khớp
+            }
         }
+
+        // Nếu không có temporary_user_id, tạo mới và lưu vào session
+        if (!$temporaryUserId) {
+            $temporaryUserId = (string) Str::uuid(); // Tạo UUID mới
+            Session::put('temporary_user_id', $temporaryUserId);
+        }
+
+        // Tạo người dùng mới
+        $user = User::create([
+            'name' => $name,
+            'email' => $request->email,
+            'phone' => $request->phone ?? null,
+            'address' => $request->address ?? null,
+            'avatar' => $request->avatar ?? null,
+            'birth' => $request->birth ?? null,
+            'gender' => $request->gender ?? null,
+            'password' => Hash::make($request->password),
+            'status' => 1,
+            'remember_token' => $request->session()->token(),
+            'role_id' => 2,
+            'temporary_user_id' => $temporaryUserId, // Lưu temporary_user_id vào bảng users
+        ]);
+
+        // Nếu temporary_user_id khớp với khách hàng ẩn danh
+        if ($anonymousCustomer && $anonymousCustomer->temporary_user_id === $temporaryUserId) {
+            // Chuyển đơn hàng từ khách hàng ẩn danh sang tài khoản mới
+            Payment::where('customer_id', $anonymousCustomer->id)
+                ->update(['user_id' => $user->id]); // Cập nhật user_id trong bảng payments
+
+            // Xóa temporary_user_id khỏi session
+            Session::forget('temporary_user_id');
+        }
+
+        DB::commit(); // Kết thúc transaction thành công
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Đăng ký thành công!',
+        ]);
+    } catch (\Exception $e) {
+        DB::rollBack(); // Rollback nếu có lỗi
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Đã xảy ra lỗi trong quá trình xử lý, vui lòng thử lại.',
+        ], 500);
     }
+}
+
+    
 
 
 

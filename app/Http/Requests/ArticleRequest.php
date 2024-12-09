@@ -26,7 +26,7 @@ class ArticleRequest extends FormRequest
           'title' => 'required',
             'description' => 'required',
             'content' => 'required',
-            'img_thumb' => 'required',
+            'img_thumb' =>'required',
             'category_id' => 'required',
             'user_id' => 'required',
             'status' => 'required',
@@ -35,7 +35,14 @@ class ArticleRequest extends FormRequest
     public function messages()
     {
         return [
-           'required' => 'Trường :attribute không được để trống.',
+            'title.required' => 'Tiêu đề bài viết là bắt buộc.',
+            'description.required' => 'Mô tả bài viết không được để trống.',
+            'content.required' => 'Nội dung bài viết không được để trống.',
+            'img_thumb.required' => 'Hình ảnh phải là file ảnh.',
+            'category_id.required' => 'Vui lòng chọn danh mục.',
+            'user_id.required' => 'Vui lòng chọn người đăng.',
+            'status.required' => 'Vui lòng chọn trạng thái.',
+
         ];
     }
 }
