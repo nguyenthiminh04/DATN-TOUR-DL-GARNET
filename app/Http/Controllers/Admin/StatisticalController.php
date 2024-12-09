@@ -175,7 +175,7 @@ class StatisticalController extends Controller
         });
 
         //lấy các đơn hàng ngày hôm nay
-        $paymentsOrderToday = Payment::whereDate('created_at', $today)->with('booking','bookTours','user','paymentMethod','paymentStatus')->get();
+        $paymentsOrderToday = Payment::whereDate('created_at', $today)->with('booking','bookTours','user','paymentMethod','paymentStatus')->where('status_id', '!=', 13)->get();
 
         $data = [
             'totalMoney'                            => $totalMoney,
