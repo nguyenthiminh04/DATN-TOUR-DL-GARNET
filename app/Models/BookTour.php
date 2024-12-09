@@ -27,6 +27,7 @@ class BookTour extends Model
         'number_children',
         'total_money',
         'status',
+        'ly_do_huy',
         'sale',
         'pay_id',
         'customer_id',

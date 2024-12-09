@@ -47,8 +47,8 @@ class ContactController extends Controller
             'email.required' => 'Email là bắt buộc.',
             'email.email' => 'Email phải có định dạng hợp lệ.',
 
-            'message.required' => 'Mật khẩu là bắt buộc.',
-            'message.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+            'message.required' => 'Nội dung là bắt buộc.',
+            'message.min' => 'Nội dung phải có ít nhất 6 ký tự.',
         ]);
         $contact = Contact::create([
             'name' => $request->name,
@@ -57,7 +57,11 @@ class ContactController extends Controller
             'message' => $request->message,
             'user_id' => $request->user_id,
         ]);
-        return redirect()->route('contact.index')->with('success', 'Cảm ơn bạn đã phản hồi. Chúng tôi sẽ sớm liên hệ với bạn trong thời gian ngắn nhất.');
+        // return redirect()->route('contact.index')->with('success', 'Cảm ơn bạn đã phản hồi. Chúng tôi sẽ sớm liên hệ với bạn trong thời gian ngắn nhất.');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cảm ơn bạn đã phản hồi. Chúng tôi sẽ sớm liên hệ với bạn trong thời gian ngắn nhất.'
+        ]);
     }
 
     /**

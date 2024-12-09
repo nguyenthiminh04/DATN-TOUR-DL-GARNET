@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Client;
-
 use App\Models\BookTour;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Models\Admins\Customer;
+
 use App\Http\Controllers\Controller;
-use App\Models\Payment;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
@@ -18,6 +19,7 @@ class myAccountController extends Controller
      */
     public function index()
     {
+
         // Kiểm tra nếu người dùng đã đăng nhập
         if (auth()->check()) {
             // Lấy thông tin người dùng đã đăng nhập

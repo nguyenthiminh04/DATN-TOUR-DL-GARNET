@@ -178,7 +178,7 @@
                 <div class="col-xs-12">
                     <ul class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
                         <li class="home" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                            <a itemprop="item" href="{{route('home')}}" title="Trang chủ">
+                            <a itemprop="item" href="{{ route('home') }}" title="Trang chủ">
                                 <span itemprop="name">Trang chủ</span>
                                 <meta itemprop="position" content="1" />
                             </a>
@@ -237,7 +237,7 @@
                                 });
                             });
                         </script>
-                        @if(session('success'))
+                        @if (session('success'))
                             <div class="alert alert-success alert-dismissible" role="alert" id="successAlert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -258,7 +258,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form action="{{ route('post.contact.index') }}" method="post">
+                        <form action="{{ route('post.contact.index') }}" method="post" id="lien-he">
                             @csrf
                             @method('POST')
                             <input type="hidden" name="user_id" value="{{ Auth()->user()->id }}">
@@ -275,14 +275,13 @@
                                         <fieldset class="form-group">
                                             <label>Email<span class="required">*</span></label>
                                             <input type="email" name="email" class="form-control form-control-lg"
-                                                 value="{{ Auth()->user()->email }}" />
+                                                value="{{ Auth()->user()->email }}" />
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-12 col-xs-12">
                                         <fieldset class="form-group">
                                             <label>Chủ đề<span class="required">*</span></label>
-                                            <input type="text" name="subject" class="form-control form-control-lg"
-                                                 />
+                                            <input type="text" name="subject" class="form-control form-control-lg" />
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-12 col-xs-12">
@@ -329,4 +328,64 @@
     </script>
     <script src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/main6d1d.js?1705894518705"
         type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('lien-he').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('{{ route('post.contact.index') }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content'),
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: data.message,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else if (data.status === 'error') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: data.message,
+                            confirmButtonText: 'OK'
+                        });
+                    } else if (data.errors) {
+
+                        let errors = '';
+                        for (let field in data.errors) {
+                            errors += `${data.errors[field].join('<br>')}<br>`;
+                        }
+
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Lỗi xác thực',
+                            html: errors,
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Đã xảy ra lỗi trong quá trình xử lý.',
+                        confirmButtonText: 'OK'
+                    });
+                    console.error('Error:', error);
+                });
+        });
+    </script>
 @endsection

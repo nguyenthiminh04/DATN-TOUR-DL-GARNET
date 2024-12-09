@@ -166,6 +166,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
     Route::group(['middleware' => 'admin'], function () {
         Route::get('/home', [StatisticalController::class, 'index'])->name('home-admin');
+        // Route::get('/doanh-thu/{timeframe}', [StatisticalController::class, 'getRevenue'])->name('revenue.get');
+        Route::post('/home/dashboard-btn', [StatisticalController::class, 'filterByBtn'])->name('dashboard.filterByBtn');
+        Route::get('/dashboard-data', [StatisticalController::class, 'getDashboardData'])->name('admin.dashboard.data');
+
         Route::resource('user', UserController::class);
         Route::resource('dontour', BookTourController::class);
         Route::resource('faqs', FaqController::class);
