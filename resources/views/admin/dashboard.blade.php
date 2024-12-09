@@ -43,7 +43,7 @@
                                                     <h5 class="text-success fs-xs mb-0">
                                                         {{ $percentage }}%
                                                     </h5>
-                                                    <p class="text-muted mb-0">hơn ngày trước</p>
+                                                    <p class="text-muted mb-0">so với ngày trước</p>
                                                 </div>
                                             </div>
                                         </div><!-- end card body -->
@@ -60,10 +60,10 @@
                                                             class="mdi mdi-dots-vertical align-middle"></i></span>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Hôm nay</a>
-                                                    <a class="dropdown-item" href="#">Tuần trước</a>
-                                                    <a class="dropdown-item" href="#">Tháng này</a>
-                                                    <a class="dropdown-item" href="#">Năm nay</a>
+                                                    <a class="dropdown-item" href="q2">Hôm nay</a>
+                                                    <a class="dropdown-item" href="1#">Tuần trước</a>
+                                                    <a class="dropdown-item" href="#1">Tháng này</a>
+                                                    <a class="dropdown-item" href="1#">Năm nay</a>
                                                 </div>
                                             </div>
                                             <div class="avatar-sm">
@@ -80,7 +80,7 @@
                                                     <h5 class="text-success fs-xs mb-0"></i>
                                                         {{ $percentageChange }} %
                                                     </h5>
-                                                    <p class="text-muted mb-0">hơn ngày trước</p>
+                                                    <p class="text-muted mb-0">so với ngày trước</p>
                                                 </div>
                                             </div>
                                         </div><!-- end card body -->
@@ -97,10 +97,10 @@
                                                             class="mdi mdi-dots-vertical align-middle"></i></span>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
+                                                    <a class="dropdown-item" href="#1">Today</a>
+                                                    <a class="dropdown-item" href="2#">Last Week</a>
+                                                    <a class="dropdown-item" href="#3">Last Month</a>
+                                                    <a class="dropdown-item" href="4#">Current Year</a>
                                                 </div>
                                             </div>
                                             <div class="avatar-sm">
@@ -112,13 +112,13 @@
                                                 <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
                                                     Số lượng khách hàng truy cập web</p>
                                                 <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="113870">0</span></h4>
+                                                        data-target="{{$todayVisitors}}">0</span></h4>
                                                 <div class="d-flex flex-wrap align-items-center gap-2">
                                                     <h5 class="text-danger fs-xs mb-0">
                                                         <i class="ri-arrow-right-down-line fs-sm align-middle"></i>
-                                                        +2.01 %
+                                                        {{$percentageChangeViewWev}}
                                                     </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
+                                                    <p class="text-muted mb-0">so với ngày trước</p>
                                                 </div>
                                             </div>
                                         </div><!-- end card body -->
@@ -136,10 +136,10 @@
                                                             class="mdi mdi-dots-vertical align-middle"></i></span>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
+                                                    <a class="dropdown-item" href="#1">Today</a>
+                                                    <a class="dropdown-item" href="#2">Last Week</a>
+                                                    <a class="dropdown-item" href="3#">Last Month</a>
+                                                    <a class="dropdown-item" href="#4">Current Year</a>
                                                 </div>
                                             </div>
                                             <div class="avatar-sm">
@@ -157,7 +157,7 @@
                                                         <i class="ri-arrow-right-up-line fs-sm align-middle"></i>
                                                         +10.42 %
                                                     </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
+                                                    <p class="text-muted mb-0">so với ngày trước</p>
                                                 </div>
                                             </div>
                                         </div><!-- end card body -->
@@ -174,7 +174,8 @@
                                 <div class="card-header border-0 align-items-center d-flex">
 
 
-                                    <form autocomplete="off" action="{{route('dashboard.filterByDate')}}" method="POST">
+                                    <form autocomplete="off" action="{{ route('dashboard.filterByDate') }}"
+                                        method="POST">
                                         @csrf
                                         <div class="d-flex">
                                             <h4 class="card-title mb-0 flex-grow-1">Tour hot</h4>
@@ -207,17 +208,18 @@
                                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                                         <script>
                                             // Fake data
-                                            var chart = new Morris.Bar({
+                                            var chart = Morris.Bar({
                                                 element: 'myfirstchart',
                                                 data: [],
                                                 xkey: 'ngayDat',
-                                                ykeys: ['total', 'soLuongDon'], // Tổng doanh thu và số lượng đơn
-                                                labels: ['Doanh thu', 'Số lượng đơn'], // Nhãn cột
+                                                ykeys: ['money', 'soLuongDon'],
+                                                labels: ['Doanh thu', 'Số lượng đơn'],
                                                 parseTime: false,
                                                 hoverCallback: function(index, options, content, row) {
                                                     return content + '<br>Số lượng đơn hàng: ' + row.soLuongDon;
                                                 }
                                             });
+                                            // chart.setData(data);
                                         </script>
 
                                     </div>
@@ -388,15 +390,13 @@
                                             <th scope="col" class="sort cursor-pointer" data-sort="order_date">
                                                 STT</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="order_id">
-                                                Order ID</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="shop">Shop
+                                                Tên tour</th>
+                                            <th scope="col" class="sort cursor-pointer" data-sort="shop">Lượt xem
                                             </th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="customer">
-                                                Customers</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="products">
-                                                Products</th>
+                                                Đã đặt</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="amount">
-                                                Amount</th>
+                                                Tổng tiền</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="status">
                                                 Status</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="rating">
@@ -404,34 +404,36 @@
                                         </tr>
                                     </thead>
                                     <tbody class="list">
+                                        @foreach ($tourReview as $reviewk => $review)
                                         <tr>
                                             <td class="order_date">
-                                                16 Jan, 2023
+                                                {{++$reviewk}}
                                             </td>
                                             <td class="order_id">
                                                 <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250006</a>
+                                                    class="fw-medium link-primary">{{$review->name}}</a>
                                             </td>
                                             <td class="shop">
-                                                <img src="admin/assets/images/companies/img-5.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
+                                                {{$review->view ? $review->view : 'Chưa có view'}}
                                             </td>
                                             <td class="customer">
-                                                Vihan Hudda
+                                                {{ $review->total_bookings ?? 0 }}
                                             </td>
-                                            <td class="products">Bags and Wallets</td>
                                             <td class="amount">
-                                                <span class="fw-medium">$745.11</span>
+                                                <span class="fw-medium">
+                                                    {{ number_format($review->total_revenue, 0, '', '.') }} VND
+                                                </span>
                                             </td>
                                             <td class="status">
-                                                <span class="badge bg-warning-subtle text-warning">Pending</span>
+                                                <span class="badge bg-warning-subtle text-warning">{{$review->status == 1 ? 'Hiện' : 'Ẩn'}}</span>
                                             </td>
                                             <td class="rating">
                                                 <h5 class="fs-md fw-medium mb-0"><i
-                                                        class="ph-star align-baseline text-warning"></i> 4.6
+                                                        class="ph-star align-baseline text-warning"></i> {{$review->rating}}
                                                 </h5>
                                             </td>
                                         </tr><!-- end tr -->
+                                        @endforeach
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
                                 <div class="noresult" style="display: none">
@@ -663,7 +665,7 @@
             </div><!--end row-->
 
             <div class="row">
-                <div class="col-xl-4">
+                <div class="col-lg-8">
                     <div class="card">
                         <div class="card-header d-flex align-items-center">
                             <h5 class="card-title mb-0 flex-grow-1">Khách hàng chi tiêu nhiều</h5>
@@ -679,10 +681,6 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="mb-3 pb-1 text-center">
-                                <h6 class="mb-0">01 Jan, 2022 - 01 Jan, 2023</h6>
-                            </div>
-
                             <div class="row align-items-center mb-3">
                                 {{-- <div id="revenueChartContainer" style="height: 370px; width: 100%;"></div> --}}
 
@@ -716,115 +714,6 @@
 
                             </div><!--end row-->
 
-                        </div>
-                    </div>
-                </div><!--end col-->
-                <div class="col-xl-4 col-lg-6">
-                    <div class="card card-height-100">
-                        <div class="card-header d-flex">
-                            <h5 class="card-title flex-grow-1 mb-0">Recent Activity</h5>
-                            <div class="flex-shrink-0">
-                                <a href="#!" class="btn btn-subtle-info btn-sm">View More <i
-                                        class="ph-caret-right align-middle"></i></a>
-                            </div>
-                        </div>
-                        <div class="card-body px-0">
-                            <div data-simplebar class="px-3" style="max-height: 258px;">
-                                <div class="acitivity-timeline acitivity-main">
-                                    <div class="acitivity-item d-flex">
-                                        <div class="flex-shrink-0 avatar-xs acitivity-avatar">
-                                            <div class="avatar-title bg-success-subtle text-success rounded-circle">
-                                                <i class="ph-shopping-cart"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Purchased by James Price</h6>
-                                            <p class="text-muted mb-2">Product noise evolve smartwatch </p>
-                                            <small class="mb-0 text-muted">05:57 AM Today</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <img src="admin/assets/images/users/32/avatar-2.jpg" alt=""
-                                                class="avatar-xs rounded-circle acitivity-avatar">
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Natasha Carey have liked the products</h6>
-                                            <p class="text-muted mb-2">Allow users to like products in your
-                                                WooCommerce store.</p>
-                                            <small class="mb-0 text-muted">25 Dec, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div
-                                                    class="avatar-title rounded-circle bg-secondary-subtle text-secondary">
-                                                    <i class="mdi mdi-sale fs-14"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Today offers by <a
-                                                    href="apps-ecommerce-seller-details.html"
-                                                    class="link-secondary">Digitech Galaxy</a></h6>
-                                            <p class="text-muted mb-2">Offer is valid on orders of $230 Or above
-                                                for selected products only.</p>
-                                            <small class="mb-0 text-muted">12 Dec, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div class="avatar-title rounded-circle bg-warning-subtle text-warning">
-                                                    <i class="ri-bookmark-fill"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Favoried Product</h6>
-                                            <p class="text-muted mb-2">Esther James have favorited product.</p>
-                                            <small class="mb-0 text-muted">25 Nov, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div
-                                                    class="avatar-title rounded-circle bg-secondary-subtle text-secondary">
-                                                    <i class="mdi mdi-sale fs-14"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Flash sale starting <span
-                                                    class="text-primary">Tomorrow.</span></h6>
-                                            <p class="text-muted mb-2">Flash sale by <a href="javascript:void(0);"
-                                                    class="link-secondary fw-medium">Zoetic Fashion</a></p>
-                                            <small class="mb-0 text-muted">22 Oct, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div class="avatar-title rounded-circle bg-info-subtle text-info">
-                                                    <i class="ri-line-chart-line"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Monthly sales report</h6>
-                                            <p class="text-muted mb-2"><span class="text-danger">2 days
-                                                    left</span> notification to submit the monthly sales report.
-                                                <a href="javascript:void(0);"
-                                                    class="link-warning text-decoration-underline">Reports
-                                                    Builder</a>
-                                            </p>
-                                            <small class="mb-0 text-muted">15 Oct, 2022</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div><!--end col-->

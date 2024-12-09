@@ -156,26 +156,32 @@
             var _token = $('input[name="_token"]').val();
             var from_date = $('#datepicker').val();
             var to_date = $('#datepicker2').val();
-            // alert(from_date);
-            // alert(to_date);
-
+            alert(from_date);
+            alert(to_date);
+            if (chart && typeof chart.setData === 'function') {
+                chart.setData(data);
+            } else {
+                console.error("loi.");
+            }
             $.ajax({
-                url: "{{ url('/home/filter-by-date') }}",
+                url: "{{ url('/admin/home/filter-by-date') }}",
                 method: "POST",
                 dataType: "JSON",
                 data: {
-                    from_date: from_date,
-                    to_date: to_date,
-                    _token: _token
+                    from_date: $('#datepicker').val(),
+                    to_date: $('#datepicker2').val(),
+                    _token: $('input[name="_token"]').val()
                 },
                 success: function(data) {
-                    chart.setData(data);
+                    chart.setData(data); // Cập nhật dữ liệu biểu đồ
                     console.log("Data loaded successfully.");
                 },
                 error: function(xhr, status, error) {
-                    console.error("Lỗi:", error);
+                    console.error("Error:", error);
                 }
             });
+            // console.log(data)
+
         });
 
         $('#dashboard-filter').change(function() {

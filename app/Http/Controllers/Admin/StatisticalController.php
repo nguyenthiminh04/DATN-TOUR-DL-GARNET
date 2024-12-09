@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admins\DonTour;
 use App\Models\Admins\Tour;
+use App\Models\Admins\User;
 use App\Models\BookTour;
 use App\Models\Payment;
 use App\Models\Review;
@@ -23,15 +24,15 @@ class StatisticalController extends Controller
         $today = Carbon::today();
         $yesterday = Carbon::yesterday();
         //tính tiền hôm nay so với hôm qua
-        $revenueToday = DonTour::whereDate('created_at', $today)->sum('total_money');
-        $revenueYesterday = DonTour::whereDate('created_at', $yesterday)->sum('total_money');
+        $revenueToday = Payment::whereDate('created_at', $today)->sum('money');
+        $revenueYesterday = Payment::whereDate('created_at', $yesterday)->sum('money');
         $percentage = 0;
         if ($revenueYesterday > 0) {
             $percentage = (($revenueToday - $revenueYesterday) / $revenueYesterday) * 100;
         }
         // Lấy tổng số lượng đơn đặt tour hôm nay và ngày hôm qua
-        $bookTourToday = DonTour::whereDate('created_at', $today)->count();
-        $bookTourYesterday = DonTour::whereDate('created_at', $yesterday)->count();
+        $bookTourToday = Payment::whereDate('created_at', $today)->count();
+        $bookTourYesterday = Payment::whereDate('created_at', $yesterday)->count();
 
         // Tính phần trăm thay đổi số lượng đơn đặt tour hôm nay so với ngày hôm qua
         $percentageChange = 0;
@@ -39,14 +40,29 @@ class StatisticalController extends Controller
             $percentageChange = (($bookTourToday - $bookTourYesterday) / $bookTourYesterday) * 100;
         }
         //tỉnh tổng tiền các tour
-        $totalMoney = DonTour::whereDate('created_at', $today)->sum('total_money');
+        $totalMoney = Payment::whereDate('created_at', $today)->sum('money');
+
+        //lượt truy cập web hôm nay so với hôm qua
+        // $visitorCount = DB::table('view_web')->count();
+        $todayVisitors = DB::table('view_web')
+        ->whereDate('visited_at', Carbon::today())
+        ->count();
+        $yesterdayVisitors = DB::table('view_web')
+            ->whereDate('visited_at', Carbon::yesterday())
+            ->count();
+        $percentageChangeViewWev = 0;
+        if ($yesterdayVisitors > 0) {
+            $percentageChangeViewWev = (($todayVisitors - $yesterdayVisitors) / $yesterdayVisitors) * 100;
+        }
+
+
 
         //tính số lượng tour
-        $OderCount = DonTour::whereDate('created_at', $today)->count();
+        $OderCount = Payment::whereDate('created_at', $today)->count();
         // Lấy top 5 tour được đặt nhiều nhất
         $top5Tours = Tour::withCount('bookTours')->orderBy('book_tours_count', 'desc')->take(5)->get();
         // Đếm số khách hàng đã đặt tour hôm nay
-        $customerCount = DonTour::whereDate('created_at', $today)->distinct('user_id')->count('user_id');
+        $customerCount = Payment::whereDate('created_at', $today)->distinct('user_id')->count('user_id');
         // dd($totalMoney);
 
         // $averageRating = Review::where('tour_id', $id)->avg('rating');
@@ -79,7 +95,7 @@ class StatisticalController extends Controller
 
 
         // Truy vấn tổng tiền đã chi tiêu của mỗi người dùng
-        $topUsers = \App\Models\User::select('users.id', 'users.name', \DB::raw('SUM(book_tour.total_money) as total_spent'))
+        $topUsers = User::select('users.id', 'users.name', DB::raw('SUM(book_tour.total_money) as total_spent'))
             ->join('book_tour', 'users.id', '=', 'book_tour.user_id')
             ->groupBy('users.id', 'users.name')
             ->orderByDesc('total_spent')
@@ -105,7 +121,30 @@ class StatisticalController extends Controller
         });
 
 
-        //lọc theo nhày
+        //lấy ra lượt view các tour
+        // $tourReview = Tour::with('reviews','reviews.user')->get();
+        $tourReview = Tour::with(['reviews', 'reviews.user'])
+        ->withCount(['bookTours as total_bookings' => function ($query) {
+            $query->whereNull('ly_do_huy');
+        }])
+        ->addSelect(['total_revenue' => BookTour::selectRaw('SUM(total_money)')
+        ->whereColumn('book_tour.tour_id', 'tours.id')
+        ->whereNull('ly_do_huy')])->get();
+        
+        //lấy kh chi tiêu nhiều nhất
+        $topSpendingUsers = Payment::select('user_id', DB::raw('SUM(money) as total_spent'))
+        ->groupBy('user_id')
+        ->orderByDesc('total_spent')
+        ->limit(5)
+        ->get();
+        $userNames = [];
+        $totalSpent = [];
+
+        foreach ($topSpendingUsers as $payment) {
+            $user = User::find($payment->user_id);
+            $userNames[] = $user ? $user->name : 'Khách chưa đăng ký';
+            $totalSpent[] = $payment->total_spent;
+        }
 
         $data = [
             'totalMoney'        => $totalMoney,
@@ -117,9 +156,17 @@ class StatisticalController extends Controller
             'chartData'         => $chartData,
             'dataPoints'        => $dataPoints,
             'tyLe'              => $tyLe,
+            'tourReview'       => $tourReview,
+            'todayVisitors' => $todayVisitors,
+            'yesterdayVisitors' => $yesterdayVisitors,
+            'percentageChangeViewWev' => round($percentageChangeViewWev, 2),
+            'userNames' => $userNames,
+            'totalSpent' => $totalSpent
+            
 
 
         ];
+        // dd($tourReview);
         return view('admin.dashboard', $data);
     }
     protected function getStatusName($statusId)
@@ -143,13 +190,13 @@ class StatisticalController extends Controller
     
         // Lấy dữ liệu và nhóm theo ngày
         $chart_data = Payment::select(
-            DB::raw('DATE(created_at) as ngayDat'), // Lấy ngày
-            DB::raw('SUM(money) as total'),        // Tổng doanh thu
+            DB::raw('DATE(created_at) as created_at'), // Lấy ngày
+            DB::raw('SUM(money) as money'),        // Tổng doanh thu
             DB::raw('COUNT(id) as soLuongDon')     // Số lượng đơn
         )
         ->whereBetween('created_at', [$from_date, $to_date])
-        ->groupBy('ngayDat') // Nhóm theo ngày
-        ->orderBy('ngayDat', 'ASC')
+        ->groupBy('created_at') // Nhóm theo ngày
+        ->orderBy('created_at', 'ASC')
         ->get();
     
         return response()->json($chart_data);

@@ -5,6 +5,7 @@ namespace App\Models\Admins;
 use App\Models\BookTour;
 use App\Models\Comment;
 use App\Models\Favorite;
+use App\Models\Review;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -111,5 +112,9 @@ class Tour extends Model
     public function bookTours()
     {
         return $this->hasMany(BookTour::class, 'tour_id');
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'tour_id');
     }
 }
