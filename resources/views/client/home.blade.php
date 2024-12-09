@@ -457,7 +457,7 @@
                                     <h3 class="product-name"><a class="line-clamp"
                                             href="{{ route('detail', $item->id) }}"
                                             title="">{{ $item->name }}
-                                            [{{ $item->location->name }}] [{{ $item->journeys }}]</a></h3>
+                                            </a></h3>
                                     <div class="clearfix">
                                         <div class="box-prices">
                                             <div class="price-box clearfix">
@@ -485,16 +485,7 @@
                                                         data-id="{{ $item->id }}"></i>
                                                 </li>
 
-                                                <li data-toggle="tooltip" data-placement="top"
-                                                    title="Di chuyển bằng Ô tô">
-                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                        alt="Di chuyển bằng Ô tô" />
-                                                </li>
-                                                <li data-toggle="tooltip" data-placement="top"
-                                                    title="Di chuyển bằng máy bay">
-                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                        alt="Di chuyển bằng máy bay" />
-                                                </li>
+                                                
                                             </ul>
                                         </div>
 
