@@ -25,30 +25,30 @@
 
                         
                             <div class="payment-options">
-                                <div class="payment-option">
+                                {{-- <div class="payment-option">
                                     <input type="radio" id="credit-card" name="payment_method_id" value="3">
                                     <label for="credit-card">
                                         <span>Thẻ tín dụng</span>
                                         <img src="https://timo.vn/wp-content/uploads/dang-ky-the-tin-dung-online-1.jpg" alt="Thẻ tín dụng" class="payment-img">
                                     </label>
-                                </div>
+                                </div> --}}
                         
                                 <div class="payment-option">
                                     <input type="radio" id="vnpay" name="payment_method_id" value="1">
                                     <label for="vnpay">
                                         <span>VNPay</span>
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Logo_MoMo.png" alt="MoMo" class="payment-img">
+                                        <img src="https://vnpay.vn/s1/statics.vnpay.vn/2023/9/06ncktiwd6dc1694418196384.png" alt="MoMo" class="payment-img">
                                     </label>
                                 </div>
                         
-                                <div class="payment-option">
-                                    <input type="radio" id="bank-transfer" name="payment_method_id" value="2">
-                                    <label for="bank-transfer">
-                                        <span>Chuyển khoản ngân hàng</span>
-                                        <img src="https://admin.tamlyvietphap.vn/uploaded/Images/Original/2020/10/16/logo_vietcombank_1610091313.jpg" alt="Chuyển khoản ngân hàng" class="payment-img">
-                                        <img src="https://scontent.iocvnpt.com/resources/portal/Images/CTO/superadminportal.cto/TienIch/NganHang/VietinBank/vietinbank_637018943312743351.jpg" alt="Chuyển khoản ngân hàng" class="payment-img">
-                                    </label>
-                                </div>
+                                    {{-- <div class="payment-option">
+                                        <input type="radio" id="bank-transfer" name="payment_method_id" value="2">
+                                        <label for="bank-transfer">
+                                            <span>Chuyển khoản ngân hàng</span>
+                                            <img src="https://admin.tamlyvietphap.vn/uploaded/Images/Original/2020/10/16/logo_vietcombank_1610091313.jpg" alt="Chuyển khoản ngân hàng" class="payment-img">
+                                            <img src="https://scontent.iocvnpt.com/resources/portal/Images/CTO/superadminportal.cto/TienIch/NganHang/VietinBank/vietinbank_637018943312743351.jpg" alt="Chuyển khoản ngân hàng" class="payment-img">
+                                        </label>
+                                    </div> --}}
                         
                                 <div class="payment-option">
                                     <input type="radio" id="cash-on-delivery" name="payment_method_id" value="4">
