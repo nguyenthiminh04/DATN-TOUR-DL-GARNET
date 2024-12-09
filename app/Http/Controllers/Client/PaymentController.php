@@ -319,7 +319,7 @@ if ($coupon && $coupon->number > 0) {
 
     public function vnpay_payment(Request $request)
     {
-     
+        $userId = auth()->user()->id ?? null;
         $booking = BookTour::find($request->booking_id);
 
         if (!$booking) {
@@ -332,7 +332,7 @@ if ($coupon && $coupon->number > 0) {
         
         $payment = Payment::create([
             'booking_id' => $booking->id,
-            'user_id' => 1,  
+            'user_id' => $userId,  
             'money' => $request->money,
             'p_note' => $request->input('p_note', ''),
             'payment_method' => 'vnpay',
