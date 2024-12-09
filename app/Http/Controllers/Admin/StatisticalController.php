@@ -174,27 +174,31 @@ class StatisticalController extends Controller
             ];
         });
 
+        //lấy các đơn hàng ngày hôm nay
+        $paymentsOrderToday = Payment::whereDate('created_at', $today)->with('booking','bookTours','user','paymentMethod','paymentStatus')->get();
+
         $data = [
-            'totalMoney'        => $totalMoney,
-            'totalMoneyMonth'   => $totalMoneyMonth,
+            'totalMoney'                            => $totalMoney,
+            'totalMoneyMonth'                       => $totalMoneyMonth,
 
-            'orderCountToday'   => $orderCountToday,
-            'orderCountMonth'   => $orderCountMonth,
+            'orderCountToday'                       => $orderCountToday,
+            'orderCountMonth'                       => $orderCountMonth,
 
-            'top5Tours'         => $top5Tours,
-            'customerCount'     => $customerCount,
-            'percentage'        => $percentage,
-            'percentageChange'  => $percentageChange,
-            'chartData'         => $chartData,
-            'dataPoints'        => $dataPoints,
-            'tyLe'              => $tyLe,
-            'tourReview'       => $tourReview,
-            'todayVisitors' => $todayVisitors,
-            'yesterdayVisitors' => $yesterdayVisitors,
-            'percentageChangeViewWev' => round($percentageChangeViewWev, 2),
-            'userNames' => $userNames,
-            'totalSpent' => $totalSpent,
-            'top5Tours'        => $top5Tours,
+            'top5Tours'                             => $top5Tours,
+            'customerCount'                         => $customerCount,
+            'percentage'                            => $percentage,
+            'percentageChange'                      => $percentageChange,
+            'chartData'                             => $chartData,
+            'dataPoints'                            => $dataPoints,
+            'tyLe'                                  => $tyLe,
+            'tourReview'                            => $tourReview,
+            'todayVisitors'                         => $todayVisitors,
+            'yesterdayVisitors'                     => $yesterdayVisitors,
+            'percentageChangeViewWev'               => round($percentageChangeViewWev, 2),
+            'userNames'                             => $userNames,
+            'totalSpent'                            => $totalSpent,
+            'top5Tours'                             => $top5Tours,
+            'paymentsOrderToday'                    => $paymentsOrderToday,
         ];
 
 
@@ -237,47 +241,6 @@ class StatisticalController extends Controller
         // Trả về dữ liệu dưới dạng JSON
         return response()->json($chart_data);
     }
-
-    //     public function getRevenue($timeframe)
-    // {
-    //     // Khởi tạo biến để lưu tổng doanh thu
-    //     $totalMoney = 0;
-    //     $percentage = 0;
-
-    //     // Lấy dữ liệu theo khoảng thời gian
-    //     switch ($timeframe) {
-    //         case 'hom-qua':
-    //             $totalMoney = DonTour::whereDate('created_at', today()->subDay())->sum('total_money');
-    //             $previousDay = DonTour::whereDate('created_at', today()->subDays(2))->sum('total_money');
-    //             break;
-    //         case 'tuan-truoc':
-    //             $totalMoney = DonTour::whereBetween('created_at', [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()])->sum('total_money');
-    //             $previousDay = DonTour::whereBetween('created_at', [now()->subWeeks(2)->startOfWeek(), now()->subWeeks(2)->endOfWeek()])->sum('total_money');
-    //             break;
-    //         case 'thang-nay':
-    //             $totalMoney = DonTour::whereMonth('created_at', now()->month)->sum('total_money');
-    //             $previousDay = DonTour::whereMonth('created_at', now()->subMonth()->month)->sum('total_money');
-    //             break;
-    //         case 'nam-nay':
-    //             $totalMoney = DonTour::whereYear('created_at', now()->year)->sum('total_money');
-    //             $previousDay = DonTour::whereYear('created_at', now()->subYear()->year)->sum('total_money');
-    //             break;
-    //         default:
-    //             $totalMoney = DonTour::whereDate('created_at', today())->sum('total_money');
-    //             $previousDay = DonTour::whereDate('created_at', today()->subDay())->sum('total_money');
-    //             break;
-    //     }
-
-    //     // Tính phần trăm thay đổi
-    //     $percentage = $previousDay > 0 ? round((($totalMoney - $previousDay) / $previousDay) * 100, 2) : 0;
-
-    //     // Trả dữ liệu về dạng JSON
-    //     // return response()->json([
-    //     //     'totalMoney' => $totalMoney,
-    //     //     'percentage' => $percentage,
-    //     // ]);
-    //     return view('admin.dashboard', compact('totalMoney'));
-    // }
     public function filterByBtn(Request $request)
     {
         $data = $request->all();
@@ -314,43 +277,43 @@ class StatisticalController extends Controller
 
         return response()->json($chart_data);
     }
-//     public function getDashboardData(Request $request)
-// {
-//     $year = $request->get('year', now()->year);
+    //     public function getDashboardData(Request $request)
+    // {
+    //     $year = $request->get('year', now()->year);
 
-//     $monthlyRevenue = Payment::selectRaw('MONTH(created_at) as month, SUM(money) as total')
-//         ->whereYear('created_at', $year)
-//         ->where('status_id', '=', 6)
-//         ->groupByRaw('MONTH(created_at)')
-//         ->orderBy('month')
-//         ->pluck('total', 'month');
+    //     $monthlyRevenue = Payment::selectRaw('MONTH(created_at) as month, SUM(money) as total')
+    //         ->whereYear('created_at', $year)
+    //         ->where('status_id', '=', 6)
+    //         ->groupByRaw('MONTH(created_at)')
+    //         ->orderBy('month')
+    //         ->pluck('total', 'month');
 
-//     $dataChart = [];
-//     for ($i = 1; $i <= 12; $i++) {
-//         $dataChart[] = $monthlyRevenue->get($i, 0);
-//     }
+    //     $dataChart = [];
+    //     for ($i = 1; $i <= 12; $i++) {
+    //         $dataChart[] = $monthlyRevenue->get($i, 0);
+    //     }
 
-//     return response()->json(['dataChart' => $dataChart]);
-// }
-public function getDashboardData(Request $request)
-{
-    $year = $request->get('year', 2024); // Lấy năm từ request, mặc định là 2024
+    //     return response()->json(['dataChart' => $dataChart]);
+    // }
+    public function getDashboardData(Request $request)
+    {
+        $year = $request->get('year', 2024); // Lấy năm từ request, mặc định là 2024
 
-    $dataChart = Payment::whereYear('created_at', $year)
-        ->selectRaw('MONTH(created_at) as month, SUM(money) as total')
-        ->where('status_id', '=', 6)
-        ->groupBy('month')
-        ->orderBy('month')
-        ->pluck('total', 'month')
-        ->toArray();
+        $dataChart = Payment::whereYear('created_at', $year)
+            ->selectRaw('MONTH(created_at) as month, SUM(money) as total')
+            ->where('status_id', '=', 6)
+            ->where('payment_status_id', '=', 2)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total', 'month')
+            ->toArray();
 
-    // Chuyển dữ liệu sang dạng đầy đủ 12 tháng
-    $formattedData = [];
-    for ($i = 1; $i <= 12; $i++) {
-        $formattedData[] = $dataChart[$i] ?? 0;
+        // Chuyển dữ liệu sang dạng đầy đủ 12 tháng
+        $formattedData = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $formattedData[] = $dataChart[$i] ?? 0;
+        }
+
+        return response()->json(['dataChart' => $formattedData]);
     }
-
-    return response()->json(['dataChart' => $formattedData]);
-}
-
 }

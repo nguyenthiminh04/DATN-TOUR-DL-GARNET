@@ -291,48 +291,46 @@
                                                     STT</th>
                                                 <th scope="col" class="sort cursor-pointer" data-sort="order_id">
                                                     Tên tour</th>
-                                                <th scope="col" class="sort cursor-pointer" data-sort="shop">Lượt xem
+                                                <th scope="col" class="sort cursor-pointer" data-sort="shop">Người đặt
                                                 </th>
                                                 <th scope="col" class="sort cursor-pointer" data-sort="customer">
-                                                    Đã đặt</th>
+                                                    PTTT</th>
                                                 <th scope="col" class="sort cursor-pointer" data-sort="amount">
                                                     Tổng tiền</th>
                                                 <th scope="col" class="sort cursor-pointer" data-sort="status">
-                                                    Status</th>
-                                                <th scope="col" class="sort cursor-pointer" data-sort="rating">
-                                                    Rating</th>
+                                                    Trạng thái</th>
                                             </tr>
                                         </thead>
                                         <tbody class="list">
-                                            @foreach ($tourReview as $reviewk => $review)
+                                            @foreach ($paymentsOrderToday as $paymentsOrderTodayk => $paymentsOrderTodays)
                                                 <tr>
                                                     <td class="order_date">
-                                                        {{ ++$reviewk }}
+                                                        {{ ++$paymentsOrderTodayk }}
                                                     </td>
                                                     <td class="order_id">
-                                                        <a href="apps-ecommerce-order-overview.html"
-                                                            class="fw-medium link-primary">{{ $review->name }}</a>
+                                                        <a href=""
+                                                            class="fw-medium link-primary">
+                                                            {{ $paymentsOrderTodays->booking->tour->name }}
+                                                        </a>
                                                     </td>
                                                     <td class="shop">
-                                                        {{ $review->view ? $review->view : 'Chưa có view' }}
+                                                        {{ $paymentsOrderTodays->user->name }}
                                                     </td>
-                                                    <td class="customer">
-                                                        {{ $review->total_bookings ?? 0 }}
+                                                    <td class="amount">
+                                                        {{ $paymentsOrderTodays->paymentMethod->name }}
                                                     </td>
                                                     <td class="amount">
                                                         <span class="fw-medium">
-                                                            {{ number_format($review->total_revenue, 0, '', '.') }} VND
+                                                            {{ number_format($paymentsOrderTodays->money, 0, '', '.') }} VND
                                                         </span>
                                                     </td>
                                                     <td class="status">
-                                                        <span
-                                                            class="badge bg-warning-subtle text-warning">{{ $review->status == 1 ? 'Hiện' : 'Ẩn' }}</span>
-                                                    </td>
-                                                    <td class="rating">
-                                                        <h5 class="fs-md fw-medium mb-0"><i
-                                                                class="ph-star align-baseline text-warning"></i>
-                                                            {{ $review->rating }}
-                                                        </h5>
+                                                        @if ($paymentsOrderTodays->payment_status_id == 2)
+                                                            <span class="badge bg-success-subtle text-success">{{ $paymentsOrderTodays->paymentStatus->name }}</span>
+                                                        @else
+                                                            <span class="badge bg-danger-subtle text-danger">{{ $paymentsOrderTodays->paymentStatus->name }}</span>
+                                                        @endif
+                                                        
                                                     </td>
                                                 </tr><!-- end tr -->
                                             @endforeach
@@ -408,8 +406,8 @@
                                                     {{ ++$reviewk }}
                                                 </td>
                                                 <td class="order_id">
-                                                    <a href="apps-ecommerce-order-overview.html"
-                                                        class="fw-medium link-primary">{{ $review->name }}</a>
+                                                    <span 
+                                                        class="fw-medium link-primary">{{ $review->name }}</span>
                                                 </td>
                                                 <td class="shop">
                                                     {{ $review->view ? $review->view : 'Chưa có view' }}
@@ -454,207 +452,15 @@
                 <div class="col-lg-4">
                     <div class="card">
                         <div class="card-header d-flex align-items-center">
-                            <h4 class="card-title mb-0 flex-grow-1">Popular Products</h4>
-                            <div class="flex-shrink-0">
-                                <div class="dropdown card-header-dropdown">
-                                    <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        <span class="fw-semibold text-uppercase">Sort by:
-                                        </span><span class="text-muted">Today<i
-                                                class="mdi mdi-chevron-down ms-1"></i></span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">Today</a>
-                                        <a class="dropdown-item" href="#">Yesterday</a>
-                                        <a class="dropdown-item" href="#">Last 7 Days</a>
-                                        <a class="dropdown-item" href="#">Last 30 Days</a>
-                                        <a class="dropdown-item" href="#">This Month</a>
-                                        <a class="dropdown-item" href="#">Last Month</a>
-                                    </div>
-                                </div>
-                            </div>
+                            <h4 class="card-title mb-0 flex-grow-1">Thông báo</h4>
                         </div>
                         <div class="card-body px-0">
                             <div data-simplebar class="px-3" style="max-height: 333px;">
                                 <div class="vstack gap-2">
                                     <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-1.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Craft Women Black Sling Bag</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 487
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 936
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$15.99</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-2.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Unique Men's Wrist Watch</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 452
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 1420
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$84.99</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-3.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Twiala Floral Dress</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 562
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 1348
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$149.99</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-4.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Tokyo Fancy Bomber Jacket</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 644
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 1540
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$245.00</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-5.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Aster Dress 2XL / Royal Blue</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 841
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 985
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$74.63</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-6.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Craft Women Black Sling Bag</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 763
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 763
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$245.74</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
+                                        <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
+                                            <i class="bi bi-check2-square text-primary"></i>
+                                            <h6 class="mb-0">tin nhắn</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -710,36 +516,6 @@
                         </div>
                     </div>
                 </div><!--end col-->
-                <div class="col-xl-4 col-lg-6">
-                    <div class="card card-height-100">
-                        <div class="card-header d-flex align-items-center">
-                            <h5 class="card-title flex-grow-1 mb-0">Thông báo mới</h5>
-                            <div class="flex-shrink-0">
-                                <div class="dropdown card-header-dropdown">
-                                    <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        <span class="text-muted">This Month<i
-                                                class="mdi mdi-chevron-down ms-1"></i></span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">This Month</a>
-                                        <a class="dropdown-item" href="#">Last Month</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="vstack gap-2">
-
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">tin nhắn</h6>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div><!--end col-->
             </div><!--end row-->
 
         </div>
@@ -747,24 +523,35 @@
     </div>
 @endsection
 @section('script')
-    <script>
-        $(document).ready(function() {
-            const defaultYear = 2024; // Năm mặc định
-
-            // Đặt giá trị mặc định trong select
-            $('#ChangeYear').val(defaultYear);
-
-            // Gửi AJAX để lấy dữ liệu mặc định cho năm 2024 khi trang tải
+<script>
+    $(document).ready(function() {
+        const defaultYear = 2024;
+        $('#ChangeYear').val(defaultYear);
+        $.ajax({
+            url: '{{ route('admin.dashboard.data') }}',
+            method: 'GET',
+            data: {
+                year: defaultYear
+            },
+            success: function(response) {
+                console.log(response);
+                salesChart.data.datasets[0].data = response.dataChart;
+                salesChart.update();
+            },
+            error: function() {
+                alert('Không thể tải dữ liệu. Vui lòng thử lại.');
+            }
+        });
+        $('#ChangeYear').change(function() {
+            const year = $(this).val();
             $.ajax({
                 url: '{{ route('admin.dashboard.data') }}',
                 method: 'GET',
                 data: {
-                    year: defaultYear
+                    year: year
                 },
                 success: function(response) {
                     console.log(response);
-
-                    // Cập nhật dữ liệu vào biểu đồ
                     salesChart.data.datasets[0].data = response.dataChart;
                     salesChart.update();
                 },
@@ -772,93 +559,80 @@
                     alert('Không thể tải dữ liệu. Vui lòng thử lại.');
                 }
             });
+        });
+        var ticksStyle = {
+            fontColor: '#495057',
+            fontStyle: 'bold'
+        };
 
-            // Xử lý khi thay đổi năm trong dropdown
-            $('#ChangeYear').change(function() {
-                const year = $(this).val();
+        var mode = 'index';
+        var intersect = true;
 
-                // Gửi AJAX request khi năm được thay đổi
-                $.ajax({
-                    url: '{{ route('admin.dashboard.data') }}',
-                    method: 'GET',
-                    data: {
-                        year: year
-                    },
-                    success: function(response) {
-                        console.log(response);
-
-                        // Cập nhật dữ liệu vào biểu đồ
-                        salesChart.data.datasets[0].data = response.dataChart;
-                        salesChart.update();
-                    },
-                    error: function() {
-                        alert('Không thể tải dữ liệu. Vui lòng thử lại.');
-                    }
-                });
-            });
-
-            // Biểu đồ Chart.js
-            var ticksStyle = {
-                fontColor: '#495057',
-                fontStyle: 'bold'
-            };
-
-            var mode = 'index';
-            var intersect = true;
-
-            var $salesChart = $('#myChart');
-            var salesChart = new Chart($salesChart, {
-                type: 'bar',
-                data: {
-                    labels: ['THÁNG 1', 'THÁNG 2', 'THÁNG 3', 'THÁNG 4', 'THÁNG 5', 'THÁNG 6', 'THÁNG 7',
-                        'THÁNG 8', 'THÁNG 9', 'THÁNG 10', 'THÁNG 11', 'THÁNG 12'
-                    ],
-                    datasets: [{
-                        backgroundColor: '#007bff',
-                        borderColor: '#007bff',
-                        data: [] // Dữ liệu sẽ được cập nhật từ AJAX
-                    }]
+        var $salesChart = $('#myChart');
+        var salesChart = new Chart($salesChart, {
+            type: 'bar',
+            data: {
+                labels: ['THÁNG 1', 'THÁNG 2', 'THÁNG 3', 'THÁNG 4', 'THÁNG 5', 'THÁNG 6', 'THÁNG 7',
+                    'THÁNG 8', 'THÁNG 9', 'THÁNG 10', 'THÁNG 11', 'THÁNG 12'
+                ],
+                datasets: [{
+                    backgroundColor: '#007bff',
+                    borderColor: '#007bff',
+                    data: []
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    mode: mode,
+                    intersect: intersect
                 },
-                options: {
-                    maintainAspectRatio: false,
-                    tooltips: {
-                        mode: mode,
-                        intersect: intersect
-                    },
-                    hover: {
-                        mode: mode,
-                        intersect: intersect
-                    },
-                    legend: {
-                        display: false
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            suggestedMax: 200, // Thay đổi giá trị này tùy thuộc vào nhu cầu của bạn
-                            grid: {
-                                display: true,
-                                drawBorder: false,
-                                color: 'rgba(0, 0, 0, .2)',
-                                zeroLineColor: 'transparent',
-                                borderWidth: 1
-                            },
-                            ticks: $.extend({
-                                callback: function(value) {
-                                    return '₫' +
-                                    value; // Hiển thị giá trị theo định dạng tiền tệ
-                                }
-                            }, ticksStyle)
+                hover: {
+                    mode: mode,
+                    intersect: intersect
+                },
+                legend: {
+                    display: false
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: 200,
+                        grid: {
+                            display: true,
+                            drawBorder: false,
+                            color: 'rgba(0, 0, 0, .2)',
+                            zeroLineColor: 'transparent',
+                            borderWidth: 1
                         },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: ticksStyle
+                        ticks: $.extend({
+                            callback: function(value) {
+                                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+                            }
+                        }, ticksStyle)
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: ticksStyle
+                    }
+                },
+                plugins: {
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        font: {
+                            weight: 'bold',
+                            size: 12
+                        },
+                        formatter: function(value) {
+                            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
                         }
                     }
                 }
-            });
+            }
         });
-    </script>
+    });
+</script>
 @endsection
