@@ -114,23 +114,24 @@
                 <div class="col-lg-12">
                     <div class="card" id="contactList">
                         <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Tour đánh giá cao</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">Danh thu tháng</h4>
                             <div class="flex-shrink-0">
                                 <div class="dropdown card-header-dropdown sortble-dropdown">
-                                    <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        <span class="fw-semibold text-uppercase fs-12">Lọc:
-                                        </span><span class="text-muted dropdown-title">Order Date</span> <i
-                                            class="mdi mdi-chevron-down ms-1"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <button class="dropdown-item sort" data-sort="order_date">Order
-                                            Date</button>
-                                        <button class="dropdown-item sort" data-sort="order_id">Order
-                                            ID</button>
-                                        <button class="dropdown-item sort" data-sort="amount">Amount</button>
-                                        <button class="dropdown-item sort" data-sort="status">Status</button>
-                                    </div>
+
+                                    <span class="fw-semibold text-uppercase fs-12">
+                                        <form>
+                                            @csrf
+                                            <select id="ChangeYear" class="form-control">
+                                                <option value="2023">2023</option>
+                                                <option value="2024" selected>2024</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2026">2026</option>
+                                            </select>
+                                        </form>
+
+                                    </span>
+                                    </span>
+
                                 </div>
                             </div>
                         </div>
@@ -139,7 +140,7 @@
                                 <div class="col-lg-12">
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
                                     <div class="position-relative mb-4">
-                                        <canvas id="myChart" style="height:100;"></canvas>
+                                        <canvas id="myChart" style="height:250px;"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -746,83 +747,118 @@
     </div>
 @endsection
 @section('script')
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.ChangeYear').change(function() {
-            var year = $(this).val();
-            window.location.href = "{{ url('admin/home/dashboard-btn?year=') }}" + year;
-        });
-    });
+    <script>
+        $(document).ready(function() {
+            const defaultYear = 2024; // Năm mặc định
 
+            // Đặt giá trị mặc định trong select
+            $('#ChangeYear').val(defaultYear);
 
-    var ticksStyle = {
-        fontColor: '#495057',
-        fontStyle: 'bold'
-    }
-
-    var mode = 'index'
-    var intersect = true
-
-    var $salesChart = $('#sales-chart-order')
-    var salesChart = new Chart($salesChart, {
-        type: 'bar',
-        data: {
-            labels: ['THÁNG 1', 'THÁNG 2', 'THÁNG 3', 'THÁNG 4', 'THÁNG 5', 'THÁNG 6', 'THÁNG 7 ', 'THÁNG 8',
-                'THÁNG 9', 'THÁNG 10', 'THÁNG 11', 'THÁNG 12'
-            ],
-            datasets: [{
-                backgroundColor: '#007bff',
-                borderColor: '#007bff',
-                data: []
-            }, {
-                backgroundColor: '#ced4da',
-                borderColor: '#ced4da',
-                data: []
-            }, {
-                backgroundColor: '#dc3545',
-                borderColor: '#dc3545',
-                data: []
-            }]
-        },
-        options: {
-            maintainAspectRatio: false,
-            tooltips: {
-                mode: mode,
-                intersect: intersect
-            },
-            hover: {
-                mode: mode,
-                intersect: intersect
-            },
-            legend: {
-                display: false
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    suggestedMax: 200, // Thay đổi giá trị này tùy thuộc vào nhu cầu của bạn
-                    grid: {
-                        display: true,
-                        drawBorder: false,
-                        color: 'rgba(0, 0, 0, .2)',
-                        zeroLineColor: 'transparent',
-                        borderWidth: 1
-                    },
-                    ticks: $.extend({
-                        callback: function(value) {
-
-                            return '₫' + value;
-                        }
-                    }, ticksStyle)
+            // Gửi AJAX để lấy dữ liệu mặc định cho năm 2024 khi trang tải
+            $.ajax({
+                url: '{{ route('admin.dashboard.data') }}',
+                method: 'GET',
+                data: {
+                    year: defaultYear
                 },
-                x: {
-                    grid: {
+                success: function(response) {
+                    console.log(response);
+
+                    // Cập nhật dữ liệu vào biểu đồ
+                    salesChart.data.datasets[0].data = response.dataChart;
+                    salesChart.update();
+                },
+                error: function() {
+                    alert('Không thể tải dữ liệu. Vui lòng thử lại.');
+                }
+            });
+
+            // Xử lý khi thay đổi năm trong dropdown
+            $('#ChangeYear').change(function() {
+                const year = $(this).val();
+
+                // Gửi AJAX request khi năm được thay đổi
+                $.ajax({
+                    url: '{{ route('admin.dashboard.data') }}',
+                    method: 'GET',
+                    data: {
+                        year: year
+                    },
+                    success: function(response) {
+                        console.log(response);
+
+                        // Cập nhật dữ liệu vào biểu đồ
+                        salesChart.data.datasets[0].data = response.dataChart;
+                        salesChart.update();
+                    },
+                    error: function() {
+                        alert('Không thể tải dữ liệu. Vui lòng thử lại.');
+                    }
+                });
+            });
+
+            // Biểu đồ Chart.js
+            var ticksStyle = {
+                fontColor: '#495057',
+                fontStyle: 'bold'
+            };
+
+            var mode = 'index';
+            var intersect = true;
+
+            var $salesChart = $('#myChart');
+            var salesChart = new Chart($salesChart, {
+                type: 'bar',
+                data: {
+                    labels: ['THÁNG 1', 'THÁNG 2', 'THÁNG 3', 'THÁNG 4', 'THÁNG 5', 'THÁNG 6', 'THÁNG 7',
+                        'THÁNG 8', 'THÁNG 9', 'THÁNG 10', 'THÁNG 11', 'THÁNG 12'
+                    ],
+                    datasets: [{
+                        backgroundColor: '#007bff',
+                        borderColor: '#007bff',
+                        data: [] // Dữ liệu sẽ được cập nhật từ AJAX
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    hover: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    legend: {
                         display: false
                     },
-                    ticks: ticksStyle
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 200, // Thay đổi giá trị này tùy thuộc vào nhu cầu của bạn
+                            grid: {
+                                display: true,
+                                drawBorder: false,
+                                color: 'rgba(0, 0, 0, .2)',
+                                zeroLineColor: 'transparent',
+                                borderWidth: 1
+                            },
+                            ticks: $.extend({
+                                callback: function(value) {
+                                    return '₫' +
+                                    value; // Hiển thị giá trị theo định dạng tiền tệ
+                                }
+                            }, ticksStyle)
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: ticksStyle
+                        }
+                    }
                 }
-            }
-        }
-    })
-</script>
+            });
+        });
+    </script>
 @endsection

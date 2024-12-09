@@ -64,8 +64,8 @@ class StatisticalController extends Controller
 
         //tính số lượng tour hôm nay
         $orderCountToday = Payment::whereDate('created_at', $today)
-                                ->where('status_id', '!=', 13)
-                                ->count();
+            ->where('status_id', '!=', 13)
+            ->count();
         //đơn hàng tháng này
         $orderCountMonth = Payment::whereMonth('created_at', $currentMonth)->whereYear('created_at', $currentYear)->where('status_id', '!=', 13)->count();
 
@@ -158,21 +158,21 @@ class StatisticalController extends Controller
             $totalSpent[] = $payment->total_spent;
         }
 
-      
+
 
         // Lấy 10 tour được đặt nhiều nhất trong khoảng thời gian
-       
+
         $top5Tours = Tour::withCount('bookTours')
             ->orderBy('book_tours_count', 'desc')
             ->take(5)
             ->get();
 
-            $chartData = $top5Tours->map(function ($tour) {
-                return [
-                    'label' => $tour->name,
-                    'y' => $tour->book_tours_count,
-                ];
-            });
+        $chartData = $top5Tours->map(function ($tour) {
+            return [
+                'label' => $tour->name,
+                'y' => $tour->book_tours_count,
+            ];
+        });
 
         $data = [
             'totalMoney'        => $totalMoney,
@@ -218,11 +218,11 @@ class StatisticalController extends Controller
     public function filterByDate(Request $request)
     {
         $data = $request->all();
-        
+
         // Kiểm tra nếu có từ ngày và đến ngày
         $from_date = $data['from_date'] ?? Carbon::today()->subDays(7)->toDateString(); // Mặc định 7 ngày qua
         $to_date = $data['to_date'] ?? Carbon::today()->toDateString(); // Mặc định hôm nay
-    
+
         // Lấy dữ liệu từ bảng Payment và nhóm theo ngày
         $chart_data = Payment::select(
             DB::raw('DATE(created_at) as created_at'), // Lấy ngày
@@ -233,11 +233,11 @@ class StatisticalController extends Controller
             ->groupBy(DB::raw('DATE(created_at)'))  // Nhóm theo ngày
             ->orderBy('created_at', 'ASC')           // Sắp xếp theo ngày tăng dần
             ->get();
-    
+
         // Trả về dữ liệu dưới dạng JSON
         return response()->json($chart_data);
     }
-    
+
     //     public function getRevenue($timeframe)
     // {
     //     // Khởi tạo biến để lưu tổng doanh thu
@@ -314,4 +314,43 @@ class StatisticalController extends Controller
 
         return response()->json($chart_data);
     }
+//     public function getDashboardData(Request $request)
+// {
+//     $year = $request->get('year', now()->year);
+
+//     $monthlyRevenue = Payment::selectRaw('MONTH(created_at) as month, SUM(money) as total')
+//         ->whereYear('created_at', $year)
+//         ->where('status_id', '=', 6)
+//         ->groupByRaw('MONTH(created_at)')
+//         ->orderBy('month')
+//         ->pluck('total', 'month');
+
+//     $dataChart = [];
+//     for ($i = 1; $i <= 12; $i++) {
+//         $dataChart[] = $monthlyRevenue->get($i, 0);
+//     }
+
+//     return response()->json(['dataChart' => $dataChart]);
+// }
+public function getDashboardData(Request $request)
+{
+    $year = $request->get('year', 2024); // Lấy năm từ request, mặc định là 2024
+
+    $dataChart = Payment::whereYear('created_at', $year)
+        ->selectRaw('MONTH(created_at) as month, SUM(money) as total')
+        ->where('status_id', '=', 6)
+        ->groupBy('month')
+        ->orderBy('month')
+        ->pluck('total', 'month')
+        ->toArray();
+
+    // Chuyển dữ liệu sang dạng đầy đủ 12 tháng
+    $formattedData = [];
+    for ($i = 1; $i <= 12; $i++) {
+        $formattedData[] = $dataChart[$i] ?? 0;
+    }
+
+    return response()->json(['dataChart' => $formattedData]);
+}
+
 }
