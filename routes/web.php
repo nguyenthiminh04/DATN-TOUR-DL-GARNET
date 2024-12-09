@@ -178,6 +178,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('tour', TourController::class);
         Route::resource('coupons', CouponsController::class);
         Route::resource('review', ReviewController::class);
+        Route::patch('/review/{id}/toggle-status', [ReviewController::class, 'toggleStatus'])->name('review.toggleStatus');
+
         Route::resource('location', LocationController::class);
         Route::resource('category', CategoryController::class);
         Route::resource('categorytour', CategoryTourController::class);

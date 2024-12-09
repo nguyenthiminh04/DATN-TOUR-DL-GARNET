@@ -139,6 +139,13 @@
                         <span data-key="t-calendar">Bình luận</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('review.index') }}" class="nav-link menu-link ">
+                        <i class=" ri-message-2-line"></i>
+                        <span data-key="t-calendar">Đánh giá</span>
+                    </a>
+                </li>
                 {{-- faq --}}
                 <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#cauHoi" data-bs-toggle="collapse" role="button"

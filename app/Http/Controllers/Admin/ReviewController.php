@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\Admins\Review;
 class ReviewController extends Controller
 {
     /**
@@ -12,8 +12,10 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //
+        $listReview = Review::paginate(10); // Lấy 10 bản ghi mỗi trang
+        return view('admin.review.index', compact('listReview'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -50,16 +52,20 @@ class ReviewController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function destroy(Request $request, string $id)
     {
-        //
+        if ($request->isMethod('DELETE')) {
+            $review = Review::find($id);
+    
+            if (!$review) {
+                return redirect()->route('review.index')->with('error', 'Đánh giá không tồn tại.');
+            }
+    
+            $review->delete();
+    
+            return redirect()->route('review.index')->with('success', 'Xóa đánh giá thành công.');
+        }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    
 }
+
