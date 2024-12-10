@@ -57,15 +57,21 @@
                                                 <td>{{ $item->number_guests }}</td>
                                                 <td>{{ $item->price_old }}</td>
                                                 <td>{{ $item->price_children }}</td>
-                                                <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                    {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                                <td>
+                                                    <button type="button" style="width: 100px;"
+                                                        class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                        data-id="{{ $item->id }}"
+                                                        onclick="toggleStatus({{ $item->id }})">
+                                                        {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
+                                                    </button>
+                                                </td>
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
-                                                            <button class="btn btn-subtle-primary btn-icon btn-sm view-tour"
+                                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-tour"
                                                                 data-id="{{ $item->id }}">
                                                                 <i class="ph-eye"></i>
-                                                            </button>
+                                                            </a>
                                                         </li>
                                                         <li>
                                                             <a href="{{ route('tour.edit', $item->id) }}"
@@ -191,6 +197,57 @@
                 }
             }
         });
+
+        function toggleStatus(tourId) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $.ajax({
+                url: `/admin/tour/status/${tourId}`,
+                method: 'POST',
+                data: {
+                    _token: csrfToken
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const button = $(`button[data-id="${tourId}"]`);
+                        if (response.status == 1) {
+                            button.removeClass('btn-danger').addClass('btn-success');
+                            button.text('Hiện');
+                        } else {
+                            button.removeClass('btn-success').addClass('btn-danger');
+                            button.text('Ẩn');
+                        }
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Đã được cập nhật thành công!',
+                            showConfirmButton: true,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Không tìm thấy bình luận!',
+                            showConfirmButton: true,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error, // Hiển thị lỗi nếu có
+                        showConfirmButton: true,
+                    });
+                    console.error(xhr.responseText || error); // In ra lỗi để debug
+                }
+            });
+        }
+
         $(document).ready(function() {
             // Sự kiện nhấn vào biểu tượng con mắt
             $('.view-tour').on('click', function(e) {

@@ -57,8 +57,14 @@
                                                 <td>{{ $item->end_date }}</td>
                                                 <td>{{ $item->percentage_price }}</td>
                                                 <td>{{ $item->tour->name }}</td>
-                                                <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                    {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                                <td>
+                                                    <button type="button" style="width: 100px;"
+                                                        class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                        data-id="{{ $item->id }}"
+                                                        onclick="toggleStatus({{ $item->id }})">
+                                                        {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
+                                                    </button>
+                                                </td>
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
@@ -193,6 +199,58 @@
                 }
             }
         });
+
+
+        function toggleStatus(couponId) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $.ajax({
+                url: `/admin/coupon/status/${couponId}`,
+                method: 'POST',
+                data: {
+                    _token: csrfToken // Chỉ cần truyền CSRF token trong data
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken // CSRF token cho header
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const button = $(`button[data-id="${couponId}"]`);
+                        if (response.status == 1) {
+                            button.removeClass('btn-danger').addClass('btn-success');
+                            button.text('Hiện');
+                        } else {
+                            button.removeClass('btn-success').addClass('btn-danger');
+                            button.text('Ẩn');
+                        }
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Đã được cập nhật thành công!',
+                            showConfirmButton: true,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Không tìm thấy bình luận!',
+                            showConfirmButton: true,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error, // Hiển thị lỗi nếu có
+                        showConfirmButton: true,
+                    });
+                    console.error(xhr.responseText || error); // In ra lỗi để debug
+                }
+            });
+        }
+
         $(document).ready(function() {
             // Sự kiện nhấn vào biểu tượng con mắt
             $('.view-coupons').on('click', function(e) {

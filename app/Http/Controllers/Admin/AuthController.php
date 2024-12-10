@@ -37,9 +37,7 @@ class AuthController extends Controller
             'password' => $request->password
         ], true)) {
 
-            if (Auth::user()->role_id == 2) {
-                return redirect()->route('home-admin');
-            } else if (Auth::user()->role_id == 3) {
+            if (Auth::user()->role_id == 1) {
                 return redirect()->route('home-admin');
             }
 

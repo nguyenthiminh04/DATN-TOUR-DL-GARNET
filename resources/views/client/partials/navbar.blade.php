@@ -25,49 +25,6 @@ if ($user) {
 }
 ?>
 <style>
-    .navbar-nav .notification-icon {
-        color: white;
-        text-decoration: none;
-        transition: color 0.3s ease;
-        margin-top: 5px;
-    }
-
-    .navbar-nav .notification-icon:hover {
-        color: #007bff;
-    }
-
-    .navbar-nav .badge-danger {
-        margin-top: -10px;
-        background-color: #dc3545;
-        color: white;
-        font-size: 1rem;
-    }
-
-    .navbar-nav .notification-icon {
-        color: white;
-        text-decoration: none;
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-
-    .navbar-nav .notification-icon .badge-danger {
-        position: absolute;
-        top: 10px;
-        right: -2px;
-        background-color: #dc3545;
-        color: white;
-        font-size: 1rem;
-        padding: 3px 5px;
-        border-radius: 50%;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .navbar-nav .notification-icon:hover {
-        color: #007bff;
-
-    }
-
     .notification-popup {
         position: fixed;
         bottom: 20px;
@@ -181,21 +138,7 @@ if ($user) {
                     <li class="nav-item"><a class="nav-link" href="{{ route('favorite.index') }}">Yêu
                             Thích</a>
                     </li>
-                    @if (Auth()->user())
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" id="showNotifications">
-                                Thông báo
-                                @if (Auth()->user())
-                                    <span class="badge badge-danger">{{ $unreadNotifications->count() }}</span>
-                                @else
-                                    <span class="badge badge-danger">0</span>
-                                @endif
-
-                            </a>
-                        </li>
-
-                    @endif
                 </ul>
 
             </div>
@@ -214,8 +157,6 @@ if ($user) {
             </div>
         @else
             <div class="notification-body">
-
-
                 @foreach ($notifications as $notification)
                     <div class="notification-item">
                         <div class="notification-content">
@@ -230,6 +171,14 @@ if ($user) {
                 <button class="btn btn-md btn-primary mark-all-read" id="markAllRead">Đọc Tất Cả</button>
             </div>
         @endif
-
+    </div>
+@else
+    <div class="notification-popup" id="notificationPopup" style="display: none">
+        <div class="notification-header">
+            <h4>Thông Báo Mới Nhận</h4>
+        </div>
+        <div class="notification-body">
+            <p class="title col-3">Vui lòng đăng nhập để xem thông báo</p>
+        </div>
     </div>
 @endif

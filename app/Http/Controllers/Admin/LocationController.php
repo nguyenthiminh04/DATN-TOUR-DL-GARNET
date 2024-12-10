@@ -19,7 +19,7 @@ class LocationController extends Controller
     public function index()
     {
         //
-       
+
         $listLocation = Location::query()->get();
         return view('admin.location.index', compact('listLocation'));
     }
@@ -33,7 +33,7 @@ class LocationController extends Controller
         $listStatus = Status::query()->get();
         $listUser = User::query()->get();
         $listTour = Tour::query()->get();
-        return view('admin.location.add', compact('listStatus','listUser','listTour'));
+        return view('admin.location.add', compact('listStatus', 'listUser', 'listTour'));
     }
 
     /**
@@ -44,23 +44,23 @@ class LocationController extends Controller
         //
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
-    
+
             // Lấy trực tiếp giá trị từ dropdown
             $params['status'] = $request->input('status');
-    
+
             // Xử lý hình ảnh đại diện
             if ($request->hasFile('image')) {
                 $params['image'] = $request->file('image')->store('uploads/location', 'public');
             } else {
                 $params['image'] = null;
             }
-    
+
             // Thêm sản phẩm
             $user = Location::query()->create($params);
-    
+
             // Lấy id sản phẩm vừa thêm để thêm được album
             $user = $user->id;
-    
+
             return redirect()->route('location.index')->with('success', 'Thêm địa điểm thành công!');
         }
     }
@@ -73,7 +73,7 @@ class LocationController extends Controller
         $location = Location::findOrFail($id); // Lấy thông tin của location
         return view('admin.location.details', compact('location'));  // Trả về view chi tiết
     }
-    
+
 
     /**
      * Show the form for editing the specified resource.
@@ -84,7 +84,7 @@ class LocationController extends Controller
         $location = Location::query()->findOrFail($id);
         $listUser = User::query()->get();
         $listTour = Tour::query()->get();
-        return view('admin.location.edit', compact('location','listUser','listTour'));
+        return view('admin.location.edit', compact('location', 'listUser', 'listTour'));
     }
 
     /**
@@ -93,26 +93,25 @@ class LocationController extends Controller
     public function update(Request $request, string $id)
     {
         //
-         if ($request->isMethod('PUT')) {
+        if ($request->isMethod('PUT')) {
             $params = $request->except('_token', '_method');
             $location = Location::findOrFail($id);
-        
+
             // Xử lý Hình Ảnh
             if ($request->hasFile('image')) {
                 // Nếu có ảnh mới, xóa ảnh cũ và lưu ảnh mới
                 if ($location->image) {
                     Storage::disk('public')->delete($location->image);
-                    
                 }
                 $params['image'] = $request->file('image')->store('uploads/location', 'public');
             } else {
                 // Nếu không có ảnh mới, giữ lại ảnh cũ
                 $params['image'] = $location->image;
             }
-        
+
             // Cập nhật dữ liệu
             $location->update($params);
-        
+
             return redirect()->route('location.index')->with('success', 'Cập nhật thành công!');;
         }
     }
@@ -120,26 +119,39 @@ class LocationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request,string $id)
+    public function destroy(Request $request, string $id)
     {
         //
         {
-           
+
             if ($request->isMethod('DELETE')) {
-                
+
                 $location = Location::findOrFail($id);
-    
+
                 if ($location) {
-                    
-                     $location->delete();
-                     
+
+                    $location->delete();
+
                     return redirect()->route('location.index')->with('success', 'Location deleted successfully.');
                 }
                 return redirect()->route('location.index')->with('success', 'Location deleted successfully.');
             }
-           
-    
+        }
+    }
+
+    public function locationStatus(Request $request, $id)
+    {
+        $location = Location::find($id);
+        if (!$location) {
+            return response()->json(['success' => false, 'message' => 'Lỗi'], 404);
         }
 
+        $location->status = $location->status == 0 ? 1 : 0;
+        $location->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $location->status
+        ]);
     }
 }

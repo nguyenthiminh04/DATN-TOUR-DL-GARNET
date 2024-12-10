@@ -96,7 +96,7 @@ class CommentController extends Controller
             return response()->json(['success' => false, 'message' => 'Lỗi'], 404);
         }
 
-        $comment->status = $comment->status == 1 ? 0 : 1;
+        $comment->status = $comment->status == 0 ? 1 : 0;
         $comment->save();
 
         return response()->json([

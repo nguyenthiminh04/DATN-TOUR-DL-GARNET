@@ -135,4 +135,38 @@ class CategoryController extends Controller
 
         return redirect()->route('category.index')->with('success', 'Xóa danh mục thành công!');
     }
+
+
+    public function categoryStatus(Request $request, $id)
+    {
+        $category = Category::find($id);
+        if (!$category) {
+            return response()->json(['success' => false, 'message' => 'Lỗi'], 404);
+        }
+
+        $category->status = $category->status == 0 ? 1 : 0;
+        $category->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $category->status
+        ]);
+    }
+
+    public function categoryHot(Request $request, $id)
+    {
+        $category = Category::find($id);
+        if (!$category) {
+            return response()->json(['success' => false, 'message' => 'Lỗi'], 404);
+        }
+
+        $category->hot = $category->hot == 0 ? 1 : 0;
+        $category->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $category->hot
+        ]);
+    }
+    
 }

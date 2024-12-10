@@ -60,23 +60,21 @@
                                                     <td>{{ $article->created_at }}</td>
                                                     <td>{{ $article->updated_at }}</td>
                                                     <td>
-                                                        {{-- <td class="{{ $article->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                            {{ $article->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
-                                                        <td> --}}
-                                                        <button class="btn btn-sm toggle-status-btn"
+
+                                                        <button type="button" style="width: 100px;"
+                                                            class="btn btn-toggle-status {{ $article->status == 1 ? 'btn-success' : 'btn-danger' }}"
                                                             data-id="{{ $article->id }}"
-                                                            data-status="{{ $article->status }}">
-                                                            {{ $article->status == 1 ? 'Hiển thị' : 'Ẩn' }}
+                                                            onclick="toggleStatus({{ $article->id }})">
+                                                            {{ $article->status == 1 ? 'Hiện' : 'Ẩn' }}
                                                         </button>
                                                     </td>
                                                     <td>
                                                         <ul class="d-flex gap-2 list-unstyled mb-0">
                                                             <li>
-                                                                <button
-                                                                    class="btn btn-subtle-primary btn-icon btn-sm view-article"
+                                                                <a class="btn btn-subtle-primary btn-icon btn-sm view-article"
                                                                     data-id="{{ $article->id }}">
                                                                     <i class="ph-eye"></i>
-                                                                </button>
+                                                                </a>
                                                             </li>
                                                             <li>
                                                                 <a href="{{ route('article.edit', $article->id) }}"
@@ -213,14 +211,66 @@
                     }
                 }
             });
-            
+
+            function toggleStatus(articleId) {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                $.ajax({
+                    url: `/admin/article/status/${articleId}`,
+                    method: 'POST',
+                    data: {
+                        _token: csrfToken // Chỉ cần truyền CSRF token trong data
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken // CSRF token cho header
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            const button = $(`button[data-id="${articleId}"]`);
+                            if (response.status == 1) {
+                                button.removeClass('btn-danger').addClass('btn-success');
+                                button.text('Hiện');
+                            } else {
+                                button.removeClass('btn-success').addClass('btn-danger');
+                                button.text('Ẩn');
+                            }
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: 'Đã được cập nhật thành công!',
+                                showConfirmButton: true,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi!',
+                                text: 'Không tìm thấy bình luận!',
+                                showConfirmButton: true,
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error, // Hiển thị lỗi nếu có
+                            showConfirmButton: true,
+                        });
+                        console.error(xhr.responseText || error); // In ra lỗi để debug
+                    }
+                });
+            }
+
+
+
             $(document).on('click', '.toggle-status-btn', function() {
                 let button = $(this);
                 let articleId = button.data('id');
                 let currentStatus = button.data('status');
 
                 $.ajax({
-                 
+
                     url: `/article/${articleId}/toggle-status`,
                     type: 'PATCH',
                     data: {
@@ -272,8 +322,6 @@
                     });
                 });
             });
-
-
         </script>
     @endsection
 

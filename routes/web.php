@@ -75,6 +75,7 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::post('dat-lai-mat-khau/{token}',                 [PasswordController::class, 'postResetPassword'])->name('post-reset-password');
 
 
+    
     // Route::resource('tour', ClientTourController::class)->names([
     //đổi pass trang profile
     Route::get('/change-password', [myAccountController::class, 'indexChangePassword'])->name('user.indexChangePassword');
@@ -187,9 +188,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('category', CategoryController::class);
         Route::resource('categorytour', CategoryTourController::class);
         Route::resource('comments', CommentController::class);
-        Route::get('comment',                           [CommentController::class, 'index'])->name('comment.index');
-        Route::delete('comment/delete/{id}',               [CommentController::class, 'destroy'])->name('comment.delete');
-        Route::post('comment/status/{id}',              [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
+        Route::get('comment',                               [CommentController::class, 'index'])->name('comment.index');
+        Route::delete('comment/delete/{id}',                [CommentController::class, 'destroy'])->name('comment.delete');
+        Route::post('comment/status/{id}',                  [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
         // thông báo
         Route::resource('notification-user', NotificationUserController::class);
         Route::get('/users/search', [NotificationUserController::class, 'searchUsers'])->name('users.search');
@@ -197,8 +198,21 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('admin/notifications/unread-count', [NotificationController::class, 'getUnreadCount'])->name('notifications.unreadCount');
 
         // end thông báo
-        Route::get('advisory',                           [AdvisoryController::class, 'index'])->name('advisory.index');
+        Route::get('advisory',                              [AdvisoryController::class, 'index'])->name('advisory.index');
         Route::delete('advisory/delete/{id}',               [AdvisoryController::class, 'destroy'])->name('advisory.delete');
-        Route::post('advisory/status/{id}',              [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');
+        Route::post('advisory/status/{id}',                 [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');
+
+        //status
+        Route::post('user/status/{id}',                     [UserController::class, 'userStatus'])->name('user.userStatus');
+        Route::post('categorytour/status/{id}',             [CategoryTourController::class, 'categorytourStatus'])->name('categorytour.categorytourStatus');
+        Route::post('tour/status/{id}',                     [TourController::class, 'tourStatus'])->name('tour.tourStatus');
+        Route::post('article/status/{id}',                  [ArticleController::class, 'articleStatus'])->name('article.articleStatus');
+        Route::post('coupon/status/{id}',                   [CouponsController::class, 'couponStatus'])->name('coupon.couponStatus');
+        Route::post('location/status/{id}',                 [LocationController::class, 'locationStatus'])->name('location.locationStatus');
+        Route::post('category/status/{id}',                 [CategoryController::class, 'categoryStatus'])->name('category.categoryStatus');
+        Route::post('category/hot/{id}',                    [CategoryController::class, 'categoryHot'])->name('category.categoryHot');
+        Route::post('notifications/toggle-status/{id}',     [NotificationController::class, 'toggleStatus'])->name('notifications.toggleStatus');
+        
+        Route::get('categorytour', [CategoryTourController::class, 'index'])->name('categorytour.index');
     });
 });
