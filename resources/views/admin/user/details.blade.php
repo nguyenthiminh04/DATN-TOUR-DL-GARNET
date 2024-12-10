@@ -1,5 +1,5 @@
 <h5 class="card-title">{{ $user->name }}</h5>
-<p><strong>Hình ảnh:</strong> <img src="{{ Storage::url($user->image) }}" alt="Image" width="100"></p>
+<p><strong>Hình ảnh:</strong> <img src="{{ Storage::url($user->avatar) }}" alt="Image" width="100"></p>
 <p><strong>Email:</strong> {{ $user->email }}</p>
 <p><strong>Địa chỉ:</strong> {{ $user->address }}</p>
 <p><strong>Giới tính:</strong> {{ $user->gender }}</p>

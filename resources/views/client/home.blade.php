@@ -288,6 +288,9 @@
                                 <li><a href="{{ route('my-account.index') }}"><i class="fa fa-sign-in"
                                             aria-hidden="true"></i>
                                         Tour Đã Đặt</a></li>
+                                        <li><a href="{{ route('my-account.index') }}"><i class="fa fa-sign-in"
+                                            aria-hidden="true"></i>
+                                        </a></li>
                             @endif
                         </ul>
                     </div>
