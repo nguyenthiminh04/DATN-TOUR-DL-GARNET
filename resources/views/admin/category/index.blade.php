@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-
+                        
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
@@ -59,18 +59,30 @@
 
                                                 <td>{{ $item->description }}</td>
 
-                                                <td class="{{ $item->hot == 1 ? 'text-success' : 'text-danger' }}">
-                                                    {{ $item->hot == 1 ? 'Hot' : 'Không Hot' }}</td>
-                                                <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                    {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                                <td>
+                                                    <button type="button" style="width: 100px;"
+                                                        class="btn btn-toggle-hot {{ $item->hot == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                        data-id="{{ $item->id }}"
+                                                        onclick="toggleHot({{ $item->id }})">
+                                                        {{ $item->hot == 1 ? 'Hot' : 'Không Hot' }}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" style="width: 100px;"
+                                                        class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                        data-id="{{ $item->id }}"
+                                                        onclick="toggleStatus({{ $item->id }})">
+                                                        {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
+                                                    </button>
+                                                </td>
+
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
-                                                            <button
-                                                                class="btn btn-subtle-primary btn-icon btn-sm view-category"
+                                                            <s class="btn btn-subtle-primary btn-icon btn-sm view-category"
                                                                 data-id="{{ $item->id }}">
                                                                 <i class="ph-eye"></i>
-                                                            </button>
+                                                            </s>
                                                         </li>
                                                         <li>
 
@@ -201,6 +213,105 @@
                 }
             }
         });
+
+        function toggleHot(categoryhotId) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $.ajax({
+                url: `/admin/category/hot/${categoryhotId}`,
+                method: 'POST',
+                data: {
+                    _token: csrfToken
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const button = $(
+                            `.btn.btn-toggle-hot[data-id="${categoryhotId}"]`); // Chỉ chọn nút "Hot"
+                        if (response.status == 1) {
+                            button.removeClass('btn-danger').addClass('btn-success').text('Hot');
+                        } else {
+                            button.removeClass('btn-success').addClass('btn-danger').text('Không Hot');
+                        }
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Đã được cập nhật thành công!',
+                            showConfirmButton: true,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Không tìm thấy danh mục!',
+                            showConfirmButton: true,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error,
+                        showConfirmButton: true,
+                    });
+                    console.error(xhr.responseText || error);
+                }
+            });
+        }
+
+
+        function toggleStatus(categoryId) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $.ajax({
+                url: `/admin/category/status/${categoryId}`,
+                method: 'POST',
+                data: {
+                    _token: csrfToken
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const button = $(
+                        `.btn.btn-toggle-status[data-id="${categoryId}"]`); // Chỉ chọn nút "Status"
+                        if (response.status == 1) {
+                            button.removeClass('btn-danger').addClass('btn-success').text('Hiện');
+                        } else {
+                            button.removeClass('btn-success').addClass('btn-danger').text('Ẩn');
+                        }
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Đã được cập nhật thành công!',
+                            showConfirmButton: true,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Không tìm thấy danh mục!',
+                            showConfirmButton: true,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error,
+                        showConfirmButton: true,
+                    });
+                    console.error(xhr.responseText || error);
+                }
+            });
+        }
+
+
         $(document).ready(function() {
             // Sự kiện nhấn vào biểu tượng con mắt
             $('.view-category').on('click', function(e) {

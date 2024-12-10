@@ -52,16 +52,21 @@
                                                         width="30px">
                                                 </td>
                                                 <td>{{ $item->description }}</td>
-                                                <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                    {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                                <td>
+                                                    <button type="button" style="width: 100px;"
+                                                        class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                        data-id="{{ $item->id }}"
+                                                        onclick="toggleStatus({{ $item->id }})">
+                                                        {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
+                                                    </button>
+                                                </td>
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
-                                                            <button
-                                                                class="btn btn-subtle-primary btn-icon btn-sm view-location"
+                                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-location"
                                                                 data-id="{{ $item->id }}">
                                                                 <i class="ph-eye"></i>
-                                                            </button>
+                                                            </a>
                                                         </li>
                                                         <li>
 
@@ -128,13 +133,13 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-      
+
     </div>
     <!-- Modal để hiển thị chi tiết Location -->
     <div class="modal fade" id="locationDetailModal" tabindex="-1" aria-labelledby="locationDetailModalLabel"
@@ -193,6 +198,58 @@
                 }
             }
         });
+
+
+        function toggleStatus(locationId) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $.ajax({
+                url: `/admin/location/status/${locationId}`,
+                method: 'POST',
+                data: {
+                    _token: csrfToken // Chỉ cần truyền CSRF token trong data
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken // CSRF token cho header
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const button = $(`button[data-id="${locationId}"]`);
+                        if (response.status == 1) {
+                            button.removeClass('btn-danger').addClass('btn-success');
+                            button.text('Hiện');
+                        } else {
+                            button.removeClass('btn-success').addClass('btn-danger');
+                            button.text('Ẩn');
+                        }
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Đã được cập nhật thành công!',
+                            showConfirmButton: true,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Không tìm thấy bình luận!',
+                            showConfirmButton: true,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error, // Hiển thị lỗi nếu có
+                        showConfirmButton: true,
+                    });
+                    console.error(xhr.responseText || error); // In ra lỗi để debug
+                }
+            });
+        }
+
         $(document).ready(function() {
             // Sự kiện nhấn vào biểu tượng con mắt
             $('.view-location').on('click', function(e) {

@@ -14,12 +14,31 @@ class CategoryTourController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Lấy danh sách CategoryTour
-        $listCategoryTour = CategoryTour::query()->get();
+
+        $status = $request->get('status');
+
+        $query = CategoryTour::query();
+
+        if ($status !== null) {
+            $query->where('status', $status);
+        }
+
+        $listCategoryTour = $query->get();
+
+        if ($request->ajax()) {
+
+            return response()->json([
+                'data' => $listCategoryTour
+            ]);
+        }
+
+
         return view('admin.categorytour.index', compact('listCategoryTour'));
     }
+
+
 
 
     /**
@@ -51,9 +70,9 @@ class CategoryTourController extends Controller
             return redirect()->route('categorytour.index')->with('success', 'Thêm thành công!');
         }
     }
-    
-    
-    
+
+
+
 
     /**
      * Display the specified resource.
@@ -71,11 +90,11 @@ class CategoryTourController extends Controller
     {
         // Lấy thông tin categorytour theo ID
         $categorytour = CategoryTour::findOrFail($id);
-        
+
         // Truyền dữ liệu vào view
         return view('admin.categorytour.edit', compact('categorytour'));
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -88,13 +107,13 @@ class CategoryTourController extends Controller
         // Lấy các tham số từ request, ngoại trừ `_token` và `_method`
         $params = $request->except('_token', '_method');
 
-     
-            $categorytour->update($params);
 
-            return redirect()->route('categorytour.index')->with('success', 'Cập nhật thành công!');;
-        }
- 
-    
+        $categorytour->update($params);
+
+        return redirect()->route('categorytour.index')->with('success', 'Cập nhật thành công!');;
+    }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -103,12 +122,27 @@ class CategoryTourController extends Controller
     {
         // Tìm CategoryTour cần xóa
         $categoryTour = CategoryTour::findOrFail($id);
-        
+
         // Xóa dữ liệu
         $categoryTour->delete();
-        
+
         // Chuyển hướng về trang danh sách với thông báo thành công
         return redirect()->route('categorytour.index')->with('success', 'Xóa danh mục Tour thành công!');
     }
-}
 
+    public function categorytourStatus(Request $request, $id)
+    {
+        $categorytour = CategoryTour::find($id);
+        if (!$categorytour) {
+            return response()->json(['success' => false, 'message' => 'Lỗi'], 404);
+        }
+
+        $categorytour->status = $categorytour->status == 0 ? 1 : 0;
+        $categorytour->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $categorytour->status
+        ]);
+    }
+}

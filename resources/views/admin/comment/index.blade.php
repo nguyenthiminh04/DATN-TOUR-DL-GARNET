@@ -65,7 +65,7 @@
                                             <th scope="col">Hành động </th>
                                         </tr>
                                     </thead>
-                                    <tbody class="list form-check-all">
+                                    <tbody class="list form-check-all" id="category-tours-body">
                                         @if ($listComments->isEmpty())
                                             <tr>
                                                 <td colspan="11" class="text-center text-muted">
@@ -86,10 +86,10 @@
                                                     </td>
                                                     <td>
                                                         <button type="button" style="width: 100px;"
-                                                            class="btn btn-toggle-status {{ $item->status == 0 ? 'btn-success' : 'btn-danger' }}"
+                                                            class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
                                                             data-id="{{ $item->id }}"
                                                             onclick="toggleStatus({{ $item->id }})">
-                                                            {{ $item->status == 0 ? 'Hiện' : 'Ẩn' }}
+                                                            {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
                                                         </button>
                                                     </td>
                                                     <td>
@@ -114,56 +114,54 @@
                                         @endif
                                     </tbody>
                                 </table>
-                                
+
                             </div>
                             <div class="row align-items-center mt-4 pt-3" id="pagination-element"
-                            style="width: 100%; overflow: hidden;">
-                            <div class="col-sm">
-                                <div class="text-muted text-center text-sm-start">
-                                    Hiển thị <span class="fw-semibold">{{ $listComments->count() }}</span>
-                                    trên <span class="fw-semibold">{{ $listComments->total() }}</span>
-                                    mục
+                                style="width: 100%; overflow: hidden;">
+                                <div class="col-sm">
+                                    <div class="text-muted text-center text-sm-start">
+                                        Hiển thị <span class="fw-semibold">{{ $listComments->count() }}</span>
+                                        trên <span class="fw-semibold">{{ $listComments->total() }}</span>
+                                        mục
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-auto mt-3 mt-sm-0">
+                                    <div class="pagination-wrap hstack justify-content-center gap-2">
+
+                                        @if ($listComments->onFirstPage())
+                                            <a class="page-item pagination-prev disabled" href="#">
+                                                Trước
+                                            </a>
+                                        @else
+                                            <a class="page-item pagination-prev"
+                                                href="{{ $listComments->previousPageUrl() }}">
+                                                Trước
+                                            </a>
+                                        @endif
+
+                                        <ul class="pagination listjs-pagination mb-0">
+                                            @foreach ($listComments->getUrlRange(1, $listComments->lastPage()) as $page => $url)
+                                                <li class="{{ $listComments->currentPage() == $page ? 'active' : '' }}">
+                                                    <a class="page" href="{{ $url }}"
+                                                        data-i="{{ $page }}"
+                                                        data-page="{{ $page }}">{{ $page }}</a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+
+                                        @if ($listComments->hasMorePages())
+                                            <a class="page-item pagination-next" href="{{ $listComments->nextPageUrl() }}">
+                                                Tiếp
+                                            </a>
+                                        @else
+                                            <a class="page-item pagination-next disabled" href="#">
+                                                Tiếp
+                                            </a>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="col-sm-auto mt-3 mt-sm-0">
-                                <div class="pagination-wrap hstack justify-content-center gap-2">
-
-                                    @if ($listComments->onFirstPage())
-                                        <a class="page-item pagination-prev disabled" href="#">
-                                            Trước
-                                        </a>
-                                    @else
-                                        <a class="page-item pagination-prev"
-                                            href="{{ $listComments->previousPageUrl() }}">
-                                            Trước
-                                        </a>
-                                    @endif
-
-                                    <ul class="pagination listjs-pagination mb-0">
-                                        @foreach ($listComments->getUrlRange(1, $listComments->lastPage()) as $page => $url)
-                                            <li
-                                                class="{{ $listComments->currentPage() == $page ? 'active' : '' }}">
-                                                <a class="page" href="{{ $url }}"
-                                                    data-i="{{ $page }}"
-                                                    data-page="{{ $page }}">{{ $page }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-
-                                    @if ($listComments->hasMorePages())
-                                        <a class="page-item pagination-next"
-                                            href="{{ $listComments->nextPageUrl() }}">
-                                            Tiếp
-                                        </a>
-                                    @else
-                                        <a class="page-item pagination-next disabled" href="#">
-                                            Tiếp
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
                         </div>
                     </div>
                 </div>
@@ -226,7 +224,7 @@
                 success: function(response) {
                     if (response.success) {
                         const button = $(`button[data-id="${commentId}"]`);
-                        if (response.status == 0) {
+                        if (response.status == 1) {
                             button.removeClass('btn-danger').addClass('btn-success');
                             button.text('Hiện');
                         } else {
@@ -236,8 +234,8 @@
 
                         Swal.fire({
                             icon: 'success',
-                            title: 'Cập nhật trạng thái!',
-                            text: 'Trạng thái đã được cập nhật thành công!',
+                            title: 'Thành công!',
+                            text: 'Đã được cập nhật thành công!',
                             showConfirmButton: true,
                         });
                     } else {

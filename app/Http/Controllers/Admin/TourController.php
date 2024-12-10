@@ -107,7 +107,7 @@ class TourController extends Controller
         $listCategoryTour = CategoryTour::query()->get();
         $tour = Tour::query()->findOrFail($id);
         // return view('admin.tour.edit', compact('listuser', 'listlocation', 'listStatus', 'tour', 'listCategoryTour'));
-        return view('admin.tour.edit', compact('listuser','listlocation','tour','listCategoryTour'));
+        return view('admin.tour.edit', compact('listuser', 'listlocation', 'tour', 'listCategoryTour'));
     }
 
     /**
@@ -195,5 +195,21 @@ class TourController extends Controller
                 return redirect()->route('tour.index');
             }
         }
+    }
+
+    public function tourStatus(Request $request, $id)
+    {
+        $tour = Tour::find($id);
+        if (!$tour) {
+            return response()->json(['success' => false, 'message' => 'Lỗi'], 404);
+        }
+
+        $tour->status = $tour->status == 0 ? 1 : 0;
+        $tour->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $tour->status
+        ]);
     }
 }

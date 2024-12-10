@@ -126,15 +126,9 @@
                                                                      <option value="Đang tư vấn"
                                                                          {{ $item->status == 'Đang tư vấn' ? 'selected' : '' }}>
                                                                          Đang tư vấn</option>
-                                                                     <option value="Đã xác nhận"
-                                                                         {{ $item->status == 'Đã xác nhận' ? 'selected' : '' }}>
-                                                                         Đã xác nhận</option>
                                                                      <option value="Đã hoàn tất"
                                                                          {{ $item->status == 'Đã hoàn tất' ? 'selected' : '' }}>
                                                                          Đã hoàn tất</option>
-                                                                     <option value="Chờ bổ sung thông tin"
-                                                                         {{ $item->status == 'Chờ bổ sung thông tin' ? 'selected' : '' }}>
-                                                                         Chờ bổ sung thông tin</option>
                                                                      <option value="Hủy bỏ"
                                                                          {{ $item->status == 'Hủy bỏ' ? 'selected' : '' }}>
                                                                          Hủy bỏ</option>
