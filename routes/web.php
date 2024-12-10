@@ -50,9 +50,8 @@ use App\Http\Controllers\Client\TourController as ClientTourController;
 
 
 // client routes
-Route::group([], function () {
+Route::group(['middleware' => 'checkstatus'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
-
 
     // client dang ky/ dang nhap/quen mat khau/ login gg
     Route::get('/dang-nhap', [AuthClientController::class, 'DangNhap'])->name('dang-nhap');
