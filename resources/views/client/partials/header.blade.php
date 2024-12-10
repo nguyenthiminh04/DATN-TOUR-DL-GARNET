@@ -12,6 +12,25 @@
                 </div>
                 <div class="col-md-6">
                     <ul class="list-inline f-right ul-account">
+                        @if (Auth()->check() && count(Auth()->user()->notifications) > 0)
+                            <li style="margin-right: 15px">
+                                <a href="" id="showNotifications">
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
+                                    <span class="badge badge-danger">
+                                        {{ count(Auth()->user()->notifications) }}
+                                    </span>
+                                </a>
+                            </li>
+                        @else
+                            <li>
+                                <a href="" id="showNotifications">
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
+                                    <span class="badge badge-danger" style="display: none;"></span>
+                                </a>
+                            </li>
+                        @endif
+
+
                         @if (Auth::check())
                             <li>
                                 <a href="{{ route('my-account.index') }}"><i class="fa fa-user" aria-hidden="true"></i>

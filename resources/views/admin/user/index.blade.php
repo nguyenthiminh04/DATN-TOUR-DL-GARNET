@@ -63,16 +63,17 @@
                                                 <td>{{ $item->address }}</td>
                                                 <td>{{ $item->birth }}</td>
                                                 <td>{{ $item->gender }}</td>
-                                                <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                    {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                                                <td>
+                                                    <button type="button" style="width: 100px;"
+                                                        class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                        data-id="{{ $item->id }}"
+                                                        onclick="toggleStatus({{ $item->id }})">
+                                                        {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
+                                                    </button>
+                                                </td>
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
-                                                        <li>
-                                                            <button class="btn btn-subtle-primary btn-icon btn-sm view-user"
-                                                                data-id="{{ $item->id }}">
-                                                                <i class="ph-eye"></i>
-                                                            </button>
-                                                        </li>
+
                                                         <li>
                                                             <a href="{{ route('user.edit', $item->id) }}"
                                                                 class="btn btn-subtle-success btn-icon btn-sm">
@@ -199,6 +200,67 @@
                     }
                 }
             });
+
+            function toggleStatus(userId) {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                $.ajax({
+                    url: `/admin/user/status/${userId}`,
+                    method: 'POST',
+                    data: {
+                        _token: csrfToken
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            const button = $(`button[data-id="${userId}"]`);
+                            if (response.status == 1) {
+                                button.removeClass('btn-danger').addClass('btn-success');
+                                button.text('Hiện');
+                            } else {
+                                button.removeClass('btn-success').addClass('btn-danger');
+                                button.text('Ẩn');
+                            }
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: 'Đã được cập nhật thành công!',
+                                showConfirmButton: true,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi!',
+                                text: response.message || 'Đã xảy ra lỗi không xác định.',
+                                showConfirmButton: true,
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+
+                        let errorMessage = 'Đã xảy ra lỗi khi cập nhật trạng thái.';
+                        if (xhr.status === 403 && xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: errorMessage,
+                            showConfirmButton: true,
+                        });
+
+                        console.error(xhr.responseJSON || xhr.responseText);
+                    }
+                });
+            }
+
+
+
+
             $(document).ready(function() {
                 // Sự kiện nhấn vào biểu tượng con mắt
                 $('.view-user').on('click', function(e) {

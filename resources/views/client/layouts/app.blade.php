@@ -363,6 +363,23 @@
             opacity: 1;
             visibility: visible;
         }
+
+        .navbar-nav .badge-danger {
+            margin-top: -10px;
+            background-color: #dc3545;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .badge-danger {
+            position: absolute;
+            background-color: #dc3545;
+            color: white;
+            font-size: 1rem;
+            padding: 1px 3px;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 
@@ -710,7 +727,7 @@
         </div>
     </div>
 
-    
+
 
 
     <script>

@@ -86,7 +86,7 @@ class ArticleController extends Controller
             // $article = Article::query()->create($params);
             //Lấy id sản phẩm vừa thêm để thêm được album 
             //Xử lý thêm album
-       
+
             return redirect()->route('article.index');
         }
     }
@@ -94,7 +94,7 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    
+
     public function show($id)
     {
         $article = Article::findOrFail($id); // Lấy thông tin của location
@@ -121,7 +121,7 @@ class ArticleController extends Controller
         if ($request->isMethod('PUT')) {
             $params = $request->except('_token', '_method');
             $article = Article::findOrFail($id);
-    
+
             // Xử lý Hình Ảnh
             if ($request->hasFile('img_thumb')) {
                 if ($article->img_thumb && Storage::disk('public')->exists($article->img_thumb)) {
@@ -129,14 +129,14 @@ class ArticleController extends Controller
                 }
                 $params['img_thumb'] = $request->file('img_thumb')->store('uploads/thumbnails', 'public');
             }
-    
+
             // Cập nhật dữ liệu
             $article->update($params);
-    
+
             return redirect()->route('article.index')->with('success', 'Cập nhật thành công!');
         }
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -145,20 +145,36 @@ class ArticleController extends Controller
     {
         if ($request->isMethod('DELETE')) {
             $article = Article::find($id);
-    
+
             if (!$article) {
                 return redirect()->route('article.index')->with('error', 'Bài viết không tồn tại.');
             }
-    
+
             // Xóa ảnh đại diện nếu có
             if ($article->img_thumb && Storage::disk('public')->exists($article->img_thumb)) {
                 Storage::disk('public')->delete($article->img_thumb);
             }
-    
+
             $article->delete();
-    
+
             return redirect()->route('article.index')->with('success', 'Xóa bài viết thành công.');
         }
     }
-    
+
+
+    public function articleStatus(Request $request, $id)
+    {
+        $artic = Article::find($id);
+        if (!$artic) {
+            return response()->json(['success' => false, 'message' => 'Lỗi'], 404);
+        }
+
+        $artic->status = $artic->status == 0 ? 1 : 0;
+        $artic->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $artic->status
+        ]);
+    }
 }

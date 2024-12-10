@@ -16,10 +16,14 @@
                         </div>
 
                     </div>
+
+
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
-                            <a href="{{ route('categorytour.create') }}" class="btn btn-secondary"><i
-                                    class="bi bi-plus-circle align-baseline me-1"></i> Thêm danh mục Tour</a>
+                            <div>
+                                <a href="{{ route('categorytour.create') }}" class="btn btn-secondary"><i
+                                        class="bi bi-plus-circle align-baseline me-1"></i> Thêm danh mục Tour</a>
+                            </div>
                         </div>
 
                         <div class="col-sm">
@@ -37,6 +41,7 @@
 
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -66,8 +71,9 @@
 
                                             <td>{{ $item->category_tour }}</td>
                                             <td>{{ $item->description }}</td>
-                                            <td>{{ $item->created_at }}</td>
-                                            <td>{{ $item->updated_at }}</td>
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($item->updated_at)->format('d/m/Y H:i:s') }}</td>
                                             <td>
                                                 <button type="button" style="width: 100px;"
                                                     class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
@@ -136,7 +142,7 @@
                                             </div><!-- /.modal-dialog -->
                                         </div>
                                     @endforeach
-                                </tbody><!-- end tbody -->
+                                </tbody>
                             </table><!-- end table -->
                             <div class="noresult" style="display: none">
                                 <div class="text-center py-4">
@@ -185,6 +191,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js"></script>
+
+
+
     <script>
         $(document).ready(function() {
             let table = $('#example').DataTable({
@@ -208,9 +221,11 @@
                         "sSortAscending": ": kích hoạt để sắp xếp cột theo thứ tự tăng dần",
                         "sSortDescending": ": kích hoạt để sắp xếp cột theo thứ tự giảm dần"
                     }
-                }   
+                }
             })
         });
+
+
 
         function toggleStatus(categorytourId) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -287,74 +302,74 @@
         });
     </script>
 
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
 
-        $('#status').on('change', function() {
-            var status = $(this).val();
+            $('#status').on('change', function() {
+                var status = $(this).val();
 
-            $.ajax({
-                url: '{{ route('categorytour.index') }}',
-                method: 'GET',
-                data: {
-                    status: status
-                },
-                success: function(response) {
-                    var rows = '';
-                    $.each(response.data, function(index, item) {
-                        var createdAt = moment(item.created_at).format(
-                            'DD/MM/YYYY HH:mm:ss');
-                        var updatedAt = moment(item.updated_at).format(
-                            'DD/MM/YYYY HH:mm:ss');
-                        rows += `
-            <tr>
-                <td><a href="" class="text-reset">${item.id}</a></td>
-                <td>${item.category_tour}</td>
-                <td>${item.description ?? 'Chưa có mô tả'}</td>
-                <td>${createdAt}</td>
-                <td>${updatedAt}</td>
-                <td>
-                    <button type="button" style="width: 100px;"
-                        class="btn btn-toggle-status ${item.status == 1 ? 'btn-success' : 'btn-danger'}"
-                        data-id="${item.id}"
-                        onclick="toggleStatus(${item.id})">
-                        ${item.status == 1 ? 'Hiện' : 'Ẩn'}
-                    </button>
-                </td>
-                <td>
-                    <ul class="d-flex gap-2 list-unstyled mb-0">
-                        <li>
-                            <a class="btn btn-subtle-primary btn-icon btn-sm view-categorytour"
-                               data-id="${item.id}">
-                                <i class="ph-eye"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/categorytour/${item.id}/edit"
-                               class="btn btn-subtle-success btn-icon btn-sm">
-                                <i class="ri-edit-2-line"></i></a>
-                        </li>
-                        <li>
-                            <a href="#deleteRecordModal${item.id}"
-                               data-bs-toggle="modal"
-                               class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
-                                    class="ph-trash"></i></a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        `;
-                    });
+                $.ajax({
+                    url: '{{ route('categorytour.index') }}',
+                    method: 'GET',
+                    data: {
+                        status: status
+                    },
+                    success: function(response) {
+                        var rows = '';
+                        $.each(response.data, function(index, item) {
+                            var createdAt = moment(item.created_at).format(
+                                'DD/MM/YYYY HH:mm:ss');
+                            var updatedAt = moment(item.updated_at).format(
+                                'DD/MM/YYYY HH:mm:ss');
+                            rows += `
+                <tr>
+                    <td><a href="" class="text-reset">${item.id}</a></td>
+                    <td>${item.category_tour}</td>
+                    <td>${item.description ?? 'Chưa có mô tả'}</td>
+                    <td>${createdAt}</td>
+                    <td>${updatedAt}</td>
+                    <td>
+                        <button type="button" style="width: 100px;"
+                            class="btn btn-toggle-status ${item.status == 1 ? 'btn-success' : 'btn-danger'}"
+                            data-id="${item.id}"
+                            onclick="toggleStatus(${item.id})">
+                            ${item.status == 1 ? 'Hiện' : 'Ẩn'}
+                        </button>
+                    </td>
+                    <td>
+                        <ul class="d-flex gap-2 list-unstyled mb-0">
+                            <li>
+                                <a class="btn btn-subtle-primary btn-icon btn-sm view-categorytour"
+                                   data-id="${item.id}">
+                                    <i class="ph-eye"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/categorytour/${item.id}/edit"
+                                   class="btn btn-subtle-success btn-icon btn-sm">
+                                    <i class="ri-edit-2-line"></i></a>
+                            </li>
+                            <li>
+                                <a href="#deleteRecordModal${item.id}"
+                                   data-bs-toggle="modal"
+                                   class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                        class="ph-trash"></i></a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            `;
+                        });
 
-                    $('#category-tours-body').html(rows);
-                },
-                error: function() {
-                    alert('Có lỗi xảy ra!');
-                }
+                        $('#category-tours-body').html(rows);
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra!');
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 @endsection
 
 

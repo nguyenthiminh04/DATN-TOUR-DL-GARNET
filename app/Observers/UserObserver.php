@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\User;
+use App\Models\Admins\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserObserver
@@ -20,7 +20,9 @@ class UserObserver
      */
     public function updated(User $user): void
     {
-        //
+        if ($user->isDirty('status') && $user->status != 1) {
+            Auth::logout();
+        }
     }
 
     /**
@@ -45,13 +47,5 @@ class UserObserver
     public function forceDeleted(User $user): void
     {
         //
-    }
-
-    public function updating(User $user)
-    {
-
-        if ($user->isDirty('status') && $user->status != 1) {
-            Auth::logout();
-        }
     }
 }

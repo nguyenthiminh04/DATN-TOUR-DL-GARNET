@@ -20,7 +20,7 @@ class CouponsController extends Controller
         //
         $listcoupons = Coupons::orderBYDesc('id')->get();
         $listtour = Tour::query()->get();
-        return view('admin.coupons.index', compact('listcoupons','listtour'));
+        return view('admin.coupons.index', compact('listcoupons', 'listtour'));
     }
 
     /**
@@ -31,7 +31,7 @@ class CouponsController extends Controller
         //
         $listStatus = Status::query()->get();
         $listTour = Tour::query()->get();
-        return view('admin.coupons.add', compact('listStatus','listTour'));
+        return view('admin.coupons.add', compact('listStatus', 'listTour'));
     }
 
     /**
@@ -39,9 +39,9 @@ class CouponsController extends Controller
      */
     public function store(CouponsRequests $request)
     {
-        if($request->method('post')){
+        if ($request->method('post')) {
             $params = $request->except('_token');
-           
+
 
             Coupons::create($params);
             return redirect()->route('coupons.index');
@@ -65,7 +65,7 @@ class CouponsController extends Controller
         $listStatus = Status::query()->get();
         $listTour = Tour::query()->get();
         $coupons = Coupons::query()->findOrFail($id);
-        return view('admin.coupons.edit', compact('listStatus','listTour','coupons'));
+        return view('admin.coupons.edit', compact('listStatus', 'listTour', 'coupons'));
     }
 
     /**
@@ -79,7 +79,7 @@ class CouponsController extends Controller
             $tour = Coupons::findOrFail($id);
             // Cập nhật dữ liệu
             $tour->update($params);
-        
+
             return redirect()->route('coupons.index');
         }
     }
@@ -87,24 +87,38 @@ class CouponsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request,string $id)
-    {
-        {
-           
+    public function destroy(Request $request, string $id)
+    { {
+
             if ($request->isMethod('DELETE')) {
-                
+
                 $coupons = Coupons::findOrFail($id);
-    
+
                 if ($coupons) {
-                    
-                     $coupons->delete();
-                     
+
+                    $coupons->delete();
+
                     return redirect()->route('coupons.index');
                 }
                 return redirect()->route('coupons.index');
             }
-           
-    
         }
+    }
+
+
+    public function couponStatus(Request $request, $id)
+    {
+        $coupon = Coupons::find($id);
+        if (!$coupon) {
+            return response()->json(['success' => false, 'message' => 'Lỗi'], 404);
+        }
+
+        $coupon->status = $coupon->status == 0 ? 1 : 0;
+        $coupon->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $coupon->status
+        ]);
     }
 }

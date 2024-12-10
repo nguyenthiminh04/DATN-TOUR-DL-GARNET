@@ -244,6 +244,23 @@
             opacity: 1;
             visibility: visible;
         }
+
+        .navbar-nav .badge-danger {
+            margin-top: -10px;
+            background-color: #dc3545;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .badge-danger {
+            position: absolute;
+            background-color: #dc3545;
+            color: white;
+            font-size: 1rem;
+            padding: 1px 3px;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 
@@ -264,6 +281,25 @@
                     </div>
                     <div class="col-md-6">
                         <ul class="list-inline f-right ul-account">
+
+                            @if (Auth()->check() && count(Auth()->user()->notifications) > 0)
+                                <li style="margin-right: 15px">
+                                    <a href="" id="showNotifications">
+                                        <i class="fa fa-bell" aria-hidden="true"></i>
+                                        <span class="badge badge-danger">
+                                            {{ count(Auth()->user()->notifications) }}
+                                        </span>
+                                    </a>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="" id="showNotifications">
+                                        <i class="fa fa-bell" aria-hidden="true"></i>
+                                        <span class="badge badge-danger" style="display: none;"></span>
+                                    </a>
+                                </li>
+                            @endif
+
                             @if (Auth::check())
                                 <li><a href="{{ route('my-account.index') }}"><i class="fa fa-user"
                                             aria-hidden="true"></i>
@@ -437,11 +473,6 @@
                     </div>
                 </div>
                 <div class="row">
-
-
-
-
-
 
                     @foreach ($Tourmoinhat as $item)
                         <div class="col-md-4 col-sm-6 col-xs-6 col-100">
