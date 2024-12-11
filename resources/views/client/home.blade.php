@@ -283,7 +283,7 @@
                         <ul class="list-inline f-right ul-account">
 
                             @if (Auth()->check() && count(Auth()->user()->notifications) > 0)
-                                <li style="margin-right: 15px">
+                                <li style="margin-right: 10px">
                                     <a href="" id="showNotifications">
                                         <i class="fa fa-bell" aria-hidden="true"></i>
                                         <span class="badge badge-danger">
@@ -315,15 +315,21 @@
                                     </form>
                                 </li>
                             @else
-                                <li><a href="{{ url('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
-                                        Đăng
-                                        nhập</a></li>
-                                <li><a href="{{ url('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>
-                                        Đăng
-                                        ký</a></li>
-                                <li><a href="{{ route('my-account.index') }}"><i class="fa fa-sign-in"
+                                <li>
+                                    <a href="{{ route('my-account.index') }}"><i class="fa fa-cart-plus"
                                             aria-hidden="true"></i>
-                                        Tour Đã Đặt</a></li>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
+                                        Đăng nhập
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>
+                                        Đăng ký
+                                    </a>
+                                </li>
                             @endif
                         </ul>
                     </div>

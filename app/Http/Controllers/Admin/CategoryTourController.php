@@ -16,6 +16,7 @@ class CategoryTourController extends Controller
      */
     public function index(Request $request)
     {
+        $title = "Danh Sách Danh Mục Tour";
 
         $status = $request->get('status');
 
@@ -34,8 +35,7 @@ class CategoryTourController extends Controller
             ]);
         }
 
-
-        return view('admin.categorytour.index', compact('listCategoryTour'));
+        return view('admin.categorytour.index', compact('listCategoryTour', 'title'));
     }
 
 
@@ -46,10 +46,10 @@ class CategoryTourController extends Controller
      */
     public function create()
     {
-        //
+        $title = "Thêm Danh Mục Tour";
         // $listStatus = Status::query()->get();
         $listCategoryTour = CategoryTour::query()->get();
-        return view('admin.categorytour.add', compact('listCategoryTour'));
+        return view('admin.categorytour.add', compact('listCategoryTour', 'title'));
     }
 
     /**
@@ -89,10 +89,12 @@ class CategoryTourController extends Controller
     public function edit($id)
     {
         // Lấy thông tin categorytour theo ID
+        $title = "Thêm Danh Mục Tour";
+
         $categorytour = CategoryTour::findOrFail($id);
 
         // Truyền dữ liệu vào view
-        return view('admin.categorytour.edit', compact('categorytour'));
+        return view('admin.categorytour.edit', compact('categorytour', 'title'));
     }
 
 

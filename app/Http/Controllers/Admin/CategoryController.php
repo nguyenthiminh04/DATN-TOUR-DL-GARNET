@@ -13,12 +13,33 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $listCategory = Category::query()->get();
+        $title = "Danh Sách Danh Mục";
+
+        $status = $request->get('status');
+        $hot = $request->get('hot'); 
+
+        $query = Category::query();
+
+        if ($status !== null) {
+            $query->where('status', $status);
+        }
+
+        if ($hot !== null) {
+            $query->where('hot', $hot); 
+        }
+
+        $listCategory = $query->get();
         $listUser = User::query()->get();
-        return view('admin.category.index', compact('listCategory', 'listUser'));
+
+        if ($request->ajax()) {
+
+            return response()->json([
+                'data' => $listCategory
+            ]);
+        }
+        return view('admin.category.index', compact('listCategory', 'listUser', 'title'));
     }
 
     /**
@@ -26,8 +47,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
-        // Truyền danh sách cha cho view để hiển thị trong form
+
+        $title = "Thêm Danh Mục";
         $listUser = User::query()->get();
         $parents = Category::all();
         return view('admin.category.add', compact('parents', 'listUser'));
@@ -65,8 +86,6 @@ class CategoryController extends Controller
         }
     }
 
-
-
     /**
      * Display the specified resource.
      */
@@ -85,7 +104,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        // Lấy thông tin danh mục cần chỉnh sửa
+
+        $title = "Sửa Danh Mục";
         $category = Category::findOrFail($id);
 
         // Truyền danh sách cha và thông tin người dùng để hiển thị trong form
@@ -168,5 +188,4 @@ class CategoryController extends Controller
             'status' => $category->hot
         ]);
     }
-    
 }

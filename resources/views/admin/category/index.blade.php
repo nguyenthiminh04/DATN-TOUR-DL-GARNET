@@ -23,6 +23,28 @@
                             <a href="{{ route('category.create') }}" class="btn btn-secondary "><i
                                     class="bi bi-plus-circle align-baseline me-1"></i> Thêm danh mục</a>
                         </div>
+
+                        <div class="col-sm ms-auto" style="display: flex; margin-left: auto;">
+                            <div class="d-flex justify-content-sm-end gap-2 flex-wrap"
+                                style="width: 100%; justify-content: flex-end;">
+
+                                <select id="status" name="status" class="form-select" aria-label="Lọc theo trạng thái"
+                                    style="flex: 1 1">
+                                    <option value="">Lọc theo trạng thái</option>
+                                    <option value="1">Hiện</option>
+                                    <option value="0">Ẩn</option>
+                                </select>
+
+                                <select id="hot" name="hot" class="form-select" aria-label="Lọc theo độ hot"
+                                    style="flex: 1 1 ">
+                                    <option value="">Lọc theo độ hot</option>
+                                    <option value="1">Hot</option>
+                                    <option value="0">Không Hot</option>
+                                </select>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -31,7 +53,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-                        
+
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
@@ -46,7 +68,7 @@
                                             <th scope="col">Hành động </th>
                                         </tr>
                                     </thead>
-                                    <tbody class="list form-check-all">
+                                    <tbody class="list form-check-all" id="category-body">
                                         @foreach ($listCategory as $index => $item)
                                             <tr>
                                                 <td><a href="" class="text-reset">{{ $item->id }}</a></td>
@@ -79,10 +101,10 @@
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
-                                                            <s class="btn btn-subtle-primary btn-icon btn-sm view-category"
+                                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-category"
                                                                 data-id="{{ $item->id }}">
                                                                 <i class="ph-eye"></i>
-                                                            </s>
+                                                            </a>
                                                         </li>
                                                         <li>
 
@@ -278,7 +300,7 @@
                 success: function(response) {
                     if (response.success) {
                         const button = $(
-                        `.btn.btn-toggle-status[data-id="${categoryId}"]`); // Chỉ chọn nút "Status"
+                            `.btn.btn-toggle-status[data-id="${categoryId}"]`); // Chỉ chọn nút "Status"
                         if (response.status == 1) {
                             button.removeClass('btn-danger').addClass('btn-success').text('Hiện');
                         } else {
@@ -330,6 +352,71 @@
                     },
                     error: function(xhr, status, error) {
                         alert('Có lỗi xảy ra khi tải chi tiết danh mục!');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#status, #hot').on('change', function() {
+                var status = $('#status').val();
+                var hot = $('#hot').val();
+
+                $.ajax({
+                    url: '{{ route('category.index') }}',
+                    method: 'GET',
+                    data: {
+                        status: status,
+                        hot: hot
+                    },
+                    success: function(response) {
+                        var rows = '';
+                        $.each(response.data, function(index, item) {
+                            rows += `
+                            <tr>
+                                <td><a href="" class="text-reset">${item.id}</a></td>
+                                <td>${item.name}</td>
+                                <td>
+                                    <img src="{{ Storage::url('${item.avatar}') }}" alt="" width="30px">
+                                </td>
+                                <td>${item.description}</td>
+                                <td>
+                                    <button type="button" style="width: 100px;" class="btn btn-toggle-hot ${item.hot == 1 ? 'btn-success' : 'btn-danger'}" data-id="${item.id}" onclick="toggleHot(${item.id})">
+                                        ${item.hot == 1 ? 'Hot' : 'Không Hot'}
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" style="width: 100px;" class="btn btn-toggle-status ${item.status == 1 ? 'btn-success' : 'btn-danger'}" data-id="${item.id}" onclick="toggleStatus(${item.id})">
+                                        ${item.status == 1 ? 'Hiện' : 'Ẩn'}
+                                    </button>   
+                                </td>
+                                <td>
+                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+                                        <li>
+                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-category" data-id="${item.id}">
+                                                <i class="ph-eye"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/admin/category/${item.id}/edit" class="btn btn-subtle-success btn-icon btn-sm">
+                                                <i class="ri-edit-2-line"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#deleteRecordModal${item.id}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        `;
+                        });
+
+                        $('#category-body').html(rows);
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra!');
                     }
                 });
             });

@@ -261,46 +261,45 @@
                         <form action="{{ route('post.contact.index') }}" method="post" id="lien-he">
                             @csrf
                             @method('POST')
-                            <input type="hidden" name="user_id" value="{{ Auth()->user()->id }}">
-                            <div class="form-signup clearfix">
-                                <div class="row">
-                                    <div class="col-sm-6 col-xs-12">
-                                        <fieldset class="form-group">
-                                            <label>Họ tên<span class="required">*</span></label>
-                                            <input type="text" name="name" id="name"
-                                                class="form-control  form-control-lg" value="{{ Auth()->user()->name }}" />
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-sm-6 col-xs-12">
-                                        <fieldset class="form-group">
-                                            <label>Email<span class="required">*</span></label>
-                                            <input type="email" name="email" class="form-control form-control-lg"
-                                                value="{{ Auth()->user()->email }}" />
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-sm-12 col-xs-12">
-                                        <fieldset class="form-group">
-                                            <label>Chủ đề<span class="required">*</span></label>
-                                            <input type="text" name="subject" class="form-control form-control-lg" />
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-sm-12 col-xs-12">
-                                        <fieldset class="form-group">
-                                            <label>Nội dung<span class="required">*</span></label>
-                                            <textarea name="message" class="form-control form-control-lg" rows="5"></textarea>
-                                        </fieldset>
-                                        <div class="pull-xs-left" style="margin-top:20px;">
-                                            <button type="submit" class="btn btn-blues btn-style btn-style-active">Gửi
-                                                tin nhắn</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                            <input type="hidden" name="user_id" ">
+                                <div class="form-signup clearfix">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-xs-12">
+                                            <fieldset class="form-group">
+                                                <label>Họ tên<span class="required">*</span></label>
+                                                <input type="text" name="name" id="name"
+                                                    class="form-control  form-control-lg" " />
+                            </fieldset>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <fieldset class="form-group">
+                            <label>Email<span class="required">*</span></label>
+                            <input type="email" name="email" class="form-control form-control-lg" />
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-12 col-xs-12">
+                        <fieldset class="form-group">
+                            <label>Chủ đề<span class="required">*</span></label>
+                            <input type="text" name="subject" class="form-control form-control-lg" />
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-12 col-xs-12">
+                        <fieldset class="form-group">
+                            <label>Nội dung<span class="required">*</span></label>
+                            <textarea name="message" class="form-control form-control-lg" rows="5"></textarea>
+                        </fieldset>
+                        <div class="pull-xs-left" style="margin-top:20px;">
+                            <button type="submit" class="btn btn-blues btn-style btn-style-active">Gửi
+                                tin nhắn</button>
+                        </div>
                     </div>
                 </div>
             </div>
+            </form>
         </div>
+    </div>
+    </div>
+    </div>
     </div>
 
     <div class="box-maps">

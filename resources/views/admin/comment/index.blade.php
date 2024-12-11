@@ -23,100 +23,96 @@
                     </div>
 
                     <div class="row g-4 mb-3">
-                        <div class="col-sm-auto">
-                            <div>
-
-                            </div>
-                        </div>
-
                         <div class="col-sm">
-                            <form action="" method="GET">
-                                <div class="d-flex justify-content-sm-end">
-
-                                    <div class="search-box ms-2">
-                                        <input type="text" class="form-control search" placeholder="Search..."
-                                            id="searchInput" value="{{ request()->get('search') }}" name="search">
-                                        <i class="ri-search-line search-icon"></i>
-                                    </div>
-                                    <button class="btn btn-dark" style="margin-left:10px ">Search</button>
-
-                                </div>
-                            </form>
+                            <div class="d-flex justify-content-end gap-2">
+                                <select id="status" name="status" class="form-select" aria-label="Lọc theo trạng thái"
+                                    style="width: 200px;">
+                                    <option value="">Lọc theo trạng thái</option>
+                                    <option value="1">Hiện</option>
+                                    <option value="0">Ẩn</option>
+                                </select>
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card" id="coursesList">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" id="coursesList">
 
-                        <div class="card-body">
-                            <div class="table-responsive table-card">
-                                <table id="example" class="table table-striped" style="width:100%">
-                                    <thead class="text-muted">
+                    <div class="card-body">
+                        <div class="table-responsive table-card">
+                            <table id="example" class="table table-striped" style="width:100%">
+                                <thead class="text-muted">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Họ và Tên</th>
+                                        <th>Tên tour</th>
+                                        <th>Nội dung</th>
+                                        <th>Trả lời từ</th>
+                                        <th>Thời gian</th>
+                                        <th scope="col">Trạng thái</th>
+                                        <th scope="col">Hành động </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list form-check-all" id="comment-body">
+                                    @if ($listComments->isEmpty())
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Họ và Tên</th>
-                                            <th>Tên tour</th>
-                                            <th>Nội dung</th>
-                                            <th>Trả lời từ</th>
-                                            <th scope="col">Trạng thái</th>
-                                            <th scope="col">Hành động </th>
+                                            <td colspan="11" class="text-center text-muted">
+                                                Trống.
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody class="list form-check-all" id="category-tours-body">
-                                        @if ($listComments->isEmpty())
-                                            <tr>
-                                                <td colspan="11" class="text-center text-muted">
-                                                    Trống.
+                                    @else
+                                        @foreach ($listComments as $index => $item)
+                                            <tr class="comment-item" data-id="{{ $item->id }}">
+                                                <td><a href="" class="text-reset">{{ $loop->index + 1 }}</a>
                                                 </td>
-                                            </tr>
-                                        @else
-                                            @foreach ($listComments as $index => $item)
-                                                <tr class="comment-item" data-id="{{ $item->id }}">
-                                                    <td><a href="" class="text-reset">{{ $loop->index + 1 }}</a>
-                                                    </td>
-                                                    <td>
-                                                        {{ $item->user->name }}
-                                                    </td>
-                                                    <td>{{ $item->tour->name }}</td>
-                                                    <td>{{ $item->content }}</td>
-                                                    <td>{{ $item->parent ? $item->parent->user->name : 'Bình Luận Chính' }}
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" style="width: 100px;"
-                                                            class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
-                                                            data-id="{{ $item->id }}"
-                                                            onclick="toggleStatus({{ $item->id }})">
-                                                            {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex gap-2">
+                                                <td>
+                                                    {{ $item->user->name }}
+                                                </td>
+                                                <td>{{ $item->tour->name }}</td>
+                                                <td>{{ $item->content }}</td>
+                                                <td>{{ $item->parent ? $item->parent->user->name : 'Bình Luận Chính' }}
+                                                </td>
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}
+                                                </td>
+                                                <td>
+                                                    <button type="button" style="width: 100px;"
+                                                        class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                        data-id="{{ $item->id }}"
+                                                        onclick="toggleStatus({{ $item->id }})">
+                                                        {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex gap-2">
 
+                                                        <div class="remove">
                                                             <div class="remove">
                                                                 <div class="remove">
-                                                                    <div class="remove">
-                                                                        <a href="javascript:void(0);"
-                                                                            data-id="{{ $item->id }}"
-                                                                            class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
-                                                                            onclick="confirmDelete({{ $item->id }})">
-                                                                            <i class="ph-trash"></i>
-                                                                        </a>
-                                                                    </div>
+                                                                    <a href="javascript:void(0);"
+                                                                        data-id="{{ $item->id }}"
+                                                                        class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
+                                                                        onclick="confirmDelete({{ $item->id }})">
+                                                                        <i class="ph-trash"></i>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
-                                    </tbody>
-                                </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
 
-                            </div>
-                            <div class="row align-items-center mt-4 pt-3" id="pagination-element"
+                        </div>
+                        {{-- <div class="row align-items-center mt-4 pt-3" id="pagination-element"
                                 style="width: 100%; overflow: hidden;">
                                 <div class="col-sm">
                                     <div class="text-muted text-center text-sm-start">
@@ -161,14 +157,14 @@
                                         @endif
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div> --}}
                     </div>
                 </div>
             </div>
-
-
         </div>
+
+
+    </div>
     </div>
 
 
@@ -176,10 +172,22 @@
 
 
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+    <!-- jQuery phải tải đầu tiên -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery UI (nếu bạn sử dụng các thành phần của jQuery UI) -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Bootstrap 5 (nên tải sau jQuery và jQuery UI) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- DataTables (tải sau Bootstrap) -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- SweetAlert2 (tải cuối cùng) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -205,6 +213,77 @@
                     "sSortDescending": ": kích hoạt để sắp xếp cột theo thứ tự giảm dần"
                 }
             }
+        });
+
+
+        $('#status').on('change', function() {
+            var status = $(this).val();
+
+            $.ajax({
+                url: '{{ route('comment.index') }}',
+                method: 'GET',
+                data: {
+                    status: status
+                },
+                success: function(response) {
+                    console.log(response);
+                    var rows = '';
+
+
+                    if (response.data.length === 0) {
+                        rows += `
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">
+                            Trống.
+                        </td>
+                    </tr>
+                `;
+                    } else {
+                        $.each(response.data, function(index, item) {
+                            if (item && item.id) {
+                                var created_at = moment(item.created_at).format(
+                                    'DD/MM/YYYY HH:mm:ss');
+                                rows += `
+                            <tr class="comment-item" data-id="${item.id}">
+                                <td><a href="" class="text-reset">${item.id}</a></td>
+                                <td>${item.user_name}</td>
+                                <td>${item.tour_name}</td>
+                                <td>${item.content}</td>
+                                <td>${item.parent && item.parent.user ? item.parent.user.name : 'Bình Luận Chính'}</td>
+                                <td>${created_at}</td>
+                                <td>
+                                    <button type="button" style="width: 100px;"
+                                        class="btn btn-toggle-status ${item.status == 1 ? 'btn-success' : 'btn-danger'}"
+                                        onclick="toggleStatus(${item.id})">
+                                        ${item.status == 1 ? 'Hiện' : 'Ẩn'}
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <div class="remove">
+                                            <a href="javascript:void(0);" data-id="${item.id}"
+                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
+                                                onclick="confirmDelete(${item.id})">
+                                                <i class="ph-trash"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                            }
+                        });
+                    }
+
+                    $('#comment-body').html(rows);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Lỗi chi tiết:", jqXHR.responseText);
+                    console.error("Text Status:", textStatus);
+                    console.error("Error Thrown:", errorThrown);
+                    alert('Có lỗi xảy ra! Vui lòng kiểm tra console để biết thêm chi tiết.');
+                }
+            });
         });
     </script>
 
