@@ -123,6 +123,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    
 
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     {{-- <script>
@@ -144,74 +145,7 @@
     </script> --}}
 
 
-    <script>
-        $(function() {
-            $("#datepicker").datepicker({
-                dateFormat: "yy-mm-dd"
-            });
-            $("#datepicker2").datepicker({
-                dateFormat: "yy-mm-dd"
-            });
-        });
-
-
-        $('#btn-dashboard-filter').click(function() {
-            var _token = $('input[name="_token"]').val();
-            var from_date = $('#datepicker').val();
-            var to_date = $('#datepicker2').val();
-            alert(from_date);
-            alert(to_date);
-            if (chart && typeof chart.setData === 'function') {
-                chart.setData(data);
-                console.log("Dữ liệu đã được tải thành công.");
-                } else {
-                    console.error("Chart chưa được định nghĩa hoặc không có hàm setData.");
-                }
-
-            $.ajax({
-                url: "{{ url('/admin/home/filter-by-date') }}",
-                method: "POST",
-                dataType: "JSON",
-                data: {
-                    from_date: $('#datepicker').val(),
-                    to_date: $('#datepicker2').val(),
-                    _token: $('input[name="_token"]').val()
-                },
-                success: function(data) {
-                    chart.setData(data); // Cập nhật dữ liệu biểu đồ
-                    console.log("Data loaded successfully.");
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error:", error);
-                }
-            });
-            // console.log(data)
-
-        });
-
-        $('#dashboard-filter').change(function() {
-            var dashboard_value = $(this).val();
-            var _token = $('input[name="_token"]').val();
-
-            $.ajax({
-                url: "{{ route('dashboard.filterByBtn') }}",
-                method: "POST",
-                dataType: "JSON",
-                data: {
-                    dashboard_value: dashboard_value,
-                    _token: _token
-                },
-                success: function(data) {
-                    chart.setData(data);
-                    console.log("Data loaded successfully.");
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error:", error);
-                    console.log("Response:", xhr.responseText);
-                }
-            });
-        });
-    </script>
+    
 
 
     @if (Session::has('success'))
