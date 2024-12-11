@@ -314,7 +314,7 @@
                                                         </a>
                                                     </td>
                                                     <td class="shop">
-                                                        {{ $paymentsOrderTodays->user->name }}
+                                                        {{ $paymentsOrderTodays->user->name ?? 'Ẩn Danh' }} 
                                                     </td>
                                                     <td class="amount">
                                                         {{ $paymentsOrderTodays->paymentMethod->name }}

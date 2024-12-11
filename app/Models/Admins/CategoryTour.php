@@ -17,6 +17,7 @@ class CategoryTour extends Model
         'category_tour',
         'price',
         'description',
+        'slug',
         'status',
     ];
     Use SoftDeletes;

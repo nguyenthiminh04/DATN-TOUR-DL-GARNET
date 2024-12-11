@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="F1GENZ Model Fashion - Cảm ơn">
-    <title>2004Store - Cảm ơn</title>
+    <title>Garnet Travel</title>
 
     <script data-savepage-type="text/javascript" type="text/plain" async="" data-savepage-src="https://buyx-gety.sapoapps.vn/assets/script.v2.js?store=f1genz-model-fashion.mysapo.net"></script>
     <script data-savepage-type="text/javascript" type="text/plain" async="" data-savepage-src="//newproductreviews.sapoapps.vn/assets/js/productreviews.min.js?store=f1genz-model-fashion.mysapo.net"></script>
@@ -17644,7 +17644,7 @@
 			<div class="logo logo--left">
 
 		<h1 class="shop__name">
-			<a data-savepage-href="/" href="https://f1genz-model-fashion.mysapo.net/">2004Store</a>
+			<a data-savepage-href="/" href="https://f1genz-model-fashion.mysapo.net/">Garnet Travel</a>
 		</h1>
 
 </div>
@@ -17658,7 +17658,7 @@
 						<div class="logo logo--left">
 
 		<h1 class="shop__name">
-			<a data-savepage-href="/" href="https://f1genz-model-fashion.mysapo.net/">2004Store</a>
+			<a data-savepage-href="/" href="https://f1genz-model-fashion.mysapo.net/">Garnet Travel</a>
 		</h1>
 
 </div>

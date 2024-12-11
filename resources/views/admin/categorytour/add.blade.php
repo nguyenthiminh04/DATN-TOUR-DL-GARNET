@@ -49,6 +49,15 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label class="form-label" for="slug">Slug</label>
+                                    <textarea class="form-control" id="slug" name="slug" value="{{ old('slug') }}" rows="2"
+                                        placeholder="Nhập mô tả danh mục tour..."></textarea>
+                                    @error('slug')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
                                     <label class="form-label" for="slug">Đường dẫn</label>
                                     <textarea class="form-control" id="slug" name="slug" value="{{ old('slug') }}" rows="2"
                                         placeholder="Nhập mô tả danh mục tour..."></textarea>

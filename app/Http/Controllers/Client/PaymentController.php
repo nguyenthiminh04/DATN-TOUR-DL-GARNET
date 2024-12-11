@@ -319,6 +319,38 @@ if ($coupon && $coupon->number > 0) {
 
     public function vnpay_payment(Request $request)
     {
+         // Xử lý thông tin khách hàng
+    if (auth()->check()) {
+        // Nếu người dùng đã đăng nhập
+        $customerId = auth()->user()->id;
+        $userId = auth()->user()->id;
+    } else {
+        // Nếu người dùng chưa đăng nhập, tạo khách hàng ẩn danh
+        $temporaryUserId = Session::get('temporary_user_id');
+        if (!$temporaryUserId) {
+            $temporaryUserId = (string) Str::uuid(); // Tạo UUID
+            Session::put('temporary_user_id', $temporaryUserId);
+        }
+
+        // Kiểm tra xem khách hàng ẩn danh đã tồn tại trong bảng customers chưa
+        $customer = DB::table('customers')->where('temporary_user_id', $temporaryUserId)->first();
+
+        if (!$customer) {
+            // Tạo khách hàng mới nếu chưa tồn tại
+            $customerId = DB::table('customers')->insertGetId([
+                'name' => $request->customer_name,
+                'email' => $request->customer_email,
+                'phone' => $request->customer_phone,
+                'temporary_user_id' => $temporaryUserId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        } else {
+            $customerId = $customer->id; // Sử dụng ID của khách hàng đã tồn tại
+        }
+
+        $userId = null; // Không có user_id vì người dùng không đăng nhập
+    }
         $userId = auth()->user()->id ?? null;
         $booking = BookTour::find($request->booking_id);
 
@@ -333,6 +365,7 @@ if ($coupon && $coupon->number > 0) {
         $payment = Payment::create([
             'booking_id' => $booking->id,
             'user_id' => $userId,  
+            'customer_id' => $customerId,
             'money' => $request->money,
             'p_note' => $request->input('p_note', ''),
             'payment_method' => 'vnpay',

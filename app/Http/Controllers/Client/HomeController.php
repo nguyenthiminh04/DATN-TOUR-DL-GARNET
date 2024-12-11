@@ -28,7 +28,12 @@ class HomeController extends Controller
         $listtour = Tour::orderByDesc('id')->get();
 
         // Lấy 6 tour được xem nhiều nhất
-        $Tourmoinhat = Tour::withoutTrashed()->orderBy('view', 'desc')->take(6)->get();
+        $Tourmoinhat = Tour::withoutTrashed()
+    ->where('status', 1)
+    ->orderBy('view', 'desc')
+    ->take(6)
+    ->get();
+
 
         // Tính điểm trung bình của mỗi tour trong danh sách mới nhất
         foreach ($Tourmoinhat as $tour) {
