@@ -24,6 +24,16 @@
                                         class="bi bi-plus-circle align-baseline me-1"></i> Thêm người dùng</a>
                             </div>
                         </div>
+                        <div class="col-sm">
+                            <div class="d-flex justify-content-sm-end">
+                                <select id="status" name="status" class="form-select" aria-label="Lọc theo trạng thái"
+                                    style="width: 200px; left:0 important">
+                                    <option value="">Lọc theo trạng thái</option>
+                                    <option value="1">Hiện</option>
+                                    <option value="0">Ẩn</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -49,7 +59,7 @@
                                             <th scope="col">Hành động </th>
                                         </tr>
                                     </thead>
-                                    <tbody class="list form-check-all">
+                                    <tbody class="list form-check-all" id="category-tours-body">
                                         @foreach ($listuser as $index => $item)
                                             <tr>
                                                 <td><a href="" class="text-reset">{{ $item->id }}</a></td>
@@ -61,7 +71,7 @@
                                                 <td>{{ $item->email }}</td>
                                                 <td>{{ $item->phone }}</td>
                                                 <td>{{ $item->address }}</td>
-                                                <td>{{ $item->birth }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($item->birth)->format('d/m/Y') }}</td>
                                                 <td>{{ $item->gender }}</td>
                                                 <td>
                                                     <button type="button" style="width: 100px;"
@@ -284,6 +294,74 @@
             });
         </script>
 
+
+        <script>
+            $(document).ready(function() {
+
+                $('#status').on('change', function() {
+                    var status = $(this).val();
+
+                    $.ajax({
+                        url: '{{ route('user.index') }}',
+                        method: 'GET',
+                        data: {
+                            status: status
+                        },
+                        success: function(response) {
+                            var rows = '';
+                            $.each(response.data, function(index, item) {
+                                var birth = moment(item.birth).format(
+                                    'DD/MM/YYYY ');
+
+                                rows += `
+                    <tr>
+                                <td><a href="" class="text-reset">${item.id}</a></td>
+                                <td>${item.name}</td>
+                                <td>
+                                    <img src="{{ Storage::url('${item.image}') }}" alt=""
+                                        width="30px">
+                                </td>
+                                <td>${item.email}</td>
+                                <td>${item.phone}</td>
+                                <td>${item.address}</td>
+                                <td>${birth}</td>
+                                <td>${item.gender}</td>
+                               
+                                <td>
+                                    <button type="button" style="width: 100px;"
+                                        class="btn btn-toggle-status ${item.status == 1 ? 'btn-success' : 'btn-danger'}"
+                                        data-id="${item.id}"
+                                        onclick="toggleStatus(${item.id})">
+                                        ${item.status == 1 ? 'Hiện' : 'Ẩn'}
+                                    </button>                 
+                            </td>
+                            <td>
+                                <ul class="d-flex gap-2 list-unstyled mb-0">
+                                        <a href="/admin/user/${item.id}/edit"
+                                        class="btn btn-subtle-success btn-icon btn-sm">
+                                            <i class="ri-edit-2-line"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#deleteRecordModal${item.id}"
+                                        data-bs-toggle="modal"
+                                        class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                class="ph-trash"></i></a>
+                                    </li>
+                                </ul>
+                            </td>
+                    </tr>
+    `;
+                            });
+
+                            $('#category-tours-body').html(rows);
+                        },
+                        error: function() {
+                            alert('Có lỗi xảy ra!');
+                        }
+                    });
+                });
+            });
+        </script>
 
 
         <script>

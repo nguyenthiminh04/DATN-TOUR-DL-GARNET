@@ -22,6 +22,17 @@
                                     class="bi bi-plus-circle align-baseline me-1"></i> Thêm địa điểm</a>
                         </div>
                     </div>
+
+                    <div class="col-sm">
+                        <div class="d-flex justify-content-sm-end">
+                            <select id="status" name="status" class="form-select status-select" aria-label="Lọc theo trạng thái"
+                                style="width: 200px; left:0 important">
+                                <option value="">Lọc theo trạng thái</option>
+                                <option value="1">Hiện</option>
+                                <option value="0">Ẩn</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -42,7 +53,7 @@
                                             <th scope="col">Hành động</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="list form-check-all">
+                                    <tbody class="list form-check-all" id="location-body">
                                         @foreach ($listLocation as $index => $item)
                                             <tr>
                                                 <td><a href="" class="text-reset">{{ $item->id }}</a></td>
@@ -268,6 +279,74 @@
                     },
                     error: function(xhr, status, error) {
                         alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#status').on('change', function() {
+                var status = $(this).val();
+
+                $.ajax({
+                    url: '{{ route('location.index') }}',
+                    method: 'GET',
+                    data: {
+                        status: status
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        var rows = '';
+                        $.each(response.data, function(index, item) {
+                           
+                            rows += `
+    
+                             <tr>
+                                <td><a href="" class="text-reset">${item.id}</a></td>
+                                <td>${item.name}</td>
+                                 <td>
+                                     <img src="{{ Storage::url('${item.image}') }}" alt="" width="30px">
+                                </td>
+                                <td>${item.description}</td>
+                                <td>
+                                   <button type="button" style="width: 100px;"
+                                        class="btn btn-toggle-status ${item.status == 1 ? 'btn-success' : 'btn-danger'}"
+                                        onclick="toggleStatus(${item.id})">
+                                        ${item.status == 1 ? 'Hiện' : 'Ẩn'}
+                                    </button>
+                                </td>
+                                <td>
+                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+                                        <li>
+                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-location"
+                                                data-id="${item.id}">
+                                                <i class="ph-eye"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('location.edit', $item->id) }}"
+                                                class="btn btn-subtle-success btn-icon btn-sm">
+                                                <i class="ri-edit-2-line"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#deleteRecordModal${item.id}"
+                                                data-bs-toggle="modal"
+                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                    class="ph-trash"></i></a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+`;
+                        });
+
+                        $('#location-body').html(rows);
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra!');
                     }
                 });
             });

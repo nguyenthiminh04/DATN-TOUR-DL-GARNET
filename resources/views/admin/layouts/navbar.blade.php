@@ -1,7 +1,7 @@
 <div class="app-menu navbar-menu">
 
     <div class="navbar-brand-box">
-        <a href="index.html" class="logo logo-dark">
+        <a href="{{ url('/admin/home') }}" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="{{ asset('admin/assets/images/logo-sm.png') }}" alt="" height="22">
             </span>
@@ -9,7 +9,7 @@
                 <img src="{{ asset('admin/assets/images/logo-dark.png') }}" alt="" height="22">
             </span>
         </a>
-        <a href="index.html" class="logo logo-light">
+        <a href="{{ url('/admin/home') }}" class="logo logo-light">
             <span class="logo-sm">
                 <img src="{{ asset('admin/assets/images/logo-sm.png') }}" alt="" height="22">
             </span>
@@ -32,25 +32,27 @@
                 {{-- user --}}
 
                 <li class="nav-item">
-                    <a href="{{ route('home-admin') }}" class="nav-link menu-link ">
+                    <a href="{{ route('home-admin') }}" class="nav-link menu-link  ">
                         <i class="ri-dashboard-line"></i>
                         <span data-key="t-calendar">Dashboard</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link collapsed" href="#user" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="user">
-                        <i class=" ph-user-circle-thin"></i> <span data-key="t-dashboards">Người dùng</span>
+                    <a class="nav-link menu-link collapsed" href="#ordertour" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="ordertour">
+                        <i class=" ri-shopping-cart-line"></i> <span data-key="t-dashboards">Đơn hàng</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="user">
+                    <div class="collapse menu-dropdown" id="ordertour">
+
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('user.index') }}" class="nav-link">Danh sách người dùng</a>
+                                <a href="{{ route('trangthaitour.index') }}" class="nav-link">Đơn hàng đã đặt</a>
                             </li>
                         </ul>
                     </div>
                 </li>
+
                 {{-- tour --}}
                 <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#tour" data-bs-toggle="collapse" role="button"
@@ -60,7 +62,7 @@
                     <div class="collapse menu-dropdown" id="tour">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{route('categorytour.index')}}" class="nav-link">Danh mục tour</a>
+                                <a href="{{ route('categorytour.index') }}" class="nav-link">Danh mục tour</a>
                             </li>
                         </ul>
                         <ul class="nav nav-sm flex-column">
@@ -72,14 +74,14 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link collapsed" href="#article" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="article">
+                    <a class="nav-link menu-link collapsed" href="#article" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="article">
                         <i class="ph-gauge"></i> <span data-key="t-dashboards">Bài viết</span>
                     </a>
                     <div class="collapse menu-dropdown" id="article">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{route('article.index')}}" class="nav-link">Danh sách bài viết</a>
+                                <a href="{{ route('article.index') }}" class="nav-link">Danh sách bài viết</a>
                             </li>
                         </ul>
                     </div>
@@ -100,8 +102,8 @@
                 </li>
                 {{-- location --}}
                 <li class="nav-item">
-                    <a class="nav-link menu-link collapsed" href="#location" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="location">
+                    <a class="nav-link menu-link collapsed" href="#location" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="location">
                         <i class="ph ph-map-pin-line"></i> <span data-key="t-dashboards">Địa điểm</span>
                     </a>
                     <div class="collapse menu-dropdown" id="location">
@@ -190,6 +192,19 @@
                                     Thông báo đã gán</a>
                             </li>
 
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#user" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="user">
+                        <i class=" ph-user-circle-thin"></i> <span data-key="t-dashboards">Người dùng</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="user">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('user.index') }}" class="nav-link">Danh sách người dùng</a>
+                            </li>
                         </ul>
                     </div>
                 </li>

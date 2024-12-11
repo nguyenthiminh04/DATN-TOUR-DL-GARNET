@@ -1,7 +1,7 @@
  @extends('admin.layouts.app')
  @section('style')
      <style>
-         .status-select {
+         .status-advisory {
              width: 100%;
              padding: 10px;
 
@@ -13,25 +13,25 @@
              transition: all 0.3s ease-in-out;
          }
 
-         .status-select:hover {
+         .status-advisory:hover {
              border-color: #00ff40;
              background-color: #e9f7ff;
          }
 
-         .status-select:focus {
+         .status-advisory:focus {
              border-color: #007bff;
              background-color: #fff;
              box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
          }
 
-         .status-select option {
+         .status-advisory option {
              padding: 10px;
              font-size: 16px;
              background-color: #fff;
              color: #333;
          }
 
-         .status-select option:checked {
+         .status-advisory option:checked {
              background-color: #007bff;
              color: white;
          }
@@ -43,7 +43,7 @@
              <div class="row">
                  <div class="col-12">
                      <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                         <h4 class="mb-sm-0">Tư vấn liên hệ (Tổng: {{ $advisory->total() }})</h4>
+                         <h4 class="mb-sm-0">Tư vấn liên hệ</h4>
 
                          <div class="page-title-right">
                              <ol class="breadcrumb m-0">
@@ -54,28 +54,28 @@
                      </div>
 
                      <div class="row g-4 mb-3">
-                         <div class="col-sm-auto">
-                             <div>
-
-                             </div>
-                         </div>
-
                          <div class="col-sm">
-                             <form action="" method="GET">
-                                 <div class="d-flex justify-content-sm-end">
-
-                                     <div class="search-box ms-2">
-                                         <input type="text" class="form-control search" placeholder="Tìm kiếm..."
-                                             id="searchInput" value="{{ request()->get('search') }}" name="search">
+                             <div class="d-flex justify-content-end gap-2">
+                                 <select id="status" name="status" class="form-select" aria-label="Lọc theo trạng thái"
+                                     style="width: 200px;">
+                                     <option value="">Lọc Trạng thái</option>
+                                     <option value="Đang chờ xử lý">Đang chờ xử lý</option>
+                                     <option value="Đang tư vấn">Đang tư vấn</option>
+                                     <option value="Đã hoàn tất">Đã hoàn tất</option>
+                                     <option value="Hủy bỏ">Hủy bỏ</option>
+                                 </select>
+                                 <form action="" method="GET">
+                                     <div class="search-box">
+                                         <input type="text" id="searchInput" class="form-control"
+                                             placeholder="Tìm kiếm..." />
                                          <i class="ri-search-line search-icon"></i>
                                      </div>
-                                     <button class="btn btn-dark" style="margin-left:10px ">Tìm kiếm</button>
-
-                                 </div>
-                             </form>
+                                 </form>
+                             </div>
                          </div>
-
                      </div>
+
+
                  </div>
              </div>
 
@@ -101,11 +101,11 @@
                                                      <th scope="col">Hành động</th>
                                                  </tr>
                                              </thead>
-                                             <tbody>
+                                             <tbody id="advisory-body">
                                                  @if ($advisory->isEmpty())
                                                      <tr>
                                                          <td colspan="11" class="text-center text-muted">
-                                                             No records found.
+                                                             Trống.
                                                          </td>
                                                      </tr>
                                                  @else
@@ -114,12 +114,13 @@
                                                              <td class="fw-medium">{{ $loop->index + 1 }}</td>
                                                              <td>{{ $item->tour_name }}</td>
                                                              <td>{{ $item->name }}</td>
-                                                             <td>{{ $item->email }}</td>
                                                              <td>{{ $item->phone_number }}</td>
+                                                             <td>{{ $item->email }}</td>
                                                              <td>{{ $item->content }}</td>
                                                              <td>
-                                                                 <select class="form-control status-select"
-                                                                     data-advisory-id="{{ $item->id }}">
+                                                                 <select class="form-control status-advisory"
+                                                                     data-advisory-id="{{ $item->id }}"
+                                                                     @if ($item->status == 'Đã hoàn tất' || $item->status == 'Hủy bỏ') disabled @endif>
                                                                      <option value="Đang chờ xử lý"
                                                                          {{ $item->status == 'Đang chờ xử lý' ? 'selected' : '' }}>
                                                                          Đang chờ xử lý</option>
@@ -153,7 +154,7 @@
                                          </table>
 
 
-                                         <div class="row align-items-center mt-4 pt-3" id="pagination-element"
+                                         {{-- <div class="row align-items-center mt-4 pt-3" id="pagination-element"
                                              style="width: 100%; overflow: hidden;">
                                              <div class="col-sm">
                                                  <div class="text-muted text-center text-sm-start">
@@ -200,7 +201,7 @@
                                                      @endif
                                                  </div>
                                              </div>
-                                         </div>
+                                         </div> --}}
                                      </div>
                                  </div>
                              </div>
@@ -244,7 +245,7 @@
                                      showConfirmButton: false,
                                      timer: 1500
                                  }).then(() => {
-                                     // Thử tìm và xóa trực tiếp phần tử chứa bình luận
+
                                      $('[data-id="' + advisoryId + '"]').closest(
                                              '.advisory-item')
                                          .remove();
@@ -269,30 +270,48 @@
                  }
              });
          }
+
          $(document).ready(function() {
+             var isSearchingOrFiltering = $('#searchInput').length > 0 || $('#filterSelect').length > 0;
 
-             $('.status-select').change(function() {
-                 var advisoryId = $(this).data('advisory-id');
-                 var newStatus = $(this).val();
+             if (!isSearchingOrFiltering) {
 
+                 $('.status-advisory').change(function() {
+                     var advisoryId = $(this).data('advisory-id');
+                     var newStatus = $(this).val();
+                     var selectElement = $(this);
 
-                 $.ajax({
-                     url: '/admin/advisory/status/' +
-                         advisoryId,
-                     type: 'POST',
-                     data: {
-                         _token: '{{ csrf_token() }}',
-                         status: newStatus
-                     },
-                     success: function(response) {
-                         if (response.success) {
-                             Swal.fire({
-                                 icon: 'success',
-                                 title: 'Cập nhật trạng thái thành công!',
-                                 showConfirmButton: false,
-                                 timer: 1500
-                             });
-                         } else {
+                     $.ajax({
+                         url: '/admin/advisory/status/' + advisoryId,
+                         type: 'POST',
+                         data: {
+                             _token: '{{ csrf_token() }}',
+                             status: newStatus
+                         },
+                         success: function(response) {
+                             if (response.success) {
+                                 Swal.fire({
+                                     icon: 'success',
+                                     title: 'Cập nhật trạng thái thành công!',
+                                     showConfirmButton: false,
+                                     timer: 1500
+                                 });
+
+                                 if (newStatus == 'Đã hoàn tất' || newStatus == 'Hủy bỏ') {
+                                     selectElement.prop('disabled', true);
+                                 } else {
+                                     selectElement.prop('disabled', false);
+                                 }
+                             } else {
+                                 Swal.fire({
+                                     icon: 'error',
+                                     title: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
+                                     showConfirmButton: false,
+                                     timer: 1500
+                                 });
+                             }
+                         },
+                         error: function(xhr, status, error) {
                              Swal.fire({
                                  icon: 'error',
                                  title: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
@@ -300,17 +319,195 @@
                                  timer: 1500
                              });
                          }
-                     },
-                     error: function(xhr, status, error) {
+                     });
+                 });
 
-                         Swal.fire({
-                             icon: 'error',
-                             title: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
-                             showConfirmButton: false,
-                             timer: 1500
+             } else {
+
+                 $(document).on('change', '.status-advisory', function() {
+                     var advisoryId = $(this).data('advisory-id');
+                     var status = $(this).val();
+                     var selectElement = $(this);
+
+                     $.ajax({
+                         url: "{{ route('advisory.advisoryStatus', ['id' => ':id']) }}".replace(
+                             ':id', advisoryId),
+                         method: 'POST',
+                         data: {
+                             status: status,
+                             _token: '{{ csrf_token() }}'
+                         },
+                         success: function(response) {
+                             if (response.success) {
+                                 Swal.fire({
+                                     icon: 'success',
+                                     title: 'Cập nhật trạng thái thành công!',
+                                     showConfirmButton: false,
+                                     timer: 1500
+                                 });
+
+
+                                 if (status == 'Đã hoàn tất' || status == 'Hủy bỏ') {
+                                     selectElement.prop('disabled', true);
+                                 } else {
+                                     selectElement.prop('disabled', false);
+                                 }
+                             } else {
+                                 Swal.fire({
+                                     icon: 'error',
+                                     title: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
+                                     showConfirmButton: false,
+                                     timer: 1500
+                                 });
+                             }
+                         },
+                         error: function(xhr, status, error) {
+                             Swal.fire({
+                                 icon: 'error',
+                                 title: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
+                                 showConfirmButton: false,
+                                 timer: 1500
+                             });
+                         }
+                     });
+                 });
+             }
+         });
+
+
+         $('#status').on('change', function() {
+             var status = $(this).val();
+
+             $.ajax({
+                 url: '{{ route('advisory.index') }}',
+                 method: 'GET',
+                 data: {
+                     status: status
+                 },
+                 success: function(response) {
+                     console.log(response);
+
+                     var rows = '';
+
+                     if (response.data.length === 0) {
+                         rows += `
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">
+                            Trống.
+                        </td>
+                    </tr>
+                `;
+                     } else {
+                         $.each(response.data, function(index, item) {
+                             if (item && item.id) {
+                                 rows += `
+                            <tr class="advisory-item" data-id="${item.id}">
+                                <td class="fw-medium">${index + 1}</td>
+                                <td>${item.tour_name}</td>
+                                <td>${item.name}</td>
+                                <td>${item.phone_number}</td>
+                                <td>${item.email}</td>
+                                <td>${item.content}</td>
+                                <td>
+                                    <select class="form-control status-advisory" data-advisory-id="${item.id}" 
+                                        ${['Đã hoàn tất', 'Hủy bỏ'].includes(item.status) ? 'disabled' : ''}>
+                                        <option value="Đang chờ xử lý" ${item.status === 'Đang chờ xử lý' ? 'selected' : ''}>Đang chờ xử lý</option>
+                                        <option value="Đang tư vấn" ${item.status === 'Đang tư vấn' ? 'selected' : ''}>Đang tư vấn</option>
+                                        <option value="Đã hoàn tất" ${item.status === 'Đã hoàn tất' ? 'selected' : ''}>Đã hoàn tất</option>
+                                        <option value="Hủy bỏ" ${item.status === 'Hủy bỏ' ? 'selected' : ''}>Hủy bỏ</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <div class="remove">
+                                            <a href="javascript:void(0);" data-id="${item.id}" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn" onclick="confirmDelete(${item.id})">
+                                                <i class="ph-trash"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                             }
                          });
                      }
-                 });
+
+                     $('#advisory-body').html(rows);
+                 },
+                 error: function(jqXHR, textStatus, errorThrown) {
+                     console.error("Lỗi chi tiết:", jqXHR.responseText);
+                     console.error("Text Status:", textStatus);
+                     console.error("Error Thrown:", errorThrown);
+                     alert('Có lỗi xảy ra! Vui lòng kiểm tra console để biết thêm chi tiết.');
+                 }
+             });
+         });
+
+
+         $('#searchInput').on('input', function() {
+             var searchQuery = $(this).val();
+
+             $.ajax({
+                 url: '{{ route('advisory.index') }}',
+                 method: 'GET',
+                 data: {
+                     search: searchQuery,
+                     _token: '{{ csrf_token() }}'
+                 },
+                 success: function(response) {
+                     var rows = '';
+
+                     if (response.data.length === 0) {
+                         rows += `
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">
+                            Trống.
+                        </td>
+                    </tr>
+                    `;
+                     } else {
+                         $.each(response.data, function(index, item) {
+                             if (item && item.id) {
+                                 rows += `
+                            <tr class="advisory-item" data-id="${item.id}">
+                                <td class="fw-medium">${index + 1}</td>
+                                <td>${item.tour_name}</td>
+                                <td>${item.name}</td>
+                                <td>${item.phone_number}</td>
+                                <td>${item.email}</td>
+                                <td>${item.content}</td>
+                                <td>
+                                    <select class="form-control status-advisory" data-advisory-id="${item.id}" 
+                                        ${['Đã hoàn tất', 'Hủy bỏ'].includes(item.status) ? 'disabled' : ''}>
+                                        <option value="Đang chờ xử lý" ${item.status === 'Đang chờ xử lý' ? 'selected' : ''}>Đang chờ xử lý</option>
+                                        <option value="Đang tư vấn" ${item.status === 'Đang tư vấn' ? 'selected' : ''}>Đang tư vấn</option>
+                                        <option value="Đã hoàn tất" ${item.status === 'Đã hoàn tất' ? 'selected' : ''}>Đã hoàn tất</option>
+                                        <option value="Hủy bỏ" ${item.status === 'Hủy bỏ' ? 'selected' : ''}>Hủy bỏ</option>
+                                    </select>   
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <div class="remove">
+                                            <a href="javascript:void(0);" data-id="${item.id}" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn" onclick="confirmDelete(${item.id})">
+                                                <i class="ph-trash"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            `;
+                             }
+                         });
+                     }
+
+                     $('#advisory-body').html(rows);
+                 },
+                 error: function(jqXHR, textStatus, errorThrown) {
+                     //  console.log("Lỗi chi tiết:", jqXHR.responseText);
+                     //  console.log("Text Status:", textStatus);
+                     //  console.log("Error Thrown:", errorThrown);
+                     alert('Có lỗi xảy ra!');
+                 }
              });
          });
      </script>

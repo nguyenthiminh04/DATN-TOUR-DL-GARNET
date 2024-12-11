@@ -12,10 +12,39 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $listComments = Comment::getAll();
-        return view('admin.comment.index', compact('listComments'));
+        $data['title'] = "Danh Sách Bình Luận";
+
+        $status = $request->get('status');
+        $searchQuery = $request->get('search');
+
+        $query = Comment::query();
+
+        if ($status !== null) {
+            $query->where('comment.status', $status);
+        }
+
+        if ($searchQuery !== null && $searchQuery !== '') {
+            $query->where(function ($q) use ($searchQuery) {
+                $q->where('comment.name', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('tour.name', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+        $query->join('tours', 'tours.id', '=', 'comment.tour_id')
+            ->join('users', 'users.id', '=', 'comment.user_id') 
+            ->select('comment.*', 'tours.name as tour_name', 'users.name as user_name');  
+
+
+        $data['listComments'] = $query->get();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => $data['listComments']
+            ]);
+        }
+        return view('admin.comment.index', $data);
     }
 
     /**
@@ -64,23 +93,23 @@ class CommentController extends Controller
     public function destroy(string $id)
     {
         try {
-           
+
             $comment = Comment::findOrFail($id);
 
-          
+
             $comment->deleted_at = now();
             $comment->save();
 
-         
+
             return response()->json([
                 'success' => true,
                 'message' => 'Xóa bình luận thành công!',
             ]);
         } catch (\Exception $e) {
-          
+
             Log::error('Lỗi khi xóa bình luận: ' . $e->getMessage());
 
-          
+
             return response()->json([
                 'success' => false,
                 'message' => 'Có lỗi xảy ra, vui lòng thử lại sau.',

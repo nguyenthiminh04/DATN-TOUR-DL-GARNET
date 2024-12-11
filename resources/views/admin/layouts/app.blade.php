@@ -12,7 +12,7 @@
 
 
     <meta charset="utf-8">
-    <title>Dashboard | Steex - Admin & Dashboard Template</title>
+    <title>{{ !empty($title) ? $title : '' }} | Quản Trị</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -164,9 +164,9 @@
             if (chart && typeof chart.setData === 'function') {
                 chart.setData(data);
                 console.log("Dữ liệu đã được tải thành công.");
-                } else {
-                    console.error("Chart chưa được định nghĩa hoặc không có hàm setData.");
-                }
+            } else {
+                console.error("Chart chưa được định nghĩa hoặc không có hàm setData.");
+            }
 
             $.ajax({
                 url: "{{ url('/admin/home/filter-by-date') }}",

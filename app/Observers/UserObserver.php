@@ -21,7 +21,10 @@ class UserObserver
     public function updated(User $user): void
     {
         if ($user->isDirty('status') && $user->status != 1) {
-            Auth::logout();
+
+            if (Auth::check() && Auth::user()->role_id !== 1) {
+                Auth::logout();
+            }
         }
     }
 
