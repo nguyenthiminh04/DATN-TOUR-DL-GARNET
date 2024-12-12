@@ -17,8 +17,10 @@ class CheckUserStatus
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check() && Auth::user()->status != 1) {
-            Auth::logout();
 
+            if (Auth::check() && Auth::user()->role_id !== 1) {
+                Auth::logout();
+            }
 
             if ($request->expectsJson()) {
                 return response()->json([

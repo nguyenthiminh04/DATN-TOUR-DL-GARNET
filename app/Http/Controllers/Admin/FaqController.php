@@ -15,16 +15,17 @@ class FaqController extends Controller
      */
     public function index()
     {
+        $title = "Danh Sách FAQS";
+
         if (request()->ajax()) {
             $faqs = Faq::select('faqs.*'); // Lấy kèm dữ liệu của status
             return DataTables()->of($faqs)
                 ->addColumn('status', function ($faq) {
-                    if($faq->status == 1){
+                    if ($faq->status == 1) {
                         return '<span class="text-success">Hiển thị</span>';
-                    }else{
+                    } else {
                         return '<span class="text-danger">Ẩn</span>';
                     }
-                    
                 })
                 ->addColumn('action', function ($faq) {
                     $editUrl = route('faqs.edit', $faq->id);
@@ -37,7 +38,7 @@ class FaqController extends Controller
                 ->make(true);
         }
 
-        return view('admin.faq.index');
+        return view('admin.faq.index', compact('title'));
     }
 
     /**
@@ -45,7 +46,8 @@ class FaqController extends Controller
      */
     public function create()
     {
-        return view('admin.faq.add');
+        $title = "Danh Sách FAQS";
+        return view('admin.faq.add', compact('title'));
     }
 
     /**
@@ -82,8 +84,8 @@ class FaqController extends Controller
      */
     public function edit(Faq $faq)
     {
-        
-        return view('admin.faq.edit', compact('faq'));
+        $title = "Danh Sách FAQS";
+        return view('admin.faq.edit', compact('title'));
     }
 
     /**
@@ -92,8 +94,8 @@ class FaqController extends Controller
     public function update(Request $request, Faq $faq)
     {
         $data = $request->validate([
-            'question' =>'required|min:3',
-            'answer' =>'required|min:3',
+            'question' => 'required|min:3',
+            'answer' => 'required|min:3',
             'status' => 'required|min:0|max:1',
         ]);
         // dd($request);

@@ -9,12 +9,43 @@ use Illuminate\Support\Facades\Log;
 
 class AdvisoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data['advisory'] = Advisory::getAll();
-        // dd($data['advisory']);
+        $data['title'] = "Tư Vấn Liên Hệ";
+        $status = $request->get('status');
+        $searchQuery = $request->get('search');
+ 
+        $query = Advisory::query();
+
+        if ($status !== null) {
+            $query->where('advisories.status', $status);
+        }
+
+        if ($searchQuery !== null && $searchQuery !== '') {
+            $query->where(function ($q) use ($searchQuery) {
+                $q->where('advisories.name', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('advisories.phone_number', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('advisories.email', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('tours.name', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+        $query->join('tours', 'tours.id', '=', 'advisories.tour_id')
+            ->select('advisories.*', 'tours.name as tour_name');
+
+        $data['advisory'] = $query->get();
+
+
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => $data['advisory']
+            ]);
+        }
+
         return view('admin.advisory.index', $data);
     }
+
+
 
     public function advisoryStatus(Request $request, $id)
     {

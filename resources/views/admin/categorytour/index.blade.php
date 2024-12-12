@@ -23,18 +23,14 @@
                         </div>
 
                         <div class="col-sm">
-
                             <div class="d-flex justify-content-sm-end">
-
-
                                 <select id="status" name="status" class="form-select" aria-label="Lọc theo trạng thái"
-                                    style="width: 200px">
+                                    style="width: 200px; left:0 important">
                                     <option value="">Lọc theo trạng thái</option>
                                     <option value="1">Hiện</option>
                                     <option value="0">Ẩn</option>
                                 </select>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -50,11 +46,9 @@
                             <table id="example" class="table table-striped" style="width:100%">
                                 <thead class="text-muted">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Tên danh mục</th>
-                                        <th>Mô tả</th>
-                                        <th>Ngày tạo</th>
-                                        <th>Ngày cập nhật</th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Tên danh mục</th>
+                                        <th scope="col">Mô tả</th>                           
                                         <th scope="col">Trạng thái</th>
                                         <th scope="col">Hành động </th>
                                     </tr>
@@ -66,8 +60,7 @@
 
                                             <td>{{ $item->category_tour }}</td>
                                             <td>{{ $item->description }}</td>
-                                            <td>{{ $item->created_at }}</td>
-                                            <td>{{ $item->updated_at }}</td>
+                                           
                                             <td>
                                                 <button type="button" style="width: 100px;"
                                                     class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
@@ -208,7 +201,7 @@
                         "sSortAscending": ": kích hoạt để sắp xếp cột theo thứ tự tăng dần",
                         "sSortDescending": ": kích hoạt để sắp xếp cột theo thứ tự giảm dần"
                     }
-                }   
+                }
             })
         });
 
@@ -287,32 +280,31 @@
         });
     </script>
 
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
 
-        $('#status').on('change', function() {
-            var status = $(this).val();
+            $('#status').on('change', function() {
+                var status = $(this).val();
 
-            $.ajax({
-                url: '{{ route('categorytour.index') }}',
-                method: 'GET',
-                data: {
-                    status: status
-                },
-                success: function(response) {
-                    var rows = '';
-                    $.each(response.data, function(index, item) {
-                        var createdAt = moment(item.created_at).format(
-                            'DD/MM/YYYY HH:mm:ss');
-                        var updatedAt = moment(item.updated_at).format(
-                            'DD/MM/YYYY HH:mm:ss');
-                        rows += `
+                $.ajax({
+                    url: '{{ route('categorytour.index') }}',
+                    method: 'GET',
+                    data: {
+                        status: status
+                    },
+                    success: function(response) {
+                        var rows = '';
+                        $.each(response.data, function(index, item) {
+                            var createdAt = moment(item.created_at).format(
+                                'DD/MM/YYYY HH:mm:ss');
+                            var updatedAt = moment(item.updated_at).format(
+                                'DD/MM/YYYY HH:mm:ss');
+                            rows += `
             <tr>
                 <td><a href="" class="text-reset">${item.id}</a></td>
                 <td>${item.category_tour}</td>
                 <td>${item.description ?? 'Chưa có mô tả'}</td>
-                <td>${createdAt}</td>
-                <td>${updatedAt}</td>
+                
                 <td>
                     <button type="button" style="width: 100px;"
                         class="btn btn-toggle-status ${item.status == 1 ? 'btn-success' : 'btn-danger'}"
@@ -344,17 +336,17 @@
                 </td>
             </tr>
         `;
-                    });
+                        });
 
-                    $('#category-tours-body').html(rows);
-                },
-                error: function() {
-                    alert('Có lỗi xảy ra!');
-                }
+                        $('#category-tours-body').html(rows);
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra!');
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 @endsection
 
 

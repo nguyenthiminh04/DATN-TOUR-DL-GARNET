@@ -59,7 +59,9 @@ class AuthClientController extends Controller
                 ]);
             } else if ($user->status == 0) {
 
-                Auth::logout();
+                if (Auth::check() && Auth::user()->role_id !== 1) {
+                    Auth::logout();
+                }
 
                 return response()->json([
                     'status' => 'error',

@@ -14,21 +14,37 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
         $title = "Danh Mục User";
 
-        $listuser = User::orderBYDesc('id')->get();
+        $status = $request->get('status');
+        $query = User::query();
+
+        if ($status !== null) {
+            $query->where('status', $status);
+        }
+
+        $listuser = $query->get();
+
+       
+       
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => $listuser
+            ]);
+        }
+
         return view('admin.user.index', compact('title', 'listuser'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        
         $listStatus = Status::query()->get();
         return view('admin.user.add', compact('listStatus'));
     }
