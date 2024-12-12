@@ -28,7 +28,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="panel panel-default">
@@ -47,52 +46,52 @@
                     </tr>
                 </thead>
                 <tbody>
-
                     <tr>
                         <td>1</td>
                         <td>{{ $payment->booking->tour->name ?? 'N/A' }}</td>
-                        <td>
-                            {{-- @if ($bookTour->pay)
-                                <p></strong> {{ $bookTour->pay->paymentMethod->name ?? 'Không có' }}</p>
-                            @else
-                                <p>Check-in tại quầy</p>
-                            @endif --}}
-                            {{ $payment->paymentMethod->name ?? 'N/A' }}
-                        </td>
-                        <td>
-                            {{-- @if ($bookTour->pay)
-                                <p></strong>
-                                    {{ $bookTour->pay->paymentStatus->name ?? 'Không có' }}</p>
-                            @else
-<p>Chưa thanh toán.</p>
-                            @endif --}}
-                            {{ $payment->paymentStatus->name ?? 'N/A' }}
-                        </td>
-                        <td>
-                            {{  $payment->status->name ?? 'N/A'}}
-                        </td>
-                        <td>{{ number_format($payment->money, 0, ',', '.') }}VND</td>
+                        <td>{{ $payment->paymentMethod->name ?? 'N/A' }}</td>
+                        <td>{{ $payment->paymentStatus->name ?? 'N/A' }}</td>
+                        <td>{{ $payment->status->name ?? 'N/A' }}</td>
+                        <td>{{ number_format($payment->money, 0, ',', '.') }} VND</td>
                     </tr>
-
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="4" class="text-right">Tổng cộng:</th>
-                        <th> {{ number_format($payment->money, 0, ',', '.') }}VND</th>
-                    </tr>
-                </tfoot>
+                @if ($payment->status_id == 13)
+                    <tfoot>
+                        <tr>
+                            <th colspan="4" class="text-right">Tiền hoàn:</th>
+                            <th>{{ number_format($payment->refund_amount ?? 0, 0, ',', '.') }} VND</th>
+                        </tr>
+                    </tfoot>
+                @else
+                    <tfoot>
+                        <tr>
+                            <th colspan="4" class="text-right">Tổng cộng:</th>
+                            <th>{{ number_format($payment->money, 0, ',', '.') }} VND</th>
+                        </tr>
+                    </tfoot>
+                @endif
             </table>
+            
+            
         </div>
-        @if ($payment->status_id == 1)
+
+        @if (in_array($payment->status_id, [1, 2, 5]))
+            @if ($payment->payment_status_id == 2)
+                <div class="alert alert-warning text-center mb-3">
+                    <span>Đơn hàng đã thanh toán. Vui lòng cân nhắc kỹ trước khi hủy!</span>
+                </div>
+            @endif
             <a href="javascript:void(0);" class="btn btn-warning mb-3" data-toggle="modal" data-target="#cancelOrderModal">Hủy đơn hàng</a>
         @elseif ($payment->status_id == 13)
             <div class="alert alert-danger text-center">
                 <span>Đơn hàng đã bị hủy</span>
             </div>
         @endif
+
         <a href="{{ url('/') }}" class="btn btn-primary">Quay lại trang chủ</a>
-        <div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog" aria-labelledby="cancelOrderLabel"
-            aria-hidden="true">
+
+        <!-- Modal hủy đơn hàng -->
+        <div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog" aria-labelledby="cancelOrderLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -103,7 +102,7 @@
                     </div>
                     <form action="{{ route('usser.cancelOrder', $payment->id) }}" method="POST">
                         @csrf
-                        @method('PUT')  <!-- Sử dụng PUT để cập nhật thông tin -->
+                        @method('PUT')
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="ly_do_huy">Lý do hủy đơn hàng</label>
@@ -112,7 +111,7 @@
                                     <option value="Thay đổi kế hoạch cá nhân">Thay đổi kế hoạch cá nhân</option>
                                     <option value="Không đủ tài chính để thanh toán">Không đủ tài chính để thanh toán</option>
                                     <option value="Tìm được giá tốt hơn ở nơi khác">Tìm được giá tốt hơn ở nơi khác</option>
-<option value="Không hài lòng với thông tin về tour">Không hài lòng với thông tin về tour</option>
+                                    <option value="Không hài lòng với thông tin về tour">Không hài lòng với thông tin về tour</option>
                                     <option value="Lịch trình không phù hợp với kế hoạch cá nhân">Lịch trình không phù hợp với kế hoạch cá nhân</option>
                                     <option value="Đã đặt nhầm tour hoặc sai thông tin">Đã đặt nhầm tour hoặc sai thông tin</option>
                                     <option value="Không nhận được sự hỗ trợ từ nhà cung cấp">Không nhận được sự hỗ trợ từ nhà cung cấp</option>
@@ -126,7 +125,7 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                             <button type="submit" class="btn btn-danger">Xác nhận hủy</button>
                         </div>
-                    </form>                    
+                    </form>
                 </div>
             </div>
         </div>

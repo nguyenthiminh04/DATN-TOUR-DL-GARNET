@@ -179,9 +179,25 @@ if ($coupon && $coupon->number > 0) {
                 'guests' => $guest,
                 'code' => $payment->code_vnpay
             ];
-    
+            $pdfData = [
+                'customer_name' => $name,
+                'name_tour' => $tour_name,
+                'money' => $payment->money,
+                'start_date' => $start_date,
+                'payment_status' => $payment_status,
+                'payment_method' => $payment_method,
+                'bookings' => $payment->bookTours->map(function ($booking) {
+                    return [
+                        'tour_name' => $booking->tour_name,
+                        'date' => $booking->date,
+                        'guests' => $booking->guests,
+                        'total_price' => $booking->total_price,
+                    ];
+                }),
+            ];
+
             // Gửi email thông báo cho khách hàng
-            Mail::to($booking['email'])->send(new BookingSuccess($data));
+           Mail::to($booking['email'])->send(new BookingSuccess($data, $pdfData));
     
             // Trả về view success cho thanh toán online
             return view('client.payment.success-online', compact('payment', 'booking'));
@@ -211,9 +227,24 @@ if ($coupon && $coupon->number > 0) {
                 'guests' => $guest,
                 'code' => $payment->code_vnpay
             ];
-    
+            $pdfData = [
+                'customer_name' => $name,
+                'name_tour' => $tour_name,
+                'money' => $payment->money,
+                'start_date' => $start_date,
+                'payment_status' => $payment_status,
+                'payment_method' => $payment_method,
+                'bookings' => $payment->bookTours->map(function ($booking) {
+                    return [
+                        'tour_name' => $booking->tour_name,
+                        'date' => $booking->date,
+                        'guests' => $booking->guests,
+                        'total_price' => $booking->total_price,
+                    ];
+                }),
+            ];
             $paymentLocation = "Hà Nội"; // hoặc xác định nơi thanh toán
-            Mail::to($booking['email'])->send(new BookingSuccess($data));
+            Mail::to($booking['email'])->send(new BookingSuccess($data, $pdfData));
     
             // Trả về view success cho thanh toán trực tiếp
             return view('client.payment.success-direct', compact('payment', 'booking', 'paymentLocation'));
