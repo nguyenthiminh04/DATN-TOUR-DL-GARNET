@@ -11,4 +11,9 @@ class Permission extends Model
     protected $table = 'permissions';
 
     protected $fillable = ['name', 'description'];
+
+    public function permissionUsers()
+    {
+        return $this->hasMany(PermissionUser::class);
+    }
 }

@@ -6,6 +6,7 @@ use App\Models\Admins\User;
 use App\Models\Permission;
 use App\Models\PermissionUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PermissionUserController extends Controller
 {
@@ -14,9 +15,10 @@ class PermissionUserController extends Controller
      */
     public function index()
     {
+        $permissionUsers = PermissionUser::with('permission', 'user')->get();
+        // dd($permissionUsers);
         if (request()->ajax()) {
-            $permissionUsers = PermissionUser::with('permission', 'user')->get();
-    
+
             return datatables()->of($permissionUsers)
                 ->addColumn('name', function ($permissionUser) {
                     return $permissionUser->user->name; // Truy cập vào mối quan hệ user
@@ -25,22 +27,22 @@ class PermissionUserController extends Controller
                     return $permissionUser->permission->name; // Truy cập vào mối quan hệ permission
                 })
                 ->addColumn('action', function ($permissionUser) {
-                    return '<button id="deleteItem" class="btn btn-danger btn-sm" data-id="' . $permissionUser->id . '">Xóa</button>';
+                    return '<button id="deleteItem" class="btn btn-danger btn-sm" data-user-id="' . $permissionUser->user_id . '" data-permission-id="' . $permissionUser->permission_id . '">Xóa</button>';
                 })
                 ->rawColumns(['name', 'permission_name', 'action'])
                 ->make(true);
         }
-    
+
         return view('admin.permission.list_admin_permission');
     }
-    
+
 
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {   
+    {
         $users = User::query()->where('role_id', 1)->get();
         $permissions = PermissionUser::query()->get();
         return view('admin.permission.add_admin_permission', compact('users', 'permissions'));
@@ -96,13 +98,25 @@ class PermissionUserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $permissionUser = PermissionUser::findOrFail($id);
-        $permissionUser->delete();
+        $userId = $request->input('user_id');
+        $permissionId = $request->input('permission_id');
 
-        return redirect()->back()->with('success', 'Đã xóa quyền của người dùng.');
+        // Tìm và xóa bản ghi dựa trên khóa chính tổng hợp
+        $deleted = DB::table('user_permission')
+            ->where('user_id', $userId)
+            ->where('permission_id', $permissionId)
+            ->delete();
+
+        if ($deleted) {
+            return response()->json(['status' => true, 'message' => 'Xóa thành công!']);
+        }
+
+        return response()->json(['status' => false, 'message' => 'Không tìm thấy bản ghi!']);
     }
+
+
 
 
     public function searchPermissions(Request $request)

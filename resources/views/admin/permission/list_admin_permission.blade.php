@@ -156,43 +156,51 @@
             // xóa faq
 
             $('#permission_user').on('click', '#deleteItem', function() {
-                let id = $(this).data('id');
-                Swal.fire({
-                    title: 'Bạn có chắc muốn xóa?',
-                    text: "Bạn sẽ không thể hoàn tác sau khi xóa!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Xác nhận',
-                    cancelButtonText: 'Hủy'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "{{ route('permission-user.destroy', ':id') }}".replace(
-                                ':id', id),
-                            method: "DELETE",
-                            dataType: "json",
-                            data: {
-                                _token: "{{ csrf_token() }}",
-                                id: id
-                            },
-                            success: function(res) {
-                                if (res.status) {
-                                    table.ajax.reload();
-                                    Swal.fire('Xóa thành công!', '', 'success');
-                                } else {
-                                    Swal.fire(res.message, '', 'error');
+                let userId = $(this).data('user-id');
+                let permissionId = $(this).data('permission-id');
+
+                if (userId && permissionId) {
+                    console.log('User ID:', userId, 'Permission ID:', permissionId); // Debug
+                    Swal.fire({
+                        title: 'Bạn có chắc muốn xóa?',
+                        text: "Bạn sẽ không thể hoàn tác sau khi xóa!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Xác nhận',
+                        cancelButtonText: 'Hủy'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: "{{ route('per-user.destroy') }}", // Cập nhật đúng route
+                                method: "DELETE",
+                                dataType: "json",
+                                data: {
+                                    _token: "{{ csrf_token() }}",
+                                    user_id: userId,
+                                    permission_id: permissionId
+                                },
+                                success: function(res) {
+                                    if (res.status) {
+                                        $('#permission_user').DataTable().ajax.reload();
+                                        Swal.fire('Xóa thành công!', '', 'success');
+                                    } else {
+                                        Swal.fire(res.message, '', 'error');
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Lỗi AJAX:', error);
+                                    Swal.fire('Có lỗi xảy ra!', '', 'error');
                                 }
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Lỗi AJAX:', error);
-                                Swal.fire('Có lỗi xảy ra!', '', 'error');
-                            }
-                        });
-                    }
-                })
+                            });
+                        }
+                    });
+                } else {
+                    console.error('Không lấy được User ID hoặc Permission ID');
+                }
             });
+
 
             // sửa faq
 

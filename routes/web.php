@@ -195,7 +195,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/permission-user', [PermissionUserController::class, 'index'])->name('permission-user.index');
         Route::get('/permission-user/create', [PermissionUserController::class, 'create'])->name('permission-user.create');
         Route::post('/permission-user', [PermissionUserController::class, 'store'])->name('permission-user.store');
-        Route::delete('/permission-user/{id}', [PermissionUserController::class, 'destroy'])->name('permission-user.destroy');
+        Route::delete('/per-user', [PermissionUserController::class, 'destroy'])->name('per-user.destroy');
 
         Route::get('/permissions-search', [PermissionUserController::class, 'searchPermissions'])->name('permissions.search');
         // end permissions

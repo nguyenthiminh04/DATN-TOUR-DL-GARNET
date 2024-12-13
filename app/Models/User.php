@@ -97,4 +97,9 @@ class User extends Authenticatable
     {
         $this->permissions()->detach($permissionId);
     }
+
+    public function permissionUsers()
+    {
+        return $this->hasMany(PermissionUser::class);
+    }
 }
