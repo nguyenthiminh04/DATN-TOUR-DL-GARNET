@@ -1436,23 +1436,25 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var startDateTour = <?= json_encode($tour['start_date']) ?>;
-            var endDateTour = <?= json_encode($tour['end_date']) ?>;
+            var startDateTour = <?= json_encode($tour['start_date']) ?>; // Ngày bắt đầu tour
+            var endDateTour = <?= json_encode($tour['end_date']) ?>; // Ngày kết thúc tour
+
+            // Lấy ngày hôm nay dưới dạng YYYY-MM-DD
+            var today = new Date().toISOString().split('T')[0];
+
+            // Xác định minDate
+            var minDate = (new Date(startDateTour) > new Date(today)) ? startDateTour : today;
+
             flatpickr("#datepicker", {
-                dateFormat: "Y-m-d", // Định dạng ngày (ví dụ: 29 Nov 2024)
-                startDate: '0d', // Chỉ cho phép chọn từ hôm nay trở đi
-                maxDate: endDateTour, // ngày kết thúc chọn
-                minDate: startDateTour, //ngày tour bắt đầu hoạt động
-                defaultDate: "today", // Mặc định là ngày hôm nay
+                dateFormat: "Y-m-d", // Định dạng ngày
+                minDate: minDate, // Ngày nhỏ nhất
+                maxDate: endDateTour, // Ngày lớn nhất
+                defaultDate: minDate, // Ngày mặc định là ngày hợp lệ đầu tiên
                 locale: "vn", // Cài đặt ngôn ngữ tiếng Việt (nếu có)
                 onChange: function(selectedDates, dateStr, instance) {
                     console.log("Ngày đã chọn:", dateStr); // Hiển thị ngày đã chọn
-                    // Cập nhật lại giá trị startDate hoặc xử lý khác nếu cần
-                    startDate = dateStr; // Cập nhật giá trị startDate
-                    updateTotalPrice(); // Cập nhật tổng tiền nếu cần
                 }
             });
-
         });
 
         $('#advisoryForm').on('submit', function(e) {
