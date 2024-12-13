@@ -11,8 +11,7 @@
 				<meta itemprop="description" content="">
 				<meta itemprop="author" content="Nguyễn Chánh Bảo Trung">
 				<meta itemprop="headline" content="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!">
-				<meta itemprop="image" content="https:https://bizweb.dktcdn.net/100/299/077/articles/dalat-1.jpg?v=1520693176427">
-				<meta itemprop="datePublished" content="10-03-2018">
+				<meta itemprop="image" content="{{ asset('storage/' . $showArticle->img_thumb) }}">				<meta itemprop="datePublished" content="10-03-2018">
 				<meta itemprop="dateModified" content="10-03-2018">
 				<div class="hidden" itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
 					<div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
@@ -33,9 +32,12 @@
 						<div class="article-details">						
 							<div class="article-content">
 								<div class="rte">
+									{{-- @if($showArticle->img_thumb)
+									<img src="{{ asset('storage/' . $showArticle->img_thumb) }}" alt="{{ $showArticle->title }}" class="img-fluid">
+								@endif --}}
 									<div class="caption">
 										<h2>{{$showArticle->description}}</h2>
-										<p>{{$showArticle->content}}</p>
+										<p>{!! $showArticle->content !!}</p>
 									</div>
 								</div>
 							</div>
@@ -84,8 +86,6 @@
 						
 						
 
-						<form method="post" action="https://ant-du-lich.mysapo.net/posts/ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro/comments" id="article_comments" accept-charset="UTF-8"><input name="FormType" type="hidden" value="article_comments"/><input name="utf8" type="hidden" value="true"/><input type="hidden" id="Token-56b950e7d49b439d86b392a76d260156" name="Token" /><script src="../www.google.com/recaptcha/apif78f.js?render=6Ldtu4IUAAAAAMQzG1gCw3wFlx_GytlZyLrXcsuK"></script><script>grecaptcha.ready(function() {grecaptcha.execute("6Ldtu4IUAAAAAMQzG1gCw3wFlx_GytlZyLrXcsuK", {action: "article_comments"}).then(function(token) {document.getElementById("Token-56b950e7d49b439d86b392a76d260156").value = token});});</script> 
-						
 						
 						<div class="col-lg-12">
 							<div class="form-coment margin-bottom-30">
@@ -108,7 +108,6 @@
 								</div>
 							</div> <!-- End form mail -->
 						</div>
-						</form>
 					</div>
 					
 				</div>				
@@ -308,18 +307,20 @@
 		<div class="row">
 												
 			<article class="blog-item blog-item-list col-md-12">
-				<a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html" class="panel-box-media"><img src="client/bizweb.dktcdn.net/thumb/small/100/299/077/articles/chua-huong9e3f.jpg?v=1520693664270" width="70" height="70" alt="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương" /></a>
+				<a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html" class="panel-box-media">
+					<img src="client/bizweb.dktcdn.net/thumb/small/100/299/077/articles/chua-huong9e3f.jpg?v=1520693664270" width="70" height="70" alt="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương" /></a>
 				<div class="blogs-rights">
 					<h3 class="blog-item-name"><a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html" title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương">Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương</a></h3>
-					<div class="post-time">10/03/2018</div>
+					<div class="post-time">10/10/2024</div>
 				</div>
 			</article>			
 												
 			<article class="blog-item blog-item-list col-md-12">
-				<a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html" class="panel-box-media"><img src="client/bizweb.dktcdn.net/thumb/small/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437" width="70" height="70" alt="Tràng An cổ – điểm đến đang hot ở Ninh Bình" /></a>
+				<a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html" class="panel-box-media">
+					<img src="client/bizweb.dktcdn.net/thumb/small/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437" width="70" height="70" alt="Tràng An cổ – điểm đến đang hot ở Ninh Bình" /></a>
 				<div class="blogs-rights">
 					<h3 class="blog-item-name"><a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html" title="Tràng An cổ – điểm đến đang hot ở Ninh Bình">Tràng An cổ – điểm đến đang hot ở Ninh Bình</a></h3>
-					<div class="post-time">10/03/2018</div>
+					<div class="post-time">10/10/2024</div>
 				</div>
 			</article>			
 												
@@ -327,7 +328,7 @@
 				<a href="mua-hoa-phan-phu-hong-troi-bao-loc.html" class="panel-box-media"><img src="client/bizweb.dktcdn.net/thumb/small/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973" width="70" height="70" alt="Mùa hoa phấn phủ hồng trời Bảo Lộc" /></a>
 				<div class="blogs-rights">
 					<h3 class="blog-item-name"><a href="mua-hoa-phan-phu-hong-troi-bao-loc.html" title="Mùa hoa phấn phủ hồng trời Bảo Lộc">Mùa hoa phấn phủ hồng trời Bảo Lộc</a></h3>
-					<div class="post-time">10/03/2018</div>
+					<div class="post-time">10/10/2024</div>
 				</div>
 			</article>			
 												
@@ -335,7 +336,7 @@
 				<a href="ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html" class="panel-box-media"><img src="client/bizweb.dktcdn.net/thumb/small/100/299/077/articles/dalat-158d7.jpg?v=1520693176427" width="70" height="70" alt="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!" /></a>
 				<div class="blogs-rights">
 					<h3 class="blog-item-name"><a href="ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html" title="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!">Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ...</a></h3>
-					<div class="post-time">10/03/2018</div>
+					<div class="post-time">10/10/2024</div>
 				</div>
 			</article>			
 			

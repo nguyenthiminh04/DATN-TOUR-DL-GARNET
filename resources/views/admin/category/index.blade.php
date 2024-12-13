@@ -18,112 +18,147 @@
                         </div>
 
                     </div>
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm-auto">
+                            <a href="{{ route('category.create') }}" class="btn btn-secondary "><i
+                                    class="bi bi-plus-circle align-baseline me-1"></i> Thêm danh mục</a>
+                        </div>
+
+                        <div class="col-sm ms-auto" style="display: flex; margin-left: auto;">
+                            <div class="d-flex justify-content-sm-end gap-2 flex-wrap"
+                                style="width: 100%; justify-content: flex-end;">
+
+                                <select id="status" name="status" class="form-select" aria-label="Lọc theo trạng thái"
+                                    style="flex: 1 1">
+                                    <option value="">Lọc theo trạng thái</option>
+                                    <option value="1">Hiện</option>
+                                    <option value="0">Ẩn</option>
+                                </select>
+
+                                <select id="hot" name="hot" class="form-select" aria-label="Lọc theo độ hot"
+                                    style="flex: 1 1 ">
+                                    <option value="">Lọc theo độ hot</option>
+                                    <option value="1">Hot</option>
+                                    <option value="0">Không Hot</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
                 </div>
             </div>
-            <!-- end page title -->
+
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-                      
-                        <a href="{{route('category.create')}}" class="btn btn-secondary col-2"><i
-                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm danh mục</a>
-                        {{-- end --}}
+
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
-
                                             <th>ID</th>
                                             <th>Tên danh mục</th>
                                             <th>Ảnh</th>
-                                            {{-- <th>banner</th> --}}
-                                            {{-- <th>parent_id</th> --}}
-                                            {{-- <th>slug</th> --}}
                                             <th>Mô tả</th>
                                             <th>Tin hot</th>
-                                            {{-- <th>Người Thêm</th> --}}
                                             <th scope="col">Trạng thái</th>
                                             <th scope="col">Hành động </th>
                                         </tr>
                                     </thead>
-                                    <tbody class="list form-check-all">
+                                    <tbody class="list form-check-all" id="category-body">
                                         @foreach ($listCategory as $index => $item)
                                             <tr>
+                                                <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
+                                                <td>{{ $item->name }}</td>
+                                                <td>
+                                                    <img src="{{ Storage::url($item->avatar) }}" alt=""
+                                                        width="30px">
+                                                </td>
 
-                                            <td><a href="" class="text-reset">{{ $item->id }}</a></td>
+                                                <td>{{ $item->description }}</td>
 
-                                            <td>{{ $item->name }}</td>
-                                            <td>
-                                              <img src="{{ Storage::url($item->avatar)}}" alt="" width="30px">
-
-
-                                          </td>
-                                          {{-- <td>
-                                            <img src="{{ Storage::url($item->banner)}}" alt="" width="30px">
-
-
-                                        </td> --}}
-                                        {{-- <td>{{ $item->parent ? $item->parent->name : 'Không có cha' }}</td> --}}
-
-                                            
-                                            {{-- <td>{{ $item->slugg }}</td> --}}
-                                            <td>{{ $item->description }}</td>
-                                            {{-- <td>{{ $item->user->name }}</td> --}}
-                                            <td class="{{ $item->hot == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $item->hot == 1 ? 'Hot' : 'Không Hot' }}</td>
-                                            <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
-                                            <td>
-                                                <ul class="d-flex gap-2 list-unstyled mb-0">
-                                                    <li>
-                                                        <button class="btn btn-subtle-primary btn-icon btn-sm view-category"
-                                                        data-id="{{ $item->id }}">
-                                                        <i class="ph-eye"></i>
+                                                <td>
+                                                    <button type="button" style="width: 100px;"
+                                                        class="btn btn-toggle-hot {{ $item->hot == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                        data-id="{{ $item->id }}"
+                                                        onclick="toggleHot({{ $item->id }})">
+                                                        {{ $item->hot == 1 ? 'Hot' : 'Không Hot' }}
                                                     </button>
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{route('category.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                             <!-- Xóa User -->
-        <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="btn-close" id="deleteRecord-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body p-md-5">
-                      <div class="text-center">
-                          <div class="text-danger">
-                              <i class="bi bi-trash display-5"></i>
-                          </div>
-                          <div class="mt-4">
-                            <h4 class="mb-2">Xóa danh mục này?</h4>
-                            <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
-                          </div>
-                      </div>
-                      <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('category.destroy', $item->id) }}"
-                          method="POST" class="d-inline">
-                          @csrf
-                          @method('DELETE')
-                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn muốn xóa!</button>
-                        </form>
-                      </div>
-                  </div>
-              </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-      </div>
- 
+                                                </td>
+                                                <td>
+                                                    <button type="button" style="width: 100px;"
+                                                        class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                        data-id="{{ $item->id }}"
+                                                        onclick="toggleStatus({{ $item->id }})">
+                                                        {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
+                                                    </button>
+                                                </td>
+
+                                                <td>
+                                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+                                                        <li>
+                                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-category"
+                                                                data-id="{{ $item->id }}">
+                                                                <i class="ph-eye"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+
+                                                            <a href="{{ route('category.edit', $item->id) }}"
+                                                                class="btn btn-subtle-success btn-icon btn-sm">
+                                                                <i class="ri-edit-2-line"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#deleteRecordModal{{ $item->id }}"
+                                                                data-bs-toggle="modal"
+                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                                    class="ph-trash"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- Xóa User -->
+                                            <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn"
+                                                tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close" id="deleteRecord-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body p-md-5">
+                                                            <div class="text-center">
+                                                                <div class="text-danger">
+                                                                    <i class="bi bi-trash display-5"></i>
+                                                                </div>
+                                                                <div class="mt-4">
+                                                                    <h4 class="mb-2">Xóa danh mục này?</h4>
+                                                                    <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn
+                                                                        xóa không?</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
+                                                                <form action="{{ route('category.destroy', $item->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="button"
+                                                                        class="btn w-sm btn-light btn-hover"
+                                                                        data-bs-dismiss="modal">Đóng</button>
+                                                                    <button type="submit"
+                                                                        class="btn w-sm btn-danger btn-hover"
+                                                                        id="delete-record">Vâng, Tôi chắc chắn muốn
+                                                                        xóa!</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div>
                                         @endforeach
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
@@ -136,39 +171,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row align-items-center mt-4 pt-2" id="pagination-element">
-                                <div class="col-sm">
-                                    <div class="text-muted text-center text-sm-start">
-                                        Showing <span class="fw-semibold">10</span> of <span class="fw-semibold">15</span>
-                                        Results
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-sm-auto mt-3 mt-sm-0">
-                                    <div class="pagination-wrap hstack gap-2 justify-content-center">
-                                        <a class="page-item pagination-prev disabled" href="javascript:void(0)">
-                                            Previous
-                                        </a>
-                                        <ul class="pagination listjs-pagination mb-0"></ul>
-                                        <a class="page-item pagination-next" href="javascript:void(0)">
-                                            Next
-                                        </a>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-                        </div>
-                    </div><!--end card-->
-                </div><!--end col-->
-            </div><!--end row-->
-            
-            
-           
-            
-        </div>
-        <!-- container-fluid -->
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
-    <div class="modal fade" id="categoryDetailModal" tabindex="-1" aria-labelledby="categoryDetailModalLabel" aria-hidden="true">
+    <div class="modal fade" id="categoryDetailModal" tabindex="-1" aria-labelledby="categoryDetailModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -223,28 +235,192 @@
                 }
             }
         });
+
+        function toggleHot(categoryhotId) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $.ajax({
+                url: `/admin/category/hot/${categoryhotId}`,
+                method: 'POST',
+                data: {
+                    _token: csrfToken
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const button = $(
+                            `.btn.btn-toggle-hot[data-id="${categoryhotId}"]`); // Chỉ chọn nút "Hot"
+                        if (response.status == 1) {
+                            button.removeClass('btn-danger').addClass('btn-success').text('Hot');
+                        } else {
+                            button.removeClass('btn-success').addClass('btn-danger').text('Không Hot');
+                        }
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Đã được cập nhật thành công!',
+                            showConfirmButton: true,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Không tìm thấy danh mục!',
+                            showConfirmButton: true,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error,
+                        showConfirmButton: true,
+                    });
+                    console.error(xhr.responseText || error);
+                }
+            });
+        }
+
+
+        function toggleStatus(categoryId) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $.ajax({
+                url: `/admin/category/status/${categoryId}`,
+                method: 'POST',
+                data: {
+                    _token: csrfToken
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const button = $(
+                            `.btn.btn-toggle-status[data-id="${categoryId}"]`); // Chỉ chọn nút "Status"
+                        if (response.status == 1) {
+                            button.removeClass('btn-danger').addClass('btn-success').text('Hiện');
+                        } else {
+                            button.removeClass('btn-success').addClass('btn-danger').text('Ẩn');
+                        }
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Đã được cập nhật thành công!',
+                            showConfirmButton: true,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Không tìm thấy danh mục!',
+                            showConfirmButton: true,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error,
+                        showConfirmButton: true,
+                    });
+                    console.error(xhr.responseText || error);
+                }
+            });
+        }
+
+
         $(document).ready(function() {
-    // Sự kiện nhấn vào biểu tượng con mắt
-    $('.view-category').on('click', function(e) {
-        e.preventDefault();
-        
-        const categoryId = $(this).data('id'); // Lấy ID của category
+            // Sự kiện nhấn vào biểu tượng con mắt
+            $('.view-category').on('click', function(e) {
+                e.preventDefault();
 
-        $.ajax({
-            url: '/admin/category/' + categoryId,  // Đảm bảo URL này đúng với route trong web.php
-            type: 'GET',
-            success: function(response) {
-                // Hiển thị chi tiết category trong modal
-                $('#categoryDetailContent').html(response);
-                $('#categoryDetailModal').modal('show');  // Mở modal
-            },
-            error: function(xhr, status, error) {
-                alert('Có lỗi xảy ra khi tải chi tiết danh mục!');
-            }
+                const categoryId = $(this).data('id'); // Lấy ID của category
+
+                $.ajax({
+                    url: '/admin/category/' +
+                        categoryId, // Đảm bảo URL này đúng với route trong web.php
+                    type: 'GET',
+                    success: function(response) {
+                        // Hiển thị chi tiết category trong modal
+                        $('#categoryDetailContent').html(response);
+                        $('#categoryDetailModal').modal('show'); // Mở modal
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Có lỗi xảy ra khi tải chi tiết danh mục!');
+                    }
+                });
+            });
         });
-    });
-});
+    </script>
 
+    <script>
+        $(document).ready(function() {
+            $('#status, #hot').on('change', function() {
+                var status = $('#status').val();
+                var hot = $('#hot').val();
+
+                $.ajax({
+                    url: '{{ route('category.index') }}',
+                    method: 'GET',
+                    data: {
+                        status: status,
+                        hot: hot
+                    },
+                    success: function(response) {
+                        var rows = '';
+                        $.each(response.data, function(index, item) {
+                            rows += `
+                            <tr>
+                                <td><a href="" class="text-reset">${item.id}</a></td>
+                                <td>${item.name}</td>
+                                <td>
+                                    <img src="{{ Storage::url('${item.avatar}') }}" alt="" width="30px">
+                                </td>
+                                <td>${item.description}</td>
+                                <td>
+                                    <button type="button" style="width: 100px;" class="btn btn-toggle-hot ${item.hot == 1 ? 'btn-success' : 'btn-danger'}" data-id="${item.id}" onclick="toggleHot(${item.id})">
+                                        ${item.hot == 1 ? 'Hot' : 'Không Hot'}
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" style="width: 100px;" class="btn btn-toggle-status ${item.status == 1 ? 'btn-success' : 'btn-danger'}" data-id="${item.id}" onclick="toggleStatus(${item.id})">
+                                        ${item.status == 1 ? 'Hiện' : 'Ẩn'}
+                                    </button>   
+                                </td>
+                                <td>
+                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+                                        <li>
+                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-category" data-id="${item.id}">
+                                                <i class="ph-eye"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/admin/category/${item.id}/edit" class="btn btn-subtle-success btn-icon btn-sm">
+                                                <i class="ri-edit-2-line"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#deleteRecordModal${item.id}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        `;
+                        });
+
+                        $('#category-body').html(rows);
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra!');
+                    }
+                });
+            });
+        });
     </script>
 @endsection
 

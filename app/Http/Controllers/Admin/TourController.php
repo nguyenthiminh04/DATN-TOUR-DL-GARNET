@@ -18,28 +18,45 @@ class TourController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $title = "Danh Mục User";
+        $title = "Danh Mục Tour";
 
-        $listtour = Tour::orderBYDesc('id')->get();
-        $listuser = User::query()->get();
-        $listlocation = Location::query()->get();
-        $listCategoryTour = CategoryTour::query()->get();
+        $status = $request->get('status');
+
+        $query = Tour::query();
+        if ($status !== null) {
+            $query->where('status', $status);
+        }
+
+        $listtour = $query->orderByDesc('id')->get();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => $listtour
+            ]);
+        }
+
+        $listuser = User::all();
+        $listlocation = Location::all();
+        $listCategoryTour = CategoryTour::all();
+
         return view('admin.tour.index', compact('title', 'listtour', 'listuser', 'listlocation', 'listCategoryTour'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+        $title = "Thêm Tour";
         //
         $listuser = User::query()->get();
         $listlocation = Location::query()->get();
         $listCategoryTour = CategoryTour::query()->get();
-        return view('admin.tour.add', compact('listuser', 'listlocation', 'listCategoryTour'));
+        return view('admin.tour.add', compact('listuser', 'listlocation', 'listCategoryTour', 'title'));
     }
 
     /**
@@ -101,13 +118,15 @@ class TourController extends Controller
      */
     public function edit(string $id)
     {
+        $title = "Sửa Tour";
+
         $listuser = User::query()->get();
         $listlocation = Location::query()->get();
         // $listStatus = Status::query()->get();
         $listCategoryTour = CategoryTour::query()->get();
         $tour = Tour::query()->findOrFail($id);
         // return view('admin.tour.edit', compact('listuser', 'listlocation', 'listStatus', 'tour', 'listCategoryTour'));
-        return view('admin.tour.edit', compact('listuser','listlocation','tour','listCategoryTour'));
+        return view('admin.tour.edit', compact('listuser', 'listlocation', 'tour', 'listCategoryTour', 'title'));
     }
 
     /**
@@ -195,5 +214,21 @@ class TourController extends Controller
                 return redirect()->route('tour.index');
             }
         }
+    }
+
+    public function tourStatus(Request $request, $id)
+    {
+        $tour = Tour::find($id);
+        if (!$tour) {
+            return response()->json(['success' => false, 'message' => 'Lỗi'], 404);
+        }
+
+        $tour->status = $tour->status == 0 ? 1 : 0;
+        $tour->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $tour->status
+        ]);
     }
 }

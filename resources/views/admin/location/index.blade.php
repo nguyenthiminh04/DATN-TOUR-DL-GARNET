@@ -9,26 +9,37 @@
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <h4 class="mb-sm-0">Danh Sách địa điểm</h4>
-
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
                                 <li class="breadcrumb-item active">Danh sách địa điểm</li>
                             </ol>
                         </div>
+                    </div>
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm-auto">
+                            <a href="{{ route('location.create') }}" class="btn btn-secondary"><i
+                                    class="bi bi-plus-circle align-baseline me-1"></i> Thêm địa điểm</a>
+                        </div>
+                    </div>
 
+                    <div class="col-sm">
+                        <div class="d-flex justify-content-sm-end">
+                            <select id="status" name="status" class="form-select status-select" aria-label="Lọc theo trạng thái"
+                                style="width: 200px; left:0 important">
+                                <option value="">Lọc theo trạng thái</option>
+                                <option value="1">Hiện</option>
+                                <option value="0">Ẩn</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- end page title -->
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-                      
-                        <a href="{{route('location.create')}}" class="btn btn-secondary col-2"><i
-                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm địa điểm</a>
-                        {{-- end --}}
+
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
@@ -37,79 +48,93 @@
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Ảnh</th>
-                                            <th>Mô tả</th>                                  
+                                            <th>Mô tả</th>
                                             <th scope="col">Trạng thái</th>
                                             <th scope="col">Hành động</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="list form-check-all">
+                                    <tbody class="list form-check-all" id="location-body">
                                         @foreach ($listLocation as $index => $item)
-                                        <tr>
-                                            <td><a href="" class="text-reset">{{ $item->id }}</a></td>
-
-                                            <td>{{ $item->name }}</td>
-                                            <td>
-                                              <img src="{{ Storage::url($item->image)}}" alt="" width="30px">
-
-
-                                          </td>
-                                            <td>{{ $item->description }}</td>
-                                            {{-- <td>{{ $item->content }}</td> --}}
-                                            {{-- <td>{{ $item->tours->name }}</td> --}}
-                                            {{-- <td>{{ $item->user_id }}</td> --}}
-                                            <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
-                                            <td>
-                                                <ul class="d-flex gap-2 list-unstyled mb-0">
-                                                    <li>
-                                                        <button class="btn btn-subtle-primary btn-icon btn-sm view-location"
+                                            <tr>
+                                                <td><a href="" class="text-reset">{{ $item->id }}</a></td>
+                                                <td>{{ $item->name }}</td>
+                                                <td>
+                                                    <img src="{{ Storage::url($item->image) }}" alt=""
+                                                        width="30px">
+                                                </td>
+                                                <td>{{ $item->description }}</td>
+                                                <td>
+                                                    <button type="button" style="width: 100px;"
+                                                        class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                        data-id="{{ $item->id }}"
+                                                        onclick="toggleStatus({{ $item->id }})">
+                                                        {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+                                                        <li>
+                                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-location"
                                                                 data-id="{{ $item->id }}">
                                                                 <i class="ph-eye"></i>
-                                                            </button>
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{route('location.edit',$item->id)}}"><i class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                             <!-- Xóa User -->
-        <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="btn-close" id="deleteRecord-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body p-md-5">
-                      <div class="text-center">
-                          <div class="text-danger">
-                              <i class="bi bi-trash display-5"></i>
-                          </div>
-                          <div class="mt-4">
-                              <h4 class="mb-2">Xóa địa điểm này?</h4>
-                              <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
-                          </div>
-                      </div>
-                      <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('location.destroy', $item->id) }}"
-                          method="POST" class="d-inline">
-                          @csrf
-                          @method('DELETE')
-                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn muốn xóa!</button>
-                        </form>
-                      </div>
-                  </div>
-              </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-      </div>
- 
+                                                            </a>
+                                                        </li>
+                                                        <li>
+
+                                                            <a href="{{ route('location.edit', $item->id) }}"
+                                                                class="btn btn-subtle-success btn-icon btn-sm">
+                                                                <i class="ri-edit-2-line"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#deleteRecordModal{{ $item->id }}"
+                                                                data-bs-toggle="modal"
+                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                                    class="ph-trash"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+
+                                            <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn"
+                                                tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close" id="deleteRecord-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body p-md-5">
+                                                            <div class="text-center">
+                                                                <div class="text-danger">
+                                                                    <i class="bi bi-trash display-5"></i>
+                                                                </div>
+                                                                <div class="mt-4">
+                                                                    <h4 class="mb-2">Xóa địa điểm này?</h4>
+                                                                    <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn
+                                                                        xóa không?</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
+                                                                <form action="{{ route('location.destroy', $item->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="button"
+                                                                        class="btn w-sm btn-light btn-hover"
+                                                                        data-bs-dismiss="modal">Đóng</button>
+                                                                    <button type="submit"
+                                                                        class="btn w-sm btn-danger btn-hover"
+                                                                        id="delete-record">Vâng, Tôi chắc chắn muốn
+                                                                        xóa!</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
-                                    </tbody><!-- end tbody -->
-                                </table><!-- end table -->
+                                    </tbody>
+                                </table>
                                 <div class="noresult" style="display: none">
                                     <div class="text-center py-4">
                                         <i class="ph-magnifying-glass fs-1 text-primary"></i>
@@ -119,53 +144,29 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row align-items-center mt-4 pt-2" id="pagination-element">
-                                <div class="col-sm">
-                                    <div class="text-muted text-center text-sm-start">
-                                        Showing <span class="fw-semibold">10</span> of <span class="fw-semibold">15</span>
-                                        Results
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-sm-auto mt-3 mt-sm-0">
-                                    <div class="pagination-wrap hstack gap-2 justify-content-center">
-                                        <a class="page-item pagination-prev disabled" href="javascript:void(0)">
-                                            Previous
-                                        </a>
-                                        <ul class="pagination listjs-pagination mb-0"></ul>
-                                        <a class="page-item pagination-next" href="javascript:void(0)">
-                                            Next
-                                        </a>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-                        </div>
-                    </div><!--end card-->
-                </div><!--end col-->
-            </div><!--end row-->
-            
-            
-           
-            
-        </div>
-        <!-- container-fluid -->
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
     <!-- Modal để hiển thị chi tiết Location -->
-<div class="modal fade" id="locationDetailModal" tabindex="-1" aria-labelledby="locationDetailModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="locationDetailModalLabel">Chi Tiết Địa Điểm</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="locationDetailContent">
-                <!-- Nội dung chi tiết địa điểm sẽ được tải ở đây -->
+    <div class="modal fade" id="locationDetailModal" tabindex="-1" aria-labelledby="locationDetailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="locationDetailModalLabel">Chi Tiết Địa Điểm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="locationDetailContent">
+                    <!-- Nội dung chi tiết địa điểm sẽ được tải ở đây -->
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 @endsection
 @section('style')
     <!--datatable css-->
@@ -208,28 +209,148 @@
                 }
             }
         });
+
+
+        function toggleStatus(locationId) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $.ajax({
+                url: `/admin/location/status/${locationId}`,
+                method: 'POST',
+                data: {
+                    _token: csrfToken // Chỉ cần truyền CSRF token trong data
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken // CSRF token cho header
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const button = $(`button[data-id="${locationId}"]`);
+                        if (response.status == 1) {
+                            button.removeClass('btn-danger').addClass('btn-success');
+                            button.text('Hiện');
+                        } else {
+                            button.removeClass('btn-success').addClass('btn-danger');
+                            button.text('Ẩn');
+                        }
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Đã được cập nhật thành công!',
+                            showConfirmButton: true,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Không tìm thấy bình luận!',
+                            showConfirmButton: true,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error, // Hiển thị lỗi nếu có
+                        showConfirmButton: true,
+                    });
+                    console.error(xhr.responseText || error); // In ra lỗi để debug
+                }
+            });
+        }
+
         $(document).ready(function() {
-    // Sự kiện nhấn vào biểu tượng con mắt
-    $('.view-location').on('click', function(e) {
-        e.preventDefault();
-        
-        const locationId = $(this).data('id'); // Lấy ID của location
+            // Sự kiện nhấn vào biểu tượng con mắt
+            $('.view-location').on('click', function(e) {
+                e.preventDefault();
 
-        $.ajax({
-            url: '/admin/location/' + locationId,  // Đảm bảo URL này đúng với route trong web.php
-            type: 'GET',
-            success: function(response) {
-                // Hiển thị chi tiết location trong modal
-                $('#locationDetailContent').html(response);
-                $('#locationDetailModal').modal('show');  // Mở modal
-            },
-            error: function(xhr, status, error) {
-                alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
-            }
+                const locationId = $(this).data('id'); // Lấy ID của location
+
+                $.ajax({
+                    url: '/admin/location/' +
+                        locationId, // Đảm bảo URL này đúng với route trong web.php
+                    type: 'GET',
+                    success: function(response) {
+                        // Hiển thị chi tiết location trong modal
+                        $('#locationDetailContent').html(response);
+                        $('#locationDetailModal').modal('show'); // Mở modal
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
+                    }
+                });
+            });
         });
-    });
-});
+    </script>
 
+    <script>
+        $(document).ready(function() {
+
+            $('#status').on('change', function() {
+                var status = $(this).val();
+
+                $.ajax({
+                    url: '{{ route('location.index') }}',
+                    method: 'GET',
+                    data: {
+                        status: status
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        var rows = '';
+                        $.each(response.data, function(index, item) {
+                           
+                            rows += `
+    
+                             <tr>
+                                <td><a href="" class="text-reset">${item.id}</a></td>
+                                <td>${item.name}</td>
+                                 <td>
+                                     <img src="{{ Storage::url('${item.image}') }}" alt="" width="30px">
+                                </td>
+                                <td>${item.description}</td>
+                                <td>
+                                   <button type="button" style="width: 100px;"
+                                        class="btn btn-toggle-status ${item.status == 1 ? 'btn-success' : 'btn-danger'}"
+                                        onclick="toggleStatus(${item.id})">
+                                        ${item.status == 1 ? 'Hiện' : 'Ẩn'}
+                                    </button>
+                                </td>
+                                <td>
+                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+                                        <li>
+                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-location"
+                                                data-id="${item.id}">
+                                                <i class="ph-eye"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('location.edit', $item->id) }}"
+                                                class="btn btn-subtle-success btn-icon btn-sm">
+                                                <i class="ri-edit-2-line"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#deleteRecordModal${item.id}"
+                                                data-bs-toggle="modal"
+                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                    class="ph-trash"></i></a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+`;
+                        });
+
+                        $('#location-body').html(rows);
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra!');
+                    }
+                });
+            });
+        });
     </script>
 @endsection
 

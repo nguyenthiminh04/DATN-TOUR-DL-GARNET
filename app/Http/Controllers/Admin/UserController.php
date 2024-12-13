@@ -14,21 +14,37 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $title ="Danh Mục User";
+        $title = "Danh Mục User";
 
-        $listuser = User::orderBYDesc('id')->get();
-        return view('admin.user.index', compact('title','listuser'));
+        $status = $request->get('status');
+        $query = User::query();
+
+        if ($status !== null) {
+            $query->where('status', $status);
+        }
+
+        $listuser = $query->get();
+
+       
+       
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => $listuser
+            ]);
+        }
+
+        return view('admin.user.index', compact('title', 'listuser'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        
         $listStatus = Status::query()->get();
         return view('admin.user.add', compact('listStatus'));
     }
@@ -37,29 +53,29 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(UserRequests $request)
-{
-    if ($request->isMethod('POST')) {
-        $params = $request->except('_token');
+    {
+        if ($request->isMethod('POST')) {
+            $params = $request->except('_token');
 
-        // Lấy trực tiếp giá trị từ dropdown
-        $params['status'] = $request->input('status');
+            // Lấy trực tiếp giá trị từ dropdown
+            $params['status'] = $request->input('status');
 
-        // Xử lý hình ảnh đại diện
-        if ($request->hasFile('avatar')) {
-            $params['avatar'] = $request->file('avatar')->store('uploads/avatar', 'public');
-        } else {
-            $params['avatar'] = null;
+            // Xử lý hình ảnh đại diện
+            if ($request->hasFile('avatar')) {
+                $params['avatar'] = $request->file('avatar')->store('uploads/avatar', 'public');
+            } else {
+                $params['avatar'] = null;
+            }
+
+            // Thêm sản phẩm
+            $user = User::query()->create($params);
+
+            // Lấy id sản phẩm vừa thêm để thêm được album
+            $user = $user->id;
+
+            return redirect()->route('user.index');
         }
-
-        // Thêm sản phẩm
-        $user = User::query()->create($params);
-
-        // Lấy id sản phẩm vừa thêm để thêm được album
-        $user = $user->id;
-
-        return redirect()->route('user.index'); 
     }
-}
 
 
     /**
@@ -91,50 +107,66 @@ class UserController extends Controller
         if ($request->isMethod('PUT')) {
             $params = $request->except('_token', '_method');
             $user = User::findOrFail($id);
-        
+
             // Xử lý Hình Ảnh
             if ($request->hasFile('avatar')) {
                 // Nếu có ảnh mới, xóa ảnh cũ và lưu ảnh mới
                 if ($user->avatar) {
                     Storage::disk('public')->delete($user->avatar);
-                    
                 }
                 $params['avatar'] = $request->file('avatar')->store('uploads/avatar', 'public');
             } else {
                 // Nếu không có ảnh mới, giữ lại ảnh cũ
                 $params['avatar'] = $user->avatar;
             }
-        
+
             // Cập nhật dữ liệu
             $user->update($params);
-        
+
             return redirect()->route('user.index');
         }
-        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request ,string $id)
-    {
-        {
-           
+    public function destroy(Request $request, string $id)
+    { {
+
             if ($request->isMethod('DELETE')) {
-                
+
                 $user = User::findOrFail($id);
-    
+
                 if ($user) {
-                    
-                     $user->delete();
-                     
+
+                    $user->delete();
+
                     return redirect()->route('user.index');
                 }
                 return redirect()->route('user.index');
             }
-           
-    
+        }
+    }
+
+
+    public function userStatus(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Không tìm thấy người dùng'], 404);
         }
 
+
+        if ($user->role_id == 1) {
+            return response()->json(['success' => false, 'message' => 'Không thể thay đổi trạng thái của tài khoản này'], 403);
+        }
+
+        $user->status = $user->status == 0 ? 1 : 0;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $user->status
+        ]);
     }
 }

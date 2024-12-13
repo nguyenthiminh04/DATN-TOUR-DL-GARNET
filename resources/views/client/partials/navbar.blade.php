@@ -24,6 +24,61 @@ if ($user) {
         ->get();
 }
 ?>
+<style>
+    .notification-popup {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 350px;
+        background-color: white;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        z-index: 1000;
+        animation: slide-in 0.3s ease;
+    }
+
+    .notification-body {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 10px;
+        max-height: 270px;
+        min-height: 50px;
+    }
+
+    .notification-body p {
+        margin: 0;
+        padding: 10px;
+        text-align: center;
+        color: #999;
+    }
+
+    .notification-footer {
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-top: 1px solid #ddd;
+        display: flex;
+        justify-content: center;
+    }
+
+    .notification-footer .btn {
+        font-size: 14px;
+        border-radius: 20px;
+    }
+
+    @keyframes slide-in {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+</style>
 <nav>
     <div class="container">
         <div class="row">
@@ -32,7 +87,7 @@ if ($user) {
                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Trang chủ</a></li>
                     @foreach ($categoryes as $category)
                         <li class="nav-item {{ $category->children->isNotEmpty() ? 'has-mega' : '' }}">
-                            <a class="nav-link" href="{{ url('tour/' . $category->slug) }}">
+                            <a class="nav-link" href="{{ route('home.allTour') }}">
                                 {{ $category->name }}
                                 @if ($category->children->isNotEmpty())
                                     <i class="fa fa-angle-right"></i>
@@ -73,27 +128,19 @@ if ($user) {
                     @endforeach
 
                     <!-- Các menu tĩnh -->
+                    {{-- <li class="nav-item"><a class="nav-link" href="{{ route('home.allTour') }}">Tất cả Tour</a></li> --}}
                     <li class="nav-item"><a class="nav-link" href="{{ route('introduce.index') }}">Giới thiệu</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('service.index') }}">Dịch vụ tour</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('service.index') }}">Cẩm nang du lịch</a>
+                    </li>
                     {{-- <li class="nav-item"><a class="nav-link" href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
                     <li class="nav-item"><a class="nav-link" href="{{ route('contact.index') }}">Liên hệ</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('favorite.index') }}">Yêu
-                            Thích</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#" class="notification-icon" id="showNotifications">
-                            <i class="fa fa-bell"></i> Thông báo
-                            @if (Auth()->user())
-                                <span class="badge badge-danger">{{ $unreadNotifications->count() }}</span>
-                            @else
-                                <span class="badge badge-danger">0</span>
-                            @endif
-
-                        </a>
+                            Thích</a>
                     </li>
+
                 </ul>
+
             </div>
         </div>
     </div>
@@ -103,23 +150,35 @@ if ($user) {
     <div class="notification-popup" id="notificationPopup" style="display: none">
         <div class="notification-header">
             <h4>Thông Báo Mới Nhận</h4>
-            {{-- <button class="btn btn-sm btn-success mark-all-read" id="markAllRead">Đọc Tất Cả</button> --}}
+        </div>
+        @if ($notifications->isEmpty())
+            <div class="notification-body">
+                <p class="title col-3">Không có thông báo mới</p>
+            </div>
+        @else
+            <div class="notification-body">
+                @foreach ($notifications as $notification)
+                    <div class="notification-item">
+                        <div class="notification-content">
+                            <p class="title col-3">{{ $notification->title }}</p>
+                            <p class="description">--{{ $notification->content }}</p>
+                            <p class="notification-time">{{ $notification->created_at }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <div class="notification-footer text-center">
+                <button class="btn btn-md btn-primary mark-all-read" id="markAllRead">Đọc Tất Cả</button>
+            </div>
+        @endif
+    </div>
+@else
+    <div class="notification-popup" id="notificationPopup" style="display: none">
+        <div class="notification-header">
+            <h4>Thông Báo Mới Nhận</h4>
         </div>
         <div class="notification-body">
-            <!-- Hiển thị các thông báo -->
-            @foreach ($notifications as $notification)
-                <div class="notification-item">
-                    <div class="notification-content">
-                        <p class="title col-3">{{ $notification->title }}</p>
-                        <p class="description">--{{ $notification->content }}</p>
-                        <p class="notification-time">{{ $notification->created_at }}</p>
-                    </div>
-                </div>
-            @endforeach
-
-        </div>
-        <div class="notification-footer text-center">
-            <button class="btn btn-md btn-primary mark-all-read" id="markAllRead">Đọc Tất Cả</button>
+            <p class="title col-3">Vui lòng đăng nhập để xem thông báo</p>
         </div>
     </div>
 @endif

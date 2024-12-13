@@ -21,7 +21,12 @@
                                 <li class="breadcrumb-item active">Danh sách câu hỏi</li>
                             </ol>
                         </div>
-
+                    </div>
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm-auto">
+                            <a href="{{ route('faqs.create') }}" class="btn btn-secondary"><i
+                                    class="bi bi-plus-circle align-baseline me-1"></i> Thêm câu hỏi</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,48 +36,29 @@
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
                         {{-- nút thêm faq --}}
-                        <a href="{{route('faqs.create')}}" class="btn btn-secondary col-2"><i
-                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm câu hỏi</a>
+
                         {{-- end nút thêm faq --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table id="example" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
-
                                             <th>ID</th>
-
                                             <th>Câu hỏi</th>
-
                                             <th>Câu trả lời</th>
-
                                             <th>Ngày tạo</th>
-
                                             <th>Ngày cập nhật</th>
-
                                             <th>Trạng thái</th>
-
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
-                                   
-                                </table><!-- end table -->
-
+                                </table>
                             </div>
-                            <!--end row-->
                         </div>
-                    </div><!--end card-->
-                </div><!--end col-->
-            </div><!--end row-->
-            {{-- @include('admin.faq.delete') --}}
-            {{-- @include('admin.faq.edit')
-            @include('admin.faq.add') --}}
-
-
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- container-fluid -->
-
-
     </div>
 @endsection
 
