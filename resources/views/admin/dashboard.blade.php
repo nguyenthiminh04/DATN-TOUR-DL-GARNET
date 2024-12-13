@@ -602,7 +602,7 @@
                     
                     var dataPoints = data.map(function(item) {
                         return {
-                            y: parseFloat(item.money),
+                            y: parseFloat(item.money) ,
                             label: `${item.tour_name} (${item.soLuongDon} đơn)`
                         };
                     });
