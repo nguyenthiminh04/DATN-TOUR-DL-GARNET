@@ -14,7 +14,7 @@ class AdvisoryController extends Controller
         $data['title'] = "Tư Vấn Liên Hệ";
         $status = $request->get('status');
         $searchQuery = $request->get('search');
- 
+
         $query = Advisory::query();
 
         if ($status !== null) {
@@ -49,8 +49,34 @@ class AdvisoryController extends Controller
 
     public function advisoryStatus(Request $request, $id)
     {
+        // try {
+        //     $advisory = Advisory::findOrFail($id);
+        //     $advisory->status = $request->status;
+        //     $advisory->save();
+
+        //     return response()->json([
+        //         'success' => true,
+        //         'message' => 'Cập nhật trạng thái thành công!',
+        //     ]);
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Đã có lỗi xảy ra. Vui lòng thử lại!',
+        //     ]);
+        // }
+
         try {
             $advisory = Advisory::findOrFail($id);
+
+            $notAllowedStatus = ['Đã hoàn tất', 'Hủy bỏ'];
+
+            if ($advisory->status !== 'Đang chờ xử lý' && $request->status === 'Đang chờ xử lý') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không thể quay lại trạng thái "Đang chờ xử lý"!',
+                ]);
+            }
+
             $advisory->status = $request->status;
             $advisory->save();
 
