@@ -328,7 +328,7 @@
                                                         @if ($paymentsOrderTodays->payment_status_id == 2)
                                                             <span class="badge bg-success-subtle text-success">{{ $paymentsOrderTodays->paymentStatus->name }}</span>
                                                         @else
-                                                            <span class="badge bg-danger-subtle text-danger">{{ $paymentsOrderTodays->paymentStatus->name }}</span>
+                                                            <span class="badge bg-danger-subtle text-danger">{{ $paymentsOrderTodays->paymentStatus->name ?? 'Ẩn Danh' }}</span>
                                                         @endif
                                                         
                                                     </td>
