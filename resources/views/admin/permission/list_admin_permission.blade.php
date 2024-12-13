@@ -36,19 +36,15 @@
                         {{-- end nút thêm faq --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
-                                <table id="notification_user" class="table table-striped" style="width:100%">
+                                <table id="permission_user" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
 
                                             <th>ID</th>
 
-                                            <th>Tiêu đề thông báo</th>
+                                            <th>Tên người quản trị</th>
 
-                                            <th>Người nhận</th>
-
-                                            <th>Loại thông báo</th>
-
-                                            <th>Trạng thái đọc</th>
+                                            <th>Tên quyền</th>
 
                                             <th>Ngày gán</th>
 
@@ -85,8 +81,8 @@
     <script>
         $(document).ready(function() {
             // khởi tạo table
-            var route = "{{ route('notification-user.index') }}"
-            let table = $('#notification_user').DataTable({
+            var route = "{{ route('permission-user.index') }}"
+            let table = $('#permission_user').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -94,25 +90,21 @@
                     type: 'GET'
                 },
                 columns: [{
-                        data: 'id',
-                        name: 'id'
+                        data: null, // Sử dụng null vì bạn sẽ tạo số thứ tự theo index
+                        render: function(data, type, row, meta) {
+                            return meta.row + 1; // Meta.row sẽ trả về chỉ số của dòng trong bảng
+                        },
+                        name: 'stt' // Đặt tên cho cột để dễ nhận diện (tùy chọn)
                     },
-                    {
-                        data: 'notification.title',
-                        name: 'notification.title'
-                    }, // Lấy tiêu đề thông báo từ quan hệ notification
                     {
                         data: 'user.name',
                         name: 'user.name'
-                    }, // Lấy tên người nhận từ quan hệ user
+                    },
                     {
-                        data: 'notification.type',
-                        name: 'notification.type'
-                    }, // Lấy loại thông báo từ quan hệ notification
-                    {
-                        data: 'is_read',
-                        name: 'is_read'
-                    }, // Hiển thị trạng thái đã đọc
+                        data: 'permission_name',
+                        name: 'permission_name'
+                    },
+
                     {
                         data: 'created_at',
                         name: 'created_at',
@@ -163,7 +155,7 @@
 
             // xóa faq
 
-            $('#notification_user').on('click', '#deleteItem', function() {
+            $('#permission_user').on('click', '#deleteItem', function() {
                 let id = $(this).data('id');
                 Swal.fire({
                     title: 'Bạn có chắc muốn xóa?',
@@ -177,7 +169,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('notification-user.destroy', ':id') }}".replace(
+                            url: "{{ route('permission-user.destroy', ':id') }}".replace(
                                 ':id', id),
                             method: "DELETE",
                             dataType: "json",

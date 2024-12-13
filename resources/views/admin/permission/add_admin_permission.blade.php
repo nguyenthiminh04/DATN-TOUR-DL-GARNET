@@ -8,26 +8,16 @@
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
-            <form action="{{ route('notification-user.store') }}" method="post" class="col-5">
+            <form action="{{ route('permission-user.store') }}" method="post" class="col-5">
                 @csrf
 
                 <div class="mb-3">
-                    <label for="notification_id" class="form-label">Chọn thông báo</label>
-                    <select name="notification_id" class="form-select" id="notification_id" required>
-                        <option value="">Chọn thông báo</option>
-                        @foreach ($notifications as $notification)
-                            <option value="{{ $notification->id }}">{{ $notification->title }}</option>
+                    <label for="user_id" class="form-label">Chọn người dùng cần gán quyền</label>
+                    <select name="user_id" class="form-select" id="user_id" required>
+                        <option value="">Chọn người dùng</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
-                    </select>
-                    @error('notification_id')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="mb-3">
-                    <label for="user_id" class="form-label">Chọn người nhận</label>
-                    <select name="user_id[]" class="form-select" id="user_id" multiple="multiple" required>
-                        <option value="">Tìm kiếm người dùng</option>
                     </select>
                     @error('user_id')
                         <span class="text-danger">{{ $message }}</span>
@@ -35,8 +25,18 @@
                 </div>
 
                 <div class="mb-3">
-                    <a href="{{ route('notification-user.index') }}" class="btn btn-info">trở về</a>
-                    <button class="btn btn-primary" type="submit">Gán thông báo</button>
+                    <label for="permission_id" class="form-label">Chọn quyền</label>
+                    <select name="permission_id[]" class="form-select" id="permission_id" multiple="multiple" required>
+                        <option value="">Tìm kiếm quyền</option>
+                    </select>
+                    @error('permission_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <a href="{{ route('permissions.index') }}" class="btn btn-info">trở về</a>
+                    <button class="btn btn-primary" type="submit">Gán quyền</button>
                 </div>
             </form>
         </div>
@@ -47,12 +47,12 @@
     <script>
         // Khởi tạo Select2 cho dropdown chọn nhiều người nhận
         $(document).ready(function() {
-            $('#user_id').select2({
-                placeholder: 'Tìm kiếm người dùng',
+            $('#permission_id').select2({
+                placeholder: 'Tìm kiếm quyền',
                 allowClear: true,
                 multiple: true, // Cho phép chọn nhiều người dùng
                 ajax: {
-                    url: '{{ route('users.search') }}',
+                    url: '{{ route('permissions.search') }}',
                     dataType: 'json',
                     delay: 250,
                     data: function(params) {
@@ -62,10 +62,10 @@
                     },
                     processResults: function(data) {
                         return {
-                            results: data.map(function(user) {
+                            results: data.map(function(permission) {
                                 return {
-                                    id: user.id,
-                                    text: user.name
+                                    id: permission.id,
+                                    text: permission.name
                                 };
                             })
                         };

@@ -76,10 +76,10 @@ class User extends Authenticatable
     }
 
 
-    // permissions
+    // Khai báo mối quan hệ với Permission
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'user_permission');
+        return $this->belongsToMany(Permission::class, 'user_permission', 'user_id', 'permission_id');
     }
 
     public function hasPermission($permissionName)

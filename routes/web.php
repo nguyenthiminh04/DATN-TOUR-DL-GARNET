@@ -33,6 +33,7 @@ use App\Http\Controllers\Client\ServiceController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\NotificationUserController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PermissionUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -191,7 +192,13 @@ Route::group(['prefix' => 'admin'], function () {
 
         // permissions
         Route::resource('permissions', PermissionController::class);
+        Route::get('/permission-user', [PermissionUserController::class, 'index'])->name('permission-user.index');
+        Route::get('/permission-user/create', [PermissionUserController::class, 'create'])->name('permission-user.create');
+        Route::post('/permission-user', [PermissionUserController::class, 'store'])->name('permission-user.store');
+        Route::delete('/permission-user/{id}', [PermissionUserController::class, 'destroy'])->name('permission-user.destroy');
+
+        Route::get('/permissions-search', [PermissionUserController::class, 'searchPermissions'])->name('permissions.search');
         // end permissions
-        
+
     });
 });

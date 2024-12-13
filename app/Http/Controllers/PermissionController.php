@@ -85,10 +85,10 @@ class PermissionController extends Controller
         // dd($request);
         if ($validatedData) {
             $permission->update($validatedData);
-            session()->flash('success', 'Thêm mới thành công.');
+            session()->flash('success', 'Sửa quyền thành công.');
             return back();
         } else {
-            session()->flash('error', 'Thêm mới thất bại.');
+            session()->flash('error', 'Sửa quyền thất bại.');
             return back();
         }
     }

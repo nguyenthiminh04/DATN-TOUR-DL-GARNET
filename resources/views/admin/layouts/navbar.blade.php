@@ -202,11 +202,11 @@
                                     Thêm mới quyền</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('notification-user.create') }}" class="nav-link">
+                                <a href="{{ route('permission-user.create') }}" class="nav-link">
                                     Gán quyền</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('notification-user.index') }}" class="nav-link">
+                                <a href="{{ route('permission-user.index') }}" class="nav-link">
                                     Quyền đã gán</a>
                             </li>
 
