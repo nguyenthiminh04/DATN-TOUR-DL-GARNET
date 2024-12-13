@@ -75,7 +75,7 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::post('dat-lai-mat-khau/{token}',                 [PasswordController::class, 'postResetPassword'])->name('post-reset-password');
 
 
-    
+
     // Route::resource('tour', ClientTourController::class)->names([
     //đổi pass trang profile
     Route::get('/change-password', [myAccountController::class, 'indexChangePassword'])->name('user.indexChangePassword');
@@ -199,7 +199,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('admin/notifications/unread-count', [NotificationController::class, 'getUnreadCount'])->name('notifications.unreadCount');
 
         // end thông báo
-        Route::get('advisory',                              [AdvisoryController::class, 'index'])->name('advisory.index');
+
         Route::delete('advisory/delete/{id}',               [AdvisoryController::class, 'destroy'])->name('advisory.delete');
         Route::post('advisory/status/{id}',                 [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');
 
@@ -213,7 +213,16 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('category/status/{id}',                 [CategoryController::class, 'categoryStatus'])->name('category.categoryStatus');
         Route::post('category/hot/{id}',                    [CategoryController::class, 'categoryHot'])->name('category.categoryHot');
         Route::post('notifications/toggle-status/{id}',     [NotificationController::class, 'toggleStatus'])->name('notifications.toggleStatus');
-        
-        Route::get('categorytour', [CategoryTourController::class, 'index'])->name('categorytour.index');
+
+        //filer status
+        Route::get('categorytour',          [CategoryTourController::class, 'index'])->name('categorytour.index');
+        Route::get('user',                  [UserController::class, 'index'])->name('user.index');
+        Route::get('tour',                  [TourController::class, 'index'])->name('tour.index');
+        Route::get('article',               [ArticleController::class, 'index'])->name('article.index');
+        Route::get('coupons',               [CouponsController::class, 'index'])->name('coupons.index');
+        Route::get('location',              [LocationController::class, 'index'])->name('location.index');
+        Route::get('category',              [CategoryController::class, 'index'])->name('category.index');
+        Route::get('advisory',              [AdvisoryController::class, 'index'])->name('advisory.index');
+        Route::get('comment',               [CommentController::class, 'index'])->name('comment.index');
     });
 });

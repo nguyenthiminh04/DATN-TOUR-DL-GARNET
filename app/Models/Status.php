@@ -15,7 +15,7 @@ class Status extends Model
     
     protected $fillable = ['name'];
 
-    // Định nghĩa mối quan hệ "hasMany" với bảng payments
+   
     public function payments()
     {
         return $this->hasMany(Payment::class, 'status_id');

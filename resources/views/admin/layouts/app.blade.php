@@ -12,7 +12,7 @@
 
 
     <meta charset="utf-8">
-    <title>Dashboard | Steex - Admin & Dashboard Template</title>
+    <title>{{ !empty($title) ? $title : '' }} | Quản Trị</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -145,7 +145,76 @@
     </script> --}}
 
 
-    
+
+    <script>
+        $(function() {
+            $("#datepicker").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            $("#datepicker2").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        });
+
+
+        $('#btn-dashboard-filter').click(function() {
+            var _token = $('input[name="_token"]').val();
+            var from_date = $('#datepicker').val();
+            var to_date = $('#datepicker2').val();
+            alert(from_date);
+            alert(to_date);
+            if (chart && typeof chart.setData === 'function') {
+                chart.setData(data);
+                console.log("Dữ liệu đã được tải thành công.");
+            } else {
+                console.error("Chart chưa được định nghĩa hoặc không có hàm setData.");
+            }
+
+            $.ajax({
+                url: "{{ url('/admin/home/filter-by-date') }}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    from_date: $('#datepicker').val(),
+                    to_date: $('#datepicker2').val(),
+                    _token: $('input[name="_token"]').val()
+                },
+                success: function(data) {
+                    chart.setData(data); // Cập nhật dữ liệu biểu đồ
+                    console.log("Data loaded successfully.");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+            // console.log(data)
+
+        });
+
+        $('#dashboard-filter').change(function() {
+            var dashboard_value = $(this).val();
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url: "{{ route('dashboard.filterByBtn') }}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    dashboard_value: dashboard_value,
+                    _token: _token
+                },
+                success: function(data) {
+                    chart.setData(data);
+                    console.log("Data loaded successfully.");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    console.log("Response:", xhr.responseText);
+                }
+            });
+        });
+    </script>
+
 
 
     @if (Session::has('success'))

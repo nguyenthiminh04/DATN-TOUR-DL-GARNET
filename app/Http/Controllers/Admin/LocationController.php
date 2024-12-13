@@ -16,24 +16,38 @@ class LocationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $title = "Danh Sách Địa Điểm";
+        $listLocation = Location::query();
 
-        $listLocation = Location::query()->get();
-        return view('admin.location.index', compact('listLocation'));
+        $status = $request->get('status');
+        if ($status !== null) {
+            $listLocation->where('status', $status);
+        }
+
+        $listLocation = $listLocation->get();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => $listLocation,
+            ]);
+        }
+
+        return view('admin.location.index', compact('listLocation', 'title'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        $title = "Thêm Địa Điểm";
         $listStatus = Status::query()->get();
         $listUser = User::query()->get();
         $listTour = Tour::query()->get();
-        return view('admin.location.add', compact('listStatus', 'listUser', 'listTour'));
+        return view('admin.location.add', compact('listStatus', 'title', 'listUser', 'listTour'));
     }
 
     /**
@@ -80,11 +94,12 @@ class LocationController extends Controller
      */
     public function edit(string $id)
     {
+        $title = "Sửa Địa Điểm";
         //
         $location = Location::query()->findOrFail($id);
         $listUser = User::query()->get();
         $listTour = Tour::query()->get();
-        return view('admin.location.edit', compact('location', 'listUser', 'listTour'));
+        return view('admin.location.edit', compact('location', 'listUser', 'listTour', 'title'));
     }
 
     /**

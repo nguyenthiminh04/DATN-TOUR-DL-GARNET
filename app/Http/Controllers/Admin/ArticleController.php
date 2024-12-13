@@ -15,16 +15,37 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-
         $title = "Danh Sách Bài Viết";
-        $listUser = User::query()->get();
-        $listCategory = Category::query()->get();
-        $listArticle = Article::query()->get();
+
+        $listUser = User::all();
+        $listCategory = Category::all();
+        $query = Article::query()->orderByDesc('id');
+
+
+        $status = $request->get('status');
+        if ($status !== null) {
+            $query->where('status', $status);
+        }
+
+        if ($request->ajax()) {
+
+            $listArticle = $query->with('category')->get();
+
+            return response()->json([
+                'data' => $listArticle
+            ]);
+        }
+
+
+        $listArticle = $query->get();
+
         return view('admin.article.index', compact('title', 'listArticle', 'listCategory', 'listUser'));
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -32,6 +53,7 @@ class ArticleController extends Controller
     public function create()
     {
         //
+        $title = "Thêm Bài Viết";
         $listCategory = Category::all(); // Lấy tất cả danh mục
         $listUser = User::query()->get();
         return view('admin.article.create', compact('listUser', 'listCategory'));
@@ -106,7 +128,7 @@ class ArticleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $title = "Sửa Bài Viết";
         $article = Article::query()->findOrFail($id);
         $listCategory = Category::all();
         $listUser = User::query()->get();

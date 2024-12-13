@@ -18,6 +18,11 @@ class Advisory extends Model
         $return =  self::select('advisories.*', 'tours.name as tour_name')
             ->join('tours',  'tours.id', 'advisories.tour_id')
             ->where('advisories.deleted_at', '=', null);
+
+        if ($status = request()->get('status')) {
+            $return = $return->where('advisories.status', '=', $status);
+        }
+
         if (!empty(request()->get('search'))) {
             $search = request()->get('search');
             $return = $return->where(function ($query) use ($search) {
@@ -33,5 +38,10 @@ class Advisory extends Model
             ->paginate(10);
 
         return $return;
+    }
+
+    public function tour()
+    {
+        return $this->belongsTo(Tour::class);
     }
 }
