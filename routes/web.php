@@ -32,6 +32,8 @@ use App\Http\Controllers\Client\HandbookController;
 use App\Http\Controllers\Client\IntroduceController;
 use App\Http\Controllers\Client\myAccountController;
 use App\Http\Controllers\NotificationUserController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PermissionUserController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
@@ -224,5 +226,16 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('category',              [CategoryController::class, 'index'])->name('category.index');
         Route::get('advisory',              [AdvisoryController::class, 'index'])->name('advisory.index');
         Route::get('comment',               [CommentController::class, 'index'])->name('comment.index');
+
+        // permissions
+        Route::resource('permissions', PermissionController::class);
+        Route::get('/permission-user', [PermissionUserController::class, 'index'])->name('permission-user.index');
+        Route::get('/permission-user/create', [PermissionUserController::class, 'create'])->name('permission-user.create');
+        Route::post('/permission-user', [PermissionUserController::class, 'store'])->name('permission-user.store');
+        Route::delete('/per-user', [PermissionUserController::class, 'destroy'])->name('per-user.destroy');
+
+        Route::get('/permissions-search', [PermissionUserController::class, 'searchPermissions'])->name('permissions.search');
+        // end permissions
+
     });
 });

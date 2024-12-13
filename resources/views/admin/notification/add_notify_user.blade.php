@@ -55,14 +55,11 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3">
-                                    <button class="btn btn-primary" type="submit">Gán thông báo</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <a href="{{ route('notification-user.index') }}" class="btn btn-info">trở về</a>
+                    <button class="btn btn-primary" type="submit">Gán thông báo</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 @endsection
