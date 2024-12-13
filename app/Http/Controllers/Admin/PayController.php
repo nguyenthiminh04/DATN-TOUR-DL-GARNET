@@ -20,11 +20,13 @@ class PayController extends Controller
     {
         $title = "Danh sách Tour";
 
-
+       
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         $status_id = $request->get('status_id');
         $payment_method_id = $request->get('payment_method_id');
+
+      
         $query = Payment::query()->orderByDesc('id');
 
         if ($status_id !== null) {
@@ -33,7 +35,6 @@ class PayController extends Controller
         if ($payment_method_id !== null) {
             $query->where('payments.payment_method_id', $payment_method_id);
         }
-
 
         if ($startDate && $endDate) {
             $query->whereBetween('time', [$startDate, $endDate]);
@@ -44,18 +45,22 @@ class PayController extends Controller
         }
 
         $listTour = $query->get();
-
         $trangThaiTour = Status::pluck('name', 'id')->toArray();
-
         $trangThaiThanhToan = PaymentStatus::pluck('name', 'id')->toArray();
-
+        // dd($listTour, $trangThaiTour, $trangThaiThanhToan);
+    
         if ($request->ajax()) {
+
             return response()->json([
-                'data' => $listTour
+                'data' => $listTour,
+                'trangThaiTour' => $trangThaiTour,
+                'trangThaiThanhToan' => $trangThaiThanhToan,
             ]);
         }
+
         return view('admin.quanlytour.index', compact('title', 'listTour', 'trangThaiTour', 'trangThaiThanhToan'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -92,46 +97,82 @@ class PayController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    // public function update(Request $request, string $id)
+    // {
+    //     // Tìm thông tin Payment
+    //     $tour = Payment::query()->findOrFail($id);
+
+    //     // Lấy giá trị hiện tại và giá trị mới
+    //     $paymentStatusId = $tour->payment_status_id;
+    //     $currentTrangThai = $tour->status_id;
+    //     $newTrangThai = $request->input('status_id');
+
+    //     // Kiểm tra điều kiện: chỉ cho phép chuyển status_id sang 6 nếu payment_status_id là 2
+    //     if ($newTrangThai == 6 && $paymentStatusId != 2) {
+    //         return redirect()->route('trangthaitour.index')
+    //             ->with('error', 'Chỉ có thể chuyển trạng thái "Đã thanh toán" (ID: 6) khi trạng thái thanh toán (payment_status_id) là "Đã đặt cọc" (ID: 2).');
+    //     }
+
+    //     // Kiểm tra điều kiện: không cho phép chuyển ngược trạng thái
+    //     if ($newTrangThai < $currentTrangThai) {
+    //         return redirect()->route('trangthaitour.index')
+    //             ->with('error', 'Không thể chuyển trạng thái ngược. Vui lòng chọn trạng thái hợp lệ.');
+    //     }
+
+    //     // Kiểm tra điều kiện: không cho phép chuyển status_id sang 13 nếu payment_status_id là 2
+    //     if ($newTrangThai == 13 && $paymentStatusId == 2) {
+    //         return redirect()->route('trangthaitour.index')
+    //             ->with('error', 'Không thể chuyển trạng thái sang ID: 13 vì khách hàng đã thanh toán (payment_status_id là 2).');
+    //     }
+
+    //     // Gán trạng thái mới và lưu
+    //     $tour->status_id = $newTrangThai;
+    //     $tour->save();
+
+    //     return redirect()->route('trangthaitour.index')
+    //         ->with('success', 'Cập nhật trạng thái đơn hàng thành công');
+    // }
+
+
+    public function update(Request $request, $id)
     {
-        // Tìm thông tin Payment
-        $tour = Payment::query()->findOrFail($id);
+        try {
+            $tour = Payment::findOrFail($id);
 
-        // Lấy giá trị hiện tại và giá trị mới
-        $paymentStatusId = $tour->payment_status_id;
-        $currentTrangThai = $tour->status_id;
-        $newTrangThai = $request->input('status_id');
+            $currentStatus = $tour->status_id;
+            $newStatus = $request->input('status_id');
 
-        // Kiểm tra điều kiện: chỉ cho phép chuyển status_id sang 6 nếu payment_status_id là 2
-        if ($newTrangThai == 6 && $paymentStatusId != 2) {
-            return redirect()->route('trangthaitour.index')
-                ->with('error', 'Chỉ có thể chuyển trạng thái "Đã thanh toán" (ID: 6) khi trạng thái thanh toán (payment_status_id) là "Đã đặt cọc" (ID: 2).');
+            if ($currentStatus == 6) {
+                return response()->json(['success' => false, 'message' => 'Trạng thái đã hoàn thành không thể thay đổi nữa.']);
+            }
+
+            if ($newStatus < $currentStatus) {
+                return response()->json(['success' => false, 'message' => 'Không thể chuyển trạng thái cũ.']);
+            }
+
+            $tour->status_id  = $newStatus;
+            $tour->save();
+
+            $disabled = ($newStatus == 6 || $newStatus == 13) ? true : false;
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật trạng thái tour thành công.',
+                'disabled' => $disabled,
+                'new_status' => $newStatus
+            ]);
+        } catch (\Illuminate\Database\QueryException $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi cơ sở dữ liệu: ' . $ex->getMessage()
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
+            ]);
         }
-
-        // Kiểm tra điều kiện: không cho phép chuyển ngược trạng thái
-        if ($newTrangThai < $currentTrangThai) {
-            return redirect()->route('trangthaitour.index')
-                ->with('error', 'Không thể chuyển trạng thái ngược. Vui lòng chọn trạng thái hợp lệ.');
-        }
-
-        // Kiểm tra điều kiện: không cho phép chuyển status_id sang 13 nếu payment_status_id là 2
-        if ($newTrangThai == 13 && $paymentStatusId == 2) {
-            return redirect()->route('trangthaitour.index')
-                ->with('error', 'Không thể chuyển trạng thái sang ID: 13 vì khách hàng đã thanh toán (payment_status_id là 2).');
-        }
-
-        // Gán trạng thái mới và lưu
-        $tour->status_id = $newTrangThai;
-        $tour->save();
-
-        return redirect()->route('trangthaitour.index')
-            ->with('success', 'Cập nhật trạng thái đơn hàng thành công');
     }
-
-
-
-
-
 
     /**
      * Remove the specified resource from storage.
@@ -142,14 +183,26 @@ class PayController extends Controller
     }
     public function ThanhToan(Request $request, string $id)
     {
-        // Tìm Payment bằng ID
         $tour = Payment::findOrFail($id);
 
-        // Cập nhật trạng thái thanh toán
+
+        if ($tour->payment_status_id == 2) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Trạng thái thanh toán đã được cập nhật, không thể thay đổi nữa.',
+                'disabled' => true
+            ]);
+        }
+
+
         $tour->payment_status_id = $request->input('payment_status_id');
         $tour->save();
 
-        // Chuyển hướng về danh sách tour với thông báo thành công
-        return redirect()->route('trangthaitour.index')->with('success', 'Cập nhật trạng thái thanh toán thành công');
+        return response()->json([
+            'success' => true,
+            'message' => 'Cập nhật trạng thái thanh toán thành công.',
+            'disabled' => $tour->payment_status_id == 2 ? true : false,
+            'new_status' => $tour->payment_status_id
+        ]);
     }
 }
