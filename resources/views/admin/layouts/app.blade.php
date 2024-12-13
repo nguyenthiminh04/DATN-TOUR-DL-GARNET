@@ -123,6 +123,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    {{-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> --}}
+    
 
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     {{-- <script>
@@ -144,7 +146,8 @@
     </script> --}}
 
 
-    <script>
+
+    {{-- <script>
         $(function() {
             $("#datepicker").datepicker({
                 dateFormat: "yy-mm-dd"
@@ -159,8 +162,8 @@
             var _token = $('input[name="_token"]').val();
             var from_date = $('#datepicker').val();
             var to_date = $('#datepicker2').val();
-            alert(from_date);
-            alert(to_date);
+            // alert(from_date);
+            // alert(to_date);
             if (chart && typeof chart.setData === 'function') {
                 chart.setData(data);
                 console.log("Dữ liệu đã được tải thành công.");
@@ -178,14 +181,14 @@
                     _token: $('input[name="_token"]').val()
                 },
                 success: function(data) {
-                    chart.setData(data); // Cập nhật dữ liệu biểu đồ
+                    chart.setData(data);
                     console.log("Data loaded successfully.");
                 },
                 error: function(xhr, status, error) {
                     console.error("Error:", error);
                 }
             });
-            // console.log(data)
+            console.log(data)
 
         });
 
@@ -211,7 +214,8 @@
                 }
             });
         });
-    </script>
+    </script> --}}
+
 
 
     @if (Session::has('success'))
