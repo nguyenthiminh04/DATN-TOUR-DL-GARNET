@@ -9,53 +9,68 @@
     <div class="page-content">
         <div class="container-fluid">
 
+            <!-- start page title -->
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Thông Báo</h4>
+                        <h4 class="mb-sm-0">Danh Sách quyền</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Danh sách thông báo</li>
+                                <li class="breadcrumb-item active">Danh sách quyền</li>
                             </ol>
                         </div>
-                    </div>
-                    <div class="row g-4 mb-3">
-                        <div class="col-sm-auto">
-                            <a href="{{ route('notification-user.create') }}" class="btn btn-secondary"><i
-                                    class="bi bi-plus-circle align-baseline me-1"></i> Gán thông báo</a>
-                        </div>
+
                     </div>
                 </div>
             </div>
+            <!-- end page title -->
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" id="coursesList">
-
+                        {{-- nút thêm faq --}}
+                        <a href="{{ route('permissions.create') }}" class="btn btn-secondary col-2"><i
+                                class="bi bi-plus-circle align-baseline me-1"></i> Thêm quyền</a>
+                        {{-- end nút thêm faq --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
-                                <table id="notification_user" class="table table-striped" style="width:100%">
+                                <table id="permission" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
+
                                             <th>ID</th>
-                                            <th>Tiêu đề thông báo</th>
-                                            <th>Người nhận</th>
-                                            <th>Loại thông báo</th>
-                                            <th>Trạng thái đọc</th>
-                                            <th>Ngày gán</th>
+                                            
+                                            <th>Tên quyền</th>
+
+                                            <th>Mô tả</th>
+
+                                            <th>Ngày tạo</th>
+
                                             <th>Ngày cập nhật</th>
+
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
-                                </table>
+
+                                </table><!-- end table -->
+
                             </div>
+                            <!--end row-->
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div><!--end card-->
+                </div><!--end col-->
+            </div><!--end row-->
+            {{-- @include('admin.faq.delete') --}}
+            {{-- @include('admin.faq.edit')
+            @include('admin.faq.add') --}}
+
+
         </div>
+        <!-- container-fluid -->
+
+
     </div>
 @endsection
 
@@ -65,13 +80,12 @@
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script>
         $(document).ready(function() {
-            // khởi tạo table
-            var route = "{{ route('notification-user.index') }}"
-            let table = $('#notification_user').DataTable({
+            // khởi tạo tabe
+            let table = $('#permission').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: route, // Cập nhật với URL đúng
+                    url: '{{ route('permissions.index') }}', // Cập nhật với URL đúng
                     type: 'GET'
                 },
                 columns: [{
@@ -79,21 +93,13 @@
                         name: 'id'
                     },
                     {
-                        data: 'notification.title',
-                        name: 'notification.title'
-                    }, // Lấy tiêu đề thông báo từ quan hệ notification
+                        data: 'name',
+                        name: 'name'
+                    },
                     {
-                        data: 'user.name',
-                        name: 'user.name'
-                    }, // Lấy tên người nhận từ quan hệ user
-                    {
-                        data: 'notification.type',
-                        name: 'notification.type'
-                    }, // Lấy loại thông báo từ quan hệ notification
-                    {
-                        data: 'is_read',
-                        name: 'is_read'
-                    }, // Hiển thị trạng thái đã đọc
+                        data: 'description',
+                        name: 'description',
+                    },
                     {
                         data: 'created_at',
                         name: 'created_at',
@@ -101,7 +107,7 @@
                             return moment(data).format(
                                 'YYYY-MM-DD HH:mm:ss'); // Chuyển đổi định dạng ngày tháng
                         }
-                    }, // Ngày gán
+                    },
                     {
                         data: 'updated_at',
                         name: 'updated_at',
@@ -109,12 +115,12 @@
                             return moment(data).format(
                                 'YYYY-MM-DD HH:mm:ss'); // Chuyển đổi định dạng ngày tháng
                         }
-                    }, // Ngày cập nhật
+                    },
                     {
                         data: 'action',
                         name: 'action',
-                        orderable: false
-                    } // Các hành động như Xóa
+                        orderable: false,
+                    },
                 ],
                 order: [
                     [0, 'desc']
@@ -144,7 +150,7 @@
 
             // xóa faq
 
-            $('#notification_user').on('click', '#deleteItem', function() {
+            $('#permission').on('click', '#deleteItem', function() {
                 let id = $(this).data('id');
                 Swal.fire({
                     title: 'Bạn có chắc muốn xóa?',
@@ -158,7 +164,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('notification-user.destroy', ':id') }}".replace(
+                            url: "{{ route('permissions.destroy', ':id') }}".replace(
                                 ':id', id),
                             method: "DELETE",
                             dataType: "json",
