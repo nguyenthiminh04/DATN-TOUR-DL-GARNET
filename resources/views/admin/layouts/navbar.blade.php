@@ -222,7 +222,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#permissions" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="permissions">
                         <i class="ph ph-notification"></i> <span data-key="t-layouts">Quyền</span>
@@ -248,7 +248,7 @@
 
                         </ul>
                     </div>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#user" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="user">

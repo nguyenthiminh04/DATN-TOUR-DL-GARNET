@@ -235,6 +235,6 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::get('/permissions-search', [PermissionUserController::class, 'searchPermissions'])->name('permissions.search');
         // end permissions
-
+        Route::view('403', 'admin.errors.500');
     });
 });
