@@ -234,23 +234,25 @@ class StatisticalController extends Controller
         $chartData = DonTour::select(
             DB::raw('DATE(created_at) as created_at'),
             DB::raw('SUM(total_money) as money'),
-            DB::raw('COUNT(id) as soLuongDon')
+            DB::raw('COUNT(id) as soLuongDon'),
+            'tour_id'
         )
             ->whereBetween('created_at', [$from_date, $to_date])
-            ->groupBy(DB::raw('DATE(created_at)'))
+            ->with('tour:name,id')
+            ->groupBy(DB::raw('DATE(created_at)'), 'tour_id')
             ->orderBy('created_at', 'ASC')
             ->get();
-            foreach ($chartData as $value) {
-                $chartData[] = array(
-                    'soLuongDon' => $value->soLuongDon,
-                   'money' => $value->money,
-                );
-            }
-            // return [
-            //             'label' => trim($chartData->soLuongDon ?? 'Không xác định'), //tours
-            //             'y' => $chartData->money, // đặt
-            //         ];
-        return response()->json($chartData);
+
+        $formattedData = $chartData->map(function ($value) {
+            return [
+                'tour_name' => $value->tour->name ?? 'Chưa xác định',
+                'soLuongDon' => $value->soLuongDon,
+                'money' => $value->money,
+                'date' => $value->created_at,
+            ];
+        });
+
+        return response()->json($formattedData);
     }
     public function filterByBtn(Request $request)
     {

@@ -163,7 +163,8 @@
                                     <p>Đến ngày: <input type="text" id="datepicker2" class="form-control"></p>
                                 </div>
                                 <div class="card-title mb-0 flex-grow-1">
-                                    <input type="button" id="btn-dashboard-filter" class="btn btn-primary" value="Lọc">
+                                    <input type="button" id="btn-dashboard-filter" class="btn btn-primary"
+                                        value="Lọc">
                                 </div>
                                 <div class="flex-shrink-0">
                                     <select name="" id="">
@@ -172,7 +173,7 @@
                                     </select>
                                 </div>
                             </form>
-                            
+
                         </div><!-- end card header -->
 
                         <!-- card body -->
@@ -211,24 +212,9 @@
                                             });
                                             chart.render();
                                         }
-                                    </script>
-                                    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script> --}}
-                                    <div id="chartTop5" style="height: 250px;"></div>
-                                    <script>
-                                    new Morris.Line({
-                                        element: 'chartTop5',
-                                        data: [
-                                          { year: '2008', value: 20 },
-                                          { year: '2009', value: 10 },
-                                          { year: '2010', value: 5 },
-                                          { year: '2011', value: 5 },
-                                          { year: '2012', value: 20 }
-                                        ],
-                                        xkey: 'year',
-                                        ykeys: ['value'],
-                                        labels: ['Value']
-                                      });
-                                      </script>
+                                    </script> --}}
+                                    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+                                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
                                 </div>
                             </div>
                         </div>
@@ -277,7 +263,7 @@
                     <div class="card card-height-100">
                         <div class="card-header d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Top 5 Tours hot</h4>
-                            <a href="#!" class="text-muted">View All <i class="ph-caret-right align-middle"></i></a>
+                            {{-- <a href="#!" class="text-muted">View All <i class="ph-caret-right align-middle"></i></a> --}}
                         </div>
                         <div class="card-body px-0">
                             <div data-simplebar class="px-3" style="max-height: 360px;">
@@ -569,6 +555,28 @@
             });
         });
 
+        function renderChart(dataPoints) {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "Top 5 Tour  đặt nhiều nhất"
+                },
+                axisY: {
+                    title: "Tổng tiền",
+                    includeZero: true
+                },
+                data: [{
+                    type: "bar",
+                    yValueFormatString: "###,##0 VND",
+                    indexLabel: "{y}",
+                    indexLabelPlacement: "inside",
+                    indexLabelFontWeight: "bolder",
+                    indexLabelFontColor: "white",
+                    dataPoints: dataPoints
+                }]
+            });
+            chart.render();
+        }
 
         $('#btn-dashboard-filter').click(function() {
             var _token = $('input[name="_token"]').val();
@@ -576,13 +584,6 @@
             var to_date = $('#datepicker2').val();
             // alert(from_date);
             // alert(to_date);
-            // if (chart && typeof chart.setData === 'function') {
-            //     chart.setData(data);
-            //     console.log("Dữ liệu đã được tải thành công.");
-            // } else {
-            //     console.error("Chart chưa được định nghĩa hoặc không có hàm setData.");
-            // }
-
             $.ajax({
                 url: "{{ url('/admin/home/dashboard-date') }}",
                 method: "POST",
@@ -593,14 +594,29 @@
                     _token: $('input[name="_token"]').val()
                 },
                 success: function(data) {
-                    chart.setData(data);
+                    // var dataPoints = data.map(function(item) {
+                    //     return {
+                    //         y: item.money / 1000,
+                    //         label: item.date
+                    //     };
+                    
+                    var dataPoints = data.map(function(item) {
+                        return {
+                            y: parseFloat(item.money),
+                            label: `${item.tour_name} (${item.soLuongDon} đơn)`
+                        };
+                    });
+                    console.log(dataPoints)
+                    renderChart(dataPoints);
                     console.log("Data loaded successfully.");
                 },
                 error: function(xhr, status, error) {
                     console.error("Error:", error);
                 }
+
+
             });
-            // console.log(data)
+            console.log(data)
 
         });
 
