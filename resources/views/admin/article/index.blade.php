@@ -142,23 +142,33 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="noresult" style="display: none">
-                                        <div class="text-center py-4">
-                                            <i class="ph-magnifying-glass fs-1 text-primary"></i>
-                                            <h5 class="mt-2">Sorry! No Result Found</h5>
-                                            <p class="text-muted mb-0">We've searched more than 150+ Courses We did
-                                                not find
-                                                any Courses for you search.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div>
+                                        @endforeach
+                                    </tbody><!-- end tbody -->
+                                </table><!-- end table -->
+                                
                             </div>
+                            <div class="row align-items-center mt-4 pt-2" id="pagination-element">
+                                <div class="col-sm">
+                                    <div class="text-muted text-center text-sm-start">
+                                        Showing <span class="fw-semibold">10</span> of <span class="fw-semibold">15</span>
+                                        Results
+                                    </div>
+                                </div><!--end col-->
+                                <div class="col-sm-auto mt-3 mt-sm-0">
+                                    <div class="pagination-wrap hstack gap-2 justify-content-center">
+                                        <a class="page-item pagination-prev disabled" href="javascript:void(0)">
+                                            Previous
+                                        </a>
+                                        <ul class="pagination listjs-pagination mb-0"></ul>
+                                        <a class="page-item pagination-next" href="javascript:void(0)">
+                                            Next
+                                        </a>
+                                    </div>
+                                </div><!--end col-->
+                            </div><!--end row-->
                         </div>
                     </div>
                 </div>
