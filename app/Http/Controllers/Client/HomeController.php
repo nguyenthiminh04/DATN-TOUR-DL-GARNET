@@ -29,10 +29,10 @@ class HomeController extends Controller
 
         // Lấy 6 tour được xem nhiều nhất
         $Tourmoinhat = Tour::withoutTrashed()
-    ->where('status', 1)
-    ->orderBy('view', 'desc')
-    ->take(6)
-    ->get();
+            ->where('status', 1)
+            ->orderBy('view', 'desc')
+            ->take(6)
+            ->get();
 
 
         // Tính điểm trung bình của mỗi tour trong danh sách mới nhất
@@ -99,7 +99,7 @@ class HomeController extends Controller
 
     public function detailTour($id)
     {
-       
+
         // dd($coupon);
         // Tìm tour theo ID, nếu không tìm thấy thì trả về 404
         $tour = Tour::findOrFail($id);

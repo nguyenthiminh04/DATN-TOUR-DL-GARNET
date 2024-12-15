@@ -45,6 +45,7 @@ protected $fillable = [
     'total_money',
     'paymentstatus',
     'status',
+    'ly_do_huy',
     'sale',
 ];
 

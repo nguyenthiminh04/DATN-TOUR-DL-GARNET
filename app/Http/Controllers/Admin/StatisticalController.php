@@ -55,11 +55,15 @@ class StatisticalController extends Controller
         //lượt truy cập web hôm nay so với hôm qua
         // $visitorCount = DB::table('view_web')->count();
         $todayVisitors = DB::table('view_web')
-            ->whereDate('visited_at', Carbon::today())
-            ->count();
+        ->whereDate('visited_at', Carbon::today())
+        ->distinct('ip_address')
+        ->count('ip_address');
+
         $yesterdayVisitors = DB::table('view_web')
-            ->whereDate('visited_at', Carbon::yesterday())
-            ->count();
+        ->whereDate('visited_at', Carbon::yesterday())
+        ->distinct('ip_address') 
+        ->count('ip_address');
+
         $percentageChangeViewWev = 0;
         if ($yesterdayVisitors > 0) {
             $percentageChangeViewWev = (($todayVisitors - $yesterdayVisitors) / $yesterdayVisitors) * 100;
@@ -79,24 +83,24 @@ class StatisticalController extends Controller
         // Lấy top 5 tour được đặt nhiều nhất
         $top5Tours = Tour::withCount('bookTours')->orderBy('book_tours_count', 'desc')->take(5)->get();
         // Đếm số khách hàng đã đặt tour hôm nay
-        $customerCount = Payment::distinct('user_id')->count('user_id');;
-        // dd($totalMoney);
+        $customerCount = Payment::whereDate('created_at', $today)->distinct('user_id')->count('user_id');
+        // dd($totalMoney);chào
 
         // $averageRating = Review::where('tour_id', $id)->avg('rating');
 
         // Lấy top 5 tour được đặt nhiều nhất
-        $topBookedTours = BookTour::selectRaw('tour_id, COUNT(*) as total_bookings')
-            ->groupBy('tour_id')
-            ->orderBy('total_bookings', 'desc')
-            ->with('tour')
-            ->get();
+        // $topBookedTours = BookTour::selectRaw('tour_id, COUNT(*) as total_bookings')
+        //     ->groupBy('tour_id')
+        //     ->orderBy('total_bookings', 'desc')
+        //     ->with('tour')
+        //     ->get();
 
-        $chartData = $topBookedTours->map(function ($item) {
-            return [
-                'label' => trim($item->tour->name ?? 'Không xác định'), //tours
-                'y' => $item->total_bookings, // đặt
-            ];
-        });
+        // $chartData = $topBookedTours->map(function ($item) {
+        //     return [
+        //         'label' => trim($item->tour->name ?? 'Không xác định'), //tours
+        //         'y' => $item->total_bookings, // đặt
+        //     ];
+        // });
 
         // thống kê trạng thái tour
         // $statuses = BookTour::select('status', \DB::raw('COUNT(*) as count'))
@@ -167,17 +171,17 @@ class StatisticalController extends Controller
 
         // Lấy 10 tour được đặt nhiều nhất trong khoảng thời gian
 
-        $top5Tours = Tour::withCount('bookTours')
-            ->orderBy('book_tours_count', 'desc')
-            ->take(5)
-            ->get();
+        // $top5Tours = Tour::withCount('bookTours')
+        //     ->orderBy('book_tours_count', 'desc')
+        //     ->take(5)
+        //     ->get();
 
-        $chartData = $top5Tours->map(function ($tour) {
-            return [
-                'label' => $tour->name,
-                'y' => $tour->book_tours_count,
-            ];
-        });
+        // $chartData = $top5Tours->map(function ($tour) {
+        //     return [
+        //         'label' => $tour->name,
+        //         'y' => $tour->book_tours_count,
+        //     ];
+        // });
 
         //lấy các đơn hàng ngày hôm nay
         $paymentsOrderToday = Payment::whereDate('created_at', $today)->with('booking', 'bookTours', 'user', 'paymentMethod', 'paymentStatus')->where('status_id', '!=', 13)->get();
@@ -194,7 +198,7 @@ class StatisticalController extends Controller
             'customerCount'                         => $customerCount,
             'percentage'                            => $percentage,
             'percentageChange'                      => $percentageChange,
-            'chartData'                             => $chartData,
+            // 'chartData'                             => $chartData,
             'dataPoints'                            => $dataPoints,
             'tyLe'                                  => $tyLe,
             'tourReview'                            => $tourReview,
@@ -228,24 +232,31 @@ class StatisticalController extends Controller
     public function filterByDate(Request $request)
     {
         $data = $request->all();
+        $from_date = $data['from_date'] ?? Carbon::today()->subDays(7)->toDateString();
+        $to_date = $data['to_date'] ?? Carbon::today()->toDateString();
 
-        // Kiểm tra nếu có từ ngày và đến ngày
-        $from_date = $data['from_date'] ?? Carbon::today()->subDays(7)->toDateString(); // Mặc định 7 ngày qua
-        $to_date = $data['to_date'] ?? Carbon::today()->toDateString(); // Mặc định hôm nay
-
-        // Lấy dữ liệu từ bảng Payment và nhóm theo ngày
-        $chart_data = Payment::select(
-            DB::raw('DATE(created_at) as created_at'), // Lấy ngày
-            DB::raw('SUM(money) as money'),           // Tổng doanh thu
-            DB::raw('COUNT(id) as soLuongDon')        // Số lượng đơn
+        $chartData = DonTour::select(
+            DB::raw('DATE(created_at) as created_at'),
+            DB::raw('SUM(total_money) as money'),
+            DB::raw('COUNT(id) as soLuongDon'),
+            'tour_id'
         )
-            ->whereBetween('created_at', [$from_date, $to_date]) // Lọc theo khoảng ngày
-            ->groupBy(DB::raw('DATE(created_at)'))  // Nhóm theo ngày
-            ->orderBy('created_at', 'ASC')           // Sắp xếp theo ngày tăng dần
+            ->whereBetween('created_at', [$from_date, $to_date])
+            ->with('tour:name,id')
+            ->groupBy(DB::raw('DATE(created_at)'), 'tour_id')
+            ->orderBy('created_at', 'ASC')
             ->get();
 
-        // Trả về dữ liệu dưới dạng JSON
-        return response()->json($chart_data);
+        $formattedData = $chartData->map(function ($value) {
+            return [
+                'tour_name' => $value->tour->name ?? 'Chưa xác định',
+                'soLuongDon' => $value->soLuongDon,
+                'money' => $value->money,
+                'date' => $value->created_at,
+            ];
+        });
+
+        return response()->json($formattedData);
     }
     public function filterByBtn(Request $request)
     {

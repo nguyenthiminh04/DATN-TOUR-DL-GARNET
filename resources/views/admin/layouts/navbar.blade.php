@@ -47,7 +47,7 @@
 
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('trangthaitour.index') }}" class="nav-link">Đơn hàng đã đặt</a>
+                                <a href="{{ route('payment_tour.index') }}" class="nav-link">Đơn hàng đã đặt</a>
                             </li>
                         </ul>
                     </div>
@@ -132,6 +132,11 @@
                 <li class="nav-item"><a href="{{ route('advisory.index') }}" class="nav-link menu-link ">
                         <i class="ri-contacts-book-line"></i>
                         <span data-key="t-calendar">Hỗ trợ tư vấn</span>
+                    </a>
+                </li>
+                <li class="nav-item"><a href="{{ route('admin.contact.index') }}" class="nav-link menu-link ">
+                        <i class=" ri-contacts-book-2-line"></i>
+                        <span data-key="t-calendar">Liên hệ</span>
                     </a>
                 </li>
 

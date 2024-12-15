@@ -55,8 +55,10 @@ class ContactController extends Controller
             'email' => $request->email,
             'subject' => $request->subject,
             'message' => $request->message,
-            'user_id' => $request->user_id,
+            'status' => "Đang chờ xử lý",
         ]);
+
+
         // return redirect()->route('contact.index')->with('success', 'Cảm ơn bạn đã phản hồi. Chúng tôi sẽ sớm liên hệ với bạn trong thời gian ngắn nhất.');
         return response()->json([
             'status' => 'success',
