@@ -186,6 +186,9 @@ if ($coupon && $coupon->number > 0) {
                 'start_date' => $start_date,
                 'payment_status' => $payment_status,
                 'payment_method' => $payment_method,
+                'guests' => $guest,
+                'code' => $payment->code_vnpay,
+                'time' => $payment->time,
                 'bookings' => $payment->bookTours->map(function ($booking) {
                     return [
                         'tour_name' => $booking->tour_name,
@@ -197,7 +200,7 @@ if ($coupon && $coupon->number > 0) {
             ];
 
             // Gửi email thông báo cho khách hàng
-           Mail::to($booking['email'])->send(new BookingSuccess($data, $pdfData));
+           Mail::to($booking['email'])->queue(new BookingSuccess($data, $pdfData));
     
             // Trả về view success cho thanh toán online
             return view('client.payment.success-online', compact('payment', 'booking'));
@@ -234,6 +237,9 @@ if ($coupon && $coupon->number > 0) {
                 'start_date' => $start_date,
                 'payment_status' => $payment_status,
                 'payment_method' => $payment_method,
+                'guests' => $guest,
+                'code' => $payment->code_vnpay,
+                'time' => $payment->time,
                 'bookings' => $payment->bookTours->map(function ($booking) {
                     return [
                         'tour_name' => $booking->tour_name,
@@ -244,7 +250,7 @@ if ($coupon && $coupon->number > 0) {
                 }),
             ];
             $paymentLocation = "Hà Nội"; // hoặc xác định nơi thanh toán
-            Mail::to($booking['email'])->send(new BookingSuccess($data, $pdfData));
+            Mail::to($booking['email'])->queue(new BookingSuccess($data, $pdfData));
     
             // Trả về view success cho thanh toán trực tiếp
             return view('client.payment.success-direct', compact('payment', 'booking', 'paymentLocation'));
