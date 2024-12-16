@@ -252,12 +252,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/trangthaitour/updateThanhToan/{id}', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
         Route::get('/quanlytour/{id}', [PayController::class, 'show']);
 
-
         Route::get('contact',                              [AdminContactController::class, 'index'])->name('admin.contact.index');
         Route::post('contact/status/{id}',                 [AdminContactController::class, 'contactStatus'])->name('contact.contactStatus');
         Route::delete('contact/delete/{id}',               [AdminContactController::class, 'destroy'])->name('contact.delete');
 
-
-        Route::get('/quanlytour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
+        Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
     });
 });
