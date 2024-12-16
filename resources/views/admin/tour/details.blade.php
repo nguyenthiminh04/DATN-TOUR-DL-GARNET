@@ -109,17 +109,17 @@
 
     <div class="mb-3">
         <strong>Nội dung:</strong>
-        <p>{{ $tour->content }}</p>
+        <p>{!! $tour->content !!}</p>
     </div>
 
     <div class="mb-3">
         <strong>Địa điểm:</strong>
-        <p>{{ $tour->location_id }}</p>
+        <p>{{ $tour->location->name }}</p>
     </div>
 
     <div class="mb-3">
         <strong>Người đăng:</strong>
-        <p>{{ $tour->user_id }}</p>
+        <p>{{ $tour->user->name }}</p>
     </div>
 
     <div class="mb-3">

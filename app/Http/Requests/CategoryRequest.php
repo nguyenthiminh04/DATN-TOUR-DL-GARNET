@@ -23,10 +23,10 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'description' => 'required',
+            // 'description' => 'required',
             'img_thumb' => 'required',
             'slug' => 'required',
-            'hot' => 'required',
+            // 'hot' => 'required',
             'user_id' => 'required',
             'status' => 'required',
         ];

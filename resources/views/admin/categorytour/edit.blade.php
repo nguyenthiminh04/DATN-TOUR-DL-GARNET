@@ -23,12 +23,12 @@
                         <div class="card-body">
                             <form action="{{ route('categorytour.store') }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="img_thumb" class="form-label">Hình Ảnh</label>
                                     <input type="file" id="img_thumb" name="img_thumb" class="form-control"
                                         onchange="showImage(event)">
                                     <img id="img_danh_muc" src="" alt="Hình Ảnh" style="width: 150px;display:none">
-                                </div>
+                                </div> --}}
 
                                 <div class="mb-3">
                                     <label for="category_tour" class="form-label">Tên danh mục tour<span

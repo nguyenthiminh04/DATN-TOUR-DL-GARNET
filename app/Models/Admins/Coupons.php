@@ -17,6 +17,8 @@ class Coupons extends Model
         'start_date',
         'end_date',
         'percentage_price',
+        'number',
+        'type',
         'status',
     ];
     use SoftDeletes;

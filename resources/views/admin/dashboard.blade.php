@@ -330,7 +330,7 @@
                                                     </td>
                                                     <td class="order_id">
                                                         <a href="" class="fw-medium link-primary">
-                                                            {{ $paymentsOrderTodays->booking->tour->name }}
+                                                            {{ $paymentsOrderTodays->booking->tour->name ?? 'Ẩn Danh' }}
                                                         </a>
                                                     </td>
                                                     <td class="shop">
