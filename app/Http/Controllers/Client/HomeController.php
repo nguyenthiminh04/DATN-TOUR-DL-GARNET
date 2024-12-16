@@ -32,11 +32,6 @@ class HomeController extends Controller
         $listarticles = Article::inRandomOrder()->take(4)->get();
 
 
-        $listarticle =Article::inRandomOrder()->first();
-        $listarticles = Article::inRandomOrder()->take(4)->get();
-
-
-
         // Lấy 6 tour được xem nhiều nhất
         $Tourmoinhat = Tour::withoutTrashed()
             ->where('status', 1)
