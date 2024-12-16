@@ -28,9 +28,8 @@ class HomeController extends Controller
     {
         // Lấy tất cả các tour theo thứ tự giảm dần theo ID
         $listtour = Tour::orderByDesc('id')->get();
-        $listarticle =Article::inRandomOrder()->first();
+        $listarticle = Article::inRandomOrder()->first();
         $listarticles = Article::inRandomOrder()->take(4)->get();
-
 
         // Lấy 6 tour được xem nhiều nhất
         $Tourmoinhat = Tour::withoutTrashed()
@@ -61,8 +60,8 @@ class HomeController extends Controller
             ->take(5)
             ->get();
 
-            $article = Article::where('status', 1) 
-                           ->get();
+        $article = Article::where('status', 1)
+            ->get();
 
         // // Lấy thông báo
         // $notifications = collect(); // Tạo một collection rỗng mặc định
@@ -90,7 +89,7 @@ class HomeController extends Controller
         // }
 
 
-        return view('client.home', compact('listtour', 'Tourmoinhat', 'locations', 'categories', 'categoryes', 'article'));
+        return view('client.home', compact('listarticles', 'listarticle', 'listtour', 'Tourmoinhat', 'locations', 'categories', 'categoryes', 'article'));
     }
     public function show($id)
     {
