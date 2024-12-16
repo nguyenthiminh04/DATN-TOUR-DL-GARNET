@@ -29,13 +29,20 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="image" class="form-label">Hình Ảnh</label>
-
-                                            <input type="file" id="image" name="image" class="form-control"
-                                                onchange="showImage(event)">
-                                            <img id="img_danh_muc" src="{{ Storage::url($tour->image) }}"
-                                                alt="Hình Ảnh Sản Phẩm" style="width: 150px;display:none">
+                                            <label for="hinh_anh" class="form-label">Hình Ảnh</label>
+                                        
+                                            <input type="file" id="image" name="image" class="form-control" onchange="showImage(event)">
+                                        
+                                            <!-- Kiểm tra có hình ảnh không -->
+                                            @if (!empty($tour->image))
+                                                <img id="img_danh_muc" src="{{ Storage::url($tour->image) }}" 
+                                                    alt="Hình Ảnh Sản Phẩm" style="width: 150px;">
+                                            @else
+                                                <img id="img_danh_muc" src="#" 
+                                                    alt="Hình Ảnh Sản Phẩm" style="width: 150px; display: none;">
+                                            @endif
                                         </div>
+                                        
 
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Tên Tour<span
@@ -298,6 +305,14 @@
     </div>
 @endsection
 @section('script')
+<script>
+    function showImage(event) {
+    const output = document.getElementById('img_danh_muc');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.style.display = 'block'; // Hiển thị hình ảnh
+}
+
+</script>
     <script>
         function showImage(event) {
             const img_danh_muc = document.getElementById('img_danh_muc');
