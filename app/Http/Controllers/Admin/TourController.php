@@ -15,6 +15,15 @@ use Illuminate\Support\Facades\Storage;
 
 class TourController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:view_tour'])->only(['index']);
+        $this->middleware(['permission:create_tour'])->only(['create']);
+        $this->middleware(['permission:store_tour'])->only(['store']);
+        $this->middleware(['permission:edit_tour'])->only(['edit']);
+        $this->middleware(['permission:update_tour'])->only(['update']);
+        $this->middleware(['permission:destroy_tour'])->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */

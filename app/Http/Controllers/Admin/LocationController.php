@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Storage;
 
 class LocationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:view_location'])->only(['index']);
+        $this->middleware(['permission:create_location'])->only(['create']);
+        $this->middleware(['permission:store_location'])->only(['store']);
+        $this->middleware(['permission:edit_location'])->only(['edit']);
+        $this->middleware(['permission:update_location'])->only(['update']);
+        $this->middleware(['permission:destroy_location'])->only(['destroy']);
+        $this->middleware(['permission:show_location'])->only(['show']);
+    }
     /**
      * Display a listing of the resource.
      */

@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class BookTourController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:view_bookTour'])->only(['index']);
+        $this->middleware(['permission:update_bookTour'])->only(['update']);
+    }
     /**
      * Display a listing of the resource.
      */

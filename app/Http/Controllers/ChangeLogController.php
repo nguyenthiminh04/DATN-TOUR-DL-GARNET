@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class ChangeLogController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:view_changeLog'])->only(['index']);
+    }
     public function index(Request $request)
     {
         $logs = ChangeLog::with('user')->get();
