@@ -239,11 +239,19 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::get('payment-tour', [PayController::class, 'index'])->name('payment_tour.index');
         Route::post('payment-tour', [PayController::class, 'store'])->name('payment_tour.store');
-        Route::post('/trangthaitour/updateThanhToan/{id}', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
+
+        // Route cập nhật trạng thái tour
         Route::post('/trangthaitour/update/{id}', [PayController::class, 'update'])->name('trangthaitour.update');
+
+        // Route cập nhật trạng thái thanh toán
+        Route::post('/trangthaitour/updateThanhToan/{id}', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
+
 
         Route::get('contact',                              [AdminContactController::class, 'index'])->name('admin.contact.index');
         Route::post('contact/status/{id}',                 [AdminContactController::class, 'contactStatus'])->name('contact.contactStatus');
         Route::delete('contact/delete/{id}',               [AdminContactController::class, 'destroy'])->name('contact.delete');
+
+
+        Route::get('/quanlytour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
     });
 });
