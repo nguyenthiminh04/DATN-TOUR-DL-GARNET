@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Log;
 
 class PayController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:view_pay'])->only(['index']);
+    }
     /**
      * Display a listing of the resource.
      */

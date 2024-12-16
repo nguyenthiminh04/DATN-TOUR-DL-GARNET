@@ -19,7 +19,7 @@ class CheckPermission
         $user = Auth::user();
 
         if (!$user || !$user->hasPermission($permission)) {
-            return response()->json(['message' => 'Forbidden'], 403);
+            return response()->view('admin.errors.403', [], Response::HTTP_FORBIDDEN);
         }
 
         return $next($request);

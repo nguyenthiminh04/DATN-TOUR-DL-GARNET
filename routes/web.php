@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 
 /*
@@ -240,6 +241,7 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::get('/permissions-search', [PermissionUserController::class, 'searchPermissions'])->name('permissions.search');
         // end permissions
+        Route::view('403', 'admin.errors.500');
 
         Route::get('payment-tour', [PayController::class, 'index'])->name('payment_tour.index');
         Route::post('payment-tour', [PayController::class, 'store'])->name('payment_tour.store');
@@ -256,6 +258,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('contact/status/{id}',                 [AdminContactController::class, 'contactStatus'])->name('contact.contactStatus');
         Route::delete('contact/delete/{id}',               [AdminContactController::class, 'destroy'])->name('contact.delete');
 
+        //logs tour
+        Route::get('/change-logs', [ChangeLogController::class, 'index'])->name('change-logs.index');
+        // end logs
+        
         Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
     });
 });
