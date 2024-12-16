@@ -51,6 +51,7 @@ class ContactController extends Controller
             'message.min' => 'Nội dung phải có ít nhất 6 ký tự.',
         ]);
         $contact = Contact::create([
+            'user_id' => $request->user_id, 
             'name' => $request->name,
             'email' => $request->email,
             'subject' => $request->subject,
