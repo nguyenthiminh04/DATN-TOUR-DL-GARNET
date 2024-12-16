@@ -75,10 +75,13 @@ class PayController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id)    
     {
-        //
+        $quanlytour = Payment::findOrFail($id);
+
+        return view('admin.quanlytour.details', compact('quanlytour'));  // Trả về view chi tiết
     }
+
 
     /**
      * Show the form for editing the specified resource.

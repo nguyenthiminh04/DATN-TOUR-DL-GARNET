@@ -163,7 +163,7 @@
 
                                                 <ul class="d-flex gap-2 list-unstyled mb-0">
                                                     <li>
-                                                        <a class="btn btn-subtle-primary btn-icon btn-sm view-categorytour"
+                                                        <a class="btn btn-subtle-primary btn-icon btn-sm view-quanlytour"
                                                             data-id="{{ $item->id }}">
                                                             <i class="ph-eye"></i>
                                                         </a>
@@ -240,6 +240,20 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="quanlytourDetailModal" tabindex="-1" aria-labelledby="quanlytourDetailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="quanlytourDetailModalLabel">Chi Tiết Đơn Đặt Tour</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="quanlytourDetailContent">
+                   
                 </div>
             </div>
         </div>
@@ -430,6 +444,7 @@
 @endsection
 @section('script')
     <script>
+
         $(document).ready(function() {
             // thêm faq
             $('#addCouponsForm').on('submit', function(e) {
