@@ -1,256 +1,248 @@
 @extends('admin.layouts.app')
 
 @section('style')
-<style>
-    .filter-form {
-        background-color: #f8f9fa;
-        border: 1px solid #dee2e6;
-        border-radius: 8px;
-        padding: 15px;
-    }
+    <style>
+        .status-tour {
+            width: 100%;
+            padding: 10px;
 
-    .filter-form .form-group {
-        margin-bottom: 15px;
-    }
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            color: #333;
+            outline: none;
+            transition: all 0.3s ease-in-out;
+        }
 
-    .filter-form label {
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
+        .status-tour:hover {
+            border-color: #025fc9;
+            background-color: #e9f7ff;
+        }
 
-    .filter-form .form-control {
-        border-radius: 5px;
-    }
+        .status-tour:focus {
+            border-color: #007bff;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
 
-    .filter-form button {
-        width: 100%;
-    }
+        .status-tour option {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #fff;
+            color: #333;
+        }
 
-    #filter-form-container {
-        margin-top: 15px;
-    }
-</style>
-
+        .status-tour option:checked {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
-
-            <!-- start page title -->
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Đơn Đặt Tour</h4>
+                        <h4 class="mb-sm-0">Danh sách đơn hàng</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Courses</a></li>
-                                <li class="breadcrumb-item active">List View</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Trang Chủ</a></li>
+                                <li class="breadcrumb-item active">Danh sách đơn hàng</li>
                             </ol>
                         </div>
+                    </div>
+                    <div class="row g-3 mb-3 justify-content-sm-end justify-center">
 
+                        <div class="col-auto">
+                            <div class="d-flex justify-content-end">
+                                <select id="payment_status_id" name="payment_status_id" class="form-select"
+                                    aria-label="Lọc theo trạng thái" style="margin-top: 20px">
+                                    <option value="">Lọc thanh toán</option>
+                                    <option value="1">Chưa thanh toán</option>
+                                    <option value="2">Đã thanh toán</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="d-flex justify-content-end">
+                                <select id="status_id" name="status_id" class="form-select" aria-label="Lọc theo trạng thái"
+                                    style="margin-top: 20px">
+                                    <option value="">Lọc trạng thái</option>
+                                    <option value="1">Chờ xác nhận</option>
+                                    <option value="2">Đã xác nhận</option>
+                                    <option value="5">Chưa hoàn thành</option>
+                                    <option value="6">Đã Hoàn Thành</option>
+                                    <option value="13">Đã Hủy</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-auto">
+                            <form action="{{ route('payment_tour.index') }}" method="GET">
+                                <div class="d-flex gap-3 justify-content-sm-end">
+                                    <div class="form-group">
+                                        <label for="start_date">Từ ngày:</label>
+                                        <input type="date" name="start_date" id="start_date"
+                                            value="{{ request('start_date') }}" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="end_date">Đến ngày:</label>
+                                        <input type="date" name="end_date" id="end_date"
+                                            value="{{ request('end_date') }}" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-4" style="top: -5px">Tìm
+                                        kiếm</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- end page title -->
+        </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card" id="coursesList">
-                        <div class="card-body">
-                            <div class="row align-items-center g-2">
-                                <div class="col-lg-3 me-auto">
-                                    {{-- Tựa đề --}}
-                                </div><!--end col-->
-                            
-                                <div class="col-lg-2">
-                                    <div class="search-box" id="filter-form-container" style="display: none;">
-                                        <!-- Form tìm kiếm -->
-                                        <form action="{{ route('trangthaitour.index') }}" method="GET" class="filter-form">
-                                            <div class="form-group">
-                                                <label for="start_date">Từ ngày:</label>
-                                                <input type="date" name="start_date" id="start_date" value="{{ request('start_date') }}" class="form-control">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="end_date">Đến ngày:</label>
-                                                <input type="date" name="end_date" id="end_date" value="{{ request('end_date') }}" class="form-control">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary mt-2">Tìm kiếm</button>
-                                        </form>
-                                    </div>
-                                </div><!--end col-->
-                            
-                                <div class="col-lg-auto">
-                                    <div class="hstack flex-wrap gap-2">
-                                        <button class="btn btn-subtle-danger d-none" id="remove-actions" onClick="deleteMultiple()">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </button>
-                                     
-                                        <div>
-                                            <!-- Nút Filter -->
-                                            <button type="button" class="btn btn-info" id="filter-button">
-                                                <i class="bi bi-funnel align-baseline me-1"></i> Filter
-                                            </button>
-                                            <a href="apps-learning-grid.html" class="btn btn-subtle-primary btn-icon"><i class="bi bi-grid"></i></a>
-                                            <a href="apps-learning-list.html" class="btn btn-subtle-primary active btn-icon"><i class="bi bi-list-task"></i></a>
-                                        </div>
-                                    </div>
-                                </div><!--end col-->
-                            </div>
-                            
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive table-card">
-                                <table id="example" class="table table-striped" style="width:100%">
-                                    <thead class="text-muted">
-                                        <tr>
-
-                                            <th>ID</th>
-                                            <th>Tài Khoản Đặt Tour</th>
-                                            <th>Thông Tin Tour</th>
-                                            <th>Người Đặt Tour</th>
-                                            <th>Trạng Thái Thanh Toán</th>
-                                            <th>Trạng Thái Tour</th>
-
-                                            <th>Hành Động</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody class="list form-check-all">
-                                        @foreach ($listTour as $index => $item)
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" id="coursesList">
+                    <div class="card-body">
+                        <div class="table-responsive table-card">
+                            <table id="example tour-table" class="table table-striped" style="width:100%">
+                                <thead class="text-muted">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tài Khoản Đặt Tour</th>
+                                        <th>Thông Tin Tour</th>
+                                        <th>Người Đặt Tour</th>
+                                        <th>Thời gian</th>
+                                        <th>Trạng Thái Thanh Toán</th>
+                                        <th>Trạng Thái Tour</th>
+                                        <th>Hành Động</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list form-check-all" id="tour-table-body">
+                                    @foreach ($listTour as $index => $item)
                                         <tr>
                                             <td><a href="" class="text-reset">{{ $item->id }}</a></td>
-
                                             <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
-                                        
                                             <td>{{ $item->booking->tour->name }}</td>
                                             <td>{{ $item->booking->name }}</td>
-                                            {{-- <td class="{{ $item->payment_status_id == 1 ? 'text-danger' : 'text-success' }}">
-                                                {{ $item->payment_status_id == 1 ? 'Chưa Thanh Toán' : 'Đã Thanh Toán' }}</td> --}}
-                                            {{-- <td>{{ $item->name }}</td> --}}
-                                           
-                                            {{-- <td>{{ $item->name }}</td> --}}
                                             <td>
-                                                <form action="{{ route('trangthaitour.updateThanhToan', $item->id) }}" method="POST">
-                                                    @csrf
-                                                    <select name="payment_status_id" class="form-select w-75" onchange="confirmSubmitThanhToan(this)" data-default-value="{{ $item->payment_status_id }}">
-                                                        @foreach ($trangThaiThanhToan as $key => $value)
-                                                            <option value="{{ $key }}" {{ $key == $item->payment_status_id ? 'selected' : '' }}>
-                                                                {{ $value }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </form>
-                                                
-                                                
-                                                
-                                                </td>
+                                                {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}
+                                            </td>
                                             <td>
-                                                <form action="{{route('trangthaitour.update',$item->id)}}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <select name="status_id" class="form-select w-75" onchange="confirmSubmit(this)" data-default-value="{{ $item->status_id }}">
-                                                        @foreach ($trangThaiTour as $key => $value)
-                                                            <option value="{{ $key }}" {{ $key == $item->status_id ? 'selected' : '' }}>
-                                                                {{ $value }} <!-- Đây là tên trạng thái -->
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </form>
-                                                
-                                                </td>
-                                            
+                                                <select id="payment-status-select" name="payment_status_id"
+                                                    class="form-select w-full max-w-xs payment-status-select status-tour"
+                                                    data-id="{{ $item->id }}"
+                                                    data-default-value="{{ $item->payment_status_id }}"
+                                                    @if ($item->payment_status_id == 2) disabled @endif>
+                                                    @foreach ($trangThaiThanhToan as $key => $value)
+                                                        <option value="{{ $key }}"
+                                                            {{ $key == $item->payment_status_id ? 'selected' : '' }}>
+                                                            {{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select id="status-select" name="status_id"
+                                                    class="form-select w-full max-w-xs status status-tour"
+                                                    data-id="{{ $item->id }}"
+                                                    data-default-value="{{ $item->status_id }}"
+                                                    @if ($item->status_id == 6 || $item->status_id == 13) disabled @endif>
+                                                    @foreach ($trangThaiTour as $key => $value)
+                                                        <option value="{{ $key }}"
+                                                            {{ $key == $item->status_id ? 'selected' : '' }}>
+                                                            {{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
 
-                                           
-                                            <td>
                                                 <ul class="d-flex gap-2 list-unstyled mb-0">
                                                     <li>
                                                         <a class="btn btn-subtle-primary btn-icon btn-sm view-quanlytour"
-                                                        data-id="{{ $item->id }}">
-                                                        <i class="ph-eye"></i>
-                                                    </a>
+                                                            data-id="{{ $item->id }}">
+                                                            <i class="ph-eye"></i>
+                                                        </a>
                                                     </li>
-                                                
+
                                                     <li>
-                                                        <a href="#deleteRecordModal{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
+                                                        <a href="#deleteRecordModal{{ $item->id }}"
+                                                            data-bs-toggle="modal"
+                                                            class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                                class="ph-trash"></i></a>
                                                     </li>
                                                 </ul>
                                             </td>
                                         </tr>
-                                             <!-- Xóa User -->
-        <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="btn-close" id="deleteRecord-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body p-md-5">
-                      <div class="text-center">
-                          <div class="text-danger">
-                              <i class="bi bi-trash display-5"></i>
-                          </div>
-                          <div class="mt-4">
-                              <h4 class="mb-2">Xóa mục này ?</h4>
-                              <p class="text-muted mx-3 mb-0">Bạn có chắc chắn muốn xóa không?</p>
-                          </div>
-                      </div>
-                      <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                        <form action="{{ route('coupons.destroy', $item->id) }}"
-                          method="POST" class="d-inline">
-                          @csrf
-                          @method('DELETE')
-                          <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
-                          <button type="submit" class="btn w-sm btn-danger btn-hover" id="delete-record">Vâng, Tôi chắc chắn!</button>
-                        </form>
-                      </div>
-                  </div>
-              </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-      </div>
- 
-                                        @endforeach
-                                    </tbody><!-- end tbody -->
-                                </table><!-- end table -->
-                                <div class="noresult" style="display: none">
-                                    <div class="text-center py-4">
-                                        <i class="ph-magnifying-glass fs-1 text-primary"></i>
-                                        <h5 class="mt-2">Sorry! No Result Found</h5>
-                                        <p class="text-muted mb-0">We've searched more than 150+ Courses We did not find
-                                            any Courses for you search.</p>
-                                    </div>
+                                    @endforeach
+                                </tbody>
+
+                            </table>
+                            <div class="noresult" style="display: none">
+                                <div class="text-center py-4">
+                                    <i class="ph-magnifying-glass fs-1 text-primary"></i>
+                                    <h5 class="mt-2">Sorry! No Result Found</h5>
+                                    <p class="text-muted mb-0">We've searched more than 150+ Courses We did not
+                                        find
+                                        any Courses for you search.</p>
                                 </div>
                             </div>
-                            <div class="row align-items-center mt-4 pt-2" id="pagination-element">
-                                <div class="col-sm">
-                                    <div class="text-muted text-center text-sm-start">
-                                        Showing <span class="fw-semibold">10</span> of <span class="fw-semibold">15</span>
-                                        Results
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-sm-auto mt-3 mt-sm-0">
-                                    <div class="pagination-wrap hstack gap-2 justify-content-center">
-                                        <a class="page-item pagination-prev disabled" href="javascript:void(0)">
-                                            Previous
-                                        </a>
-                                        <ul class="pagination listjs-pagination mb-0"></ul>
-                                        <a class="page-item pagination-next" href="javascript:void(0)">
-                                            Next
-                                        </a>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
+
                         </div>
-                    </div><!--end card-->
-                </div><!--end col-->
-            </div><!--end row-->
-            
-            
-           
-            
+
+                        <div class="row align-items-center mt-4 pt-3" id="pagination-element"
+                            style="width: 100%; overflow: hidden;">
+                            <div class="col-sm">
+                                <div class="text-muted text-center text-sm-start">
+                                    Hiển thị <span class="fw-semibold">{{ $listTour->count() }}</span>
+                                    trên <span class="fw-semibold">{{ $listTour->total() }}</span>
+                                    Kết quả
+                                </div>
+                            </div>
+
+                            <div class="col-sm-auto mt-3 mt-sm-0">
+                                <div class="pagination-wrap hstack justify-content-center gap-2">
+
+                                    @if ($listTour->onFirstPage())
+                                        <a class="page-item pagination-prev disabled" href="#">
+                                            Trước
+                                        </a>
+                                    @else
+                                        <a class="page-item pagination-prev" href="{{ $listTour->previousPageUrl() }}">
+                                            Trước
+                                        </a>
+                                    @endif
+
+                                    <ul class="pagination listjs-pagination mb-0">
+                                        @foreach ($listTour->getUrlRange(1, $listTour->lastPage()) as $page => $url)
+                                            <li class="{{ $listTour->currentPage() == $page ? 'active' : '' }}">
+                                                <a class="page" href="{{ $url }}"
+                                                    data-i="{{ $page }}"
+                                                    data-page="{{ $page }}">{{ $page }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+
+                                    @if ($listTour->hasMorePages())
+                                        <a class="page-item pagination-next" href="{{ $listTour->nextPageUrl() }}">
+                                            Tiếp theo
+                                        </a>
+                                    @else
+                                        <a class="page-item pagination-next disabled" href="#">
+                                            Tiếp theo
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- container-fluid -->
-
-
     </div>
     <div class="modal fade" id="quanlytourDetailModal" tabindex="-1" aria-labelledby="quanlytourDetailModalLabel"
         aria-hidden="true">
@@ -261,7 +253,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="quanlytourDetailContent">
-                    <!-- Nội dung chi tiết  sẽ được tải ở đây -->
+
                 </div>
             </div>
         </div>
@@ -272,62 +264,158 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
 @endsection
-
-@section('style-libs')
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.css') }}" />
-@endsection
-
 @section('script')
     <!--datatable js-->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
-
-
     <script>
+        $(document).ready(function() {
+            function updateStatus(url, data, selectElement, defaultValue) {
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: data,
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire(
+                                'Thành công!',
+                                response.message,
+                                'success'
+                            );
 
-        function confirmSubmit(selectElement){
-            console.log("Hàm confirmSubmit đã được gọi!"); // Dòng này kiểm tra sự kiện onchange
-            var form = selectElement.form;
-            var selectedOption = selectElement.options[selectElement.selectedIndex].text;
-            var defaultValue = selectElement.getAttribute('data-default-value');
-            if(confirm('Bạn có chắc chắn thay đổi trạng thái đơn hàng"'+ selectedOption +'"không?')){
-                form.submit();
-            }else{
-                selectElement.value = defaultValue;
+                            if (response.disabled) {
+                                selectElement.prop('disabled', true);
+                            }
+
+                            selectElement.val(response.new_status);
+
+                            if (response.new_status == 6) {
+                                selectElement.prop('disabled', true);
+                                selectElement.closest('form').find('button[type="submit"]')
+                                    .prop('disabled', true);
+                            }
+                        } else {
+                            Swal.fire(
+                                'Lỗi!',
+                                response.message,
+                                'error'
+                            );
+                            selectElement.val(defaultValue);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr, status, error);
+                        Swal.fire(
+                            'Lỗi!',
+                            'Có lỗi xảy ra khi cập nhật trạng thái.',
+                            'error'
+                        );
+                        selectElement.val(defaultValue);
+                    }
+                });
             }
-        }
-           </script>
-           <script>
-            document.getElementById('filter-button').addEventListener('click', function () {
-                const filterFormContainer = document.getElementById('filter-form-container');
-                // Toggle hiển thị/ẩn
-                if (filterFormContainer.style.display === 'none' || !filterFormContainer.style.display) {
-                    filterFormContainer.style.display = 'block';
-                } else {
-                    filterFormContainer.style.display = 'none';
-                }
+
+
+            var isSearchingOrFiltering = $('#status_id').length > 0 || $('#payment_status_id').length > 0;
+
+
+            $(document).on('change', '.payment-status-select', function() {
+                var selectElement = $(this);
+                var tourId = selectElement.data('id');
+                var paymentStatusId = selectElement.val();
+                var defaultPaymentStatusId = selectElement.data('default-value');
+
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn thay đổi trạng thái?',
+                    text: "Trạng thái sẽ được cập nhật!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Có, thay đổi',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var data = {
+                            '_token': $('meta[name="csrf-token"]').attr('content'),
+                            'payment_status_id': paymentStatusId
+                        };
+                        var url = '/admin/trangthaitour/updateThanhToan/' + tourId;
+                        updateStatus(url, data, selectElement, defaultPaymentStatusId);
+                    } else {
+                        selectElement.val(defaultPaymentStatusId);
+                    }
+                });
             });
-        </script>
-        
-           <script>
-            function confirmSubmitThanhToan(selectElement){
-                console.log("Hàm confirmSubmit đã được gọi!"); // Dòng này kiểm tra sự kiện onchange
-                var form = selectElement.form;
-                var selectedOption = selectElement.options[selectElement.selectedIndex].text;
-                var defaultValue = selectElement.getAttribute('data-default-value');
-                if(confirm('Bạn có chắc chắn thay đổi trạng thái "'+ selectedOption +'"không?')){
-                    form.submit();
-                }else{
-                    selectElement.value = defaultValue;
-                }
+
+
+            $(document).on('change', '.status', function() {
+                var selectElement = $(this);
+                var tourId = selectElement.data('id');
+                var statusId = selectElement.val();
+                var defaultStatusId = selectElement.data('default-value');
+
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn thay đổi trạng thái?',
+                    text: "Trạng thái sẽ được cập nhật!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Có, thay đổi',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var data = {
+                            '_token': $('meta[name="csrf-token"]').attr('content'),
+                            'status_id': statusId
+                        };
+                        var url = '/admin/trangthaitour/update/' + tourId;
+                        updateStatus(url, data, selectElement, defaultStatusId);
+                    } else {
+                        selectElement.val(defaultStatusId);
+                    }
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusFilter = document.getElementById('status_id');
+            const paymentFilter = document.getElementById('payment_status_id');
+            const tourTableBody = document.getElementById('tour-table-body');
+
+            function fetchFilteredTours() {
+                const statusId = statusFilter.value;
+                const paymentId = paymentFilter.value;
+
+                console.log('Status ID:', statusId);
+                console.log('Payment ID:', paymentId);
+
+                fetch(`{{ route('admin.quanlytour.filter') }}?status_id=${statusId}&payment_status_id=${paymentId}`, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                    })
+                    .then((response) => {
+                        console.log('Response Status:', response.status);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+                        console.log('Response Data:', data);
+                        tourTableBody.innerHTML = data.html;
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
             }
-               </script>
-               
+
+            statusFilter.addEventListener('change', fetchFilteredTours);
+            paymentFilter.addEventListener('change', fetchFilteredTours);
+        });
+    </script>
     <script>
         $('#example').DataTable({
             language: {
@@ -352,34 +440,7 @@
                 }
             }
         });
-
-
     </script>
-
-<script>
-    $(document).ready(function() {
-  // Sự kiện nhấn vào biểu tượng con mắt
-  $('.view-quanlytour').on('click', function(e) {
-      e.preventDefault();
-
-      const quanlytourId = $(this).data('id'); // Lấy ID của quanlytour
-
-      $.ajax({
-          url: '/admin/quanlytour/' +
-              quanlytourId, // Đảm bảo URL này đúng với route trong web.php
-          type: 'GET',
-          success: function(response) {
-              // Hiển thị chi tiết quanlytour trong modal
-              $('#quanlytourDetailContent').html(response);
-              $('#quanlytourDetailModal').modal('show'); // Mở modal
-          },
-          error: function(xhr, status, error) {
-              alert('Có lỗi xảy ra khi tải chi tiết đơn đặt tour!');
-          }
-      });
-  });
-});
-</script>
 @endsection
 @section('script')
     <script>
@@ -394,14 +455,14 @@
                 $('#status-error').text('');
 
                 $.ajax({
-                    url: "{{ route('trangthaitour.store') }}", // URL action của form
+                    url: "{{ route('payment_tour.store') }}",
                     type: 'POST',
                     data: $(this).serialize(), // Lấy dữ liệu từ form và bao gồm CSRF token
                     success: function(response) {
                         // Xử lý khi request thành công (có thể đóng modal, load lại danh sách FAQ)
                         // $('#addFaq').modal('hide');
                         // alert('Câu hỏi đã được thêm thành công!');
-                        window.quanlytour.reload();
+                        window.location.reload();
                     },
                     error: function(xhr) {
                         // Xử lý khi request bị lỗi
@@ -434,19 +495,19 @@
             });
         });
     </script>
-     <script>
-        function confirmSubmit(selectElement){
+    <script>
+        function confirmSubmit(selectElement) {
 
             console.log("Hàm confirmSubmit đã được gọi!"); // Dòng này kiểm tra sự kiện onchange
 
             var form = selectElement.form;
             var selectedOption = selectElement.options[selectElement.selectedIndex].text;
             var defaultValue = selectElement.getAttribute('data-default-value');
-            if(confirm('Bạn có chắc chắn thay đổi trạng thái đơn hàng"'+ selectedOption +'"không?')){
+            if (confirm('Bạn có chắc chắn thay đổi trạng thái đơn hàng"' + selectedOption + '"không?')) {
                 form.submit();
-            }else{
+            } else {
                 selectElement.value = defaultValue;
             }
         }
-           </script>
+    </script>
 @endsection
