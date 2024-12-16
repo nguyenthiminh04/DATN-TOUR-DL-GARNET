@@ -47,8 +47,10 @@ class BookingController extends Controller
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->where('number', '>', 0)
+            ->where('tour_id', '=', $request['tour_id'])
+            
             ->first();
-        // dd($coupon);
+         //dd($coupon);
         if ($coupon) {
             session(['code' => $coupon->code]);
         }
@@ -136,6 +138,7 @@ class BookingController extends Controller
     {
 
         $code = session('code');
+        
 
 
 
