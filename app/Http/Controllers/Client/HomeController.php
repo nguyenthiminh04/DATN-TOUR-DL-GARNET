@@ -6,8 +6,10 @@ use App\Models\Admins\Tour;
 use Illuminate\Http\Request;
 use App\Models\Admins\Location;
 use App\Http\Controllers\Controller;
+use App\Models\Admins\Article;
 use App\Models\Admins\Category;
 use App\Models\Admins\CategoryTour;
+use App\Models\Article as ModelsArticle;
 // use App\Models\Admins\Categoty_tour;
 use App\Models\Comment;
 use App\Models\Coupon;
@@ -26,6 +28,10 @@ class HomeController extends Controller
     {
         // Lấy tất cả các tour theo thứ tự giảm dần theo ID
         $listtour = Tour::orderByDesc('id')->get();
+        $listarticle =Article::inRandomOrder()->first();
+        $listarticles = Article::inRandomOrder()->take(4)->get();
+
+
 
         // Lấy 6 tour được xem nhiều nhất
         $Tourmoinhat = Tour::withoutTrashed()
@@ -82,7 +88,7 @@ class HomeController extends Controller
         // }
 
 
-        return view('client.home', compact('listtour', 'Tourmoinhat', 'locations', 'categories', 'categoryes'));
+        return view('client.home', compact('listtour', 'Tourmoinhat', 'locations', 'categories', 'categoryes','listarticle','listarticles'));
     }
     public function show($id)
     {
