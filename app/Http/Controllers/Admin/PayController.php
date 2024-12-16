@@ -44,7 +44,9 @@ class PayController extends Controller
             $query->whereDate('time', '<=', $endDate);
         }
 
-        $listTour = $query->get();
+        $listTour = $query->paginate(10);
+
+        // $listTour = $query->get();
         $trangThaiTour = Status::pluck('name', 'id')->toArray();
         $trangThaiThanhToan = PaymentStatus::pluck('name', 'id')->toArray();
         // dd($listTour, $trangThaiTour, $trangThaiThanhToan);

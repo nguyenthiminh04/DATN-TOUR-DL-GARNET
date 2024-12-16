@@ -49,21 +49,7 @@ class AdvisoryController extends Controller
 
     public function advisoryStatus(Request $request, $id)
     {
-        // try {
-        //     $advisory = Advisory::findOrFail($id);
-        //     $advisory->status = $request->status;
-        //     $advisory->save();
-
-        //     return response()->json([
-        //         'success' => true,
-        //         'message' => 'Cập nhật trạng thái thành công!',
-        //     ]);
-        // } catch (\Exception $e) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'Đã có lỗi xảy ra. Vui lòng thử lại!',
-        //     ]);
-        // }
+       
 
         try {
             $advisory = Advisory::findOrFail($id);

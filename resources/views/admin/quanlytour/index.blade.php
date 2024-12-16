@@ -195,11 +195,56 @@
                                         any Courses for you search.</p>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
+                        <div class="row align-items-center mt-4 pt-3" id="pagination-element"
+                            style="width: 100%; overflow: hidden;">
+                            <div class="col-sm">
+                                <div class="text-muted text-center text-sm-start">
+                                    Hiển thị <span class="fw-semibold">{{ $listTour->count() }}</span>
+                                    trên <span class="fw-semibold">{{ $listTour->total() }}</span>
+                                    Kết quả
+                                </div>
+                            </div>
+
+                            <div class="col-sm-auto mt-3 mt-sm-0">
+                                <div class="pagination-wrap hstack justify-content-center gap-2">
+
+                                    @if ($listTour->onFirstPage())
+                                        <a class="page-item pagination-prev disabled" href="#">
+                                            Trước
+                                        </a>
+                                    @else
+                                        <a class="page-item pagination-prev" href="{{ $listTour->previousPageUrl() }}">
+                                            Trước
+                                        </a>
+                                    @endif
+
+                                    <ul class="pagination listjs-pagination mb-0">
+                                        @foreach ($listTour->getUrlRange(1, $listTour->lastPage()) as $page => $url)
+                                            <li class="{{ $listTour->currentPage() == $page ? 'active' : '' }}">
+                                                <a class="page" href="{{ $url }}"
+                                                    data-i="{{ $page }}"
+                                                    data-page="{{ $page }}">{{ $page }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+
+                                    @if ($listTour->hasMorePages())
+                                        <a class="page-item pagination-next" href="{{ $listTour->nextPageUrl() }}">
+                                            Tiếp theo
+                                        </a>
+                                    @else
+                                        <a class="page-item pagination-next disabled" href="#">
+                                            Tiếp theo
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div><!--end card-->
-            </div><!--end col-->
+                </div>
+            </div>
         </div>
     </div>
 @endsection
