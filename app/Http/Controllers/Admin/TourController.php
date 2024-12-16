@@ -66,43 +66,40 @@ class TourController extends Controller
     {
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
-            // dd($request);
-
+    
             // Lấy trực tiếp giá trị từ dropdown
             $params['status'] = $request->input('status');
-
+    
             // Xử lý hình ảnh đại diện
             if ($request->hasFile('image')) {
                 $params['image'] = $request->file('image')->store('uploads/image_tour', 'public');
             } else {
                 $params['image'] = null;
             }
-
-            // Thêm sản phẩm
+    
+            // Thêm sản phẩm (Chỉ thực hiện create một lần)
             $tour = Tour::query()->create($params);
-
-            // Lấy id sản phẩm vừa thêm để thêm được album
-            $tour = $tour->id;
-            $tour = Tour::query()->create($params);
-            //Lấy id sản phẩm vừa thêm để thêm được album 
+    
+            // Lấy ID của tour vừa thêm
             $tourID = $tour->id;
-            //Xử lý thêm album
+    
+            // Xử lý thêm album
             if ($request->hasFile('list_hinh_anh')) {
                 foreach ($request->file('list_hinh_anh') as $image) {
                     if ($image) {
                         $path = $image->store('uploads/imagetour/id_' . $tourID, 'public');
-                        $tour->imagetour()->create(
-                            [
-                                'tour_id' => $tourID,
-                                'image' => $path,
-                            ]
-                        );
+                        $tour->imagetour()->create([
+                            'tour_id' => $tourID,
+                            'image' => $path,
+                        ]);
                     }
                 }
             }
+    
             return redirect()->route('tour.index');
         }
     }
+    
 
     /**
      * Display the specified resource.
