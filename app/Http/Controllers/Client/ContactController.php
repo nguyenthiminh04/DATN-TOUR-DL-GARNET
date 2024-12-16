@@ -56,7 +56,7 @@ class ContactController extends Controller
             'email' => $request->email,
             'subject' => $request->subject,
             'message' => $request->message,
-            // 'status' => "Đang chờ xử lý",
+            'status' => "Đang chờ xử lý",
         ]);
 
 

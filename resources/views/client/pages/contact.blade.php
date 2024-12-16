@@ -261,20 +261,22 @@
                         <form action="{{ route('post.contact.index') }}" method="post" id="lien-he">
                             @csrf
                             @method('POST')
-                            <input type="hidden" name="user_id" value="{{Auth()->user()->id ?? ''}}">
+                            <input type="hidden" name="user_id" value="{{ Auth()->user()->id ?? '' }}">
                             <div class="form-signup clearfix">
                                 <div class="row">
                                     <div class="col-sm-6 col-xs-12">
                                         <fieldset class="form-group">
                                             <label>Họ tên<span class="required">*</span></label>
                                             <input type="text" name="name" id="name"
-                                                class="form-control  form-control-lg" value="{{Auth()->user()->name ?? ''}}"/>
+                                                class="form-control  form-control-lg"
+                                                value="{{ Auth()->user()->name ?? '' }}" />
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-6 col-xs-12">
                                         <fieldset class="form-group">
                                             <label>Email<span class="required">*</span></label>
-                                            <input type="email" name="email" class="form-control form-control-lg" value="{{Auth()->user()->email ?? ''}}"/>
+                                            <input type="email" name="email" class="form-control form-control-lg"
+                                                value="{{ Auth()->user()->email ?? '' }}" />
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-12 col-xs-12">
@@ -325,10 +327,10 @@
             $(".popup-sapo").toggleClass("active");
         });
     </script>
- <script src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/main6d1d.js?1705894518705"
+    <script src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/main6d1d.js?1705894518705"
         type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>         
-   <script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
         document.getElementById('lien-he').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -349,7 +351,7 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'Thành công',
-                            text: data.message,     
+                            text: data.message,
                             confirmButtonText: 'OK'
                         }).then(() => {
                             window.location.reload();
@@ -387,4 +389,4 @@
                 });
         });
     </script>
-@endsection    
+@endsection
