@@ -326,10 +326,10 @@
 
 
 .small-post-image {
-    width: 100px !important; /* Độ rộng cố định cho ảnh */
-    height: 70px !important; /* Chiều cao cố định */
-    object-fit: cover !important; /* Đảm bảo ảnh giữ tỷ lệ và cắt phần dư */
-    border-radius: 5px !important; /* Bo góc ảnh */
+    width: 100px; /* Độ rộng cố định cho ảnh */
+    height: 70px; /* Chiều cao cố định */
+    object-fit: cover; /* Đảm bảo ảnh giữ tỷ lệ và cắt phần dư */
+    border-radius: 5px; /* Bo góc ảnh */
 }
 
 
