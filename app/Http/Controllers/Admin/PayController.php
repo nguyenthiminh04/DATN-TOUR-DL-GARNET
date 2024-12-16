@@ -77,7 +77,9 @@ class PayController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $quanlytour = Payment::findOrFail($id); 
+        
+        return view('admin.quanlytour.details', compact('quanlytour'));  // Trả về view chi tiết
     }
 
     /**
