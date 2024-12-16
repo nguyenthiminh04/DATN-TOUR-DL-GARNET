@@ -37,6 +37,7 @@ use App\Http\Controllers\PermissionUserController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 
 /*
@@ -169,6 +170,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::group(['middleware' => 'admin'], function () {
         Route::get('/home', [StatisticalController::class, 'index'])->name('home-admin');
         // Route::get('/doanh-thu/{timeframe}', [StatisticalController::class, 'getRevenue'])->name('revenue.get');
+        Route::post('/home/dashboard-date', [StatisticalController::class, 'filterByDate'])->name('dashboard.filterByDate');
         Route::post('/home/dashboard-btn', [StatisticalController::class, 'filterByBtn'])->name('dashboard.filterByBtn');
         Route::get('/dashboard-data', [StatisticalController::class, 'getDashboardData'])->name('admin.dashboard.data');
 
@@ -178,9 +180,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('article', ArticleController::class);
         Route::resource('notifications', NotificationController::class);
         Route::resource('categorytour', CategoryTour::class);
-        Route::post('/trangthaitour/{id}/thanh-toan', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
+        // Route::post('/payment-tour/{id}/thanh-toan', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
 
-        Route::resource('trangthaitour', PayController::class);
         Route::resource('tour', TourController::class);
         Route::resource('coupons', CouponsController::class);
         Route::resource('review', ReviewController::class);
@@ -236,5 +237,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/permissions-search', [PermissionUserController::class, 'searchPermissions'])->name('permissions.search');
         // end permissions
         Route::view('403', 'admin.errors.500');
+
+        Route::get('payment-tour', [PayController::class, 'index'])->name('payment_tour.index');
+        Route::post('payment-tour', [PayController::class, 'store'])->name('payment_tour.store');
+        Route::post('/trangthaitour/updateThanhToan/{id}', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
+        Route::post('/trangthaitour/update/{id}', [PayController::class, 'update'])->name('trangthaitour.update');
+
+        Route::get('contact',                              [AdminContactController::class, 'index'])->name('admin.contact.index');
+        Route::post('contact/status/{id}',                 [AdminContactController::class, 'contactStatus'])->name('contact.contactStatus');
+        Route::delete('contact/delete/{id}',               [AdminContactController::class, 'destroy'])->name('contact.delete');
     });
 });

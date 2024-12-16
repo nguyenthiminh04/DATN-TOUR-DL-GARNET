@@ -75,7 +75,7 @@
                                         khẩu</a>
                                 </li>
                                 <li>
-                                    <a class="title-info" href="javascript:void(0);" data-target="#addresses">Sổ địa chỉ</a>
+                                    <a class="title-info" href="javascript:void(0);" data-target="#addresses">Cập nhật tài khoản</a>
                                 </li>
                             @endif
                             <li>

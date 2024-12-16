@@ -14,7 +14,7 @@
          }
 
          .status-advisory:hover {
-             border-color: #00ff40;
+             border-color: #025fc9;
              background-color: #e9f7ff;
          }
 
@@ -271,108 +271,154 @@
              });
          }
 
+
          $(document).ready(function() {
              var isSearchingOrFiltering = $('#searchInput').length > 0 || $('#filterSelect').length > 0;
 
-             if (!isSearchingOrFiltering) {
+             $('.status-advisory').each(function() {
+                 $(this).data('previous-value', $(this).val());
+             });
 
+             if (!isSearchingOrFiltering) {
                  $('.status-advisory').change(function() {
                      var advisoryId = $(this).data('advisory-id');
                      var newStatus = $(this).val();
                      var selectElement = $(this);
 
-                     $.ajax({
-                         url: '/admin/advisory/status/' + advisoryId,
-                         type: 'POST',
-                         data: {
-                             _token: '{{ csrf_token() }}',
-                             status: newStatus
-                         },
-                         success: function(response) {
-                             if (response.success) {
-                                 Swal.fire({
-                                     icon: 'success',
-                                     title: 'Cập nhật trạng thái thành công!',
-                                     showConfirmButton: false,
-                                     timer: 1500
-                                 });
+                     var oldValue = selectElement.data('previous-value');
 
-                                 if (newStatus == 'Đã hoàn tất' || newStatus == 'Hủy bỏ') {
-                                     selectElement.prop('disabled', true);
-                                 } else {
-                                     selectElement.prop('disabled', false);
+                     Swal.fire({
+                         title: 'Bạn có chắc chắn muốn thay đổi trạng thái?',
+                         text: "Trạng thái sẽ được cập nhật!",
+                         icon: 'warning',
+                         showCancelButton: true,
+                         confirmButtonText: 'Có, thay đổi',
+                         cancelButtonText: 'Hủy',
+                         reverseButtons: true
+                     }).then((result) => {
+                         if (result.isConfirmed) {
+                             $.ajax({
+                                 url: '/admin/advisory/status/' + advisoryId,
+                                 type: 'POST',
+                                 data: {
+                                     _token: '{{ csrf_token() }}',
+                                     status: newStatus
+                                 },
+                                 success: function(response) {
+                                     if (response.success) {
+                                         Swal.fire({
+                                             icon: 'success',
+                                             title: 'Cập nhật trạng thái thành công!',
+                                             showConfirmButton: false,
+                                             timer: 1500
+                                         });
+
+                                         if (newStatus == 'Đã hoàn tất' || newStatus ==
+                                             'Hủy bỏ') {
+                                             selectElement.prop('disabled', true);
+                                         } else {
+                                             selectElement.prop('disabled', false);
+                                         }
+
+                                         selectElement.data('previous-value', newStatus);
+                                     } else {
+                                         Swal.fire({
+                                             icon: 'error',
+                                             title: response.message,
+                                             showConfirmButton: false,
+                                             timer: 1500
+                                         });
+
+                                         selectElement.val(oldValue);
+                                     }
+                                 },
+                                 error: function() {
+                                     Swal.fire({
+                                         icon: 'error',
+                                         title: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
+                                         showConfirmButton: false,
+                                         timer: 1500
+                                     });
+
+                                     selectElement.val(oldValue);
                                  }
-                             } else {
-                                 Swal.fire({
-                                     icon: 'error',
-                                     title: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
-                                     showConfirmButton: false,
-                                     timer: 1500
-                                 });
-                             }
-                         },
-                         error: function(xhr, status, error) {
-                             Swal.fire({
-                                 icon: 'error',
-                                 title: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
-                                 showConfirmButton: false,
-                                 timer: 1500
                              });
+                         } else {
+                             selectElement.val(oldValue);
                          }
                      });
                  });
-
              } else {
-
                  $(document).on('change', '.status-advisory', function() {
                      var advisoryId = $(this).data('advisory-id');
-                     var status = $(this).val();
+                     var newStatus = $(this).val();
                      var selectElement = $(this);
+                     var oldValue = selectElement.data('previous-value');
 
-                     $.ajax({
-                         url: "{{ route('advisory.advisoryStatus', ['id' => ':id']) }}".replace(
-                             ':id', advisoryId),
-                         method: 'POST',
-                         data: {
-                             status: status,
-                             _token: '{{ csrf_token() }}'
-                         },
-                         success: function(response) {
-                             if (response.success) {
-                                 Swal.fire({
-                                     icon: 'success',
-                                     title: 'Cập nhật trạng thái thành công!',
-                                     showConfirmButton: false,
-                                     timer: 1500
-                                 });
+                     Swal.fire({
+                         title: 'Bạn có chắc chắn muốn thay đổi trạng thái?',
+                         text: "Trạng thái sẽ được cập nhật!",
+                         icon: 'warning',
+                         showCancelButton: true,
+                         confirmButtonText: 'Có, thay đổi',
+                         cancelButtonText: 'Hủy',
+                         reverseButtons: true
+                     }).then((result) => {
+                         if (result.isConfirmed) {
+                             $.ajax({
+                                 url: '/admin/advisory/status/' + advisoryId,
+                                 type: 'POST',
+                                 data: {
+                                     _token: '{{ csrf_token() }}',
+                                     status: newStatus
+                                 },
+                                 success: function(response) {
+                                     if (response.success) {
+                                         Swal.fire({
+                                             icon: 'success',
+                                             title: 'Cập nhật trạng thái thành công!',
+                                             showConfirmButton: false,
+                                             timer: 1500
+                                         });
 
+                                         if (newStatus == 'Đã hoàn tất' || newStatus ==
+                                             'Hủy bỏ') {
+                                             selectElement.prop('disabled', true);
+                                         } else {
+                                             selectElement.prop('disabled', false);
+                                         }
 
-                                 if (status == 'Đã hoàn tất' || status == 'Hủy bỏ') {
-                                     selectElement.prop('disabled', true);
-                                 } else {
-                                     selectElement.prop('disabled', false);
+                                         selectElement.data('previous-value', newStatus);
+                                     } else {
+                                         Swal.fire({
+                                             icon: 'error',
+                                             title: response.message,
+                                             showConfirmButton: false,
+                                             timer: 1500
+                                         });
+
+                                         selectElement.val(oldValue);
+                                     }
+                                 },
+                                 error: function() {
+                                     Swal.fire({
+                                         icon: 'error',
+                                         title: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
+                                         showConfirmButton: false,
+                                         timer: 1500
+                                     });
+
+                                     selectElement.val(oldValue);
                                  }
-                             } else {
-                                 Swal.fire({
-                                     icon: 'error',
-                                     title: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
-                                     showConfirmButton: false,
-                                     timer: 1500
-                                 });
-                             }
-                         },
-                         error: function(xhr, status, error) {
-                             Swal.fire({
-                                 icon: 'error',
-                                 title: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
-                                 showConfirmButton: false,
-                                 timer: 1500
                              });
+                         } else {
+                             selectElement.val(oldValue);
                          }
                      });
                  });
              }
          });
+
 
 
          $('#status').on('change', function() {

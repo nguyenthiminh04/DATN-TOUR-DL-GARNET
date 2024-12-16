@@ -56,7 +56,7 @@ class SendPaymentEmailController extends Controller
 
         // Gửi email
         try {
-            Mail::to($payment->user->email)->send(new BookingSuccess($emailData, $pdfData));
+            Mail::to($payment->user->email)->queue(new BookingSuccess($emailData, $pdfData));
         } catch (\Exception $e) {
             Log::error('Failed to send email: ' . $e->getMessage());
             return response()->json(['message' => 'Failed to send email'], 500);

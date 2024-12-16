@@ -154,12 +154,26 @@
                     <!-- card -->
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1"></h4>
-                            <div class="flex-shrink-0">
-                                <button type="button" class="btn btn-subtle-primary btn-sm">
-                                    Export Report
-                                </button>
-                            </div>
+                            <form class="d-flex">
+                                @csrf
+                                <div class="card-title mb-0 flex-grow-1">
+                                    <p>Từ ngày: <input type="text" id="datepicker" class="form-control"></p>
+                                </div>
+                                <div class="card-title mb-0 flex-grow-1">
+                                    <p>Đến ngày: <input type="text" id="datepicker2" class="form-control"></p>
+                                </div>
+                                <div class="card-title mb-0 flex-grow-1">
+                                    <input type="button" id="btn-dashboard-filter" class="btn btn-primary"
+                                        value="Lọc">
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <select name="" id="">
+                                        <option value="7ngayTruoc">7 ngày trước</option>
+                                        <option value="2023">2023</option>
+                                    </select>
+                                </div>
+                            </form>
+
                         </div><!-- end card header -->
 
                         <!-- card body -->
@@ -168,7 +182,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     {{-- chart --}}
-                                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                    {{-- <div id="chartContainer" style="height: 370px; width: 100%;"></div>
                                     <script>
                                         window.onload = function() {
                                             var chart = new CanvasJS.Chart("chartContainer", {
@@ -185,15 +199,22 @@
                                                     type: "bar",
                                                     yValueFormatString: "#,### lượt",
                                                     // showInLegend: true, 
-                                                    legendText: "{label}",
+                                                    legendText: "1,2,3",
                                                     indexLabel: "",
-                                                    dataPoints: @json($chartData)
+                                                    dataPoints: [
+                                                        { label: "Tour 1", y: 10 },
+                                                        { label: "Tour 2", y: 15 },
+                                                        { label: "Tour 3", y: 20 },
+                                                        { label: "Tour 4", y: 25 },
+                                                        { label: "Tour 5", y: 30 },
+                                                    ],
                                                 }]
                                             });
                                             chart.render();
                                         }
-                                    </script>
+                                    </script> --}}
                                     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+                                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
                                 </div>
                             </div>
                         </div>
@@ -242,7 +263,7 @@
                     <div class="card card-height-100">
                         <div class="card-header d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Top 5 Tours hot</h4>
-                            <a href="#!" class="text-muted">View All <i class="ph-caret-right align-middle"></i></a>
+                            {{-- <a href="#!" class="text-muted">View All <i class="ph-caret-right align-middle"></i></a> --}}
                         </div>
                         <div class="card-body px-0">
                             <div data-simplebar class="px-3" style="max-height: 360px;">
@@ -308,29 +329,30 @@
                                                         {{ ++$paymentsOrderTodayk }}
                                                     </td>
                                                     <td class="order_id">
-                                                        <a href=""
-                                                            class="fw-medium link-primary">
+                                                        <a href="" class="fw-medium link-primary">
                                                             {{ $paymentsOrderTodays->booking->tour->name }}
                                                         </a>
                                                     </td>
                                                     <td class="shop">
-                                                        {{ $paymentsOrderTodays->user->name ?? 'Ẩn Danh' }} 
+                                                        {{ $paymentsOrderTodays->user->name ?? 'Ẩn Danh' }}
                                                     </td>
                                                     <td class="amount">
                                                         {{ $paymentsOrderTodays->paymentMethod->name }}
                                                     </td>
                                                     <td class="amount">
                                                         <span class="fw-medium">
-                                                            {{ number_format($paymentsOrderTodays->money, 0, '', '.') }} VND
+                                                            {{ number_format($paymentsOrderTodays->money, 0, '', '.') }}
+                                                            VND
                                                         </span>
                                                     </td>
                                                     <td class="status">
                                                         @if ($paymentsOrderTodays->payment_status_id == 2)
-                                                            <span class="badge bg-success-subtle text-success">{{ $paymentsOrderTodays->paymentStatus->name }}</span>
+                                                            <span
+                                                                class="badge bg-success-subtle text-success">{{ $paymentsOrderTodays->paymentStatus->name }}</span>
                                                         @else
-                                                            <span class="badge bg-danger-subtle text-danger">{{ $paymentsOrderTodays->paymentStatus->name }}</span>
+                                                            <span class="badge bg-danger-subtle text-danger">{{ $paymentsOrderTodays->paymentStatus->name ?? 'Ẩn Danh' }}</span>
                                                         @endif
-                                                        
+
                                                     </td>
                                                 </tr><!-- end tr -->
                                             @endforeach
@@ -406,8 +428,7 @@
                                                     {{ ++$reviewk }}
                                                 </td>
                                                 <td class="order_id">
-                                                    <span 
-                                                        class="fw-medium link-primary">{{ $review->name }}</span>
+                                                    <span class="fw-medium link-primary">{{ $review->name }}</span>
                                                 </td>
                                                 <td class="shop">
                                                     {{ $review->view ? $review->view : 'Chưa có view' }}
@@ -523,32 +544,113 @@
     </div>
 @endsection
 @section('script')
-<script>
-    $(document).ready(function() {
-        const defaultYear = 2024;
-        $('#ChangeYear').val(defaultYear);
-        $.ajax({
-            url: '{{ route('admin.dashboard.data') }}',
-            method: 'GET',
-            data: {
-                year: defaultYear
-            },
-            success: function(response) {
-                console.log(response);
-                salesChart.data.datasets[0].data = response.dataChart;
-                salesChart.update();
-            },
-            error: function() {
-                alert('Không thể tải dữ liệu. Vui lòng thử lại.');
-            }
+    <script>
+        $(function() {
+            $("#datepicker").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            $("#datepicker2").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
         });
-        $('#ChangeYear').change(function() {
-            const year = $(this).val();
+
+        function renderChart(dataPoints) {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "Top 5 Tour  đặt nhiều nhất"
+                },
+                axisY: {
+                    title: "Tổng tiền",
+                    includeZero: true
+                },
+                data: [{
+                    type: "bar",
+                    yValueFormatString: "###,##0 VND",
+                    indexLabel: "{y}",
+                    indexLabelPlacement: "inside",
+                    indexLabelFontWeight: "bolder",
+                    indexLabelFontColor: "white",
+                    dataPoints: dataPoints
+                }]
+            });
+            chart.render();
+        }
+
+        $('#btn-dashboard-filter').click(function() {
+            var _token = $('input[name="_token"]').val();
+            var from_date = $('#datepicker').val();
+            var to_date = $('#datepicker2').val();
+            // alert(from_date);
+            // alert(to_date);
+            $.ajax({
+                url: "{{ url('/admin/home/dashboard-date') }}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    from_date: $('#datepicker').val(),
+                    to_date: $('#datepicker2').val(),
+                    _token: $('input[name="_token"]').val()
+                },
+                success: function(data) {
+                    // var dataPoints = data.map(function(item) {
+                    //     return {
+                    //         y: item.money / 1000,
+                    //         label: item.date
+                    //     };
+                    
+                    var dataPoints = data.map(function(item) {
+                        return {
+                            y: parseFloat(item.money) ,
+                            label: `${item.tour_name} (${item.soLuongDon} đơn)`
+                        };
+                    });
+                    console.log(dataPoints)
+                    renderChart(dataPoints);
+                    console.log("Data loaded successfully.");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+
+
+            });
+            console.log(data)
+
+        });
+
+        $('#dashboard-filter').change(function() {
+            var dashboard_value = $(this).val();
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url: "{{ route('dashboard.filterByBtn') }}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    dashboard_value: dashboard_value,
+                    _token: _token
+                },
+                success: function(data) {
+                    chart.setData(data);
+                    console.log("Data loaded successfully.");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    console.log("Response:", xhr.responseText);
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            const defaultYear = 2024;
+            $('#ChangeYear').val(defaultYear);
             $.ajax({
                 url: '{{ route('admin.dashboard.data') }}',
                 method: 'GET',
                 data: {
-                    year: year
+                    year: defaultYear
                 },
                 success: function(response) {
                     console.log(response);
@@ -559,80 +661,103 @@
                     alert('Không thể tải dữ liệu. Vui lòng thử lại.');
                 }
             });
-        });
-        var ticksStyle = {
-            fontColor: '#495057',
-            fontStyle: 'bold'
-        };
-
-        var mode = 'index';
-        var intersect = true;
-
-        var $salesChart = $('#myChart');
-        var salesChart = new Chart($salesChart, {
-            type: 'bar',
-            data: {
-                labels: ['THÁNG 1', 'THÁNG 2', 'THÁNG 3', 'THÁNG 4', 'THÁNG 5', 'THÁNG 6', 'THÁNG 7',
-                    'THÁNG 8', 'THÁNG 9', 'THÁNG 10', 'THÁNG 11', 'THÁNG 12'
-                ],
-                datasets: [{
-                    backgroundColor: '#007bff',
-                    borderColor: '#007bff',
-                    data: []
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                tooltips: {
-                    mode: mode,
-                    intersect: intersect
-                },
-                hover: {
-                    mode: mode,
-                    intersect: intersect
-                },
-                legend: {
-                    display: false
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        suggestedMax: 200,
-                        grid: {
-                            display: true,
-                            drawBorder: false,
-                            color: 'rgba(0, 0, 0, .2)',
-                            zeroLineColor: 'transparent',
-                            borderWidth: 1
-                        },
-                        ticks: $.extend({
-                            callback: function(value) {
-                                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
-                            }
-                        }, ticksStyle)
+            $('#ChangeYear').change(function() {
+                const year = $(this).val();
+                $.ajax({
+                    url: '{{ route('admin.dashboard.data') }}',
+                    method: 'GET',
+                    data: {
+                        year: year
                     },
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: ticksStyle
+                    success: function(response) {
+                        console.log(response);
+                        salesChart.data.datasets[0].data = response.dataChart;
+                        salesChart.update();
+                    },
+                    error: function() {
+                        alert('Không thể tải dữ liệu. Vui lòng thử lại.');
                     }
+                });
+            });
+            var ticksStyle = {
+                fontColor: '#495057',
+                fontStyle: 'bold'
+            };
+
+            var mode = 'index';
+            var intersect = true;
+
+            var $salesChart = $('#myChart');
+            var salesChart = new Chart($salesChart, {
+                type: 'bar',
+                data: {
+                    labels: ['THÁNG 1', 'THÁNG 2', 'THÁNG 3', 'THÁNG 4', 'THÁNG 5', 'THÁNG 6', 'THÁNG 7',
+                        'THÁNG 8', 'THÁNG 9', 'THÁNG 10', 'THÁNG 11', 'THÁNG 12'
+                    ],
+                    datasets: [{
+                        backgroundColor: '#007bff',
+                        borderColor: '#007bff',
+                        data: []
+                    }]
                 },
-                plugins: {
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'top',
-                        font: {
-                            weight: 'bold',
-                            size: 12
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    hover: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 200,
+                            grid: {
+                                display: true,
+                                drawBorder: false,
+                                color: 'rgba(0, 0, 0, .2)',
+                                zeroLineColor: 'transparent',
+                                borderWidth: 1
+                            },
+                            ticks: $.extend({
+                                callback: function(value) {
+                                    return new Intl.NumberFormat('vi-VN', {
+                                        style: 'currency',
+                                        currency: 'VND'
+                                    }).format(value);
+                                }
+                            }, ticksStyle)
                         },
-                        formatter: function(value) {
-                            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: ticksStyle
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            font: {
+                                weight: 'bold',
+                                size: 12
+                            },
+                            formatter: function(value) {
+                                return new Intl.NumberFormat('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND'
+                                }).format(value);
+                            }
                         }
                     }
                 }
-            }
+            });
         });
-    });
-</script>
+    </script>
 @endsection

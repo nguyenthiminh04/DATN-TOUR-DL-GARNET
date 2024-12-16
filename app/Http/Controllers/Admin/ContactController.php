@@ -3,68 +3,57 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Advisory;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class AdvisoryController extends Controller
+class ContactController extends Controller
 {
     public function index(Request $request)
     {
-        $data['title'] = "Tư Vấn Liên Hệ";
-        $status = $request->get('status');
-        $searchQuery = $request->get('search');
+        $data['title'] = "Danh Sách Liên Hệ";
+        $query = Contact::query();
 
-        $query = Advisory::query();
-
-        if ($status !== null) {
-            $query->where('advisories.status', $status);
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
         }
 
-        if ($searchQuery !== null && $searchQuery !== '') {
-            $query->where(function ($q) use ($searchQuery) {
-                $q->where('advisories.name', 'like', '%' . $searchQuery . '%')
-                    ->orWhere('advisories.phone_number', 'like', '%' . $searchQuery . '%')
-                    ->orWhere('advisories.email', 'like', '%' . $searchQuery . '%')
-                    ->orWhere('tours.name', 'like', '%' . $searchQuery . '%');
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('subject', 'like', '%' . $search . '%');
             });
         }
 
-        $query->join('tours', 'tours.id', '=', 'advisories.tour_id')
-            ->select('advisories.*', 'tours.name as tour_name');
-
-        $data['advisory'] = $query->get();
-
+        $data['contact'] = $query->get();
 
         if ($request->ajax()) {
             return response()->json([
-                'data' => $data['advisory']
+                'data' => $data['contact']
             ]);
         }
 
-        return view('admin.advisory.index', $data);
+        return view('admin.contact.index', $data);
     }
 
-
-
-    public function advisoryStatus(Request $request, $id)
+    public function contactStatus(Request $request, $id)
     {
-       
-
         try {
-            $advisory = Advisory::findOrFail($id);
+            $contact = Contact::findOrFail($id);
 
             $notAllowedStatus = ['Đã hoàn tất', 'Hủy bỏ'];
 
-            if ($advisory->status !== 'Đang chờ xử lý' && $request->status === 'Đang chờ xử lý') {
+            if ($contact->status !== 'Đang chờ xử lý' && $request->status === 'Đang chờ xử lý') {
                 return response()->json([
                     'success' => false,
                     'message' => 'Không thể quay lại trạng thái "Đang chờ xử lý"!',
                 ]);
             }
 
-            $advisory->status = $request->status;
-            $advisory->save();
+            $contact->status = $request->status;
+            $contact->save();
 
             return response()->json([
                 'success' => true,
@@ -79,15 +68,15 @@ class AdvisoryController extends Controller
     }
 
 
+
+
     public function destroy(string $id)
     {
         try {
 
-            $advisory = Advisory::findOrFail($id);
-
-            $advisory->deleted_at = now();
-            $advisory->save();
-
+            $contact = Contact::findOrFail($id);
+            $contact->deleted_at = now();
+            $contact->save();
 
             return response()->json([
                 'success' => true,
@@ -96,8 +85,6 @@ class AdvisoryController extends Controller
         } catch (\Exception $e) {
 
             Log::error('Lỗi khi xóa : ' . $e->getMessage());
-
-
             return response()->json([
                 'success' => false,
                 'message' => 'Có lỗi xảy ra, vui lòng thử lại sau.',
