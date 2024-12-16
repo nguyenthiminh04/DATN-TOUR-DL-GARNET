@@ -8,6 +8,7 @@ use App\Models\Admins\Location;
 use App\Http\Controllers\Controller;
 use App\Models\Admins\Category;
 use App\Models\Admins\CategoryTour;
+use App\Models\Admins\Article;
 // use App\Models\Admins\Categoty_tour;
 use App\Models\Comment;
 use App\Models\Coupon;
@@ -56,6 +57,9 @@ class HomeController extends Controller
             ->take(5)
             ->get();
 
+            $article = Article::where('status', 1) 
+                           ->get();
+
         // // Lấy thông báo
         // $notifications = collect(); // Tạo một collection rỗng mặc định
         // $unreadNotifications = collect(); // Thông báo chưa đọc
@@ -82,7 +86,7 @@ class HomeController extends Controller
         // }
 
 
-        return view('client.home', compact('listtour', 'Tourmoinhat', 'locations', 'categories', 'categoryes'));
+        return view('client.home', compact('listtour', 'Tourmoinhat', 'locations', 'categories', 'categoryes', 'article'));
     }
     public function show($id)
     {

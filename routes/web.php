@@ -180,6 +180,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('article', ArticleController::class);
         Route::resource('notifications', NotificationController::class);
         Route::resource('categorytour', CategoryTour::class);
+        Route::resource('trangthaitour', PayController::class);
+        Route::get('/quanlytour/{id}', [PayController::class, 'show']);
+        // Route::get('/admin/quanlytour/{id}', [PayController::class, 'show'])->name('admin.quanlytour.details');
+
         // Route::post('/payment-tour/{id}/thanh-toan', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
 
         Route::resource('tour', TourController::class);
@@ -241,6 +245,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('payment-tour', [PayController::class, 'store'])->name('payment_tour.store');
         Route::post('/trangthaitour/updateThanhToan/{id}', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
         Route::post('/trangthaitour/update/{id}', [PayController::class, 'update'])->name('trangthaitour.update');
+        Route::get('/pay/{id}', [PayController::class, 'show'])->name('admins.pay.show');
 
         Route::get('contact',                              [AdminContactController::class, 'index'])->name('admin.contact.index');
         Route::post('contact/status/{id}',                 [AdminContactController::class, 'contactStatus'])->name('contact.contactStatus');

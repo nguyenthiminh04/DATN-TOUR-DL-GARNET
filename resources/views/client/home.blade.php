@@ -261,6 +261,112 @@
             border-radius: 50%;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
+
+        .tour-guide {
+            width: 100%;
+            margin-top: 50px;
+        }
+
+
+        .tour-guide-featured {
+            width: auto;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .tour-guide-featured img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .tour-guide-description {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #fff;
+            background: rgba(12, 12, 12, 0.151);
+            padding: 15px;
+            border-radius: 8px;
+            width: 80%;
+        }
+
+        .tour-guide-description h3 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .tour-guide-description p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+      
+.tour-guide-small-articles {
+    display: flex;
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+.tour-guide-small-item {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px; 
+    padding: 10px;
+    background-color: #fff; 
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.tour-guide-small-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.small-post-image {
+    width: 100px !important; /* Độ rộng cố định cho ảnh */
+    height: 70px !important; /* Chiều cao cố định */
+    object-fit: cover !important; /* Đảm bảo ảnh giữ tỷ lệ và cắt phần dư */
+    border-radius: 5px !important; /* Bo góc ảnh */
+}
+
+
+.tour-guide-small-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+}
+
+
+.tour-guide-small-description h4 {
+    margin: 0 0 5px; 
+    font-size: 14px; 
+    font-weight: bold;
+}
+
+.tour-guide-small-description h4 a {
+    color: #333; 
+    text-decoration: none;
+}
+
+.tour-guide-small-description h4 a:hover {
+    color: #007bff; 
+}
+
+.tour-guide-small-description p {
+    margin: 0 0 5px;
+    font-size: 12px; 
+    color: #555;
+}
+
+.tour-guide-small-description span {
+    font-size: 11px;
+    color: #888;
+}
+
+
     </style>
 </head>
 
@@ -330,7 +436,6 @@
                                         Đăng ký
                                     </a>
                                 </li>
-
                             @endif
                         </ul>
                     </div>
@@ -770,7 +875,7 @@
     <section class="awe-section-7">
 
         <section class="section-news margin-bottom-20">
-            <div class="container">
+            <div class="container" style="width: 90%">
                 <div class="blogs-content">
                     <div class="row">
                         <div class="col-md-12">
@@ -781,301 +886,54 @@
                                     <div class="tl-2"></div>
                                     <div class="tl-3"></div>
                                 </div>
-                                <p>Cẩm nang thông tin về du lịch, văn hóa, ẩm thực, các sự kiện và lễ hội tại các điểm
-                                    đến Việt nam, Đông Nam Á và Thế Giới.</p>
+
                             </div>
-                        </div>
-                    </div>
-                    <div class="news_hot_left">
-                        <div class="row">
-                            <div class="news_owl col-lg-6 col-md-6 col-sm-6 col-xs-12 cam-nang-du-lich">
-
-                                <div class="item_blog_big">
-                                    <div class="figure-big">
-
-                                        <div class="img_thumb_blogs">
-                                            <a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html"
-                                                class="big_img_h">
-                                                <picture>
-                                                    <source media="(max-width: 480px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
-                                                    <source media="(min-width: 481px) and (max-width: 767px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
-                                                    <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
-                                                    <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
-                                                    <source media="(min-width: 1200px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/grande/100/299/077/articles/chua-huong.jpg?v=1520693664270">
-                                                    <img src="client/bizweb.dktcdn.net/100/299/077/articles/chua-huong9e3f.jpg?v=1520693664270"
-                                                        title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương"
-                                                        alt="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương"
-                                                        class="img-responsive center-block" />
-                                                </picture>
+                            <div class="col-md-8">
+                                <div class="tour-guide-featured">
+                                    <a href="{{ route('service.show', $article[0]->id) }}">
+                                        <img src="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}"
+                                            alt="{{ $article[0]->title }}" class="img-fluid">
+                                    </a>
+                                    <div class="tour-guide-description">
+                                        <h3><a
+                                                href="{{ route('service.show', $article[0]->id) }}">{{ $article[0]->title }}</a>
+                                        </h3>
+                                        <p>{{ \Illuminate\Support\Str::limit($article[0]->description, 200) }}</p>
+                                    </div>
+                                </div>
+                            </div>
+    
+    
+                            <div class="col-md-4">
+                                <div class="tour-guide-small-articles">
+                                    @foreach ($article->skip(1) as $articles)
+                                        <div class="tour-guide-small-item">
+                                            <a href="{{ route('service.show', $articles->id) }}">
+                                                <img src="{{ $articles->img_thumb ? asset('storage/' . $articles->img_thumb) : asset('path/to/default-image.jpg') }}"
+                                                    alt="{{ $articles->title }}"  class="small-post-image">
                                             </a>
-                                        </div>
-                                        <div class="content_item_blogs">
-                                            <div class="blog_home_title margin-top-10 margin-bottom-10">
-                                                <h3 class="news_home_content_short_info">
-                                                    <a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html"
-                                                        title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương">Xiêu
-                                                        lòng với những cảnh đẹp nên thơ ở chùa Hương</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-                                                Vậy ở&nbsp;chùa Hương&nbsp;có gì thú vị mà lại thu hút nhiều du khách
-                                                trong lẫn ngoài nước đến như vậy, chúng ta hãy cùng tìm hiểu xem nhé.
-                                                Chùa Hương&nbsp;hay tên gọi đầy đủ là chùa Hương Sơn, là một quần thể di
-                                                tích thắng cảnh với rất nhiều ngôi chùa, đền, đình, bao quanh là non
-                                                nước hùng vĩ và hoang sơ.
-                                                Cảnh vật ở nơi đây nên thơ đến lạ,...
-                                            </div>
-                                            <div class="content_day_blog margin-bottom-10">
-                                                <i class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(5) Bình luận
-                                                </span>
+                                            <div class="tour-guide-small-description">
+                                                <h4><a
+                                                        href="{{ route('service.show', $articles->id) }}">{{ $articles->title }}</a>
+                                                </h4>
+                                                <p>{{$articles->description}}</p>
+                                                <span>{{ $articles->created_at->format('d/m/Y') }}</span>
                                             </div>
                                         </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="content-blog-index col-lg-6 col-md-6 col-sm-6 col-xs-12">
-
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='trang-an-co-diem-den-dang-hot-o-ninh-binh.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437"
-                                                                title="Tràng An cổ – điểm đến đang hot ở Ninh Bình"
-                                                                alt="Tràng An cổ – điểm đến đang hot ở Ninh Bình">
-                                                        </picture>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html"
-                                                        title="Tràng An cổ – điểm đến đang hot ở Ninh Bình">Tràng An
-                                                        cổ
-                                                        – điểm đến đang hot ở Ninh Bình</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-
-                                                Ở Tràng An có hai địa danh là Tràng An và Tràng An cổ. Trong đó, Tràng
-                                                An, nơi thu hút hàng nghìn lượt khá...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(1) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='mua-hoa-phan-phu-hong-troi-bao-loc.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a href="mua-hoa-phan-phu-hong-troi-bao-loc.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973"
-                                                                title="Mùa hoa phấn phủ hồng trời Bảo Lộc"
-                                                                alt="Mùa hoa phấn phủ hồng trời Bảo Lộc">
-                                                        </picture>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="mua-hoa-phan-phu-hong-troi-bao-loc.html"
-                                                        title="Mùa hoa phấn phủ hồng trời Bảo Lộc">Mùa hoa phấn phủ
-                                                        hồng
-                                                        trời Bảo Lộc</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-
-                                                Hoa phấn hồng còn được nhiều người gọi là hoa kèn hồng. Đây là loại cây
-                                                thân gỗ, chiều cao trung bình 10 ...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(0) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a
-                                                        href="ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/dalat-158d7.jpg?v=1520693176427"
-                                                                title="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!"
-                                                                alt="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!">
-                                                        </picture>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html"
-                                                        title="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!">Ai
-                                                        bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này
-                                                        vẫn có cả rổ ảnh thần thái!</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-                                                Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn
-                                                có cả rổ ảnh thần thái!
-                                                Mỗi khi ng...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(1) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='net-binh-di-viet-nam-qua-anh-cua-tay-may-ha-lan.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a href="net-binh-di-viet-nam-qua-anh-cua-tay-may-ha-lan.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693"
-                                                                title="Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan"
-                                                                alt="Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan">
-                                                        </picture>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="net-binh-di-viet-nam-qua-anh-cua-tay-may-ha-lan.html"
-                                                        title="Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan">Nét
-                                                        bình
-                                                        dị Việt Nam qua ảnh của tay máy Hà Lan</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-                                                Những hình ảnh này được giới thiệu trong mục Du lịch Instagram snapshots
-                                                ngày 28-2 của báo Anh Guardian.
-                                                A...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(0) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
+
+                   
+
                     </div>
+
+
                 </div>
+
             </div>
+
         </section>
     </section>
 
