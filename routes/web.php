@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 
 /*
@@ -246,5 +247,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('contact',                              [AdminContactController::class, 'index'])->name('admin.contact.index');
         Route::post('contact/status/{id}',                 [AdminContactController::class, 'contactStatus'])->name('contact.contactStatus');
         Route::delete('contact/delete/{id}',               [AdminContactController::class, 'destroy'])->name('contact.delete');
+
+        //logs tour
+        Route::get('/change-logs', [ChangeLogController::class, 'index'])->name('change-logs.index');
+        // end logs
+        
     });
 });

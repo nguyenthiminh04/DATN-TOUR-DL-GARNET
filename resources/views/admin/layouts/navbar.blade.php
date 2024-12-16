@@ -227,33 +227,21 @@
                         </ul>
                     </div>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link menu-link collapsed" href="#permissions" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="permissions">
-                        <i class="ph ph-notification"></i> <span data-key="t-layouts">Quyền</span>
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#logs" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="logs">
+                        <i class="ph ph-notification"></i> <span data-key="t-layouts">Logs</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="permissions">
+                    <div class="collapse menu-dropdown" id="logs">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('permissions.index') }}" class="nav-link">
-                                    Danh sách quyền</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('permissions.create') }}" class="nav-link">
-                                    Thêm mới quyền</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('permission-user.create') }}" class="nav-link">
-                                    Gán quyền</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('permission-user.index') }}" class="nav-link">
-                                    Quyền đã gán</a>
+                                <a href="{{ route('change-logs.index') }}" class="nav-link">
+                                    Danh sách logs tour</a>
                             </li>
 
                         </ul>
                     </div>
-                </li> --}}
+                </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#user" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="user">
