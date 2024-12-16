@@ -796,13 +796,15 @@
                     <div class="col-md-5">
                         <div class="video-wrappers padding-top padding-bottom">
                             <div class="video-wrapper-title">
-                                {{-- <h5 class="sub-title">{{$listarticle->description}}</h5> --}}
-                                <h2 class="title">{{$listarticle->title}}</h2>
-                                <div class="text">{!! $listarticle->description !!}
-
+                                <h5 class="sub-title">Trải nghiệm sắc xuân thế giới</h5>
+                                <h2 class="title">LỄ HỘI HOA 5 CHÂU</h2>
+                                <div class="text">Thưởng ngoạn hoa anh đào trên đảo Jeju và thủ đô Seoul nơi xứ sở
+                                    Kim
+                                    Chi - Hàn Quốc. Khám phá thủ đô Seoul sầm uất, thưởng thức show diễn nghệ thuật
+                                    Painters Hero vẽ tranh độc đáo trên nền nhạc sôi động kết hợp các điệu nhảy vui nhộn
                                 </div>
                             </div>
-                            <a href="{{ route('service.show', $listarticle->id) }}" class="btn-maincolor">Xem thêm</a>
+                            <a href="blogs/all.html" class="btn-maincolor">Xem thêm</a>
                         </div>
                     </div>
                     <div class="col-md-7">
@@ -884,130 +886,56 @@
                                     <div class="tl-2"></div>
                                     <div class="tl-3"></div>
                                 </div>
-                                <p>Cẩm nang thông tin về du lịch, văn hóa, ẩm thực, các sự kiện và lễ hội tại các điểm
-                                    đến Việt nam, Đông Nam Á và Thế Giới.</p>
+
                             </div>
-                        </div>
-                    </div>
-                    <div class="news_hot_left">
-                        <div class="row">
-                            <div class="news_owl col-lg-6 col-md-6 col-sm-6 col-xs-12 cam-nang-du-lich">
 
-                                <div class="item_blog_big">
-                                    <div class="figure-big">
-
-                                        <div class="img_thumb_blogs">
-                                            <a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html"
-                                                class="big_img_h">
-                                                <picture>
-                                                    <source media="(max-width: 480px)"
-                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
-                                                    <source media="(min-width: 481px) and (max-width: 767px)"
-                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
-                                                    <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
-                                                    <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
-                                                    <source media="(min-width: 1200px)"
-                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
-                                                    <img src="{{ Storage::url($listarticle->img_thumb) }}"
-                                                        title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương"
-                                                        alt="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương"
-                                                        class="img-responsive center-block" />
-                                                </picture>
+                            <div class="col-md-8">
+                                <div class="tour-guide-featured">
+                                    <a href="{{ route('service.show', $article[0]->id) }}">
+                                        <img src="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}"
+                                            alt="{{ $article[0]->title }}" class="img-fluid">
+                                    </a>
+                                    <div class="tour-guide-description">
+                                        <h3><a
+                                                href="{{ route('service.show', $article[0]->id) }}">{{ $article[0]->title }}</a>
+                                        </h3>
+                                        <p>{{ \Illuminate\Support\Str::limit($article[0]->description, 200) }}</p>
+                                    </div>
+                                </div>
+                            </div>
+    
+    
+                            <div class="col-md-4">
+                                <div class="tour-guide-small-articles">
+                                    @foreach ($article->skip(1) as $articles)
+                                        <div class="tour-guide-small-item">
+                                            <a href="{{ route('service.show', $articles->id) }}">
+                                                <img src="{{ $articles->img_thumb ? asset('storage/' . $articles->img_thumb) : asset('path/to/default-image.jpg') }}"
+                                                    alt="{{ $articles->title }}"  class="small-post-image">
                                             </a>
-                                        </div>
-                                        <div class="content_item_blogs">
-                                            <div class="blog_home_title margin-top-10 margin-bottom-10">
-                                                <h3 class="news_home_content_short_info">
-                                                    <a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html"
-                                                        title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương">{{$listarticle->title}}</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-                                                Vậy ở&nbsp;chùa Hương&nbsp;có gì thú vị mà lại thu hút nhiều du khách
-                                                trong lẫn ngoài nước đến như vậy, chúng ta hãy cùng tìm hiểu xem nhé.
-                                                Chùa Hương&nbsp;hay tên gọi đầy đủ là chùa Hương Sơn, là một quần thể di
-                                                tích thắng cảnh với rất nhiều ngôi chùa, đền, đình, bao quanh là non
-                                                nước hùng vĩ và hoang sơ.
-                                                Cảnh vật ở nơi đây nên thơ đến lạ,...
-                                            </div>
-                                            <div class="content_day_blog margin-bottom-10">
-                                                <i class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(5) Bình luận
-                                                </span>
+                                            <div class="tour-guide-small-description">
+                                                <h4><a
+                                                        href="{{ route('service.show', $articles->id) }}">{{ $articles->title }}</a>
+                                                </h4>
+                                                <p>{{$articles->description}}</p>
+                                                <span>{{ $articles->created_at->format('d/m/Y') }}</span>
                                             </div>
                                         </div>
+                                    @endforeach
 
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="content-blog-index col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                @foreach($listarticles as $article)
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='trang-an-co-diem-den-dang-hot-o-ninh-binh.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="{{ Storage::url($article->img_thumb) }}">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="{{ Storage::url($article->img_thumb) }}">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="{{ Storage::url($article->img_thumb) }}">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="{{ Storage::url($article->img_thumb) }}">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437"
-                                                                title="Tràng An cổ – điểm đến đang hot ở Ninh Bình"
-                                                                alt="Tràng An cổ – điểm đến đang hot ở Ninh Bình">
-                                                        </picture>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html"
-                                                        title="Tràng An cổ – điểm đến đang hot ở Ninh Bình">{{$article->title}}</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-
-                                                {{$article->description}}
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    {{$article->created_at}}
-                                                </span>
-                                                {{-- <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(1) Bình luận
-                                                </span> --}}
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                @endforeach
                                 
                             </div>
                         </div>
+
+                   
+
                     </div>
+
+
                 </div>
+
             </div>
+
         </section>
     </section>
 
