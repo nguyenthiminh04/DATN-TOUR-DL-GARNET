@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
 use App\Models\PaymentStatus;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class PayController extends Controller
 {
@@ -20,21 +21,12 @@ class PayController extends Controller
     {
         $title = "Danh sách Tour";
 
-       
+
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-        $status_id = $request->get('status_id');
-        $payment_method_id = $request->get('payment_method_id');
 
-      
+
         $query = Payment::query()->orderByDesc('id');
-
-        if ($status_id !== null) {
-            $query->where('payments.status_id', $status_id);
-        }
-        if ($payment_method_id !== null) {
-            $query->where('payments.payment_method_id', $payment_method_id);
-        }
 
         if ($startDate && $endDate) {
             $query->whereBetween('time', [$startDate, $endDate]);
@@ -50,7 +42,7 @@ class PayController extends Controller
         $trangThaiTour = Status::pluck('name', 'id')->toArray();
         $trangThaiThanhToan = PaymentStatus::pluck('name', 'id')->toArray();
         // dd($listTour, $trangThaiTour, $trangThaiThanhToan);
-    
+
         if ($request->ajax()) {
 
             return response()->json([
@@ -208,5 +200,45 @@ class PayController extends Controller
             'disabled' => $tour->payment_status_id == 2 ? true : false,
             'new_status' => $tour->payment_status_id
         ]);
+    }
+
+
+    public function filter(Request $request)
+    {
+        // Log::info('Filter endpoint hit');
+        // Log::info('Request Params: ', $request->all());
+
+        try {
+
+            $status_id = $request->get('status_id');
+            $payment_status_id = $request->get('payment_status_id');
+            $query = Payment::query();
+
+            if ($status_id !== null) {
+                $query->where('payments.status_id', $status_id);
+            }
+
+            if ($payment_status_id !== null) {
+                $query->where('payments.payment_status_id', $payment_status_id);
+            }
+
+            // $listTour = $query->paginate(10);
+            $listTour = $query->get();
+
+            $trangThaiTour = Status::pluck('name', 'id')->toArray();
+            $trangThaiThanhToan = PaymentStatus::pluck('name', 'id')->toArray();
+
+
+            $html = view('admin.quanlytour.tour_list', compact('listTour', 'trangThaiThanhToan', 'trangThaiTour'))->render();
+
+            return response()->json([
+                'html' => $html,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Filter error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Something went wrong!'
+            ], 500);
+        }
     }
 }
