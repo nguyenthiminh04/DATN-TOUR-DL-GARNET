@@ -57,7 +57,7 @@
 
                         <div class="col-auto">
                             <div class="d-flex justify-content-end">
-                                <select id="payment_method_id" name="payment_method_id" class="form-select"
+                                <select id="payment_status_id" name="payment_status_id" class="form-select"
                                     aria-label="Lọc theo trạng thái" style="margin-top: 20px">
                                     <option value="">Lọc thanh toán</option>
                                     <option value="1">Chưa thanh toán</option>
@@ -79,7 +79,6 @@
                                 </select>
                             </div>
                         </div>
-
 
                         <div class="col-auto">
                             <form action="{{ route('payment_tour.index') }}" method="GET">
@@ -127,7 +126,11 @@
                                         <tr>
                                             <td><a href="" class="text-reset">{{ $item->id }}</a></td>
                                             <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
-                                            <td>{{ $item->booking->tour->name }}</td>
+
+                                            <td>{{ $item->booking->tour->name  ?? 'Tour đã bị xóa' }}</td>
+
+                                            
+
                                             <td>{{ $item->booking->name }}</td>
                                             <td>
                                                 {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}
@@ -164,15 +167,12 @@
 
                                                 <ul class="d-flex gap-2 list-unstyled mb-0">
                                                     <li>
-                                                        <a class="btn btn-subtle-primary btn-icon btn-sm view-categorytour"
+                                                        <a class="btn btn-subtle-primary btn-icon btn-sm view-quanlytour"
                                                             data-id="{{ $item->id }}">
                                                             <i class="ph-eye"></i>
                                                         </a>
                                                     </li>
-                                                    <li>
-                                                        <a href="" class="btn btn-subtle-success btn-icon btn-sm">
-                                                            <i class="ri-edit-2-line"></i></a>
-                                                    </li>
+
                                                     <li>
                                                         <a href="#deleteRecordModal{{ $item->id }}"
                                                             data-bs-toggle="modal"
@@ -197,6 +197,7 @@
                             </div>
 
                         </div>
+
                         <div class="row align-items-center mt-4 pt-3" id="pagination-element"
                             style="width: 100%; overflow: hidden;">
                             <div class="col-sm">
@@ -247,6 +248,20 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="quanlytourDetailModal" tabindex="-1" aria-labelledby="quanlytourDetailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="quanlytourDetailModalLabel">Chi Tiết Đơn Đặt Tour</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="quanlytourDetailContent">
+
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('style')
     <!--datatable css-->
@@ -261,7 +276,6 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
     <script>
         $(document).ready(function() {
-
             function updateStatus(url, data, selectElement, defaultValue) {
                 $.ajax({
                     url: url,
@@ -283,8 +297,8 @@
 
                             if (response.new_status == 6) {
                                 selectElement.prop('disabled', true);
-                                selectElement.closest('form').find('button[type="submit"]').prop(
-                                    'disabled', true);
+                                selectElement.closest('form').find('button[type="submit"]')
+                                    .prop('disabled', true);
                             }
                         } else {
                             Swal.fire(
@@ -292,7 +306,6 @@
                                 response.message,
                                 'error'
                             );
-
                             selectElement.val(defaultValue);
                         }
                     },
@@ -307,7 +320,12 @@
                     }
                 });
             }
-            $('.payment-status-select').on('change', function() {
+
+
+            var isSearchingOrFiltering = $('#status_id').length > 0 || $('#payment_status_id').length > 0;
+
+
+            $(document).on('change', '.payment-status-select', function() {
                 var selectElement = $(this);
                 var tourId = selectElement.data('id');
                 var paymentStatusId = selectElement.val();
@@ -330,13 +348,13 @@
                         var url = '/admin/trangthaitour/updateThanhToan/' + tourId;
                         updateStatus(url, data, selectElement, defaultPaymentStatusId);
                     } else {
-
                         selectElement.val(defaultPaymentStatusId);
                     }
                 });
             });
 
-            $('.status').on('change', function() {
+
+            $(document).on('change', '.status', function() {
                 var selectElement = $(this);
                 var tourId = selectElement.data('id');
                 var statusId = selectElement.val();
@@ -359,12 +377,58 @@
                         var url = '/admin/trangthaitour/update/' + tourId;
                         updateStatus(url, data, selectElement, defaultStatusId);
                     } else {
-
                         selectElement.val(defaultStatusId);
                     }
                 });
             });
+        });
 
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusFilter = document.getElementById('status_id');
+            const paymentFilter = document.getElementById('payment_status_id');
+            const tourTableBody = document.getElementById('tour-table-body');
+
+            function fetchFilteredTours() {
+                const statusId = statusFilter.value;
+                const paymentId = paymentFilter.value;
+
+
+
+                console.log('Status ID:', statusId);
+                console.log('Payment ID:', paymentId);
+
+                fetch(`{{ route('admin.quanlytour.filter') }}?status_id=${statusId}&payment_status_id=${paymentId}`, {
+
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                    })
+                    .then((response) => {
+
+                        // console.log('Response Status:', response.status);
+
+                        // console.log('Response Status:', response.status);
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+
+                        // console.log('Response Data:', data);
+
+                        // console.log('Response Data:', data);
+
+                        tourTableBody.innerHTML = data.html;
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            }
+
+            statusFilter.addEventListener('change', fetchFilteredTours);
+            paymentFilter.addEventListener('change', fetchFilteredTours);
         });
     </script>
     <script>
@@ -395,6 +459,7 @@
 @endsection
 @section('script')
     <script>
+
         $(document).ready(function() {
             // thêm faq
             $('#addCouponsForm').on('submit', function(e) {

@@ -82,11 +82,11 @@
                                                 </td>
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
-                                                        <li>
+                                                        {{-- <li>
                                                             <a href="apps-learning-overview.html"
                                                                 class="btn btn-subtle-primary btn-icon btn-sm "><i
                                                                     class="ph-eye"></i></a>
-                                                        </li>
+                                                        </li> --}}
                                                         <li>
                                                             <a href="{{ route('coupons.edit', $item->id) }}"
                                                                 class="btn btn-subtle-success btn-icon btn-sm">

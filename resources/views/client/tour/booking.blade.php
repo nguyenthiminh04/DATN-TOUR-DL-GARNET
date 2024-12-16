@@ -149,7 +149,7 @@
                 //document.getElementById("totalPriceDisplay").textContent = totalPrice.toLocaleString("vi-VN") + "₫";
 
                 //document.getElementById("totalPriceHidden").value = totalPrice;
-                
+
 
 
             } else {
@@ -159,7 +159,7 @@
 
 
             const coupons = <?php echo json_encode($coupons); ?>;
-            console.log("Coupons List:", coupons);
+            console.log("Danh sách:", coupons);
 
             const couponInput = document.getElementById('coupon');
             const totalPriceDisplay = document.getElementById('total-price-display');
@@ -177,10 +177,7 @@
 
                     // Duyệt qua mảng coupons và kiểm tra mã
                     const matchedCoupon = coupons.find(coupon =>
-                        coupon.code === enteredCode &&
-                        new Date(coupon.start_date) <= new Date() &&
-                        new Date(coupon.end_date) >= new Date()
-                    );
+                        coupon.code === enteredCode);
 
                     if (matchedCoupon) {
                         const discountedPrice = (originalPrice * (100 - matchedCoupon.percentage_price)) /
@@ -217,7 +214,8 @@
                         totalPriceHidden.value = originalPrice; // Đặt lại giá trị gốc
                     }
                 } else {
-                    console.warn("Danh sách mã giảm giá không hợp lệ.");
+                    couponMessage.textContent = "Tour này không có mã giảm!!!";
+                        couponMessage.style.color = "red";
                 }
             });
 

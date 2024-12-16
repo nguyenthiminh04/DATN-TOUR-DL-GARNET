@@ -128,9 +128,17 @@
     <script src="client/ant-du-lich.mysapo.net/dist/js/stats.minbadf.js"></script>
     <style>
         /* Hiển thị 1 sao đánh giá */
+        .rating {
+            display: flex;
+            /* Kích hoạt Flexbox */
+            justify-content: flex-end;
+            /* Căn tất cả sang bên phải */
+            align-items: center;
+            /* Căn giữa theo chiều dọc */
+        }
+
         .rating .star-filled {
             color: gold;
-            /* Màu sao vàng */
             font-size: 1.5rem;
         }
 
@@ -140,6 +148,7 @@
             margin-left: 5px;
             font-weight: bold;
         }
+
 
 
         .notification-popup {
@@ -261,6 +270,114 @@
             border-radius: 50%;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
+
+        .tour-guide {
+            width: 100%;
+            margin-top: 50px;
+        }
+
+
+        .tour-guide-featured {
+            width: auto;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .tour-guide-featured img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .tour-guide-description {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #fff;
+            background: rgba(12, 12, 12, 0.151);
+            padding: 15px;
+            border-radius: 8px;
+            width: 80%;
+        }
+
+        .tour-guide-description h3 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .tour-guide-description p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+
+        .tour-guide-small-articles {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tour-guide-small-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #fff;
+            transition: box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tour-guide-small-item:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .small-post-image {
+            width: 100px;
+            /* Độ rộng cố định cho ảnh */
+            height: 70px;
+            /* Chiều cao cố định */
+            object-fit: cover;
+            /* Đảm bảo ảnh giữ tỷ lệ và cắt phần dư */
+            border-radius: 5px;
+            /* Bo góc ảnh */
+        }
+
+
+        .tour-guide-small-description {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+
+        .tour-guide-small-description h4 {
+            margin: 0 0 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .tour-guide-small-description h4 a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .tour-guide-small-description h4 a:hover {
+            color: #007bff;
+        }
+
+        .tour-guide-small-description p {
+            margin: 0 0 5px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .tour-guide-small-description span {
+            font-size: 11px;
+            color: #888;
+        }
     </style>
 </head>
 
@@ -330,7 +447,6 @@
                                         Đăng ký
                                     </a>
                                 </li>
-
                             @endif
                         </ul>
                     </div>
@@ -505,9 +621,6 @@
                                                         VNĐ</span>
 
                                                 </div>
-
-
-
                                                 <div class="old-price">
                                                     <span class="price product-price-old">
                                                         {{ number_format($item->price_old, 0, '', '.') }}VNĐ
@@ -519,11 +632,18 @@
                                         <div class="box-tag">
                                             <ul class="ct_course_list">
                                                 <li>
+                                                    <div class="rating">
+                                                        <span class="star-filled">&#9733;</span>
+                                                        <span
+                                                            class="rating-number">{{ round($item->average_rating, 1) }}
+                                                            ({{ $item->rating_count }})
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                                <li>
                                                     <i class="fa fa-heart add-to-favorite"
                                                         data-id="{{ $item->id }}"></i>
                                                 </li>
-
-
                                             </ul>
                                         </div>
 
@@ -533,31 +653,25 @@
 
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
-                                                        src="https://img.icons8.com/?size=100&id=62290&format=png&color=000000"
+                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
                                                         alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành:
-                                                Từ Ngày <b>{{ $item->start_date }}</b> Đến Ngày
-                                                <b>{{ $item->end_date }}</b>
+                                                {{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') }}
+                                                tới
+                                                {{ \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}
                                             </li>
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
-                                                        src="https://img.icons8.com/?size=100&id=uqeIigsBdHt9&format=png&color=000000"
+                                                        src="https://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
                                                         alt="6 ngày 5 đêm" /></div> Thời gian:
-                                                <b>{{ $item->schedule }}</b>
+                                                {{ $item->schedule }}
                                             </li>
-                                            <li class="clearfix">
+                                            {{-- <li class="clearfix">
                                                 <div class="ulimg"><img
                                                         src="https://img.icons8.com/?size=100&id=102656&format=png&color=000000"
                                                         alt="6 ngày 5 đêm" /></div> Số chỗ còn trống :
-                                                <b>{{ $item->number }}</b> Chỗ
-                                            </li>
-                                            <li>
-                                                <div class="rating">
-                                                    <span class="star-filled">&#9733;</span>
-                                                    <span class="rating-number">{{ round($item->average_rating, 1) }}
-                                                        ({{ $item->rating_count }})
-                                                    </span>
-                                                </div>
-                                            </li>
+                                            {{ $item->number }}Chỗ
+                                            </li> --}}
+
                                         </ul>
                                     </div>
 
@@ -565,19 +679,8 @@
                             </div>
                         </div>
                     @endforeach
-
-
-
-
-
                 </div>
             </div>
-        </div>
-        </div>
-
-
-        </div>
-        </div>
         </div>
     </section>
 
@@ -646,6 +749,23 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="box-tag">
+                                                                <ul class="ct_course_list">
+                                                                    <li>
+                                                                        <div class="rating">
+                                                                            <span class="star-filled">&#9733;</span>
+                                                                            <span
+                                                                                class="rating-number">{{ round($item->average_rating, 1) }}
+                                                                                ({{ $item->rating_count }})
+                                                                            </span>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="fa fa-heart add-to-favorite"
+                                                                            data-id="{{ $item->id }}"></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                         <div class="box-date-tour">
                                                             <ul class="ct_course_list">
@@ -654,8 +774,10 @@
                                                                     <div class="ulimg"><img
                                                                             src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
                                                                             alt="Thứ 2 - 7 hằng tuần" /></div> Khởi
-                                                                    hành: {{ $tour->start_date }} -
-                                                                    {{ $item->end_date }}
+                                                                    hành:
+                                                                    {{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') }}
+                                                                    tới
+                                                                    {{ \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}
                                                                 </li>
                                                                 <li class="clearfix">
                                                                     <div class="ulimg"><img
@@ -679,11 +801,6 @@
             </div>
         </div>
     </section>
-
-
-
-
-
     <section class="awe-section-5">
         <div class="section_tour-holiday">
             <div class="container">
@@ -691,15 +808,14 @@
                     <div class="col-md-5">
                         <div class="video-wrappers padding-top padding-bottom">
                             <div class="video-wrapper-title">
-                                <h5 class="sub-title">Trải nghiệm sắc xuân thế giới</h5>
-                                <h2 class="title">LỄ HỘI HOA 5 CHÂU</h2>
-                                <div class="text">Thưởng ngoạn hoa anh đào trên đảo Jeju và thủ đô Seoul nơi xứ sở
-                                    Kim
-                                    Chi - Hàn Quốc. Khám phá thủ đô Seoul sầm uất, thưởng thức show diễn nghệ thuật
-                                    Painters Hero vẽ tranh độc đáo trên nền nhạc sôi động kết hợp các điệu nhảy vui nhộn
+                                {{-- <h5 class="sub-title">{{$listarticle->description}}</h5> --}}
+                                <h2 class="title">{{ $listarticle->title }}</h2>
+                                <div class="text">{!! $listarticle->description !!}
+
                                 </div>
                             </div>
-                            <a href="blogs/all.html" class="btn-maincolor">Xem thêm</a>
+                            <a href="{{ route('service.show', $listarticle->id) }}" class="btn-maincolor">Xem
+                                thêm</a>
                         </div>
                     </div>
                     <div class="col-md-7">
@@ -770,7 +886,7 @@
     <section class="awe-section-7">
 
         <section class="section-news margin-bottom-20">
-            <div class="container">
+            <div class="container" style="width: 90%">
                 <div class="blogs-content">
                     <div class="row">
                         <div class="col-md-12">
@@ -798,16 +914,16 @@
                                                 class="big_img_h">
                                                 <picture>
                                                     <source media="(max-width: 480px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
+                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
                                                     <source media="(min-width: 481px) and (max-width: 767px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
+                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
                                                     <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
+                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
                                                     <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
+                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
                                                     <source media="(min-width: 1200px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/grande/100/299/077/articles/chua-huong.jpg?v=1520693664270">
-                                                    <img src="client/bizweb.dktcdn.net/100/299/077/articles/chua-huong9e3f.jpg?v=1520693664270"
+                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
+                                                    <img src="{{ Storage::url($listarticle->img_thumb) }}"
                                                         title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương"
                                                         alt="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương"
                                                         class="img-responsive center-block" />
@@ -818,8 +934,7 @@
                                             <div class="blog_home_title margin-top-10 margin-bottom-10">
                                                 <h3 class="news_home_content_short_info">
                                                     <a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html"
-                                                        title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương">Xiêu
-                                                        lòng với những cảnh đẹp nên thơ ở chùa Hương</a>
+                                                        title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương">{{ $listarticle->title }}</a>
                                                 </h3>
                                             </div>
                                             <div class="content-sum">
@@ -846,231 +961,64 @@
 
                             </div>
                             <div class="content-blog-index col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                @foreach ($listarticles as $article)
+                                    <div class="xxx clearfix">
+                                        <div class="myblog"
+                                            onclick="window.location.href='trang-an-co-diem-den-dang-hot-o-ninh-binh.html';">
+                                            <div class="item_blog_big">
+                                                <div class="figure-big">
+                                                    <div class="image-blog-left img_thumb_blogs">
 
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='trang-an-co-diem-den-dang-hot-o-ninh-binh.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
+                                                        <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html">
+                                                            <picture>
+                                                                <source media="(max-width: 375px)"
+                                                                    srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
+                                                                <source
+                                                                    media="(min-width: 376px) and (max-width: 767px)"
+                                                                    srcset="{{ Storage::url($article->img_thumb) }}">
+                                                                <source media="(min-width: 1200px)"
+                                                                    srcset="{{ Storage::url($article->img_thumb) }}">
+                                                                <source
+                                                                    media="(min-width: 768px) and (max-width: 1023px)"
+                                                                    srcset="{{ Storage::url($article->img_thumb) }}">
+                                                                <source
+                                                                    media="(min-width: 1024px) and (max-width: 1199px)"
+                                                                    srcset="{{ Storage::url($article->img_thumb) }}">
+                                                                <img src="client/bizweb.dktcdn.net/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437"
+                                                                    title="Tràng An cổ – điểm đến đang hot ở Ninh Bình"
+                                                                    alt="Tràng An cổ – điểm đến đang hot ở Ninh Bình">
+                                                            </picture>
+                                                        </a>
 
-                                                    <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437"
-                                                                title="Tràng An cổ – điểm đến đang hot ở Ninh Bình"
-                                                                alt="Tràng An cổ – điểm đến đang hot ở Ninh Bình">
-                                                        </picture>
-                                                    </a>
-
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html"
-                                                        title="Tràng An cổ – điểm đến đang hot ở Ninh Bình">Tràng An
-                                                        cổ
-                                                        – điểm đến đang hot ở Ninh Bình</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
+                                            <div class="content-right-blog">
+                                                <div class="title_blog_home">
+                                                    <h3>
+                                                        <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html"
+                                                            title="Tràng An cổ – điểm đến đang hot ở Ninh Bình">{{ $article->title }}</a>
+                                                    </h3>
+                                                </div>
+                                                <div class="content-sum">
 
-                                                Ở Tràng An có hai địa danh là Tràng An và Tràng An cổ. Trong đó, Tràng
-                                                An, nơi thu hút hàng nghìn lượt khá...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
+                                                    {{ $article->description }}
+                                                </div>
+                                                <div class="content_day_blog"><i
+                                                        class="fa fa-clock-o"></i><span>Saturday,</span>
+                                                    <span class="news_home_content_short_time">
+                                                        {{ $article->created_at }}
+                                                    </span>
+                                                    {{-- <span class="cmt_count_blog">
                                                     <i class="fa fa-comments" aria-hidden="true"></i>(1) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='mua-hoa-phan-phu-hong-troi-bao-loc.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a href="mua-hoa-phan-phu-hong-troi-bao-loc.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973"
-                                                                title="Mùa hoa phấn phủ hồng trời Bảo Lộc"
-                                                                alt="Mùa hoa phấn phủ hồng trời Bảo Lộc">
-                                                        </picture>
-                                                    </a>
-
+                                                </span> --}}
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="mua-hoa-phan-phu-hong-troi-bao-loc.html"
-                                                        title="Mùa hoa phấn phủ hồng trời Bảo Lộc">Mùa hoa phấn phủ
-                                                        hồng
-                                                        trời Bảo Lộc</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
 
-                                                Hoa phấn hồng còn được nhiều người gọi là hoa kèn hồng. Đây là loại cây
-                                                thân gỗ, chiều cao trung bình 10 ...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(0) Bình luận
-                                                </span>
-                                            </div>
                                         </div>
-
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a
-                                                        href="ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/dalat-158d7.jpg?v=1520693176427"
-                                                                title="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!"
-                                                                alt="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!">
-                                                        </picture>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html"
-                                                        title="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!">Ai
-                                                        bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này
-                                                        vẫn có cả rổ ảnh thần thái!</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-                                                Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn
-                                                có cả rổ ảnh thần thái!
-                                                Mỗi khi ng...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(1) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='net-binh-di-viet-nam-qua-anh-cua-tay-may-ha-lan.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a href="net-binh-di-viet-nam-qua-anh-cua-tay-may-ha-lan.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693"
-                                                                title="Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan"
-                                                                alt="Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan">
-                                                        </picture>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="net-binh-di-viet-nam-qua-anh-cua-tay-may-ha-lan.html"
-                                                        title="Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan">Nét
-                                                        bình
-                                                        dị Việt Nam qua ảnh của tay máy Hà Lan</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-                                                Những hình ảnh này được giới thiệu trong mục Du lịch Instagram snapshots
-                                                ngày 28-2 của báo Anh Guardian.
-                                                A...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(0) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -1332,535 +1280,7 @@
             <div class="error-message"></div>
         </div>
     </div>
-    {{-- <script>
-		window.Bizweb || (window.Bizweb = {}), Bizweb.mediaDomainName = "http://bizweb.dktcdn.net/", Bizweb.each = function (a, b) { for (var c = 0; c < a.length; c++)b(a[c], c) }, Bizweb.getClass = function (a) { return Object.prototype.toString.call(a).slice(8, -1) }, Bizweb.map = function (a, b) { for (var c = [], d = 0; d < a.length; d++)c.push(b(a[d], d)); return c }, Bizweb.arrayContains = function (a, b) { for (var c = 0; c < a.length; c++)if (a[c] == b) return !0; return !1 }, Bizweb.distinct = function (a) { for (var b = [], c = 0; c < a.length; c++)Bizweb.arrayContains(b, a[c]) || b.push(a[c]); return b }, Bizweb.getUrlParameter = function (a) { var b = RegExp("[?&]" + a + "=([^&]*)").exec(window.location.search); return b && decodeURIComponent(b[1].replace(/\+/g, " ")) }, Bizweb.uniq = function (a) { for (var b = [], c = 0; c < a.length; c++)Bizweb.arrayIncludes(b, a[c]) || b.push(a[c]); return b }, Bizweb.arrayIncludes = function (a, b) { for (var c = 0; c < a.length; c++)if (a[c] == b) return !0; return !1 }, Bizweb.Product = function () { function a(a) { if ("undefined" != typeof a) for (property in a) this[property] = a[property] } return a.prototype.optionNames = function () { return "Array" == Bizweb.getClass(this.options) ? this.options : [] }, a.prototype.optionValues = function (a) { if ("undefined" == typeof this.variants) return null; var b = Bizweb.map(this.variants, function (b) { var c = "option" + (a + 1); return "undefined" == typeof b[c] ? null : b[c] }); return null == b[0] ? null : Bizweb.distinct(b) }, a.prototype.getVariant = function (a) { var b = null; return a.length != this.options.length ? null : (Bizweb.each(this.variants, function (c) { for (var d = !0, e = 0; e < a.length; e++) { var f = "option" + (e + 1); c[f] != a[e] && (d = !1) } if (d) return void (b = c) }), b) }, a.prototype.getVariantById = function (a) { for (var b = 0; b < this.variants.length; b++) { var c = this.variants[b]; if (c.id == a) return c } return null }, a.name = "Product", a }(), Bizweb.money_format = " VND", Bizweb.formatMoney = function (a, b) { function f(a, b, c, d) { if ("undefined" == typeof b && (b = 2), "undefined" == typeof c && (c = "."), "undefined" == typeof d && (d = ","), "undefined" == typeof a || null == a) return 0; a = a.toFixed(b); var e = a.split("."), f = e[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + c), g = e[1] ? d + e[1] : ""; return f + g } "string" == typeof a && (a = a.replace(/\./g, ""), a = a.replace(/\,/g, "")); var c = "", d = /\{\{\s*(\w+)\s*\}\}/, e = b || this.money_format; switch (e.match(d)[1]) { case "amount": c = f(a, 2); break; case "amount_no_decimals": c = f(a, 0); break; case "amount_with_comma_separator": c = f(a, 2, ".", ","); break; case "amount_no_decimals_with_comma_separator": c = f(a, 0, ".", ",") }return e.replace(d, c) }, Bizweb.OptionSelectors = function () { function a(a, b) { return this.selectorDivClass = "selector-wrapper", this.selectorClass = "single-option-selector", this.variantIdFieldIdSuffix = "-variant-id", this.variantIdField = null, this.selectors = [], this.domIdPrefix = a, this.product = new Bizweb.Product(b.product), "undefined" != typeof b.onVariantSelected ? this.onVariantSelected = b.onVariantSelected : this.onVariantSelected = function () { }, this.replaceSelector(a), this.initDropdown(), !0 } return a.prototype.replaceSelector = function (a) { var b = document.getElementById(a), c = b.parentNode; Bizweb.each(this.buildSelectors(), function (a) { c.insertBefore(a, b) }), b.style.display = "none", this.variantIdField = b }, a.prototype.buildSelectors = function () { for (var a = 0; a < this.product.optionNames().length; a++) { var b = new Bizweb.SingleOptionSelector(this, a, this.product.optionNames()[a], this.product.optionValues(a)); b.element.disabled = !1, this.selectors.push(b) } var c = this.selectorDivClass, d = this.product.optionNames(), e = Bizweb.map(this.selectors, function (a) { var b = document.createElement("div"); if (b.setAttribute("class", c), d.length > 1) { var e = document.createElement("label"); e.htmlFor = a.element.id, e.innerHTML = a.name, b.appendChild(e) } return b.appendChild(a.element), b }); return e }, a.prototype.initDropdown = function () { var a = { initialLoad: !0 }, b = this.selectVariantFromDropdown(a); if (!b) { var c = this; setTimeout(function () { c.selectVariantFromParams(a) || c.selectors[0].element.onchange(a) }) } }, a.prototype.selectVariantFromDropdown = function (a) { var b = document.getElementById(this.domIdPrefix).querySelector("[selected]"); return !!b && this.selectVariant(b.value, a) }, a.prototype.selectVariantFromParams = function (a) { var b = Bizweb.getUrlParameter("variantid"); return null == b && (b = Bizweb.getUrlParameter("variantId")), this.selectVariant(b, a) }, a.prototype.selectVariant = function (a, b) { var c = this.product.getVariantById(a); if (null == c) return !1; for (var d = 0; d < this.selectors.length; d++) { var e = this.selectors[d].element, f = e.getAttribute("data-option"), g = c[f]; null != g && this.optionExistInSelect(e, g) && (e.value = g) } return "undefined" != typeof jQuery ? jQuery(this.selectors[0].element).trigger("change", b) : this.selectors[0].element.onchange(b), !0 }, a.prototype.optionExistInSelect = function (a, b) { for (var c = 0; c < a.options.length; c++)if (a.options[c].value == b) return !0 }, a.prototype.updateSelectors = function (a, b) { var c = this.selectedValues(), d = this.product.getVariant(c); d ? (this.variantIdField.disabled = !1, this.variantIdField.value = d.id) : this.variantIdField.disabled = !0, this.onVariantSelected(d, this, b), null != this.historyState && this.historyState.onVariantChange(d, this, b) }, a.prototype.selectedValues = function () { for (var a = [], b = 0; b < this.selectors.length; b++) { var c = this.selectors[b].element.value; a.push(c) } return a }, a.name = "OptionSelectors", a }(), Bizweb.SingleOptionSelector = function (a, b, c, d) { this.multiSelector = a, this.values = d, this.index = b, this.name = c, this.element = document.createElement("select"); for (var e = 0; e < d.length; e++) { var f = document.createElement("option"); f.value = d[e], f.innerHTML = d[e], this.element.appendChild(f) } return this.element.setAttribute("class", this.multiSelector.selectorClass), this.element.setAttribute("data-option", "option" + (b + 1)), this.element.id = a.domIdPrefix + "-option-" + b, this.element.onchange = function (c, d) { d = d || {}, a.updateSelectors(b, d) }, !0 }, Bizweb.Image = { preload: function (a, b) { for (var c = 0; c < a.length; c++) { var d = a[c]; this.loadImage(this.getSizedImageUrl(d, b)) } }, loadImage: function (a) { (new Image).src = a }, switchImage: function (a, b, c) { if (a && b) { var d = this.imageSize(b.src), e = this.getSizedImageUrl(a.src, d); c ? c(e, a, b) : b.src = e } }, imageSize: function (a) { var b = a.match(/thumb\/(1024x1024|2048x2048|pico|icon|thumb|small|compact|medium|large|grande)\//); return null != b ? b[1] : null }, getSizedImageUrl: function (a, b) { if (null == b) return a; if ("master" == b) return this.removeProtocol(a); var c = a.match(/\.(jpg|jpeg|gif|png|bmp|bitmap|tiff|tif)(\?v=\d+)?$/i); if (null != c) { var d = Bizweb.mediaDomainName + "thumb/" + b + "/"; return this.removeProtocol(a).replace(Bizweb.mediaDomainName, d).split("?")[0] } return null }, removeProtocol: function (a) { return a.replace(/http(s)?:/, "") } };
-		(function (b) { function c() { } for (var d = "assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,timeStamp,profile,profileEnd,time,timeEnd,trace,warn".split(","), a; a = d.pop();) { b[a] = b[a] || c } })((function () {
-			try { console.log(); return window.console; } catch (err) { return window.console = {}; }
-		})());
-		var GLOBAL = {
-			common: {
-				init: function () {
-					$('.add_to_cart').bind('click', addToCart);
-				}
-			},
-			templateIndex: {
-				init: function () {
-				}
-			},
-			templateProduct: {
-				init: function () {
-				}
-			},
-			templateCart: {
-				init: function () {
-				}
-			}
-		}
-		var UTIL = {
-			fire: function (func, funcname, args) {
-				var namespace = GLOBAL;
-				funcname = (funcname === undefined) ? 'init' : funcname;
-				if (func !== '' && namespace[func] && typeof namespace[func][funcname] == 'function') {
-					namespace[func][funcname](args);
-				}
-			},
-			loadEvents: function () {
-				var bodyId = document.body.id;
-				UTIL.fire('common');
-				$.each(document.body.className.split(/\s+/), function (i, classnm) {
-					UTIL.fire(classnm);
-					UTIL.fire(classnm, bodyId);
-				});
-			}
-		};
-		$(document).ready(UTIL.loadEvents);
-		Number.prototype.formatMoney = function (c, d, t) {
-			var n = this,
-				c = isNaN(c = Math.abs(c)) ? 2 : c,
-				d = d == undefined ? "." : d,
-				t = t == undefined ? "." : t,
-				s = n < 0 ? "-" : "",
-				i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
-				j = (j = i.length) > 3 ? j % 3 : 0;
-			return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-		};
-		function addToCart(e) {
-			if (typeof e !== 'undefined') e.preventDefault();
-			var $this = $(this);
-			var form = $this.parents('form');
-			$.ajax({
-				type: 'POST',
-				url: '/cart/add.js',
-				async: false,
-				data: form.serialize(),
-				dataType: 'json',
-				error: addToCartFail,
-				beforeSend: function () {
-				},
-				success: addToCartSuccess,
-				cache: false
-			});
-		}
-		function addToCartSuccess(jqXHR, textStatus, errorThrown) {
-			$.ajax({
-				type: 'GET',
-				url: '/cart.js',
-				async: false,
-				cache: false,
-				dataType: 'json',
-				success: function (cart) {
-					awe_hidePopup('.loading');
-					Bizweb.updateCartFromForm(cart, '.top-cart-content .mini-products-list');
-					Bizweb.updateCartPopupForm(cart, '#popup-cart-desktop .tbody-popup');
-					Bizweb.updateCartPageForm(cart, '.cart_desktop_page .page_cart');
-				}
-			});
-			var url_product = jqXHR['url'];
-			var class_id = jqXHR['product_id'];
-			var name = jqXHR['name'];
-			var textDisplay = ('<i style="margin-right:5px; color:red; font-size:13px;" class="fa fa-check" aria-hidden="true"></i>Sản phẩm vừa thêm vào giỏ hàng');
-			var id = jqXHR['variant_id'];
-			var dataList = $(".item-name a").map(function () {
-				var plus = $(this).text();
-				return plus;
-			}).get();
-			$('.title-popup-cart .cart-popup-name').html('<a href="' + url_product + '"style="color:red;" title="' + name + '">' + name + '</a> ');
-			var nameid = dataList,
-				found = $.inArray(name, nameid);
-			var textfind = found;
-			$(".item-info > p:contains(" + id + ")").html('<span class="add_sus" style="color:#898989;"><i style="margin-right:5px; color:red; font-size:13px;" class="fa fa-check" aria-hidden="true"></i>Sản phẩm vừa thêm!</span>');
-			var windowW = $(window).width();
-			if (windowW > 768) {
-				$('#popup-cart').modal();
-			} else {
-				$('#myModal').html('');
-				var $popupMobile = '<div class="modal-dialog"><div class="modal-content"><div class="modal-header">'
-					+ '<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: relative; z-index: 9;"><span aria-hidden="true">×</span></button>'
-					+ '<h4 class="modal-title"><span><i class="fa fa-check" aria-hidden="true"></i></span>Thêm vào giỏ hàng thành công</h4></div>'
-					+ '<div class="modal-body"><div class="media"><div class="media-left"><div class="thumb-1x1">'
-					+ '<img width="70px" src="' + Bizweb.resizeImage(jqXHR['image'], 'small') + '" alt="' + jqXHR['title'] + '"></div></div>'
-					+ '<div class="media-body"><div class="product-title">' + jqXHR['name'] + '</div>'
-					+ '<div class="product-new-price"><span>' + (jqXHR['price']).formatMoney(0) + ' đ</span></div></div></div>'
-					+ '<button class="btn btn-block btn-outline-red" data-dismiss="modal">Tiếp tục mua hàng</button>'
-					+ '<a href="/checkout" class="btn btn-block btn-red">Tiến hành thanh toán »</a></div></div></div>';
-				$('#myModal').html($popupMobile);
-				$('#myModal').modal();
-				clearTimeout($('#myModal').data('hideInterval'));
-			}
-		}
-		function addToCartFail(jqXHR, textStatus, errorThrown) {
-			var response = $.parseJSON(jqXHR.responseText);
-			var $info = '<div class="error">' + response.description + '</div>';
-		}
-		$(document).on('click', ".remove-item-cart", function () {
-			var variantId = $(this).attr('data-id');
-			var line = $(this).attr('data-line');
-			removeItemCart(variantId, line);
-		});
-		$(document).on('click', ".items-count", function () {
-			$(this).parent().children('.items-count').prop('disabled', true);
-			var thisBtn = $(this);
-			var variantId = $(this).parent().find('.variantID').val();
-			var qty = $(this).parent().children('.number-sidebar').val();
-			var att = $(this).attr('data-lineup');
-			updateQuantity(qty, variantId, att);
-		});
-		$(document).on('change', ".number-sidebar", function () {
-			var variantId = $(this).parent().children('.variantID').val();
-			var qty = $(this).val();
-			updateQuantity(qty, variantId);
-		});
-		function updateQuantity(qty, variantId, att) {
-			var variantIdUpdate = variantId;
-			var attline = parseInt(att) + 1;
-			console.log(attline);
-			$.ajax({
-				type: "POST",
-				url: "/cart/change.js",
-				data: { "line": attline, "quantity": qty },
-				dataType: "json",
-				success: function (cart, variantId) {
-					Bizweb.onCartUpdateClick(cart, variantIdUpdate);
-				},
-				error: function (qty, variantId) {
-					Bizweb.onError(qty, variantId)
-				}
-			});
-		}
-		function removeItemCart(variantId, line) {
-			var variantIdRemove = variantId;
-			var antline = parseInt(line) + 1;
-			$.ajax({
-				type: "POST",
-				url: "/cart/change.js",
-				data: { "line": antline, "quantity": 0 },
-				dataType: "json",
-				success: function (cart, antline) {
-					Bizweb.onCartRemoveClick(cart, variantIdRemove);
-					location.reload();
-				},
-				error: function (antline, r) {
-					Bizweb.onError(antline, r)
-				}
-			})
-		}
-		Bizweb.updateCartFromForm = function (cart, cart_summary_id, cart_count_id) {
-			if ((typeof cart_summary_id) === 'string') {
-				var cart_summary = jQuery(cart_summary_id);
-				if (cart_summary.length) {
-					// Start from scratch.
-					cart_summary.empty();
-					// Pull it all out.        
-					jQuery.each(cart, function (key, value) {
-						if (key === 'items') {
 
-							var table = jQuery(cart_summary_id);
-							if (value.length) {
-								jQuery('<ul class="list-item-cart"></ul>').appendTo(table);
-								jQuery.each(value, function (i, item) {
-
-									var link_img1 = Bizweb.resizeImage(item.image, 'small');
-									if (link_img1 == "null" || link_img1 == '' || link_img1 == null) {
-										link_img1 = 'client/bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif';
-									}
-									var buttonQty = "";
-									if (item.quantity == '1') {
-										buttonQty = 'disabled';
-									} else {
-										buttonQty = '';
-									}
-									jQuery('<li class="item productid-' + item.variant_id + '"><a class="product-image" href="' + item.url + '" title="' + item.name + '">'
-										+ '<img alt="' + item.name + '" src="' + link_img1 + '"\></a>'
-										+ '<div class="detail-item"><div class="product-details"> <a href="javascript:;" data-id="' + item.variant_id + '" title="Xóa" class="remove-item-cart fa fa-remove">&nbsp;</a>'
-										+ '<p class="product-name"> <a href="' + item.url + '" title="' + item.name + '">' + item.name + '</a></p></div>'
-										+ '<div class="product-details-bottom"><span class="price">' + Bizweb.formatMoney(item.price, "{{amount_no_decimals_with_comma_separator}}₫") + '</span>'
-										+ '<div class="quantity-select"><input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '"><button onClick="var result = document.getElementById(\'qty' + item.variant_id + '\'); var qty' + item.variant_id + ' = result.value; if( !isNaN( qty' + item.variant_id + ' ) &amp;&amp; qty' + item.variant_id + ' &gt; 1 ) result.value--;return false;" class="reduced items-count btn-minus" ' + buttonQty + ' type="button">–</button><input type="text" maxlength="12" min="1" class="input-text number-sidebar qty' + item.variant_id + '" id="qty' + item.variant_id + '" name="Lines" id="updates_' + item.variant_id + '" size="4" value="' + item.quantity + '"><button onClick="var result = document.getElementById(\'qty' + item.variant_id + '\'); var qty' + item.variant_id + ' = result.value; if( !isNaN( qty' + item.variant_id + ' )) result.value++;return false;" class="increase items-count btn-plus" type="button">+</button></div></div></li>').appendTo(table.children('.list-item-cart'));
-								});
-								jQuery('<div><div class="top-subtotal">Tổng cộng: <span class="price">' + Bizweb.formatMoney(cart.total_price, "{{amount_no_decimals_with_comma_separator}}₫") + '</span></div></div>').appendTo(table);
-								jQuery('<div><div class="actions"><a href="/checkout" class="btn btn-gray btn-checkout"><span>Thanh toán</span></a><a href="/cart" class="view-cart btn btn-white margin-left-5"><span>Giỏ hàng</span></a></div></div>').appendTo(table);
-							}
-							else {
-								jQuery('<div class="no-item"><p>Không có sản phẩm nào trong giỏ hàng.</p></div>').appendTo(table);
-
-							}
-						}
-					});
-				}
-			}
-			updateCartDesc(cart);
-			var numInput = document.querySelector('#cart-sidebar input.input-text');
-			if (numInput != null) {
-				// Listen for input event on numInput.
-				numInput.addEventListener('input', function () {
-					// Let's match only digits.
-					var num = this.value.match(/^\d+$/);
-					if (num == 0) {
-						// If we have no match, value will be empty.
-						this.value = 1;
-					}
-					if (num === null) {
-						// If we have no match, value will be empty.
-						this.value = "";
-					}
-				}, false)
-			}
-		}
-
-		Bizweb.updateCartPageForm = function (cart, cart_summary_id, cart_count_id) {
-			if ((typeof cart_summary_id) === 'string') {
-				var cart_summary = jQuery(cart_summary_id);
-				if (cart_summary.length) {
-					// Start from scratch.
-					cart_summary.empty();
-					// Pull it all out.        
-					jQuery.each(cart, function (key, value) {
-						if (key === 'items') {
-							var table = jQuery(cart_summary_id);
-							if (value.length) {
-
-								var pageCart = '<div class="cart page_cart cart_des_page hidden-xs-down">'
-									+ '<div class="col-xs-9 cart-col-1">'
-									+ '<form id="shopping-cart" action="/cart" method="post" novalidate>'
-									+ '<div class="cart-tbody">'
-									+ '</div>'
-									+ '</form>'
-									+ '</div></div>';
-								var pageCartCheckout = '<div class="col-xs-3 cart-col-2 cart-collaterals cart_submit">'
-									+ '<div id="right-affix">'
-									+ '<div class="each-row">'
-									+ '<div class="box-style fee">'
-									+ '<p class="list-info-price">'
-									+ '<span>Tạm tính: </span>'
-									+ '<strong class="totals_price price _text-right text_color_right1">65756756756</strong></p></div>'
-									+ '<div class="box-style fee">'
-									+ '<div class="total2 clearfix">'
-									+ '<span class="text-label">Thành tiền: </span>'
-									+ '<div class="amount">'
-									+ '<p><strong class="totals_price">6</strong></p>'
-									+ '</div></div></div>'
-									+ '<button class="button btn-proceed-checkout btn btn-large btn-block btn-danger btn-checkout" title="Thanh toán ngay" type="button" onclick="window.location.href=\'/checkout\'">Thanh toán ngay</button>'
-									+ '<button class="button btn-proceed-checkout btn btn-large btn-block btn-danger btn-checkouts" title="Tiếp tục mua hàng" type="button" onclick="window.location.href=\'/collections/all\'">Tiếp tục mua hàng</button>'
-									+ '</div></div></div>';
-								jQuery(pageCart).appendTo(table);
-								jQuery.each(value, function (i, item) {
-									var buttonQty = "";
-									if (item.quantity == '1') {
-										buttonQty = 'disabled';
-									} else {
-										buttonQty = '';
-									}
-									var link_img1 = Bizweb.resizeImage(item.image, 'medium');
-									if (link_img1 == "null" || link_img1 == '' || link_img1 == null) {
-										link_img1 = 'client/bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif';
-									}
-									var date = "";
-									if (item.properties['Ngày đi'] == null) {
-										date = "Đang cập nhật";
-									} else {
-										date = item.properties['Ngày đi'];
-									}
-									var pageCartItem = '<div class="row shopping-cart-item productid-' + item.variant_id + '"><div class="clearfix proupdate' + item.id + '">'
-										+ '<div class="col-xs-3 img-thumnail-custom">'
-										+ '<p class="image">'
-										+ '<img class="img-responsive" src="' + link_img1 + '" alt="' + item.name + '" />'
-										+ '</p>'
-										+ '</div>'
-										+ '<div class="col-right col-xs-9">'
-										+ '<div class="box-info-product">'
-										+ '<p class="name">'
-										+ '<a href="' + item.url + '" target="_blank">' + item.name + '</a>'
-										+ '</p>'
-										+ '<p class="date-tour" data-date=' + date + '>'
-										+ 'Ngày đi: ' + date + ''
-										+ '</p>'
-										+ '<p class="seller-by hidden">' + item.variant_title + '</p>'
-										+ '<p class="action">'
-										+ '<a href="javascript:;" class="btn btn-link btn-item-delete remove-item-cart" data-id="' + item.variant_id + '" data-line="' + i + '">Xóa</a>'
-										+ '</p>'
-										+ '</div>'
-										+ '<div class="box-price">'
-										+ '<p class="price">' + Bizweb.formatMoney(item.price, "{{amount_no_decimals_with_comma_separator}}₫") + '</p>'
-										+ '</div>'
-										+ '<div class="quantity-block">'
-										+ '<div class="input-group bootstrap-touchspin">'
-										+ '<div class="input-group-btn hidden">'
-										+ '<input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '">'
-										+ '<button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyItem' + item.variant_id + '' + item.id + '\'); var qtyItem' + item.variant_id + '' + item.id + ' = result.value; if( !isNaN( qtyItem' + item.variant_id + '' + item.id + ' )) result.value++;return false;" class="increase_pop items-count btn-plus btn btn-default bootstrap-touchspin-up" type="button">+</button>'
-										+ '<input type="text" maxlength="12" min="1" onchange="if(this.value == 0)this.value=1;" class="form-control quantity-r2 quantity js-quantity-product input-text number-sidebar input_pop input_pop qtyItem' + item.variant_id + '' + item.id + '" id="qtyItem' + item.variant_id + '' + item.id + '" name="Lines" id="updates_' + item.variant_id + '' + item.id + '" size="4" value="' + item.quantity + '">'
-										+ '<button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyItem' + item.variant_id + '' + item.id + '\'); var qtyItem' + item.variant_id + '' + item.id + ' = result.value; if( !isNaN( qtyItem' + item.variant_id + '' + item.id + ' ) &amp;&amp; qtyItem' + item.variant_id + '' + item.id + ' &gt; 1 ) result.value--;return false;" ' + buttonQty + ' class="reduced_pop items-count btn-minus btn btn-default bootstrap-touchspin-down" type="button">–</button>'
-										+ '</div>'
-										+ '</div>'
-										+ '</div>'
-										+ '</div>'
-										+ '</div></div>';
-									jQuery(pageCartItem).appendTo(table.find('.cart-tbody'));
-									if (item.variant_title == 'Default Title') {
-										$('.seller-by').hide();
-									}
-								});
-								jQuery(pageCartCheckout).appendTo(table.children('.cart'));
-							} else {
-								jQuery('<p class="hidden-xs-down">Không có tour nào trong giỏ hàng. Quay lại <a href="/" style="color:;">cửa hàng</a> để tiếp tục mua sắm.</p>').appendTo(table);
-								jQuery('.cart_desktop_page').css('min-height', 'auto');
-							}
-						}
-					});
-				}
-			}
-			updateCartDesc(cart);
-			jQuery('#wait').hide();
-		}
-		Bizweb.updateCartPopupForm = function (cart, cart_summary_id, cart_count_id) {
-
-			if ((typeof cart_summary_id) === 'string') {
-				var cart_summary = jQuery(cart_summary_id);
-				if (cart_summary.length) {
-					// Start from scratch.
-					cart_summary.empty();
-					// Pull it all out.        
-					jQuery.each(cart, function (key, value) {
-						if (key === 'items') {
-							var table = jQuery(cart_summary_id);
-							if (value.length) {
-								jQuery.each(value, function (i, item) {
-									var link_img1 = Bizweb.resizeImage(item.image, 'small');
-									if (link_img1 == "null" || link_img1 == '' || link_img1 == null) {
-										link_img1 = 'client/bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif';
-									}
-									var buttonQty = "";
-									if (item.quantity == '1') {
-										buttonQty = 'disabled';
-									} else {
-										buttonQty = '';
-									}
-									var date = "";
-									if (item.properties['Ngày đi'] == null) {
-										date = "Đang cập nhật";
-									} else {
-										date = item.properties['Ngày đi'];
-									}
-									var pageCartItem = '<div class="item-popup productid-' + item.variant_id + '"><div style="width: 50%;" class="text-left"><div class="item-image">'
-										+ '<a class="product-image" href="' + item.url + '" title="' + item.name + '"><img alt="' + item.name + '" src="' + link_img1 + '"width="' + '80' + '"\></a>'
-										+ '</div><div class="item-info"><p class="item-name"><a href="' + item.url + '" title="' + item.name + '">' + item.title + '</a></p>'
-										+ '<p class="variant-title-popup">' + item.variant_title + '</span>'
-										+ '<p class="item-remove"><a href="javascript:;" class="remove-item-cart" title="Xóa" data-id="' + item.variant_id + '" data-line="' + i + '"><i class="fa fa-close"></i> Bỏ tour</a></p><p class="addpass" style="color:#fff;">' + item.variant_id + '</p></div></div>'
-										+ '<div style="width: 15%;" class="text-right"><div class="item-price"><span class="price">' + Bizweb.formatMoney(item.price, "{{amount_no_decimals_with_comma_separator}}₫") + '</span>'
-										+ '</div></div><div style="width: 15%;" class="text-center hidden"><input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '">'
-										+ '<button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyItem' + item.variant_id + '\'); var qtyItem' + item.variant_id + ' = result.value; if( !isNaN( qtyItem' + item.variant_id + ' ) &amp;&amp; qtyItem' + item.variant_id + ' &gt; 1 ) result.value--;return false;" ' + buttonQty + ' class="reduced items-count btn-minus" type="button">–</button>'
-										+ '<input type="text" maxlength="12" min="0" class="input-text number-sidebar qtyItem' + item.variant_id + '" id="qtyItem' + item.variant_id + '" name="Lines" id="updates_' + item.variant_id + '" size="4" value="' + item.quantity + '">'
-										+ '<button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyItem' + item.variant_id + '\'); var qtyItem' + item.variant_id + ' = result.value; if( !isNaN( qtyItem' + item.variant_id + ' )) result.value++;return false;" class="increase items-count btn-plus" type="button">+</button></div>'
-										+ '<div style="width: 20%;" class="text-right"><span class="cart-price"> <span class="price">' + Bizweb.formatMoney(item.price * item.quantity, "{{amount_no_decimals_with_comma_separator}}₫") + '</span> </span></div></div>';
-									jQuery(pageCartItem).prependTo(table);
-									if (item.variant_title == 'Default Title') {
-										$('.variant-title-popup').hide();
-									}
-									$('.link_product').text();
-								});
-							}
-						}
-					});
-				}
-			}
-			jQuery('.total-price').html(Bizweb.formatMoney(cart.total_price, "{{amount_no_decimals_with_comma_separator}}₫"));
-			updateCartDesc(cart);
-		}
-		Bizweb.updateCartPageFormMobile = function (cart, cart_summary_id, cart_count_id) {
-			if ((typeof cart_summary_id) === 'string') {
-				var cart_summary = jQuery(cart_summary_id);
-				if (cart_summary.length) {
-					// Start from scratch.
-					cart_summary.empty();
-					// Pull it all out.        
-					jQuery.each(cart, function (key, value) {
-						if (key === 'items') {
-
-							var table = jQuery(cart_summary_id);
-							if (value.length) {
-								jQuery('<div class="cart_page_mobile content-product-list"></div>').appendTo(table);
-								jQuery.each(value, function (i, item) {
-									if (item.image != null) {
-										var src = Bizweb.resizeImage(item.image, 'small');
-									} else {
-										var src = "client/bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif";
-									}
-									var date = "";
-									if (item.properties['Ngày đi'] == null) {
-										date = "Đang cập nhật";
-									} else {
-										date = item.properties['Ngày đi'];
-									}
-									jQuery('<div class="item-product item productid-' + item.variant_id + ' "><div class="item-product-cart-mobile"><a href="' + item.url + '">	<a class="product-images1" href=""  title="' + item.name + '"><img width="80" height="150" alt="" src="' + src + '" alt="' + item.name + '"></a></a></div>'
-										+ '<div class="title-product-cart-mobile"><h3><a href="' + item.url + '" title="' + item.name + '">' + item.name + '</a></h3><p class="date-tour">Ngày đi: ' + date + '' + '</p><p>Giá: <span>' + Bizweb.formatMoney(item.price, "{{amount_no_decimals_with_comma_separator}}₫") + '</span></p></div>'
-										+ '<div class="select-item-qty-mobile"><div class="txt_center hidden">'
-										+ '<input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '"><button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyMobile' + item.variant_id + '\'); var qtyMobile' + item.variant_id + ' = result.value; if( !isNaN( qtyMobile' + item.variant_id + ' ) &amp;&amp; qtyMobile' + item.variant_id + ' &gt; 1 ) result.value--;return false;" class="reduced items-count btn-minus" type="button">–</button><input type="text" maxlength="12" min="0" class="input-text number-sidebar qtyMobile' + item.variant_id + '" id="qtyMobile' + item.variant_id + '" name="Lines" id="updates_' + item.variant_id + '" size="4" value="' + item.quantity + '"><button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyMobile' + item.variant_id + '\'); var qtyMobile' + item.variant_id + ' = result.value; if( !isNaN( qtyMobile' + item.variant_id + ' )) result.value++;return false;" class="increase items-count btn-plus" type="button">+</button></div>'
-										+ '<a class="button remove-item remove-item-cart" href="javascript:;" data-id="' + item.variant_id + '" data-line="' + i + '">Xoá</a></div>').appendTo(table.children('.content-product-list'));
-
-								});
-
-								jQuery('<div class="header-cart-price" style=""><div class="title-cart "><h3 class="text-xs-left">Tổng tiền</h3><a class="text-xs-right totals_price_mobile">' + Bizweb.formatMoney(cart.total_price, "{{amount_no_decimals_with_comma_separator}}₫") + '</a></div>'
-									+ '<div class="checkout"><button class="btn-proceed-checkout-mobile" title="Tiến hành thanh toán" type="button" onclick="window.location.href=\'/checkout\'">'
-									+ '<span>Tiến hành thanh toán</span></button></div>'
-									+ '<button class="btn btn-proceed-continues-mobile" title="Tiếp tục mua hàng" type="button" onclick="window.location.href=\'/collections/all\'">Tiếp tục mua hàng</button>'
-									+ '</div>').appendTo(table);
-							}
-
-						}
-					});
-				}
-			}
-			updateCartDesc(cart);
-		}
-
-
-		function updateCartDesc(data) {
-			var $cartPrice = Bizweb.formatMoney(data.total_price, "{{amount_no_decimals_with_comma_separator}}₫"),
-				$cartMobile = $('#header .cart-mobile .quantity-product'),
-				$cartDesktop = $('.count_item_pr'),
-				$cartDesktopList = $('.cart-counter-list'),
-				$cartPopup = $('.cart-popup-count');
-
-			switch (data.item_count) {
-				case 0:
-					$cartMobile.text('0');
-					$cartDesktop.text('0');
-					$cartDesktopList.text('0');
-					$cartPopup.text('0');
-
-					break;
-				case 1:
-					$cartMobile.text('1');
-					$cartDesktop.text('1');
-					$cartDesktopList.text('1');
-					$cartPopup.text('1');
-
-					break;
-				default:
-					$cartMobile.text(data.item_count);
-					$cartDesktop.text(data.item_count);
-					$cartDesktopList.text(data.item_count);
-					$cartPopup.text(data.item_count);
-
-					break;
-			}
-			$('.top-cart-content .top-subtotal .price, aside.sidebar .block-cart .subtotal .price, .popup-total .total-price').html($cartPrice);
-			$('.popup-total .total-price').html($cartPrice);
-			$('.cart-collaterals .totals_price').html($cartPrice);
-			$('.header-cart-price .totals_price_mobile').html($cartPrice);
-			$('.cartCount, .cart-products-count').html(data.item_count);
-		}
-
-		Bizweb.onCartUpdate = function (cart) {
-			Bizweb.updateCartFromForm(cart, '.mini-products-list');
-			Bizweb.updateCartPopupForm(cart, '#popup-cart-desktop .tbody-popup');
-
-		};
-		Bizweb.onCartUpdateClick = function (cart, variantId) {
-			jQuery.each(cart, function (key, value) {
-				if (key === 'items') {
-					jQuery.each(value, function (i, item) {
-						if (item.variant_id == variantId) {
-							$('.proupdate' + item.id).find('.cart-price span.price').html(Bizweb.formatMoney(item.price * item.quantity, "{{amount_no_decimals_with_comma_separator}}₫"));
-							$('.proupdate' + item.id).find('.items-count').prop("disabled", false);
-							$('.proupdate' + item.id).find('.number-sidebar').prop("disabled", false);
-							$('.proupdate' + item.id + ' .number-sidebar').val(item.quantity);
-							if (item.quantity == '1') {
-								$('.proupdate' + item.id).find('.items-count.btn-minus').prop("disabled", true);
-							}
-						}
-					});
-				}
-			});
-			updateCartDesc(cart);
-		}
-		Bizweb.onCartRemoveClick = function (cart, variantId) {
-			jQuery.each(cart, function (key, value) {
-				if (key === 'items') {
-					jQuery.each(value, function (i, item) {
-						if (item.variant_id == variantId) {
-							$('.productid-' + variantId).remove();
-							location.reload();
-						}
-					});
-				}
-			});
-			updateCartDesc(cart);
-		}
-		$(window).ready(function () {
-			$.ajax({
-				type: 'GET',
-				url: '/cart.js',
-				async: false,
-				cache: false,
-				dataType: 'json',
-				success: function (cart) {
-					Bizweb.updateCartFromForm(cart, '.mini-products-list');
-					Bizweb.updateCartPopupForm(cart, '#popup-cart-desktop .tbody-popup');
-
-				}
-			});
-		});
-
-	</script> --}}
     <div id="popup-cart" class="modal fade" role="dialog">
         <div id="popup-cart-desktop" class="clearfix">
             <div class="title-popup-cart">

@@ -15,7 +15,7 @@
 	<div class="row">
 		<section class="right-content col-md-9 col-md-push-3">			
 			<div class="box-heading">
-				<h1 class="title-head">Dịch vụ tour</h1>
+				<h1 class="title-head">Bài viết</h1>
 			</div>
 			
 			

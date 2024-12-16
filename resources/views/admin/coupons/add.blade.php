@@ -46,6 +46,24 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="type" class="form-label">Loại mã giảm giá<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" id="type" name="type" value="{{ old('type') }}"
+                                                class="form-control" placeholder="Loại mã giảm giá">
+                                            @error('type')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="number" class="form-label">Số lượng<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" id="number" name="number" value="{{ old('number') }}"
+                                                class="form-control" placeholder="Nhập số lượng mã giảm giá">
+                                            @error('number')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">

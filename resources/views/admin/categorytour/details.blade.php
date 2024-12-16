@@ -1,5 +1,5 @@
 <h5 class="card-title">{{ $categorytour->category_tour }}</h5>
-<p><strong>Hình ảnh:</strong> <img src="{{ Storage::url($categorytour->image) }}" alt="Image" width="100"></p>
+{{-- <p><strong>Hình ảnh:</strong> <img src="{{ Storage::url($categorytour->image) }}" alt="Image" width="100"></p> --}}
 <p><strong>Mô tả:</strong> {{ $categorytour->description }}</p>  
 <p><strong>Mô tả:</strong> {{ $categorytour->slug }}</p>  
 <p><strong>Mô tả:</strong> {{ $categorytour->responsibility }}</p>  

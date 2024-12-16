@@ -38,6 +38,14 @@
                     @enderror
                 </div>
                 <div class="mb-3">
+                    <label for="slug" class="form-label">Tên danh mục<span class="text-danger">*</span></label>
+                    <input type="text" id="slug" name="slug" value="{{ $category->slug }}" class="form-control"
+                        placeholder="Nhập tên danh mục...">
+                    @error('slug')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="mb-3">
                     <label class="form-label" for="description">Mô tả ngắn</label>
                     <textarea class="form-control" id="description" name="description" rows="2" placeholder="Nhập mô tả danh mục...">{{ $category->description }}</textarea>
                     @error('description')

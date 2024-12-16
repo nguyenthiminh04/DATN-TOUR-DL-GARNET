@@ -29,7 +29,7 @@
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Tên danh mục<span class="text-danger">*</span></label>
-                    <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control"
+                    <input type="text" id="name" name="name" onkeyup="generateSlug()" value="{{ old('name') }}" class="form-control"
                         placeholder="Nhập tên danh mục...">
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>
@@ -40,6 +40,14 @@
                     <textarea class="form-control" id="description" name="description" value="{{ old('description') }}" rows="2"
                         placeholder="Nhập mô tả danh mục..."></textarea>
                     @error('description')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="slug">Slug</label>
+                    <textarea class="form-control" id="slug" name="slug" value="{{ old('slug') }}" rows="2"
+                        placeholder="Nhập mô tả danh mục..."></textarea>
+                    @error('slug')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
@@ -157,6 +165,22 @@
         }
         CKEDITOR.replace('content');
     </script>
+   <script src="https://cdn.jsdelivr.net/npm/slugify@1.4.7/slugify.min.js"></script>
+   <script>
+      
+       function generateSlug() {
+           var name = document.getElementById('name').value;
+           
+         
+           var slug = slugify(name, {
+               lower: true,       
+               replacement: '-',  
+               remove: /[*+~.()'"!:@]/g
+           });
+   
+            document.getElementById('slug').value = slug; 
+       }
+   </script>
     <script>
         ClassicEditor
             .create(document.querySelector('#editor'), {
