@@ -250,6 +250,7 @@ Route::group(['prefix' => 'admin'], function () {
 
         // Route cập nhật trạng thái thanh toán
         Route::post('/trangthaitour/updateThanhToan/{id}', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
+        Route::get('/quanlytour/{id}', [PayController::class, 'show']);
 
 
         Route::get('contact',                              [AdminContactController::class, 'index'])->name('admin.contact.index');
