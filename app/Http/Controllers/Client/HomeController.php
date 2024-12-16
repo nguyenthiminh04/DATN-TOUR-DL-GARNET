@@ -241,8 +241,12 @@ class HomeController extends Controller
             if ($request->has('rating') && !empty($request->rating)) {
                 $ratingId = $request->rating;
 
-                $query->where('star', $ratingId);
+                
+                $query->whereHas('reviews', function ($q) use ($ratingId) {
+                    $q->where('rating', $ratingId);
+                });
             }
+
 
             $tours = $query->get();
 

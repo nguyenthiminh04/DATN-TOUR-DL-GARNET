@@ -253,7 +253,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="quanlytourDetailContent">
-                   
+
                 </div>
             </div>
         </div>
@@ -388,23 +388,23 @@
                 const statusId = statusFilter.value;
                 const paymentId = paymentFilter.value;
 
-                // console.log('Status ID:', statusId);
-                // console.log('Payment ID:', paymentId);
+                console.log('Status ID:', statusId);
+                console.log('Payment ID:', paymentId);
 
-                fetch(`/admin/quanlytour/filter?status_id=${statusId}&payment_status_id=${paymentId}`, {
+                fetch(`{{ route('admin.quanlytour.filter') }}?status_id=${statusId}&payment_status_id=${paymentId}`, {
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
                         },
                     })
                     .then((response) => {
-                        // console.log('Response Status:', response.status);
+                        console.log('Response Status:', response.status);
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
                         return response.json();
                     })
                     .then((data) => {
-                        // console.log('Response Data:', data);
+                        console.log('Response Data:', data);
                         tourTableBody.innerHTML = data.html;
                     })
                     .catch((error) => {
@@ -444,7 +444,6 @@
 @endsection
 @section('script')
     <script>
-
         $(document).ready(function() {
             // thêm faq
             $('#addCouponsForm').on('submit', function(e) {
