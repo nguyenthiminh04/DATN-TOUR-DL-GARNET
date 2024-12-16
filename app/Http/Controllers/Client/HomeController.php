@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admins\Article;
 use App\Models\Admins\Category;
 use App\Models\Admins\CategoryTour;
+use App\Models\Article as ModelsArticle;
 // use App\Models\Admins\Categoty_tour;
 use App\Models\Comment;
 use App\Models\Coupon;
@@ -27,6 +28,10 @@ class HomeController extends Controller
     {
         // Lấy tất cả các tour theo thứ tự giảm dần theo ID
         $listtour = Tour::orderByDesc('id')->get();
+        $listarticle =Article::inRandomOrder()->first();
+        $listarticles = Article::inRandomOrder()->take(4)->get();
+
+
         $listarticle =Article::inRandomOrder()->first();
         $listarticles = Article::inRandomOrder()->take(4)->get();
 
