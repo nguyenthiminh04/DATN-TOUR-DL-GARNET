@@ -20,7 +20,10 @@ class ServiceController extends Controller
     {
         $showArticle = Article::find($id);
         // dd($showArticle);
-        return view('client.pages.detailHandbook', compact('showArticle'));
+        $relatedArticles = Article::latest()->take(5)->get();
+
+
+        return view('client.pages.detailHandbook', compact('showArticle', 'relatedArticles'));
     }
 
 }
