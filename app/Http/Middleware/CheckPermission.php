@@ -18,8 +18,12 @@ class CheckPermission
     {
         $user = Auth::user();
 
-        if (!$user || !$user->hasPermission($permission)) {
-            return response()->view('admin.errors.403', [], Response::HTTP_FORBIDDEN);
+        // Chỉ kiểm tra quyền nếu user tồn tại và role_id là 3
+        if ($user && $user->role_id == 3) {
+            if (!$user->hasPermission($permission)) {
+                // Trả về lỗi 403 nếu không có quyền
+                return response()->view('admin.errors.403', [], Response::HTTP_FORBIDDEN);
+            }
         }
 
         return $next($request);
