@@ -9,7 +9,6 @@
     <title>
         @yield('title')
     </title>
-    
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta name="keywords" content="Liên hệ, Ant Du lịch, ant-du-lich.mysapo.net" />

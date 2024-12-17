@@ -15,12 +15,7 @@ class ArticleController extends Controller
     public function __construct()
     {
         $this->middleware(['permission:view_article'])->only(['index']);
-        $this->middleware(['permission:create_article'])->only(['create']);
-        $this->middleware(['permission:store_article'])->only(['store']);
-        $this->middleware(['permission:edit_article'])->only(['edit']);
-        $this->middleware(['permission:update_article'])->only(['update']);
-        $this->middleware(['permission:destroy_article'])->only(['destroy']);
-        $this->middleware(['permission:show_article'])->only(['show']);
+        
     }
     /**
      * Display a listing of the resource.
@@ -119,7 +114,7 @@ class ArticleController extends Controller
             //Lấy id sản phẩm vừa thêm để thêm được album 
             //Xử lý thêm album
 
-            return redirect()->route('article.index')->with('success', 'Thêm mới thành công!');
+            return redirect()->route('article.index');
         }
     }
 

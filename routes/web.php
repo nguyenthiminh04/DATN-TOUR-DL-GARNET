@@ -104,7 +104,9 @@ Route::group(['middleware' => 'checkstatus'], function () {
     // ]);
     Route::get('detail-tour/{id}', [HomeController::class, 'detailTour'])->name('client.tour.show');
 
+
     Route::post('/tour/{id}/comment', [HomeController::class, 'storeComment'])->name('posts.comment');
+
 
 
 
@@ -265,7 +267,7 @@ Route::group(['prefix' => 'admin'], function () {
         //logs tour
         Route::get('/change-logs', [ChangeLogController::class, 'index'])->name('change-logs.index');
         // end logs
-
+        
         Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
     });
 });

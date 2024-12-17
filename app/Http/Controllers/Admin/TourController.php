@@ -105,7 +105,7 @@ class TourController extends Controller
                 }
             }
     
-            return redirect()->route('tour.index')->with('success', 'Thêm mới thành công!');;
+            return redirect()->route('tour.index');
         }
     }
     
@@ -197,7 +197,7 @@ class TourController extends Controller
             // Cập nhật dữ liệu
             $tour->update($params);
 
-            return redirect()->route('tour.index')->with('success', 'Cập nhật thành công!');;
+            return redirect()->route('tour.index');
         }
     }
 

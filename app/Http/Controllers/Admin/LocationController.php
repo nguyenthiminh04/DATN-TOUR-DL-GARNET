@@ -85,7 +85,7 @@ class LocationController extends Controller
             // Lấy id sản phẩm vừa thêm để thêm được album
             $user = $user->id;
 
-            return redirect()->route('location.index')->with('success', 'Thêm mới thành công!');
+            return redirect()->route('location.index')->with('success', 'Thêm địa điểm thành công!');
         }
     }
 

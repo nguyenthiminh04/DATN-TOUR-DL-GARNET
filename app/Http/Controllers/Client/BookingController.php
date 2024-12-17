@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 
-class   BookingController extends Controller
+class BookingController extends Controller
 {
 
 
@@ -39,7 +39,6 @@ class   BookingController extends Controller
             'status' => 'nullable|integer',
             'sale' => 'nullable|integer',
             'tour_id' => 'required|exists:tours,id',
-            'g-recaptcha-response' => 'required|captcha',
         ]);
 
         // $coupon = DB::table('coupons')->where('code', $request->coupon)->first();
@@ -75,7 +74,6 @@ class   BookingController extends Controller
             'status' => 'nullable|integer',
             'sale' => 'nullable|integer',
             'tour_id' => 'required|exists:tours,id',
-            'g-recaptcha-response' => 'required|captcha',
         ]);
 
         if (auth()->check()) {

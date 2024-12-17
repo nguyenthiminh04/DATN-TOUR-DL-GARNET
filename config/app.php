@@ -169,7 +169,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
-        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -184,8 +183,6 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
-        // Các alias khác nếu cần thêm
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

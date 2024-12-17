@@ -72,10 +72,10 @@ class FaqController extends Controller
         // dd($request);
         if ($data) {
             Faq::create($data);
-            session()->flash('success', 'Thêm mới thành công!');
+            session()->flash('success', 'Thêm mới thành công.');
             return back();
         } else {
-            session()->flash('error', 'Thêm mới thất bại!');
+            session()->flash('error', 'Thêm mới thất bại.');
             return back();
         }
     }

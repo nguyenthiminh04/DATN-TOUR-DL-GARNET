@@ -95,26 +95,22 @@ if ($user) {
                             </a>
 
                             @if ($category->children->isNotEmpty())
-                                <div class="mega-content" style="width: 15% !important;">
+                                <div class="mega-content">
                                     <div class="level0-wrapper2">
                                         <div class="nav-block nav-block-center">
-                                            <ul class="level0"
-                                                style="display: flex; flex-direction: column; padding: 0; margin: 0; list-style: none;">
+                                            <ul class="level0">
                                                 @foreach ($category->children as $child)
-                                                    <li class="level1 parent item" style="margin-bottom: 10px;">
-                                                        <h2 class="h4" style="margin: 0;">
-                                                            <a href="{{ url('tour/' . $child->slug) }}"
-                                                                style="text-decoration: none; color: #333;">
+                                                    <li class="level1 parent item">
+                                                        <h2 class="h4">
+                                                            <a href="{{ url('tour/' . $child->slug) }}">
                                                                 <span>{{ $child->name }}</span>
                                                             </a>
                                                         </h2>
                                                         @if ($child->children->isNotEmpty())
-                                                            <ul class="level1"
-                                                                style="padding-left: 20px; list-style: none;">
+                                                            <ul class="level1">
                                                                 @foreach ($child->children as $subChild)
-                                                                    <li class="level2" style="margin-bottom: 5px;">
-                                                                        <a href="{{ url('tour/' . $subChild->slug) }}"
-                                                                            style="text-decoration: none; color: #555;">
+                                                                    <li class="level2">
+                                                                        <a href="{{ url('tour/' . $subChild->slug) }}">
                                                                             <span>{{ $subChild->name }}</span>
                                                                         </a>
                                                                     </li>
@@ -130,7 +126,6 @@ if ($user) {
                             @endif
                         </li>
                     @endforeach
-
 
                     <!-- Các menu tĩnh -->
                     {{-- <li class="nav-item"><a class="nav-link" href="{{ route('home.allTour') }}">Tất cả Tour</a></li> --}}

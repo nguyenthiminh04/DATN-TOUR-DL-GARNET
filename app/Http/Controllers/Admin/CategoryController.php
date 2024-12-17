@@ -28,7 +28,7 @@ class CategoryController extends Controller
         $title = "Danh Sách Danh Mục";
 
         $status = $request->get('status');
-        $hot = $request->get('hot');
+        $hot = $request->get('hot'); 
 
         $query = Category::query();
 
@@ -37,7 +37,7 @@ class CategoryController extends Controller
         }
 
         if ($hot !== null) {
-            $query->where('hot', $hot);
+            $query->where('hot', $hot); 
         }
 
         $listCategory = $query->get();
@@ -68,35 +68,32 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(CategoryRequest $request)
-    {
-        if ($request->isMethod('POST')) {
-            $params = $request->except('_token');
+{
+    if ($request->isMethod('POST')) {
+        $params = $request->except('_token');
 
-            // Lấy trực tiếp giá trị từ dropdown
-            $params['status'] = $request->input('status');
+        // Lấy trực tiếp giá trị từ dropdown
+        $params['status'] = $request->input('status');
 
-            // Xử lý hình ảnh đại diện
-            if ($request->hasFile('img_thumb')) {
-                $params['img_thumb'] = $request->file('img_thumb')->store('uploads/thumbnails', 'public');
-            } else {
-                $params['img_thumb'] = null;
-            }
-
-            try {
-                // Thêm sản phẩm
-                $category = Category::query()->create($params);
-
-                return redirect()
-                    ->route('category.index')
-                    ->with('success', 'Thêm mới thành công!');;
-            } catch (\Exception $e) {
-
-                return redirect()
-                    ->route('category.index')
-                    ->with('error', 'Có lỗi xảy ra khi thêm danh mục!');
-            }
+        // Xử lý hình ảnh đại diện
+        if ($request->hasFile('img_thumb')) {
+            $params['img_thumb'] = $request->file('img_thumb')->store('uploads/thumbnails', 'public');
+        } else {
+            $params['img_thumb'] = null;
         }
+
+        // Thêm sản phẩm
+        $category = Category::query()->create($params);  // Chỉ tạo 1 lần
+
+        // Lấy id của category vừa tạo để thêm album (nếu cần)
+        $categoryId = $category->id;
+
+        // Nếu bạn cần xử lý thêm album, bạn có thể thêm logic ở đây
+
+        return redirect()->route('category.index'); // Chuyển hướng về trang danh sách
     }
+}
+
 
     /**
      * Display the specified resource.
@@ -152,7 +149,7 @@ class CategoryController extends Controller
             // Cập nhật dữ liệu
             $category->update($params);
 
-            return redirect()->route('category.index')->with('success', 'Cập nhật thành công!');
+            return redirect()->route('category.index')->with('success', 'Cập nhật thành công!');;
         }
     }
 

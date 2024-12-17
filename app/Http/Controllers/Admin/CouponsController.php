@@ -72,7 +72,7 @@ class CouponsController extends Controller
 
 
             Coupons::create($params);
-            return redirect()->route('coupons.index')->with('success', 'Thêm mới thành công!');;
+            return redirect()->route('coupons.index');
         }
     }
 
@@ -109,7 +109,7 @@ class CouponsController extends Controller
             // Cập nhật dữ liệu
             $tour->update($params);
 
-            return redirect()->route('coupons.index')->with('success', 'Cập nhật thành công!');;
+            return redirect()->route('coupons.index');
         }
     }
 
