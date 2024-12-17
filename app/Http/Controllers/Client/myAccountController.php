@@ -218,7 +218,7 @@ public function cancelOrder(Request $request, $id)
 
     // Gửi thông báo thành công với thông tin hoàn tiền
     $message = "Đơn hàng đã được hủy thành công. Số tiền hoàn lại: "
-        . number_format($refundAmount, 0, ',', '.') . " VND. Chúng tôi sẽ liên hệ với bạn sớm nhất";
+        . number_format($refundAmount, 0, ',', '.') . " VND.";
 
     return redirect()->back()->with('success', $message);
 }

@@ -140,7 +140,7 @@
                                                     class="form-select w-full max-w-xs payment-status-select status-tour"
                                                     data-id="{{ $item->id }}"
                                                     data-default-value="{{ $item->payment_status_id }}"
-                                                    @if ($item->payment_status_id == 3) disabled @endif>
+                                                    @if ($item->payment_status_id == 2) disabled @endif>
                                                     @foreach ($trangThaiThanhToan as $key => $value)
                                                         <option value="{{ $key }}"
                                                             {{ $key == $item->payment_status_id ? 'selected' : '' }}>
