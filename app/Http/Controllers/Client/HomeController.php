@@ -19,7 +19,7 @@ use App\Models\Rating;
 use App\Models\Review;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -138,6 +138,8 @@ class HomeController extends Controller
 
         // Chuẩn bị dữ liệu cho view
         $data = [
+            'suggestedTours' => Tour::inRandomOrder()->take(6)->get(),
+
             'tour' => $tour,
             'averageRating' => round($averageRating, 1), // Làm tròn đến 1 chữ số
             'category' => Category::find($tour->category_tour_id),
@@ -152,8 +154,9 @@ class HomeController extends Controller
             'canReview' => $canReview, // Truyền trạng thái có thể đánh giá tour hay không
         ];
 
+
         // Trả về view cùng dữ liệu
-        return view('client.tour.detail', $data);
+        return view('client.tour.detail', $data,);
     }
 
 
@@ -179,6 +182,7 @@ class HomeController extends Controller
 
         return redirect()->back()->with('success', 'Bình luận đã được lưu.');
     }
+
     public function store(Request $request, $tourId)
     {
         $userId = auth()->id();
@@ -241,7 +245,7 @@ class HomeController extends Controller
             if ($request->has('rating') && !empty($request->rating)) {
                 $ratingId = $request->rating;
 
-                
+
                 $query->whereHas('reviews', function ($q) use ($ratingId) {
                     $q->where('rating', $ratingId);
                 });
