@@ -25,6 +25,13 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="assign_all" class="form-label">
+                        <input type="checkbox" id="assign_all"> Gán tất cả quyền
+                    </label>
+                </div>
+                <input type="hidden" name="assign_all" id="assign_all_input" value="0">
+
+                <div class="mb-3" id="permission_section">
                     <label for="permission_id" class="form-label">Chọn quyền</label>
                     <select name="permission_id[]" class="form-select" id="permission_id" multiple="multiple" required>
                         <option value="">Tìm kiếm quyền</option>
@@ -70,6 +77,25 @@
                             })
                         };
                     }
+                }
+            });
+
+            // Xử lý checkbox "Gán tất cả quyền"
+            $('#assign_all').on('change', function() {
+                if ($(this).is(':checked')) {
+                    $('#permission_section').hide(); // Ẩn phần chọn quyền
+                    $('#permission_id').prop('disabled', true).val(null).trigger('change'); // Xóa chọn
+                } else {
+                    $('#permission_section').show(); // Hiện phần chọn quyền
+                    $('#permission_id').prop('disabled', false);
+                }
+            });
+
+            $('#assign_all').on('change', function() {
+                if ($(this).is(':checked')) {
+                    $('#assign_all_input').val(1); // Gán giá trị 1 nếu tích chọn
+                } else {
+                    $('#assign_all_input').val(0);
                 }
             });
         });
