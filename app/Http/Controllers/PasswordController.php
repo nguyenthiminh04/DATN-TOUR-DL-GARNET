@@ -14,8 +14,7 @@ class PasswordController extends Controller
 {
     public function forgotPassword()
     {
-        $data['head_title'] = "Đặt Lại Mật Khẩu";
-        return view('client.auth.forgotpassword', $data);
+        return view('client.auth.forgotpassword');
     }
 
     public function postForgotPassword(Request $request)
@@ -51,6 +50,7 @@ class PasswordController extends Controller
             if (!$user || $this->isTokenExpired($user->token_created_at)) {
                 abort(503, 'Service Unavailable');
             }
+
             $data['user'] = $user;
             return view('client.auth.restpassword', $data);
         } catch (\Exception $e) {

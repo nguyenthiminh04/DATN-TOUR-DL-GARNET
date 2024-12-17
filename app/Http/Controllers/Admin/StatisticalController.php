@@ -55,14 +55,14 @@ class StatisticalController extends Controller
         //lượt truy cập web hôm nay so với hôm qua
         // $visitorCount = DB::table('view_web')->count();
         $todayVisitors = DB::table('view_web')
-            ->whereDate('visited_at', Carbon::today())
-            ->distinct('ip_address')
-            ->count('ip_address');
+        ->whereDate('visited_at', Carbon::today())
+        ->distinct('ip_address')
+        ->count('ip_address');
 
         $yesterdayVisitors = DB::table('view_web')
-            ->whereDate('visited_at', Carbon::yesterday())
-            ->distinct('ip_address')
-            ->count('ip_address');
+        ->whereDate('visited_at', Carbon::yesterday())
+        ->distinct('ip_address') 
+        ->count('ip_address');
 
         $percentageChangeViewWev = 0;
         if ($yesterdayVisitors > 0) {

@@ -49,7 +49,7 @@
                                 <input type="text" id="coupon" name="coupon" />
                                 <p id="coupon-message" style="color: red; font-weight: bold;"></p>
                             </div>
-                            {!! NoCaptcha::display() !!}
+
                             <div class="form-group">
                                 <label for="total">Tổng tiền:</label>
                                 <p style="color: blue; font-weight: bolder" id="total-price-display">0₫</p>
@@ -221,5 +221,5 @@
 
         });
     </script>
-    {!! NoCaptcha::renderJs() !!}
+
 @endsection
