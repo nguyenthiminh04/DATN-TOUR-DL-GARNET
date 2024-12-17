@@ -136,44 +136,64 @@ class PayController extends Controller
 
 
     public function update(Request $request, $id)
-    {
-        try {
-            $tour = Payment::findOrFail($id);
+{
+    try {
+        $tour = Payment::findOrFail($id);
 
-            $currentStatus = $tour->status_id;
-            $newStatus = $request->input('status_id');
+        $currentStatus = $tour->status_id;
+        $newStatus = $request->input('status_id');
+        $paymentStatusId = $tour->payment_status_id;
+        // Trạng thái "hoàn thành" không được thay đổi
+        if ($currentStatus == 6) {
+            return response()->json(['success' => false, 'message' => 'Trạng thái đã hoàn thành không thể thay đổi nữa.']);
+        }
 
-            if ($currentStatus == 6) {
-                return response()->json(['success' => false, 'message' => 'Trạng thái đã hoàn thành không thể thay đổi nữa.']);
-            }
-
-            if ($newStatus < $currentStatus) {
-                return response()->json(['success' => false, 'message' => 'Không thể chuyển trạng thái cũ.']);
-            }
-
-            $tour->status_id  = $newStatus;
-            $tour->save();
-
-            $disabled = ($newStatus == 6 || $newStatus == 13) ? true : false;
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Cập nhật trạng thái tour thành công.',
-                'disabled' => $disabled,
-                'new_status' => $newStatus
-            ]);
-        } catch (\Illuminate\Database\QueryException $ex) {
+        // Không được chuyển về trạng thái cũ
+        if ($newStatus < $currentStatus) {
+            return response()->json(['success' => false, 'message' => 'Không thể chuyển trạng thái cũ.']);
+        }
+        // Kiểm tra điều kiện: Nếu chuyển trạng thái sang hủy (status_id == 3)
+        // thì payment_method_id phải bằng 13 (đã hủy)
+        // Kiểm tra điều kiện: chỉ cho phép chuyển status_id sang 6 nếu payment_status_id là 2
+        if ($newStatus == 6 && $paymentStatusId != 2) {
             return response()->json([
                 'success' => false,
-                'message' => 'Lỗi cơ sở dữ liệu: ' . $ex->getMessage()
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
+                'message' => 'Khách hàng chưa thanh toán.'
             ]);
         }
+// Kiểm tra điều kiện: không cho phép chuyển status_id sang 13 nếu payment_status_id là 2
+        if ($newStatus == 13 && $paymentStatusId == 2) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không thể hủy tour do khách hàng đã thanh toán.'
+            ]);
+        }
+
+        // Cập nhật trạng thái
+        $tour->status_id = $newStatus;
+        $tour->save();
+
+        $disabled = ($newStatus == 6 || $newStatus == 13) ? true : false;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cập nhật trạng thái tour thành công.',
+            'disabled' => $disabled,
+            'new_status' => $newStatus
+        ]);
+    } catch (\Illuminate\Database\QueryException $ex) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Lỗi cơ sở dữ liệu: ' . $ex->getMessage()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
+        ]);
     }
+}
+
 
     /**
      * Remove the specified resource from storage.
@@ -185,16 +205,22 @@ class PayController extends Controller
     public function ThanhToan(Request $request, string $id)
     {
         $tour = Payment::findOrFail($id);
+        $currentStatus = $tour->status_id;
+        $paymentStatusId = $request->input('payment_status_id');
 
-
-        if ($tour->payment_status_id == 2) {
+        if ($tour->payment_status_id == 3) {
             return response()->json([
                 'success' => false,
                 'message' => 'Trạng thái thanh toán đã được cập nhật, không thể thay đổi nữa.',
                 'disabled' => true
             ]);
         }
-
+        if ($paymentStatusId == 3 && $currentStatus != 13) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tour chưa hủy không thể hoàn tiền.'
+            ]);
+        }
 
         $tour->payment_status_id = $request->input('payment_status_id');
         $tour->save();

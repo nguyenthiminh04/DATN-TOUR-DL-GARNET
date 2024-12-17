@@ -47,7 +47,7 @@
                                 <thead class="text-muted">
                                     <tr>
                                         <th scope="col">ID</th>
-                                        <th scope="col">Tên danh mục</th>
+                                        <th scope="col">Tên danh mục tour</th>
                                         <th scope="col">Mô tả</th>                           
                                         <th scope="col">Trạng thái</th>
                                         <th scope="col">Hành động </th>
