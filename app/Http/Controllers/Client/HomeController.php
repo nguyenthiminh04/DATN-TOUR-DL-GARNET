@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Models\Admins\Tour;
-use Illuminate\Http\Request;
-use App\Models\Admins\Location;
-use App\Http\Controllers\Controller;
-use App\Models\Admins\Article;
-use App\Models\Admins\Category;
-use App\Models\Admins\CategoryTour;
-use App\Models\Article as ModelsArticle;
-// use App\Models\Admins\Categoty_tour;
-use App\Models\Comment;
 use App\Models\Coupon;
-use App\Models\Notification;
-use App\Models\Payment;
 use App\Models\Rating;
 use App\Models\Review;
+use App\Models\Comment;
+use App\Models\Payment;
+use App\Models\Admins\Tour;
+use App\Models\Notification;
+use Illuminate\Http\Request;
+// use App\Models\Admins\Categoty_tour;
+use App\Models\Admins\Article;
+use App\Models\Admins\Category;
+use App\Models\Admins\Location;
 use Illuminate\Support\Facades\DB;
+use App\Models\Admins\CategoryTour;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Article as ModelsArticle;
 
 
 class HomeController extends Controller

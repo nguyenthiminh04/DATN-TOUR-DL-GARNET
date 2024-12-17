@@ -94,6 +94,16 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="number" class="form-label">Số lượng chuyến đi<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" id="number" name="number"
+                                                value="{{ $tour->number }}" class="form-control"
+                                                placeholder="Nhập số lượng chuyến đi...">
+                                            @error('number')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
 
                                         <div class="mb-3">
                                             <label class="form-label" for="description">Mô tả ngắn</label>
