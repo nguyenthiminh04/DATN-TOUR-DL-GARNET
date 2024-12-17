@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:view_comment'])->only(['index']);
+        $this->middleware(['permission:destroy_comment'])->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */

@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Log;
 
 class AdvisoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:view_advisory'])->only(['index']);
+        $this->middleware(['permission:destroy_advisory'])->only(['destroy']);
+    }
     public function index(Request $request)
     {
         $data['title'] = "Tư Vấn Liên Hệ";
