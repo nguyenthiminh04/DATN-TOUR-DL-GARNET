@@ -1136,96 +1136,61 @@
 
 
                     <div class="row">
-                        <div class="container bootdey">
-                            <div class="col-md-12 bootstrap snippets">
-                                <!-- Hiển thị form bình luận nếu người dùng đã đặt tour -->
-                                @if ($userHasBooked)
-                                    <div class="panel">
-                                        <div class="panel-body">
-                                            <form method="POST" action="{{ route('posts.comment', $tour->id) }}">
-                                                @csrf
-                                                <textarea class="form-control" name="content" rows="2" placeholder="Bạn đang nghĩ gì?" required></textarea>
-                                                <div class="mar-top clearfix">
-                                                    <button class="btn btn-primary pull-right" type="submit">
-                                                        <i class="fa fa-pencil fa-fw"></i> Gửi
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                @else
-                                    <!-- Hiển thị thông báo nếu chưa đặt tour -->
-                                    <div class="alert alert-warning">
-                                        <strong>Bạn chưa đặt tour này!</strong> Vui lòng Đặt để gửi bình luận.
-                                    </div>
-                                @endif
+    <div class="container bootdey">
+        <div class="col-md-12 bootstrap snippets">
+            <!-- Hiển thị form bình luận nếu người dùng đã đặt tour -->
+            @if ($userHasBooked)
+                <div class="panel">
+                    <div class="panel-body">
+                        <form id="commentForm" method="POST" action="{{ route('posts.comment', $tour->id) }}">
+                            @csrf
+                            <textarea class="form-control" name="content" rows="2" placeholder="Bạn đang nghĩ gì?" required></textarea>
+                            <div class="mar-top clearfix">
+                                <button class="btn btn-primary pull-right" type="submit">
+                                    <i class="fa fa-pencil fa-fw"></i> Gửi
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            @else
+                <div class="alert alert-warning">
+                    <strong>Bạn chưa đặt tour này!</strong> Vui lòng Đặt để gửi bình luận.
+                </div>
+            @endif
 
-                                <!-- Hiển thị danh sách bình luận -->
-                                @foreach ($comments as $comment)
-                                    <div class="panel">
-                                        <div class="panel-body">
-                                            <div class="media-block">
-                                                <a class="media-left" href="#">
-                                                    <img class="img-circle img-sm" alt="Profile Picture"
-                                                        src="{{ Storage::url($comment->user->avatar) }}">
-                                                </a>
-                                                <div class="media-body">
-                                                    <div class="mar-btm">
-                                                        <strong class="btn-link text-semibold media-heading box-inline">
-                                                            {{ $comment->user ? $comment->user->name : 'Ẩn danh' }}
-                                                        </strong>
-                                                        <p class="text-muted text-sm">
-                                                            <i class="fa fa-clock-o"></i> {{ $comment->created_at }}
-                                                        </p>
-                                                    </div>
-                                                    <p>{{ $comment->content }}</p>
-                                                    <div class="pad-ver">
-                                                        <div class="btn-group">
-                                                            <a class="btn btn-sm btn-default btn-hover-success"
-                                                                href="#"><i class="fa fa-thumbs-up"></i></a>
-                                                            <a class="btn btn-sm btn-default btn-hover-danger"
-                                                                href="#"><i class="fa fa-thumbs-down"></i></a>
-                                                        </div>
-                                                        <!-- Nút Trả lời -->
-                                                        @if ($userHasBooked)
-                                                            <button class="btn btn-sm btn-default btn-hover-primary"
-                                                                onclick="toggleReplyForm({{ $comment->id }})">Trả
-                                                                lời</button>
-                                                        @else
-                                                            <span class="text-muted">Chỉ người đã đặt tour mới có thể trả
-                                                                lời.</span>
-                                                        @endif
-                                                    </div>
-                                                    <hr>
-                                                    <!-- Hiển thị bình luận con -->
-                                                    @if ($comment->children->count())
-                                                        @include('client.tour.comment', [
-                                                            'comments' => $comment->children,
-                                                        ])
-                                                    @endif
-                                                    <!-- Form trả lời bình luận -->
-                                                    @if ($userHasBooked)
-                                                        <div id="reply-form-{{ $comment->id }}" class="mt-3"
-                                                            style="display: none;">
-                                                            <form method="POST"
-                                                                action="{{ route('posts.comment', $tour->id) }}">
-                                                                @csrf
-                                                                <input type="hidden" name="parent_id"
-                                                                    value="{{ $comment->id }}">
-                                                                <textarea class="form-control" name="content" rows="2" placeholder="Trả lời bình luận này" required></textarea>
-                                                                <button class="btn btn-primary btn-sm mt-2"
-                                                                    type="submit">Gửi trả lời</button>
-                                                            </form>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
+            <!-- Hiển thị danh sách bình luận -->
+            <div id="commentSection">
+                @foreach ($comments as $comment)
+                    <div class="panel" id="comment_{{ $comment->id }}">
+                        <div class="panel-body">
+                            <div class="media-block">
+                                <a class="media-left" href="#">
+                                    <img class="img-circle img-sm" alt="Profile Picture"
+                                        src="{{ Storage::url($comment->user->avatar) }}">
+                                </a>
+                                <div class="media-body">
+                                    <div class="mar-btm">
+                                        <strong class="btn-link text-semibold media-heading box-inline">
+                                            {{ $comment->user ? $comment->user->name : 'Ẩn danh' }}
+                                        </strong>
+                                        <p class="text-muted text-sm">
+                                            <i class="fa fa-clock-o"></i> {{ $comment->created_at }}
+                                        </p>
                                     </div>
-                                @endforeach
+                                    <p>{{ $comment->content }}</p>
+                                    <hr>
+                                </div>
                             </div>
                         </div>
                     </div>
+                @endforeach
+            </div>
+
+        </div>
+    </div>
+</div>
+
                 </div>
             </div>
         </div>
@@ -1302,21 +1267,76 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    //Xử lý trả lời bình luận
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script>
-        // Function to toggle the reply form
-        function toggleReplyForm(commentId) {
-            const replyForm = document.getElementById(`reply-form-${commentId}`);
-            if (replyForm) {
-                // Toggle the display property of the reply form
-                if (replyForm.style.display === 'none' || replyForm.style.display === '') {
-                    replyForm.style.display = 'block';
-                } else {
-                    replyForm.style.display = 'none';
+      
+
+
+        $(document).ready(function () {
+    // Lắng nghe sự kiện submit của form bình luận
+    $('#commentForm').on('submit', function (e) {
+        e.preventDefault(); // Ngừng hành động mặc định của form
+
+        var form = $(this);
+        var content = form.find('textarea[name="content"]').val();
+
+        // Kiểm tra nếu nội dung không rỗng
+        if (content.trim() !== '') {
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(), // Gửi tất cả dữ liệu của form
+                success: function (response) {
+                    if (response.success) {
+                        // Thêm bình luận mới vào danh sách
+                        var newComment = response.comment;
+
+                        var newCommentHtml = `
+                            <div class="panel" id="comment_${newComment.id}">
+                                <div class="panel-body">
+                                    <div class="media-block">
+                                        <a class="media-left" href="#">
+                                            <img class="img-circle img-sm" alt="Profile Picture" src="${newComment.user_avatar}">
+                                        </a>
+                                        <div class="media-body">
+                                            <div class="mar-btm">
+                                                <strong class="btn-link text-semibold media-heading box-inline">
+                                                    ${newComment.user_name}
+                                                </strong>
+                                                <p class="text-muted text-sm">
+                                                    <i class="fa fa-clock-o"></i> ${newComment.created_at}
+                                                </p>
+                                            </div>
+                                            <p>${newComment.content}</p>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        // Chèn bình luận mới vào vị trí đầu tiên trong danh sách
+                        $('#commentSection').prepend(newCommentHtml);
+
+                        // Xóa nội dung textarea sau khi gửi
+                        form.find('textarea[name="content"]').val('');
+                    } else {
+                        alert('Có lỗi xảy ra khi gửi bình luận!');
+                    }
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi gửi bình luận!');
                 }
-            }
+            });
         }
+    });
+});
+
     </script>
+
+
 
 
     <script>

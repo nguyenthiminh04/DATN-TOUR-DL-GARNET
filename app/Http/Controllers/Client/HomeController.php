@@ -167,12 +167,12 @@ class HomeController extends Controller
         // Validate dữ liệu
         $validated = $request->validate([
             'content' => 'required|string',
-            'parent_id' => 'nullable|exists:comment,id', // Để trả lời bình luận
+            'parent_id' => 'nullable|exists:comments,id', // Để trả lời bình luận
             'anonymous_name' => 'nullable|string|max:255',
         ]);
 
         // Tạo bình luận
-        Comment::create([
+        $comment = Comment::create([
             'tour_id' => $tour->id,
             'user_id' => auth()->check() ? auth()->id() : null,
             'parent_id' => $validated['parent_id'] ?? null,
@@ -180,8 +180,19 @@ class HomeController extends Controller
             'content' => $validated['content'],
         ]);
 
-        return redirect()->back()->with('success', 'Bình luận đã được lưu.');
+        // Trả về phản hồi JSON
+        return response()->json([
+            'success' => true,
+            'comment' => [
+                'id' => $comment->id,
+                'user_name' => $comment->user ? $comment->user->name : $comment->anonymous_name,
+                'user_avatar' => $comment->user ? Storage::url($comment->user->avatar) : asset('default-avatar.png'),
+                'created_at' => $comment->created_at->format('d M Y, H:i'),
+                'content' => $comment->content,
+            ],
+        ]);
     }
+
 
     public function store(Request $request, $tourId)
     {
@@ -214,9 +225,17 @@ class HomeController extends Controller
 
     public function allTour()
     {
+
+        $tours = Tour::getAll();
+
+        foreach ($tours as $tour) {
+            $tour->average_rating = Review::where('tour_id', $tour->id)->avg('rating');
+            $tour->rating_count = Review::where('tour_id', $tour->id)->count();
+        }
+
         $data = [
             'header_title' => "Tất Cả Tour",
-            'getTour' => Tour::getAll(),
+            'getTour' => $tours,
             'locations' => Location::select('locations.*')->get(),
             'ratings' => Rating::select('ratings.*')->get(),
         ];
@@ -224,14 +243,17 @@ class HomeController extends Controller
         return view('client.pages.tourAll', $data);
     }
 
+
     public function filter(Request $request)
     {
         try {
             $query = Tour::query();
 
+
             if ($request->has('min_price') && $request->has('max_price')) {
                 $minPrice = $request->min_price;
                 $maxPrice = $request->max_price;
+
                 if (is_numeric($minPrice) && is_numeric($maxPrice)) {
                     $query->whereBetween('price_old', [$minPrice, $maxPrice]);
                 }
@@ -246,20 +268,25 @@ class HomeController extends Controller
                 $ratingId = $request->rating;
 
 
-                $query->whereHas('reviews', function ($q) use ($ratingId) {
-                    $q->where('rating', $ratingId);
-                });
+                if (is_numeric($ratingId) && $ratingId >= 1 && $ratingId <= 5) {
+                    $query->whereHas('reviews', function ($q) use ($ratingId) {
+                        $q->where('rating', $ratingId);
+                    });
+                }
             }
 
+            $tours = $query->with('reviews')->get();
 
-            $tours = $query->get();
+            foreach ($tours as $tour) {
+                $tour->average_rating = $tour->reviews->avg('rating');
+                $tour->rating_count = $tour->reviews->count();
+            }
 
             return response()->json([
                 'success' => true,
                 'html' => view('client.pages.filter_results', compact('tours'))->render()
             ]);
         } catch (\Exception $e) {
-
             Log::error('Lỗi trong filter: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra'], 500);
         }

@@ -82,8 +82,8 @@ Route::group(['middleware' => 'checkstatus'], function () {
 
     // Route::resource('tour', ClientTourController::class)->names([
     //đổi pass trang profile
-        Route::get('/change-password', [myAccountController::class, 'indexChangePassword'])->name('user.indexChangePassword');
-        Route::post('/change-password', [myAccountController::class, 'changePassword'])->name('user.changePassword');
+    Route::get('/change-password', [myAccountController::class, 'indexChangePassword'])->name('user.indexChangePassword');
+    Route::post('/change-password', [myAccountController::class, 'changePassword'])->name('user.changePassword');
     //them dia chi moi
     Route::get('/address', [myAccountController::class, 'indexAddressNew'])->name('user.indexAddress');
     Route::post('/address', [myAccountController::class, 'addressNew'])->name('user.address');
@@ -103,7 +103,10 @@ Route::group(['middleware' => 'checkstatus'], function () {
 
     // ]);
     Route::get('detail-tour/{id}', [HomeController::class, 'detailTour'])->name('client.tour.show');
-    Route::post('comment-tour/{id}', [HomeController::class, 'storeComment'])->name('posts.comment');
+
+    Route::post('/tour/{id}/comment', [HomeController::class, 'storeComment'])->name('posts.comment');
+
+
 
 
     // Route::get('/pre-booking', function () {
