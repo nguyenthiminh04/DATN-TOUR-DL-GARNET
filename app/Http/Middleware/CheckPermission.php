@@ -20,7 +20,6 @@ class CheckPermission
 
         if ($user && $user->role_id == 3) {
             if (!$user->hasPermission($permission)) {
-                
                 return response()->view('admin.errors.403', [], Response::HTTP_FORBIDDEN);
             }
         }
