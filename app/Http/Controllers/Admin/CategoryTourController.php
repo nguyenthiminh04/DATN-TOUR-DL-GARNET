@@ -77,7 +77,7 @@ class CategoryTourController extends Controller
             // Lấy trực tiếp giá trị từ dropdown
             // Thêm sản phẩm
             $categorytour = CategoryTour::query()->create($params);
-            return redirect()->route('categorytour.index')->with('success', 'Thêm thành công!');
+            return redirect()->route('categorytour.index')->with('success', 'Thêm mới thành công!');
         }
     }
 

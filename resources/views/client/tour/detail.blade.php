@@ -1,4 +1,7 @@
 @extends('client.layouts.app')
+@section('title')
+    {{ $tour->name }}
+@endsection
 @section('style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
@@ -738,7 +741,8 @@
                                                         value="<?= $tour->price_old * (1 - $tour->sale / 100) ?>">
                                                 </li>
                                                 <li class="col-xs-3 hidden-xss subtotal text-right" id="subtotal">
-                                                    {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}VNĐ</li>
+                                                    {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}VNĐ
+                                                </li>
                                             </ul>
 
                                             <ul class="nostyled variant_list clearfix" id="16258401">
@@ -1064,171 +1068,46 @@
 
                         <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
                             <div class="right_module">
-
                                 <div class="similar-product">
                                     <div class="right-bestsell clearfix">
                                         <h2>Tour gợi ý</h2>
                                         <div class="list-bestsell clearfix">
-
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a
-                                                            href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/83864b64404979-5ad0e1bdba9b284f3.jpg?v=1529553163227') }}"
-                                                                alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                                                                title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">Du
-                                                                lịch Mỹ [Los Angeles - Las Vegas - Universal Studios
-                                                                Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]</a></h3>
-                                                        <div class="product-price-and-shipping">
-
-
-                                                            <span class="price">49.000.000₫</span>
-
-                                                            <span class="regular-price">54.000.000₫</span>
+                                            @foreach ($suggestedTours as $tour)
+                                                <div class="list-bestsell-item">
+                                                    <div class="thumbnail-container clearfix">
+                                                        <div class="product-image">
+                                                            <a href="{{ route('detail', $tour->id) }}">
+                                                                <img class="img-responsive"
+                                                                    src="{{ Storage::url($tour->image) }}"
+                                                                    alt="{{ $tour->title }}" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="product-meta">
+                                                            <h3>
+                                                                <a href="{{ route('detail', $tour->id) }}"
+                                                                    title="{{ $tour->title }}"> {{ $tour->name }}
+                                                                    [{{ $tour->journeys }}]</a>
+                                                            </h3>
+                                                            <div class="product-price-and-shipping">
+                                                                <span class="price">
+                                                                    {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}
+                                                                    đ</span>
+                                                                @if ($tour->price_old)
+                                                                    <span
+                                                                        class="regular-price">{{ number_format($tour->price_old, 0, '', '.') }}
+                                                                        đ</span>
+                                                                @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a href="du-lich-ha-noi-lao-cai-sapa-ha-long.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/1-large1b48c.jpg?v=1529553697103') }}"
-                                                                alt="Du lịch Hà Nội - Lào Cai - Sapa - Hạ Long" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-ha-noi-lao-cai-sapa-ha-long.html"
-                                                                title="Du lịch Hà Nội - Lào Cai - Sapa - Hạ Long">Du lịch
-                                                                Hà Nội - Lào Cai - Sapa - Hạ Long</a></h3>
-                                                        <div class="product-price-and-shipping">
-                                                            <span class="price">7.990.000₫</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a href="du-lich-chau-au-phap-thuy-sy-nui-jungfrau-y.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/grand-britain-europe-tour-5-minffe2.jpg?v=1529553857067') }}"
-                                                                alt="Du lịch Châu Âu Pháp - Thụy Sỹ - Núi Jungfrau - Ý" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-chau-au-phap-thuy-sy-nui-jungfrau-y.html"
-                                                                title="Du lịch Châu Âu Pháp - Thụy Sỹ - Núi Jungfrau - Ý">Du
-                                                                lịch Châu Âu Pháp - Thụy Sỹ - Núi Jungfrau - Ý</a></h3>
-                                                        <div class="product-price-and-shipping">
-
-
-                                                            <span class="price">85.990.000₫</span>
-
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a href="du-lich-phap-bi-ha-lan-hoi-hoa-tulip-keukenhof.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/0r2a5723d111.jpg?v=1529553943837') }}"
-                                                                alt="Du lịch Pháp - Bỉ - Hà Lan [Hội Hoa Tulip Keukenhof]" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-phap-bi-ha-lan-hoi-hoa-tulip-keukenhof.html"
-                                                                title="Du lịch Pháp - Bỉ - Hà Lan [Hội Hoa Tulip Keukenhof]">Du
-                                                                lịch Pháp - Bỉ - Hà Lan [Hội Hoa Tulip Keukenhof]</a></h3>
-                                                        <div class="product-price-and-shipping">
-
-
-                                                            <span class="price">49.990.000₫</span>
-
-                                                            <span class="regular-price">55.000.000₫</span>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a href="du-lich-da-nang-kdl-ba-na-hoi-an-co-do-hue.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/53916-131503727972c4.jpg?v=1529554090113') }}"
-                                                                alt="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-da-nang-kdl-ba-na-hoi-an-co-do-hue.html"
-                                                                title="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế">Du
-                                                                lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế</a></h3>
-                                                        <div class="product-price-and-shipping">
-
-
-                                                            <span class="price">6.300.000₫</span>
-
-                                                            <span class="regular-price">6.500.000₫</span>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a href="du-lich-nha-trang-hon-lao.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/anam-resort-nha-trang-vietnam-23c70f.jpg?v=1529554176777') }}"
-                                                                alt="Du lịch Nha Trang - Hòn Lao" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-nha-trang-hon-lao.html"
-                                                                title="Du lịch Nha Trang - Hòn Lao">Du lịch Nha Trang - Hòn
-                                                                Lao</a></h3>
-                                                        <div class="product-price-and-shipping">
-
-
-                                                            <span class="price">3.300.000₫</span>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
+
                     </div>
                     @if ($canReview)
                         <div class="tour-review">
