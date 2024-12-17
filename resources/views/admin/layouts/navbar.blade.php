@@ -201,7 +201,7 @@
                     </div>
                 </li>
                 {{-- admin --}}
-                @if (auth()->user()->role_id == '3')
+                @if (auth()->user()->role_id == '1')
                     <li class="nav-item">
                         <a class="nav-link menu-link collapsed" href="#permissions" data-bs-toggle="collapse"
                             role="button" aria-expanded="false" aria-controls="permissions">

@@ -40,7 +40,7 @@
                                     <thead class="text-muted">
                                         <tr>
 
-                                            <th>ID</th>
+                                            <th>STT</th>
 
                                             <th>Tên người quản trị</th>
 

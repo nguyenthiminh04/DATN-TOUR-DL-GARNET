@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class PermissionUserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['permission:view_permissionUser'])->only(['index']);
-        $this->middleware(['permission:create_permissionUser'])->only(['create']);
-        $this->middleware(['permission:store_permissionUser'])->only(['store']);
-        $this->middleware(['permission:destroy_permissionUser'])->only(['destroy']);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware(['permission:view_permissionUser'])->only(['index']);
+    //     $this->middleware(['permission:create_permissionUser'])->only(['create']);
+    //     $this->middleware(['permission:store_permissionUser'])->only(['store']);
+    //     $this->middleware(['permission:destroy_permissionUser'])->only(['destroy']);
+    // }
     /**
      * Display a listing of the resource.
      */
@@ -50,7 +50,7 @@ class PermissionUserController extends Controller
      */
     public function create()
     {
-        $users = User::query()->where('role_id', 1)->get();
+        $users = User::query()->where('role_id', 3)->get();
         $permissions = PermissionUser::query()->get();
         return view('admin.permission.add_admin_permission', compact('users', 'permissions'));
     }
@@ -58,49 +58,58 @@ class PermissionUserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'user_id' => 'required|exists:users,id', // Kiểm tra người dùng có tồn tại trong bảng users
+    //         'permission_id' => 'required|array', // Kiểm tra permission_id phải là mảng
+    //         'permission_id.*' => 'exists:permissions,id' // Kiểm tra từng permission_id có tồn tại trong bảng permissions
+    //     ]);
+
+    //     // Lưu thông báo cho nhiều người dùng
+    //     foreach ($validatedData['permission_id'] as $permissionId) {
+    //         PermissionUser::create([
+    //             'user_id' => $validatedData['user_id'],
+    //             'permission_id' => $permissionId
+    //         ]);
+    //     }
+
+    //     session()->flash('success', 'Gán quyền cho admin thành công.');
+    //     return back();
+    // }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id', // Kiểm tra người dùng có tồn tại trong bảng users
-            'permission_id' => 'required|array', // Kiểm tra permission_id phải là mảng
-            'permission_id.*' => 'exists:permissions,id' // Kiểm tra từng permission_id có tồn tại trong bảng permissions
+            'user_id' => 'required|exists:users,id',
+            'assign_all' => 'nullable|boolean', // Kiểm tra checkbox gán tất cả quyền
+            'permission_id' => 'nullable|array',
+            'permission_id.*' => 'exists:permissions,id'
         ]);
 
-        // Lưu thông báo cho nhiều người dùng
-        foreach ($validatedData['permission_id'] as $permissionId) {
-            PermissionUser::create([
-                'user_id' => $validatedData['user_id'],
-                'permission_id' => $permissionId
-            ]);
+        if ($request->input('assign_all')) {
+            // Gán tất cả quyền cho người dùng
+            $allPermissions = Permission::all()->pluck('id');
+            foreach ($allPermissions as $permissionId) {
+                PermissionUser::updateOrCreate([
+                    'user_id' => $validatedData['user_id'],
+                    'permission_id' => $permissionId
+                ]);
+            }
+        } else {
+            // Gán từng quyền được chọn
+            foreach ($validatedData['permission_id'] as $permissionId) {
+                PermissionUser::create([
+                    'user_id' => $validatedData['user_id'],
+                    'permission_id' => $permissionId
+                ]);
+            }
         }
 
-        session()->flash('success', 'Gán quyền cho admin thành công.');
+        session()->flash('success', 'Gán quyền thành công.');
         return back();
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(PermissionUser $permissionUser)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PermissionUser $permissionUser)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, PermissionUser $permissionUser)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
