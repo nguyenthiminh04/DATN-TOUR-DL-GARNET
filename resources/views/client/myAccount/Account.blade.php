@@ -471,7 +471,11 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default"
                                                     data-dismiss="modal">Hủy</button>
-                                                <button type="submit" class="btn btn-primary">Cập nhật thông tin tài khoản</button>
+
+                                                    <button type="submit" class="btn btn-primary">Cập nhật thông tin tài khoản</button>
+
+                                               
+
                                             </div>
                                         </form>
                                     </div>

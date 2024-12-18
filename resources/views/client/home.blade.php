@@ -826,12 +826,20 @@
                         </div>
                     </div>
                     <div class="col-md-7">
+
+                        <div class="video-thumbnail">
+
+                            <a href="{{ route('service.show', $listarticle->id) }}">
+                                <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/sec_video_tour_embed_img6d1d.jpg"
+                                    alt="Ant Du lịch" class="img-responsive center-block" />
+                            </a>
+
+                        </div>
+
                         
-                            <div class="image-wrapper">
-                                <img src="{{ $listarticle->img_thumb ? asset('storage/' . $listarticle->img_thumb) : asset('path/to/default-image.jpg') }}"
-                                alt="{{ $listarticle->title }}"  class="img-fluid">
-                            </div>
+                         
                         
+
                     </div>
                 </div>
             </div>

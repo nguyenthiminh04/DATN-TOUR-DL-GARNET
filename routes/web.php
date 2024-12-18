@@ -104,8 +104,12 @@ Route::group(['middleware' => 'checkstatus'], function () {
     // ]);
     Route::get('detail-tour/{id}', [HomeController::class, 'detailTour'])->name('client.tour.show');
 
+    Route::post('/tour/{id}/comment', [HomeController::class, 'storeComment'])->name('posts.comment');
+
+
 
     Route::post('/tour/{id}/comment', [HomeController::class, 'storeComment'])->name('posts.comment');
+
 
 
 

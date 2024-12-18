@@ -226,16 +226,9 @@
                                                 @enderror
                                             </div>
                                             <div class="mb-3 col-6">
-                                                <label for="status1" class="form-label">User<span
-                                                        class="text-danger">*</span></label>
+                                                <label for="status1" class="form-label">User<span class="text-danger">*</span></label>
                                                 <select name="user_id" class="form-select w-100" id="status1">
-                                                    <option value="">Chọn user</option>
-                                                    @foreach ($listuser as $status)
-                                                        <option value="{{ $status->id }}"
-                                                            {{ old('user_id') == $status->id ? 'selected' : '' }}>
-                                                            {{ $status->name }}
-                                                        </option>
-                                                    @endforeach
+                                                    <option value="{{ Auth::user()->id }}" selected>{{ Auth::user()->name }}</option>
                                                 </select>
                                                 @error('user_id')
                                                     <span class="text-danger">{{ $message }}</span>

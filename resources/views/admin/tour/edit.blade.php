@@ -105,6 +105,9 @@
                                             @enderror
                                         </div>
 
+
+
+
                                         <div class="mb-3">
                                             <label class="form-label" for="description">Mô tả ngắn</label>
                                             <textarea class="form-control" id="description" name="description" rows="2" placeholder="Nhập mô tả tour...">{{ $tour->description }}</textarea>
