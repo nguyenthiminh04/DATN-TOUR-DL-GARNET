@@ -75,23 +75,23 @@ class TourController extends Controller
     {
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
-    
+
             // Lấy trực tiếp giá trị từ dropdown
             $params['status'] = $request->input('status');
-    
+
             // Xử lý hình ảnh đại diện
             if ($request->hasFile('image')) {
                 $params['image'] = $request->file('image')->store('uploads/image_tour', 'public');
             } else {
                 $params['image'] = null;
             }
-    
+
             // Thêm sản phẩm (Chỉ thực hiện create một lần)
             $tour = Tour::query()->create($params);
-    
+
             // Lấy ID của tour vừa thêm
             $tourID = $tour->id;
-    
+
             // Xử lý thêm album
             if ($request->hasFile('list_hinh_anh')) {
                 foreach ($request->file('list_hinh_anh') as $image) {
@@ -108,7 +108,7 @@ class TourController extends Controller
             return redirect()->route('tour.index')->with('success', 'Thêm mới thành công!');;
         }
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -197,6 +197,7 @@ class TourController extends Controller
             // Cập nhật dữ liệu
             $tour->update($params);
 
+            return redirect()->route('tour.index')->with('success', 'Cập nhật thành công!');;
             return redirect()->route('tour.index')->with('success', 'Cập nhật thành công!');;
         }
     }

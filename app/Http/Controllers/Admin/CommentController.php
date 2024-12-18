@@ -8,7 +8,7 @@ use App\Models\Comment;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+
 
 class CommentController extends Controller
 {
@@ -47,8 +47,6 @@ class CommentController extends Controller
 
             ->join('users', 'users.id', '=', 'comment.user_id')
             ->select('comment.*', 'tours.name as tour_name', 'users.name as user_name');
-
-
 
         $data['listComments'] = $query->get();
 
@@ -146,27 +144,15 @@ class CommentController extends Controller
             'status' => $comment->status
         ]);
     }
-
-//     public function storeComment(Request $request, $id)
-//     {
-//         $tour = Tour::findOrFail($id);
-
-
     public function storeComment(Request $request, $id)
     {
         $tour = Tour::findOrFail($id);
-
-
         // Validate dữ liệu
         $validated = $request->validate([
             'content' => 'required|string',
             'parent_id' => 'nullable|exists:comments,id', // Để trả lời bình luận
             'anonymous_name' => 'nullable|string|max:255',
         ]);
-
-
-
-
         // Tạo bình luận
         $comment = Comment::create([
             'tour_id' => $tour->id,
@@ -175,10 +161,6 @@ class CommentController extends Controller
             'anonymous_name' => auth()->check() ? null : $validated['anonymous_name'],
             'content' => $validated['content'],
         ]);
-
-
-
-
         // Trả về phản hồi JSON
         return response()->json([
             'success' => true,
@@ -191,11 +173,6 @@ class CommentController extends Controller
             ],
         ]);
     }
-
-
-
-
-
     public function storeReply(Request $request, $tour_id, $comment_id)
     {
         $validated = $request->validate([
@@ -203,10 +180,6 @@ class CommentController extends Controller
             'tour_id' => 'required|exists:tours,id',
             'parent_id' => 'required|exists:comments,id',
         ]);
-
-
-
-
         try {
             $reply = Comment::create([
                 'tour_id' => $tour_id,
@@ -214,10 +187,6 @@ class CommentController extends Controller
                 'content' => $validated['content'],
                 'parent_id' => $comment_id,
             ]);
-
-
-
-
             return response()->json([
                 'status' => 'success',
                 'reply' => [

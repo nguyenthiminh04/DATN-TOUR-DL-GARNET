@@ -1,4 +1,7 @@
 @extends('client.layouts.app')
+@section('title')
+   Cẩm Nang Dịch Vụ
+@endsection
 @section('content')
     <div class="container article-wraper">
         <div class="row">

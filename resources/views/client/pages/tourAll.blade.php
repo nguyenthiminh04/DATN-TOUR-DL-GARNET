@@ -1,4 +1,7 @@
 @extends('client.layouts.app')
+@section('title')
+   Tất Cả Tour  
+@endsection
 @section('style')
     <style>
         .rating {
@@ -21,6 +24,7 @@
             margin-left: 5px;
             font-weight: bold;
         }
+
         .select-style .form-control {
             border-radius: 0;
             border: 1px solid #ccc;

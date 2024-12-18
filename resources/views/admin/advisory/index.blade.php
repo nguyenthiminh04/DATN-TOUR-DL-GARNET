@@ -306,11 +306,14 @@
                                 },
                                 success: function(response) {
                                     if (response.success) {
+
                                         Swal.fire({
                                             icon: 'success',
-                                            title: 'Cập nhật trạng thái thành công!',
+                                            title: 'Thành công!',
+                                            text: 'Trạng thái cập nhật thành công!',
                                             showConfirmButton: false,
-                                            timer: 1500
+                                            timer: 1500,
+                                            timerProgressBar: true,
                                         });
 
                                         if (newStatus == 'Đã hoàn tất' || newStatus ==
@@ -374,11 +377,14 @@
                                 },
                                 success: function(response) {
                                     if (response.success) {
+
                                         Swal.fire({
                                             icon: 'success',
-                                            title: 'Cập nhật trạng thái thành công!',
+                                            title: 'Thành công!',
+                                            text: 'Trạng thái cập nhật thành công!',
                                             showConfirmButton: false,
-                                            timer: 1500
+                                            timer: 1500,
+                                            timerProgressBar: true,
                                         });
 
                                         if (newStatus == 'Đã hoàn tất' || newStatus ==

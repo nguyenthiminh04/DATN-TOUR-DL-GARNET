@@ -215,7 +215,7 @@
                     }
                 } else {
                     couponMessage.textContent = "Tour này không có mã giảm!!!";
-                        couponMessage.style.color = "red";
+                    couponMessage.style.color = "red";
                 }
             });
 

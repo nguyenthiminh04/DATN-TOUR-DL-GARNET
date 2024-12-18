@@ -1,5 +1,7 @@
 @extends('client.layouts.app')
-
+@section('title')
+   Đặt Lại Mật khẩu
+@endsection
 @section('style')
     <style>
         .d-flex {

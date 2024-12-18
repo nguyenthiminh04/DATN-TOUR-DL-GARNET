@@ -23,7 +23,7 @@ class NotificationUserController extends Controller
             $notificationUsers = NotificationUser::with('notification', 'user')->get();
 
             return datatables()->of($notificationUsers)
-                ->addColumn('name',function ($user){
+                ->addColumn('name', function ($user) {
                     return $user->name;
                 })
                 ->addColumn('is_read', function ($notification) {
@@ -36,8 +36,8 @@ class NotificationUserController extends Controller
                 ->addColumn('action', function ($notificationUser) {
                     return '<button id="deleteItem" class="btn btn-danger btn-sm" data-id="' . $notificationUser->id . '">Xóa</button>';
                 })
-                
-                ->rawColumns(['name','is_read', 'action'])
+
+                ->rawColumns(['name', 'is_read', 'action'])
                 ->make(true);
         }
         return view('admin.notification.list_notify_user');

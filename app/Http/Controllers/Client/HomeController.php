@@ -109,11 +109,14 @@ class HomeController extends Controller
     {
         // Tìm tour theo ID, nếu không tìm thấy thì trả về 404
         $tour = Tour::findOrFail($id);
-        $suggestedTours = Tour::inRandomOrder()->take(6)->get();
-        
+        $suggestedTours = Tour::where('id', '!=', $id)
+            ->inRandomOrder()
+            ->take(6)
+            ->get();
+
         // Tính điểm trung bình của các đánh giá
         $averageRating = Review::where('tour_id', $id)->avg('rating');
-        
+
         // Tăng trường view
         $tour->increment('view'); // Tăng giá trị của cột 'view' lên 1
     
@@ -152,7 +155,7 @@ class HomeController extends Controller
                 ->get(),
             'userHasBooked' => $userHasBooked, // Truyền trạng thái đặt tour
             'canReview' => $canReview, // Truyền trạng thái có thể đánh giá tour hay không
-            'suggestedTours' => $suggestedTours // Truyền biến suggestedTours vào view
+            'suggestedTours' => $suggestedTours
         ];
     
         // Trả về view cùng dữ liệu
@@ -167,10 +170,7 @@ class HomeController extends Controller
         // Validate dữ liệu
         $validated = $request->validate([
             'content' => 'required|string',
-            'parent_id' => 'nullable|exists:comment,id', // Để trả lời bình luận
             'parent_id' => 'nullable|exists:comments,id', // Để trả lời bình luận
-
-            'parent_id' => 'nullable|exists:comment,id', // Để trả lời bình luận
             'anonymous_name' => 'nullable|string|max:255',
         ]);
 
@@ -183,7 +183,6 @@ class HomeController extends Controller
             'content' => $validated['content'],
         ]);
 
-        return redirect()->back()->with('success', 'Bình luận đã được lưu.');
         // Trả về phản hồi JSON
         return response()->json([
             'success' => true,
@@ -196,6 +195,7 @@ class HomeController extends Controller
             ],
         ]);
     }
+
     public function store(Request $request, $tourId)
     {
         $userId = auth()->id();
@@ -228,6 +228,7 @@ class HomeController extends Controller
     public function allTour()
     {
         $tours = Tour::getAll();
+
         foreach ($tours as $tour) {
             $tour->average_rating = Review::where('tour_id', $tour->id)->avg('rating');
             $tour->rating_count = Review::where('tour_id', $tour->id)->count();
@@ -264,7 +265,7 @@ class HomeController extends Controller
             if ($request->has('rating') && !empty($request->rating)) {
                 $ratingId = $request->rating;
 
-                
+
                 if (is_numeric($ratingId) && $ratingId >= 1 && $ratingId <= 5) {
                     $query->whereHas('reviews', function ($q) use ($ratingId) {
                         $q->where('rating', $ratingId);
@@ -274,10 +275,11 @@ class HomeController extends Controller
 
 
             $tours = $query->with('reviews')->get();
+
             foreach ($tours as $tour) {
                 $tour->average_rating = $tour->reviews->avg('rating');
                 $tour->rating_count = $tour->reviews->count();
-            } 
+            }
             return response()->json([
                 'success' => true,
                 'html' => view('client.pages.filter_results', compact('tours'))->render()

@@ -214,62 +214,75 @@
             function toggleStatus(userId) {
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                $.ajax({
-                    url: `/admin/user/status/${userId}`,
-                    method: 'POST',
-                    data: {
-                        _token: csrfToken
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            const button = $(`button[data-id="${userId}"]`);
-                            if (response.status == 1) {
-                                button.removeClass('btn-danger').addClass('btn-success');
-                                button.text('Hiện');
-                            } else {
-                                button.removeClass('btn-success').addClass('btn-danger');
-                                button.text('Ẩn');
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn thay đổi trạng thái của người dùng này?',
+                    // text: 'Trạng thái sẽ được cập nhật!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Có, thay đổi',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            url: `/admin/user/status/${userId}`,
+                            method: 'POST',
+                            data: {
+                                _token: csrfToken
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    const button = $(`button[data-id="${userId}"]`);
+                                    if (response.status == 1) {
+                                        button.removeClass('btn-danger').addClass('btn-success');
+                                        button.text('Hiện');
+                                    } else {
+                                        button.removeClass('btn-success').addClass('btn-danger');
+                                        button.text('Ẩn');
+                                    }
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thành công!',
+                                        text: 'Trạng thái cập nhật thành công!',
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Lỗi!',
+                                        text: response.message || 'Đã xảy ra lỗi không xác định.',
+                                        showConfirmButton: true,
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                let errorMessage = 'Đã xảy ra lỗi khi cập nhật trạng thái.';
+                                if (xhr.status === 403 && xhr.responseJSON && xhr.responseJSON.message) {
+                                    errorMessage = xhr.responseJSON.message;
+                                }
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi!',
+                                    text: errorMessage,
+                                    showConfirmButton: true,
+                                });
+
+                                console.error(xhr.responseJSON || xhr.responseText);
                             }
-
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Thành công!',
-                                text: 'Đã được cập nhật thành công!',
-                                showConfirmButton: true,
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Lỗi!',
-                                text: response.message || 'Đã xảy ra lỗi không xác định.',
-                                showConfirmButton: true,
-                            });
-                        }
-                    },
-                    error: function(xhr) {
-
-                        let errorMessage = 'Đã xảy ra lỗi khi cập nhật trạng thái.';
-                        if (xhr.status === 403 && xhr.responseJSON && xhr.responseJSON.message) {
-                            errorMessage = xhr.responseJSON.message;
-                        }
-
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi!',
-                            text: errorMessage,
-                            showConfirmButton: true,
                         });
-
-                        console.error(xhr.responseJSON || xhr.responseText);
                     }
                 });
             }
-
-
-
 
             $(document).ready(function() {
                 // Sự kiện nhấn vào biểu tượng con mắt

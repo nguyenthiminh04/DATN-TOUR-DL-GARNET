@@ -54,7 +54,7 @@ class AdvisoryController extends Controller
 
     public function advisoryStatus(Request $request, $id)
     {
-       
+
 
         try {
             $advisory = Advisory::findOrFail($id);

@@ -1,4 +1,7 @@
 @extends('client.layouts.app')
+@section('title')
+    Tour Yêu Thích
+@endsection
 @section('content')
     <div class="container white collections-container margin-bottom-20">
         <div class="white-background">
