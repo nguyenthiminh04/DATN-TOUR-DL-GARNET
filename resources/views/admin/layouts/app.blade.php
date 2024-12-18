@@ -12,7 +12,11 @@
 
 
     <meta charset="utf-8">
-    <title>{{ !empty($title) ? $title : '' }} | Quản Trị</title>
+    @if (!empty($title))
+        <title>{{ !empty($title) ? $title : '' }} | Quản Trị</title>
+    @endif
+
+    @yield('title')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -124,7 +128,7 @@
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     {{-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> --}}
-    
+
 
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     {{-- <script>

@@ -122,14 +122,21 @@
                                     </tr>
                                 </thead>
                                 <tbody class="list form-check-all" id="tour-table-body">
-                                    @foreach ($listTour as $index => $item)
+                                    @if ($listTour->isEmpty())
                                         <tr>
-                                            <td><a href="" class="text-reset">{{ $item->id }}</a></td>
-                                            <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
+                                            <td colspan="11" class="text-center text-muted">
+                                                Trống.
+                                            </td>
+                                        </tr>
+                                    @else
+                                        @foreach ($listTour as $index => $item)
+                                            <tr>
+                                                <td><a href="" class="text-reset">{{ $item->id }}</a></td>
+                                                <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
 
-                                            <td>{{ $item->booking->tour->name  ?? 'Tour đã bị xóa' }}</td>
+                                                <td>{{ $item->booking->tour->name ?? 'Tour đã bị xóa' }}</td>
 
-                                            
+
 
                                             <td>{{ $item->booking->name }}</td>
                                             <td>
@@ -165,24 +172,25 @@
                                             </td>
                                             <td>
 
-                                                <ul class="d-flex gap-2 list-unstyled mb-0">
-                                                    <li>
-                                                        <a class="btn btn-subtle-primary btn-icon btn-sm view-quanlytour"
-                                                            data-id="{{ $item->id }}">
-                                                            <i class="ph-eye"></i>
-                                                        </a>
-                                                    </li>
+                                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+                                                        <li>
+                                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-quanlytour"
+                                                                data-id="{{ $item->id }}">
+                                                                <i class="ph-eye"></i>
+                                                            </a>
+                                                        </li>
 
-                                                    {{-- <li>
+                                                        {{-- <li>
                                                         <a href="#deleteRecordModal{{ $item->id }}"
                                                             data-bs-toggle="modal"
                                                             class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
                                                                 class="ph-trash"></i></a>
                                                     </li> --}}
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
 
                             </table>
@@ -283,11 +291,14 @@
                     data: data,
                     success: function(response) {
                         if (response.success) {
-                            Swal.fire(
-                                'Thành công!',
-                                response.message,
-                                'success'
-                            );
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: 'Trạng thái cập nhật thành công!',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
+                            });
 
                             if (response.disabled) {
                                 selectElement.prop('disabled', true);
@@ -321,9 +332,7 @@
                 });
             }
 
-
             var isSearchingOrFiltering = $('#status_id').length > 0 || $('#payment_status_id').length > 0;
-
 
             $(document).on('change', '.payment-status-select', function() {
                 var selectElement = $(this);
@@ -333,9 +342,11 @@
 
                 Swal.fire({
                     title: 'Bạn có chắc chắn muốn thay đổi trạng thái?',
-                    text: "Trạng thái sẽ được cập nhật!",
+                    // text: "Trạng thái sẽ được cập nhật!",
                     icon: 'warning',
                     showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
                     confirmButtonText: 'Có, thay đổi',
                     cancelButtonText: 'Hủy',
                     reverseButtons: true
@@ -362,9 +373,11 @@
 
                 Swal.fire({
                     title: 'Bạn có chắc chắn muốn thay đổi trạng thái?',
-                    text: "Trạng thái sẽ được cập nhật!",
+                    // text: "Trạng thái sẽ được cập nhật!",
                     icon: 'warning',
                     showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
                     confirmButtonText: 'Có, thay đổi',
                     cancelButtonText: 'Hủy',
                     reverseButtons: true
@@ -457,34 +470,33 @@
         });
     </script>
 
-<script>
-    $(document).ready(function() {
-  
-  $('.view-quanlytour').on('click', function(e) {
-      e.preventDefault();
+    <script>
+        $(document).ready(function() {
 
-      const quanlytourId = $(this).data('id'); 
+            $('.view-quanlytour').on('click', function(e) {
+                e.preventDefault();
 
-      $.ajax({
-          url: '/admin/quanlytour/' +
-              quanlytourId, 
-          type: 'GET',
-          success: function(response) {
-              
-              $('#quanlytourDetailContent').html(response);
-              $('#quanlytourDetailModal').modal('show'); 
-          },
-          error: function(xhr, status, error) {
-              alert('Có lỗi xảy ra khi tải chi tiết đơn đặt tour!');
-          }
-      });
-  });
-});
-</script>
+                const quanlytourId = $(this).data('id');
+
+                $.ajax({
+                    url: '/admin/quanlytour/' +
+                        quanlytourId,
+                    type: 'GET',
+                    success: function(response) {
+
+                        $('#quanlytourDetailContent').html(response);
+                        $('#quanlytourDetailModal').modal('show');
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Có lỗi xảy ra khi tải chi tiết đơn đặt tour!');
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
 @section('script')
     <script>
-
         $(document).ready(function() {
             // thêm faq
             $('#addCouponsForm').on('submit', function(e) {

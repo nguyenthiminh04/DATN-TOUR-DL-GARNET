@@ -219,7 +219,7 @@ class NotificationController extends Controller
             return response()->json(['success' => false, 'message' => 'Không tìm thấy thông báo!']);
         }
 
-        
+
         $notification->is_active = $request->status;
         $notification->save();
 

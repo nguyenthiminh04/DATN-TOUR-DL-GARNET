@@ -1,5 +1,7 @@
 @extends('client.layouts.app')
-
+@section('title')
+   Đăng Ký
+@endsection
 @section('style')
 @endsection
 

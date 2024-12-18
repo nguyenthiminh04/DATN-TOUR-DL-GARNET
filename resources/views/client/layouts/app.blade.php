@@ -7,7 +7,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>
-        @yield('title')
+        @yield('title') | Garnet Du Lịch
     </title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -902,6 +902,39 @@
                 behavior: 'smooth'
             });
         });
+    </script>
+
+    <script>
+        function resquet() {
+            fetch('', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(error => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: error.message,
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                window.location.href = '{{ route('home') }}';
+                            });;
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        setInterval(resquet, 5000);
     </script>
 
 </body>

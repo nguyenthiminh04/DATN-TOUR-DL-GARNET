@@ -59,19 +59,19 @@ class AuthClientController extends Controller
                 ]);
             } else if ($user->status == 0) {
 
-                if (Auth::check() && Auth::user()->role_id !== 1) {
+                if (Auth::check() && Auth::user()->role_id != 1) {
                     Auth::logout();
                 }
 
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Tài khoản của bạn hiện đang bị vô hiệu hóa.',
+                    'message' => 'Tài khoản của bạn hiện đang bị vô hiệu hóa!',
                 ]);
             }
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Email hoặc mật khẩu không chính xác.',
+                'message' => 'Email hoặc mật khẩu không chính xác!',
             ]);
         }
     }
@@ -149,16 +149,12 @@ class AuthClientController extends Controller
         }
     }
 
-
-
-
-
     public function logouts(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('dang-nhap')->with('success', 'Đã đăng xuất thành công');
+        return redirect()->route('homehome')->with('success', 'Đã đăng xuất thành công');
     }
     public function redirectToGoogle()
     {
@@ -243,5 +239,34 @@ class AuthClientController extends Controller
         } else {
             return back()->withErrors(['email' => trans($response)]);
         }
+    }
+
+
+    public function checkUserStatus()
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'status' => 0,
+                'message' => 'Vui lòng đăng nhập để tiếp tục.'
+            ], 401);
+        }
+
+        $user = Auth::user();
+
+        if ($user->status != 1) {
+            if ($user->role_id != 1) {
+                Auth::logout();
+            }
+
+            return response()->json([
+                'status' => 0,
+                'message' => 'Tài khoản của bạn đã bị vô hiệu hóa.'
+            ]);
+        }
+
+        return response()->json([
+            'status' => 1,  // Trạng thái là 1 (hoạt động)
+            'message' => 'Tài khoản vẫn đang hoạt động.'
+        ]);
     }
 }

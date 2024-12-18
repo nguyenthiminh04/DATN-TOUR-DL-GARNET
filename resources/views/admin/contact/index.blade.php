@@ -254,9 +254,11 @@
                                     if (response.success) {
                                         Swal.fire({
                                             icon: 'success',
-                                            title: 'Cập nhật trạng thái thành công!',
+                                            title: 'Thành công!',
+                                            text: 'Trạng thái cập nhật thành công!',
                                             showConfirmButton: false,
-                                            timer: 1500
+                                            timer: 1500,
+                                            timerProgressBar: true,
                                         });
 
 
@@ -301,9 +303,11 @@
 
                     Swal.fire({
                         title: 'Bạn có chắc chắn muốn thay đổi trạng thái?',
-                        text: "Trạng thái sẽ được cập nhật!",
+                        // text: "Trạng thái sẽ được cập nhật!",
                         icon: 'warning',
                         showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
                         confirmButtonText: 'Có, thay đổi',
                         cancelButtonText: 'Hủy',
                         reverseButtons: true
@@ -320,9 +324,11 @@
                                     if (response.success) {
                                         Swal.fire({
                                             icon: 'success',
-                                            title: 'Cập nhật trạng thái thành công!',
+                                            title: 'Thành công!',
+                                            text: 'Trạng thái cập nhật thành công!',
                                             showConfirmButton: false,
-                                            timer: 1500
+                                            timer: 1500,
+                                            timerProgressBar: true,
                                         });
 
                                         if (newStatus == 'Đã hoàn tất' || newStatus ==

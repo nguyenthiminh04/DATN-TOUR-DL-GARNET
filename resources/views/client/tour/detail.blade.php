@@ -1,4 +1,7 @@
 @extends('client.layouts.app')
+@section('title')
+    {{ $tour->name }}
+@endsection
 @section('style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
@@ -738,7 +741,8 @@
                                                         value="<?= $tour->price_old * (1 - $tour->sale / 100) ?>">
                                                 </li>
                                                 <li class="col-xs-3 hidden-xss subtotal text-right" id="subtotal">
-                                                    {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}VNĐ</li>
+                                                    {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}VNĐ
+                                                </li>
                                             </ul>
 
                                             <ul class="nostyled variant_list clearfix" id="16258401">
@@ -1069,163 +1073,41 @@
                                     <div class="right-bestsell clearfix">
                                         <h2>Tour gợi ý</h2>
                                         <div class="list-bestsell clearfix">
-
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a
-                                                            href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/83864b64404979-5ad0e1bdba9b284f3.jpg?v=1529553163227') }}"
-                                                                alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                                                                title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">Du
-                                                                lịch Mỹ [Los Angeles - Las Vegas - Universal Studios
-                                                                Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]</a></h3>
-                                                        <div class="product-price-and-shipping">
-
-
-                                                            <span class="price">49.000.000₫</span>
-
-                                                            <span class="regular-price">54.000.000₫</span>
+                                            @foreach ($suggestedTours as $suggestedTour)
+                                                <div class="list-bestsell-item">
+                                                    <div class="thumbnail-container clearfix">
+                                                        <div class="product-image">
+                                                            <a href="{{ route('detail', $suggestedTour->id) }}">
+                                                                <img class="img-responsive"
+                                                                    src="{{ $suggestedTour->images->first()->url ?? asset('default-image.jpg') }}"
+                                                                    alt="{{ $suggestedTour->name }}" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="product-meta">
+                                                            <h3>
+                                                                <a href="{{ route('detail', $suggestedTour->id) }}"
+                                                                    title="{{ $suggestedTour->name }}">
+                                                                    {{ $suggestedTour->name }}
+                                                                </a>
+                                                            </h3>
+                                                            <div class="product-price-and-shipping">
+                                                                <span class="price">
+                                                                    {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}₫
+                                                                </span>
+                                                                @if ($suggestedTour->price_old)
+                                                                    <span class="regular-price">
+                                                                        {{ number_format($tour->price_old, 0, '', '.') }}₫
+                                                                    </span>
+                                                                @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a href="du-lich-ha-noi-lao-cai-sapa-ha-long.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/1-large1b48c.jpg?v=1529553697103') }}"
-                                                                alt="Du lịch Hà Nội - Lào Cai - Sapa - Hạ Long" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-ha-noi-lao-cai-sapa-ha-long.html"
-                                                                title="Du lịch Hà Nội - Lào Cai - Sapa - Hạ Long">Du lịch
-                                                                Hà Nội - Lào Cai - Sapa - Hạ Long</a></h3>
-                                                        <div class="product-price-and-shipping">
-                                                            <span class="price">7.990.000₫</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a href="du-lich-chau-au-phap-thuy-sy-nui-jungfrau-y.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/grand-britain-europe-tour-5-minffe2.jpg?v=1529553857067') }}"
-                                                                alt="Du lịch Châu Âu Pháp - Thụy Sỹ - Núi Jungfrau - Ý" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-chau-au-phap-thuy-sy-nui-jungfrau-y.html"
-                                                                title="Du lịch Châu Âu Pháp - Thụy Sỹ - Núi Jungfrau - Ý">Du
-                                                                lịch Châu Âu Pháp - Thụy Sỹ - Núi Jungfrau - Ý</a></h3>
-                                                        <div class="product-price-and-shipping">
-
-
-                                                            <span class="price">85.990.000₫</span>
-
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a href="du-lich-phap-bi-ha-lan-hoi-hoa-tulip-keukenhof.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/0r2a5723d111.jpg?v=1529553943837') }}"
-                                                                alt="Du lịch Pháp - Bỉ - Hà Lan [Hội Hoa Tulip Keukenhof]" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-phap-bi-ha-lan-hoi-hoa-tulip-keukenhof.html"
-                                                                title="Du lịch Pháp - Bỉ - Hà Lan [Hội Hoa Tulip Keukenhof]">Du
-                                                                lịch Pháp - Bỉ - Hà Lan [Hội Hoa Tulip Keukenhof]</a></h3>
-                                                        <div class="product-price-and-shipping">
-
-
-                                                            <span class="price">49.990.000₫</span>
-
-                                                            <span class="regular-price">55.000.000₫</span>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a href="du-lich-da-nang-kdl-ba-na-hoi-an-co-do-hue.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/53916-131503727972c4.jpg?v=1529554090113') }}"
-                                                                alt="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-da-nang-kdl-ba-na-hoi-an-co-do-hue.html"
-                                                                title="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế">Du
-                                                                lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế</a></h3>
-                                                        <div class="product-price-and-shipping">
-
-
-                                                            <span class="price">6.300.000₫</span>
-
-                                                            <span class="regular-price">6.500.000₫</span>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="list-bestsell-item">
-                                                <div class="thumbnail-container clearfix">
-                                                    <div class="product-image">
-                                                        <a href="du-lich-nha-trang-hon-lao.html">
-
-                                                            <img class="img-responsive"
-                                                                src="{{ url('client/bizweb.dktcdn.net/thumb/small/100/299/077/products/anam-resort-nha-trang-vietnam-23c70f.jpg?v=1529554176777') }}"
-                                                                alt="Du lịch Nha Trang - Hòn Lao" />
-
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-meta">
-                                                        <h3><a href="du-lich-nha-trang-hon-lao.html"
-                                                                title="Du lịch Nha Trang - Hòn Lao">Du lịch Nha Trang - Hòn
-                                                                Lao</a></h3>
-                                                        <div class="product-price-and-shipping">
-
-
-                                                            <span class="price">3.300.000₫</span>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
+
 
                             </div>
                         </div>
@@ -1257,60 +1139,62 @@
 
 
                     <div class="row">
-    <div class="container bootdey">
-        <div class="col-md-12 bootstrap snippets">
-            <!-- Hiển thị form bình luận nếu người dùng đã đặt tour -->
-            @if ($userHasBooked)
-                <div class="panel">
-                    <div class="panel-body">
-                        <form id="commentForm" method="POST" action="{{ route('posts.comment', $tour->id) }}">
-                            @csrf
-                            <textarea class="form-control" name="content" rows="2" placeholder="Bạn đang nghĩ gì?" required></textarea>
-                            <div class="mar-top clearfix">
-                                <button class="btn btn-primary pull-right" type="submit">
-                                    <i class="fa fa-pencil fa-fw"></i> Gửi
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            @else
-                <div class="alert alert-warning">
-                    <strong>Bạn chưa đặt tour này!</strong> Vui lòng Đặt để gửi bình luận.
-                </div>
-            @endif
-
-            <!-- Hiển thị danh sách bình luận -->
-            <div id="commentSection">
-                @foreach ($comments as $comment)
-                    <div class="panel" id="comment_{{ $comment->id }}">
-                        <div class="panel-body">
-                            <div class="media-block">
-                                <a class="media-left" href="#">
-                                    <img class="img-circle img-sm" alt="Profile Picture"
-                                        src="{{ Storage::url($comment->user->avatar) }}">
-                                </a>
-                                <div class="media-body">
-                                    <div class="mar-btm">
-                                        <strong class="btn-link text-semibold media-heading box-inline">
-                                            {{ $comment->user ? $comment->user->name : 'Ẩn danh' }}
-                                        </strong>
-                                        <p class="text-muted text-sm">
-                                            <i class="fa fa-clock-o"></i> {{ $comment->created_at }}
-                                        </p>
+                        <div class="container bootdey">
+                            <div class="col-md-12 bootstrap snippets">
+                                <!-- Hiển thị form bình luận nếu người dùng đã đặt tour -->
+                                @if ($userHasBooked)
+                                    <div class="panel">
+                                        <div class="panel-body">
+                                            <form id="commentForm" method="POST"
+                                                action="{{ route('posts.comment', $tour->id) }}">
+                                                @csrf
+                                                <textarea class="form-control" name="content" rows="2" placeholder="Bạn đang nghĩ gì?" required></textarea>
+                                                <div class="mar-top clearfix">
+                                                    <button class="btn btn-primary pull-right" type="submit">
+                                                        <i class="fa fa-pencil fa-fw"></i> Gửi
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <p>{{ $comment->content }}</p>
-                                    <hr>
+                                @else
+                                    <div class="alert alert-warning">
+                                        <strong>Bạn chưa đặt tour này!</strong> Vui lòng Đặt để gửi bình luận.
+                                    </div>
+                                @endif
+
+                                <!-- Hiển thị danh sách bình luận -->
+                                <div id="commentSection">
+                                    @foreach ($comments as $comment)
+                                        <div class="panel" id="comment_{{ $comment->id }}">
+                                            <div class="panel-body">
+                                                <div class="media-block">
+                                                    <a class="media-left" href="#">
+                                                        <img class="img-circle img-sm" alt="Profile Picture"
+                                                            src="{{ Storage::url($comment->user->avatar) }}">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <div class="mar-btm">
+                                                            <strong
+                                                                class="btn-link text-semibold media-heading box-inline">
+                                                                {{ $comment->user ? $comment->user->name : 'Ẩn danh' }}
+                                                            </strong>
+                                                            <p class="text-muted text-sm">
+                                                                <i class="fa fa-clock-o"></i> {{ $comment->created_at }}
+                                                            </p>
+                                                        </div>
+                                                        <p>{{ $comment->content }}</p>
+                                                        <hr>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
+
                             </div>
                         </div>
                     </div>
-                @endforeach
-            </div>
-
-        </div>
-    </div>
-</div>
 
                 </div>
             </div>
@@ -1389,32 +1273,28 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
-      
+        $(document).ready(function() {
+            // Lắng nghe sự kiện submit của form bình luận
+            $('#commentForm').on('submit', function(e) {
+                e.preventDefault(); // Ngừng hành động mặc định của form
 
+                var form = $(this);
+                var content = form.find('textarea[name="content"]').val();
 
-        $(document).ready(function () {
-    // Lắng nghe sự kiện submit của form bình luận
-    $('#commentForm').on('submit', function (e) {
-        e.preventDefault(); // Ngừng hành động mặc định của form
+                // Kiểm tra nếu nội dung không rỗng
+                if (content.trim() !== '') {
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: 'POST',
+                        data: form.serialize(), // Gửi tất cả dữ liệu của form
+                        success: function(response) {
+                            if (response.success) {
+                                // Thêm bình luận mới vào danh sách
+                                var newComment = response.comment;
 
-        var form = $(this);
-        var content = form.find('textarea[name="content"]').val();
-
-        // Kiểm tra nếu nội dung không rỗng
-        if (content.trim() !== '') {
-            $.ajax({
-                url: form.attr('action'),
-                type: 'POST',
-                data: form.serialize(), // Gửi tất cả dữ liệu của form
-                success: function (response) {
-                    if (response.success) {
-                        // Thêm bình luận mới vào danh sách
-                        var newComment = response.comment;
-
-                        var newCommentHtml = `
+                                var newCommentHtml = `
                             <div class="panel" id="comment_${newComment.id}">
                                 <div class="panel-body">
                                     <div class="media-block">
@@ -1438,23 +1318,22 @@
                             </div>
                         `;
 
-                        // Chèn bình luận mới vào vị trí đầu tiên trong danh sách
-                        $('#commentSection').prepend(newCommentHtml);
+                                // Chèn bình luận mới vào vị trí đầu tiên trong danh sách
+                                $('#commentSection').prepend(newCommentHtml);
 
-                        // Xóa nội dung textarea sau khi gửi
-                        form.find('textarea[name="content"]').val('');
-                    } else {
-                        alert('Có lỗi xảy ra khi gửi bình luận!');
-                    }
-                },
-                error: function () {
-                    alert('Có lỗi xảy ra khi gửi bình luận!');
+                                // Xóa nội dung textarea sau khi gửi
+                                form.find('textarea[name="content"]').val('');
+                            } else {
+                                alert('Có lỗi xảy ra khi gửi bình luận!');
+                            }
+                        },
+                        error: function() {
+                            alert('Có lỗi xảy ra khi gửi bình luận!');
+                        }
+                    });
                 }
             });
-        }
-    });
-});
-
+        });
     </script>
 
 
@@ -1545,6 +1424,7 @@
             window.location.href = url;
         }
     </script>
+
 
     <script>
         // Gắn sự kiện click cho nút 1

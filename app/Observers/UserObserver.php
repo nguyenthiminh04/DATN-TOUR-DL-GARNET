@@ -22,7 +22,7 @@ class UserObserver
     {
         if ($user->isDirty('status') && $user->status != 1) {
 
-            if (Auth::check() && Auth::user()->role_id !== 1) {
+            if (Auth::check() && Auth::id() === $user->id && Auth::user()->role_id !== 1) {
                 Auth::logout();
             }
         }

@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $title = "Danh Mục User";
+        $title = "Danh Sách Người Dùng";
 
         $status = $request->get('status');
         $query = User::query();
@@ -37,8 +37,8 @@ class UserController extends Controller
 
         $listuser = $query->get();
 
-       
-       
+
+
         if ($request->ajax()) {
             return response()->json([
                 'data' => $listuser
@@ -54,7 +54,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        
+
         $listStatus = Status::query()->get();
         return view('admin.user.add', compact('listStatus'));
     }

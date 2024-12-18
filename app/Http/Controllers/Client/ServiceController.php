@@ -14,7 +14,7 @@ class ServiceController extends Controller
     {
         $categotyTour = CategoryTour::all();
         $article = Article::with('user')->limit(6)->get();
-        return view('client.pages.service',compact('categotyTour','article'));
+        return view('client.pages.service', compact('categotyTour', 'article'));
     }
     public function show(string $id, Request $request)
     {
@@ -25,5 +25,4 @@ class ServiceController extends Controller
 
         return view('client.pages.detailHandbook', compact('showArticle', 'relatedArticles'));
     }
-
 }

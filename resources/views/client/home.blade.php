@@ -7,7 +7,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>
-        Garnet du lịch
+        Trang Chủ | Garnet Du Lịch
     </title>
 
     <meta name="description"
@@ -310,81 +310,87 @@
             line-height: 1.5;
         }
 
-      
-.tour-guide-small-articles {
-    display: flex;
-    flex-direction: column; 
-    gap: 15px; 
-}
 
-.tour-guide-small-item {
-    display: flex;
-    align-items: center; 
-    gap: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px; 
-    padding: 10px;
-    background-color: #fff; 
-    transition: box-shadow 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-}
+        .tour-guide-small-articles {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-.tour-guide-small-item:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+        .tour-guide-small-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #fff;
+            transition: box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-
-.small-post-image {
-    width: 100px; /* Độ rộng cố định cho ảnh */
-    height: 70px; /* Chiều cao cố định */
-    object-fit: cover; /* Đảm bảo ảnh giữ tỷ lệ và cắt phần dư */
-    border-radius: 5px; /* Bo góc ảnh */
-}
+        .tour-guide-small-item:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
 
-.tour-guide-small-description {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-}
+        .small-post-image {
+            width: 100px;
+            /* Độ rộng cố định cho ảnh */
+            height: 70px;
+            /* Chiều cao cố định */
+            object-fit: cover;
+            /* Đảm bảo ảnh giữ tỷ lệ và cắt phần dư */
+            border-radius: 5px;
+            /* Bo góc ảnh */
+        }
 
 
-.tour-guide-small-description h4 {
-    margin: 0 0 5px; 
-    font-size: 14px; 
-    font-weight: bold;
-}
+        .tour-guide-small-description {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-.tour-guide-small-description h4 a {
-    color: #333; 
-    text-decoration: none;
-}
 
-.tour-guide-small-description h4 a:hover {
-    color: #007bff; 
-}
+        .tour-guide-small-description h4 {
+            margin: 0 0 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
 
-.tour-guide-small-description p {
-    margin: 0 0 5px;
-    font-size: 12px; 
-    color: #555;
-}
+        .tour-guide-small-description h4 a {
+            color: #333;
+            text-decoration: none;
+        }
 
-.tour-guide-small-description span {
-    font-size: 11px;
-    color: #888;
-}
+        .tour-guide-small-description h4 a:hover {
+            color: #007bff;
+        }
 
-.section_tour-holiday {
-    padding: 50px 0; 
-}
+        .tour-guide-small-description p {
+            margin: 0 0 5px;
+            font-size: 12px;
+            color: #555;
+        }
 
-.image-wrapper img {
-    max-width: 100%; /* Đảm bảo ảnh không vượt quá kích thước cột */
-    border-radius: 5px; /* Bo tròn góc cho ảnh */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Hiệu ứng đổ bóng */
-}
+        .tour-guide-small-description span {
+            font-size: 11px;
+            color: #888;
+        }
 
+        .section_tour-holiday {
+            padding: 50px 0;
+        }
+
+        .image-wrapper img {
+            max-width: 100%;
+            /* Đảm bảo ảnh không vượt quá kích thước cột */
+            border-radius: 5px;
+            /* Bo tròn góc cho ảnh */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            /* Hiệu ứng đổ bóng */
+        }
     </style>
 </head>
 
@@ -836,15 +842,16 @@
 
                         </div>
 
-                        
-                         
-                        
+
+
+
 
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
     <section class="awe-section-6">
         <div class="section_tour-location">
             <div class="container">
@@ -926,39 +933,169 @@
                                     </div>
                                 </div>
                             </div>
-    
-    
+
+
                             <div class="col-md-4">
                                 <div class="tour-guide-small-articles">
                                     @foreach ($article->skip(1) as $articles)
                                         <div class="tour-guide-small-item">
                                             <a href="{{ route('service.show', $articles->id) }}">
                                                 <img src="{{ $articles->img_thumb ? asset('storage/' . $articles->img_thumb) : asset('path/to/default-image.jpg') }}"
-                                                    alt="{{ $articles->title }}"  class="small-post-image">
+                                                    alt="{{ $articles->title }}" class="small-post-image">
                                             </a>
                                             <div class="tour-guide-small-description">
                                                 <h4><a
                                                         href="{{ route('service.show', $articles->id) }}">{{ $articles->title }}</a>
                                                 </h4>
-                                                <p>{{$articles->description}}</p>
+                                                <p>{{ $articles->description }}</p>
                                                 <span>{{ $articles->created_at->format('d/m/Y') }}</span>
                                             </div>
                                         </div>
                                     @endforeach
 
-                                
+
+                                </div>
                             </div>
+
+
+
                         </div>
 
-                   
 
                     </div>
 
-
                 </div>
 
-            </div>
+        </section>
+    </section>
 
+    <section class="awe-section-7">
+
+        <section class="section-news margin-bottom-20">
+            <div class="container">
+                <div class="blogs-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="section_tour-new_title">
+                                <h2>Cẩm nang du lịch</h2>
+                                <div class="title-line">
+                                    <div class="tl-1"></div>
+                                    <div class="tl-2"></div>
+                                    <div class="tl-3"></div>
+                                </div>
+                                <p>Cẩm nang thông tin về du lịch, văn hóa, ẩm thực, các sự kiện và lễ hội tại các điểm
+                                    đến tại Việt nam.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news_hot_left">
+                        <div class="row">
+                            <div class="news_owl col-lg-6 col-md-6 col-sm-6 col-xs-12 cam-nang-du-lich">
+
+                                <div class="item_blog_big">
+                                    <div class="figure-big">
+
+                                        <div class="img_thumb_blogs">
+                                            <a href="{{ route('service.show', $article[0]->id) }}" class="big_img_h">
+                                                <picture>
+                                                    <source media="(max-width: 480px)"
+                                                        srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
+                                                    <source media="(min-width: 481px) and (max-width: 767px)"
+                                                        srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
+                                                    <source media="(min-width: 768px) and (max-width: 1023px)"
+                                                        srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
+                                                    <source media="(min-width: 1024px) and (max-width: 1199px)"
+                                                        srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
+                                                    <source media="(min-width: 1200px)"
+                                                        srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
+                                                    <img src="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}"
+                                                        alt="{{ $article[0]->title }}" class="img-fluid">
+                                                </picture>
+                                            </a>
+                                        </div>
+                                        <div class="content_item_blogs">
+                                            <div class="blog_home_title margin-top-10 margin-bottom-10">
+                                                <h3 class="news_home_content_short_info">
+                                                    <a href="{{ route('service.show', $article[0]->id) }}"
+                                                        title="{{ $articles->title }}">{{ $articles->title }}</a>
+                                                </h3>
+                                            </div>
+                                            <div class="content-sum">
+                                                {{ $articles->description }}
+                                            </div>
+                                            <div class="content_day_blog margin-bottom-10">
+                                                <i class="fa fa-clock-o"></i><span></span>
+                                                <span class="news_home_content_short_time">
+                                                    {{ $articles->created_at->format('d/m/Y') }}
+                                                </span>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="content-blog-index col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                @foreach ($article->skip(1) as $articles)
+                                    <div class="xxx clearfix">
+                                        <div class="myblog"
+                                            onclick="window.location.href='{{ route('service.show', $article[0]->id) }}';">
+                                            <div class="item_blog_big">
+                                                <div class="figure-big">
+                                                    <div class="image-blog-left img_thumb_blogs">
+
+                                                        <a href="{{ route('service.show', $article[0]->id) }}">
+                                                            <picture>
+                                                                <source media="(max-width: 375px)"
+                                                                    srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
+                                                                <source
+                                                                    media="(min-width: 376px) and (max-width: 767px)"
+                                                                    srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
+                                                                <source media="(min-width: 1200px)"
+                                                                    srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
+                                                                <source
+                                                                    media="(min-width: 768px) and (max-width: 1023px)"
+                                                                    srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
+                                                                <source
+                                                                    media="(min-width: 1024px) and (max-width: 1199px)"
+                                                                    srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
+                                                                <img src="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}"
+                                                                    alt="{{ $article[0]->title }}" class="img-fluid">
+                                                            </picture>
+                                                        </a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="content-right-blog">
+                                                <div class="title_blog_home">
+                                                    <h3>
+                                                        <a href="{{ route('service.show', $article[0]->id) }}"
+                                                            title="{{ $articles->title }}">{{ $articles->title }}
+                                                    </h3>
+                                                </div>
+                                                <div class="content-sum">
+
+                                                    {{ $articles->description }}
+                                                </div>
+                                                <div class="content_day_blog margin-bottom-10">
+                                                    <i class="fa fa-clock-o"></i><span></span>
+                                                    <span class="news_home_content_short_time">
+                                                        {{ $articles->created_at->format('d/m/Y') }}
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </section>
 
@@ -1180,7 +1317,8 @@
         <div class="content">
             <div class="row row-noGutter">
                 <div class="col-xl-6 col-xs-12">
-                    <div class="btn btn-full btn-primary a-left popup-title"><i class="fa fa-check"></i>Thêm vào giỏ
+                    <div class="btn btn-full btn-primary a-left popup-title"><i class="fa fa-check"></i>Thêm vào
+                        giỏ
                         hàng thành công
                     </div>
                     <a href="javascript:void(0)" class="close-window close-popup"><i class="fa fa-close"></i></a>
@@ -1198,7 +1336,8 @@
                         </div>
                         <div class="actions">
                             <button class="btn  btn-primary  margin-top-5 btn-continue">Tiếp tục mua hàng</button>
-                            <button class="btn btn-gray margin-top-5" onclick="window.location='cart.html'">Kiểm tra
+                            <button class="btn btn-gray margin-top-5" onclick="window.location='cart.html'">Kiểm
+                                tra
                                 giỏ
                                 hàng</button>
                         </div>
@@ -1488,8 +1627,10 @@
                     <h4 class="modal-title" id="myModalLabel">Hotline đặt Tour</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="on-content">Chúng tôi cam kết luôn nỗ lực đem đến những giá trị dịch vụ tốt nhất cho
-                        khách hàng và đối tác để tiếp tục khẳng định vị trí hàng đầu của thương hiệu Ant Du lịch.</div>
+                    <div class="on-content">Chúng tôi cam kết luôn nỗ lực đem đến những giá trị dịch vụ tốt nhất
+                        cho
+                        khách hàng và đối tác để tiếp tục khẳng định vị trí hàng đầu của thương hiệu Ant Du lịch.
+                    </div>
                     <div class="on-sup-info">
 
                         <ul>
@@ -1762,31 +1903,36 @@
 
 
     <script>
-        fetch('', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(error => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: error.message,
-                            confirmButtonText: 'OK'
+        function resquet() {
+            fetch('', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(error => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: error.message,
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                window.location.href = '{{ route('home') }}';
+                            });;
                         });
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        setInterval(resquet, 5000);
     </script>
 
     @if (Session::has('success'))

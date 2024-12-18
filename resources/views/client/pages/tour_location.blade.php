@@ -1,4 +1,7 @@
 @extends('client.layouts.app')
+@section('title')
+    {{ $location->name }}   
+@endsection
 @section('style')
     <style>
         .rating {

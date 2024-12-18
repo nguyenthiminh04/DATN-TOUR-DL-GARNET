@@ -1,4 +1,7 @@
 @extends('client.layouts.app')
+@section('title')
+    Cẩm Nang Du lịch
+@endsection
 @section('content')
     <div class="container" itemscope itemtype="http://schema.org/Blog">
 
@@ -523,8 +526,7 @@
                             <article class="blog-item blog-item-list col-md-12">
                                 <a href="ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html"
                                     class="panel-box-media">
-                                    <img
-                                        src="client/bizweb.dktcdn.net/thumb/small/100/299/077/articles/dalat-158d7.jpg?v=1520693176427"
+                                    <img src="client/bizweb.dktcdn.net/thumb/small/100/299/077/articles/dalat-158d7.jpg?v=1520693176427"
                                         width="70" height="70"
                                         alt="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!" /></a>
                                 <div class="blogs-rights">

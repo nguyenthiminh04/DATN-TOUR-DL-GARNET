@@ -1,5 +1,8 @@
 @extends('client.layouts.app')
-@section('style')
+@section('title')
+ Tour {{$category->category_tour}}
+@endsection
+@section('style')   
     <style>
         .rating {
             display: flex;

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Client;
+
 use App\Models\BookTour;
 use App\Models\Payment;
 use Illuminate\Http\Request;
@@ -24,10 +25,10 @@ class myAccountController extends Controller
         if (auth()->check()) {
             // Lấy thông tin người dùng đã đăng nhập
             $user = auth()->user();
-    
+
             // Lấy `temporary_user_id` của người dùng (nếu có)
             $temporaryUserId = $user->temporary_user_id;
-    
+
             // Lấy danh sách thanh toán dựa trên user_id hoặc customer_id thông qua temporary_user_id
             $payments = Payment::where(function ($query) use ($user, $temporaryUserId) {
                 $query->where('user_id', $user->id); // Lấy các payment liên quan tới user_id
@@ -39,41 +40,41 @@ class myAccountController extends Controller
                     }
                 }
             })
-            ->with(['booking.tour', 'paymentStatus', 'paymentMethod'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+                ->with(['booking.tour', 'paymentStatus', 'paymentMethod'])
+                ->orderBy('created_at', 'desc')
+                ->get();
         } else {
             // Nếu không đăng nhập, lấy temporary_user_id từ session
             $temporaryUserId = Session::get('temporary_user_id');
-    
+
             if (!$temporaryUserId) {
                 return redirect()->route('home')->with('error', 'Không tìm thấy thông tin khách hàng ẩn danh.');
             }
-    
+
             // Tìm khách hàng ẩn danh dựa trên temporary_user_id
             $customer = Customer::where('temporary_user_id', $temporaryUserId)->first();
-    
+
             if (!$customer) {
                 return redirect()->route('home')->with('error', 'Không tìm thấy khách hàng ẩn danh.');
             }
-    
+
             // Lấy danh sách thanh toán của khách hàng ẩn danh
             $payments = Payment::where('customer_id', $customer->id)
                 ->with(['booking.tour', 'paymentStatus', 'paymentMethod'])
                 ->orderBy('created_at', 'desc')
                 ->get();
-    
+
             // Vì không có người dùng đăng nhập, không cần truyền biến $user
             $user = null;
         }
-    
+
         // Trả về view với thông tin người dùng và danh sách thanh toán
         return view('client.myAccount.Account', compact('user', 'payments'));
     }
-    
 
-    
-    
+
+
+
 
     public function changePassword(Request $request)
     {
@@ -149,29 +150,29 @@ class myAccountController extends Controller
         ]);
     }
     public function detailDoHang($id)
-{
-    $payment = Payment::with([
-        'booking.tour',
-        'booking.status',
-        'paymentMethod',
-        'paymentStatus',
-        'user',
-        'booking'
-    ])->findOrFail($id);
+    {
+        $payment = Payment::with([
+            'booking.tour',
+            'booking.status',
+            'paymentMethod',
+            'paymentStatus',
+            'user',
+            'booking'
+        ])->findOrFail($id);
 
-    return view('client.myAccount.detailDonHang', compact('payment'));
-}
+        return view('client.myAccount.detailDonHang', compact('payment'));
+    }
 
-public function cancelOrder(Request $request, $id)
-{
-    // Validate lý do hủy
-    $request->validate([
-        'ly_do_huy' => 'required|string|max:255',
-    ]);
+    public function cancelOrder(Request $request, $id)
+    {
+        // Validate lý do hủy
+        $request->validate([
+            'ly_do_huy' => 'required|string|max:255',
+        ]);
 
-    // Tìm thông tin thanh toán và booking liên quan
-    $payment = Payment::with(['booking', 'booking.tour'])->findOrFail($id);
-    $bookTour = $payment->booking;
+        // Tìm thông tin thanh toán và booking liên quan
+        $payment = Payment::with(['booking', 'booking.tour'])->findOrFail($id);
+        $bookTour = $payment->booking;
 
     if (!$bookTour) {
         return redirect()->back()->with('error', 'Thông tin đặt tour không tồn tại.');
@@ -181,51 +182,49 @@ if ($payment->status_id == 6) {
     return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy đơn hàng.');
 }
 
-    // Kiểm tra nếu tour đã hoàn thành (status_id = 6)
-    if ($payment->status_id == 6) {
-        return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy đơn hàng.');
-    }
+        // Kiểm tra nếu tour đã hoàn thành (status_id = 6)
+        if ($payment->status_id == 6) {
+            return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy đơn hàng.');
+        }
 
-    // Kiểm tra điều kiện thanh toán VNPay
-    if ($payment->payment_status_id != 2) {
-        // Nếu không phải thanh toán qua VNPay, cho phép hủy mà không hoàn lại tiền
+        // Kiểm tra điều kiện thanh toán VNPay
+        if ($payment->payment_status_id != 2) {
+            // Nếu không phải thanh toán qua VNPay, cho phép hủy mà không hoàn lại tiền
+            $bookTour->ly_do_huy = $request->ly_do_huy;
+            $bookTour->status = 13; // Đặt trạng thái "Đã hủy"
+            $bookTour->save();
+
+            $payment->status_id = 13; // Đặt trạng thái "Đã hủy"
+            $payment->save();
+
+            return redirect()->back()->with('success', 'Đơn hàng đã được hủy thành công.');
+        }
+
+        // Lấy ngày đặt tour và ngày hiện tại
+        $bookingStartDate = $bookTour->start_date; // Ngày bắt đầu từ booking
+        $currentDate = now();                      // Ngày hiện tại
+
+        // Kiểm tra điều kiện hoàn tiền
+        $refundRate = 1.0; // Mặc định hoàn lại 100%
+        if ($currentDate->greaterThanOrEqualTo($bookingStartDate)) {
+            $refundRate = 0.9; // Hoàn lại 90% nếu đã qua ngày đặt
+        }
+
+        $refundAmount = $payment->money * $refundRate;
+
+        // Cập nhật trạng thái đặt tour và thanh toán
         $bookTour->ly_do_huy = $request->ly_do_huy;
         $bookTour->status = 13; // Đặt trạng thái "Đã hủy"
         $bookTour->save();
 
         $payment->status_id = 13; // Đặt trạng thái "Đã hủy"
+        $payment->refund_amount = $refundAmount;
         $payment->save();
-
-        return redirect()->back()->with('success', 'Đơn hàng đã được hủy thành công.');
-    }
-
-    // Lấy ngày đặt tour và ngày hiện tại
-    $bookingStartDate = $bookTour->start_date; // Ngày bắt đầu từ booking
-    $currentDate = now();                      // Ngày hiện tại
-
-    // Kiểm tra điều kiện hoàn tiền
-    $refundRate = 1.0; // Mặc định hoàn lại 100%
-    if ($currentDate->greaterThanOrEqualTo($bookingStartDate)) {
-        $refundRate = 0.9; // Hoàn lại 90% nếu đã qua ngày đặt
-    }
-
-    $refundAmount = $payment->money * $refundRate;
-
-    // Cập nhật trạng thái đặt tour và thanh toán
-    $bookTour->ly_do_huy = $request->ly_do_huy;
-    $bookTour->status = 13; // Đặt trạng thái "Đã hủy"
-    $bookTour->save();
-
-    $payment->status_id = 13; // Đặt trạng thái "Đã hủy"
-    $payment->refund_amount = $refundAmount; 
-    $payment->save();
 
     // Gửi thông báo thành công với thông tin hoàn tiền
     $message = "Đơn hàng đã được hủy thành công. Số tiền hoàn lại: "
         . number_format($refundAmount, 0, ',', '.') . " VND. Chúng tôi sẽ liên hệ với bạn sớm nhất";
 
-    return redirect()->back()->with('success', $message);
-}
-
-
+        return redirect()->back()->with('success', $message);
+    }
 }

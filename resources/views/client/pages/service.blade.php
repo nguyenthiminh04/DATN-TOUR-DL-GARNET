@@ -1,13 +1,11 @@
 @extends('client.layouts.app')
-
+@section('title')
+    Cẩm Nang Du lịch
+@endsection
 @section('style')
 
  
 @endsection
-
-
-
-
 @section('content')
 <div class="container" itemscope itemtype="http://schema.org/Blog">
 	<meta itemprop="name" content="Dịch vụ tour"> 

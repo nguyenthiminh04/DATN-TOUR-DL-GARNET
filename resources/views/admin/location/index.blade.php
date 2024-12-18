@@ -25,8 +25,8 @@
 
                     <div class="col-sm">
                         <div class="d-flex justify-content-sm-end">
-                            <select id="status" name="status" class="form-select status-select" aria-label="Lọc theo trạng thái"
-                                style="width: 200px; left:0 important">
+                            <select id="status" name="status" class="form-select status-select"
+                                aria-label="Lọc theo trạng thái" style="width: 200px; left:0 important">
                                 <option value="">Lọc theo trạng thái</option>
                                 <option value="1">Hiện</option>
                                 <option value="0">Ẩn</option>
@@ -213,52 +213,69 @@
 
         function toggleStatus(locationId) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn thay đổi trạng thái của địa điểm này?',
+                // text: 'Trạng thái sẽ được cập nhật!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Có, thay đổi',
+                cancelButtonText: 'Hủy',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
 
-            $.ajax({
-                url: `/admin/location/status/${locationId}`,
-                method: 'POST',
-                data: {
-                    _token: csrfToken // Chỉ cần truyền CSRF token trong data
-                },
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken // CSRF token cho header
-                },
-                success: function(response) {
-                    if (response.success) {
-                        const button = $(`button[data-id="${locationId}"]`);
-                        if (response.status == 1) {
-                            button.removeClass('btn-danger').addClass('btn-success');
-                            button.text('Hiện');
-                        } else {
-                            button.removeClass('btn-success').addClass('btn-danger');
-                            button.text('Ẩn');
+                    $.ajax({
+                        url: `/admin/location/status/${locationId}`,
+                        method: 'POST',
+                        data: {
+                            _token: csrfToken // Chỉ cần truyền CSRF token trong data
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken // CSRF token cho header
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                const button = $(`button[data-id="${locationId}"]`);
+                                if (response.status == 1) {
+                                    button.removeClass('btn-danger').addClass('btn-success');
+                                    button.text('Hiện');
+                                } else {
+                                    button.removeClass('btn-success').addClass('btn-danger');
+                                    button.text('Ẩn');
+                                }
+
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thành công!',
+                                    text: 'Trạng thái cập nhật thành công!',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi!',
+                                    text: 'Không tìm thấy bình luận!',
+                                    showConfirmButton: true,
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi!',
+                                text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' +
+                                    error, // Hiển thị lỗi nếu có
+                                showConfirmButton: true,
+                            });
+                            console.error(xhr.responseText || error); // In ra lỗi để debug
                         }
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thành công!',
-                            text: 'Đã được cập nhật thành công!',
-                            showConfirmButton: true,
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi!',
-                            text: 'Không tìm thấy bình luận!',
-                            showConfirmButton: true,
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi!',
-                        text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error, // Hiển thị lỗi nếu có
-                        showConfirmButton: true,
                     });
-                    console.error(xhr.responseText || error); // In ra lỗi để debug
                 }
-            });
+            })
         }
 
         $(document).ready(function() {
@@ -301,7 +318,7 @@
                         console.log(response);
                         var rows = '';
                         $.each(response.data, function(index, item) {
-                           
+
                             rows += `
     
                              <tr>

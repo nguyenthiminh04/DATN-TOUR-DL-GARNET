@@ -25,7 +25,7 @@ class CheckUserStatus
             if ($request->expectsJson()) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Tài khoản của bạn đã bị vô hiệu hóa.',
+                    'message' => 'Tài khoản của bạn đã bị vô hiệu hóa!',
                 ], 403);
             }
 

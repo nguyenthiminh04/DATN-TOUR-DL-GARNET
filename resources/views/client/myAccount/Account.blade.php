@@ -1,5 +1,5 @@
 @extends('client.layouts.app')
-
+@section('title', 'Thông Tin Tài Khoản')
 @section('style')
     <style>
         .d-flex {
@@ -75,7 +75,8 @@
                                         khẩu</a>
                                 </li>
                                 <li>
-                                    <a class="title-info" href="javascript:void(0);" data-target="#addresses">Cập nhật tài khoản</a>
+                                    <a class="title-info" href="javascript:void(0);" data-target="#addresses">Cập nhật tài
+                                        khoản</a>
                                 </li>
                             @endif
                             <li>
@@ -167,10 +168,11 @@
                                                         <td>{{ $bookTour->booking->tour->journeys }}</td>
                                                         <td>{{ $bookTour->booking->tour->starting_gate }}</td>
                                                         <td>{{ $bookTour->booking->tour->start_date }}</td>
-                                                        <td>{{  $bookTour->status->name ?? 'N/A'}}</td>
+                                                        <td>{{ $bookTour->status->name ?? 'N/A' }}</td>
                                                         <td>{{ number_format($bookTour->money, 0, ',', '.') }} đ</td>
                                                         <td>{{ $bookTour->booking->tour->move_method }}</td>
-                                                        <td><a href="{{route('usser.detailDoHang',$bookTour->id)}}" class="btn btn-click btn-success">Xem chi
+                                                        <td><a href="{{ route('usser.detailDoHang', $bookTour->id) }}"
+                                                                class="btn btn-click btn-success">Xem chi
                                                                 tiết</a></td>
                                                     </tr>
                                                 @endforeach
@@ -387,7 +389,7 @@
                         end? --}}
                         <button class="btn-edit-addr btn btn-blues btn-more" type="button" data-toggle="modal"
                             data-target="#addAddressModal" style="margin-bottom: 15px">
-                            Cập nhật thông tin tài khoản 
+                            Cập nhật thông tin tài khoản
                         </button>
                         <div class="form-signup name-account m992">
                             <table class="table table-cart table-order">
@@ -463,34 +465,36 @@
                                             </div>
 
                                             {{-- <div class="checkbox">
+                                            {{-- <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="IsDefault" value="true"> Đặt là địa
                                                     chỉ mặc định
                                                 </label>
                                             </div> --}}
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Hủy</button>
+                                    </div> --}}
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
 
-                                                    <button type="submit" class="btn btn-primary">Cập nhật thông tin tài khoản</button>
+                                        <button type="submit" class="btn btn-primary">Cập nhật thông tin tài
+                                            khoản</button>
 
-                                               
 
-                                            </div>
-                                        </form>
+
                                     </div>
-
+                                    </form>
                                 </div>
+
                             </div>
                         </div>
-
-                        <div class="row total_address">
-                        </div>
                     </div>
-                    {{-- end dia chi --}}
-                </div>
 
+                    <div class="row total_address">
+                    </div>
+                </div>
+                {{-- end dia chi --}}
             </div>
+
+        </div>
         </div>
 
         <script>

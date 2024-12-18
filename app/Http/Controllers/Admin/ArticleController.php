@@ -124,6 +124,7 @@ class ArticleController extends Controller
             //Xử lý thêm album
 
             return redirect()->route('article.index')->with('success', 'Thêm mới thành công!');
+            return redirect()->route('article.index')->with('success', 'Thêm mới thành công!');
         }
     }
 

@@ -1,5 +1,7 @@
 @extends('client.layouts.app')
-
+@section('title')
+    Quên Mật khẩu
+@endsection
 @section('style')
     <style>
         .d-flex {
@@ -85,7 +87,7 @@
 
     <script>
         $('#forgot-password-form').on('submit', function(e) {
-            e.preventDefault(); 
+            e.preventDefault();
 
             const form = $(this);
             $.ajax({
@@ -98,7 +100,7 @@
                         title: 'Thành công',
                         text: 'Vui lòng kiểm tra email và đặt lại mật khẩu của bạn!',
                     });
-                    form[0].reset(); 
+                    form[0].reset();
                 },
                 error: function(xhr) {
                     Swal.fire({

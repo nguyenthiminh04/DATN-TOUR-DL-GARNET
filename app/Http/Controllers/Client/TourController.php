@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdvisoryRequest;
 use App\Models\Admins\Categorys;
 use App\Models\Admins\Location;
+use App\Models\Admins\Review;
 use App\Models\Admins\Tour;
 use App\Models\Advisory;
 use App\Models\BookTour;
@@ -39,9 +40,7 @@ class TourController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-    }
+    public function edit(string $id) {}
 
     public function confirm($id)
     {
@@ -105,8 +104,15 @@ class TourController extends Controller
     {
         $category = Category::with('tours')->where('slug', $slug)->firstOrFail();
 
+
+        foreach ($category->tours as $tour) {
+            $tour->average_rating = Review::where('tour_id', $tour->id)->avg('rating');
+            $tour->rating_count = Review::where('tour_id', $tour->id)->count();
+        }
+
         return view('client.pages.tour', compact('category'));
     }
+
     public function advisory(AdvisoryRequest $request)
     {
         try {
