@@ -831,7 +831,7 @@
                                 <img src="{{ $listarticle->img_thumb ? asset('storage/' . $listarticle->img_thumb) : asset('path/to/default-image.jpg') }}"
                                 alt="{{ $listarticle->title }}"  class="img-fluid">
                             </div>
-                           
+                        
                     </div>
                 </div>
             </div>
