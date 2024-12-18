@@ -937,7 +937,7 @@
 
                             <div class="col-md-4">
                                 <div class="tour-guide-small-articles">
-                                    @foreach ($article->skip(1) as $articles)
+                                    @foreach ($article as $articles)
                                         <div class="tour-guide-small-item">
                                             <a href="{{ route('service.show', $articles->id) }}">
                                                 <img src="{{ $articles->img_thumb ? asset('storage/' . $articles->img_thumb) : asset('path/to/default-image.jpg') }}"
@@ -971,7 +971,7 @@
 
     <section class="awe-section-7">
 
-        <section class="section-news margin-bottom-20">
+        {{-- <section class="section-news margin-bottom-20">
             <div class="container">
                 <div class="blogs-content">
                     <div class="row">
@@ -1096,7 +1096,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
     </section>
 
     <footer class="footer">

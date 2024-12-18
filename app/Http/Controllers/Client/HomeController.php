@@ -60,8 +60,11 @@ class HomeController extends Controller
             ->take(5)
             ->get();
 
-        $article = Article::where('status', 1)
+            $article = Article::where('status', 1)
+            ->inRandomOrder() // Lấy dữ liệu theo thứ tự ngẫu nhiên
+            ->take(4)         // Giới hạn số lượng bài viết là 4
             ->get();
+        
 
         // // Lấy thông báo
         // $notifications = collect(); // Tạo một collection rỗng mặc định
