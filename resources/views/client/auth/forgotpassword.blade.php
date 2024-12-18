@@ -69,6 +69,9 @@
                                     data-validation-error-msg="Email sai định dạng" />
                             </fieldset>
                         </div>
+                        <div class="col-md-12">
+                            {!! NoCaptcha::display() !!}
+                        </div>
                         <div class="action_bottom">
                             <button class="btn btn-style btn-blues" style="margin-top: 15px;" type="submit">Gửi liên kết
                                 đặt lại mật khẩu</button>
@@ -76,6 +79,7 @@
                                 type="submit">QUAY LẠI ĐĂNG NHẬP</a>
                         </div>
                     </form>
+                    {!! NoCaptcha::renderJs() !!}
                 </div>
             </div>
         </div>
@@ -98,7 +102,8 @@
                     Swal.fire({
                         icon: 'success',
                         title: 'Thành công',
-                        text: 'Vui lòng kiểm tra email và đặt lại mật khẩu của bạn!',
+                        text: response.message ||
+                            'Vui lòng kiểm tra email và đặt lại mật khẩu của bạn!',
                     });
                     form[0].reset();
                 },
@@ -107,6 +112,10 @@
                         icon: 'error',
                         title: 'Lỗi',
                         text: xhr.responseJSON.message || 'Có lỗi xảy ra, vui lòng thử lại!',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                       
+                        location.reload();
                     });
                 }
             });

@@ -436,13 +436,10 @@
                                         {{ Auth::user()->name }}</a></li>
 
                                 <li>
-                                    <form method="POST" action="{{ route('logouts') }}" style="display:inline;">
-                                        @csrf
-                                        <button type="submit"
+                                        <a href="{{route('logouts')}}"
                                             style="border: none; background: none; padding: 0; color: inherit;">
                                             <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
-                                        </button>
-                                    </form>
+                                        </a>
                                 </li>
                             @else
                                 <li>
@@ -947,7 +944,9 @@
                                                 <h4><a
                                                         href="{{ route('service.show', $articles->id) }}">{{ $articles->title }}</a>
                                                 </h4>
-                                                <p>{{ $articles->description }}</p>
+                                                {{-- <p>{{ $articles->description }}</p> --}}
+                                                <p>{{ \Illuminate\Support\Str::limit($articles->description, 150) }}
+                                                </p>
                                                 <span>{{ $articles->created_at->format('d/m/Y') }}</span>
                                             </div>
                                         </div>
@@ -969,135 +968,6 @@
         </section>
     </section>
 
-    <section class="awe-section-7">
-
-        {{-- <section class="section-news margin-bottom-20">
-            <div class="container">
-                <div class="blogs-content">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="section_tour-new_title">
-                                <h2>Cẩm nang du lịch</h2>
-                                <div class="title-line">
-                                    <div class="tl-1"></div>
-                                    <div class="tl-2"></div>
-                                    <div class="tl-3"></div>
-                                </div>
-                                <p>Cẩm nang thông tin về du lịch, văn hóa, ẩm thực, các sự kiện và lễ hội tại các điểm
-                                    đến tại Việt nam.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="news_hot_left">
-                        <div class="row">
-                            <div class="news_owl col-lg-6 col-md-6 col-sm-6 col-xs-12 cam-nang-du-lich">
-
-                                <div class="item_blog_big">
-                                    <div class="figure-big">
-
-                                        <div class="img_thumb_blogs">
-                                            <a href="{{ route('service.show', $article[0]->id) }}" class="big_img_h">
-                                                <picture>
-                                                    <source media="(max-width: 480px)"
-                                                        srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
-                                                    <source media="(min-width: 481px) and (max-width: 767px)"
-                                                        srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
-                                                    <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                        srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
-                                                    <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                        srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
-                                                    <source media="(min-width: 1200px)"
-                                                        srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
-                                                    <img src="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}"
-                                                        alt="{{ $article[0]->title }}" class="img-fluid">
-                                                </picture>
-                                            </a>
-                                        </div>
-                                        <div class="content_item_blogs">
-                                            <div class="blog_home_title margin-top-10 margin-bottom-10">
-                                                <h3 class="news_home_content_short_info">
-                                                    <a href="{{ route('service.show', $article[0]->id) }}"
-                                                        title="{{ $articles->title }}">{{ $articles->title }}</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-                                                {{ $articles->description }}
-                                            </div>
-                                            <div class="content_day_blog margin-bottom-10">
-                                                <i class="fa fa-clock-o"></i><span></span>
-                                                <span class="news_home_content_short_time">
-                                                    {{ $articles->created_at->format('d/m/Y') }}
-                                                </span>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="content-blog-index col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                @foreach ($article->skip(1) as $articles)
-                                    <div class="xxx clearfix">
-                                        <div class="myblog"
-                                            onclick="window.location.href='{{ route('service.show', $article[0]->id) }}';">
-                                            <div class="item_blog_big">
-                                                <div class="figure-big">
-                                                    <div class="image-blog-left img_thumb_blogs">
-
-                                                        <a href="{{ route('service.show', $article[0]->id) }}">
-                                                            <picture>
-                                                                <source media="(max-width: 375px)"
-                                                                    srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
-                                                                <source
-                                                                    media="(min-width: 376px) and (max-width: 767px)"
-                                                                    srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
-                                                                <source media="(min-width: 1200px)"
-                                                                    srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
-                                                                <source
-                                                                    media="(min-width: 768px) and (max-width: 1023px)"
-                                                                    srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
-                                                                <source
-                                                                    media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                    srcset="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}">
-                                                                <img src="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}"
-                                                                    alt="{{ $article[0]->title }}" class="img-fluid">
-                                                            </picture>
-                                                        </a>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content-right-blog">
-                                                <div class="title_blog_home">
-                                                    <h3>
-                                                        <a href="{{ route('service.show', $article[0]->id) }}"
-                                                            title="{{ $articles->title }}">{{ $articles->title }}
-                                                    </h3>
-                                                </div>
-                                                <div class="content-sum">
-
-                                                    {{ $articles->description }}
-                                                </div>
-                                                <div class="content_day_blog margin-bottom-10">
-                                                    <i class="fa fa-clock-o"></i><span></span>
-                                                    <span class="news_home_content_short_time">
-                                                        {{ $articles->created_at->format('d/m/Y') }}
-                                                    </span>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> --}}
-    </section>
 
     <footer class="footer">
         <div class="site-footer">
@@ -1974,7 +1844,40 @@
         </script>
     @endif
     @yield('script')
+    <script>
+        let actionCount = 0;
+        let lastActionTime = Date.now(); // Lưu thời gian của lần hành động cuối cùng
+        const spamThreshold = 10; // Số lần hành động cho phép
+        const timeWindow = 3000; // Thời gian cửa sổ tính spam (ms), ví dụ 3 giây
 
+        // Lắng nghe mọi sự kiện click và submit trên trang
+        $('body').on('click submit', handleUserAction);
+
+        function handleUserAction(e) {
+            const currentTime = Date.now();
+            // Kiểm tra xem hành động có trong khoảng thời gian ngắn hay không
+            if (currentTime - lastActionTime < timeWindow) {
+                actionCount++;
+            } else {
+                actionCount = 1; // Nếu hành động đã thực hiện sau một khoảng thời gian dài, reset lại
+            }
+
+            lastActionTime = currentTime;
+
+            if (actionCount > spamThreshold) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cảnh báo',
+                    text: 'Vui lòng thao tác chậm lại, bạn đang thao tác quá nhanh!',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                });
+
+                actionCount = 0;
+            }
+        }
+    </script>
     {{-- add favorite --}}
     <script>
         $(document).on('click', '.add-to-favorite', function() {
