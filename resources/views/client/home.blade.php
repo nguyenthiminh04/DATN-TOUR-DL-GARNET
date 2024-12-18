@@ -310,74 +310,81 @@
             line-height: 1.5;
         }
 
+      
+.tour-guide-small-articles {
+    display: flex;
+    flex-direction: column; 
+    gap: 15px; 
+}
 
-        .tour-guide-small-articles {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+.tour-guide-small-item {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px; 
+    padding: 10px;
+    background-color: #fff; 
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
 
-        .tour-guide-small-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-            padding: 10px;
-            background-color: #fff;
-            transition: box-shadow 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .tour-guide-small-item:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-
-        .small-post-image {
-            width: 100px;
-            /* Độ rộng cố định cho ảnh */
-            height: 70px;
-            /* Chiều cao cố định */
-            object-fit: cover;
-            /* Đảm bảo ảnh giữ tỷ lệ và cắt phần dư */
-            border-radius: 5px;
-            /* Bo góc ảnh */
-        }
+.tour-guide-small-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
 
-        .tour-guide-small-description {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+.small-post-image {
+    width: 100px; /* Độ rộng cố định cho ảnh */
+    height: 70px; /* Chiều cao cố định */
+    object-fit: cover; /* Đảm bảo ảnh giữ tỷ lệ và cắt phần dư */
+    border-radius: 5px; /* Bo góc ảnh */
+}
 
 
-        .tour-guide-small-description h4 {
-            margin: 0 0 5px;
-            font-size: 14px;
-            font-weight: bold;
-        }
+.tour-guide-small-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+}
 
-        .tour-guide-small-description h4 a {
-            color: #333;
-            text-decoration: none;
-        }
 
-        .tour-guide-small-description h4 a:hover {
-            color: #007bff;
-        }
+.tour-guide-small-description h4 {
+    margin: 0 0 5px; 
+    font-size: 14px; 
+    font-weight: bold;
+}
 
-        .tour-guide-small-description p {
-            margin: 0 0 5px;
-            font-size: 12px;
-            color: #555;
-        }
+.tour-guide-small-description h4 a {
+    color: #333; 
+    text-decoration: none;
+}
 
-        .tour-guide-small-description span {
-            font-size: 11px;
-            color: #888;
-        }
+.tour-guide-small-description h4 a:hover {
+    color: #007bff; 
+}
+
+.tour-guide-small-description p {
+    margin: 0 0 5px;
+    font-size: 12px; 
+    color: #555;
+}
+
+.tour-guide-small-description span {
+    font-size: 11px;
+    color: #888;
+}
+
+.section_tour-holiday {
+    padding: 50px 0; 
+}
+
+.image-wrapper img {
+    max-width: 100%; /* Đảm bảo ảnh không vượt quá kích thước cột */
+    border-radius: 5px; /* Bo tròn góc cho ảnh */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Hiệu ứng đổ bóng */
+}
+
     </style>
 </head>
 
@@ -392,7 +399,7 @@
                             <li><i class="fa fa-phone color-x" aria-hidden="true"></i> <a href="tel:19006750">1900
                                     6750</a></li>
                             <li><i class="fa fa-envelope-o" aria-hidden="true"></i> <a
-                                    href="mailto:support@sapo.vn">support@sapo.vn</a></li>
+                                    href="mailto:support@sapo.vn">support@Garnet.vn</a></li>
 
                         </ul>
                     </div>
@@ -588,7 +595,7 @@
                                 <div class="tl-2"></div>
                                 <div class="tl-3"></div>
                             </div>
-                            <p>Hệ thống đặt Tour hàng đầu Việt Nam. Hơn 300 tours du lịch ở Việt Nam và Quốc tế</p>
+                            <p>Hệ thống đặt Tour hàng đầu Việt Nam. Hơn 300 tours du lịch ở Việt Nam.</p>
                         </div>
                     </div>
                 </div>
@@ -696,7 +703,7 @@
                                 <div class="tl-2"></div>
                                 <div class="tl-3"></div>
                             </div>
-                            <p>Tour du lịch Trong nước tại Ant Du lịch. Hành hương đầu xuân - Tận hưởng bản sắc Việt.
+                            <p>Tour du lịch Trong nước tại Garnet Du lịch. Hành hương đầu xuân - Tận hưởng bản sắc Việt.
                             </p>
                         </div>
                     </div>
@@ -819,6 +826,7 @@
                         </div>
                     </div>
                     <div class="col-md-7">
+
                         <div class="video-thumbnail">
 
                             <a href="{{ route('service.show', $listarticle->id) }}">
@@ -827,12 +835,16 @@
                             </a>
 
                         </div>
+
+                        
+                         
+                        
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
     <section class="awe-section-6">
         <div class="section_tour-location">
             <div class="container">
@@ -897,133 +909,56 @@
                                     <div class="tl-2"></div>
                                     <div class="tl-3"></div>
                                 </div>
-                                <p>Cẩm nang thông tin về du lịch, văn hóa, ẩm thực, các sự kiện và lễ hội tại các điểm
-                                    đến Việt nam, Đông Nam Á và Thế Giới.</p>
+
                             </div>
-                        </div>
-                    </div>
-                    <div class="news_hot_left">
-                        <div class="row">
-                            <div class="news_owl col-lg-6 col-md-6 col-sm-6 col-xs-12 cam-nang-du-lich">
 
-                                <div class="item_blog_big">
-                                    <div class="figure-big">
-
-                                        <div class="img_thumb_blogs">
-                                            <a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html"
-                                                class="big_img_h">
-                                                <picture>
-                                                    <source media="(max-width: 480px)"
-                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
-                                                    <source media="(min-width: 481px) and (max-width: 767px)"
-                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
-                                                    <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
-                                                    <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
-                                                    <source media="(min-width: 1200px)"
-                                                        srcset="{{ Storage::url($listarticle->img_thumb) }}">
-                                                    <img src="{{ Storage::url($listarticle->img_thumb) }}"
-                                                        title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương"
-                                                        alt="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương"
-                                                        class="img-responsive center-block" />
-                                                </picture>
-                                            </a>
-                                        </div>
-                                        <div class="content_item_blogs">
-                                            <div class="blog_home_title margin-top-10 margin-bottom-10">
-                                                <h3 class="news_home_content_short_info">
-                                                    <a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html"
-                                                        title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương">{{ $listarticle->title }}</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-                                                Vậy ở&nbsp;chùa Hương&nbsp;có gì thú vị mà lại thu hút nhiều du khách
-                                                trong lẫn ngoài nước đến như vậy, chúng ta hãy cùng tìm hiểu xem nhé.
-                                                Chùa Hương&nbsp;hay tên gọi đầy đủ là chùa Hương Sơn, là một quần thể di
-                                                tích thắng cảnh với rất nhiều ngôi chùa, đền, đình, bao quanh là non
-                                                nước hùng vĩ và hoang sơ.
-                                                Cảnh vật ở nơi đây nên thơ đến lạ,...
-                                            </div>
-                                            <div class="content_day_blog margin-bottom-10">
-                                                <i class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(5) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
+                            <div class="col-md-8">
+                                <div class="tour-guide-featured">
+                                    <a href="{{ route('service.show', $article[0]->id) }}">
+                                        <img src="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}"
+                                            alt="{{ $article[0]->title }}" class="img-fluid">
+                                    </a>
+                                    <div class="tour-guide-description">
+                                        <h3><a
+                                                href="{{ route('service.show', $article[0]->id) }}">{{ $article[0]->title }}</a>
+                                        </h3>
+                                        <p>{{ \Illuminate\Support\Str::limit($article[0]->description, 200) }}</p>
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="content-blog-index col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                @foreach ($listarticles as $article)
-                                    <div class="xxx clearfix">
-                                        <div class="myblog"
-                                            onclick="window.location.href='trang-an-co-diem-den-dang-hot-o-ninh-binh.html';">
-                                            <div class="item_blog_big">
-                                                <div class="figure-big">
-                                                    <div class="image-blog-left img_thumb_blogs">
-
-                                                        <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html">
-                                                            <picture>
-                                                                <source media="(max-width: 375px)"
-                                                                    srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                                <source
-                                                                    media="(min-width: 376px) and (max-width: 767px)"
-                                                                    srcset="{{ Storage::url($article->img_thumb) }}">
-                                                                <source media="(min-width: 1200px)"
-                                                                    srcset="{{ Storage::url($article->img_thumb) }}">
-                                                                <source
-                                                                    media="(min-width: 768px) and (max-width: 1023px)"
-                                                                    srcset="{{ Storage::url($article->img_thumb) }}">
-                                                                <source
-                                                                    media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                    srcset="{{ Storage::url($article->img_thumb) }}">
-                                                                <img src="client/bizweb.dktcdn.net/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437"
-                                                                    title="Tràng An cổ – điểm đến đang hot ở Ninh Bình"
-                                                                    alt="Tràng An cổ – điểm đến đang hot ở Ninh Bình">
-                                                            </picture>
-                                                        </a>
-
-                                                    </div>
-                                                </div>
+    
+    
+                            <div class="col-md-4">
+                                <div class="tour-guide-small-articles">
+                                    @foreach ($article->skip(1) as $articles)
+                                        <div class="tour-guide-small-item">
+                                            <a href="{{ route('service.show', $articles->id) }}">
+                                                <img src="{{ $articles->img_thumb ? asset('storage/' . $articles->img_thumb) : asset('path/to/default-image.jpg') }}"
+                                                    alt="{{ $articles->title }}"  class="small-post-image">
+                                            </a>
+                                            <div class="tour-guide-small-description">
+                                                <h4><a
+                                                        href="{{ route('service.show', $articles->id) }}">{{ $articles->title }}</a>
+                                                </h4>
+                                                <p>{{$articles->description}}</p>
+                                                <span>{{ $articles->created_at->format('d/m/Y') }}</span>
                                             </div>
-                                            <div class="content-right-blog">
-                                                <div class="title_blog_home">
-                                                    <h3>
-                                                        <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html"
-                                                            title="Tràng An cổ – điểm đến đang hot ở Ninh Bình">{{ $article->title }}</a>
-                                                    </h3>
-                                                </div>
-                                                <div class="content-sum">
-
-                                                    {{ $article->description }}
-                                                </div>
-                                                <div class="content_day_blog"><i
-                                                        class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                    <span class="news_home_content_short_time">
-                                                        {{ $article->created_at }}
-                                                    </span>
-                                                    {{-- <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(1) Bình luận
-                                                </span> --}}
-                                                </div>
-                                            </div>
-
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
 
+                                
                             </div>
                         </div>
+
+                   
+
                     </div>
+
+
                 </div>
+
             </div>
+
         </section>
     </section>
 
@@ -1072,7 +1007,7 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="{{ route('service.index') }}">Dịch vụ tour</a></li>
+                                    <li><a href="{{ route('service.index') }}">Cẩm nang du lịch</a></li>
 
                                     {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
@@ -1096,7 +1031,7 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="{{ route('service.index') }}">Dịch vụ tour</a></li>
+                                    <li><a href="{{ route('service.index') }}">Cẩm nang du lịch</a></li>
 
                                     {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
@@ -1120,7 +1055,7 @@
 
                                     <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
 
-                                    <li><a href="{{ route('service.index') }}">Dịch vụ tour</a></li>
+                                    <li><a href="{{ route('service.index') }}">Cẩm nang du lịch</a></li>
 
                                     {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
@@ -1471,7 +1406,7 @@
                         </ul>
                     </li>
 
-                    <li class="ng-scope ng-has-child1">
+                    {{-- <li class="ng-scope ng-has-child1">
                         <a href="tour-nuoc-ngoai.html">Tour nước ngoài <i class="fa fa-plus fa1"
                                 aria-hidden="true"></i></a>
                         <ul class="ul-has-child1">
@@ -1493,10 +1428,10 @@
                             </li>
 
                         </ul>
-                    </li>
+                    </li> --}}
 
                     <li class="ng-scope">
-                        <a href="{{ route('service.index') }}">Dịch vụ tour</a>
+                        <a href="{{ route('service.index') }}">Cẩm nang du lịch</a>
                     </li>
 
                     {{-- <li class="ng-scope">
@@ -1558,7 +1493,7 @@
                     <div class="on-sup-info">
 
                         <ul>
-                            <li><strong>Ant Du lịch Hồ Chí Minh</strong></li>
+                            <li><strong>Garnet Du lịch Hồ Chí Minh</strong></li>
                             <li>
                                 <i class="fa fa-map-marker" aria-hidden="true"></i> 175 Lý Thường Kiệt, Phường 6,
                                 Quận
@@ -1570,12 +1505,12 @@
                             </li>
                             <li>
                                 <i class="fa fa-envelope" aria-hidden="true"></i> <a
-                                    href="mailto:antdulich@ant.com.vn">antdulich@ant.com.vn</a>
+                                    href="mailto:Garnetdulich@ant.com.vn">Garnetdulich@ant.com.vn</a>
                             </li>
                         </ul>
 
                         <ul>
-                            <li><strong>Ant Du lịch Huế</strong></li>
+                            <li><strong>Garnet Du lịch Huế</strong></li>
                             <li>
                                 <i class="fa fa-map-marker" aria-hidden="true"></i> 175 Lý Thường Kiệt, Quận Phú
                                 Nhận,
@@ -1587,7 +1522,7 @@
                             </li>
                             <li>
                                 <i class="fa fa-envelope" aria-hidden="true"></i> <a
-                                    href="mailto:antdulich@ant.com.vn">antdulich@ant.com.vn</a>
+                                    href="mailto:Garnetdulich@ant.com.vn">Garnetdulich@ant.com.vn</a>
                             </li>
                         </ul>
 
@@ -1604,7 +1539,7 @@
                             </li>
                             <li>
                                 <i class="fa fa-envelope" aria-hidden="true"></i> <a
-                                    href="mailto:antdulich@ant.com.vn">antdulich@ant.com.vn</a>
+                                    href="mailto:Garnetdulich@ant.com.vn">Garnetdulich@ant.com.vn</a>
                             </li>
                         </ul>
 

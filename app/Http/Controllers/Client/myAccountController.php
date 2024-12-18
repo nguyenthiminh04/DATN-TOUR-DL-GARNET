@@ -181,6 +181,11 @@ if ($payment->status_id == 6) {
     return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy đơn hàng.');
 }
 
+    // Kiểm tra nếu tour đã hoàn thành (status_id = 6)
+    if ($payment->status_id == 6) {
+        return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy đơn hàng.');
+    }
+
     // Kiểm tra điều kiện thanh toán VNPay
     if ($payment->payment_status_id != 2) {
         // Nếu không phải thanh toán qua VNPay, cho phép hủy mà không hoàn lại tiền

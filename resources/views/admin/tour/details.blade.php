@@ -123,6 +123,17 @@
     </div>
 
     <div class="mb-3">
+        <p><strong>Trạng thái:</strong> 
+            @if ($tour->status == 1)
+                <span >Hiển Thị</span>
+            @else
+                <span >Ẩn</span>
+            @endif
+        </p>
+    </div>
+    
+
+    <div class="mb-3">
         <strong>Ngày đăng:</strong>
         <p>{{ $tour->created_at }}</p>
     </div>

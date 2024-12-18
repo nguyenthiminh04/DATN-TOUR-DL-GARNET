@@ -8,10 +8,12 @@
             </div>
         @endif
         @if (session('error'))
+
         <div class="alert alert-danger">
             {{ session('error') }}
         </div>
     @endif
+
         <h1 class="text-center">Chi tiết đơn hàng</h1>
         <div class="panel panel-default">
             <div class="panel-heading">
