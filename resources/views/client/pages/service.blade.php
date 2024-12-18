@@ -40,8 +40,8 @@
 										
 									</a>
 									<div class="articles-date">
-										<span>10/10</span>
-										2024
+										<span>{{ $articles->created_at->format('d-m-Y') }}</span>
+										
 									</div>
 								</div>
 								<h3 class="blog-item-name"><a href="{{ route('service.show', $articles->id) }}" title="{{$articles->title}}">{{$articles->title}}</a></h3>
@@ -159,7 +159,7 @@
 						<img src="{{ $articles->img_thumb ? asset('storage/' . $articles->img_thumb) : asset('path/to/default-image.jpg') }}" alt="{{ $articles->title }}" class="img-responsive center-block" />
 						<div class="blogs-rights">
 						<h3 class="blog-item-name"><a href="{{ route('service.show', $articles->id) }}" title="{{$articles->title}}">{{$articles->title}}</a></h3>
-						<div class="post-time">10/10/2024</div>
+						<div class="post-time">{{ $articles->created_at->format('d/m/Y') }}</div>
 					</div>
 				</article>	
 			@endforeach						

@@ -6,9 +6,9 @@
 <p>
   <strong>Trạng thái:</strong> 
   @if($categorytour->status == 1)
-      <span style="color: green;">Hiển thị</span>
+      <span >Hiển thị</span>
   @elseif($categorytour->status == 0)
-      <span style="color: red;">Ẩn</span>
+      <span >Ẩn</span>
   @else
       <span style="color: gray;">Trạng thái không xác định</span>
   @endif

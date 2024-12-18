@@ -173,12 +173,12 @@
                                                         </a>
                                                     </li>
 
-                                                    <li>
+                                                    {{-- <li>
                                                         <a href="#deleteRecordModal{{ $item->id }}"
                                                             data-bs-toggle="modal"
                                                             class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
                                                                 class="ph-trash"></i></a>
-                                                    </li>
+                                                    </li> --}}
                                                 </ul>
                                             </td>
                                         </tr>
@@ -456,6 +456,31 @@
             }
         });
     </script>
+
+<script>
+    $(document).ready(function() {
+  
+  $('.view-quanlytour').on('click', function(e) {
+      e.preventDefault();
+
+      const quanlytourId = $(this).data('id'); 
+
+      $.ajax({
+          url: '/admin/quanlytour/' +
+              quanlytourId, 
+          type: 'GET',
+          success: function(response) {
+              
+              $('#quanlytourDetailContent').html(response);
+              $('#quanlytourDetailModal').modal('show'); 
+          },
+          error: function(xhr, status, error) {
+              alert('Có lỗi xảy ra khi tải chi tiết đơn đặt tour!');
+          }
+      });
+  });
+});
+</script>
 @endsection
 @section('script')
     <script>

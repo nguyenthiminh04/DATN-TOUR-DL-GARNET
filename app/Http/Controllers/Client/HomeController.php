@@ -62,6 +62,7 @@ class HomeController extends Controller
 
         $article = Article::where('status', 1)
             ->get();
+            
 
         // // Lấy thông báo
         // $notifications = collect(); // Tạo một collection rỗng mặc định
