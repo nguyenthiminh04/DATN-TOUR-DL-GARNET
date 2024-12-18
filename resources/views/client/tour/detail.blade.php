@@ -1079,7 +1079,7 @@
                                                         <div class="product-image">
                                                             <a href="{{ route('detail', $suggestedTour->id) }}">
                                                                 <img class="img-responsive"
-                                                                    src="{{ $suggestedTour->images->first()->url ?? asset('default-image.jpg') }}"
+                                                                    src="{{ Storage::url($suggestedTour->image) }}"
                                                                     alt="{{ $suggestedTour->name }}" />
                                                             </a>
                                                         </div>

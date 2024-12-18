@@ -109,10 +109,12 @@ class HomeController extends Controller
     {
         // Tìm tour theo ID, nếu không tìm thấy thì trả về 404
         $tour = Tour::findOrFail($id);
-        $suggestedTours = Tour::where('id', '!=', $id)
-            ->inRandomOrder()
-            ->take(6)
-            ->get();
+        $suggestedTours = Tour::withoutTrashed()
+        ->where('status', 1)
+        ->orderBy('view', 'desc')
+        ->take(6)
+        ->get();
+
 
         // Tính điểm trung bình của các đánh giá
         $averageRating = Review::where('tour_id', $id)->avg('rating');
