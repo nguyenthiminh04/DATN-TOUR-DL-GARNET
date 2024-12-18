@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Models\Admins\User;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequests;
 use App\Models\Status;
+use App\Models\Admins\User;
+use Illuminate\Http\Request;
+use App\Http\Requests\UserRequests;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -82,7 +83,7 @@ class UserController extends Controller
             // Lấy id sản phẩm vừa thêm để thêm được album
             $user = $user->id;
 
-            return redirect()->route('user.index');
+            return redirect()->route('user.index')->with('success', 'Thêm mới thành công!');;
         }
     }
 
@@ -128,11 +129,14 @@ class UserController extends Controller
                 // Nếu không có ảnh mới, giữ lại ảnh cũ
                 $params['avatar'] = $user->avatar;
             }
-
+            if ($request->has('password') && !empty($request->password)) {
+                // Mã hóa mật khẩu mới
+                $params['password'] = Hash::make($request->password);
+            }
             // Cập nhật dữ liệu
             $user->update($params);
 
-            return redirect()->route('user.index');
+            return redirect()->route('user.index')->with('success', 'Cập nhật thành công!');;
         }
     }
 

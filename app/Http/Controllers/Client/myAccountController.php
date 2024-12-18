@@ -176,6 +176,10 @@ public function cancelOrder(Request $request, $id)
     if (!$bookTour) {
         return redirect()->back()->with('error', 'Thông tin đặt tour không tồn tại.');
     }
+// Kiểm tra nếu tour đã hoàn thành (status_id = 6)
+if ($payment->status_id == 6) {
+    return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy đơn hàng.');
+}
 
     // Kiểm tra điều kiện thanh toán VNPay
     if ($payment->payment_status_id != 2) {
@@ -208,12 +212,12 @@ public function cancelOrder(Request $request, $id)
     $bookTour->save();
 
     $payment->status_id = 13; // Đặt trạng thái "Đã hủy"
-    $payment->refund_amount = $refundAmount; // Lưu số tiền hoàn lại (nếu cần lưu)
+    $payment->refund_amount = $refundAmount; 
     $payment->save();
 
     // Gửi thông báo thành công với thông tin hoàn tiền
     $message = "Đơn hàng đã được hủy thành công. Số tiền hoàn lại: "
-        . number_format($refundAmount, 0, ',', '.') . " VND.";
+        . number_format($refundAmount, 0, ',', '.') . " VND. Chúng tôi sẽ liên hệ với bạn sớm nhất";
 
     return redirect()->back()->with('success', $message);
 }

@@ -821,7 +821,7 @@
                     <div class="col-md-7">
                         <div class="video-thumbnail">
 
-                            <a href="blogs/all.html">
+                            <a href="{{ route('service.show', $listarticle->id) }}">
                                 <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/sec_video_tour_embed_img6d1d.jpg"
                                     alt="Ant Du lịch" class="img-responsive center-block" />
                             </a>

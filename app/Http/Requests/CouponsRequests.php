@@ -28,7 +28,7 @@ class CouponsRequests extends FormRequest
             'code' => 'required|string|max:10',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
-            'percentage_price' => 'required|numeric',
+            'percentage_price' => 'required|numeric|min:0|max:100',
             'status' => 'required|boolean',
         ];
     }
@@ -46,6 +46,8 @@ class CouponsRequests extends FormRequest
             'end_date.date' => 'Trường end_date phải là định dạng ngày.',
             'end_date.after' => 'Trường end_date phải sau ngày start_date.',
             'percentage_price.required' => 'Trường percentage_price không được để trống.',
+            'percentage_price.min' => 'Mã giảm giá không thể 0.',
+            'percentage_price.max' => 'Mã giảm giá không thể quá 100.',
             'status.required' => 'Trường status không được để trống.',
 
         ];

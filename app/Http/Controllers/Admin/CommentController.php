@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admins\Tour;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -38,9 +40,8 @@ class CommentController extends Controller
         }
 
         $query->join('tours', 'tours.id', '=', 'comment.tour_id')
-            ->join('users', 'users.id', '=', 'comment.user_id') 
-            ->select('comment.*', 'tours.name as tour_name', 'users.name as user_name');  
-
+        ->join('users', 'users.id', '=', 'comment.user_id') 
+        ->select('comment.*', 'tours.name as tour_name', 'users.name as user_name');  
 
         $data['listComments'] = $query->get();
 
@@ -138,4 +139,65 @@ class CommentController extends Controller
             'status' => $comment->status
         ]);
     }
+    public function storeComment(Request $request, $id)
+    {
+        $tour = Tour::findOrFail($id);
+        // Validate dữ liệu
+        $validated = $request->validate([
+            'content' => 'required|string',
+            'parent_id' => 'nullable|exists:comments,id', // Để trả lời bình luận
+            'anonymous_name' => 'nullable|string|max:255',
+        ]);
+        // Tạo bình luận
+        $comment = Comment::create([
+            'tour_id' => $tour->id,
+            'user_id' => auth()->check() ? auth()->id() : null,
+            'parent_id' => $validated['parent_id'] ?? null,
+            'anonymous_name' => auth()->check() ? null : $validated['anonymous_name'],
+            'content' => $validated['content'],
+        ]);
+        // Trả về phản hồi JSON
+        return response()->json([
+            'success' => true,
+            'comment' => [
+                'id' => $comment->id,
+                'user_name' => $comment->user ? $comment->user->name : $comment->anonymous_name,
+                'user_avatar' => $comment->user ? Storage::url($comment->user->avatar) : asset('default-avatar.png'),
+                'created_at' => $comment->created_at->format('d M Y, H:i'),
+                'content' => $comment->content,
+            ],
+        ]);
+    }
+    public function storeReply(Request $request, $tour_id, $comment_id)
+    {
+        $validated = $request->validate([
+            'content' => 'required|string|max:500',
+            'tour_id' => 'required|exists:tours,id',
+            'parent_id' => 'required|exists:comments,id',
+        ]);
+        try {
+            $reply = Comment::create([
+                'tour_id' => $tour_id,
+                'user_id' => auth()->id(),
+                'content' => $validated['content'],
+                'parent_id' => $comment_id,
+            ]);
+            return response()->json([
+                'status' => 'success',
+                'reply' => [
+                    'user_name' => $reply->user->name,
+                    'avatar' => Storage::url($reply->user->avatar),
+                    'created_at' => $reply->created_at->diffForHumans(),
+                    'content' => $reply->content,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Đã có lỗi xảy ra. Vui lòng thử lại sau.',
+            ], 500);
+        }
+    }
+
+
 }

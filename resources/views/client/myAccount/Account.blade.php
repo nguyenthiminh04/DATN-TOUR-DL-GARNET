@@ -462,16 +462,16 @@
                                                     name="zip">
                                             </div>
 
-                                            <div class="checkbox">
+                                            {{-- <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="IsDefault" value="true"> Đặt là địa
                                                     chỉ mặc định
                                                 </label>
-                                            </div>
+                                            </div> --}}
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default"
                                                     data-dismiss="modal">Hủy</button>
-                                                <button type="submit" class="btn btn-primary">Thêm địa chỉ</button>
+                                                    <button type="submit" class="btn btn-primary">Cập nhật thông tin tài khoản</button>
                                             </div>
                                         </form>
                                     </div>
