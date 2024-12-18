@@ -3,7 +3,7 @@
         <tr>
             <td><a href="" class="text-reset">{{ $item->id }}</a></td>
             <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
-            <td>{{ $item->booking->tour->name }}</td>
+            <td>{{ $item->booking->tour->name ?? 'Đã Xóa' }}</td>
             <td>{{ $item->booking->name }}</td>
             <td>
                 {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}

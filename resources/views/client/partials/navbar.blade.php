@@ -99,7 +99,9 @@ if ($user) {
                                     <div class="level0-wrapper2">
                                         <div class="nav-block nav-block-center">
                                             <ul class="level0"
-                                            style="display: flex; flex-direction: column; padding: 0; margin: 0; list-style: none;">
+
+                                                style="display: flex; flex-direction: column; padding: 0; margin: 0; list-style: none;">
+
                                                 @foreach ($category->children as $child)
                                                 <li class="level1 parent item" style="margin-bottom: 10px;">
                                                     <h2 class="h4" style="margin: 0;">

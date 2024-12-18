@@ -14,7 +14,8 @@ class PasswordController extends Controller
 {
     public function forgotPassword()
     {
-        return view('client.auth.forgotpassword');
+        $data['head_title'] = "Đặt Lại Mật Khẩu";
+        return view('client.auth.forgotpassword', $data);
     }
 
     public function postForgotPassword(Request $request)

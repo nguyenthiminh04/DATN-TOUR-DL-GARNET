@@ -116,6 +116,10 @@ class Tour extends Model
     }
     public function reviews()
     {
+
+        // return $this->hasMany(Review::class, 'tour_id');
+
+
         return $this->hasMany(Review::class);
     }
     

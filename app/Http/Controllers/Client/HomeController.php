@@ -19,7 +19,7 @@ use App\Models\Rating;
 use App\Models\Review;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -94,6 +94,7 @@ class HomeController extends Controller
     public function show($id)
     {
         $tour = Tour::findOrFail($id);
+        $suggestedTours = Tour::inRandomOrder()->take(6)->get();
 
         // Lấy bình luận gốc (parent_id = null) và kèm theo các bình luận con
         $comments = Comment::where('post_id', $tour->id)
@@ -106,28 +107,29 @@ class HomeController extends Controller
 
     public function detailTour($id)
     {
-
-        // dd($coupon);
         // Tìm tour theo ID, nếu không tìm thấy thì trả về 404
         $tour = Tour::findOrFail($id);
+        $suggestedTours = Tour::inRandomOrder()->take(6)->get();
+        
         // Tính điểm trung bình của các đánh giá
         $averageRating = Review::where('tour_id', $id)->avg('rating');
+        
         // Tăng trường view
         $tour->increment('view'); // Tăng giá trị của cột 'view' lên 1
-
+    
         // Kiểm tra xem người dùng hiện tại đã đặt tour này chưa (nếu đã đăng nhập)
         $userHasBooked = false;
         $canReview = false;
-
+    
         if (auth()->check()) {
             $userId = auth()->id();
-
+    
             // Kiểm tra người dùng có đặt tour này không
             $userHasBooked = DB::table('book_tour')
                 ->where('tour_id', $id)
                 ->where('user_id', $userId)
                 ->exists();
-
+    
             // Kiểm tra xem người dùng đã hoàn tất tour (trạng thái = 6 trong bảng payments)
             $canReview = Payment::join('book_tour', 'payments.booking_id', '=', 'book_tour.id')
                 ->where('book_tour.tour_id', $id)
@@ -135,7 +137,7 @@ class HomeController extends Controller
                 ->where('payments.status_id', 6)
                 ->exists();
         }
-
+    
         // Chuẩn bị dữ liệu cho view
         $data = [
             'tour' => $tour,
@@ -150,12 +152,13 @@ class HomeController extends Controller
                 ->get(),
             'userHasBooked' => $userHasBooked, // Truyền trạng thái đặt tour
             'canReview' => $canReview, // Truyền trạng thái có thể đánh giá tour hay không
+            'suggestedTours' => $suggestedTours // Truyền biến suggestedTours vào view
         ];
-
+    
         // Trả về view cùng dữ liệu
         return view('client.tour.detail', $data);
     }
-
+    
 
     public function storeComment(Request $request, $id)
     {
@@ -165,11 +168,14 @@ class HomeController extends Controller
         $validated = $request->validate([
             'content' => 'required|string',
             'parent_id' => 'nullable|exists:comment,id', // Để trả lời bình luận
+            'parent_id' => 'nullable|exists:comments,id', // Để trả lời bình luận
+
+            'parent_id' => 'nullable|exists:comment,id', // Để trả lời bình luận
             'anonymous_name' => 'nullable|string|max:255',
         ]);
 
         // Tạo bình luận
-        Comment::create([
+        $comment = Comment::create([
             'tour_id' => $tour->id,
             'user_id' => auth()->check() ? auth()->id() : null,
             'parent_id' => $validated['parent_id'] ?? null,
@@ -178,6 +184,17 @@ class HomeController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Bình luận đã được lưu.');
+        // Trả về phản hồi JSON
+        return response()->json([
+            'success' => true,
+            'comment' => [
+                'id' => $comment->id,
+                'user_name' => $comment->user ? $comment->user->name : $comment->anonymous_name,
+                'user_avatar' => $comment->user ? Storage::url($comment->user->avatar) : asset('default-avatar.png'),
+                'created_at' => $comment->created_at->format('d M Y, H:i'),
+                'content' => $comment->content,
+            ],
+        ]);
     }
     public function store(Request $request, $tourId)
     {
@@ -210,9 +227,15 @@ class HomeController extends Controller
 
     public function allTour()
     {
+        $tours = Tour::getAll();
+        foreach ($tours as $tour) {
+            $tour->average_rating = Review::where('tour_id', $tour->id)->avg('rating');
+            $tour->rating_count = Review::where('tour_id', $tour->id)->count();
+        }
+
         $data = [
             'header_title' => "Tất Cả Tour",
-            'getTour' => Tour::getAll(),
+            'getTour' => $tours,
             'locations' => Location::select('locations.*')->get(),
             'ratings' => Rating::select('ratings.*')->get(),
         ];
@@ -242,14 +265,19 @@ class HomeController extends Controller
                 $ratingId = $request->rating;
 
                 
-                $query->whereHas('reviews', function ($q) use ($ratingId) {
-                    $q->where('rating', $ratingId);
-                });
+                if (is_numeric($ratingId) && $ratingId >= 1 && $ratingId <= 5) {
+                    $query->whereHas('reviews', function ($q) use ($ratingId) {
+                        $q->where('rating', $ratingId);
+                    });
+                }
             }
 
 
-            $tours = $query->get();
-
+            $tours = $query->with('reviews')->get();
+            foreach ($tours as $tour) {
+                $tour->average_rating = $tour->reviews->avg('rating');
+                $tour->rating_count = $tour->reviews->count();
+            } 
             return response()->json([
                 'success' => true,
                 'html' => view('client.pages.filter_results', compact('tours'))->render()
