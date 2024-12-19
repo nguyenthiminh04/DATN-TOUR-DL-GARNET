@@ -159,7 +159,7 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  
+
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -173,9 +173,11 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Lỗi CAPTCHA',
-                    text: 'Vui lòng hoàn thành xác minh CAPTCHA trước.',
+                    text: 'Vui lòng hoàn thành xác minh CAPTCHA!',
                     confirmButtonText: 'OK'
-                });
+                }).then(() => {
+                    window.location.href = '{{ route('dang-nhap') }}';
+                });;
                 return;
             }
 
