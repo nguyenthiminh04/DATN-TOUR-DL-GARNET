@@ -37,14 +37,11 @@
                                     {{ Auth::user()->name }}</a>
                             </li>
                             <li>
-                                <form method="POST" action="{{ route('logouts') }}" style="display:inline;">
-                                    @csrf
-                                    <button type="submit"
-                                        style="border: none; background: none; padding: 0; color: inherit;">
-                                        <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
-                                    </button>
-                                </form>
-                            </li>
+                                <a href="{{route('logouts')}}"
+                                    style="border: none; background: none; padding: 0; color: inherit;">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                </a>
+                        </li>
                         @else
                             <li>
                                 <a href="{{ route('my-account.index') }}"><i class="fa fa-cart-plus"

@@ -18,75 +18,87 @@
                     </div>
                 </div>
             </div>
-            <!-- end page name -->
-            <form class="col-6" action="{{ route('category.store') }}" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="mb-3">
-                    <label for="img_thumb" class="form-label">Hình Ảnh</label>
-                    <input type="file" id="img_thumb" name="img_thumb" class="form-control" onchange="showImage(event)">
-                    <img id="img_danh_muc" src="" alt="Hình Ảnh" style="width: 150px;display:none">
-                </div>
+            <br>
+            <div class="row">
+                <div class="col-xxl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- end page name -->
+                            <form class="col-6" action="{{ route('category.store') }}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="img_thumb" class="form-label">Hình Ảnh</label>
+                                    <input type="file" id="img_thumb" name="img_thumb" class="form-control"
+                                        onchange="showImage(event)">
+                                    <img id="img_danh_muc" src="" alt="Hình Ảnh" style="width: 150px;display:none">
+                                </div>
 
-                <div class="mb-3">
-                    <label for="name" class="form-label">Tên danh mục<span class="text-danger">*</span></label>
-                    <input type="text" id="name" name="name" onkeyup="generateSlug()" value="{{ old('name') }}" class="form-control"
-                        placeholder="Nhập tên danh mục...">
-                    @error('name')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="description">Mô tả ngắn</label>
-                    <textarea class="form-control" id="description" name="description" value="{{ old('description') }}" rows="2"
-                        placeholder="Nhập mô tả danh mục..."></textarea>
-                    @error('description')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="slug">Slug</label>
-                    <textarea class="form-control" id="slug" name="slug" value="{{ old('slug') }}" rows="2"
-                        placeholder="Nhập mô tả danh mục..."></textarea>
-                    @error('slug')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                {{-- <div class="mb-3">
-                  <label class="form-label" for="content">Nội dung chi tiết</label>
-                  <textarea class="form-control" id="content"name="content" value="{{ old('content') }}" rows="6" placeholder="Nhập mô tả danh mục..."></textarea>
-                  @error('content')
-              <span class="text-danger">{{ $message }}</span>
-          @enderror
-              </div> --}}
-                    <div class="mb-3 col-6">
-                        <label for="status1" class="form-label">Người đăng<span class="text-danger">*</span></label>
-                        <select name="user_id" class="form-select w-100" id="status1">
-                            <option value="">Chọn user</option>
-                            @foreach ($listUser as $status)
-                                <option value="{{ $status->id }}"
-                                    {{ old('user_id') == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('user_id')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Tên danh mục<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" id="name" name="name" onkeyup="generateSlug()"
+                                        value="{{ old('name') }}" class="form-control" placeholder="Nhập tên danh mục...">
+                                    @error('name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="description">Mô tả ngắn</label>
+                                    <textarea class="form-control" id="description" name="description" value="{{ old('description') }}" rows="2"
+                                        placeholder="Nhập mô tả danh mục..."></textarea>
+                                    @error('description')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="slug">Slug</label>
+                                    <input type="text" class="form-control" id="slug" name="slug"
+                                        value="{{ old('slug') }}" rows="2" placeholder="Nhập slug..." />
+                                    @error('slug')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3 col-6">
+                                    <label for="status1" class="form-label">Người đăng<span
+                                            class="text-danger">*</span></label>
+                                    <select name="user_id" class="form-select w-100" id="status1">
+                                        <option value="">Chọn user</option>
+                                        @foreach ($listUser as $status)
+                                            <option value="{{ $status->id }}"
+                                                {{ old('user_id') == $status->id ? 'selected' : '' }}>
+                                                {{ $status->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('user_id')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="status1" class="form-label">Trạng Thái<span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" id="status1" name="status">
+                                        <option value="">Trạng Thái</option>
+                                        <option value="1">Hiển Thị</option>
+                                        <option value="0">Ẩn</option>
+                                    </select>
+                                    @error('status')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="col-lg-12" style="margin-bottom: 10px">
+                                    <a href="{{ route('category.index') }}" class="btn btn-info">Trở về</a>
+                                    <button class="btn btn-primary" type="submit">Thêm mới</button>
+                                </div>
+                            </form>
+
+                        </div>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="status1" class="form-label">Trạng Thái<span class="text-danger">*</span></label>
-                        <select class="form-select" id="status1" name="status">
-                            <option value="">Trạng Thái</option>
-                            <option value="1">Hiển Thị</option>
-                            <option value="0">Ẩn</option>
-                        </select>
-                    </div>
-                </div><!--end row-->
-                <div class="mb-3">
-                    <a href="{{ route('category.index') }}" class="btn btn-info">Trở về</a>
-                    <button class="btn btn-primary" type="submit">Thêm mới</button>
                 </div>
-
-            </form>
+            </div>
         </div>
     </div>
 @endsection
@@ -165,22 +177,21 @@
         }
         CKEDITOR.replace('content');
     </script>
-   <script src="https://cdn.jsdelivr.net/npm/slugify@1.4.7/slugify.min.js"></script>
-   <script>
-      
-       function generateSlug() {
-           var name = document.getElementById('name').value;
-           
-         
-           var slug = slugify(name, {
-               lower: true,       
-               replacement: '-',  
-               remove: /[*+~.()'"!:@]/g
-           });
-   
-            document.getElementById('slug').value = slug; 
-       }
-   </script>
+    <script src="https://cdn.jsdelivr.net/npm/slugify@1.4.7/slugify.min.js"></script>
+    <script>
+        function generateSlug() {
+            var name = document.getElementById('name').value;
+
+
+            var slug = slugify(name, {
+                lower: true,
+                replacement: '-',
+                remove: /[*+~.()'"!:@]/g
+            });
+
+            document.getElementById('slug').value = slug;
+        }
+    </script>
     <script>
         ClassicEditor
             .create(document.querySelector('#editor'), {
@@ -296,4 +307,3 @@
     </script>
     <script src="https:////cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
 @endsection
-

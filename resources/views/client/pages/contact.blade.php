@@ -1,6 +1,6 @@
 @extends('client.layouts.app')
 @section('title')
-   Liên hệ
+    Liên hệ
 @endsection
 @section('style')
     <style>
@@ -354,10 +354,10 @@
                             icon: 'success',
                             title: 'Thành công',
                             text: data.message,
-                            confirmButtonText: 'OK'
-                        }).then(() => {
-                            window.location.reload();
-                        });
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                        })
                     } else if (data.status === 'error') {
                         Swal.fire({
                             icon: 'error',
