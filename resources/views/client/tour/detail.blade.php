@@ -1523,7 +1523,7 @@
 
             // Thêm 1 ngày vào ngày hôm nay
             var tomorrow = new Date(today);
-            tomorrow.setDate(today.getDate() + 1); // Tăng ngày lên 1
+            tomorrow.setDate(today.getDate() + 2); // Tăng ngày lên 1
 
             // Chuyển thành định dạng YYYY-MM-DD
             var tomorrowStr = tomorrow.toISOString().split('T')[0];
