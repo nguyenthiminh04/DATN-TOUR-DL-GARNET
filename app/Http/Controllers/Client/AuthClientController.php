@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
+use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 
 class AuthClientController extends Controller
 {
@@ -33,11 +34,14 @@ class AuthClientController extends Controller
         $validator = \Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|min:6',
+            'g-recaptcha-response' => 'required|captcha', // Xác thực CAPTCHA
         ], [
             'email.required' => 'Email là bắt buộc.',
             'email.email' => 'Email phải có định dạng hợp lệ.',
             'password.required' => 'Mật khẩu là bắt buộc.',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+            'g-recaptcha-response.required' => 'Vui lòng xác minh CAPTCHA.',
+            'g-recaptcha-response.captcha' => 'CAPTCHA không hợp lệ.',
         ]);
 
         if ($validator->fails()) {
@@ -58,11 +62,7 @@ class AuthClientController extends Controller
                     'message' => 'Đăng nhập thành công!',
                 ]);
             } else if ($user->status == 0) {
-
-                if (Auth::check() && Auth::user()->role_id != 1) {
-                    Auth::logout();
-                }
-
+                Auth::logout();
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Tài khoản của bạn hiện đang bị vô hiệu hóa!',

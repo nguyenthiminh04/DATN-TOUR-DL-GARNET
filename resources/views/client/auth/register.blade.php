@@ -170,6 +170,10 @@
                                                     @enderror
                                                 </fieldset>
                                             </div>
+
+                                            <div class="col-md-12">
+                                                {!! NoCaptcha::display() !!}
+                                            </div>
                                             <div class="col-md-12" style="margin-bottom: 10px">
                                                 <button type="submit" class="btn btn-primary"
                                                     style="background-color: #007FF0; width: 120px">Đăng ký</button>
@@ -179,7 +183,7 @@
                                             </div>
 
                                         </form>
-
+                                        {!! NoCaptcha::renderJs() !!}
                                     </div>
                                     {{-- <div class="col-xs-12 text-center" style="margin-top:15px; padding: 0">
                                             <button type="submit" class="btn btn-primary">Đăng ký</button>
