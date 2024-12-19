@@ -66,7 +66,7 @@ class HomeController extends Controller
 
         $article = Article::where('status', 1)
             ->inRandomOrder() // Lấy dữ liệu theo thứ tự ngẫu nhiên
-            ->take(4)         // Giới hạn số lượng bài viết là 4
+            ->take(6)         // Giới hạn số lượng bài viết là 4
             ->get();
 
 
