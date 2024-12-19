@@ -40,17 +40,22 @@ class PaymentController extends Controller
             return redirect()->back()->with('error', 'Không tìm thấy thông tin đặt tour!');
         }
     
-        // Lấy thông tin tour
-        $tour = Tour::find($booking->tour_id); // Assumes the booking contains `tour_id`
+        /// Lấy thông tin tour
+$tour = Tour::find($booking->tour_id);
 
-        if (!$tour) {
-            return redirect()->back()->with('error', 'Không tìm thấy thông tin tour!');
-        }
-    
-        // Kiểm tra số lượng tour
-        if ($tour->number < 1) {
-            return redirect()->back()->with('error', 'Tour đã hết số lượng!');
-        }
+if (!$tour) {
+    return redirect()->back()->with('error', 'Không tìm thấy thông tin tour!');
+}
+
+// Kiểm tra trạng thái tour
+if ($tour->status == 0) {
+    return redirect()->back()->with('error', 'Tour này đã bị ẩn và không thể đặt!');
+}
+
+// Kiểm tra số lượng tour
+if ($tour->number < 1) {
+    return redirect()->back()->with('error', 'Tour đã hết số lượng!');
+}
     
         // Giảm số lượng trong bảng Tour trước khi tiếp tục xử lý
         $tour->decrement('number');
@@ -137,8 +142,11 @@ class PaymentController extends Controller
         $payment = Payment::find($payment_id);
 
         $tour_id = BookTour::find($payment->booking_id)?->tour_id;
-        $tour_name = Tour::find($tour_id)?->name;
-        $start_date = Tour::find($tour_id)?->start_date;
+        $tour = Tour::find($tour_id);
+        $tour_name = $tour->name;
+        $start_date = $tour->start_date;
+//         $tour_name = Tour::find($tour_id)?->name;
+// $start_date = Tour::find($tour_id)?->start_date;
         $guest = BookTour::find($payment->booking_id)?->number_old + BookTour::find($payment->booking_id)?->number_children;
 
         $name = BookTour::find($payment->booking_id)?->name;
@@ -152,6 +160,10 @@ class PaymentController extends Controller
         if (!$payment) {
             return redirect()->route('payment.failed')->with('error', 'Không tìm thấy thông tin thanh toán!');
         }
+// Kiểm tra trạng thái của tour
+if ($tour->status == 0) {
+    return redirect()->route('payment.failed')->with('error', 'Tour này đã bị ẩn và không thể tiếp tục xử lý!');
+}
 
         // Lấy thông tin booking từ payment
         $booking = BookTour::findOrFail($payment->booking_id);
@@ -171,7 +183,10 @@ class PaymentController extends Controller
             // Cập nhật trạng thái thanh toán thành "Đã thanh toán"
             $payment->payment_status_id = $paidStatus->id;
             $payment->save();
-
+// Kiểm tra số lượng tour
+if ($tour->number < 1) {
+    return redirect()->route('payment.failed')->with('error', 'Tour này đã bị ẩn và không thể tiếp tục xử lý!');
+}
             // Giảm số lượng trong bảng Tour
             $tour = Tour::find($tour_id);
             $tour->decrement('number'); // Giảm 1 đơn vị số lượng
@@ -287,6 +302,7 @@ return view('client.payment.success-direct', compact('payment', 'booking', 'paym
     }
     public function vnpay_payment(Request $request)
     {
+
         // Xử lý thông tin khách hàng
         if (auth()->check()) {
             // Nếu người dùng đã đăng nhập

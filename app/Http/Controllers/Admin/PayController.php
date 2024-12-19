@@ -224,38 +224,61 @@ class PayController extends Controller
         //
     }
     public function ThanhToan(Request $request, string $id)
-    {
-        $tour = Payment::findOrFail($id);
-        $currentStatus = $tour->status_id;
-        $paymentStatusId = $request->input('payment_status_id');
+{
+    $tour = Payment::findOrFail($id);
+    $currentStatus = $tour->status_id;
+    $paymentStatusId = $request->input('payment_status_id');
 
-
-        if ($tour->payment_status_id == 3) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Trạng thái thanh toán đã được cập nhật, không thể thay đổi nữa.',
-                'disabled' => true
-            ]);
-
-        }
-        if ($paymentStatusId == 3 && $currentStatus != 6) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Không thể hoàn tiền vì tour chưa được hủy.'
-            ]);
-        }
-
-
-        $tour->payment_status_id = $request->input('payment_status_id');
-        $tour->save();
-
+    // Nếu trạng thái thanh toán đã được cập nhật trước đó
+    if ($tour->payment_status_id == 3) {
         return response()->json([
-            'success' => true,
-            'message' => 'Cập nhật trạng thái thanh toán thành công.',
-            'disabled' => $tour->payment_status_id == 2 ? true : false,
-            'new_status' => $tour->payment_status_id
+            'success' => false,
+            'message' => 'Trạng thái thanh toán đã được cập nhật, không thể thay đổi nữa.',
+            'disabled' => true
         ]);
     }
+
+    // Kiểm tra nếu yêu cầu hoàn tiền nhưng tour chưa được hủy
+    if ($paymentStatusId == 3 && $currentStatus != 13) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Không thể hoàn tiền vì tour chưa được hủy.'
+        ]);
+    }
+
+    // Cập nhật trạng thái thanh toán
+    $tour->payment_status_id = $paymentStatusId;
+    $tour->save();
+
+    // Nếu trạng thái thanh toán là "hoàn tiền" (payment_status_id == 3)
+    if ($paymentStatusId == 3) {
+        // Tạo thông báo trong bảng notifications
+        $notification = Notification::create([
+            'title' => 'Thông báo hoàn tiền',
+           'content' => "Chuyến đi {$tour->booking->tour->name} đã được hoàn số tiền " . number_format($tour->refund_amount, 0, ',', '.') . " VND thành công.",
+            'all_user' => 0,
+            'type' => 'refund',
+            'is_active' => 1,
+        ]);
+
+        // Gửi thông báo tới người dùng liên quan
+        NotificationUser::create([
+            'notification_id' => $notification->id,
+            'user_id' => $tour->user_id,
+            'is_read' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Cập nhật trạng thái thanh toán thành công.',
+        'disabled' => $tour->payment_status_id == 2 ? true : false,
+        'new_status' => $tour->payment_status_id
+    ]);
+}
+
 
 
     public function filter(Request $request)
