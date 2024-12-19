@@ -31,7 +31,7 @@ class Handler extends ExceptionHandler
 {
     // Kiểm tra nếu lỗi là 404 - Not Found
     if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
-        return response()->view('admin.errors.403', [], 404);
+        return response()->view('admin.errors.404', [], 404);
     }
     // Xử lý các lỗi khác như mặc định
     return parent::render($request, $exception);

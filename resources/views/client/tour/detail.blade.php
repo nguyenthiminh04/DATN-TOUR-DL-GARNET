@@ -619,23 +619,23 @@
 
                                 <ul class="ct_course_list">
 
-                                    <li>
+                                    {{-- <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
                                                 alt="Di chuyển bằng Ô tô" /></div>
                                         Di chuyển bằng Ô tô
-                                    </li>
-                                    <li>
+                                    </li> --}}
+                                    {{-- <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg?1705894518705"
                                                 alt="Di chuyển bằng tàu thủy" /></div>
                                         Di chuyển bằng tàu thủy
-                                    </li>
+                                    </li> --}}
                                     <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
                                                 alt="Di chuyển bằng máy bay" /></div>
-                                        Di chuyển bằng máy bay
+                                                <?= $tour['move_method'] ?>
                                     </li>
 
                                     <li>

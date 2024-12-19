@@ -52,7 +52,9 @@
                                                 @foreach ($favorite_tours as $item)
                                                     <tr data-id="{{ $item->id }}">
                                                         <td>{{ $stt++ }}</td>
-                                                        <td>{{ $item->tour->name }}</td>
+                                                        <td><a class="line-clamp"
+                                                            href="{{ route('client.tour.show', $item->tour->id) }}"
+                                                            title="{{ $item->tour->name }}">{{ $item->tour->name }}</a></td>
                                                         <td>
                                                             <img src="{{ Storage::url($item->tour->image) }}" alt=""
                                                                 width="100px">

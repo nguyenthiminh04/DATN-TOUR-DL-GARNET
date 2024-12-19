@@ -40,6 +40,7 @@ use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
+use App\Http\Controllers\CouponsClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +67,7 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::post('/post-dang-ky', [AuthClientController::class, 'postDangKy'])->name('post-dang-ky');
     Route::get('/auth/google', [AuthClientController::class, 'redirectToGoogle'])->name('auth.google');
     Route::get('/auth/google/callback', [AuthClientController::class, 'handleGoogleCallback']);
-    Route::post('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
+    Route::get('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
 
     // Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetPasswordForm'])->name('reset-mat-khau');
     // Route::post('reset-mat-khau/{token}', [AuthClientController::class, 'resetPassword'])->name('reset-mat-khau.xac-nhan');
@@ -167,6 +168,8 @@ Route::group(['middleware' => 'checkstatus'], function () {
 
     Route::get('/test',                 [ClientTourController::class, 'showTour'])->name('test.showTour');
     Route::post('/advisory',            [ClientTourController::class, 'advisory'])->name('advisory');
+
+    Route::get('/ma-giam-gia',[CouponsClientController::class, 'index'])->name('maGiamGia.index');
 });
 
 
@@ -188,7 +191,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('faqs', FaqController::class);
         Route::resource('article', ArticleController::class);
         Route::resource('notifications', NotificationController::class);
-        Route::resource('categorytour', CategoryTour::class);
+        // Route::resource('categorytour', CategoryTour::class);
         Route::resource('trangthaitour', PayController::class);
         Route::get('/quanlytour/{id}', [PayController::class, 'show']);
         // Route::get('/admin/quanlytour/{id}', [PayController::class, 'show'])->name('admin.quanlytour.details');
@@ -204,6 +207,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('category', CategoryController::class);
         Route::resource('categorytour', CategoryTourController::class);
         Route::resource('comments', CommentController::class);
+
+
         Route::get('comment',                               [CommentController::class, 'index'])->name('comment.index');
         Route::delete('comment/delete/{id}',                [CommentController::class, 'destroy'])->name('comment.delete');
         Route::post('comment/status/{id}',                  [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
