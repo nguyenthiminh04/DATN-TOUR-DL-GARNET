@@ -23,7 +23,7 @@ class CouponsRequests extends FormRequest
     {
         return [
             //
-           'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'tour_id' => 'required|integer',
             'code' => 'required|string|max:10',
             'start_date' => 'required|date',

@@ -191,7 +191,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('faqs', FaqController::class);
         Route::resource('article', ArticleController::class);
         Route::resource('notifications', NotificationController::class);
-        Route::resource('categorytour', CategoryTour::class);
+        // Route::resource('categorytour', CategoryTour::class);
         Route::resource('trangthaitour', PayController::class);
         Route::get('/quanlytour/{id}', [PayController::class, 'show']);
         // Route::get('/admin/quanlytour/{id}', [PayController::class, 'show'])->name('admin.quanlytour.details');
@@ -207,6 +207,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('category', CategoryController::class);
         Route::resource('categorytour', CategoryTourController::class);
         Route::resource('comments', CommentController::class);
+
+
         Route::get('comment',                               [CommentController::class, 'index'])->name('comment.index');
         Route::delete('comment/delete/{id}',                [CommentController::class, 'destroy'])->name('comment.delete');
         Route::post('comment/status/{id}',                  [CommentController::class, 'commentStatus'])->name('comment.commentStatus');

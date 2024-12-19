@@ -99,7 +99,7 @@ class CategoryTourController extends Controller
     public function edit($id)
     {
         // Lấy thông tin categorytour theo ID
-        $title = "Thêm Danh Mục Tour";
+        $title = "Sửa Danh Mục Tour";
 
         $categorytour = CategoryTour::findOrFail($id);
 
@@ -111,7 +111,7 @@ class CategoryTourController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryTourRequest $request, string $id)
     {
         // Lấy thông tin danh mục cần cập nhật
         $categorytour = CategoryTour::findOrFail($id);
