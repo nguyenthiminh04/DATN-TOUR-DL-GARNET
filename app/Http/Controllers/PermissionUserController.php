@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class PermissionUserController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware(['permission:view_permissionUser'])->only(['index']);
-    //     $this->middleware(['permission:create_permissionUser'])->only(['create']);
-    //     $this->middleware(['permission:store_permissionUser'])->only(['store']);
-    //     $this->middleware(['permission:destroy_permissionUser'])->only(['destroy']);
-    // }
+    public function __construct()
+    {
+        $this->middleware(['permission:view_permissionUser'])->only(['index']);
+        // $this->middleware(['permission:create_permissionUser'])->only(['create']);
+        // $this->middleware(['permission:store_permissionUser'])->only(['store']);
+        // $this->middleware(['permission:destroy_permissionUser'])->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */
