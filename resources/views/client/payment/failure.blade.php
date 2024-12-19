@@ -52,8 +52,8 @@
     </style>
 @section('content')
     <div class="cancel-payment">
-        <h1 class="cancel-title">Bạn đã huỷ thanh toán!</h1>
-        <p class="cancel-message">Nếu đây là nhầm lẫn, bạn có thể quay lại và thử lại.</p>
+        <h1 class="cancel-title">Bạn đã huỷ thanh toán hoặc số lượng tour đã hết </h1>
+        <p class="cancel-message">Nếu đây là nhầm lẫn, bạn có thể quay lại và thử lại.Số tiền của bạn không bị ảnh hưởng hãy yên tâm</p>
         <a href="/" class="btn btn-primary">Quay lại trang chủ</a>
     </div>
 

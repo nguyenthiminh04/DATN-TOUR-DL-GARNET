@@ -25,54 +25,62 @@ class PaymentController extends Controller
     // Xử lý lưu thanh toán
     public function storePayment(Request $request)
     {
-        $user = Auth::user();
         $request->validate([
-            'payment_method_id' => 'required|exists:payment_methods,id',
+            'payment_method_id' => 'required|exists:payment_methods,id', 
             'money' => 'required|numeric',
             'p_note' => 'nullable|string|max:255',
             'customer_name' => 'required_if:user_id,null|string|max:255',
             'customer_email' => 'required_if:user_id,null|email|max:255',
             'customer_phone' => 'required_if:user_id,null|string|max:20',
         ]);
-
+    
         // Lấy thông tin booking
         $booking = BookTour::find($request->booking_id);
         if (!$booking) {
             return redirect()->back()->with('error', 'Không tìm thấy thông tin đặt tour!');
         }
-
+    
+        // Lấy thông tin tour
+        $tour = Tour::find($booking->tour_id); // Assumes the booking contains `tour_id`
+        if (!$tour) {
+            return redirect()->back()->with('error', 'Không tìm thấy thông tin tour!');
+        }
+    
+        // Kiểm tra số lượng tour
+        if ($tour->number < 1) {
+            return redirect()->back()->with('error', 'Tour đã hết số lượng!');
+        }
+    
+        // Giảm số lượng trong bảng Tour trước khi tiếp tục xử lý
+        $tour->decrement('number');
+    
         // Lấy trạng thái thanh toán mặc định
         $pendingStatus = DB::table('payment_statuses')->where('name', 'Chưa thanh toán')->first();
-        // dd($pendingStatus);
-
+    
         $coupon = Coupon::where('code', $request->coupon)->first();
-
-
-
-
         $paymentMethod = DB::table('payment_methods')->find($request->payment_method_id);
         if (!$paymentMethod) {
             return redirect()->back()->with('error', 'Phương thức thanh toán không hợp lệ!');
         }
-
+    
         // Xử lý thông tin khách hàng
         if (auth()->check()) {
-            // Nếu người dùng đã đăng nhập
+            // Đã đăng nhập
             $customerId = auth()->user()->id;
             $userId = auth()->user()->id;
         } else {
-            // Nếu người dùng chưa đăng nhập, tạo khách hàng ẩn danh
+            // Xử lý khách hàng ẩn danh
             $temporaryUserId = Session::get('temporary_user_id');
             if (!$temporaryUserId) {
-                $temporaryUserId = (string) Str::uuid(); // Tạo UUID
+                $temporaryUserId = (string) Str::uuid(); 
                 Session::put('temporary_user_id', $temporaryUserId);
             }
-
-            // Kiểm tra xem khách hàng ẩn danh đã tồn tại trong bảng customers chưa
+    
+            // Tìm khách hàng ẩn danh
             $customer = DB::table('customers')->where('temporary_user_id', $temporaryUserId)->first();
-
+    
             if (!$customer) {
-                // Tạo khách hàng mới nếu chưa tồn tại
+                // Nếu chưa tồn tại, tạo khách hàng mới
                 $customerId = DB::table('customers')->insertGetId([
                     'name' => $request->customer_name,
                     'email' => $request->customer_email,
@@ -82,39 +90,41 @@ class PaymentController extends Controller
                     'updated_at' => now(),
                 ]);
             } else {
-                $customerId = $customer->id; // Sử dụng ID của khách hàng đã tồn tại
+                $customerId = $customer->id;
             }
-
-            $userId = null; // Không có user_id vì người dùng không đăng nhập
+    
+            $userId = null; // Không có user_id vì là khách ẩn danh
         }
-
+    
         // Tạo thanh toán
         $payment = Payment::create([
             'booking_id' => $booking->id,
             'customer_id' => $customerId,
-            'user_id' => $userId,
+            'user_id' => $userId, 
             'money' => $request->money,
             'p_note' => $request->p_note,
             'payment_status_id' => $pendingStatus->id,
-            'payment_method_id' => $paymentMethod->id,
+            'payment_method_id' => $paymentMethod->id, 
             'coupon_id' => $coupon ? $coupon->id : null,
             'status_id' => 1,
             'time' => now(),
         ]);
+    
+        // Nếu có mã giảm giá, giảm số lượng của mã
         if ($coupon && $coupon->number > 0) {
-            $coupon->decrement('number', 1);
+            $coupon->decrement('number', 1); 
             session()->forget('code');
         }
-
-
+    
         if ($paymentMethod->name === 'direct') {
             // Mail::to($booking['email'])->send(new BookingSuccess($payment));
             return redirect()->route('payment.success', ['payment_id' => $payment->id]);
         }
-
+    
         return redirect()->back()->with('error', 'Phương thức thanh toán không hợp lệ!');
     }
-
+    
+    
 
 
 
@@ -127,45 +137,55 @@ class PaymentController extends Controller
         $payment = Payment::find($payment_id);
 
         $tour_id = BookTour::find($payment->booking_id)?->tour_id;
-        $tour_name = Tour::find($tour_id)?->name;
-        $start_date = Tour::find($tour_id)?->start_date;
+        $tour = Tour::find($tour_id); // Lấy thông tin tour
+        
+        if (!$tour) {
+            return redirect()->route('payment.failed')->with('error', 'Không tìm thấy thông tin tour!');
+        }
+        
+        // Trừ số lượng tour trước
+        if ($tour->number > 0) {
+            $tour->decrement('number'); // Giảm số lượng trước khi tiếp tục thanh toán
+        } else {
+            return redirect()->route('payment.failed')->with('error', 'Tour đã hết chỗ, không thể thanh toán!');
+        }
+        
+        // Tiếp tục xử lý thanh toán
+        $tour_name = $tour->name;
+        $start_date = $tour->start_date;
         $guest = BookTour::find($payment->booking_id)?->number_old + BookTour::find($payment->booking_id)?->number_children;
-
+        
         $name = BookTour::find($payment->booking_id)?->name;
-
+        
         if (PaymentMethod::find($payment->payment_method_id)?->name == "direct") {
             $payment_method = "Thanh toán trực tiếp tại điểm check-in";
         } else {
             $payment_method = PaymentMethod::find($payment->payment_method_id)?->name;
         }
-
+        
         if (!$payment) {
             return redirect()->route('payment.failed')->with('error', 'Không tìm thấy thông tin thanh toán!');
         }
-
+        
         // Lấy thông tin booking từ payment
         $booking = BookTour::findOrFail($payment->booking_id);
-
+        
         // Lấy trạng thái "Đã thanh toán" từ bảng payment_statuses
         $paidStatus = DB::table('payment_statuses')->where('name', 'Đã thanh toán')->first();
-
+        
         // Kiểm tra phương thức thanh toán
         $paymentMethod = DB::table('payment_methods')->find($payment->payment_method_id);
-
+        
         if (!$paymentMethod) {
             return redirect()->route('payment.failed')->with('error', 'Phương thức thanh toán không hợp lệ!');
         }
-
+        
         // Nếu thanh toán qua VNPay hoặc các phương thức online
         if ($paymentMethod->name === 'vnpay' || $paymentMethod->name === 'credit-card') {
             // Cập nhật trạng thái thanh toán thành "Đã thanh toán"
             $payment->payment_status_id = $paidStatus->id;
             $payment->save();
-
-            // Giảm số lượng trong bảng Tour
-            $tour = Tour::find($tour_id);
-            $tour->decrement('number'); // Giảm 1 đơn vị số lượng
-
+        
             // Xử lý dữ liệu gửi email
             $payment_status = PaymentStatus::find($payment->payment_status_id)?->name;
             $data = [
@@ -198,13 +218,17 @@ class PaymentController extends Controller
                     ];
                 }),
             ];
-
+        
             // Gửi email thông báo cho khách hàng
             Mail::to($booking['email'])->queue(new BookingSuccess($data, $pdfData));
-
+        
             // Trả về view success cho thanh toán online
             return view('client.payment.success-online', compact('payment', 'booking'));
         }
+        
+        // Nếu phương thức thanh toán không hợp lệ
+        return redirect()->route('payment.failed')->with('error', 'Phương thức thanh toán không hợp lệ!');
+        
 
         // Nếu thanh toán trực tiếp (Cash on Delivery)
         if ($paymentMethod->name === 'direct') {
@@ -213,9 +237,9 @@ class PaymentController extends Controller
             $payment->payment_status_id = $pendingStatus->id;
             $payment->save();
 
-            // Giảm số lượng trong bảng Tour
-            $tour = Tour::find($tour_id);
-            $tour->decrement('number'); // Giảm 1 đơn vị số lượng
+            // // Giảm số lượng trong bảng Tour
+            // $tour = Tour::find($tour_id);
+            // $tour->decrement('number'); // Giảm 1 đơn vị số lượng
 
             // Xử lý dữ liệu gửi email
             $payment_status = PaymentStatus::find($payment->payment_status_id)?->name;
@@ -275,85 +299,6 @@ class PaymentController extends Controller
 
         return redirect()->route('payment.failed')->with('error', 'Thanh toán VNPay đã bị huỷ.');
     }
-
-
-
-    // {
-    //     $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    //     $vnp_Returnurl = "http://datn-tour-dl-garnet.test/";
-    //     $vnp_TmnCode = "GKKOYDOM";//Mã website tại VNPAY 
-    //     $vnp_HashSecret = "07HSNBEXRMJQYXP7MLGNGRTRBVMQI68M"; //Chuỗi bí mật
-
-    //     $vnp_TxnRef = '1245'; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này 
-
-    //     $vnp_OrderInfo = 'thanh toán đơn hàng';
-    //     $vnp_OrderType = 'billpayment';
-    //     $vnp_Amount = 20000 * 100;
-    //     $vnp_Locale = 'vn';
-    //     $vnp_BankCode = 'NCB';
-    //     $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-
-    //     $inputData = array(
-    //         "vnp_Version" => "2.1.0",
-    //         "vnp_TmnCode" => $vnp_TmnCode,
-    //         "vnp_Amount" => $vnp_Amount,
-    //         "vnp_Command" => "pay",
-    //         "vnp_CreateDate" => date('YmdHis'),
-    //         "vnp_CurrCode" => "VND",
-    //         "vnp_IpAddr" => $vnp_IpAddr,
-    //         "vnp_Locale" => $vnp_Locale,
-    //         "vnp_OrderInfo" => $vnp_OrderInfo,
-    //         "vnp_OrderType" => $vnp_OrderType,
-    //         "vnp_ReturnUrl" => $vnp_Returnurl,
-    //         "vnp_TxnRef" => $vnp_TxnRef,
-    //         //"vnp_ExpireDate"=>$vnp_ExpireDate
-    //     );
-
-    //     if (isset($vnp_BankCode) && $vnp_BankCode != "") {
-    //         $inputData['vnp_BankCode'] = $vnp_BankCode;
-    //     }
-    //     if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
-    //         $inputData['vnp_Bill_State'] = $vnp_Bill_State;
-    //     }
-
-    //     //var_dump($inputData);
-    //     ksort($inputData);
-    //     $query = "";
-    //     $i = 0;
-    //     $hashdata = "";
-    //     foreach ($inputData as $key => $value) {
-    //         if ($i == 1) {
-    //             $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-    //         } else {
-    //             $hashdata .= urlencode($key) . "=" . urlencode($value);
-    //             $i = 1;
-    //         }
-    //         $query .= urlencode($key) . "=" . urlencode($value) . '&';
-    //     }
-
-    //     $vnp_Url = $vnp_Url . "?" . $query;
-    //     if (isset($vnp_HashSecret)) {
-    //         $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);//  
-    //         $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-    //     }
-    //     $returnData = array(
-    //         'code' => '00'
-    //         ,
-    //         'message' => 'success'
-    //         ,
-    //         'data' => $vnp_Url
-    //     );
-    //     if (isset($_POST['redirect'])) {
-    //         header('Location: ' . $vnp_Url);
-    //         die();
-    //     } else {
-    //         echo json_encode($returnData);
-    //     }
-    //     // vui lòng tham khảo thêm tại code demo
-    // }
-
-
-
     public function vnpay_payment(Request $request)
     {
         // Xử lý thông tin khách hàng
