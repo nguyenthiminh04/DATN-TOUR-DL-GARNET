@@ -886,7 +886,8 @@
                                         </div>
                                         <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
                                             @if ($tour['number'] > 0)
-                                                <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}">
+                                                <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}"
+                                                    id="tour-link">
                                                     <button type="button" id="submit-table"
                                                         class="pull-right btn btn-default buynow add-to-cart button nomargin">
                                                         <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
@@ -1273,7 +1274,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
+   
     <script>
         $(document).ready(function() {
             // Lắng nghe sự kiện submit của form bình luận
@@ -1378,7 +1379,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Lỗi',
-                        text: 'Có lỗi xảy ra trong quá trình xử lý. Vui lòng thử lại.',
+                        text: 'Vui lòng thao tác chậm lại, bạn đang thao tác quá nhanh!',
                         confirmButtonText: 'OK'
                     });
                     console.error('Error:', error);

@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Str;
+use ReCaptcha\ReCaptcha;
+use Illuminate\Support\Facades\Validator;
 
 class PasswordController extends Controller
 {
@@ -20,22 +22,50 @@ class PasswordController extends Controller
 
     public function postForgotPassword(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|max:150',
+            'g-recaptcha-response' => 'required|captcha',
+        ], [
+            'email.required' => 'Email là bắt buộc.',
+            'email.email' => 'Email không hợp lệ.',
+            'email.max' => 'Email quá dài.',
+            'g-recaptcha-response.required' => 'Vui lòng xác minh CAPTCHA.',
+            'g-recaptcha-response.captcha' => 'Xác minh CAPTCHA không thành công.',
+        ]);
+
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
+
         $user = User::getEmailSingle($request->email);
 
-        if (!empty($user)) {
+        if ($user) {
+
             $token = Str::random(30);
             $user->remember_token = $token;
             $user->token_created_at = Carbon::now();
             $user->save();
 
+
             Mail::to($user->email)->send(new ForgotPasswordMail($user));
 
-            return response()->json(['message' => 'Vui lòng kiểm tra email và đặt lại mật khẩu của bạn!']);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Vui lòng kiểm tra email và làm theo hướng dẫn để đặt lại mật khẩu của bạn!'
+            ]);
         } else {
-            return response()->json(['message' => 'Không tìm thấy email!'], 404);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Không tìm thấy tài khoản với email này!'
+            ], 404);
         }
     }
-
 
     private function isTokenExpired($tokenCreatedAt)
     {
@@ -64,16 +94,27 @@ class PasswordController extends Controller
 
     public function postResetPassword($token, Request $request)
     {
-        if ($request->password == $request->cpassword) {
+        $validator = Validator::make($request->all(), [
+            'g-recaptcha-response' => 'required|captcha',
+        ], [
+            'g-recaptcha-response.required' => 'Vui lòng xác minh CAPTCHA.',
+            'g-recaptcha-response.captcha' => 'Xác minh CAPTCHA không hợp lệ.',
+        ]);
 
-            $user = User::getTokenSingle($token);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $user = User::getTokenSingle($token);
+
+        if ($user) {
+        
             $user->password = Hash::make($request->password);
             $user->remember_token = Str::random(30);
             $user->save();
 
             return redirect(url('/'))->with('success', 'Đặt lại mật khẩu thành công!');
         } else {
-            return redirect()->back()->with('error', 'Mật khẩu và Xác nhận mật khẩu không khớp!');
+            return redirect()->back()->with('error', 'Vui lòng thử lại!');
         }
     }
 }

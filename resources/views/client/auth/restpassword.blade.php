@@ -64,14 +64,16 @@
                                     <input type="password" class="form-control form-control-lg" name="cpassword"
                                         id="cpassword" placeholder="Xác nhận mật khẩu" />
                                 </fieldset>
-
+                                <div class="col-md-12">
+                                    {!! NoCaptcha::display() !!}
+                                </div>
                                 <div class="pull-xs-left" style="margin-top: 15px;">
                                     <button class="btn btn-style btn-blues" type="submit" style="width: 150px">ĐỔI MẬT
                                         KHẨU</button>
                                 </div>
                             </div>
                         </form>
-
+                        {!! NoCaptcha::renderJs() !!}
                     </div>
                 </div>
             </div>
@@ -85,12 +87,10 @@
     <script>
         document.getElementById('reset-password-form').addEventListener('submit', function(e) {
             e.preventDefault();
-
-       
+            
             var password = document.getElementById('password').value;
             var cpassword = document.getElementById('cpassword').value;
-
-           
+    
             if (password !== cpassword) {
                 Swal.fire({
                     icon: 'error',
@@ -109,7 +109,20 @@
                 });
                 return false;
             }
+    
+            var captchaResponse = grecaptcha.getResponse();
+            if (captchaResponse.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Vui lòng xác minh CAPTCHA!',
+                    confirmButtonText: 'OK'
+                });
+                return false;
+            }
+          
             this.submit();
         });
     </script>
+    
 @endsection

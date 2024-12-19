@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
+use NoCaptcha;
 use App\Models\Admins\Tour;
 use Illuminate\Http\Request;
 use App\Models\Admins\Location;
@@ -10,16 +11,19 @@ use App\Models\Admins\Article;
 use App\Models\Admins\Category;
 use App\Models\Admins\CategoryTour;
 use App\Models\Article as ModelsArticle;
-// use App\Models\Admins\Categoty_tour;
+
 use App\Models\Comment;
 use App\Models\Coupon;
 use App\Models\Notification;
 use App\Models\Payment;
 use App\Models\Rating;
 use App\Models\Review;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+
 
 class HomeController extends Controller
 {
@@ -60,11 +64,11 @@ class HomeController extends Controller
             ->take(5)
             ->get();
 
-            $article = Article::where('status', 1)
+        $article = Article::where('status', 1)
             ->inRandomOrder() // Lấy dữ liệu theo thứ tự ngẫu nhiên
             ->take(4)         // Giới hạn số lượng bài viết là 4
             ->get();
-        
+
 
         // // Lấy thông báo
         // $notifications = collect(); // Tạo một collection rỗng mặc định
@@ -113,10 +117,10 @@ class HomeController extends Controller
         // Tìm tour theo ID, nếu không tìm thấy thì trả về 404
         $tour = Tour::findOrFail($id);
         $suggestedTours = Tour::withoutTrashed()
-        ->where('status', 1)
-        ->orderBy('view', 'desc')
-        ->take(6)
-        ->get();
+            ->where('status', 1)
+            ->orderBy('view', 'desc')
+            ->take(6)
+            ->get();
 
 
         // Tính điểm trung bình của các đánh giá
@@ -124,20 +128,20 @@ class HomeController extends Controller
 
         // Tăng trường view
         $tour->increment('view'); // Tăng giá trị của cột 'view' lên 1
-    
+
         // Kiểm tra xem người dùng hiện tại đã đặt tour này chưa (nếu đã đăng nhập)
         $userHasBooked = false;
         $canReview = false;
-    
+
         if (auth()->check()) {
             $userId = auth()->id();
-    
+
             // Kiểm tra người dùng có đặt tour này không
             $userHasBooked = DB::table('book_tour')
                 ->where('tour_id', $id)
                 ->where('user_id', $userId)
                 ->exists();
-    
+
             // Kiểm tra xem người dùng đã hoàn tất tour (trạng thái = 6 trong bảng payments)
             $canReview = Payment::join('book_tour', 'payments.booking_id', '=', 'book_tour.id')
                 ->where('book_tour.tour_id', $id)
@@ -145,7 +149,7 @@ class HomeController extends Controller
                 ->where('payments.status_id', 6)
                 ->exists();
         }
-    
+
         // Chuẩn bị dữ liệu cho view
         $data = [
             'tour' => $tour,
@@ -162,11 +166,11 @@ class HomeController extends Controller
             'canReview' => $canReview, // Truyền trạng thái có thể đánh giá tour hay không
             'suggestedTours' => $suggestedTours
         ];
-    
+
         // Trả về view cùng dữ liệu
         return view('client.tour.detail', $data);
     }
-    
+
 
     public function storeComment(Request $request, $id)
     {
@@ -232,7 +236,7 @@ class HomeController extends Controller
 
     public function allTour()
     {
-        $tours = Tour::getAll();
+        $tours = Tour::where('status', 1)->get();
 
         foreach ($tours as $tour) {
             $tour->average_rating = Review::where('tour_id', $tour->id)->avg('rating');
