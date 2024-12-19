@@ -179,7 +179,7 @@ class myAccountController extends Controller
     }
 // Kiểm tra nếu tour đã hoàn thành (status_id = 6)
 if ($payment->status_id == 6) {
-    return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy đơn hàng.');
+    return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy nếu có vẫn đề hãy liên hệ với chúng tôi.');
 }
 
         // Kiểm tra nếu tour đã hoàn thành (status_id = 6)

@@ -40,6 +40,7 @@ use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
+use App\Http\Controllers\CouponsClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +67,7 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::post('/post-dang-ky', [AuthClientController::class, 'postDangKy'])->name('post-dang-ky');
     Route::get('/auth/google', [AuthClientController::class, 'redirectToGoogle'])->name('auth.google');
     Route::get('/auth/google/callback', [AuthClientController::class, 'handleGoogleCallback']);
-    Route::post('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
+    Route::get('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
 
     // Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetPasswordForm'])->name('reset-mat-khau');
     // Route::post('reset-mat-khau/{token}', [AuthClientController::class, 'resetPassword'])->name('reset-mat-khau.xac-nhan');
@@ -167,6 +168,8 @@ Route::group(['middleware' => 'checkstatus'], function () {
 
     Route::get('/test',                 [ClientTourController::class, 'showTour'])->name('test.showTour');
     Route::post('/advisory',            [ClientTourController::class, 'advisory'])->name('advisory');
+
+    Route::get('/ma-giam-gia',[CouponsClientController::class, 'index'])->name('maGiamGia.index');
 });
 
 

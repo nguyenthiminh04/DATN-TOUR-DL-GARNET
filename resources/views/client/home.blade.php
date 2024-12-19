@@ -293,8 +293,8 @@
             position: absolute;
             bottom: 20px;
             left: 20px;
-            color: #fff;
-            background: rgba(12, 12, 12, 0.151);
+            color: #493a3a;
+            background: rgb(249, 249, 249);
             padding: 15px;
             border-radius: 8px;
             width: 80%;

@@ -161,7 +161,7 @@
                                                     class="form-select w-full max-w-xs status status-tour"
                                                     data-id="{{ $item->id }}"
                                                     data-default-value="{{ $item->status_id }}"
-                                                    @if ($item->status_id == 6 || $item->status_id == 13) disabled @endif>
+                                                    @if ($item->status_id == 13 || $item->status_id == 13) disabled @endif>
                                                     @foreach ($trangThaiTour as $key => $value)
                                                         <option value="{{ $key }}"
                                                             {{ $key == $item->status_id ? 'selected' : '' }}>
