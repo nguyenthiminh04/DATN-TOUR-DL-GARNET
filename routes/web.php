@@ -56,7 +56,7 @@ use App\Http\Controllers\CouponsClientController;
 
 // client routes
 Route::group(['middleware' => 'checkstatus'], function () {
-    
+
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/auth/check-user-status', [AuthClientController::class, 'checkUserStatus'])->name('auth.check-user-status');
 
@@ -169,7 +169,7 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::get('/test',                 [ClientTourController::class, 'showTour'])->name('test.showTour');
     Route::post('/advisory',            [ClientTourController::class, 'advisory'])->name('advisory');
 
-    Route::get('/ma-giam-gia',[CouponsClientController::class, 'index'])->name('maGiamGia.index');
+    Route::get('/ma-giam-gia', [CouponsClientController::class, 'index'])->name('maGiamGia.index');
 });
 
 
@@ -200,6 +200,8 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::resource('tour', TourController::class);
         Route::resource('coupons', CouponsController::class);
+
+
         Route::resource('review', ReviewController::class);
         Route::patch('/review/{id}/toggle-status', [ReviewController::class, 'toggleStatus'])->name('review.toggleStatus');
 

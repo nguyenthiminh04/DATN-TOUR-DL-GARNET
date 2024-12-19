@@ -46,6 +46,8 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="type" class="form-label">Loại mã giảm giá<span
                                                     class="text-danger">*</span></label>
@@ -55,24 +57,14 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="number" class="form-label">Số lượng<span
                                                     class="text-danger">*</span></label>
                                             <input type="text" id="number" name="number" value="{{ old('number') }}"
                                                 class="form-control" placeholder="Nhập số lượng mã giảm giá">
                                             @error('number')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="percentage_price" class="form-label">Tỷ Lệ Giảm Giá<span
-                                                    class="text-danger">*</span></label>
-                                            <input type="text" id="percentage_price" name="percentage_price"
-                                                value="{{ old('percentage_price') }}" class="form-control"
-                                                placeholder="Nhập câu trả lời">
-                                            @error('percentage_price')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -89,6 +81,19 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="percentage_price" class="form-label">Tỷ Lệ Giảm Giá<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" id="percentage_price" name="percentage_price"
+                                                value="{{ old('percentage_price') }}" class="form-control"
+                                                placeholder="Nhập câu trả lời">
+                                            @error('percentage_price')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="end_date" class="form-label">Ngày Kết Thúc<span
@@ -110,6 +115,9 @@
                                                 <option value="1">Hiển Thị</option>
                                                 <option value="0">Ẩn</option>
                                             </select>
+                                            @error('status')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
