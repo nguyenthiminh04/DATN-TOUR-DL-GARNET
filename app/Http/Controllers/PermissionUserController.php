@@ -55,28 +55,6 @@ class PermissionUserController extends Controller
         return view('admin.permission.add_admin_permission', compact('users', 'permissions'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-    //     $validatedData = $request->validate([
-    //         'user_id' => 'required|exists:users,id', // Kiểm tra người dùng có tồn tại trong bảng users
-    //         'permission_id' => 'required|array', // Kiểm tra permission_id phải là mảng
-    //         'permission_id.*' => 'exists:permissions,id' // Kiểm tra từng permission_id có tồn tại trong bảng permissions
-    //     ]);
-
-    //     // Lưu thông báo cho nhiều người dùng
-    //     foreach ($validatedData['permission_id'] as $permissionId) {
-    //         PermissionUser::create([
-    //             'user_id' => $validatedData['user_id'],
-    //             'permission_id' => $permissionId
-    //         ]);
-    //     }
-
-    //     session()->flash('success', 'Gán quyền cho admin thành công.');
-    //     return back();
-    // }
 
     public function store(Request $request)
     {
@@ -99,9 +77,9 @@ class PermissionUserController extends Controller
         } else {
             // Gán từng quyền được chọn
             foreach ($validatedData['permission_id'] as $permissionId) {
-                PermissionUser::create([
+                PermissionUser::updateOrCreate([
                     'user_id' => $validatedData['user_id'],
-                    'permission_id' => $permissionId
+                    'permission_id' => $permissionId,
                 ]);
             }
         }
