@@ -1274,7 +1274,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-   
+
     <script>
         $(document).ready(function() {
             // Lắng nghe sự kiện submit của form bình luận
@@ -1518,11 +1518,18 @@
             var startDateTour = <?= json_encode($tour['start_date']) ?>; // Ngày bắt đầu tour
             var endDateTour = <?= json_encode($tour['end_date']) ?>; // Ngày kết thúc tour
 
-            // Lấy ngày hôm nay dưới dạng YYYY-MM-DD
-            var today = new Date().toISOString().split('T')[0];
+            // Lấy ngày hôm nay
+            var today = new Date();
+
+            // Thêm 1 ngày vào ngày hôm nay
+            var tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1); // Tăng ngày lên 1
+
+            // Chuyển thành định dạng YYYY-MM-DD
+            var tomorrowStr = tomorrow.toISOString().split('T')[0];
 
             // Xác định minDate
-            var minDate = (new Date(startDateTour) > new Date(today)) ? startDateTour : today;
+            var minDate = (new Date(startDateTour) > new Date(tomorrowStr)) ? startDateTour : tomorrowStr;
 
             flatpickr("#datepicker", {
                 dateFormat: "Y-m-d", // Định dạng ngày
