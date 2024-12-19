@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-name-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Danh Mục</h4>
+                        <h4 class="mb-sm-0">Thêm Danh Mục</h4>
 
                         <div class="page-name-right">
                             <ol class="breadcrumb m-0">
@@ -60,7 +60,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 ">
                                     <label for="status1" class="form-label">Người đăng<span
                                             class="text-danger">*</span></label>
                                     <select name="user_id" class="form-select w-100" id="status1">
