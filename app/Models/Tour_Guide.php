@@ -13,7 +13,8 @@ class Tour_Guide extends Model
     protected $fillable = [
         'tour_id',
         'user_id',
-        'assigned_at'
+        'assigned_at',
+        'status'
     ];
 
     // Định nghĩa quan hệ với bảng tours

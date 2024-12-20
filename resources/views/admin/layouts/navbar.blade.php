@@ -587,14 +587,14 @@
                 {{-- trang hướng dẫn viên --}}
                 @if (hasPermission('guide_check'))
                     <li class="nav-item">
-                        <a class="nav-link menu-link collapsed" href="#tour_guide" data-bs-toggle="collapse"
-                            role="button" aria-expanded="false" aria-controls="tour_guide">
+                        <a class="nav-link menu-link collapsed" href="#guide_check" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="guide_check">
                             <i class=" ph-user-circle-thin"></i> <span data-key="t-dashboards">Lịch trình </span>
                         </a>
-                        <div class="collapse menu-dropdown" id="tour_guide">
+                        <div class="collapse menu-dropdown" id="guide_check">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('tour-guides.index') }}" class="nav-link">Danh sách lịch trình</a>
+                                    <a href="{{ route('guide-check.index') }}" class="nav-link">Danh sách lịch trình</a>
                                 </li>
                                 {{-- <li class="nav-item">
                                     <a href="{{ route('tour-guides.create') }}" class="nav-link">Gán hướng dẫn viên</a>
