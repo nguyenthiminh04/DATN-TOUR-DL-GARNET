@@ -92,7 +92,7 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Tour</th>
+                                                    <th scope="col">Tên tour</th>
                                                     <th scope="col">Họ và Tên</th>
                                                     <th scope="col">Số điện thoại</th>
                                                     <th scope="col">Email</th>
