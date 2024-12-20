@@ -146,8 +146,8 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::get('/lien-he', [ContactController::class, 'index'])->name('contact.index');
     Route::post('/post-lien-he', [ContactController::class, 'store'])->name('post.contact.index')->middleware('throttle:10,1');
     Route::get('/gioi-thieu', [IntroduceController::class, 'index'])->name('introduce.index');
-    Route::get('/dich-vu', [ServiceController::class, 'index'])->name('service.index');
-    Route::get('/dich-vu/{id}', [ServiceController::class, 'show'])->name('service.show');
+    Route::get('/cam-nang-dul-lich', [ServiceController::class, 'index'])->name('service.index');
+    Route::get('/cam-nang-dul-lich/{id}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/cam-nang', [HandbookController::class, 'index'])->name('handbook.index');
     Route::get('/cam-nang/{id}', [HandbookController::class, 'show'])->name('handbook.show');
     Route::post('/tour/{tourId}/reviews', [HomeController::class, 'store'])->name('reviews.store')->middleware('throttle:10,1');
@@ -289,5 +289,6 @@ Route::patch('xu-ly-huy/{id}/upload-proof', [HuyController::class, 'uploadCancel
         // end logs
 
         Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
+        Route::post('/filter-date-total', [StatisticalController::class, 'filterDateTotal'])->name('admin.filterTotal');
     });
 });

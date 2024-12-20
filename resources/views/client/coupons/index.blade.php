@@ -15,7 +15,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-          
+
         }
 
         .coupon-code {
@@ -24,7 +24,7 @@
             color: #16d164;
         }
 
-        .btn {
+        .btn-coupons {
             background-color: #ffffff;
             color: #029c54;
             border: 1px solid #029c54;
@@ -37,13 +37,13 @@
             margin-top: 55px;
         }
 
-        .btn:hover {
+        .btn-coupons:hover {
             background-color: #029c54;
             color: white;
             transform: scale(1.05);
         }
 
-        .btn:focus {
+        .btn-coupons:focus {
             outline: none;
         }
 
@@ -104,7 +104,7 @@
                                                 <span>Còn {{ $coupon->days_remaining }} ngày</span>
                                             </span>
                                         </div>
-                                        <button class="btn" onclick="copyText({{ $coupon->id }})">Copy</button>
+                                        <button class="btn btn-coupons" onclick="copyText({{ $coupon->id }})">Copy</button>
                                     </div>
                                 </div>
                             </div>

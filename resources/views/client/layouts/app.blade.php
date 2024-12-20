@@ -244,7 +244,7 @@
     <script>
         window.BizwebAnalytics = window.BizwebAnalytics || {};
         window.BizwebAnalytics.meta = window.BizwebAnalytics.meta || {};
-        window.BizwebAnalytics.meta.currency = 'VND';
+        window.BizwebAnalytics.meta.currency = 'đ';
         window.BizwebAnalytics.tracking_url = 's.html';
 
         var meta = {};

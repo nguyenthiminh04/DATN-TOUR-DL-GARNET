@@ -642,14 +642,24 @@
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
                                                 alt="Thứ 2 - 5 hằng tuần" /></div>
-                                        <span id="date-khoi-hanh">Thứ 2 - 5 hằng tuần</span>
+                                        <span id="date-khoi-hanh">Diễn ra: Thứ 2 - 5 hằng tuần</span>
                                     </li>
 
                                     <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
                                                 alt="10 ngày 9 đêm" /></div>
+                                        <span id="date-khoi-hanh">Thời gian:</span>
+
                                         <?= $tour['schedule'] ?>
+                                    </li>
+                                    <li>
+                                        <div class="ulimg"><img
+                                                src="https://png.pngtree.com/png-vector/20240529/ourlarge/pngtree-the-icon-of-a-person-relaxing-in-a-chair-and-watching-vector-png-image_6974301.png"
+                                                alt="10 ngày 9 đêm" /></div>
+                                        <span id="date-khoi-hanh">Số lượng: </span>
+
+                                        <?= $tour['number'] ?>
                                     </li>
                                     <div class="tour-rating">
                                         <h4>Đánh giá tour</h4>
@@ -728,7 +738,7 @@
                                                             <i class="fa fa-angle-down"></i>
                                                         </button>
                                                         <input type="number" step="1" min="1"
-                                                            name="quantity" value="1" title="Số lượng"
+                                                            name="quantity" value="0" title="Số lượng"
                                                             class="qty" size="4" id="quantity-0" disabled>
                                                         <button type="button" class="plus">
                                                             <i class="fa fa-angle-up"></i>
@@ -741,7 +751,8 @@
                                                         value="<?= $tour->price_old * (1 - $tour->sale / 100) ?>">
                                                 </li>
                                                 <li class="col-xs-3 hidden-xss subtotal text-right" id="subtotal">
-                                                    {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}VNĐ
+                                                    0đ
+                                                    {{-- {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}đ --}}
                                                 </li>
                                             </ul>
 
@@ -766,7 +777,7 @@
                                                     </div>
                                                 </li>
                                                 <li class="col-xs-3 col-xss-4 text-right variant_price">
-                                                    <?= number_format($tour['price_children'], 0, '', '.') ?>đ
+                                                    <?= number_format($tour['price_children'], 0, '', '.') ?>₫
                                                     <input type="hidden" name="variant_price"
                                                         value="<?= $tour['price_children'] ?>">
                                                 </li>
@@ -993,57 +1004,60 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-5 tour-policy">
-
-
                             <div class="tour-policy-content">
-
-                                <div class="main-project__tab--content tour-no-contentt">
-                                    <div class="product-promotions-list">
-                                        <h2 class="product-promotions-list-title">Chính sách Tour</h2>
-                                        <div class="product-promotions-list-content">
-                                            Chính sách đang được cập nhật.
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="main-project__tab--content">
                                     <div class="product-promotions-list">
                                         <h2 class="product-promotions-list-title">Chính sách Tour</h2>
                                         <div class="product-promotions-list-content">
 
                                             <strong>* Giá tour bao gồm:</strong><br />
-                                            <?= $tour['content'] ?>
-                                            <p><strong>* Giá tour không bao
-                                                    gồm:&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
-                                                -&nbsp;Chi phí làm hộ chiếu, các chương trình tự chọn, nước uống, giặt ủi,
-                                                điện thoại... và các chi phí cá nhân khác của khách ngoài chương
-                                                trình.<br />
-                                                -&nbsp;Hành lý quá cước, chi phí dời ngày và đổi chặng bay theo qui định của
-                                                hàng không.<br />
-                                                -&nbsp;Phí phòng đơn (dành cho khách yêu cầu ở phòng đơn).<br />
-                                                -&nbsp;Tiền bồi dưỡng cho HDV&nbsp;và lái xe địa phương (8 CAD/ khách/
-                                                ngày).</p>
-                                            <p><strong>Điều khoản hủy tour (Thời gian hủy tour được tính cho ngày làm việc,
-                                                    không tính ngày Thứ Bảy, Chủ Nhật và các ngày nghỉ Lễ).</strong><br />
-                                                -&nbsp;Sau khi đặt cọc tour, nếu Qúy khách báo hủy tour Công ty chúng tôi sẽ
-                                                không hoàn lại tiền cọc. Đồng thời Chúng tôi&nbsp;sẽ báo hủy hồ sơ &nbsp;của
-                                                khách.<br />
-                                                -&nbsp;Nếu Qúy khách báo hủy/chuyển tour, vui lòng thanh toán lệ phí
-                                                hủy/chuyển tour cụ thể như sau:<br />
-                                                1/ Trước ngày đi 30 - 35 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
-                                                &amp; ngày nghỉ Tết) thanh toán: 50% giá tour&nbsp;<br />
-                                                2/ Trước ngày đi từ 10 - 29 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
-                                                &amp; ngày nghỉ Tết) thanh toán: 70% giá tour<br />
-                                                3/ Trước ngày đi từ 02 - 09 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
-                                                &amp; ngày nghỉ Tết) thanh toán: 90% giá tour<br />
-                                                4/ Hủy trước ngày đi trong vòng 24h trước ngày khởi hành (không tính thứ Bảy
-                                                &amp; Chủ Nhật &amp; ngày nghỉ Tết): 100% giá tour<br />
-                                                -&nbsp;Vì bất cứ lí do gì, nếu quý khách bị từ chối visa Canada, quý khách
-                                                vui lòng nộp lệ phí là: 5.000.000 vnđ<br />
-                                                -&nbsp;Quý khách có nhu cầu lưu trú tại Canada thêm ngoài chương trình tour
-                                                vui lòng thông báo tại thời điểm đăng kí tour, đóng thêm chênh lệch tiền vé
-                                                máy bay phụ trội ở lại về sau và các chặng bay nội địa theo quy định của
-                                                hàng không.</p>
+
+                                            <p><i>Giá tour không bao gồm:</i> <br>
+                                                - Chi phí làm hộ chiếu, các chương trình tự chọn, nước uống, giặt ủi, điện
+                                                thoại... và các chi phí cá nhân khác của khách ngoài chương trình.<br>
+                                                - Hành lý quá cước, chi phí dời ngày và đổi chặng bay theo qui định của hàng
+                                                không.<br>
+                                                - Phí phòng đơn (dành cho khách yêu cầu ở phòng đơn).<br>
+                                                - Tiền bồi dưỡng cho HDV và lái xe địa phương (8 CAD/ khách/ ngày).<br>
+
+                                                <strong> * Điều khoản hủy tour (Thời gian hủy tour được tính theo tất cả các
+                                                    ngày trong
+                                                    tuần).</strong><br>
+                                                <i> Sau khi đặt tour thành công:</i><br>
+
+                                                1. Thanh toán online: <br>
+
+                                                -Nếu quý khách báo hủy tour, vui lòng liên hệ với chúng
+                                                tôi qua số điện thoại: <b>096171690</b> hoặc <b>email: garnet@gmail.com</b>
+                                                để được xác
+                                                nhận hủy tour và hoàn tiền theo chính sách của chúng tôi.<br>
+
+                                                2. Thanh toán trực tiếp: <br>
+                                                - Quý khách hủy tour trước khi chúng tôi xác nhận đơn
+                                                đặt tour.<br>
+
+                                                <i style="color: red"><b>*Lưu ý:</b> Nếu quý khách đã thanh toán trực tiếp
+                                                    tại
+                                                    trung tâm của chúng tôi,
+                                                    sau khi đơn đặt tour đã được xác nhận, vui lòng liên hệ với chúng tôi
+                                                    qua số
+                                                    điện thoại: <b>096171690</b> hoặc email: <b>email:
+                                                        garnet@gmail.com</b>.</i><br>
+
+                                                <b>* Chính sách hoàn tiền:</b><br>
+
+                                                - Hủy tour trong vòng <b>24h sau khi đặt tour</b> (trong trường hợp đơn hàng
+                                                chưa
+                                                được xác nhận)<b> hoàn tiền 100% giá tour.</b><br>
+
+                                                - Hủy tour trong vòng <b>24h sau khi đặt tour</b> (trong trường hợp đơn hàng
+                                                đã được xác nhận) <b>hoàn tiền 95% giá tour.</b><br>
+
+                                                - Hủy tour trước ngày tour <b>bắt đầu 24h hoàn tiền 80% giá tour.</b><br>
+
+                                                - Hủy tour khi tour <b>đang diễn ra hoàn tiền 0% giá tour.</b><br>
+                                            </p>
+
                                         </div>
                                     </div>
                                 </div>

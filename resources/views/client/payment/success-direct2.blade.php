@@ -77,7 +77,7 @@
                 <p><strong>Tour:</strong> <span>{{ $booking->tour_name }}</span></p>
                 <p><strong>Ngày khởi hành:</strong> <span>{{ $booking->start_date }}</span></p>
                 <p><strong>Số lượng:</strong> <span>{{ $booking->number_old + $booking->number_children }}</span></p>
-                <p><strong>Giá vé:</strong> <span>{{ number_format($booking->total_money, 0, ',', '.') }} VND</span></p>
+                <p><strong>Giá vé:</strong> <span>{{ number_format($booking->total_money, 0, ',', '.') }} đ</span></p>
             </div>
             <p class="redirect-message">Bạn sẽ được chuyển về trang chủ sau <span id="redirect-timer">10</span> giây...</p>
         </div>

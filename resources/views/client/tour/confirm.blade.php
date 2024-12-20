@@ -110,7 +110,7 @@
                             <p><strong>Số lượng:</strong> <span
                                     id="selected-quantity">{{ $booking->number_old + $booking->number_children }}</span></p>
                             <p><strong>Giá vé:</strong> <span
-                                    id="selected-price">{{ number_format($booking->total_money, 0, ',', '.') }} VND</span>
+                                    id="selected-price">{{ number_format($booking->total_money, 0, ',', '.') }} đ</span>
                             </p>
                         </div>
                     </div>

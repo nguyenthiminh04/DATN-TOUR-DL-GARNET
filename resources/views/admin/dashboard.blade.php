@@ -1,5 +1,54 @@
 @extends('admin.layouts.app')
+@section('style')
+    <style>
+        .pagination-container {
+            text-align: right;
+            /* Căn phải */
+            padding-top: 15px;
+        }
 
+        .pagination {
+            display: inline-flex;
+            justify-content: flex-end;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination a,
+        .pagination span {
+            display: inline-block;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: #007bff;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .pagination .active span {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .pagination .disabled span {
+            color: #ccc;
+        }
+
+        .pagination a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .star-yellow {
+            color: #ffc107;
+            /* Mã màu vàng */
+        }
+    </style>
+@endsection
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endsection
@@ -8,6 +57,20 @@
         <div class="container-fluid">
 
             <div class="row">
+                <form class="mb-3">
+                    <div class="d-flex gap-3 justify-content-sm-end">
+                        <div class="form-group">
+                            <label for="start_date_thong_ke">Từ ngày:</label>
+                            <input type="text" name="start_date_thong_ke" id="datepicker3" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="end_date_thong_ke">Đến ngày:</label>
+                            <input type="text" name="end_date_thong_ke" id="datepicker4" class="form-control">
+                        </div>
+                        <input type="button" id="btn-dashboard-total" class="btn btn-primary"
+                            style="height: 35px; margin-top: 20px" value="Lọc">
+                    </div>
+                </form>
                 <div class="col-md-2">
                     <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
                         <div class="card-body">
@@ -18,8 +81,8 @@
                             </div>
                             <div class="mt-2">
                                 <p class="text-uppercase  text-muted text-truncate fs-sm">Doanh thu tháng này</p>
-                                <h4 class=" mb-2"><span class="counter-value" data-target="{{ $totalMoneyMonth }}">0</span>
-                                    đ</h4>
+                                <h4 class=" mb-2"><span class="counter-value" data-target="totalMoneyMonth">0</span>
+                                    </h4>
                             </div>
                         </div><!-- end card body -->
                     </div><!-- end card -->
@@ -34,7 +97,7 @@
                             </div>
                             <div class="mt-2">
                                 <p class="text-uppercase  text-muted text-truncate fs-sm">Doanh thu hôm nay</p>
-                                <h4 class=" mb-2"><span class="counter-value" data-target="{{ $totalMoney }}">0</span> đ
+                                <h4 class=" mb-2"><span class="counter-value" data-target="totalMoney">0</span> 
                                 </h4>
                             </div>
                         </div><!-- end card body -->
@@ -50,7 +113,7 @@
                             </div>
                             <div class="mt-2">
                                 <p class="text-uppercase  text-muted text-truncate ">Đơn hàng tháng này</p>
-                                <h4 class=" mb-3"><span class="counter-value" data-target="{{ $orderCountMonth }}">0</span>
+                                <h4 class=" mb-3"><span class="counter-value" data-target="orderCountMonth">0</span>
                                 </h4>
                             </div>
                         </div><!-- end card body -->
@@ -66,7 +129,7 @@
                             </div>
                             <div class="mt-2">
                                 <p class="text-uppercase  text-muted text-truncate ">Đơn hàng hôm nay</p>
-                                <h4 class=" mb-3"><span class="counter-value" data-target="{{ $orderCountToday }}">0</span>
+                                <h4 class=" mb-3"><span class="counter-value" data-target="orderCountToday">0</span>
                                 </h4>
                             </div>
                         </div><!-- end card body -->
@@ -83,7 +146,7 @@
                             </div>
                             <div class="mt-2">
                                 <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Số lượng khách hàng truy
-                                    cập web</p>
+                                    cập</p>
                                 <h4 class="fw-semibold mb-3"><span class="counter-value"
                                         data-target="{{ $todayVisitors }}">0</span></h4>
                             </div>
@@ -154,7 +217,7 @@
                     <!-- card -->
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
-                            <form class="d-flex">
+                            <form class="d-flex" style="gap: 5px">
                                 @csrf
                                 <div class="card-title mb-0 flex-grow-1">
                                     <p>Từ ngày: <input type="text" id="datepicker" class="form-control"></p>
@@ -162,15 +225,17 @@
                                 <div class="card-title mb-0 flex-grow-1">
                                     <p>Đến ngày: <input type="text" id="datepicker2" class="form-control"></p>
                                 </div>
-                                <div class="card-title mb-0 flex-grow-1">
-                                    <input type="button" id="btn-dashboard-filter" class="btn btn-primary"
-                                        value="Lọc">
-                                </div>
-                                <div class="flex-shrink-0">
-                                    <select name="" id="">
+
+                                {{-- <div class="flex-shrink-0">
+                                    <select name="" id="" class="form-control" style="margin-top: 25px">
                                         <option value="7ngayTruoc">7 ngày trước</option>
                                         <option value="2023">2023</option>
                                     </select>
+                                </div> --}}
+
+                                <div class="card-title mb-0 flex-grow-1" style="margin-top: 25px">
+                                    <input type="button" id="btn-dashboard-filter" class="btn btn-primary"
+                                        value="Lọc">
                                 </div>
                             </form>
 
@@ -337,12 +402,20 @@
                                                         {{ $paymentsOrderTodays->user->name ?? 'Ẩn Danh' }}
                                                     </td>
                                                     <td class="amount">
-                                                        {{ $paymentsOrderTodays->paymentMethod->name }}
+                                                        @if ($paymentsOrderTodays->paymentMethod->id == 1)
+                                                            VNPAY
+                                                        @elseif ($paymentsOrderTodays->paymentMethod->id == 2)
+                                                            Momo
+                                                        @elseif ($paymentsOrderTodays->paymentMethod->id == 3)
+                                                            Thẻ Ngân Hàng
+                                                        @elseif ($paymentsOrderTodays->paymentMethod->id == 4)
+                                                            Thanh Toán Trực Tiếp
+                                                        @endif
                                                     </td>
                                                     <td class="amount">
                                                         <span class="fw-medium">
                                                             {{ number_format($paymentsOrderTodays->money, 0, '', '.') }}
-                                                            VND
+                                                            đ
                                                         </span>
                                                     </td>
                                                     <td class="status">
@@ -350,7 +423,8 @@
                                                             <span
                                                                 class="badge bg-success-subtle text-success">{{ $paymentsOrderTodays->paymentStatus->name }}</span>
                                                         @else
-                                                            <span class="badge bg-danger-subtle text-danger">{{ $paymentsOrderTodays->paymentStatus->name ?? 'Ẩn Danh' }}</span>
+                                                            <span
+                                                                class="badge bg-danger-subtle text-danger">{{ $paymentsOrderTodays->paymentStatus->name ?? 'Chưa thanh toán' }}</span>
                                                         @endif
 
                                                     </td>
@@ -358,6 +432,9 @@
                                             @endforeach
                                         </tbody><!-- end tbody -->
                                     </table><!-- end table -->
+                                    <div class="pagination-container text-end">
+                                        {{ $paymentsOrderToday->links() }}
+                                    </div>
                                     <div class="noresult" style="display: none">
                                         <div class="text-center">
                                             <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
@@ -377,7 +454,7 @@
 
 
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="card" id="contactList">
                         <div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Tour đánh giá cao</h4>
@@ -386,7 +463,7 @@
                                     <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
                                         <span class="fw-semibold text-uppercase fs-12">Lọc:
-                                        </span><span class="text-muted dropdown-title">Order Date</span> <i
+                                        </span><span class="text-muted dropdown-title">Ngày đặt hàng</span> <i
                                             class="mdi mdi-chevron-down ms-1"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
@@ -395,7 +472,7 @@
                                         <button class="dropdown-item sort" data-sort="order_id">Order
                                             ID</button>
                                         <button class="dropdown-item sort" data-sort="amount">Amount</button>
-                                        <button class="dropdown-item sort" data-sort="status">Status</button>
+                                        <button class="dropdown-item sort" data-sort="status">Trạng thái</button>
                                     </div>
                                 </div>
                             </div>
@@ -416,9 +493,9 @@
                                             <th scope="col" class="sort cursor-pointer" data-sort="amount">
                                                 Tổng tiền</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="status">
-                                                Status</th>
+                                                Trạng thái</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="rating">
-                                                Rating</th>
+                                                Đánh giá</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list">
@@ -438,7 +515,7 @@
                                                 </td>
                                                 <td class="amount">
                                                     <span class="fw-medium">
-                                                        {{ number_format($review->total_revenue, 0, '', '.') }} VND
+                                                        {{ number_format($review->total_revenue, 0, '', '.') }} đ
                                                     </span>
                                                 </td>
                                                 <td class="status">
@@ -446,15 +523,31 @@
                                                         class="badge bg-warning-subtle text-warning">{{ $review->status == 1 ? 'Hiện' : 'Ẩn' }}</span>
                                                 </td>
                                                 <td class="rating">
-                                                    <h5 class="fs-md fw-medium mb-0"><i
-                                                            class="ph-star align-baseline text-warning"></i>
-                                                        {{ $review->rating }}
-                                                    </h5>
+                                                    @if ($review->count() > 0)
+                                                        <div>
+                                                            <div>
+                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                    @if ($i <= $review->rating)
+                                                                        <i class=" ri-star-fill"
+                                                                            style="color: #ffc107"></i>
+                                                                    @else
+                                                                        {{-- <i class=" ri-star-line"></i> --}}
+                                                                    @endif
+                                                                @endfor
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <p>Chưa có đánh giá nào</p>
+                                                    @endif
                                                 </td>
+
                                             </tr><!-- end tr -->
                                         @endforeach
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
+                                <div class="pagination-container text-end">
+                                    {{ $tourReview->links() }}
+                                </div>
                                 <div class="noresult" style="display: none">
                                     <div class="text-center">
                                         <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
@@ -470,29 +563,11 @@
                     </div>
                 </div><!--end col-->
 
-                <div class="col-lg-4">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center">
-                            <h4 class="card-title mb-0 flex-grow-1">Thông báo</h4>
-                        </div>
-                        <div class="card-body px-0">
-                            <div data-simplebar class="px-3" style="max-height: 333px;">
-                                <div class="vstack gap-2">
-                                    <div class="p-2 border border-dashed">
-                                        <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                            <i class="bi bi-check2-square text-primary"></i>
-                                            <h6 class="mb-0">tin nhắn</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--end col-->
+
             </div><!--end row-->
 
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-center">
                             <h5 class="card-title mb-0 flex-grow-1">Khách hàng chi tiêu nhiều</h5>
@@ -554,11 +629,12 @@
             });
         });
 
+
         function renderChart(dataPoints) {
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 title: {
-                    text: "Top 5 Tour  đặt nhiều nhất"
+                    text: "Top Tour Có Số Lượng Đặt Cao"
                 },
                 axisY: {
                     title: "Tổng tiền",
@@ -566,7 +642,7 @@
                 },
                 data: [{
                     type: "bar",
-                    yValueFormatString: "###,##0 VND",
+                    yValueFormatString: "###,##0 đ",
                     indexLabel: "{y}",
                     indexLabelPlacement: "inside",
                     indexLabelFontWeight: "bolder",
@@ -576,6 +652,41 @@
             });
             chart.render();
         }
+
+        function loadDefaultChart() {
+            var _token = $('input[name="_token"]').val();
+            var from_date = $("#datepicker").val();
+            var to_date = $("#datepicker2").val();
+            $.ajax({
+                url: "{{ url('/admin/home/dashboard-date') }}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    from_date: from_date,
+                    to_date: to_date,
+                    _token: _token
+                },
+                success: function(data) {
+                    var dataPoints = data.map(function(item) {
+                        return {
+                            y: parseFloat(item.money),
+                            label: `${item.tour_name} (${item.soLuongDon} đơn)`
+                        };
+                    });
+                    renderChart(dataPoints);
+                    console.log("Data loaded successfully.");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+        loadDefaultChart();
+        $('#btn-dashboard-filter').click(function() {
+            loadDefaultChart();
+        });
+
+
 
         $('#btn-dashboard-filter').click(function() {
             var _token = $('input[name="_token"]').val();
@@ -598,16 +709,16 @@
                     //         y: item.money / 1000,
                     //         label: item.date
                     //     };
-                    
+
                     var dataPoints = data.map(function(item) {
                         return {
-                            y: parseFloat(item.money) ,
+                            y: parseFloat(item.money),
                             label: `${item.tour_name} (${item.soLuongDon} đơn)`
                         };
                     });
-                    console.log(dataPoints)
+                    // console.log(dataPoints)
                     renderChart(dataPoints);
-                    console.log("Data loaded successfully.");
+                    // console.log("Data loaded successfully.");
                 },
                 error: function(xhr, status, error) {
                     console.error("Error:", error);
@@ -615,9 +726,54 @@
 
 
             });
-            console.log(data)
+            // console.log(data)
 
         });
+
+        $(document).ready(function() {
+            const today = new Date();
+            const defaultEndDate = today.toISOString().split('T')[0];
+            const defaultStartDate = new Date(today.setMonth(today.getMonth() - 1)).toISOString().split('T')[0];
+            $("#datepicker3").val(defaultStartDate);
+            $("#datepicker4").val(defaultEndDate);
+
+            function fetchData(startDate, endDate) {
+                $.ajax({
+                    url: "{{ route('admin.filterTotal') }}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        from_date: startDate,
+                        to_date: endDate,
+                        _token: $('input[name="_token"]').val()
+                    },
+                    success: function(data) {
+                        $(".counter-value[data-target='totalMoneyMonth']").text(data.totalMoneyMonth);
+                        $(".counter-value[data-target='totalMoney']").text(data.totalMoney);
+                        $(".counter-value[data-target='orderCountMonth']").text(data.orderCountMonth);
+                        $(".counter-value[data-target='orderCountToday']").text(data.orderCountToday);
+                        $(".counter-value[data-target='todayVisitors']").text(data.todayVisitors);
+                        $(".counter-value[data-target='customerCount']").text(data.customerCount);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", error);
+                    }
+                });
+            }
+            fetchData(defaultStartDate, defaultEndDate);
+            $("#btn-dashboard-total").click(function() {
+                const fromDate = $("#datepicker3").val();
+                const toDate = $("#datepicker4").val();
+                fetchData(fromDate, toDate);
+            });
+            $("#datepicker3").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            $("#datepicker4").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        });
+
 
         $('#dashboard-filter').change(function() {
             var dashboard_value = $(this).val();
@@ -653,7 +809,7 @@
                     year: defaultYear
                 },
                 success: function(response) {
-                    console.log(response);
+                    // console.log(response);
                     salesChart.data.datasets[0].data = response.dataChart;
                     salesChart.update();
                 },
@@ -670,7 +826,7 @@
                         year: year
                     },
                     success: function(response) {
-                        console.log(response);
+                        // console.log(response);
                         salesChart.data.datasets[0].data = response.dataChart;
                         salesChart.update();
                     },
@@ -728,7 +884,7 @@
                                 callback: function(value) {
                                     return new Intl.NumberFormat('vi-VN', {
                                         style: 'currency',
-                                        currency: 'VND'
+                                        currency: 'đ'
                                     }).format(value);
                                 }
                             }, ticksStyle)
@@ -751,7 +907,7 @@
                             formatter: function(value) {
                                 return new Intl.NumberFormat('vi-VN', {
                                     style: 'currency',
-                                    currency: 'VND'
+                                    currency: 'đ'
                                 }).format(value);
                             }
                         }
