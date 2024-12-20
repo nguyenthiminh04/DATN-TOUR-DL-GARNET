@@ -12,7 +12,6 @@ class ArticleRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
-        
     }
 
     /**
@@ -23,10 +22,10 @@ class ArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-          'title' => 'required',
+            'title' => 'required',
             'description' => 'required',
             'content' => 'required',
-            'img_thumb' =>'required',
+            'img_thumb' => 'required',
             'category_id' => 'required',
             'user_id' => 'required',
             'status' => 'required',

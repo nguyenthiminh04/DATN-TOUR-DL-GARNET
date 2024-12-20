@@ -28,9 +28,9 @@ class UserRequests extends FormRequest
     }
     public function messages(): array
     {
-        return[
-'name.required' => 'Tên Coupons là bắt buộc',
-'name.max' => 'Tên Coupons không được vượt quá 255 kía tự',
+        return [
+            'name.required' => 'Tên Coupons là bắt buộc',
+            'name.max' => 'Tên Coupons không được vượt quá 255 kía tự',
 
         ];
     }

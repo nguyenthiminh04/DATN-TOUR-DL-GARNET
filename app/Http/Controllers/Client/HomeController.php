@@ -246,7 +246,7 @@ class HomeController extends Controller
         $data = [
             'header_title' => "Tất Cả Tour",
             'getTour' => $tours,
-            'locations' => Location::select('locations.*')->get(),
+            'locations' => Location::where('status', 1)->get(),
             'ratings' => Rating::select('ratings.*')->get(),
         ];
 
