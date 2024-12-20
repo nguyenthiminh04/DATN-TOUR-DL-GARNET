@@ -4,10 +4,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <ul class="top-info">
-                        <li><i class="fa fa-phone color-x" aria-hidden="true"></i> <a href="tel:19006750">1900
-                                6750</a></li>
+                        <li><i class="fa fa-phone color-x" aria-hidden="true"></i> <a href="tel:19002424">1900
+                                2424</a></li>
                         <li><i class="fa fa-envelope-o" aria-hidden="true"></i> <a
-                                href="mailto:support@sapo.vn">support@sapo.vn</a></li>
+                                href="mailto:support@garnet.vn">support@garnet.vn</a></li>
                     </ul>
                 </div>
                 <div class="col-md-6">
@@ -37,11 +37,11 @@
                                     {{ Auth::user()->name }}</a>
                             </li>
                             <li>
-                                <a href="{{route('logouts')}}"
+                                <a href="{{ route('logouts') }}"
                                     style="border: none; background: none; padding: 0; color: inherit;">
                                     <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
                                 </a>
-                        </li>
+                            </li>
                         @else
                             <li>
                                 <a href="{{ route('my-account.index') }}"><i class="fa fa-cart-plus"

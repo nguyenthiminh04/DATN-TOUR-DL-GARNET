@@ -32,10 +32,10 @@ class Payment extends Model
     ];
 
     // Quan hệ với bảng book_tour (một payment thuộc một booking)
-    public function booking()
-    {
-        return $this->belongsTo(BookTour::class, 'booking_id');
-    }
+    // public function booking()
+    // {
+    //     return $this->belongsTo(BookTour::class, 'booking_id');
+    // }
 
     // Quan hệ với bảng users (một payment thuộc một người dùng)
     public function user()
@@ -59,4 +59,22 @@ class Payment extends Model
     {
         return $this->hasMany(BookTour::class, 'pay_id');
     }
+
+    // In Payment.php model
+    public function book_tour()
+    {
+        return $this->hasOne(BookTour::class);
+    }
+    public function booking()
+    {
+        return $this->belongsTo(BookTour::class);
+    }
+    
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id'); // Điều chỉnh theo schema
+    }
+    
+    // In BookTour.php model (if users relation exists)
+
 }

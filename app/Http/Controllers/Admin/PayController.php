@@ -147,34 +147,34 @@ class PayController extends Controller
             $newStatus = $request->input('status_id');
             $paymentStatusId = $tour->payment_status_id;
 
-        // Trạng thái "hoàn thành" không được thay đổi
-        if ($currentStatus == 13) {
-            return response()->json(['success' => false, 'message' => 'Trạng thái đã hoàn thành không thể thay đổi nữa.']);
-        }
-        // Không được chuyển về trạng thái cũ
-        if ($newStatus < $currentStatus) {
-            return response()->json(['success' => false, 'message' => 'Không thể chuyển trạng thái cũ.']);
-        }
-        // Kiểm tra điều kiện: Nếu chuyển trạng thái sang hủy (status_id == 13) và đã thanh toán
-        if ($newStatus == 13 && $paymentStatusId == 2) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Không thể hủy tour do khách hàng đã thanh toán.'
-            ]);
-        }
-        // if ($newStatus == 2 && $paymentStatusId != 2) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'Khách chưa thanh toán.'
-        //     ]);
-        // }
-        if ($newStatus == 5 && $paymentStatusId != 2) {
-            return response()->json(['success' => false, 'message' => 'Khách hàng chưa thanh toán.']);
-        }
-        // Kiểm tra điều kiện: chỉ cho phép chuyển status_id sang 6 nếu payment_status_id là 2
-        if ($newStatus == 6 && $paymentStatusId != 2) {
-            return response()->json(['success' => false, 'message' => 'Khách hàng chưa thanh toán.']);
-        }
+            // Trạng thái "hoàn thành" không được thay đổi
+            if ($currentStatus == 13) {
+                return response()->json(['success' => false, 'message' => 'Trạng thái đã hoàn thành không thể thay đổi nữa.']);
+            }
+            // Không được chuyển về trạng thái cũ
+            if ($newStatus < $currentStatus) {
+                return response()->json(['success' => false, 'message' => 'Không thể chuyển trạng thái cũ.']);
+            }
+            // Kiểm tra điều kiện: Nếu chuyển trạng thái sang hủy (status_id == 13) và đã thanh toán
+            if ($newStatus == 13 && $paymentStatusId == 2) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không thể hủy tour do khách hàng đã thanh toán.'
+                ]);
+            }
+            // if ($newStatus == 2 && $paymentStatusId != 2) {
+            //     return response()->json([
+            //         'success' => false,
+            //         'message' => 'Khách chưa thanh toán.'
+            //     ]);
+            // }
+            if ($newStatus == 5 && $paymentStatusId != 2) {
+                return response()->json(['success' => false, 'message' => 'Khách hàng chưa thanh toán.']);
+            }
+            // Kiểm tra điều kiện: chỉ cho phép chuyển status_id sang 6 nếu payment_status_id là 2
+            if ($newStatus == 6 && $paymentStatusId != 2) {
+                return response()->json(['success' => false, 'message' => 'Khách hàng chưa thanh toán.']);
+            }
 
             // Cập nhật trạng thái
             $tour->status_id = $newStatus;
@@ -245,6 +245,7 @@ class PayController extends Controller
                 'success' => false,
                 'message' => 'Trạng thái thanh toán đã được cập nhật, không thể thay đổi nữa.',
                 'disabled' => true
+
             ]);
         }
 
@@ -265,7 +266,7 @@ class PayController extends Controller
             // Tạo thông báo trong bảng notifications
             $notification = Notification::create([
                 'title' => 'Thông báo hoàn tiền',
-                'content' => "Chuyến đi {$tour->booking->tour->name} đã được hoàn số tiền " . number_format($tour->refund_amount, 0, ',', '.') . " VND thành công.",
+                'content' => "Chuyến đi {$tour->booking->tour->name} đã được hoàn số tiền " . number_format($tour->refund_amount, 0, ',', '.') . "đ thành công.",
                 'all_user' => 0,
                 'type' => 'refund',
                 'is_active' => 1,
@@ -299,21 +300,28 @@ class PayController extends Controller
             $search = $request->input('search');
             $payment_status_id = $request->get('payment_status_id');
 
-            // Build query for payments
-            $query = Payment::query()->with(['booking.book_tour', 'booking.tour']);
+            $query = Payment::query()->with(['booking.user', 'booking.tour', 'users']);
 
             // Search filter
             if ($search) {
                 $query->where(function ($query) use ($search) {
-                    $query->whereHas('booking.book_tour', function ($q) use ($search) {
+                    // Tìm kiếm trong booking.user
+                    $query->whereHas('booking.user', function ($q) use ($search) {
                         $q->where('name', 'like', '%' . $search . '%')
                             ->orWhere('phone', 'like', '%' . $search . '%');
                     })
+                        // Tìm kiếm trong booking.tour
                         ->orWhereHas('booking.tour', function ($q) use ($search) {
                             $q->where('name', 'like', '%' . $search . '%');
                         })
+                        // Tìm kiếm trong bảng booking
                         ->orWhereHas('booking', function ($q) use ($search) {
                             $q->where('name', 'like', '%' . $search . '%');
+                        })
+                        // Tìm kiếm trong bảng users
+                        ->orWhereHas('users', function ($q) use ($search) {
+                            $q->where('name', 'like', '%' . $search . '%')
+                                ->orWhere('phone', 'like', '%' . $search . '%');
                         });
                 });
             }
