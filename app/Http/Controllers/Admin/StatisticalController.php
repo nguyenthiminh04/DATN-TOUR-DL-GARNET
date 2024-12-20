@@ -21,7 +21,7 @@ class StatisticalController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['permission:view_dashboard'])->only(['index']);
+        // $this->middleware(['permission:view_dashboard'])->only(['index']);
     }
     public function index(Request $request)
     {

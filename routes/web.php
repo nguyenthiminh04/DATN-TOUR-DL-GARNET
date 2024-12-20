@@ -38,9 +38,11 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\GuideControler;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Http\Controllers\CouponsClientController;
+use App\Http\Controllers\TourGuideController;
 use App\Http\Controllers\HuyController;
 
 /*
@@ -286,7 +288,18 @@ Route::group(['prefix' => 'admin'], function () {
 
         //logs tour
         Route::get('/change-logs', [ChangeLogController::class, 'index'])->name('change-logs.index');
+        Route::get('/statistics/employee-tour', [ChangeLogController::class, 'employeeTourStatistics'])->name('statistics.employee-tour');
+
         // end logs
+
+        // tour_guide
+        Route::resource('/tour-guides', TourGuideController::class);
+        // end tour_guide
+
+        // guide_check
+        Route::get('/guide-check', [GuideControler::class, 'index'])->name('guide-check.index');
+        // end guide_check
+
 
         Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
         Route::post('/filter-date-total', [StatisticalController::class, 'filterDateTotal'])->name('admin.filterTotal');

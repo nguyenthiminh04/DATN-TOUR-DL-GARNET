@@ -6,6 +6,7 @@ use App\Models\BookTour;
 use App\Models\Comment;
 use App\Models\Favorite;
 use App\Models\Review;
+use App\Models\Tour_Guide;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -69,12 +70,7 @@ class Tour extends Model
     {
         return $this->belongsTo(Location::class, 'location_id');
     }
-    public function guides()
 
-
-    {
-        return $this->hasMany(Coupons::class, 'tour_id');
-    }
     public function category_tour()
     {
         return $this->belongsTo(CategoryTour::class, 'tour_id');
@@ -123,5 +119,17 @@ class Tour extends Model
 
         return $this->hasMany(Review::class);
     }
+
+     // Quan hệ với TourGuide
+     public function tourGuides()
+     {
+         return $this->hasMany(Tour_Guide::class);
+     }
+ 
+     // Quan hệ với hướng dẫn viên qua bảng tour_guides
+     public function guides()
+     {
+         return $this->belongsToMany(User::class, 'tour_guides', 'tour_id', 'user_id');
+     }
     
 }

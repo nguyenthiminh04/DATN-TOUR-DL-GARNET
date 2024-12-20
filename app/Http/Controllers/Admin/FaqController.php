@@ -13,11 +13,11 @@ class FaqController extends Controller
     public function __construct()
     {
         $this->middleware(['permission:view_faq'])->only(['index']);
-        $this->middleware(['permission:create_faq'])->only(['create']);
-        $this->middleware(['permission:store_faq'])->only(['store']);
-        $this->middleware(['permission:edit_faq'])->only(['edit']);
-        $this->middleware(['permission:update_faq'])->only(['update']);
-        $this->middleware(['permission:destroy_faq'])->only(['destroy']);
+        // $this->middleware(['permission:create_faq'])->only(['create']);
+        // $this->middleware(['permission:store_faq'])->only(['store']);
+        // $this->middleware(['permission:edit_faq'])->only(['edit']);
+        // $this->middleware(['permission:update_faq'])->only(['update']);
+        // $this->middleware(['permission:destroy_faq'])->only(['destroy']);
     }
     /**
      * Display a listing of the resource.
@@ -94,7 +94,7 @@ class FaqController extends Controller
     public function edit(Faq $faq)
     {
         $title = "Danh Sách FAQS";
-        return view('admin.faq.edit', compact('title'));
+        return view('admin.faq.edit', compact('title', 'faq'));
     }
 
     /**
