@@ -91,7 +91,7 @@
                                         <table class="table table-hover table-striped align-middle table-nowrap mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">#</th>
+                                                    <th scope="col">STT</th>
                                                     <th scope="col">Tên tour</th>
                                                     <th scope="col">Họ và Tên</th>
                                                     <th scope="col">Số điện thoại</th>
