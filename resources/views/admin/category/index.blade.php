@@ -264,22 +264,22 @@
                             if (response.success) {
                                 const button = $(
                                     `.btn.btn-toggle-hot[data-id="${categoryhotId}"]`
-                                    ); // Chỉ chọn nút "Hot"
+                                ); // Chỉ chọn nút "Hot"
                                 if (response.status == 1) {
                                     button.removeClass('btn-danger').addClass('btn-success').text(
-                                    'Hot');
+                                        'Hot');
                                 } else {
                                     button.removeClass('btn-success').addClass('btn-danger').text(
                                         'Không Hot');
                                 }
                                 Swal.fire({
-                                        icon: 'success',
-                                        title: 'Thành công!',
-                                        text: 'Trạng thái cập nhật thành công!',
-                                        showConfirmButton: false,
-                                        timer: 1500,
-                                        timerProgressBar: true,
-                                    });
+                                    icon: 'success',
+                                    title: 'Thành công!',
+                                    text: 'Trạng thái cập nhật thành công!',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                });
                             } else {
                                 Swal.fire({
                                     icon: 'error',
@@ -306,50 +306,64 @@
 
         function toggleStatus(categoryId) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-            $.ajax({
-                url: `/admin/category/status/${categoryId}`,
-                method: 'POST',
-                data: {
-                    _token: csrfToken
-                },
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                success: function(response) {
-                    if (response.success) {
-                        const button = $(
-                            `.btn.btn-toggle-status[data-id="${categoryId}"]`); // Chỉ chọn nút "Status"
-                        if (response.status == 1) {
-                            button.removeClass('btn-danger').addClass('btn-success').text('Hiện');
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn thay đổi trạng thái của danh mục này?',
+                // text: 'Trạng thái sẽ được cập nhật!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Có, thay đổi',
+                cancelButtonText: 'Hủy',
+                reverseButtons: true
+            }).then((result) => {
+                $.ajax({
+                    url: `/admin/category/status/${categoryId}`,
+                    method: 'POST',
+                    data: {
+                        _token: csrfToken
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            const button = $(
+                                `.btn.btn-toggle-status[data-id="${categoryId}"]`
+                                ); // Chỉ chọn nút "Status"
+                            if (response.status == 1) {
+                                button.removeClass('btn-danger').addClass('btn-success').text('Hiện');
+                            } else {
+                                button.removeClass('btn-success').addClass('btn-danger').text('Ẩn');
+                            }
+                            Swal.fire({
+                                icon: 'success',
+                                    title: 'Thành công!',
+                                    text: 'Trạng thái cập nhật thành công!',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                            });
                         } else {
-                            button.removeClass('btn-success').addClass('btn-danger').text('Ẩn');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi!',
+                                text: 'Không tìm thấy danh mục!',
+                                showConfirmButton: true,
+                            });
                         }
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thành công!',
-                            text: 'Đã được cập nhật thành công!',
-                            showConfirmButton: true,
-                        });
-                    } else {
+                    },
+                    error: function(xhr, status, error) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Lỗi!',
-                            text: 'Không tìm thấy danh mục!',
+                            text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error,
                             showConfirmButton: true,
                         });
+                        console.error(xhr.responseText || error);
                     }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi!',
-                        text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' + error,
-                        showConfirmButton: true,
-                    });
-                    console.error(xhr.responseText || error);
-                }
-            });
+                });
+            })
         }
 
 

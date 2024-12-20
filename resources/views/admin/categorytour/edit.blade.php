@@ -9,7 +9,8 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"> <a href="{{ route('categorytour.index') }}">Trang quản trị</a></li>
+                                <li class="breadcrumb-item"> <a href="{{ route('categorytour.index') }}">Trang quản trị</a>
+                                </li>
                                 <li class="breadcrumb-item active">Sửa danh mục tour</li>
                             </ol>
                         </div>
@@ -21,8 +22,10 @@
                 <div class="col-xxl-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('categorytour.store') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('categorytour.update', $categorytour->id) }}" method="post"
+                                enctype="multipart/form-data">
                                 @csrf
+                                @method('PUT')
                                 {{-- <div class="mb-3">
                                     <label for="img_thumb" class="form-label">Hình Ảnh</label>
                                     <input type="file" id="img_thumb" name="img_thumb" class="form-control"
@@ -35,7 +38,7 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" id="category_tour" name="category_tour"
                                         value="{{ $categorytour->category_tour }}" class="form-control"
-                                        placeholder="Nhập tên danh mục tour...">
+                                        onkeyup="generateSlug()" placeholder="Nhập tên danh mục tour...">
                                     @error('category_tour')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -92,6 +95,21 @@
         </div>
     @endsection
     @section('script')
+        <script src="https://cdn.jsdelivr.net/npm/slugify@1.4.7/slugify.min.js"></script>
+        <script>
+            function generateSlug() {
+                var category_tour = document.getElementById('category_tour').value;
+
+
+                var slug = slugify(category_tour, {
+                    lower: true,
+                    replacement: '-',
+                    remove: /[*+~.()'"!:@]/g
+                });
+
+                document.getElementById('slug').value = slug;
+            }
+        </script>
         <script>
             function showImage(event) {
                 const img_danh_muc = document.getElementById('img_danh_muc');

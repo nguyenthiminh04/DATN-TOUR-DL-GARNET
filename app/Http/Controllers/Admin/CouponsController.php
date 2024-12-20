@@ -90,11 +90,10 @@ class CouponsController extends Controller
     public function edit(string $id)
     {
         $title = "Sửa Mã Giảm Giá";
-        //
         $listStatus = Status::query()->get();
         $listTour = Tour::query()->get();
         $coupons = Coupons::query()->findOrFail($id);
-        return view('admin.coupons.edit', compact('listStatus', 'listTour', 'coupons'));
+        return view('admin.coupons.edit', compact('listStatus', 'listTour', 'coupons', 'title'));
     }
 
     /**
