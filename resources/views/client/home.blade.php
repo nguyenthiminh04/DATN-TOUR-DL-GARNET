@@ -609,9 +609,9 @@
                             <div class="product-box">
                                 <div class="product-thumbnail">
                                     <a href="{{ route('client.tour.show', $item->id) }}"
-                                        title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
+                                        title="{{ $item->name }}">
                                         <img src="{{ Storage::url($item->image) }}"
-                                            alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
+                                            alt="{{ $item->name }}">
                                     </a>
                                     <div class="sale-off">-
                                         {{ $item->sale }}%
@@ -700,7 +700,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="section_tour-new_title">
-                            <h2>Tour <span>theo vùng</span></h2>
+                            <h2>Tour <span>theo miền</span></h2>
                             <div class="title-line">
                                 <div class="tl-1"></div>
                                 <div class="tl-2"></div>
@@ -733,7 +733,7 @@
                                             <div class="item">
                                                 <div class="product-box">
                                                     <div class="product-thumbnail">
-                                                        <a href="{{ $tour->link }}" title="{{ $tour->name }}">
+                                                        <a href="{{ route('client.tour.show', $tour->id) }}" title="{{ $tour->name }}">
                                                             <img src="{{ Storage::url($tour->image) }}"
                                                                 alt="{{ $tour->name }}">
                                                         </a>
@@ -1084,7 +1084,7 @@
                 </div>
 
                 <div class="back-zalo">
-                    <a target="_blank" href="http://zalo.me/0982 362 509" title="Chat qua Zalo">
+                    <a target="_blank" href="http://zalo.me/0862001730" title="Chat qua Zalo">
                         <span class="ti-zalo"></span>
                     </a>
                 </div>
@@ -1467,14 +1467,14 @@
     <ul class="the-article-tools">
 
         <li class="btnZalo zalo-share-button">
-            <a target="_blank" href="http://zalo.me/0982 362 509" title="Chat qua Zalo">
+            <a target="_blank" href="http://zalo.me/0862001730" title="Chat qua Zalo">
                 <span class="ti-zalo"></span>
             </a>
             <span class="label">Chat qua Zalo</span>
         </li>
 
         <li class="btnFacebook">
-            <a target="_blank" href="https://www.messenger.com/t/vemiendisan" title="Chat qua Messenger">
+            <a target="_blank" href="https://www.messenger.com/t/minh.viet.440729" title="Chat qua Messenger">
                 <span class="ti-facebook"></span>
             </a>
             <span class="label">Chat qua Messenger</span>

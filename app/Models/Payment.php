@@ -23,9 +23,12 @@ class Payment extends Model
         'code_bank',
         'time',
         'status_id',
+        'cancel_proof_image',
+        'confirmation_code',
         'payment_method_id',
         'customer_id',
         'pay_id',
+        'payment_status_id',
     ];
 
     // Quan hệ với bảng book_tour (một payment thuộc một booking)

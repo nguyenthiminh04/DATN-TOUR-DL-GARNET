@@ -95,16 +95,12 @@
                                                     <select name="payment_status_id" id="payment_status_id"
                                                         class="form-control" style="width: 245px">
                                                         <option value="">Tất cả trạng thái thanh toán</option>
-                                                        @foreach ($trangThaiThanhToan as $key => $value)
-                                                            <option value="{{ $key }}">{{ $value }}</option>
-                                                        @endforeach
+                                                       
                                                     </select>
                                                     <select name="status_id" id="status_id" class="form-control"
                                                         style="width: 220px">
                                                         <option value="">Tất cả trạng thái</option>
-                                                        @foreach ($trangThaiTour as $key => $value)
-                                                            <option value="{{ $key }}">{{ $value }}</option>
-                                                        @endforeach
+                                                        
                                                     </select>
                                                     <input type="text" id="searchInput" name="search"
                                                         placeholder="Search..." class="form-control" style="width: 200px">
@@ -131,113 +127,85 @@
                 <div class="card" id="coursesList">
                     <div class="card-body">
                         <div class="table-responsive table-card">
-                            <table id="example tour-table" class="table table-striped" style="width:100%">
-                                <thead class="text-muted">
+                          <table id="example-tour-table" class="table table-striped" style="width:100%">
+                            <thead class="text-muted">
+                                <tr>
+                                    <th>Số thứ tự</th>
+                                    <th>Tài Khoản Đặt Tour</th>
+                                    <th>Thông Tin Tour</th>
+                                    <th>Lý Do Hủy</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all" id="tour-table-body">
+                                @if ($listTour->isEmpty())
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Tài Khoản Đặt Tour</th>
-                                        <th>Thông Tin Tour</th>
-                                        <th>Người Đặt Tour</th>
-
-                                        <th>Thời gian bắt đầu chuyến đi</th>
-                                        <th>Thời gian kết thúc chuyến đi</th>
-
-                                        <th>Số điện thoại</th>
-                                        <th>Thời gian</th>
-                                        <th>Phương Thức Thanh Toán</th>
-
-                                        <th>Trạng Thái Thanh Toán</th>
-                                        <th>Trạng Thái Tour</th>
-                                        <th>Hành Động</th>
+                                        <td colspan="11" class="text-center text-muted">Trống.</td>
                                     </tr>
-                                </thead>
-                                <tbody class="list form-check-all" id="tour-table-body">
-                                    @if ($listTour->isEmpty())
+                                @else
+                                    @foreach ($listTour as $index => $item)
                                         <tr>
-                                            <td colspan="11" class="text-center text-muted">
-                                                Trống.
+                                            <td><a href="" class="text-reset">{{ $item->id }}</a></td>
+                                            <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
+                                            <td>{{ $item->booking->tour->name ?? 'Tour đã bị xóa' }}</td>
+                                            <td>{{ $item->booking->ly_do_huy }}</td>
+                                            <td>
+                                                <ul class="d-flex gap-2 list-unstyled mb-0">
+                                                    <li>
+                                                        <!-- Nút Chấp Nhận Hủy -->
+                                                        <form action="{{ route('user.acceptCancel', $item->id) }}" method="POST" id="acceptCancelForm{{ $item->id }}">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#uploadCancelProofModal{{ $item->id }}">Chấp nhận hủy</button>
+                                                        </form>
+                                                    </li>
+                                                    <li>
+                                                        <!-- Nút Không Chấp Nhận -->
+                                                        <form action="{{ route('user.rejectCancel', $item->id) }}" method="POST" id="rejectCancelForm{{ $item->id }}">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <button type="submit" class="btn btn-danger" onclick="handleRejectCancel({{ $item->id }})">Không chấp nhận</button>
+                                                        </form>
+
+                                                    </li>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+                                                      Launch static backdrop modal
+                                                    </button>
+                                                    
+                                                </ul>
                                             </td>
                                         </tr>
-                                    @else
-                                        @foreach ($listTour as $index => $item)
-                                            <tr>
-                                                <td><a href="" class="text-reset">{{ $item->id }}</a></td>
-                                                <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
-
-                                                <td>{{ $item->booking->tour->name ?? 'Tour đã bị xóa' }}</td>
-
-                                                <td>{{ $item->booking->name }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($item->booking->start_date)->format('d/m/Y') }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($item->booking->end_date)->format('d/m/Y') }}</td>
-                                                <td>{{ $item->booking->phone ?? 'Không có' }}</td>
-                                                
-                                                <td>
-                                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}
-                                                </td>
-                                                <td>
-                                                    @if ($item->paymentMethod->id == 1)
-                                                        VNPAY
-                                                    @elseif ($item->paymentMethod->id == 2)
-                                                        Momo
-                                                    @elseif ($item->paymentMethod->id == 3)
-                                                        Thẻ Ngân Hàng
-                                                    @elseif ($item->paymentMethod->id == 4)
-                                                        Thanh Toán Trực Tiếp
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <select id="payment-status-select" name="payment_status_id"
-                                                        class="form-select w-full max-w-xs payment-status-select status-tour"
-                                                        data-id="{{ $item->id }}"
-                                                        data-default-value="{{ $item->payment_status_id }}"
-                                                        @if ($item->payment_status_id == 3) disabled @endif>
-                                                        @foreach ($trangThaiThanhToan as $key => $value)
-                                                            <option value="{{ $key }}"
-                                                                {{ $key == $item->payment_status_id ? 'selected' : '' }}>
-                                                                {{ $value }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select id="status-select" name="status_id"
-                                                        class="form-select w-full max-w-xs status status-tour"
-                                                        data-id="{{ $item->id }}"
-                                                        data-default-value="{{ $item->status_id }}"
-                                                        @if ($item->status_id == 13 || $item->status_id == 13) disabled @endif>
-                                                        @foreach ($trangThaiTour as $key => $value)
-                                                            <option value="{{ $key }}"
-                                                                {{ $key == $item->status_id ? 'selected' : '' }}>
-                                                                {{ $value }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-
-
-                                                    <ul class="d-flex gap-2 list-unstyled mb-0">
-                                                        <li>
-                                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-quanlytour"
-                                                                data-id="{{ $item->id }}">
-                                                                <i class="ph-eye"></i>
-                                                            </a>
-                                                        </li>
-
-                                                        {{-- <li>
-                                                        <a href="#deleteRecordModal{{ $item->id }}"
-                                                            data-bs-toggle="modal"
-                                                            class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
-                                                                class="ph-trash"></i></a>
-                                                    </li> --}}
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                </tbody>
-
-                            </table>
+                        
+                                        <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="staticBackdropLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+                        
+                                        <script>
+                                            function handleRejectCancel(id) {
+                                                if (!confirm('Bạn có chắc chắn không chấp nhận hủy không?')) {
+                                                    event.preventDefault();
+                                                }
+                                            }
+                                        </script>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                        
                             <div class="noresult" style="display: none">
                                 <div class="text-center py-4">
                                     <i class="ph-magnifying-glass fs-1 text-primary"></i>
@@ -297,7 +265,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="quanlytourDetailModalLabel">Chi Tiết Đơn Đặt Tour</h5>
+                    <h5 class="modal-title" id="quanlytourDetailModalLabel">Chi Tiết Thông Tin Hủy</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="quanlytourDetailContent">
@@ -557,7 +525,7 @@
                 const quanlytourId = $(this).data('id');
 
                 $.ajax({
-                    url: '/admin/quanlytour/' +
+                    url: '/admin/xu-ly-huy/' +
                         quanlytourId,
                     type: 'GET',
                     success: function(response) {

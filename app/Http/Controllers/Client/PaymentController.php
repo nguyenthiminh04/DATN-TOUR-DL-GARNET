@@ -145,6 +145,7 @@ if ($tour->number < 1) {
         $tour = Tour::find($tour_id);
         $tour_name = $tour->name;
         $start_date = $tour->start_date;
+        $schedule = $tour->schedule;
 //         $tour_name = Tour::find($tour_id)?->name;
 // $start_date = Tour::find($tour_id)?->start_date;
         $guest = BookTour::find($payment->booking_id)?->number_old + BookTour::find($payment->booking_id)?->number_children;
@@ -211,6 +212,8 @@ if ($tour->number < 1) {
                 'start_date' => $start_date,
                 'payment_status' => $payment_status,
                 'payment_method' => $payment_method,
+                'schedule' => $schedule,
+
                 'guests' => $guest,
                 'code' => $payment->code_vnpay,
                 'time' => $payment->time,
@@ -262,6 +265,8 @@ if ($tour->number < 1) {
                 'start_date' => $start_date,
                 'payment_status' => $payment_status,
                 'payment_method' => $payment_method,
+                'schedule' => $schedule,
+
                 'guests' => $guest,
                 'code' => $payment->code_vnpay,
                 'time' => $payment->time,
