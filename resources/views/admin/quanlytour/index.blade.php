@@ -115,7 +115,8 @@
                                         <th>Tài Khoản Đặt Tour</th>
                                         <th>Thông Tin Tour</th>
                                         <th>Người Đặt Tour</th>
-                                        <th>Thời gian</th>
+                                        <th>Thời gian bắt đầu chuyến đi</th>
+                                        <th>Thời gian kết thúc chuyến đi</th>
                                         <th>Trạng Thái Thanh Toán</th>
                                         <th>Trạng Thái Tour</th>
                                         <th>Hành Động</th>
@@ -139,9 +140,13 @@
 
 
                                             <td>{{ $item->booking->name }}</td>
-                                            <td>
-                                                {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}
-                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($item->booking->start_date)->format('d/m/Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($item->booking->end_date)->format('d/m/Y') }}</td>
+                                            
+
+                                            {{-- <td>
+                                                {{ \Carbon\Carbon::parse($item->booking->end_date)->format('d/m/Y H:i:s') }}
+                                            </td> --}}
                                             <td>
                                                 <select id="payment-status-select" name="payment_status_id"
                                                     class="form-select w-full max-w-xs payment-status-select status-tour"

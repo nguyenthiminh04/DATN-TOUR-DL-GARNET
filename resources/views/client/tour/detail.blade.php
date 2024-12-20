@@ -635,7 +635,7 @@
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
                                                 alt="Di chuyển bằng máy bay" /></div>
-                                                <?= $tour['move_method'] ?>
+                                        <?= $tour['move_method'] ?>
                                     </li>
 
                                     <li>
@@ -883,6 +883,11 @@
                                                         class="form-control" />
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div id="estimated-end-date"
+                                            style="margin-top: 10px; font-weight: bold; color: #2c3e50;">
+                                            <!-- Hiển thị ngày kết thúc dự kiến -->
                                         </div>
                                         <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
                                             @if ($tour['number'] > 0)
@@ -1274,7 +1279,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-   
+
     <script>
         $(document).ready(function() {
             // Lắng nghe sự kiện submit của form bình luận
@@ -1407,6 +1412,15 @@
                 });
                 return;
             }
+            if (adults === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Chưa chọn số lượng!',
+                    text: 'Vui Lòng Chọn Người Lớn Đi Kèm',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
             if (totalGuests > maxGuests) {
                 Swal.fire({
                     icon: 'error',
@@ -1517,24 +1531,45 @@
         document.addEventListener("DOMContentLoaded", function() {
             var startDateTour = <?= json_encode($tour['start_date']) ?>; // Ngày bắt đầu tour
             var endDateTour = <?= json_encode($tour['end_date']) ?>; // Ngày kết thúc tour
+            var tourDuration = <?= json_encode($tour['time']) ?>; // Thời lượng tour (số ngày)
 
             // Lấy ngày hôm nay dưới dạng YYYY-MM-DD
-            var today = new Date().toISOString().split('T')[0];
+            var today = new Date().toISOString().split("T")[0];
 
             // Xác định minDate
-            var minDate = (new Date(startDateTour) > new Date(today)) ? startDateTour : today;
+            var minDate = new Date(startDateTour) > new Date(today) ? startDateTour : today;
 
+            // Khởi tạo flatpickr
             flatpickr("#datepicker", {
                 dateFormat: "Y-m-d", // Định dạng ngày
                 minDate: minDate, // Ngày nhỏ nhất
                 maxDate: endDateTour, // Ngày lớn nhất
-                defaultDate: minDate, // Ngày mặc định là ngày hợp lệ đầu tiên
-                locale: "vn", // Cài đặt ngôn ngữ tiếng Việt (nếu có)
+                defaultDate: minDate, // Ngày mặc định
+                locale: "vn", // Ngôn ngữ tiếng Việt (nếu có)
+                enable: [
+                    function(date) {
+                        // Tính toán ngày kết thúc dự kiến
+                        var selectedEndDate = new Date(date);
+                        selectedEndDate.setDate(selectedEndDate.getDate() + tourDuration - 1);
+
+                        // Chỉ cho phép chọn những ngày mà ngày kết thúc nằm trong phạm vi hợp lệ
+                        return selectedEndDate <= new Date(endDateTour);
+                    },
+                ],
                 onChange: function(selectedDates, dateStr, instance) {
-                    console.log("Ngày đã chọn:", dateStr); // Hiển thị ngày đã chọn
-                }
+                    if (selectedDates.length > 0) {
+                        var selectedDate = new Date(dateStr);
+                        var estimatedEndDate = new Date(selectedDate);
+                        estimatedEndDate.setDate(selectedDate.getDate() + tourDuration - 1);
+
+                        // Hiển thị ngày kết thúc dự kiến
+                        document.getElementById("estimated-end-date").innerText =
+                            "Ngày kết thúc dự kiến: " + estimatedEndDate.toISOString().split("T")[0];
+                    }
+                },
             });
         });
+
 
         $('#advisoryForm').on('submit', function(e) {
             e.preventDefault();

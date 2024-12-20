@@ -1,7 +1,66 @@
 @extends('client.layouts.app')
 
 @section('title', 'Đặt Tour Du Lịch')
+@section('style')
+<style>
 
+    /* CSS cho checkbox và label */
+.form-group label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: normal;
+    color: #333;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#agree-policy {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    appearance: none; /* Loại bỏ kiểu mặc định */
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    transition: all 0.2s ease;
+}
+
+#agree-policy:checked {
+    border-color: #28a745;
+    background-color: #28a745;
+}
+
+#agree-policy:checked::before {
+    content: '✔';
+    font-size: 14px;
+    color: #fff;
+    position: absolute;
+    left: 3px;
+    top: -2px;
+}
+
+.form-group a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.form-group a:hover {
+    text-decoration: underline;
+}
+
+/* Tin nhắn lỗi */
+#policy-message {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+</style>
+@endsection
 @section('content')
     <link rel="stylesheet" href="{{ url('client/booking/booking.css') }}">
     <section class="booking-section">
@@ -57,15 +116,24 @@
                                 <input type="hidden" name="tour_id" value="<?= $tour['id'] ?>">
                                 <input type="hidden" id="tour-name" name="tour_name">
                                 <input type="hidden" id="departure-date" name="start_date">
+                                <input type="hidden" id="departure-enddate" name="end_date">
                                 <input type="hidden" id="quantity" name="quantity">
                                 <input type="hidden" id="price" name="price">
                                 <input type="hidden" id="adults" name="number_old">
                                 <input type="hidden" id="children" name="number_children">
 
                             </div>
-                            <div class="form-group text-center">
-                                <button type="submit" class="btn-submit">Tiếp tục</button>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="agree-policy" name="agree_policy" required>
+                                    Tôi đồng ý với <a href="/chinh-sach" target="_blank" style="color: blue;">chính sách của chúng tôi</a>.
+                                </label>
+                                <p id="policy-message" style="color: red; font-weight: bold; display: none;">Bạn cần đồng ý với chính sách trước khi tiếp tục!</p>
                             </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn-submit" id="submit-button" disabled>Tiếp tục</button>
+                            </div>
+                            
                         </form>
 
                     </div>
@@ -83,6 +151,7 @@
                                 <p><strong>Tour:</strong> <span id="selected-tour"></span></p>
                                 <div class="highlight-info">
                                     <p><strong>Ngày khởi hành:</strong> <span id="selected-date"></span></p>
+                                    <p><strong>Ngày Kết Thúc(Dự Kiến):</strong> <span id="selected-enddate"></span></p>
                                     <p><strong>Số lượng:</strong> <span id="selected-quantity"></span></p>
                                 </div>
                                 <p><strong>Giá vé:</strong> <span id="selected-price">1,500,000 VND</span></p>
@@ -125,6 +194,7 @@
                 // Hiển thị thông tin trong giao diện
                 document.getElementById('selected-tour').textContent = bookingInfo.tourName || 'Chưa xác định';
                 document.getElementById('selected-date').textContent = bookingInfo.startDate || 'Chưa xác định';
+                document.getElementById('selected-enddate').textContent = bookingInfo.startDate || 'Chưa xác định';
                 document.getElementById('selected-price').textContent = bookingInfo.totalPrice ?
                     bookingInfo.totalPrice.toLocaleString("vi-VN") + "₫" :
                     '0 VND';
@@ -135,6 +205,7 @@
                 // Gán giá trị vào các trường ẩn trong form
                 document.getElementById('tour-name').value = bookingInfo.tourName || '';
                 document.getElementById('departure-date').value = bookingInfo.startDate || '';
+                document.getElementById('departure-enddate').value = bookingInfo.endDate || '';
                 document.getElementById('quantity').value = `${adults}-${children}` || '';
                 document.getElementById('price').value = bookingInfo.totalPrice || '';
                 document.getElementById('total-price').value = bookingInfo.totalPrice || '';
@@ -221,5 +292,45 @@
 
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    // Lấy ngày khởi hành từ HTML
+    const startDateStr = document.getElementById("selected-date").textContent.trim();
+    const tourDuration = <?= json_encode($tour['time']) ?>; // Số ngày của tour
+
+    if (startDateStr && tourDuration) {
+        const startDate = new Date(startDateStr); // Chuyển đổi thành đối tượng Date
+        const endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + tourDuration - 1); // Cộng thêm thời lượng tour
+
+        // Hiển thị ngày kết thúc vào giao diện
+        document.getElementById("selected-enddate").textContent = endDate.toISOString().split("T")[0];
+
+        // Cập nhật vào input ẩn để gửi đi
+        document.getElementById("departure-enddate").value = endDate.toISOString().split("T")[0];
+    }
+});
+
+
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+    const agreePolicyCheckbox = document.getElementById('agree-policy');
+    const submitButton = document.getElementById('submit-button');
+    const policyMessage = document.getElementById('policy-message');
+
+    // Theo dõi sự kiện thay đổi của checkbox
+    agreePolicyCheckbox.addEventListener('change', function () {
+        if (agreePolicyCheckbox.checked) {
+            submitButton.disabled = false; // Kích hoạt nút submit
+            policyMessage.style.display = 'none'; // Ẩn thông báo lỗi
+        } else {
+            submitButton.disabled = true; // Vô hiệu hóa nút submit
+            policyMessage.style.display = 'block'; // Hiển thị thông báo lỗi
+        }
+    });
+});
+
+            </script>
     {!! NoCaptcha::renderJs() !!}
 @endsection

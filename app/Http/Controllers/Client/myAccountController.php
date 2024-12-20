@@ -174,17 +174,23 @@ class myAccountController extends Controller
         $payment = Payment::with(['booking', 'booking.tour'])->findOrFail($id);
         $bookTour = $payment->booking;
 
-    if (!$bookTour) {
-        return redirect()->back()->with('error', 'Thông tin đặt tour không tồn tại.');
-    }
-// Kiểm tra nếu tour đã hoàn thành (status_id = 6)
-if ($payment->status_id == 6) {
-    return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy nếu có vẫn đề hãy liên hệ với chúng tôi.');
-}
+        if (!$bookTour) {
+            return redirect()->back()->with('error', 'Thông tin đặt tour không tồn tại.');
+        }
+        if ($payment->status_id == 2) {
+            return redirect()->back()->with('error', 'Tour đã được xác nhận, không thể hủy nếu có vẫn đề hãy liên hệ với chúng tôi.');
+        }
+        if ($payment->status_id == 5) {
+            return redirect()->back()->with('error', 'Tour đang diễn ra, không thể hủy nếu có vẫn đề hãy liên hệ với chúng tôi.');
+        }
+        // // Kiểm tra nếu tour đã hoàn thành (status_id = 6)
+        // if ($payment->status_id == 6) {
+        //     return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy nếu có vẫn đề hãy liên hệ với chúng tôi.');
+        // }
 
         // Kiểm tra nếu tour đã hoàn thành (status_id = 6)
         if ($payment->status_id == 6) {
-            return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy đơn hàng.');
+            return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy nếu có vẫn đề hãy liên hệ với chúng tôi.');
         }
 
         // Kiểm tra điều kiện thanh toán VNPay
@@ -221,9 +227,9 @@ if ($payment->status_id == 6) {
         $payment->refund_amount = $refundAmount;
         $payment->save();
 
-    // Gửi thông báo thành công với thông tin hoàn tiền
-    $message = "Đơn hàng đã được hủy thành công. Số tiền hoàn lại: "
-        . number_format($refundAmount, 0, ',', '.') . " VND. Chúng tôi sẽ liên hệ với bạn sớm nhất";
+        // Gửi thông báo thành công với thông tin hoàn tiền
+        $message = "Đơn hàng đã được hủy thành công. Số tiền hoàn lại: "
+            . number_format($refundAmount, 0, ',', '.') . " VND. Chúng tôi sẽ liên hệ với bạn sớm nhất";
 
         return redirect()->back()->with('success', $message);
     }

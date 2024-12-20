@@ -202,7 +202,7 @@
             <div class="col-md-3 col-md-push-9">
                 <div class="widget-item info-contact in-fo-page-content">
                     <div class="logos text-xs-left">
-                        <a href="index.html" class="logo-wrapper ">
+                        <a href="{{ route('home') }}" class="logo-wrapper ">
                             <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo-contact6d1d.png?1705894518705"
                                 alt="logo Ant Du lịch" class="img-responsive" />
                         </a>

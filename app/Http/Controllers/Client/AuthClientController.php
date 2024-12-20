@@ -133,7 +133,7 @@ class AuthClientController extends Controller
                     'phone' => $user->phone ?? null,
                     'address' => $user->address ?? null,
                     'type' => 'registered', // Loại khách hàng là đăng ký
-                    'temporary_user_id' => $temporaryUserId,
+                    'temporary_user_id' => 111,
                 ]
             );
     
@@ -208,7 +208,7 @@ class AuthClientController extends Controller
                     'phone' => null,
                     'address' => null,
                     'type' => 'registered', // Đánh dấu là khách hàng đã đăng ký
-                    'temporary_user_id' => $temporaryUserId,
+                    'temporary_user_id' => 112,
                 ]
             );
         } else {

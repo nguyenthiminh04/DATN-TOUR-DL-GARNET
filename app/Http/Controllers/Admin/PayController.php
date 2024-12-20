@@ -161,6 +161,15 @@ class PayController extends Controller
                 'message' => 'Không thể hủy tour do khách hàng đã thanh toán.'
             ]);
         }
+        // if ($newStatus == 2 && $paymentStatusId != 2) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Khách chưa thanh toán.'
+        //     ]);
+        // }
+        if ($newStatus == 5 && $paymentStatusId != 2) {
+            return response()->json(['success' => false, 'message' => 'Khách hàng chưa thanh toán.']);
+        }
         // Kiểm tra điều kiện: chỉ cho phép chuyển status_id sang 6 nếu payment_status_id là 2
         if ($newStatus == 6 && $paymentStatusId != 2) {
             return response()->json(['success' => false, 'message' => 'Khách hàng chưa thanh toán.']);
