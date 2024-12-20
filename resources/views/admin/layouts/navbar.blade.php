@@ -546,6 +546,25 @@
                         </div>
                     </li>
                 @endif
+
+                {{-- Gán hướng dẫn viên --}}
+                @if (hasPermission('view_tour_guide'))
+                    <li class="nav-item">
+                        <a class="nav-link menu-link collapsed" href="#tour_guide" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="tour_guide">
+                            <i class=" ph-user-circle-thin"></i> <span data-key="t-dashboards">Gán hướng dẫn viên </span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="tour_guide">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('tour-guides.index') }}" class="nav-link">Gán hướng dẫn viên</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+
+
             </ul>
         </div>
     </div>

@@ -50,7 +50,10 @@ class PermissionUserController extends Controller
      */
     public function create()
     {
-        $users = User::query()->where('role_id', 3)->get();
+        $users = User::query()
+            ->whereIn('role_id', [3, 4])
+            ->get();
+
         $permissions = PermissionUser::query()->get();
         return view('admin.permission.add_admin_permission', compact('users', 'permissions'));
     }

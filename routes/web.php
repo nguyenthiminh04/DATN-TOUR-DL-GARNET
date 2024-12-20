@@ -41,6 +41,7 @@ use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Http\Controllers\CouponsClientController;
+use App\Http\Controllers\TourGuideController;
 
 /*
 |--------------------------------------------------------------------------
@@ -274,6 +275,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/statistics/employee-tour', [ChangeLogController::class, 'employeeTourStatistics'])->name('statistics.employee-tour');
 
         // end logs
+
+        // tour_guide
+        Route::resource('/tour-guides', TourGuideController::class);
+        // end tour_guide
+
 
         Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
     });
