@@ -12,6 +12,8 @@
         <span >Ẩn</span>
     @endif
 </p>
+<p><strong>Vai trò:</strong> {{ $user->role->name }}</p>
+
 <p><strong>Ngày đăng:</strong> {{ $user->created_at }}</p>
 <p><strong>Ngày cập nhật:</strong> {{ $user->updated_at }}</p>
 

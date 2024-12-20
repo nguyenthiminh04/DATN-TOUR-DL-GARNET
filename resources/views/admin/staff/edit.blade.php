@@ -22,10 +22,10 @@
                 <div class="col-xxl-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('user.update', $user->id) }}" method="post"
+                            <form action="{{ route('useradmin.update', $user->id) }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
-                                @method('PUT')
+                                @method('PATCH')
                                 <div class="mb-3">
                                     <label for="avatar" class="form-label">Avatar</label>
 
@@ -84,9 +84,19 @@
                                             class="text-danger">*</span></label>
                                     <select class="form-select" id="status1" name="status">
                                         <option value="">Trạng Thái</option>
-                                        <option value="1" {{ $user->status == '1' ? 'selected' : '' }}>Hiển Thị
+                                        <option value="1" {{ $user->status == 1 ? 'selected' : '' }}>Hiển Thị
                                         </option>
-                                        <option value="0" {{ $user->status == '0' ? 'selected' : '' }}>Ẩn</option>
+                                        <option value="0" {{ $user->status == 0 ? 'selected' : '' }}>Ẩn</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="status1" class="form-label">Vai trò<span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" id="role" name="role">
+                                        <option value="">Vai trò</option>
+                                        @foreach ($listRole as $item)
+                                        <option value="{{ $item->id }}" {{ $user->role_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-3">

@@ -283,6 +283,20 @@
                         </div>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link menu-link collapsed" href="#user" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="user">
+                            <i class=" ph-user-circle-thin"></i> <span data-key="t-dashboards">Quản lý nhân viên</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="user">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('useradmin.index') }}" class="nav-link">Danh sách nhân viên</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>                    
+
                 @endif
                 {{-- Đơn hàng --}}
                 @if (hasPermission('view_orders'))

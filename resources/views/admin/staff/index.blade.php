@@ -20,7 +20,7 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('user.create') }}" class="btn btn-secondary"><i
+                                <a href="{{ route('useradmin.create') }}" class="btn btn-secondary"><i
                                         class="bi bi-plus-circle align-baseline me-1"></i> Thêm tài khoản</a>
                             </div>
                         </div>
@@ -55,6 +55,8 @@
                                             <th>Địa chỉ</th>
                                             <th>Ngày sinh</th>
                                             <th>Giới tính</th>
+                                            <th>Vai trò</th>
+
                                             <th scope="col">Trạng thái</th>
                                             <th scope="col">Hành động </th>
                                         </tr>
@@ -73,6 +75,8 @@
                                                 <td>{{ $item->address }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($item->birth)->format('d/m/Y') }}</td>
                                                 <td>{{ $item->gender }}</td>
+                                                <td>{{ $item->role->name }}</td>
+
                                                 <td>
                                                     <button type="button" style="width: 100px;"
                                                         class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
@@ -85,7 +89,7 @@
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
 
                                                         <li>
-                                                            <a href="{{ route('user.edit', $item->id) }}"
+                                                            <a href="{{ route('useradmin.edit', $item->id) }}"
                                                                 class="btn btn-subtle-success btn-icon btn-sm">
                                                                 <i class="ri-edit-2-line"></i></a>
                                                         </li>
@@ -119,7 +123,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                                                                <form action="{{ route('user.destroy', $item->id) }}"
+                                                                <form action="{{ route('useradmin.destroy', $item->id) }}"
                                                                     method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
