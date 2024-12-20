@@ -29,7 +29,7 @@ class UserController extends Controller
         $title = "Danh Sách Người Dùng";
 
         $status = $request->get('status');
-        $query = User::query();
+        $query = User::query()->where('role_id', 2);
 
         if ($status !== null) {
             $query->where('status', $status);
