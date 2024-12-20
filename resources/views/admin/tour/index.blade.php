@@ -90,10 +90,10 @@
                                                                 <i class="ri-edit-2-line"></i></a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{route('schedules.show',$item->id)  }}"
-                                                                data-bs-toggle="modal"
-                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i><img src="https://img.lovepik.com/free-png/20220127/lovepik-travel-guide-png-image_401929765_wh1200.png" alt="" width="20px" height="20px"></i></a>
+                                                            <a href="{{ route('schedule.index', ['tourId' => $item->id]) }}"
+                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i>lt</i></a>
                                                         </li>
+                                                        
                                                     </ul>
                                                 </td>
                                             </tr>

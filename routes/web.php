@@ -42,7 +42,7 @@ use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Http\Controllers\CouponsClientController;
-use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\TourGuideController;
 
 /*
@@ -79,10 +79,10 @@ Route::group(['middleware' => 'checkstatus'], function () {
     // Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetForm'])->name('password.reset');
     // Route::post('reset-mat-khau', [AuthClientController::class, 'reset'])->name('password.update');
 
-    Route::get('quen-mat-khau',                             [PasswordController::class, 'forgotPassword'])->name('forgot-password');
-    Route::post('quen-mat-khau',                            [PasswordController::class, 'postForgotPassword'])->name('post-forgot-password')->middleware('throttle:10,1');
-    Route::get('dat-lai-mat-khau/{token}',                  [PasswordController::class, 'resetPassword'])->name('reset-password');
-    Route::post('dat-lai-mat-khau/{token}',                 [PasswordController::class, 'postResetPassword'])->name('post-reset-password')->middleware('throttle:10,1');
+    Route::get('quen-mat-khau', [PasswordController::class, 'forgotPassword'])->name('forgot-password');
+    Route::post('quen-mat-khau', [PasswordController::class, 'postForgotPassword'])->name('post-forgot-password')->middleware('throttle:10,1');
+    Route::get('dat-lai-mat-khau/{token}', [PasswordController::class, 'resetPassword'])->name('reset-password');
+    Route::post('dat-lai-mat-khau/{token}', [PasswordController::class, 'postResetPassword'])->name('post-reset-password')->middleware('throttle:10,1');
 
 
 
@@ -156,21 +156,21 @@ Route::group(['middleware' => 'checkstatus'], function () {
         return view('client.pages.domesticTour');
     });
 
-    Route::get('/chi-tiet-tour/{id}',   [HomeController::class, 'detailTour'])->name('detail');
-    Route::get('/tat-ca-tour',          [HomeController::class, 'allTour'])->name('home.allTour');
-    Route::get('/tat-ca-tour/loc',      [HomeController::class, 'filter'])->name('tour.filter');
+    Route::get('/chi-tiet-tour/{id}', [HomeController::class, 'detailTour'])->name('detail');
+    Route::get('/tat-ca-tour', [HomeController::class, 'allTour'])->name('home.allTour');
+    Route::get('/tat-ca-tour/loc', [HomeController::class, 'filter'])->name('tour.filter');
 
 
-    Route::get('/tim-kiem',             [ClientTourController::class, 'searchTour'])->name('tour.search');
-    Route::get('/tour/{slug}',          [ClientTourController::class, 'tour'])->name('tour.category');
+    Route::get('/tim-kiem', [ClientTourController::class, 'searchTour'])->name('tour.search');
+    Route::get('/tour/{slug}', [ClientTourController::class, 'tour'])->name('tour.category');
     Route::get('/tour-dia-diem/{slug}', [ClientTourController::class, 'tourLocation'])->name('tour.location');
 
-    Route::get('/favorite',             [FavoriteController::class, 'index'])->name('favorite.index');
-    Route::post('/favorite',            [FavoriteController::class, 'addToFavorite'])->name('favorite.add');
-    Route::delete('/favorite/{id}',     [FavoriteController::class, 'removeFavorite'])->name('favorite.delete');
+    Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index');
+    Route::post('/favorite', [FavoriteController::class, 'addToFavorite'])->name('favorite.add');
+    Route::delete('/favorite/{id}', [FavoriteController::class, 'removeFavorite'])->name('favorite.delete');
 
-    Route::get('/test',                 [ClientTourController::class, 'showTour'])->name('test.showTour');
-    Route::post('/advisory',            [ClientTourController::class, 'advisory'])->name('advisory');
+    Route::get('/test', [ClientTourController::class, 'showTour'])->name('test.showTour');
+    Route::post('/advisory', [ClientTourController::class, 'advisory'])->name('advisory');
 
 
     Route::get('/ma-giam-gia', [CouponsClientController::class, 'index'])->name('maGiamGia.index');
@@ -181,9 +181,9 @@ Route::group(['middleware' => 'checkstatus'], function () {
 // admin routes
 Route::group(['prefix' => 'admin'], function () {
 
-    Route::get('login',                     [AuthController::class, 'login'])->name('login');
-    Route::post('authLogin',                [AuthController::class, 'authLogin'])->name('authLogin');
-    Route::get('logout',                    [AuthController::class, 'logout'])->name('logout');
+    Route::get('login', [AuthController::class, 'login'])->name('login');
+    Route::post('authLogin', [AuthController::class, 'authLogin'])->name('authLogin');
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::group(['middleware' => 'admin'], function () {
         Route::get('/home', [StatisticalController::class, 'index'])->name('home-admin');
         // Route::get('/doanh-thu/{timeframe}', [StatisticalController::class, 'getRevenue'])->name('revenue.get');
@@ -206,7 +206,31 @@ Route::group(['prefix' => 'admin'], function () {
         // Route::post('/payment-tour/{id}/thanh-toan', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
 
         Route::resource('tour', TourController::class);
-        Route::resource('schedules', ScheduleController::class);
+        //
+        Route::get('schedule/create/{tourId}', [ScheduleController::class, 'create'])->name('schedule.create');
+        Route::get('schedule/{tourId}', [ScheduleController::class, 'index'])->name('schedule.index');
+        Route::post('schedule', [ScheduleController::class, 'store'])->name('schedule.store');
+        Route::get('schedule/{scheduleId}/edit', [ScheduleController::class, 'edit'])->name('schedule.edit');
+        Route::put('schedule/{scheduleId}', [ScheduleController::class, 'update'])->name('schedule.update');
+        Route::delete('schedule/{scheduleId}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
+
+
+
+        // // Lưu lịch trình mới vào cơ sở dữ liệu
+        //Route::post('schedule', [ScheduleController::class, 'store'])->name('schedule.store');
+
+        // // Hiển thị chi tiết lịch trình
+        // Route::get('schedule/{id}', [ScheduleController::class, 'show'])->name('schedule.show');
+
+        // // Hiển thị form chỉnh sửa lịch trình
+        // Route::get('schedule/{id}/edit', [ScheduleController::class, 'edit'])->name('schedule.edit');
+
+        // // Cập nhật lịch trình trong cơ sở dữ liệu
+        // Route::put('schedule/{id}', [ScheduleController::class, 'update'])->name('schedule.update');
+
+        // // Xóa lịch trình
+        // Route::delete('schedule/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
+
 
         Route::resource('coupons', CouponsController::class);
 
@@ -220,9 +244,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('comments', CommentController::class);
 
 
-        Route::get('comment',                               [CommentController::class, 'index'])->name('comment.index');
-        Route::delete('comment/delete/{id}',                [CommentController::class, 'destroy'])->name('comment.delete');
-        Route::post('comment/status/{id}',                  [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
+        Route::get('comment', [CommentController::class, 'index'])->name('comment.index');
+        Route::delete('comment/delete/{id}', [CommentController::class, 'destroy'])->name('comment.delete');
+        Route::post('comment/status/{id}', [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
         // thông báo
         Route::resource('notification-user', NotificationUserController::class);
         Route::get('/users/search', [NotificationUserController::class, 'searchUsers'])->name('users.search');
@@ -231,30 +255,30 @@ Route::group(['prefix' => 'admin'], function () {
 
         // end thông báo
 
-        Route::delete('advisory/delete/{id}',               [AdvisoryController::class, 'destroy'])->name('advisory.delete');
-        Route::post('advisory/status/{id}',                 [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');
+        Route::delete('advisory/delete/{id}', [AdvisoryController::class, 'destroy'])->name('advisory.delete');
+        Route::post('advisory/status/{id}', [AdvisoryController::class, 'advisoryStatus'])->name('advisory.advisoryStatus');
 
         //status
-        Route::post('user/status/{id}',                     [UserController::class, 'userStatus'])->name('user.userStatus');
-        Route::post('categorytour/status/{id}',             [CategoryTourController::class, 'categorytourStatus'])->name('categorytour.categorytourStatus');
-        Route::post('tour/status/{id}',                     [TourController::class, 'tourStatus'])->name('tour.tourStatus');
-        Route::post('article/status/{id}',                  [ArticleController::class, 'articleStatus'])->name('article.articleStatus');
-        Route::post('coupon/status/{id}',                   [CouponsController::class, 'couponStatus'])->name('coupon.couponStatus');
-        Route::post('location/status/{id}',                 [LocationController::class, 'locationStatus'])->name('location.locationStatus');
-        Route::post('category/status/{id}',                 [CategoryController::class, 'categoryStatus'])->name('category.categoryStatus');
-        Route::post('category/hot/{id}',                    [CategoryController::class, 'categoryHot'])->name('category.categoryHot');
-        Route::post('notifications/toggle-status/{id}',     [NotificationController::class, 'toggleStatus'])->name('notifications.toggleStatus');
+        Route::post('user/status/{id}', [UserController::class, 'userStatus'])->name('user.userStatus');
+        Route::post('categorytour/status/{id}', [CategoryTourController::class, 'categorytourStatus'])->name('categorytour.categorytourStatus');
+        Route::post('tour/status/{id}', [TourController::class, 'tourStatus'])->name('tour.tourStatus');
+        Route::post('article/status/{id}', [ArticleController::class, 'articleStatus'])->name('article.articleStatus');
+        Route::post('coupon/status/{id}', [CouponsController::class, 'couponStatus'])->name('coupon.couponStatus');
+        Route::post('location/status/{id}', [LocationController::class, 'locationStatus'])->name('location.locationStatus');
+        Route::post('category/status/{id}', [CategoryController::class, 'categoryStatus'])->name('category.categoryStatus');
+        Route::post('category/hot/{id}', [CategoryController::class, 'categoryHot'])->name('category.categoryHot');
+        Route::post('notifications/toggle-status/{id}', [NotificationController::class, 'toggleStatus'])->name('notifications.toggleStatus');
 
         //filer status
-        Route::get('categorytour',          [CategoryTourController::class, 'index'])->name('categorytour.index');
-        Route::get('user',                  [UserController::class, 'index'])->name('user.index');
-        Route::get('tour',                  [TourController::class, 'index'])->name('tour.index');
-        Route::get('article',               [ArticleController::class, 'index'])->name('article.index');
-        Route::get('coupons',               [CouponsController::class, 'index'])->name('coupons.index');
-        Route::get('location',              [LocationController::class, 'index'])->name('location.index');
-        Route::get('category',              [CategoryController::class, 'index'])->name('category.index');
-        Route::get('advisory',              [AdvisoryController::class, 'index'])->name('advisory.index');
-        Route::get('comment',               [CommentController::class, 'index'])->name('comment.index');
+        Route::get('categorytour', [CategoryTourController::class, 'index'])->name('categorytour.index');
+        Route::get('user', [UserController::class, 'index'])->name('user.index');
+        Route::get('tour', [TourController::class, 'index'])->name('tour.index');
+        Route::get('article', [ArticleController::class, 'index'])->name('article.index');
+        Route::get('coupons', [CouponsController::class, 'index'])->name('coupons.index');
+        Route::get('location', [LocationController::class, 'index'])->name('location.index');
+        Route::get('category', [CategoryController::class, 'index'])->name('category.index');
+        Route::get('advisory', [AdvisoryController::class, 'index'])->name('advisory.index');
+        Route::get('comment', [CommentController::class, 'index'])->name('comment.index');
 
         // permissions
         Route::resource('permissions', PermissionController::class);
@@ -278,9 +302,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/trangthaitour/updateThanhToan/{id}', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
         Route::get('/quanlytour/{id}', [PayController::class, 'show']);
 
-        Route::get('contact',                              [AdminContactController::class, 'index'])->name('admin.contact.index');
-        Route::post('contact/status/{id}',                 [AdminContactController::class, 'contactStatus'])->name('contact.contactStatus');
-        Route::delete('contact/delete/{id}',               [AdminContactController::class, 'destroy'])->name('contact.delete');
+        Route::get('contact', [AdminContactController::class, 'index'])->name('admin.contact.index');
+        Route::post('contact/status/{id}', [AdminContactController::class, 'contactStatus'])->name('contact.contactStatus');
+        Route::delete('contact/delete/{id}', [AdminContactController::class, 'destroy'])->name('contact.delete');
 
         //logs tour
         Route::get('/change-logs', [ChangeLogController::class, 'index'])->name('change-logs.index');
