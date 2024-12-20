@@ -35,8 +35,8 @@ class CommentController extends Controller
 
         if ($searchQuery !== null && $searchQuery !== '') {
             $query->where(function ($q) use ($searchQuery) {
-                $q->where('comment.name', 'like', '%' . $searchQuery . '%')
-                    ->orWhere('tour.content', 'like', '%' . $searchQuery . '%');
+                $q->where('comment.content', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('tour.name', 'like', '%' . $searchQuery . '%');
             });
         }
 
