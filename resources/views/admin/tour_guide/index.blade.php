@@ -1,5 +1,10 @@
 @extends('admin.layouts.app')
-
+@section('style')
+    {{-- <!--datatable css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> --}}
+    <!-- DataTables -->
+    {{-- <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.css') }}" /> --}}
+@endsection
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -36,44 +41,35 @@
                         {{-- end nút thêm faq --}}
                         <div class="card-body">
                             <div class="table-responsive table-card">
-                                <table id="tour_guide" class="table table-striped" style="width:100%">
+                                <table id="tourguide" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
                                             <th>ID</th>
                                             <th>Tên tour</th>
                                             <th>Tên hướng dẫn viên</th>
-                                            <th>Ngày tạo</th>
+                                            <th>Ngày đi</th>
+                                            <th>Ngày gán</th>
                                             <th>Ngày cập nhật</th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="tourguide">
                                         @foreach ($tour_guide as $item)
                                             <tr>
                                                 <td>{{ $item->id }}</td>
                                                 <td>{{ $item->tour->name ?? 'N/A' }}</td>
                                                 <td>{{ $item->user->name ?? 'N/A' }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($item->assigned_at)->format('d/m/Y H:i') ?? 'N/A' }}</td>
                                                 <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
                                                 <td>{{ $item->updated_at->format('d/m/Y H:i') }}</td>
                                                 <td>
-                                                    <a href="{{ route('tour-guides.edit', $item->id) }}"
-                                                        class="btn btn-sm btn-primary">
-                                                        Sửa
-                                                    </a>
-                                                    <form action="{{ route('tour-guides.destroy', $item->id) }}"
-                                                        method="POST" style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger"
-                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
-                                                            Xóa
-                                                        </button>
-                                                    </form>
+                                                    <a href="{{ route('tour-guides.edit', $item) }}" class="btn btn-sm btn-primary">Sửa</a>
+                                                    <button id="deleteItem" class="btn btn-sm btn-danger deleteItem" data-id="{{ $item->id }}">Xóa</button>
                                                 </td>
-
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                    
                                 </table>
                             </div>
                         </div>
@@ -91,7 +87,7 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
     <script>
-        $('#tour_guide').DataTable({
+        $('#tourguide').DataTable({
             language: {
                 "sEmptyTable": "Không có dữ liệu trong bảng",
                 "sInfo": "Hiển thị _START_ đến _END_ trong tổng số _TOTAL_ mục",
@@ -113,6 +109,44 @@
                     "sSortDescending": ": kích hoạt để sắp xếp cột theo thứ tự giảm dần"
                 }
             }
+        });
+        $('#tourguide').on('click', '#deleteItem', function() {
+            let id = $(this).data('id');
+            Swal.fire({
+                title: 'Bạn có chắc muốn xóa?',
+                text: "Bạn sẽ không thể hoàn tác sau khi xóa!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `{{ route('tour-guides.destroy', ':id') }}`.replace(':id', id),
+                        method: "DELETE",
+                        dataType: "json",
+                        data: {
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(res) {
+                            if (res.status) {
+                                // Reload table or remove the deleted row dynamically
+                                $(`#tourguide tr:has(button[data-id="${id}"])`).remove();
+                                Swal.fire('Xóa thành công!', '', 'success');
+                            } else {
+                                Swal.fire(res.message || 'Xóa thất bại!', '', 'error');
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Lỗi AJAX:', xhr.responseText);
+                            Swal.fire('Có lỗi xảy ra!', xhr.responseJSON?.message ||
+                                'Vui lòng thử lại.', 'error');
+                        }
+                    });
+                }
+            });
         });
     </script>
 @endsection

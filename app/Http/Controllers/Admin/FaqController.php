@@ -94,7 +94,7 @@ class FaqController extends Controller
     public function edit(Faq $faq)
     {
         $title = "Danh Sách FAQS";
-        return view('admin.faq.edit', compact('title'));
+        return view('admin.faq.edit', compact('title', 'faq'));
     }
 
     /**

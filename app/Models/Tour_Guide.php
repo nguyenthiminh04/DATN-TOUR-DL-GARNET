@@ -13,15 +13,16 @@ class Tour_Guide extends Model
     protected $fillable = [
         'tour_id',
         'user_id',
+        'assigned_at'
     ];
 
-    // Quan hệ với bảng tours
+    // Định nghĩa quan hệ với bảng tours
     public function tour()
     {
         return $this->belongsTo(Tour::class);
     }
 
-    // Quan hệ với bảng users
+    // Định nghĩa quan hệ với bảng users
     public function user()
     {
         return $this->belongsTo(User::class);

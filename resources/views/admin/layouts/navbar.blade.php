@@ -282,6 +282,23 @@
                             </ul>
                         </div>
                     </li>
+                    {{-- hướng dẫn viên --}}
+                    <li class="nav-item">
+                        <a class="nav-link menu-link collapsed" href="#tour_guide" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="tour_guide">
+                            <i class=" ph-user-circle-thin"></i> <span data-key="t-dashboards">Gán hướng dẫn viên </span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="tour_guide">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('tour-guides.index') }}" class="nav-link">Danh sách hướng dẫn viên đã gán</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('tour-guides.create') }}" class="nav-link">Gán hướng dẫn viên</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
 
                 @endif
                 {{-- Đơn hàng --}}
@@ -557,13 +574,35 @@
                         <div class="collapse menu-dropdown" id="tour_guide">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('tour-guides.index') }}" class="nav-link">Gán hướng dẫn viên</a>
+                                    <a href="{{ route('tour-guides.index') }}" class="nav-link">Danh sách hướng dẫn viên đã gán</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('tour-guides.create') }}" class="nav-link">Gán hướng dẫn viên</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                 @endif
 
+                {{-- trang hướng dẫn viên --}}
+                @if (hasPermission('guide_check'))
+                    <li class="nav-item">
+                        <a class="nav-link menu-link collapsed" href="#tour_guide" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="tour_guide">
+                            <i class=" ph-user-circle-thin"></i> <span data-key="t-dashboards">Lịch trình </span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="tour_guide">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('tour-guides.index') }}" class="nav-link">Danh sách lịch trình</a>
+                                </li>
+                                {{-- <li class="nav-item">
+                                    <a href="{{ route('tour-guides.create') }}" class="nav-link">Gán hướng dẫn viên</a>
+                                </li> --}}
+                            </ul>
+                        </div>
+                    </li>
+                @endif
 
             </ul>
         </div>
