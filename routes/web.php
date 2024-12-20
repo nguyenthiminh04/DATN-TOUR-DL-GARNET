@@ -42,6 +42,7 @@ use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Http\Controllers\CouponsClientController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TourGuideController;
 
 /*
@@ -205,6 +206,8 @@ Route::group(['prefix' => 'admin'], function () {
         // Route::post('/payment-tour/{id}/thanh-toan', [PayController::class, 'ThanhToan'])->name('trangthaitour.updateThanhToan');
 
         Route::resource('tour', TourController::class);
+        Route::resource('schedules', ScheduleController::class);
+
         Route::resource('coupons', CouponsController::class);
 
 
