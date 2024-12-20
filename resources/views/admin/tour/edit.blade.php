@@ -248,7 +248,7 @@
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div class="mb-3 col-6">
+                                            <div class="mb-3 col-6" hidden>
                                                 <label for="status1" class="form-label">User<span
                                                         class="text-danger">*</span></label>
                                                 <select name="user_id" class="form-select w-100" id="status1">

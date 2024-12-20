@@ -29,7 +29,7 @@ class TourController extends Controller
      */
     public function index(Request $request)
     {
-        $title = "Danh Mục Tour";
+        $title = "Danh Sách Tour";
 
         $status = $request->get('status');
 
@@ -38,7 +38,7 @@ class TourController extends Controller
             $query->where('status', $status);
         }
 
-        $listtour = $query->orderByDesc('id')->get();
+        $listtour = $query->orderBy('id', 'desc')->get();
 
         if ($request->ajax()) {
             return response()->json([
@@ -104,7 +104,7 @@ class TourController extends Controller
                     }
                 }
             }
-    
+
             return redirect()->route('tour.index')->with('success', 'Thêm mới thành công!');;
         }
     }
