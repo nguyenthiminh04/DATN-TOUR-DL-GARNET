@@ -56,7 +56,7 @@
                                     <thead class="text-muted">
                                         <tr>
 
-                                          <th>Số thứ tự</th>
+                                          <th>ID</th>
                                           <th>Tài Khoản Đặt Tour</th>
                                           <th>Thông Tin Tour</th>
                                           <th>Lý Do Hủy</th>
@@ -79,10 +79,9 @@
                                             <td>{{ $item->booking->tour->name ?? 'Tour đã bị xóa' }}</td>
                                             <td>{{ $item->booking->ly_do_huy }}</td>
                                             
-                                            {{ number_format($item->refund_amount, 0, ',', '.') }}
+                                           <td>{{ number_format($item->refund_amount, 0, ',', '.') }}đ</td> 
 
-                                            {{-- <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td> --}}
+                                            
                                             <td>
                                                 <ul class="d-flex gap-2 list-unstyled mb-0">
                                                    

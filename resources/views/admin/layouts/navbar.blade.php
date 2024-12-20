@@ -51,6 +51,14 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="collapse menu-dropdown" id="ordertour">
+
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('xu-ly-huy.index') }}" class="nav-link">Tour đã hủy</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
                 {{-- tour --}}
