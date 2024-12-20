@@ -64,7 +64,8 @@
             <div class="booking-status">
                 <p><strong>Trạng thái:</strong> <span>Đặt vé thành công - Chờ thanh toán</span></p>
                 <p><strong>Hạn thanh toán:</strong>
-                    <span>{{ \Carbon\Carbon::parse($booking->due_date)->format('d/m/Y H:i') }}</span></p>
+                    <span>{{ \Carbon\Carbon::parse($booking->due_date)->format('d/m/Y H:i') }}</span>
+                </p>
                 <p><strong>Địa điểm thanh toán:</strong> <span>Văn phòng công ty tại {{ $paymentLocation }}</span></p>
             </div>
             <h3 class="form-title">Thông Tin Cá Nhân và Vé Đã Chọn</h3>
@@ -75,7 +76,9 @@
             </div>
             <div class="tour-info">
                 <p><strong>Tour:</strong> <span>{{ $booking->tour_name }}</span></p>
-                <p><strong>Ngày khởi hành:</strong> <span>{{ $booking->start_date }}</span></p>
+                <p><strong>Ngày khởi hành:</strong>
+                    <span>{{ $booking->start_date = \Carbon\Carbon::parse($booking->start_date)->format('d/m/Y') }}</span>
+                </p>
                 <p><strong>Số lượng:</strong> <span>{{ $booking->number_old + $booking->number_children }}</span></p>
                 <p><strong>Giá vé:</strong> <span>{{ number_format($booking->total_money, 0, ',', '.') }} đ</span></p>
             </div>
@@ -88,14 +91,14 @@
             const modal = document.getElementById('booking-modal');
             const closeModal = document.getElementById('close-modal');
             const timerElement = document.getElementById('redirect-timer');
-            let countdown = 10; 
+            let countdown = 10;
             const redirectUrl = "{{ route('home') }}";
             let interval;
 
             // Hiển thị modal
             modal.style.display = 'flex';
 
-            
+
             function startCountdown() {
                 interval = setInterval(() => {
                     countdown--;
@@ -103,7 +106,7 @@
 
                     if (countdown <= 0) {
                         clearInterval(interval);
-                        window.location.href = redirectUrl; 
+                        window.location.href = redirectUrl;
                     }
                 }, 1000);
             }
@@ -111,7 +114,7 @@
 
             // Đóng modal khi nhấn nút X
             closeModal.addEventListener('click', () => {
-                clearInterval(interval); 
+                clearInterval(interval);
                 modal.style.display = 'none';
             });
         });

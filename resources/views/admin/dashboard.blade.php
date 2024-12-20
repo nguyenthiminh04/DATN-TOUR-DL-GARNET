@@ -67,11 +67,26 @@
                             <label for="end_date_thong_ke">Đến ngày:</label>
                             <input type="text" name="end_date_thong_ke" id="datepicker4" class="form-control">
                         </div>
-                        <input type="button" id="btn-dashboard-total" class="btn btn-primary"
-                            style="height: 35px; margin-top: 20px" value="Lọc">
+                        <input type="button" id="btn-dashboard-total" class="btn btn-primary" value="Lọc">
                     </div>
                 </form>
-                <div class="col-md-2">
+                <div class="col-md-3">
+                    <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
+                                    <i class="ph-wallet"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase  text-muted text-truncate fs-sm">Tổng Doanh Thu</p>
+                                <h4 class=" mb-2"><span class="counter-value" data-target="{{ $totalMoneyhihi }}">0</span>đ
+                                </h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div>
+                <div class="col-md-3">
                     <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
                         <div class="card-body">
                             <div class="avatar-sm">
@@ -81,13 +96,28 @@
                             </div>
                             <div class="mt-2">
                                 <p class="text-uppercase  text-muted text-truncate fs-sm">Doanh thu tháng này</p>
-                                <h4 class=" mb-2"><span class="counter-value" data-target="totalMoneyMonth">0</span>
-                                    </h4>
+                                <h4 class=" mb-2"><span class="counter-value"
+                                        data-target="{{ $totalMoneyMonth }}">0</span>đ
+                                </h4>
                             </div>
                         </div><!-- end card body -->
                     </div><!-- end card -->
                 </div>
-                <div class="col-md-2">
+                <div class=" col-md-3 card shadow-none border-end-md border-bottom rounded-0 mb-3">
+                    <div class="card-body">
+                        <div class="avatar-sm">
+                            <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
+                                <i class="ph-wallet"></i>
+                            </span>
+                        </div>
+                        <div class="mt-2">
+                            <p class="text-uppercase  text-muted text-truncate fs-sm">Lọc danh thu theo ngày</p>
+                            <h4 class=" mb-2"><span class="counter-value" data-target="totalMoneyMonth">0</span>
+                            </h4>
+                        </div>
+                    </div><!-- end card body -->
+                </div><!-- end card -->
+                <div class="col-md-3">
                     <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
                         <div class="card-body">
                             <div class="avatar-sm">
@@ -97,13 +127,13 @@
                             </div>
                             <div class="mt-2">
                                 <p class="text-uppercase  text-muted text-truncate fs-sm">Doanh thu hôm nay</p>
-                                <h4 class=" mb-2"><span class="counter-value" data-target="totalMoney">0</span> 
+                                <h4 class=" mb-2"><span class="counter-value" data-target="{{ $totalMoney }}">0</span>đ
                                 </h4>
                             </div>
                         </div><!-- end card body -->
                     </div><!-- end card -->
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="card shadow-none border-bottom rounded-0 mb-0">
                         <div class="card-body">
                             <div class="avatar-sm">
@@ -113,13 +143,13 @@
                             </div>
                             <div class="mt-2">
                                 <p class="text-uppercase  text-muted text-truncate ">Đơn hàng tháng này</p>
-                                <h4 class=" mb-3"><span class="counter-value" data-target="orderCountMonth">0</span>
+                                <h4 class=" mb-3"><span class="counter-value" data-target="{{ $orderCountMonth }}">0</span>
                                 </h4>
                             </div>
                         </div><!-- end card body -->
                     </div><!-- end card -->
                 </div><!-- end col -->
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="card shadow-none border-bottom rounded-0 mb-0">
                         <div class="card-body">
                             <div class="avatar-sm">
@@ -129,14 +159,14 @@
                             </div>
                             <div class="mt-2">
                                 <p class="text-uppercase  text-muted text-truncate ">Đơn hàng hôm nay</p>
-                                <h4 class=" mb-3"><span class="counter-value" data-target="orderCountToday">0</span>
+                                <h4 class=" mb-3"><span class="counter-value" data-target="{{ $orderCountToday }}">0</span>
                                 </h4>
                             </div>
                         </div><!-- end card body -->
                     </div><!-- end card -->
                 </div><!-- end col -->
 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="card shadow-none border-end-md rounded-0 mb-0">
                         <div class="card-body">
                             <div class="avatar-sm">
@@ -154,7 +184,7 @@
                     </div><!-- end card -->
                 </div><!-- end col -->
 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="card shadow-none border-top border-top-md-0 rounded-0 mb-0">
                         <div class="card-body">
                             <div class="avatar-sm">
@@ -685,6 +715,7 @@
         $('#btn-dashboard-filter').click(function() {
             loadDefaultChart();
         });
+
 
 
 
