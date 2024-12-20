@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Tour</h4>
+                        <h4 class="mb-sm-0">Danh Sách Lịch Trình</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -19,7 +19,7 @@
                     </div>
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
-                            <a href="{{ route('tour.create') }}" class="btn btn-secondary"><i
+                            <a href="{{ route('schedule.create',['tourId' => $tour->id]) }}" class="btn btn-secondary"><i
                                     class="bi bi-plus-circle align-baseline me-1"></i> Thêm mới lịch trình</a>
                         </div>
 
@@ -46,36 +46,32 @@
                                     <thead class="text-muted">
                                         <tr>
                                             <th>ID</th>
-                                            <th>Tên Tour</th>
-                                            <th>Lịch trình</th>
-                                            <th>Ngày khởi hành</th>
-                                            <th>Ngày kết thúc</th>
-                                            <th>Số khách</th>
-                                            <th>Giá người lớn</th>
-                                            <th>Giá trẻ em</th>
-                                            <th>Trạng thái</th>
+                                            <th>Tour</th>
+                                            <th>Ngày</th>
+                                            
+                                            <th>Điểm bắt đầu</th>
+                                            <th>Điểm kết thúc</th>
+                                            <th>Mô tả chi tiết</th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all" id="tours-body">
-                                        @foreach ($listtour as $index => $item)
+                                        @foreach ($schedules as $index => $item)
                                             <tr>
                                                 <td><a href="" class="text-reset">{{ $item->id }}</a></td>
-                                                <td>{{ $item->name }}</td>
-                                                <td>{{ $item->journeys }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}</td>
-                                                <td>{{ $item->number_guests }}</td>
-                                                <td>{{ number_format($item->price_old, 0, ',', '.') }}đ</td>
-                                                <td>{{ number_format($item->price_children, 0, ',', '.') }}đ</td>
-                                                <td>
+                                                <td>{{ $tour->name }}</td>
+                                                <td>{{ $item->day }}</td>
+                                                <td>{{ $item->from_location }}</td>
+                                                <td>{{ $item->to_location }}</td>
+                                                <td>{{ $item->description }}</td>
+                                                {{-- <td>
                                                     <button type="button" style="width: 100px;"
                                                         class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
                                                         data-id="{{ $item->id }}"
                                                         onclick="toggleStatus({{ $item->id }})">
                                                         {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
                                                     </button>
-                                                </td>
+                                                </td> --}}
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
@@ -85,7 +81,7 @@
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('tour.edit', $item->id) }}"
+                                                            <a href="{{ route('schedule.edit', $item->id) }}"
                                                                 class="btn btn-subtle-success btn-icon btn-sm">
                                                                 <i class="ri-edit-2-line"></i></a>
                                                         </li>
