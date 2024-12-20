@@ -46,7 +46,7 @@
                                 <table id="example" class="table table-striped" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
-                                            <th>ID</th>
+                                            <th>STT</th>
                                             <th>Tên phiếu</th>
                                             <th>Mã</th>
                                             <th>Ngày bắt đầu</th>
