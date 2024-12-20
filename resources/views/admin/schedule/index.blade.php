@@ -13,14 +13,14 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Danh sách Tour</li>
+                                <li class="breadcrumb-item active">Danh sách lịch trình</li>
                             </ol>
                         </div>
                     </div>
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <a href="{{ route('tour.create') }}" class="btn btn-secondary"><i
-                                    class="bi bi-plus-circle align-baseline me-1"></i> Thêm mới Tour</a>
+                                    class="bi bi-plus-circle align-baseline me-1"></i> Thêm mới lịch trình</a>
                         </div>
 
                         <div class="col-sm">
@@ -89,11 +89,12 @@
                                                                 class="btn btn-subtle-success btn-icon btn-sm">
                                                                 <i class="ri-edit-2-line"></i></a>
                                                         </li>
-                                                        <li>
-                                                            <a href="{{route('schedules.show',$item->id)  }}"
+                                                        {{-- <li>
+                                                            <a href="#deleteRecordModal{{ $item->id }}"
                                                                 data-bs-toggle="modal"
-                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i><img src="https://img.lovepik.com/free-png/20220127/lovepik-travel-guide-png-image_401929765_wh1200.png" alt="" width="20px" height="20px"></i></a>
-                                                        </li>
+                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                                    class="ph-trash"></i></a>
+                                                        </li> --}}
                                                     </ul>
                                                 </td>
                                             </tr>
