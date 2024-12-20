@@ -14,7 +14,7 @@
                                     <th>Điểm xuất phát</th>
                                     {{-- <th>Ngày đặt</th> --}}
                                     <th>Ngày bắt đầu</th>
-                                    <th>TT đơn hàng</th>
+                                    <th>Trạng thái</th>
                                     <th>Tổng tiền</th>
                                     <th>Di chuyển</th>
                                     <th>Hành động</th>
@@ -73,7 +73,7 @@
                                                             {{ number_format($selectedOrder->total_money) }} đ</p>
                                                         <p><strong>Phương thức di chuyển:</strong>
                                                             {{ $selectedOrder->tour->move_method }}</p>
-                                                             {{-- {{$selectedOrder->id}} --}}
+                                                        {{-- {{$selectedOrder->id}} --}}
                                                     @else
                                                         <p>Không có chi tiết đơn hàng để hiển thị.</p>
                                                     @endif

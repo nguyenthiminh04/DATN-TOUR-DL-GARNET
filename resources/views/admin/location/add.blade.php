@@ -25,22 +25,25 @@
                             <form action="{{ route('location.store') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
-                                    
-                                        <div class="mb-3">
-                                            <label for="image" class="form-label">Hình ảnh</label>
 
-                                            <input type="file" id="image" name="image" class="form-control"
-                                                onchange="showImage(event)">
-                                            <img id="img_danh_muc" src="" alt="Hình Ảnh Sản Phẩm"
-                                                style="width: 150px;display:none">
-                                        </div>
-                                   
+                                    <div class="mb-3">
+                                        <label for="image" class="form-label">Hình ảnh</label>
+
+                                        <input type="file" id="image" name="image" class="form-control"
+                                            onchange="showImage(event)">
+                                        <img id="img_danh_muc" src="" alt="Hình Ảnh Sản Phẩm"
+                                            style="width: 150px;display:none">
+                                        @error('image')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Tên địa điểm<span
                                                     class="text-danger">*</span></label>
                                             <input type="text" id="name" name="name" value="{{ old('name') }}"
-                                                class="form-control" placeholder="Nhập địa điểm">
+                                                onkeyup="generateSlug()" class="form-control" placeholder="Nhập địa điểm">
                                             @error('name')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -107,6 +110,9 @@
                                                 <option value="1">Hiển Thị</option>
                                                 <option value="0">Ẩn</option>
                                             </select>
+                                            @error('status')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -122,25 +128,42 @@
                     </div>
                 </div>
             </div>
-        @endsection
-        @section('script')
-            <script>
-                function showImage(event) {
-                    const img_danh_muc = document.getElementById('img_danh_muc');
-
-                    const file = event.target.files[0];
-
-                    const reader = new FileReader();
-
-                    reader.onload = function() {
-                        img_danh_muc.src = reader.result;
-                        img_danh_muc.style.display = 'block';
+        </div>
+    </div>
+@endsection
+@section('script')
+    <script src="https://cdn.jsdelivr.net/npm/slugify@1.4.7/slugify.min.js"></script>
+    <script>
+        function generateSlug() {
+            var name = document.getElementById('name').value;
 
 
-                    }
-                    if (file) {
-                        reader.readAsDataURL(file);
-                    }
-                }
-            </script>
-        @endsection
+            var slug = slugify(name, {
+                lower: true,
+                replacement: '-',
+                remove: /[*+~.()'"!:@]/g
+            });
+
+            document.getElementById('slug').value = slug;
+        }
+    </script>
+    <script>
+        function showImage(event) {
+            const img_danh_muc = document.getElementById('img_danh_muc');
+
+            const file = event.target.files[0];
+
+            const reader = new FileReader();
+
+            reader.onload = function() {
+                img_danh_muc.src = reader.result;
+                img_danh_muc.style.display = 'block';
+
+
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+@endsection

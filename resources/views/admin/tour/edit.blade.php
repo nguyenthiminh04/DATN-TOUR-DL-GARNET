@@ -30,19 +30,23 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="hinh_anh" class="form-label">Hình Ảnh</label>
-                                        
-                                            <input type="file" id="image" name="image" class="form-control" onchange="showImage(event)">
-                                        
+
+                                            <input type="file" id="image" name="image" class="form-control"
+                                                onchange="showImage(event)">
+
                                             <!-- Kiểm tra có hình ảnh không -->
                                             @if (!empty($tour->image))
-                                                <img id="img_danh_muc" src="{{ Storage::url($tour->image) }}" 
+                                                <img id="img_danh_muc" src="{{ Storage::url($tour->image) }}"
                                                     alt="Hình Ảnh Sản Phẩm" style="width: 150px;">
                                             @else
-                                                <img id="img_danh_muc" src="#" 
-                                                    alt="Hình Ảnh Sản Phẩm" style="width: 150px; display: none;">
+                                                <img id="img_danh_muc" src="#" alt="Hình Ảnh Sản Phẩm"
+                                                    style="width: 150px; display: none;">
                                             @endif
+                                            @error('image')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
-                                        
+
 
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Tên Tour<span
@@ -97,9 +101,8 @@
                                         <div class="mb-3">
                                             <label for="number" class="form-label">Số lượng chuyến đi<span
                                                     class="text-danger">*</span></label>
-                                            <input type="text" id="number" name="number"
-                                                value="{{ $tour->number }}" class="form-control"
-                                                placeholder="Nhập số lượng chuyến đi...">
+                                            <input type="text" id="number" name="number" value="{{ $tour->number }}"
+                                                class="form-control" placeholder="Nhập số lượng chuyến đi...">
                                             @error('number')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -116,6 +119,9 @@
                                             <div class="form-label">
                                                 <label for="details">Nội dung chi tiết</label>
                                                 <textarea id="editor" name="content">{{ $tour->content }}</textarea>
+                                                @error('content')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -210,9 +216,7 @@
                                                     @enderror
                                                 </div>
                                             </div><!--end col-->
-                                            <div class="col-lg-6">
 
-                                            </div><!--end col-->
                                             <div class="mb-3 col-6">
                                                 <label for="status1" class="form-label">Location<span
                                                         class="text-danger">*</span></label>
@@ -261,7 +265,7 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="mb-3">
+                                            <div class="mb-3 col-6">
                                                 <label for="status1" class="form-label">Trạng Thái<span
                                                         class="text-danger">*</span></label>
                                                 <select class="form-select" id="status1" name="status">
@@ -271,6 +275,9 @@
                                                     <option value="0" {{ $tour->status == '0' ? 'selected' : '' }}>Ẩn
                                                     </option>
                                                 </select>
+                                                @error('status')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                             <div class="mb-3">
                                                 <label for="hinh_anh" class="form-label">Album hình ảnh</label>
@@ -293,8 +300,6 @@
                                                                     <input type="hidden"
                                                                         name="list_hinh_anh[{{ $hinhAnh->id }}]"
                                                                         value="{{ $hinhAnh->id }}">
-
-
                                                                 </td>
                                                                 <td>
                                                                     <i class="mdi mdi-delete text-muted fs-18 rounded-2 border p-1"
@@ -327,14 +332,13 @@
     </div>
 @endsection
 @section('script')
-<script>
-    function showImage(event) {
-    const output = document.getElementById('img_danh_muc');
-    output.src = URL.createObjectURL(event.target.files[0]);
-    output.style.display = 'block'; // Hiển thị hình ảnh
-}
-
-</script>
+    <script>
+        function showImage(event) {
+            const output = document.getElementById('img_danh_muc');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.style.display = 'block'; // Hiển thị hình ảnh
+        }
+    </script>
     <script>
         function showImage(event) {
             const img_danh_muc = document.getElementById('img_danh_muc');

@@ -9,7 +9,8 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"> <a href="{{ route('categorytour.index') }}">Trang quản trị</a></li>
+                                <li class="breadcrumb-item"> <a href="{{ route('categorytour.index') }}">Trang quản trị</a>
+                                </li>
                                 <li class="breadcrumb-item active">Thêm mới danh mục tour</li>
                             </ol>
                         </div>
@@ -33,7 +34,7 @@
                                     <label for="category_tour" class="form-label">Tên danh mục tour<span
                                             class="text-danger">*</span></label>
                                     <input type="text" id="category_tour" name="category_tour"
-                                        value="{{ old('category_tour') }}" class="form-control"
+                                        value="{{ old('category_tour') }}" class="form-control" onkeyup="generateSlug()"
                                         placeholder="Nhập tên danh mục tour...">
                                     @error('category_tour')
                                         <span class="text-danger">{{ $message }}</span>
@@ -57,14 +58,6 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label" for="slug">Đường dẫn</label>
-                                    <textarea class="form-control" id="slug" name="slug" value="{{ old('slug') }}" rows="2"
-                                        placeholder="Nhập mô tả danh mục tour..."></textarea>
-                                    @error('slug')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
 
                                 <div class="mb-3">
                                     <label class="form-label" for="responsibility">Trách nhiệm</label>
@@ -84,6 +77,9 @@
                                         <option value="1">Hiển Thị</option>
                                         <option value="0">Ẩn</option>
                                     </select>
+                                    @error('status')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3 text-end">
@@ -104,6 +100,21 @@
     </div>
 @endsection
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/slugify@1.4.7/slugify.min.js"></script>
+    <script>
+        function generateSlug() {
+            var category_tour = document.getElementById('category_tour').value;
+
+
+            var slug = slugify(category_tour, {
+                lower: true,
+                replacement: '-',
+                remove: /[*+~.()'"!:@]/g
+            });
+
+            document.getElementById('slug').value = slug;
+        }
+    </script>
     <script>
         function showImage(event) {
             const img_danh_muc = document.getElementById('img_danh_muc');

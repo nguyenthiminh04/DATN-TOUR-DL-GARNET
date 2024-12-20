@@ -36,6 +36,17 @@
             background-color: #007bff;
             color: white;
         }
+
+        #search-form-container.hidden {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        #search-form-container.show {
+            max-height: 500px;
+            transition: max-height 0.3s ease;
+        }
     </style>
 @endsection
 @section('content')
@@ -54,51 +65,63 @@
                         </div>
                     </div>
                     <div class="row g-3 mb-3 justify-content-sm-end justify-center">
-
                         <div class="col-auto">
-                            <div class="d-flex justify-content-end">
-                                <select id="payment_status_id" name="payment_status_id" class="form-select"
-                                    aria-label="Lọc theo trạng thái" style="margin-top: 20px">
-                                    <option value="">Lọc thanh toán</option>
-                                    <option value="1">Chưa thanh toán</option>
-                                    <option value="2">Đã thanh toán</option>
-                                </select>
-                            </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-auto">
 
-                        <div class="col-auto">
-                            <div class="d-flex justify-content-end">
-                                <select id="status_id" name="status_id" class="form-select" aria-label="Lọc theo trạng thái"
-                                    style="margin-top: 20px">
-                                    <option value="">Lọc trạng thái</option>
-                                    <option value="1">Chờ xác nhận</option>
-                                    <option value="2">Đã xác nhận</option>
-                                    <option value="5">Chưa hoàn thành</option>
-                                    <option value="6">Đã Hoàn Thành</option>
-                                    <option value="13">Đã Hủy</option>
-                                </select>
-                            </div>
-                        </div>
+                                    <div id="search-form-container" class="hidden">
+                                        <form action="{{ route('payment_tour.index') }}" method="GET" id="search-form">
+                                            <div class="d-flex gap-3 justify-content-sm-end">
+                                                <div class="form-group">
+                                                    <label for="start_date">Từ ngày:</label>
+                                                    <input type="date" name="start_date" id="start_date"
+                                                        style="width: 280px" value="{{ request('start_date') }}"
+                                                        class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="end_date">Đến ngày:</label>
+                                                    <input type="date" name="end_date" id="end_date"style="width: 280px"
+                                                        value="{{ request('end_date') }}" class="form-control">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mt-4" style="top: -5px">Tìm
+                                                    kiếm</button>
+                                            </div>
+                                        </form>
 
-                        <div class="col-auto">
-                            <form action="{{ route('payment_tour.index') }}" method="GET">
-                                <div class="d-flex gap-3 justify-content-sm-end">
-                                    <div class="form-group">
-                                        <label for="start_date">Từ ngày:</label>
-                                        <input type="date" name="start_date" id="start_date"
-                                            value="{{ request('start_date') }}" class="form-control">
+                                        <div class="d-flex justify-content-end">
+                                            <form id="filter-form" action="{{ route('admin.quanlytour.filter') }}"
+                                                method="GET">
+                                                <div class="form-group d-flex gap-2">
+                                                    <select name="payment_status_id" id="payment_status_id"
+                                                        class="form-control" style="width: 245px">
+                                                        <option value="">Tất cả trạng thái thanh toán</option>
+                                                        @foreach ($trangThaiThanhToan as $key => $value)
+                                                            <option value="{{ $key }}">{{ $value }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <select name="status_id" id="status_id" class="form-control"
+                                                        style="width: 220px">
+                                                        <option value="">Tất cả trạng thái</option>
+                                                        @foreach ($trangThaiTour as $key => $value)
+                                                            <option value="{{ $key }}">{{ $value }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <input type="text" id="searchInput" name="search"
+                                                        placeholder="Search..." class="form-control" style="width: 200px">
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="end_date">Đến ngày:</label>
-                                        <input type="date" name="end_date" id="end_date"
-                                            value="{{ request('end_date') }}" class="form-control">
+
+                                    <div class="d-flex justify-content-sm-end">
+                                        <button id="toggleSearchBtn" class="btn btn-secondary mt-3" style="width: 200px">Tìm
+                                            kiếm</button>
                                     </div>
-                                    <button type="submit" class="btn btn-primary mt-4" style="top: -5px">Tìm
-                                        kiếm</button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -115,8 +138,14 @@
                                         <th>Tài Khoản Đặt Tour</th>
                                         <th>Thông Tin Tour</th>
                                         <th>Người Đặt Tour</th>
+<<<<<<< HEAD
                                         <th>Thời gian bắt đầu chuyến đi</th>
                                         <th>Thời gian kết thúc chuyến đi</th>
+=======
+                                        <th>Số điện thoại</th>
+                                        <th>Thời gian</th>
+                                        <th>Phương Thức Thanh Toán</th>
+>>>>>>> e515dbf21265e9505cf2b3bc00c59b05e2d8b4f8
                                         <th>Trạng Thái Thanh Toán</th>
                                         <th>Trạng Thái Tour</th>
                                         <th>Hành Động</th>
@@ -136,6 +165,7 @@
                                                 <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
 
                                                 <td>{{ $item->booking->tour->name ?? 'Tour đã bị xóa' }}</td>
+<<<<<<< HEAD
 
 
 
@@ -176,6 +206,53 @@
                                                 </select>
                                             </td>
                                             <td>
+=======
+                                                <td>{{ $item->booking->name }}</td>
+                                                <td>{{ $item->booking->user->phone ?? 'Không có' }}</td>
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}
+                                                </td>
+                                                <td>
+                                                    @if ($item->paymentMethod->id == 1)
+                                                        VNPAY
+                                                    @elseif ($item->paymentMethod->id == 2)
+                                                        Momo
+                                                    @elseif ($item->paymentMethod->id == 3)
+                                                        Thẻ Ngân Hàng
+                                                    @elseif ($item->paymentMethod->id == 4)
+                                                        Thanh Toán Trực Tiếp
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <select id="payment-status-select" name="payment_status_id"
+                                                        class="form-select w-full max-w-xs payment-status-select status-tour"
+                                                        data-id="{{ $item->id }}"
+                                                        data-default-value="{{ $item->payment_status_id }}"
+                                                        @if ($item->payment_status_id == 3) disabled @endif>
+                                                        @foreach ($trangThaiThanhToan as $key => $value)
+                                                            <option value="{{ $key }}"
+                                                                {{ $key == $item->payment_status_id ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select id="status-select" name="status_id"
+                                                        class="form-select w-full max-w-xs status status-tour"
+                                                        data-id="{{ $item->id }}"
+                                                        data-default-value="{{ $item->status_id }}"
+                                                        @if ($item->status_id == 13 || $item->status_id == 13) disabled @endif>
+                                                        @foreach ($trangThaiTour as $key => $value)
+                                                            <option value="{{ $key }}"
+                                                                {{ $key == $item->status_id ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+>>>>>>> e515dbf21265e9505cf2b3bc00c59b05e2d8b4f8
 
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
@@ -215,23 +292,18 @@
                             style="width: 100%; overflow: hidden;">
                             <div class="col-sm">
                                 <div class="text-muted text-center text-sm-start">
-                                    Hiển thị <span class="fw-semibold">{{ $listTour->count() }}</span>
-                                    trên <span class="fw-semibold">{{ $listTour->total() }}</span>
-                                    Kết quả
+                                    Hiển thị <span class="fw-semibold">{{ $listTour->count() }}</span> trên <span
+                                        class="fw-semibold">{{ $listTour->total() }}</span> Kết quả
                                 </div>
                             </div>
 
                             <div class="col-sm-auto mt-3 mt-sm-0">
                                 <div class="pagination-wrap hstack justify-content-center gap-2">
-
                                     @if ($listTour->onFirstPage())
-                                        <a class="page-item pagination-prev disabled" href="#">
-                                            Trước
-                                        </a>
+                                        <a class="page-item pagination-prev disabled" href="#">Trước</a>
                                     @else
-                                        <a class="page-item pagination-prev" href="{{ $listTour->previousPageUrl() }}">
-                                            Trước
-                                        </a>
+                                        <a class="page-item pagination-prev"
+                                            href="{{ $listTour->previousPageUrl() }}">Trước</a>
                                     @endif
 
                                     <ul class="pagination listjs-pagination mb-0">
@@ -245,13 +317,10 @@
                                     </ul>
 
                                     @if ($listTour->hasMorePages())
-                                        <a class="page-item pagination-next" href="{{ $listTour->nextPageUrl() }}">
-                                            Tiếp theo
-                                        </a>
+                                        <a class="page-item pagination-next" href="{{ $listTour->nextPageUrl() }}">Tiếp
+                                            theo</a>
                                     @else
-                                        <a class="page-item pagination-next disabled" href="#">
-                                            Tiếp theo
-                                        </a>
+                                        <a class="page-item pagination-next disabled" href="#">Tiếp theo</a>
                                     @endif
                                 </div>
                             </div>
@@ -282,11 +351,59 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
 @endsection
 @section('script')
-    <!--datatable js-->
+    <script>
+        document.getElementById('toggleSearchBtn').addEventListener('click', function() {
+            var searchFormContainer = document.getElementById('search-form-container');
+            var paginationElement = document.getElementById('pagination-element');
+
+            if (searchFormContainer.classList.contains('hidden')) {
+                searchFormContainer.classList.remove('hidden');
+                this.textContent = 'Đóng tìm kiếm';
+            } else {
+                searchFormContainer.classList.add('hidden');
+                this.textContent = 'Tìm kiếm';
+            }
+
+
+            if (searchFormContainer.classList.contains('hidden')) {
+                paginationElement.style.display = 'block';
+            } else {
+                paginationElement.style.display = 'none';
+            }
+        });
+
+        document.getElementById('search-form').addEventListener('submit', function() {
+            var paginationElement = document.getElementById('pagination-element');
+            paginationElement.style.display = 'none'; // Hide pagination on form submit
+        });
+    </script>
+    {{-- <script>
+        document.getElementById('toggleSearchBtn').addEventListener('click', function() {
+            var searchFormContainer = document.getElementById('search-form-container');
+
+            if (searchFormContainer.classList.contains('hidden')) {
+                searchFormContainer.classList.remove('hidden')
+                this.textContent = 'Đóng tìm kiếm';
+            } else {
+                searchFormContainer.classList.add('hidden');
+                this.textContent = 'Tìm kiếm';
+            }
+        });
+    </script> --}}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js">
+        < /scrip> <
+        script src = "https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js" >
+    </script>
+    <script>
+        document.getElementById('searchInput').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+            }
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             function updateStatus(url, data, selectElement, defaultValue) {
@@ -337,13 +454,15 @@
                 });
             }
 
-            var isSearchingOrFiltering = $('#status_id').length > 0 || $('#payment_status_id').length > 0;
+            var isSearchingOrFiltering = $('#status_id').length > 0 || $('#payment_status_id').length > 0 || $(
+                '#searchInput').length > 0;
 
             $(document).on('change', '.payment-status-select', function() {
                 var selectElement = $(this);
                 var tourId = selectElement.data('id');
                 var paymentStatusId = selectElement.val();
                 var defaultPaymentStatusId = selectElement.data('default-value');
+
 
                 Swal.fire({
                     title: 'Bạn có chắc chắn muốn thay đổi trạng thái?',
@@ -402,6 +521,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
+            const searchQuery = document.getElementById("searchInput");
             const statusFilter = document.getElementById('status_id');
             const paymentFilter = document.getElementById('payment_status_id');
             const tourTableBody = document.getElementById('tour-table-body');
@@ -409,35 +529,24 @@
             function fetchFilteredTours() {
                 const statusId = statusFilter.value;
                 const paymentId = paymentFilter.value;
-
-
+                const searchQueryValue = searchQuery.value;
 
                 console.log('Status ID:', statusId);
                 console.log('Payment ID:', paymentId);
+                console.log('Search Query:', searchQueryValue);
 
-                fetch(`{{ route('admin.quanlytour.filter') }}?status_id=${statusId}&payment_status_id=${paymentId}`, {
-
+                fetch(`{{ route('admin.quanlytour.filter') }}?status_id=${statusId}&payment_status_id=${paymentId}&search=${searchQueryValue}`, {
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
                         },
                     })
                     .then((response) => {
-
-                        // console.log('Response Status:', response.status);
-
-                        // console.log('Response Status:', response.status);
-
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
                         return response.json();
                     })
                     .then((data) => {
-
-                        // console.log('Response Data:', data);
-
-                        // console.log('Response Data:', data);
-
                         tourTableBody.innerHTML = data.html;
                     })
                     .catch((error) => {
@@ -445,8 +554,10 @@
                     });
             }
 
+            // Event listeners for filters and search
             statusFilter.addEventListener('change', fetchFilteredTours);
             paymentFilter.addEventListener('change', fetchFilteredTours);
+            searchQuery.addEventListener('input', fetchFilteredTours);
         });
     </script>
     <script>
