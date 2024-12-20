@@ -27,47 +27,11 @@ class BookingController extends Controller
         // Xác thực dữ liệu gửi lên
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:255',
-            'address' => 'nullable|string|max:255',
-            // 'date_booking' => 'required|date',
-            'start_date' => 'required',
-            'note' => 'nullable|string',
-            'number_old' => 'required|integer',
-            'number_children' => 'required|integer',
-            'total_money' => 'required|numeric',
-            'status' => 'nullable|integer',
-            'sale' => 'nullable|integer',
-            'tour_id' => 'required|exists:tours,id',
-            'g-recaptcha-response' => 'required|captcha',
-        ]);
-
-        // $coupon = DB::table('coupons')->where('code', $request->coupon)->first();
-        $coupon = DB::table('coupons')
-            ->where('code', $request->coupon)
-            ->where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
-            ->where('number', '>', 0)
-            ->where('tour_id', '=', $request['tour_id'])
-
-            ->first();
-        //dd($coupon);
-        if ($coupon) {
-            session(['code' => $coupon->code]);
-        }
-
-
-        //dd($code);
-
-
-
-        // Xác thực dữ liệu gửi lên
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'note' => 'nullable|string',
             'number_old' => 'required|integer|min:0',
             'number_children' => 'required|integer|min:0',
@@ -77,25 +41,34 @@ class BookingController extends Controller
             'tour_id' => 'required|exists:tours,id',
             'g-recaptcha-response' => 'required|captcha',
         ]);
-
+    
+        // Kiểm tra mã giảm giá
+        $coupon = DB::table('coupons')
+            ->where('code', $request->coupon)
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where('number', '>', 0)
+            ->where('tour_id', '=', $request['tour_id'])
+            ->first();
+    
+        if ($coupon) {
+            session(['code' => $coupon->code]);
+        }
+    
+        // Kiểm tra nếu người dùng đã đăng nhập
         if (auth()->check()) {
             // Nếu người dùng đã đăng nhập
             $customerId = auth()->user()->id;
             $userId = auth()->user()->id;
         } else {
             // Nếu người dùng chưa đăng nhập, tạo khách hàng ẩn danh
-            // Lấy hoặc tạo temporary_user_id
             $temporaryUserId = Session::get('temporary_user_id');
             if (!$temporaryUserId) {
                 $temporaryUserId = Str::uuid();  // UUID được tạo ra
                 Session::put('temporary_user_id', $temporaryUserId);
             }
-
-
-            // Debug giá trị temporary_user_id
-            // dd($temporaryUserId);  // Để kiểm tra
-
-            // Tạo khách hàng ẩn danh
+    
+            // Tạo khách hàng ẩn danh hoặc tìm bản ghi hiện tại nếu đã tồn tại
             $customer = Customer::firstOrCreate(
                 ['temporary_user_id' => $temporaryUserId],
                 [
@@ -103,14 +76,13 @@ class BookingController extends Controller
                     'email' => $validated['email'],
                     'phone' => $validated['phone'],
                     'type' => 'anonymous',
-                    'temporary_user_id' => $temporaryUserId,  // Lưu UUID vào cột temporary_user_id
                 ]
             );
-
+    
             $customerId = $customer->id;
             $userId = null;  // Vì khách hàng ẩn danh không có user_id
         }
-
+    
         // Tạo bản ghi trong bảng book_tour
         $bookTour = BookTour::create([
             'customer_id' => $customerId,
@@ -122,6 +94,7 @@ class BookingController extends Controller
             'address' => $validated['address'],
             'date_booking' => now(),
             'start_date' => $validated['start_date'],
+            'end_date' => $validated['end_date'],
             'note' => $validated['note'] ?? null,
             'number_old' => $validated['number_old'],
             'number_children' => $validated['number_children'],
@@ -129,10 +102,15 @@ class BookingController extends Controller
             'status' => $validated['status'] ?? 0,
             'sale' => $validated['sale'] ?? 0,
         ]);
-
+    
         // Chuyển hướng đến trang xác nhận đặt tour
-        return redirect()->route('tour.confirm', ['id' => $bookTour->id]);
+        if ($bookTour->id) {
+            return redirect()->route('tour.confirm', ['id' => $bookTour->id]);
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Đặt tour không thành công. Vui lòng thử lại.']);
+        }
     }
+    
 
 
 

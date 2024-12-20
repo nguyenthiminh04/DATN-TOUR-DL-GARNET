@@ -138,7 +138,7 @@ class TourController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TourRequest $request, string $id)
     {
         //
         if ($request->isMethod('PUT')) {
@@ -197,8 +197,7 @@ class TourController extends Controller
             // Cập nhật dữ liệu
             $tour->update($params);
 
-            return redirect()->route('tour.index')->with('success', 'Cập nhật thành công!');;
-            return redirect()->route('tour.index')->with('success', 'Cập nhật thành công!');;
+            return redirect()->route('tour.index')->with('success', 'Cập nhật thành công!');
         }
     }
 

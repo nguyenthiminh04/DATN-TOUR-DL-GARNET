@@ -32,8 +32,11 @@
 
                                         <input type="file" id="image" name="image" class="form-control"
                                             onchange="showImage(event)">
-                                        <img id="img_danh_muc" src="" alt="Hình Ảnh Sản Phẩm"
-                                            style="width: 150px;display:none">
+                                        <img id="img_danh_muc" src="{{ Storage::url($location->image) }}"
+                                            alt="Hình Ảnh Sản Phẩm" style="width: 150px;display:none">
+                                        @error('image')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">

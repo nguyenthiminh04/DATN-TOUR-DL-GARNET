@@ -23,6 +23,7 @@ class Tour extends Model
         'move_method',
         'starting_gate',
         'start_date',
+        'time',
         'end_date',
         'number_guests',
         'price_old',

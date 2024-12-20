@@ -727,9 +727,6 @@
         </div>
     </div>
 
-
-
-
     <script>
         $('.popup-sapo .icon').click(function() {
             $(".popup-sapo").toggleClass("active");
@@ -739,6 +736,7 @@
         });
     </script>
 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <script>
         $(document).ready(function() {
@@ -766,6 +764,43 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        let actionCount = 0;
+        let lastActionTime = Date.now(); // Lưu thời gian của lần hành động cuối cùng
+        const spamThreshold = 10; // Số lần hành động cho phép
+        const timeWindow = 3000; // Thời gian cửa sổ tính spam (ms), ví dụ 3 giây
+
+        // Lắng nghe mọi sự kiện click và submit trên trang
+        $('body').on('click submit', handleUserAction);
+
+        function handleUserAction(e) {
+            const currentTime = Date.now();
+            // Kiểm tra xem hành động có trong khoảng thời gian ngắn hay không
+            if (currentTime - lastActionTime < timeWindow) {
+                actionCount++;
+            } else {
+                actionCount = 1; // Nếu hành động đã thực hiện sau một khoảng thời gian dài, reset lại
+            }
+
+            lastActionTime = currentTime;
+
+            if (actionCount > spamThreshold) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cảnh báo',
+                    text: 'Vui lòng thao tác chậm lại, bạn đang thao tác quá nhanh!',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                });
+
+                actionCount = 0;
+            }
+        }
+    </script>
+
+
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {

@@ -1,6 +1,6 @@
 @extends('client.layouts.app')
 @section('title')
-   Đăng Nhập
+    Đăng Nhập
 @endsection
 @section('style')
     <style>
@@ -10,12 +10,12 @@
 
         .justify-content-between {
             justify-content: space-between;
-           
+
         }
 
         .align-items-center {
             align-items: center;
-          
+
         }
     </style>
 @endsection
@@ -127,6 +127,7 @@
                                     <input type="password" class="form-control form-control-lg" name="password"
                                         placeholder="Mật khẩu" />
                                 </fieldset>
+                                {!! NoCaptcha::display() !!}
                                 <div class="pull-xs-left" style="margin-top: 15px;">
                                     <button class="btn btn-style btn-blues" type="submit" style="width: 120px">Đăng
                                         nhập</button>
@@ -135,6 +136,7 @@
                                 </div>
                             </div>
                         </form>
+                        {!! NoCaptcha::renderJs() !!}
                     </div>
                 </div>
             </div>
@@ -157,11 +159,27 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const formData = new FormData(this);
+            const recaptchaResponse = document.querySelector('[name="g-recaptcha-response"]').value;
+
+            // Kiểm tra nếu CAPTCHA không được xác minh
+            if (!recaptchaResponse) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi CAPTCHA',
+                    text: 'Vui lòng hoàn thành xác minh CAPTCHA!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = '{{ route('dang-nhap') }}';
+                });;
+                return;
+            }
 
             fetch('{{ route('post-dang-nhap') }}', {
                     method: 'POST',
@@ -183,7 +201,6 @@
                             window.location.href = '{{ route('home') }}';
                         });
                     } else if (data.status === 'validation_error') {
-
                         let errors = '';
                         for (let field in data.errors) {
                             errors += `${data.errors[field].join('<br>')}<br>`;
@@ -208,7 +225,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Lỗi',
-                        text: 'Đã xảy ra lỗi trong quá trình xử lý.',
+                        text: 'Có lỗi xảy ra, vui lòng thử lại sau.',
                         confirmButtonText: 'OK'
                     });
                     console.error('Error:', error);

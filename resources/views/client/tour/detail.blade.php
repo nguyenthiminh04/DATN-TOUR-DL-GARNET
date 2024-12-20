@@ -619,23 +619,23 @@
 
                                 <ul class="ct_course_list">
 
-                                    <li>
+                                    {{-- <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg?1705894518705"
                                                 alt="Di chuyển bằng Ô tô" /></div>
                                         Di chuyển bằng Ô tô
-                                    </li>
-                                    <li>
+                                    </li> --}}
+                                    {{-- <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg?1705894518705"
                                                 alt="Di chuyển bằng tàu thủy" /></div>
                                         Di chuyển bằng tàu thủy
-                                    </li>
+                                    </li> --}}
                                     <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
                                                 alt="Di chuyển bằng máy bay" /></div>
-                                        Di chuyển bằng máy bay
+                                        <?= $tour['move_method'] ?>
                                     </li>
 
                                     <li>
@@ -884,9 +884,15 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div id="estimated-end-date"
+                                            style="margin-top: 10px; font-weight: bold; color: #2c3e50;">
+                                            <!-- Hiển thị ngày kết thúc dự kiến -->
+                                        </div>
                                         <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
                                             @if ($tour['number'] > 0)
-                                                <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}">
+                                                <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}"
+                                                    id="tour-link">
                                                     <button type="button" id="submit-table"
                                                         class="pull-right btn btn-default buynow add-to-cart button nomargin">
                                                         <i class="fa fa-paper-plane" aria-hidden="true"></i> Đặt tour
@@ -1079,7 +1085,7 @@
                                                         <div class="product-image">
                                                             <a href="{{ route('detail', $suggestedTour->id) }}">
                                                                 <img class="img-responsive"
-                                                                    src="{{ $suggestedTour->images->first()->url ?? asset('default-image.jpg') }}"
+                                                                    src="{{ Storage::url($suggestedTour->image) }}"
                                                                     alt="{{ $suggestedTour->name }}" />
                                                             </a>
                                                         </div>
@@ -1378,7 +1384,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Lỗi',
-                        text: 'Có lỗi xảy ra trong quá trình xử lý. Vui lòng thử lại.',
+                        text: 'Vui lòng thao tác chậm lại, bạn đang thao tác quá nhanh!',
                         confirmButtonText: 'OK'
                     });
                     console.error('Error:', error);
@@ -1402,6 +1408,15 @@
                     icon: 'warning',
                     title: 'Chưa chọn số lượng!',
                     text: 'Vui lòng chọn số lượng người trước khi đặt tour!',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+            if (adults === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Chưa chọn số lượng!',
+                    text: 'Vui Lòng Chọn Người Lớn Đi Kèm',
                     confirmButtonText: 'OK'
                 });
                 return;
@@ -1516,24 +1531,45 @@
         document.addEventListener("DOMContentLoaded", function() {
             var startDateTour = <?= json_encode($tour['start_date']) ?>; // Ngày bắt đầu tour
             var endDateTour = <?= json_encode($tour['end_date']) ?>; // Ngày kết thúc tour
+            var tourDuration = <?= json_encode($tour['time']) ?>; // Thời lượng tour (số ngày)
 
             // Lấy ngày hôm nay dưới dạng YYYY-MM-DD
-            var today = new Date().toISOString().split('T')[0];
+            var today = new Date().toISOString().split("T")[0];
 
             // Xác định minDate
-            var minDate = (new Date(startDateTour) > new Date(today)) ? startDateTour : today;
+            var minDate = new Date(startDateTour) > new Date(today) ? startDateTour : today;
 
+            // Khởi tạo flatpickr
             flatpickr("#datepicker", {
                 dateFormat: "Y-m-d", // Định dạng ngày
                 minDate: minDate, // Ngày nhỏ nhất
                 maxDate: endDateTour, // Ngày lớn nhất
-                defaultDate: minDate, // Ngày mặc định là ngày hợp lệ đầu tiên
-                locale: "vn", // Cài đặt ngôn ngữ tiếng Việt (nếu có)
+                defaultDate: minDate, // Ngày mặc định
+                locale: "vn", // Ngôn ngữ tiếng Việt (nếu có)
+                enable: [
+                    function(date) {
+                        // Tính toán ngày kết thúc dự kiến
+                        var selectedEndDate = new Date(date);
+                        selectedEndDate.setDate(selectedEndDate.getDate() + tourDuration - 1);
+
+                        // Chỉ cho phép chọn những ngày mà ngày kết thúc nằm trong phạm vi hợp lệ
+                        return selectedEndDate <= new Date(endDateTour);
+                    },
+                ],
                 onChange: function(selectedDates, dateStr, instance) {
-                    console.log("Ngày đã chọn:", dateStr); // Hiển thị ngày đã chọn
-                }
+                    if (selectedDates.length > 0) {
+                        var selectedDate = new Date(dateStr);
+                        var estimatedEndDate = new Date(selectedDate);
+                        estimatedEndDate.setDate(selectedDate.getDate() + tourDuration - 1);
+
+                        // Hiển thị ngày kết thúc dự kiến
+                        document.getElementById("estimated-end-date").innerText =
+                            "Ngày kết thúc dự kiến: " + estimatedEndDate.toISOString().split("T")[0];
+                    }
+                },
             });
         });
+
 
         $('#advisoryForm').on('submit', function(e) {
             e.preventDefault();

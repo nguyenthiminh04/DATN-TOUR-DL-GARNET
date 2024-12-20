@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use App\Models\Notification;
+use App\Models\NotificationUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -44,33 +46,60 @@ class ContactController extends Controller
     }
 
     public function contactStatus(Request $request, $id)
-    {
-        try {
-            $contact = Contact::findOrFail($id);
+{
+    try {
+        $contact = Contact::findOrFail($id);
 
-            $notAllowedStatus = ['Đã hoàn tất', 'Hủy bỏ'];
+        // Nếu trạng thái được yêu cầu là "Đã hoàn tất"
+        if ($request->status === 'Đã hoàn tất') {
+            // Tạo thông báo trong bảng notifications
+            $notification = Notification::create([
+                'title' => 'Thông báo xử lý vấn đề',
+                'content' => "Vấn đề liên quan đến liên hệ của bạn đã được giải quyết. Vui lòng kiểm tra lại thông tin.",
+                'all_user' => 0,
+                'type' => 'contact',
+                'is_active' => 1,
+            ]);
 
-            if ($contact->status !== 'Đang chờ xử lý' && $request->status === 'Đang chờ xử lý') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Không thể quay lại trạng thái "Đang chờ xử lý"!',
-                ]);
-            }
-
-            $contact->status = $request->status;
-            $contact->save();
+            // Gửi thông báo tới người dùng liên quan
+            NotificationUser::create([
+                'notification_id' => $notification->id,
+                'user_id' => $contact->user_id, // Giả sử bạn có `user_id` trong bảng `contacts`
+                'is_read' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Cập nhật trạng thái thành công!',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Đã có lỗi xảy ra. Vui lòng thử lại!',
+                'message' => 'Vấn đề của bạn đã được giải quyết. Thông báo đã được gửi!',
             ]);
         }
+
+        // Kiểm tra trạng thái chuyển về "Đang chờ xử lý"
+        if ($contact->status !== 'Đang chờ xử lý' && $request->status === 'Đang chờ xử lý') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không thể quay lại trạng thái "Đang chờ xử lý"!',
+            ]);
+        }
+
+        // Cập nhật trạng thái
+        $contact->status = $request->status;
+        $contact->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cập nhật trạng thái thành công!',
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Đã có lỗi xảy ra. Vui lòng thử lại!',
+        ]);
     }
+}
+
 
 
 

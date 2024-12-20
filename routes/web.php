@@ -39,8 +39,9 @@ use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\ChangeLogController;
-use App\Http\Controllers\Client\CouponsClientController;
+// use App\Http\Controllers\Client\CouponsClientController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
+use App\Http\Controllers\CouponsClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,7 @@ use App\Http\Controllers\Client\TourController as ClientTourController;
 
 // client routes
 Route::group(['middleware' => 'checkstatus'], function () {
+
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/auth/check-user-status', [AuthClientController::class, 'checkUserStatus'])->name('auth.check-user-status');
 
@@ -66,7 +68,7 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::post('/post-dang-ky', [AuthClientController::class, 'postDangKy'])->name('post-dang-ky');
     Route::get('/auth/google', [AuthClientController::class, 'redirectToGoogle'])->name('auth.google');
     Route::get('/auth/google/callback', [AuthClientController::class, 'handleGoogleCallback']);
-    Route::post('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
+    Route::get('/logouts', [AuthClientController::class, 'logouts'])->name('logouts');
 
     // Route::get('reset-mat-khau/{token}', [AuthClientController::class, 'showResetPasswordForm'])->name('reset-mat-khau');
     // Route::post('reset-mat-khau/{token}', [AuthClientController::class, 'resetPassword'])->name('reset-mat-khau.xac-nhan');
@@ -76,9 +78,9 @@ Route::group(['middleware' => 'checkstatus'], function () {
     // Route::post('reset-mat-khau', [AuthClientController::class, 'reset'])->name('password.update');
 
     Route::get('quen-mat-khau',                             [PasswordController::class, 'forgotPassword'])->name('forgot-password');
-    Route::post('quen-mat-khau',                            [PasswordController::class, 'postForgotPassword'])->name('post-forgot-password');
+    Route::post('quen-mat-khau',                            [PasswordController::class, 'postForgotPassword'])->name('post-forgot-password')->middleware('throttle:10,1');
     Route::get('dat-lai-mat-khau/{token}',                  [PasswordController::class, 'resetPassword'])->name('reset-password');
-    Route::post('dat-lai-mat-khau/{token}',                 [PasswordController::class, 'postResetPassword'])->name('post-reset-password');
+    Route::post('dat-lai-mat-khau/{token}',                 [PasswordController::class, 'postResetPassword'])->name('post-reset-password')->middleware('throttle:10,1');
 
 
 
@@ -113,10 +115,6 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::post('/tour/{id}/comment', [HomeController::class, 'storeComment'])->name('posts.comment');
 
 
-
-
-
-
     // Route::get('/pre-booking', function () {
     //     return view('client.tour.booking');
     // })->name('pre-booking');
@@ -124,10 +122,10 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::get('/pre-booking/{id}', [ClientTourController::class, 'pre_booking'])->name('tour.pre-booking');
     Route::get('/confirm/{id}', [BookingController::class, 'showBookingInfo'])->name('tour.confirm');
 
-    Route::post('/booking', [BookingController::class, 'store'])->name('tour.booking');
+    Route::post('/booking', [BookingController::class, 'store'])->name('tour.booking')->middleware('throttle:10,1');
 
-    Route::post('/payment/store', [PaymentController::class, 'storePayment'])->name('payment.store');
-    Route::post('/payment/vnpay', [PaymentController::class, 'vnpay_payment'])->name('payment.vnpay');
+    Route::post('/payment/store', [PaymentController::class, 'storePayment'])->name('payment.store')->middleware('throttle:10,1');
+    Route::post('/payment/vnpay', [PaymentController::class, 'vnpay_payment'])->name('payment.vnpay')->middleware('throttle:10,1');
     Route::get('payment/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('payment.vnpayReturn');
 
     Route::get('/payment/success/{payment_id}', [PaymentController::class, 'success'])->name('payment.success');
@@ -145,13 +143,13 @@ Route::group(['middleware' => 'checkstatus'], function () {
     // });
 
     Route::get('/lien-he', [ContactController::class, 'index'])->name('contact.index');
-    Route::post('/post-lien-he', [ContactController::class, 'store'])->name('post.contact.index');
+    Route::post('/post-lien-he', [ContactController::class, 'store'])->name('post.contact.index')->middleware('throttle:10,1');
     Route::get('/gioi-thieu', [IntroduceController::class, 'index'])->name('introduce.index');
     Route::get('/dich-vu', [ServiceController::class, 'index'])->name('service.index');
     Route::get('/dich-vu/{id}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/cam-nang', [HandbookController::class, 'index'])->name('handbook.index');
     Route::get('/cam-nang/{id}', [HandbookController::class, 'show'])->name('handbook.show');
-    Route::post('/tour/{tourId}/reviews', [HomeController::class, 'store'])->name('reviews.store');
+    Route::post('/tour/{tourId}/reviews', [HomeController::class, 'store'])->name('reviews.store')->middleware('throttle:10,1');
     Route::get('/tour-trong-nuoc', function () {
         return view('client.pages.domesticTour');
     });
@@ -172,7 +170,7 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::get('/test',                 [ClientTourController::class, 'showTour'])->name('test.showTour');
     Route::post('/advisory',            [ClientTourController::class, 'advisory'])->name('advisory');
 
-    Route::get('/ma-giam-gia',[CouponsClientController::class, 'index'])->name('maGiamGia.index');
+    Route::get('/ma-giam-gia', [CouponsClientController::class, 'index'])->name('maGiamGia.index');
 });
 
 
@@ -194,7 +192,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('faqs', FaqController::class);
         Route::resource('article', ArticleController::class);
         Route::resource('notifications', NotificationController::class);
-        Route::resource('categorytour', CategoryTour::class);
+        // Route::resource('categorytour', CategoryTour::class);
         Route::resource('trangthaitour', PayController::class);
         Route::get('/quanlytour/{id}', [PayController::class, 'show']);
         // Route::get('/admin/quanlytour/{id}', [PayController::class, 'show'])->name('admin.quanlytour.details');
@@ -203,6 +201,8 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::resource('tour', TourController::class);
         Route::resource('coupons', CouponsController::class);
+
+
         Route::resource('review', ReviewController::class);
         Route::patch('/review/{id}/toggle-status', [ReviewController::class, 'toggleStatus'])->name('review.toggleStatus');
 
@@ -210,6 +210,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('category', CategoryController::class);
         Route::resource('categorytour', CategoryTourController::class);
         Route::resource('comments', CommentController::class);
+
+
         Route::get('comment',                               [CommentController::class, 'index'])->name('comment.index');
         Route::delete('comment/delete/{id}',                [CommentController::class, 'destroy'])->name('comment.delete');
         Route::post('comment/status/{id}',                  [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
@@ -275,7 +277,7 @@ Route::group(['prefix' => 'admin'], function () {
         //logs tour
         Route::get('/change-logs', [ChangeLogController::class, 'index'])->name('change-logs.index');
         // end logs
-        
+
         Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
     });
 });
