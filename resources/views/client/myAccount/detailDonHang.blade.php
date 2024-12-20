@@ -1,6 +1,7 @@
 @extends('client.layouts.app')
 
 @section('content')
+    <br>
     <div class="container">
         @if (session('success'))
             <div class="alert alert-success">
@@ -8,11 +9,10 @@
             </div>
         @endif
         @if (session('error'))
-
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <h1 class="text-center">Chi tiết đơn hàng</h1>
         <div class="panel panel-default">
@@ -77,8 +77,8 @@
                     </tfoot>
                 @endif
             </table>
-            
-            
+
+
         </div>
 
         @if (in_array($payment->status_id, [1, 2, 5]))
@@ -87,7 +87,8 @@
                     <span>Đơn hàng đã thanh toán. Vui lòng cân nhắc kỹ trước khi hủy!</span>
                 </div>
             @endif
-            <a href="javascript:void(0);" class="btn btn-warning mb-3" data-toggle="modal" data-target="#cancelOrderModal">Hủy đơn hàng</a>
+            <a href="javascript:void(0);" class="btn btn-warning mb-3" data-toggle="modal"
+                data-target="#cancelOrderModal">Hủy đơn hàng</a>
         @elseif ($payment->status_id == 13)
             <div class="alert alert-danger text-center">
                 <span>Đơn hàng đã bị hủy</span>
@@ -97,7 +98,8 @@
         <a href="{{ url('/') }}" class="btn btn-primary">Quay lại trang chủ</a>
 
         <!-- Modal hủy đơn hàng -->
-        <div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog" aria-labelledby="cancelOrderLabel" aria-hidden="true">
+        <div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog" aria-labelledby="cancelOrderLabel"
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -115,15 +117,23 @@
                                 <select name="ly_do_huy" id="ly_do_huy" class="form-control" required>
                                     <option value="" disabled selected>Chọn lý do</option>
                                     <option value="Thay đổi kế hoạch cá nhân">Thay đổi kế hoạch cá nhân</option>
-                                    <option value="Không đủ tài chính để thanh toán">Không đủ tài chính để thanh toán</option>
+                                    <option value="Không đủ tài chính để thanh toán">Không đủ tài chính để thanh toán
+                                    </option>
                                     <option value="Tìm được giá tốt hơn ở nơi khác">Tìm được giá tốt hơn ở nơi khác</option>
-                                    <option value="Không hài lòng với thông tin về tour">Không hài lòng với thông tin về tour</option>
-                                    <option value="Lịch trình không phù hợp với kế hoạch cá nhân">Lịch trình không phù hợp với kế hoạch cá nhân</option>
-                                    <option value="Đã đặt nhầm tour hoặc sai thông tin">Đã đặt nhầm tour hoặc sai thông tin</option>
-                                    <option value="Không nhận được sự hỗ trợ từ nhà cung cấp">Không nhận được sự hỗ trợ từ nhà cung cấp</option>
-                                    <option value="Thay đổi quyết định sau khi tham khảo ý kiến gia đình/bạn bè">Thay đổi quyết định sau khi tham khảo ý kiến gia đình/bạn bè</option>
-                                    <option value="Đã phát sinh các vấn đề sức khỏe hoặc cá nhân">Đã phát sinh các vấn đề sức khỏe hoặc cá nhân</option>
-                                    <option value="Không còn nhu cầu sử dụng dịch vụ">Không còn nhu cầu sử dụng dịch vụ</option>
+                                    <option value="Không hài lòng với thông tin về tour">Không hài lòng với thông tin về
+                                        tour</option>
+                                    <option value="Lịch trình không phù hợp với kế hoạch cá nhân">Lịch trình không phù hợp
+                                        với kế hoạch cá nhân</option>
+                                    <option value="Đã đặt nhầm tour hoặc sai thông tin">Đã đặt nhầm tour hoặc sai thông tin
+                                    </option>
+                                    <option value="Không nhận được sự hỗ trợ từ nhà cung cấp">Không nhận được sự hỗ trợ từ
+                                        nhà cung cấp</option>
+                                    <option value="Thay đổi quyết định sau khi tham khảo ý kiến gia đình/bạn bè">Thay đổi
+                                        quyết định sau khi tham khảo ý kiến gia đình/bạn bè</option>
+                                    <option value="Đã phát sinh các vấn đề sức khỏe hoặc cá nhân">Đã phát sinh các vấn đề
+                                        sức khỏe hoặc cá nhân</option>
+                                    <option value="Không còn nhu cầu sử dụng dịch vụ">Không còn nhu cầu sử dụng dịch vụ
+                                    </option>
                                 </select>
                             </div>
                         </div>

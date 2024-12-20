@@ -144,9 +144,9 @@
                                                     <th>Tour</th>
                                                     <th>Các điểm tours</th>
                                                     <th>Điểm xuất phát</th>
-                                                    {{-- <th>Ngày đặt</th> --}}
                                                     <th>Ngày bắt đầu</th>
-                                                    <th>TT đơn hàng</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Phương thức thanh toán</th>
                                                     <th>Tổng tiền</th>
                                                     <th>Di chuyển</th>
                                                     <th>Hành động</th>
@@ -167,8 +167,22 @@
                                                         <td>{{ $bookTour->booking->tour->name ?? 'N/A' }}</td>
                                                         <td>{{ $bookTour->booking->tour->journeys }}</td>
                                                         <td>{{ $bookTour->booking->tour->starting_gate }}</td>
-                                                        <td>{{ $bookTour->booking->tour->start_date }}</td>
+                                                        <td>
+                                                            {{ \Carbon\Carbon::parse($bookTour->booking->tour->start_date)->format('d/m/Y H:i:s') }}
+                                                        </td>
                                                         <td>{{ $bookTour->status->name ?? 'N/A' }}</td>
+                                                        <td>
+                                                            @if ($bookTour->paymentMethod->id == 1)
+                                                                VNPAY
+                                                            @elseif ($bookTour->paymentMethod->id == 2)
+                                                                Momo
+                                                            @elseif ($bookTour->paymentMethod->id == 3)
+                                                                Thẻ Ngân Hàng
+                                                            @elseif ($bookTour->paymentMethod->id == 4)
+                                                                Thanh Toán Trực Tiếp
+                                                            @endif
+
+                                                        </td>
                                                         <td>{{ number_format($bookTour->money, 0, ',', '.') }} đ</td>
                                                         <td>{{ $bookTour->booking->tour->move_method }}</td>
                                                         <td><a href="{{ route('usser.detailDoHang', $bookTour->id) }}"
