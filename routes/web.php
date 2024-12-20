@@ -210,13 +210,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('location', LocationController::class);
         Route::resource('xu-ly-huy', HuyController::class);
         // Route cho chấp nhận yêu cầu hủy tour
-Route::put('xu-ly-huy/{id}/accept', [HuyController::class, 'acceptCancel'])->name('user.acceptCancel');
+        Route::put('xu-ly-huy/{id}/accept', [HuyController::class, 'acceptCancel'])->name('user.acceptCancel');
 
-// Route cho từ chối yêu cầu hủy tour
-Route::put('xu-ly-huy/{id}/reject', [HuyController::class, 'rejectCancel'])->name('user.rejectCancel');
+        // Route cho từ chối yêu cầu hủy tour
+        Route::put('xu-ly-huy/{id}/reject', [HuyController::class, 'rejectCancel'])->name('user.rejectCancel');
 
-// Route cho upload ảnh minh chứng hủy
-Route::patch('xu-ly-huy/{id}/upload-proof', [HuyController::class, 'uploadCancelProof'])->name('user.uploadCancelProof');
+        // Route cho upload ảnh minh chứng hủy
+        Route::patch('xu-ly-huy/{id}/upload-proof', [HuyController::class, 'uploadCancelProof'])->name('user.uploadCancelProof');
         Route::resource('category', CategoryController::class);
         Route::resource('categorytour', CategoryTourController::class);
         Route::resource('comments', CommentController::class);
