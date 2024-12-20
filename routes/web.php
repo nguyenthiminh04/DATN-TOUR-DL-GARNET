@@ -271,6 +271,8 @@ Route::group(['prefix' => 'admin'], function () {
 
         //logs tour
         Route::get('/change-logs', [ChangeLogController::class, 'index'])->name('change-logs.index');
+        Route::get('/statistics/employee-tour', [ChangeLogController::class, 'employeeTourStatistics'])->name('statistics.employee-tour');
+
         // end logs
 
         Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');

@@ -257,6 +257,10 @@
                                         <a href="{{ route('change-logs.index') }}" class="nav-link">
                                             Danh sách logs tour</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('statistics.employee-tour') }}" class="nav-link">
+                                            Thống kê nhân viên</a>
+                                    </li>
 
                                 </ul>
                             </div>
