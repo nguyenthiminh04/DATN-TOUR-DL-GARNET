@@ -115,7 +115,7 @@ class LocationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(LocationRequest $request, string $id)
     {
         //
         if ($request->isMethod('PUT')) {
