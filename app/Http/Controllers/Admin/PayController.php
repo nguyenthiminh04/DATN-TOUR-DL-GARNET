@@ -300,12 +300,12 @@ class PayController extends Controller
             $payment_status_id = $request->get('payment_status_id');
 
             // Build query for payments
-            $query = Payment::query()->with(['booking.user', 'booking.tour']);
+            $query = Payment::query()->with(['booking.book_tour', 'booking.tour']);
 
             // Search filter
             if ($search) {
                 $query->where(function ($query) use ($search) {
-                    $query->whereHas('booking.user', function ($q) use ($search) {
+                    $query->whereHas('booking.book_tour', function ($q) use ($search) {
                         $q->where('name', 'like', '%' . $search . '%')
                             ->orWhere('phone', 'like', '%' . $search . '%');
                     })

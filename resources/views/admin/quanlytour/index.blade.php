@@ -138,14 +138,14 @@
                                         <th>Tài Khoản Đặt Tour</th>
                                         <th>Thông Tin Tour</th>
                                         <th>Người Đặt Tour</th>
-<<<<<<< HEAD
+
                                         <th>Thời gian bắt đầu chuyến đi</th>
                                         <th>Thời gian kết thúc chuyến đi</th>
-=======
+
                                         <th>Số điện thoại</th>
                                         <th>Thời gian</th>
                                         <th>Phương Thức Thanh Toán</th>
->>>>>>> e515dbf21265e9505cf2b3bc00c59b05e2d8b4f8
+
                                         <th>Trạng Thái Thanh Toán</th>
                                         <th>Trạng Thái Tour</th>
                                         <th>Hành Động</th>
@@ -165,50 +165,12 @@
                                                 <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
 
                                                 <td>{{ $item->booking->tour->name ?? 'Tour đã bị xóa' }}</td>
-<<<<<<< HEAD
 
-
-
-                                            <td>{{ $item->booking->name }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($item->booking->start_date)->format('d/m/Y') }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($item->booking->end_date)->format('d/m/Y') }}</td>
-                                            
-
-                                            {{-- <td>
-                                                {{ \Carbon\Carbon::parse($item->booking->end_date)->format('d/m/Y H:i:s') }}
-                                            </td> --}}
-                                            <td>
-                                                <select id="payment-status-select" name="payment_status_id"
-                                                    class="form-select w-full max-w-xs payment-status-select status-tour"
-                                                    data-id="{{ $item->id }}"
-                                                    data-default-value="{{ $item->payment_status_id }}"
-                                                    @if ($item->payment_status_id == 3) disabled @endif>
-                                                    @foreach ($trangThaiThanhToan as $key => $value)
-                                                        <option value="{{ $key }}"
-                                                            {{ $key == $item->payment_status_id ? 'selected' : '' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select id="status-select" name="status_id"
-                                                    class="form-select w-full max-w-xs status status-tour"
-                                                    data-id="{{ $item->id }}"
-                                                    data-default-value="{{ $item->status_id }}"
-                                                    @if ($item->status_id == 13 || $item->status_id == 13) disabled @endif>
-                                                    @foreach ($trangThaiTour as $key => $value)
-                                                        <option value="{{ $key }}"
-                                                            {{ $key == $item->status_id ? 'selected' : '' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-=======
                                                 <td>{{ $item->booking->name }}</td>
-                                                <td>{{ $item->booking->user->phone ?? 'Không có' }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($item->booking->start_date)->format('d/m/Y') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($item->booking->end_date)->format('d/m/Y') }}</td>
+                                                <td>{{ $item->booking->phone ?? 'Không có' }}</td>
+                                                
                                                 <td>
                                                     {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}
                                                 </td>
@@ -252,7 +214,7 @@
                                                     </select>
                                                 </td>
                                                 <td>
->>>>>>> e515dbf21265e9505cf2b3bc00c59b05e2d8b4f8
+
 
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
