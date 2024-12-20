@@ -82,18 +82,24 @@
         </div>
 
         @if (in_array($payment->status_id, [1, 2, 5]))
-            @if ($payment->payment_status_id == 2)
-                <div class="alert alert-warning text-center mb-3">
-                    <span>Đơn hàng đã thanh toán. Vui lòng cân nhắc kỹ trước khi hủy!</span>
-                </div>
-            @endif
-            <a href="javascript:void(0);" class="btn btn-warning mb-3" data-toggle="modal"
-                data-target="#cancelOrderModal">Hủy đơn hàng</a>
-        @elseif ($payment->status_id == 13)
-            <div class="alert alert-danger text-center">
-                <span>Đơn hàng đã bị hủy</span>
-            </div>
-        @endif
+    @if ($payment->payment_status_id == 2)
+        <div class="alert alert-warning text-center mb-3">
+            <span>Đơn hàng đã thanh toán. Vui lòng cân nhắc kỹ trước khi hủy!</span>
+        </div>
+    @endif
+    <a href="javascript:void(0);" class="btn btn-warning mb-3" data-toggle="modal" data-target="#cancelOrderModal">Hủy đơn hàng</a>
+@elseif ($payment->status_id == 13)
+    <div class="alert alert-danger text-center">
+        <span>Đơn hàng đã bị hủy</span>
+    </div>
+
+    @if ($payment->payment_method_id == 1 && $payment->payment_status_id == 2)
+        <a href="javascript:void(0);" class="btn btn-success mb-3" data-toggle="modal" data-target="#refundRequestModal">
+            Yêu cầu hoàn tiền
+        </a>
+    @endif
+@endif
+
 
         <a href="{{ url('/') }}" class="btn btn-primary">Quay lại trang chủ</a>
 
@@ -145,5 +151,53 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="refundRequestModal" tabindex="-1" role="dialog" aria-labelledby="refundRequestLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="refundRequestLabel">Yêu cầu hoàn tiền</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('usser.submitRefundRequest', $payment->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <!-- Tên tài khoản -->
+                    <div class="form-group">
+                        <label for="account_name">Tên tài khoản ngân hàng</label>
+                        <input type="text" name="account_name" id="account_name" class="form-control" 
+                               placeholder="Nhập tên tài khoản" required>
+                    </div>
+
+                    <!-- Số tài khoản -->
+                    <div class="form-group">
+                        <label for="account_number">Số tài khoản ngân hàng</label>
+                        <input type="text" name="account_number" id="account_number" class="form-control" 
+                               placeholder="Nhập số tài khoản" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bank">Ngân Hàng</label>
+                        <input type="text" name="bank" id="bank" class="form-control" 
+                               placeholder="Nhập số tài khoản" required>
+                    </div>
+
+                    <!-- Ảnh QR (nếu có) -->
+                    <div class="form-group">
+                        <label for="qr_code">Tải lên ảnh QR (nếu có)</label>
+                        <input type="file" name="qr_code" id="qr_code" class="form-control-file" accept="image/*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-danger">Gửi yêu cầu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
     </div>
 @endsection

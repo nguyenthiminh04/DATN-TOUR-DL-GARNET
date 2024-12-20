@@ -41,6 +41,7 @@ use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Http\Controllers\CouponsClientController;
+use App\Http\Controllers\HuyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +98,7 @@ Route::group(['middleware' => 'checkstatus'], function () {
 
     Route::get('/detail-don-hang/{id}', [myAccountController::class, 'detailDoHang'])->name('usser.detailDoHang');
     Route::put('/huy-don-hang/{id}', [myAccountController::class, 'cancelOrder'])->name('usser.cancelOrder');
+    Route::put('/yeu-cau-huy/{id}', [myAccountController::class, 'submitRefundRequest'])->name('usser.submitRefundRequest');
     //     'show' => 'client.tour.show',
     //thông tin tài khoản
     Route::get('/my-account', [myAccountController::class, 'index'])->name('my-account.index');
@@ -206,6 +208,15 @@ Route::group(['prefix' => 'admin'], function () {
         Route::patch('/review/{id}/toggle-status', [ReviewController::class, 'toggleStatus'])->name('review.toggleStatus');
 
         Route::resource('location', LocationController::class);
+        Route::resource('xu-ly-huy', HuyController::class);
+        // Route cho chấp nhận yêu cầu hủy tour
+Route::put('xu-ly-huy/{id}/accept', [HuyController::class, 'acceptCancel'])->name('user.acceptCancel');
+
+// Route cho từ chối yêu cầu hủy tour
+Route::put('xu-ly-huy/{id}/reject', [HuyController::class, 'rejectCancel'])->name('user.rejectCancel');
+
+// Route cho upload ảnh minh chứng hủy
+Route::patch('xu-ly-huy/{id}/upload-proof', [HuyController::class, 'uploadCancelProof'])->name('user.uploadCancelProof');
         Route::resource('category', CategoryController::class);
         Route::resource('categorytour', CategoryTourController::class);
         Route::resource('comments', CommentController::class);
