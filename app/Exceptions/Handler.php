@@ -31,9 +31,28 @@ class Handler extends ExceptionHandler
     {
         // Kiểm tra nếu lỗi là 404 - Not Found
         if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
-            return response()->view('client.layouts.404', [], 404);
+            if ($this->isAdminRoute($request)) {
+                // Trả về view lỗi cho admin
+                return response()->view('admin.errors.404', [], 404);
+            } else {
+                // Trả về view lỗi cho client
+                return response()->view('client.layouts.404', [], 404);
+            }
         }
+
         // Xử lý các lỗi khác như mặc định
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Kiểm tra xem request có phải của admin không
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return bool
+     */
+    private function isAdminRoute($request)
+    {
+        // Xác định bằng URL hoặc tên route
+        return $request->is('admin/*'); // Kiểm tra nếu URL bắt đầu bằng "admin/"
     }
 }
