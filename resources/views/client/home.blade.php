@@ -675,12 +675,12 @@
                                                         alt="6 ngày 5 đêm" /></div> Thời gian:
                                                 {{ $item->schedule }}
                                             </li>
-                                            {{-- <li class="clearfix">
+                                            <li class="clearfix">
                                                 <div class="ulimg"><img
                                                         src="https://img.icons8.com/?size=100&id=102656&format=png&color=000000"
-                                                        alt="6 ngày 5 đêm" /></div> Số chỗ còn trống :
-                                            {{ $item->number }}Chỗ
-                                            </li> --}}
+                                                        alt="6 ngày 5 đêm" /></div> Số lượng tour :
+                                            {{ $item->number }}
+                                            </li>
 
                                         </ul>
                                     </div>
