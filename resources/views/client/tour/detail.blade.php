@@ -651,6 +651,10 @@
                                                 alt="10 ngày 9 đêm" /></div>
                                         <?= $tour['schedule'] ?>
                                     </li>
+                                    <li>
+                                        <div class="">Số lượng khách tối đa : <?= $tour['number_guests'] ?> người</div>
+                                        
+                                    </li>
                                     <div class="tour-rating">
                                         <h4>Đánh giá tour</h4>
                                         <div class="average-rating">
