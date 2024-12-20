@@ -38,9 +38,12 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Http\Controllers\CouponsClientController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -169,7 +172,9 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::get('/test',                 [ClientTourController::class, 'showTour'])->name('test.showTour');
     Route::post('/advisory',            [ClientTourController::class, 'advisory'])->name('advisory');
 
+
     Route::get('/ma-giam-gia', [CouponsClientController::class, 'index'])->name('maGiamGia.index');
+
 });
 
 
@@ -187,6 +192,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/dashboard-data', [StatisticalController::class, 'getDashboardData'])->name('admin.dashboard.data');
 
         Route::resource('user', UserController::class);
+        Route::resource('useradmin', UserAdminController::class);
+
         Route::resource('dontour', BookTourController::class);
         Route::resource('faqs', FaqController::class);
         Route::resource('article', ArticleController::class);
@@ -275,7 +282,14 @@ Route::group(['prefix' => 'admin'], function () {
 
         //logs tour
         Route::get('/change-logs', [ChangeLogController::class, 'index'])->name('change-logs.index');
+        Route::get('/statistics/employee-tour', [ChangeLogController::class, 'employeeTourStatistics'])->name('statistics.employee-tour');
+
         // end logs
+
+        // tour_guide
+        Route::resource('/tour-guides', TourGuideController::class);
+        // end tour_guide
+
 
         Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
     });

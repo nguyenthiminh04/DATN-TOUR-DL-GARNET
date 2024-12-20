@@ -160,6 +160,7 @@
                                                 <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
 
                                                 <td>{{ $item->booking->tour->name ?? 'Tour đã bị xóa' }}</td>
+
                                                 <td>{{ $item->booking->name }}</td>
                                                 <td>{{ $item->booking->user->phone ?? 'Không có' }}</td>
                                                 <td>
@@ -205,6 +206,7 @@
                                                     </select>
                                                 </td>
                                                 <td>
+
 
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>

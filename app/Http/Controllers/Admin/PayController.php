@@ -139,6 +139,7 @@ class PayController extends Controller
 
 
     public function update(Request $request, $id)
+
     {
         try {
             $tour = Payment::findOrFail($id);
@@ -204,6 +205,7 @@ class PayController extends Controller
                 'new_status' => $newStatus
             ]);
         } catch (\Illuminate\Database\QueryException $ex) {
+
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi cơ sở dữ liệu: ' . $ex->getMessage()
@@ -214,7 +216,9 @@ class PayController extends Controller
                 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
             ]);
         }
+
     }
+
 
 
     /**
@@ -225,6 +229,7 @@ class PayController extends Controller
         //
     }
     public function ThanhToan(Request $request, string $id)
+
     {
         $tour = Payment::findOrFail($id);
         $currentStatus = $tour->status_id;
@@ -277,8 +282,18 @@ class PayController extends Controller
             'message' => 'Cập nhật trạng thái thanh toán thành công.',
             'disabled' => $tour->payment_status_id == 2 ? true : false,
             'new_status' => $tour->payment_status_id
+
         ]);
     }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Cập nhật trạng thái thanh toán thành công.',
+        'disabled' => $tour->payment_status_id == 2 ? true : false,
+        'new_status' => $tour->payment_status_id
+    ]);
+}
+
 
 
 
