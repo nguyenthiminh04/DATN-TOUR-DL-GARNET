@@ -154,7 +154,7 @@ class AuthClientController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('homehome')->with('success', 'Đã đăng xuất thành công');
+        return redirect()->route('home')->with('success', 'Đã đăng xuất thành công');
     }
     public function redirectToGoogle()
     {

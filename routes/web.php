@@ -39,6 +39,7 @@ use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\ChangeLogController;
+use App\Http\Controllers\Client\CouponsClientController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 
 /*
@@ -170,6 +171,8 @@ Route::group(['middleware' => 'checkstatus'], function () {
 
     Route::get('/test',                 [ClientTourController::class, 'showTour'])->name('test.showTour');
     Route::post('/advisory',            [ClientTourController::class, 'advisory'])->name('advisory');
+
+    Route::get('/ma-giam-gia',[CouponsClientController::class, 'index'])->name('maGiamGia.index');
 });
 
 

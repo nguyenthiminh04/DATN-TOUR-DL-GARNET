@@ -6,8 +6,22 @@
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
-
             <div class="row">
+                <form action="" method="GET" class="mb-3">
+                    <div class="d-flex gap-3 justify-content-sm-end">
+                        <div class="form-group">
+                            <label for="start_date_thong_ke">Từ ngày:</label>
+                            <input type="texttext" name="start_date_thong_ke" id="datepicker3"
+                                 class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="end_date_thong_ke">Đến ngày:</label>
+                            <input type="testtest" name="end_date_thong_ke" id="datepicker4"
+                                 class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-4" style="top: -5px">Tìm kiếm</button>
+                    </div>
+                </form>
                 <div class="col-md-2">
                     <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
                         <div class="card-body">
@@ -165,12 +179,6 @@
                                 <div class="card-title mb-0 flex-grow-1">
                                     <input type="button" id="btn-dashboard-filter" class="btn btn-primary"
                                         value="Lọc">
-                                </div>
-                                <div class="flex-shrink-0">
-                                    <select name="" id="">
-                                        <option value="7ngayTruoc">7 ngày trước</option>
-                                        <option value="2023">2023</option>
-                                    </select>
                                 </div>
                             </form>
 
@@ -470,25 +478,7 @@
                     </div>
                 </div><!--end col-->
 
-                <div class="col-lg-4">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center">
-                            <h4 class="card-title mb-0 flex-grow-1">Thông báo</h4>
-                        </div>
-                        <div class="card-body px-0">
-                            <div data-simplebar class="px-3" style="max-height: 333px;">
-                                <div class="vstack gap-2">
-                                    <div class="p-2 border border-dashed">
-                                        <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                            <i class="bi bi-check2-square text-primary"></i>
-                                            <h6 class="mb-0">tin nhắn</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--end col-->
+                
             </div><!--end row-->
 
             <div class="row">
@@ -550,6 +540,15 @@
                 dateFormat: "yy-mm-dd"
             });
             $("#datepicker2").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        });
+        //thống kê doanh thu
+            $(function() {
+            $("#datepicker3").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            $("#datepicker4").datepicker({
                 dateFormat: "yy-mm-dd"
             });
         });
