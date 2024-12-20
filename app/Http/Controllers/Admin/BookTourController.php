@@ -18,7 +18,7 @@ class BookTourController extends Controller
      */
     public function index(Request $request)
     {
-        $title = "Danh sách Tour";
+        $title = "Danh Sách Đơn Hàng";
 
         // Lấy ngày tìm kiếm từ request
         $searchDate = $request->input('search_date');
