@@ -18007,12 +18007,12 @@
                                                                 <div class="tour-details">
                                                                     <p><strong>Tour:</strong>{{$booking->tour->name}}    </span></p>
                                                                     <div class="highlight-info">
-                                                                        <p><strong>Ngày khởi hành:</strong> <span id="selected-date">{{ $booking->start_date }}</span></p>
+                                                                        <p><strong>Ngày khởi hành:</strong> <span id="selected-date">{{ \Carbon\Carbon::parse($payment->start_date)->format('d/m/Y') }}</span></p>
                                                                         <p><strong>Số lượng:</strong>{{$booking->number_old}} Trẻ Em và {{$booking->number_children}} Người Lớn </span></p>
                                                                     </div>
                                                                     <p><strong>Giá vé:</strong> <span id="selected-price">{{ number_format($payment->money, 0, ',', '.') }} VND</span></p>
                                                                     <p><strong>Trạng thái thanh toán:</strong> <span>{{ $payment->status->name }}</span></p>
-                <p><strong>Ngày thanh toán:</strong> <span>{{ $payment->time }}</span></p>
+                <p><strong>Ngày thanh toán:</strong> <span>{{ \Carbon\Carbon::parse($payment->time)->format('d/m/Y') }}</span></p>
                 <p><strong>Số tiền thanh toán:</strong> <span>{{ number_format($payment->money, 0, ',', '.') }} VND</span>
                     <p><strong>Phương thức thanh toán:</strong> <span>{{ $payment->paymentStatus->name }}</span></p>
                     {{-- <p><strong>Mã giao dịch:</strong> <span>{{ $payment->transaction }}</span></p> --}}
