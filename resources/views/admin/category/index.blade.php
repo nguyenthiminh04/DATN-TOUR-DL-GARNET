@@ -112,12 +112,12 @@
                                                                 class="btn btn-subtle-success btn-icon btn-sm">
                                                                 <i class="ri-edit-2-line"></i></a>
                                                         </li>
-                                                        <li>
+                                                        {{-- <li>
                                                             <a href="#deleteRecordModal{{ $item->id }}"
                                                                 data-bs-toggle="modal"
                                                                 class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
                                                                     class="ph-trash"></i></a>
-                                                        </li>
+                                                        </li> --}}
                                                     </ul>
                                                 </td>
                                             </tr>

@@ -48,6 +48,7 @@ class StatisticalController extends Controller
             $percentageChange = (($bookTourToday - $bookTourYesterday) / $bookTourYesterday) * 100;
         }
         //tỉnh tổng tiền các tour
+        $totalMoneyhihi = Payment::where('status_id', 6)->where('payment_status_id', 2)->sum('money');
         $totalMoney = Payment::whereDate('created_at', $today)->where('status_id', 6)->where('payment_status_id', 2)->sum('money');
         //doanh thu tháng
         $totalMoneyMonth = Payment::whereMonth('created_at', $currentMonth)->whereYear('created_at', $currentYear)->where('status_id', 6)->where('payment_status_id', 2)->sum('money');
@@ -192,6 +193,7 @@ class StatisticalController extends Controller
         $data = [
             'title' => 'Dashboard',
             'totalMoney'                            => $totalMoney,
+            'totalMoneyhihi'                            => $totalMoneyhihi,
             'totalMoneyMonth'                       => $totalMoneyMonth,
 
             'orderCountToday'                       => $orderCountToday,
@@ -214,7 +216,7 @@ class StatisticalController extends Controller
             'paymentsOrderToday'                    => $paymentsOrderToday,
         ];
 
-
+        // dd($totalMoney); 
 
         // dd($tourReview);
         return view('admin.dashboard', $data);
