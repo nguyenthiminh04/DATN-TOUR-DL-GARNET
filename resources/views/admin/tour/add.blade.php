@@ -1,4 +1,26 @@
 @extends('admin.layouts.app')
+@section('style')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    /* Tăng chiều cao và chiều rộng của input khi chọn nhiều ngày */
+    #tourDates {
+        width: 100%; /* Đầy đủ chiều rộng */
+        min-height: 50px; /* Tăng chiều cao ban đầu */
+        padding: 10px;
+        font-size: 16px; /* Font chữ lớn hơn */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow: hidden; /* Ẩn cuộn nếu vượt quá */
+    }
+
+    #tourDates:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+</style>
+@endsection
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -40,9 +62,9 @@
                                                     class="text-danger">*</span></label>
                                             <input type="text" id="name" name="name" value="{{ old('name') }}"
                                                 class="form-control" placeholder="Nhập tên tour...">
-                                            @error('name')
+                                            {{-- @error('name')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            @enderror --}}
                                         </div>
 
                                         <div class="mb-3">
@@ -51,20 +73,49 @@
                                             <input type="text" id="journeys" name="journeys"
                                                 value="{{ old('journeys') }}" class="form-control"
                                                 placeholder="Nhập hành trình tour...">
-                                            @error('journeys')
+                                            {{-- @error('journeys')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            @enderror --}}
                                         </div>
+                                        <label for="tourDates">Chọn các ngày:</label>
+<input type="text" id="tourDates" name="tour_dates" placeholder="Chọn các ngày" readonly> <!-- Đọc giá trị đã chọn -->
+<div id="itinerary-container">
+    <div class="itinerary">
+        <h3>Lịch trình 1</h3>
+        
+        <label for="locations">Chọn điểm đến:</label>
+        <select name="locations[0][start]" class="location-select" required>
+            <option value="">Chọn địa điểm...</option>
+        </select>
 
+        <label for="end-location">Điểm kết thúc:</label>
+        <select name="locations[0][end]" class="location-select" required>
+            <option value="">Chọn địa điểm...</option>
+        </select>
+
+        <button type="button" class="add-itinerary">Thêm lịch trình</button>
+    </div>
+</div>
+{{-- <div>
+    <label for="services">Chọn dịch vụ đi kèm:</label>
+    <select name="services[]" id="services" multiple>
+        @foreach ($allServices as $service)
+            <option value="{{ $service->id }}">{{ $service->name }} - {{ number_format($service->price) }} VND</option>
+        @endforeach
+    </select>
+</div> --}}
+
+
+                                        
                                         <div class="mb-3">
                                             <label for="schedule" class="form-label">Lịch Trình<span
                                                     class="text-danger">*</span></label>
                                             <input type="text" id="schedule" name="schedule"
                                                 value="{{ old('schedule') }}" class="form-control"
                                                 placeholder="Nhập lịch trình tour...">
-                                            @error('schedule')
+                                            {{-- @error('schedule')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            @enderror --}}
                                         </div>
 
                                         <div class="mb-3">
@@ -72,9 +123,9 @@
                                                     class="text-danger">*</span></label>
                                             <input type="number" id="number" name="number" value="{{ old('number') }}"
                                                 class="form-control" placeholder="Nhập số lượng chuyến tour...">
-                                            @error('number')
+                                            {{-- @error('number')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            @enderror --}}
                                         </div>
 
                                         <div class="mb-3">
@@ -83,9 +134,9 @@
                                             <input type="text" id="move_method" name="move_method"
                                                 value="{{ old('move_method') }}" class="form-control"
                                                 placeholder="Nhập phương tiện di chuyển">
-                                            @error('move_method')
+                                            {{-- @error('move_method')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            @enderror --}}
                                         </div>
 
                                         <div class="mb-3">
@@ -94,18 +145,18 @@
                                             <input type="text" id="starting_gate" name="starting_gate"
                                                 value="{{ old('starting_gate') }}" class="form-control"
                                                 placeholder="Nhập điểm khởi hành...">
-                                            @error('starting_gate')
+                                            {{-- @error('starting_gate')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            @enderror --}}
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label" for="description">Mô tả ngắn</label>
                                             <textarea class="form-control" id="description" name="description" value="{{ old('description') }}" rows="2"
                                                 placeholder="Nhập mô tả tour..."></textarea>
-                                            @error('description')
+                                            {{-- @error('description')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            @enderror --}}
                                         </div>
 
                                         <div class="mb-3">
@@ -124,9 +175,9 @@
                                                     <input type="datetime-local" id="start_date" name="start_date"
                                                         value="{{ old('start_date') }}" class="form-control"
                                                         placeholder="Enter instructor name">
-                                                    @error('start_date')
+                                                    {{-- @error('start_date')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
+                                                    @enderror --}}
                                                 </div>
 
                                             </div>
@@ -137,9 +188,9 @@
                                                     <input type="datetime-local" id="end_date" name="end_date"
                                                         value="{{ old('end_date') }}" class="form-control"
                                                         placeholder="Lessons">
-                                                    @error('end_date')
+                                                    {{-- @error('end_date')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
+                                                    @enderror --}}
                                                 </div>
                                             </div><!--end col-->
                                             <div class="col-lg-6">
@@ -149,9 +200,9 @@
                                                     <input type="number" id="time" name="time"
                                                         value="{{ old('time') }}" class="form-control"
                                                         placeholder="Số ngày diễn ra.Ví dụ 3 ngày 2 đêm số điền vào sẽ là 3">
-                                                    @error('time')
+                                                    {{-- @error('time')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
+                                                    @enderror --}}
                                                 </div>
 
                                             </div>
@@ -162,9 +213,9 @@
                                                     <input type="number" id="price_old" name="price_old"
                                                         value="{{ old('price_old') }}" class="form-control"
                                                         placeholder="Mời nhập giá...">
-                                                    @error('price_old')
+                                                    {{-- @error('price_old')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
+                                                    @enderror --}}
                                                 </div>
 
                                             </div>
@@ -175,9 +226,9 @@
                                                     <input type="number" id="price_children" name="price_children"
                                                         value="{{ old('price_children') }}" class="form-control"
                                                         placeholder="Nhập giá trẻ em...">
-                                                    @error('price_children')
+                                                    {{-- @error('price_children')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
+                                                    @enderror --}}
                                                 </div>
 
                                             </div>
@@ -188,9 +239,9 @@
                                                     <input type="number" id="sale" name="sale"
                                                         value="{{ old('sale') }}" class="form-control"
                                                         placeholder="Nhập giá khuyến mãi...">
-                                                    @error('sale')
+                                                    {{-- @error('sale')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
+                                                    @enderror --}}
                                                 </div>
 
                                             </div>
@@ -201,9 +252,9 @@
                                                     <input type="number" id="number_guests" name="number_guests"
                                                         value="{{ old('number_guests') }}" class="form-control"
                                                         placeholder="Nhập số lượng khách...">
-                                                    @error('number_guests')
+                                                    {{-- @error('number_guests')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
+                                                    @enderror --}}
                                                 </div>
                                             </div><!--end col-->
 
@@ -219,9 +270,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                @error('location_id')
+                                                {{-- @error('location_id')
                                                     <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                @enderror --}}
                                             </div>
                                             <div class="mb-3 col-6">
                                                 <label for="status1" class="form-label">Mục Tour<span
@@ -234,22 +285,19 @@
                                                             {{ $status->category_tour }}</option>
                                                     @endforeach
                                                 </select>
-                                                @error('category_tour_id')
+                                                {{-- @error('category_tour_id')
                                                     <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                @enderror --}}
                                             </div>
-                                            <div class="mb-3 col-6" hidden>
-                                                <label for="status1" class="form-label">Người thực hiện<span
-                                                        class="text-danger">*</span></label>
-                                                <select name="user_id" class="form-select w-100" id="status1">
-                                                    <option value="{{ Auth::user()->id }}" selected>
-                                                        {{ Auth::user()->name }}</option>
-                                                </select>
-                                                {{-- <input type="text" value="{{ Auth::user()->id }}"> --}}
-                                                @error('user_id')
+                                            <div class="mb-3 col-6">
+                                                <label for="user_id" class="form-label">Người thực hiện<span class="text-danger">*</span></label>
+                                                <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}"> <!-- Input ẩn để lưu user ID -->
+                                                <input type="text" class="form-control w-100" value="{{ Auth::user()->name }}" disabled> <!-- Hiển thị tên người dùng -->
+                                                {{-- @error('user_id')
                                                     <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                @enderror --}}
                                             </div>
+                                            
 
                                             <div class="mb-3">
                                                 <label for="status1" class="form-label">Trạng Thái<span
@@ -301,6 +349,103 @@
             </div>
         @endsection
         @section('script')
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#services').select2({
+                    placeholder: "Chọn các dịch vụ",
+                    allowClear: true
+                });
+            });
+        </script>
+        
+        <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    let itineraryCount = 1; // Đếm số lượng lịch trình
+    const addButton = document.querySelector('.add-itinerary');
+    const container = document.getElementById('itinerary-container');
+
+    // Hàm để lấy danh sách thành phố từ file cities.json
+    function loadCities(selectElement) {
+        fetch('/cities.json') // Đổi đường dẫn đến file cities.json trong thư mục public
+            .then(response => response.json())
+            .then(data => {
+                selectElement.innerHTML = ''; // Xóa danh sách hiện tại
+                const defaultOption = document.createElement('option');
+                defaultOption.value = "";
+                defaultOption.textContent = "Chọn địa điểm...";
+                selectElement.appendChild(defaultOption); // Thêm tùy chọn "Chọn địa điểm..." đầu tiên
+
+                data.cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    selectElement.appendChild(option); // Thêm thành phố vào dropdown
+                });
+            })
+            .catch(error => console.error('Error loading cities:', error));
+    }
+
+    // Khi thêm lịch trình mới, gọi API và cập nhật danh sách thành phố
+    addButton.addEventListener('click', function () {
+        itineraryCount++;
+
+        // Tạo lịch trình mới
+        const newItinerary = document.createElement('div');
+        newItinerary.classList.add('itinerary');
+        newItinerary.innerHTML = `
+            <h3>Lịch trình ${itineraryCount}</h3>
+            <label for="locations">Chọn điểm đến:</label>
+            <select name="locations[${itineraryCount - 1}][start]" class="location-select" required>
+                <option value="">Chọn địa điểm...</option>
+            </select>
+
+            <label for="end-location">Điểm kết thúc:</label>
+            <select name="locations[${itineraryCount - 1}][end]" class="location-select" required>
+                <option value="">Chọn địa điểm...</option>
+            </select>
+
+            <button type="button" class="remove-itinerary">Xóa lịch trình</button>
+        `;
+
+        // Thêm lịch trình mới vào container
+        container.appendChild(newItinerary);
+
+        // Gọi API để tải thành phố cho lịch trình mới
+        const startSelect = newItinerary.querySelector('select[name*="[start]"]');
+        const endSelect = newItinerary.querySelector('select[name*="[end]"]');
+
+        loadCities(startSelect);
+        loadCities(endSelect);
+
+        // Thêm sự kiện xóa lịch trình
+        newItinerary.querySelector('.remove-itinerary').addEventListener('click', function () {
+            newItinerary.remove();
+        });
+    });
+
+    // Tải danh sách thành phố cho lịch trình đầu tiên
+    const firstStartSelect = document.querySelector('select[name*="[start]"]');
+    const firstEndSelect = document.querySelector('select[name*="[end]"]');
+    loadCities(firstStartSelect);
+    loadCities(firstEndSelect);
+});
+
+        </script>
+        <!-- Link đến Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr("#tourDates", {
+            mode: "multiple", // Cho phép chọn nhiều ngày
+            dateFormat: "Y-m-d", // Định dạng ngày
+            locale: "default", // Đặt ngôn ngữ (sử dụng mặc định nếu không cần)
+            onChange: function(selectedDates, dateStr, instance) {
+                // Hiển thị các ngày được chọn trên cùng dòng, cách nhau bằng dấu phẩy
+                document.getElementById("tourDates").value = dateStr;
+            }
+        });
+    </script>
             <script>
                 function showImage(event) {
                     const img_danh_muc = document.getElementById('img_danh_muc');

@@ -2,11 +2,14 @@
 
 namespace App\Models\Admins;
 
-use App\Models\BookTour;
-use App\Models\Comment;
-use App\Models\Favorite;
 use App\Models\Review;
+use App\Models\Comment;
+use App\Models\BookTour;
+use App\Models\Favorite;
+use App\Models\TourLocation;
 use GuzzleHttp\Psr7\Request;
+use App\Models\LocationUpdate;
+use App\Models\Admins\TourDate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -123,5 +126,17 @@ class Tour extends Model
 
         return $this->hasMany(Review::class);
     }
-    
+    public function tourDates()
+{
+    return $this->hasMany(TourDate::class, 'tour_id');
+}
+public function tourLocations()
+{
+    return $this->hasMany(TourLocation::class);
+}
+public function locations()
+{
+    return $this->belongsToMany(LocationUpdate::class, 'tour_locations')
+                ->withPivot('is_start', 'is_end'); // Các trường phụ trong bảng `tour_locations`
+}
 }

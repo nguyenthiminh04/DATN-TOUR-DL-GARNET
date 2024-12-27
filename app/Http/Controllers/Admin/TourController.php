@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Status;
 use App\Models\Admins\Tour;
-use Illuminate\Http\Request;
-use App\Models\Admins\Location;
 use App\Models\Admins\User;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\LocationUpdate;
+use App\Models\Admins\Location;
+use App\Models\Admins\ImageTour;
 use App\Http\Requests\TourRequest;
 use App\Models\Admins\CategoryTour;
-use App\Models\Admins\ImageTour;
-use App\Models\Status;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 class TourController extends Controller
@@ -71,27 +72,27 @@ class TourController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TourRequest $request)
+    public function store(Request $request)
     {
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
-
+            
             // Lấy trực tiếp giá trị từ dropdown
             $params['status'] = $request->input('status');
-
+            
             // Xử lý hình ảnh đại diện
             if ($request->hasFile('image')) {
                 $params['image'] = $request->file('image')->store('uploads/image_tour', 'public');
             } else {
                 $params['image'] = null;
             }
-
-            // Thêm sản phẩm (Chỉ thực hiện create một lần)
+            
+            // Thêm tour (chỉ thực hiện create một lần)
             $tour = Tour::query()->create($params);
-
+            
             // Lấy ID của tour vừa thêm
             $tourID = $tour->id;
-
+            
             // Xử lý thêm album
             if ($request->hasFile('list_hinh_anh')) {
                 foreach ($request->file('list_hinh_anh') as $image) {
@@ -104,10 +105,56 @@ class TourController extends Controller
                     }
                 }
             }
+    
+            // Xử lý ngày tour
+            if ($request->has('tour_dates')) {
+                // Tách chuỗi ngày thành mảng
+                $dates = explode(',', $request->input('tour_dates'));
+                
+                foreach ($dates as $date) {
+                    // Lưu từng ngày vào bảng `tour_dates`
+                    $tour->tourDates()->create([
+                        'tour_id' => $tourID,
+                        'tour_date' => $date,
+                    ]);
+                }
+            }
+    
+            // Xử lý thêm địa điểm (lịch trình)
+            if ($request->has('locations')) {
+                // Lặp qua từng lịch trình trong mảng locations
+                foreach ($request->input('locations') as $index => $location) {
+                    if (isset($location['start']) && isset($location['end'])) {
+                        // Kiểm tra và lấy location_id từ bảng Location (nếu chưa tồn tại)
+                       
+                      // Kiểm tra và lấy location_id từ bảng locations_update (nếu chưa tồn tại)
+$startLocation = LocationUpdate::firstOrCreate(['name' => $location['start']]);
+$endLocation = LocationUpdate::firstOrCreate(['name' => $location['end']]);
 
-            return redirect()->route('tour.index')->with('success', 'Thêm mới thành công!');;
+// Lưu địa điểm bắt đầu và kết thúc vào bảng tour_locations
+$tour->tourLocations()->create([
+    'tour_id' => $tourID,
+    'location_id' => $startLocation->id,  // Điểm bắt đầu từ bảng LocationsUpdate
+    'is_start' => true,   // Đánh dấu là điểm bắt đầu
+    'is_end' => false,    // Đánh dấu là không phải điểm kết thúc
+]);
+
+$tour->tourLocations()->create([
+    'tour_id' => $tourID,
+    'location_id' => $endLocation->id,  // Điểm kết thúc từ bảng LocationsUpdate
+    'is_start' => false,  // Đánh dấu là không phải điểm bắt đầu
+    'is_end' => true,     // Đánh dấu là điểm kết thúc
+]);
+                    }
+                }
+            }
+    
+            return redirect()->route('tour.index')->with('success', 'Thêm mới thành công!');
         }
     }
+    
+    
+    
 
 
     /**
