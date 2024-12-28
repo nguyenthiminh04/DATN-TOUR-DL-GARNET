@@ -1,0 +1,223 @@
+@extends('client.layouts.app')
+@section('title')
+    Chi Tiết Đơn Hàng
+@endsection
+@section('content')
+    <br>
+    <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <h1 class="text-center">Chi tiết đơn hàng</h1>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Thông tin khách hàng</strong>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p><strong>Tên khách hàng:</strong> {{ $payment->booking->name ?? 'N/A' }}</p>
+                        <p><strong>Email:</strong> {{ $payment->booking->email ?? 'N/A' }}</p>
+                        <p><strong>Số điện thoại:</strong> {{ $payment->booking->phone ?? 'N/A' }}</p>
+                        <p><strong>Địa chỉ:</strong> {{ $payment->booking->address ?? 'N/A' }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>Ngày đặt tour:</strong>
+                            {{ $payment->booking->date_booking ? date('d-m-Y', strtotime($payment->booking->date_booking)) : 'N/A' }}
+                        </p>
+                        <p><strong>Số lượng người lớn:</strong> {{ $payment->booking->number_old ?? 'N/A' }}</p>
+                        <p><strong>Số lượng trẻ em:</strong> {{ $payment->booking->number_children ?? 'N/A' }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Tour</strong>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Tên tour</th>
+                        <th>Hình thức thanh toán</th>
+                        <th>Trạng thái thanh toán</th>
+                        <th>Đơn hàng</th>
+                        <th>Giá</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>{{ $payment->booking->tour->name ?? 'N/A' }}</td>
+                        <td>
+                            @if ($payment->paymentMethod->id == 1)
+                                VNPAY
+                            @elseif ($payment->paymentMethod->id == 2)
+                                Momo
+                            @elseif ($payment->paymentMethod->id == 3)
+                                Thẻ Ngân Hàng
+                            @elseif ($payment->paymentMethod->id == 4)
+                                Thanh Toán Trực Tiếp
+                            @endif
+                        </td>
+                        <td>{{ $payment->paymentStatus->name ?? 'N/A' }}</td>
+                        <td>{{ $payment->status->name ?? 'N/A' }}</td>
+                        <td>{{ number_format($payment->money, 0, ',', '.') }} đ</td>
+                    </tr>
+                </tbody>
+                @if ($payment->status_id == 13)
+                    <tfoot>
+                        <tr>
+                            <th colspan="4" class="text-right">Tiền hoàn:</th>
+                            <th>{{ number_format($payment->refund_amount ?? 0, 0, ',', '.') }} đ</th>
+                        </tr>
+                    </tfoot>
+                @else
+                    <tfoot>
+                        <tr>
+                            <th colspan="4" class="text-right">Tổng cộng:</th>
+                            <th>{{ number_format($payment->money, 0, ',', '.') }} đđ</th>
+                        </tr>
+                    </tfoot>
+                @endif
+            </table>
+
+
+        </div>
+
+        @if (in_array($payment->status_id, [1, 2, 5]))
+            @if ($payment->payment_status_id == 2)
+                <div class="alert alert-warning text-center mb-3">
+                    <span>Đơn hàng đã thanh toán. Vui lòng cân nhắc kỹ trước khi hủy!</span>
+                </div>
+            @endif
+            <a href="javascript:void(0);" class="btn btn-warning mb-3" data-toggle="modal"
+                data-target="#cancelOrderModal">Hủy đơn hàng</a>
+        @elseif ($payment->status_id == 13)
+            <div class="alert alert-danger text-center">
+                <span>Đơn hàng đã bị hủy</span>
+            </div>
+
+            @if ($payment->payment_method_id == 1 && $payment->payment_status_id == 2)
+                <a href="javascript:void(0);" class="btn btn-success mb-3" data-toggle="modal"
+                    data-target="#refundRequestModal">
+                    Yêu cầu hoàn tiền
+                </a>
+            @endif
+        @endif
+
+
+        <a href="{{ url('/') }}" class="btn btn-primary">Quay lại trang chủ</a>
+
+        <!-- Modal hủy đơn hàng -->
+        <div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog" aria-labelledby="cancelOrderLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cancelOrderLabel">Hủy đơn hàng</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('usser.cancelOrder', $payment->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="ly_do_huy">Lý do hủy đơn hàng</label>
+                                <select name="ly_do_huy" id="ly_do_huy" class="form-control" required>
+                                    <option value="" disabled selected>Chọn lý do</option>
+                                    <option value="Thay đổi kế hoạch cá nhân">Thay đổi kế hoạch cá nhân</option>
+                                    <option value="Không đủ tài chính để thanh toán">Không đủ tài chính để thanh toán
+                                    </option>
+                                    <option value="Tìm được giá tốt hơn ở nơi khác">Tìm được giá tốt hơn ở nơi khác</option>
+                                    <option value="Không hài lòng với thông tin về tour">Không hài lòng với thông tin về
+                                        tour</option>
+                                    <option value="Lịch trình không phù hợp với kế hoạch cá nhân">Lịch trình không phù hợp
+                                        với kế hoạch cá nhân</option>
+                                    <option value="Đã đặt nhầm tour hoặc sai thông tin">Đã đặt nhầm tour hoặc sai thông tin
+                                    </option>
+                                    <option value="Không nhận được sự hỗ trợ từ nhà cung cấp">Không nhận được sự hỗ trợ từ
+                                        nhà cung cấp</option>
+                                    <option value="Thay đổi quyết định sau khi tham khảo ý kiến gia đình/bạn bè">Thay đổi
+                                        quyết định sau khi tham khảo ý kiến gia đình/bạn bè</option>
+                                    <option value="Đã phát sinh các vấn đề sức khỏe hoặc cá nhân">Đã phát sinh các vấn đề
+                                        sức khỏe hoặc cá nhân</option>
+                                    <option value="Không còn nhu cầu sử dụng dịch vụ">Không còn nhu cầu sử dụng dịch vụ
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-danger">Xác nhận hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="refundRequestModal" tabindex="-1" role="dialog" aria-labelledby="refundRequestLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="refundRequestLabel">Yêu cầu hoàn tiền</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('usser.submitRefundRequest', $payment->id) }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <!-- Tên tài khoản -->
+                            <div class="form-group">
+                                <label for="account_name">Tên tài khoản ngân hàng</label>
+                                <input type="text" name="account_name" id="account_name" class="form-control"
+                                    placeholder="Nhập tên tài khoản" required>
+                            </div>
+
+                            <!-- Số tài khoản -->
+                            <div class="form-group">
+                                <label for="account_number">Số tài khoản ngân hàng</label>
+                                <input type="text" name="account_number" id="account_number" class="form-control"
+                                    placeholder="Nhập số tài khoản" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bank">Ngân Hàng</label>
+                                <input type="text" name="bank" id="bank" class="form-control"
+                                    placeholder="Nhập số tài khoản" required>
+                            </div>
+
+                            <!-- Ảnh QR (nếu có) -->
+                            <div class="form-group">
+                                <label for="qr_code">Tải lên ảnh QR (nếu có)</label>
+                                <input type="file" name="qr_code" id="qr_code" class="form-control-file"
+                                    accept="image/*">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-danger">Gửi yêu cầu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br>
+    <br>
+@endsection
