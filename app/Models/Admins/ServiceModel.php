@@ -45,4 +45,9 @@ class ServiceModel extends Model
     {
         return self::find($id);
     }
+
+    public function categoryServices()
+    {
+        return $this->belongsToMany(CategoryServiceModel::class, 'tour_service', 'service_id', 'category_service_id');
+    }
 }

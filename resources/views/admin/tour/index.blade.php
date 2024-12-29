@@ -79,8 +79,9 @@
                                                 <td>
                                                     <ul class="d-flex gap-2 list-unstyled mb-0">
                                                         <li>
-                                                            <a class="btn btn-subtle-primary btn-icon btn-sm view-tour"
-                                                                data-id="{{ $item->id }}">
+                                                            <a class="btn btn-subtle-primary btn-icon btn-sm "
+                                                                {{-- data-id="{{ $item->id }}" --}}
+                                                                href="{{ route('tour.show', $item->id) }}">
                                                                 <i class="ph-eye"></i>
                                                             </a>
                                                         </li>

@@ -137,8 +137,7 @@
                                                     @error('start_date')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
-                                                </div>
-
+                                                </div>  
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="mb-3">

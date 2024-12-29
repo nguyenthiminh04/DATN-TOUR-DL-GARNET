@@ -138,4 +138,15 @@ class Tour extends Model
         return $this->belongsToMany(LocationUpdate::class, 'tour_locations')
             ->withPivot('is_start', 'is_end'); // Các trường phụ trong bảng `tour_locations`
     }
+   
+    public function categoryServices()
+    {
+        return $this->belongsToMany(CategoryServiceModel::class, 'tour_service', 'tour_id', 'category_service_id');
+    }
+
+ 
+    public function services()
+    {
+        return $this->belongsToMany(ServiceModel::class, 'tour_service', 'tour_id', 'service_id');
+    }
 }

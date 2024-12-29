@@ -57,7 +57,7 @@
             width: 18px;
             height: 18px;
         }
-        
+
 
         .category-item label {
             font-size: 14px;
@@ -192,7 +192,6 @@
                                             </div>
                                         </div>
 
-
                                         <div class="mb-3">
                                             <label for="services">Chọn dịch vụ đi kèm:</label>
                                             <select name="services[]" id="services" class="form-control" multiple>
@@ -225,18 +224,16 @@
                                                         .then(data => {
                                                             const servicesSelect = document.getElementById('services');
 
-                                                            // Lấy danh sách ID dịch vụ từ dữ liệu trả về
                                                             const newServiceIds = new Set(data.services.map(service => service.id
                                                                 .toString()));
 
-                                                            // Xóa các dịch vụ không thuộc danh mục đã chọn
                                                             Array.from(servicesSelect.options).forEach(option => {
                                                                 if (!newServiceIds.has(option.value)) {
                                                                     option.remove();
                                                                 }
                                                             });
 
-                                                            // Thêm các dịch vụ mới vào danh sách (nếu chưa có)
+
                                                             data.services.forEach(service => {
                                                                 if (![...servicesSelect.options].some(option => option.value ===
                                                                         service.id.toString())) {
@@ -250,7 +247,6 @@
                                                                 }
                                                             });
 
-                                                            // Đảm bảo giữ nguyên trạng thái của các dịch vụ đã chọn nếu chúng vẫn còn hợp lệ
                                                             Array.from(servicesSelect.options).forEach(option => {
                                                                 if (currentSelectedServices.includes(option.value) && newServiceIds
                                                                     .has(option.value)) {
@@ -464,8 +460,8 @@
                                                 <label for="status1" class="form-label">Trạng Thái<span
                                                         class="text-danger">*</span></label>
                                                 <select class="form-select" id="status1" name="status">
-                                                    <option value="">Trạng Thái</option>
-                                                    <option value="1">Hiển Thị</option>
+                                                    {{-- <option value="">Trạng Thái</option> --}}
+                                                    <option value="1" selected>Hiển Thị</option>
                                                     <option value="0">Ẩn</option>
                                                 </select>
                                             </div>
