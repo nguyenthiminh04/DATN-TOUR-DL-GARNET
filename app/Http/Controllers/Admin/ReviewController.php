@@ -11,7 +11,9 @@ class ReviewController extends Controller
     public function __construct()
     {
         $this->middleware(['permission:view_review'])->only(['index']);
-        // $this->middleware(['permission:destroy_review'])->only(['destroy']);
+
+        $this->middleware(['permission:destroy_review'])->only(['destroy']);
+
     }
     /**
      * Display a listing of the resource.

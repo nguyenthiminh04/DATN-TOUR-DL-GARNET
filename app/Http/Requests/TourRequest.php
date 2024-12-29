@@ -29,10 +29,11 @@ class TourRequest extends FormRequest
             'schedule' => 'required|max:255',
             'move_method' => 'required|max:255',
             'starting_gate' => 'required|max:255',
-            'start_date' => 'required|date|after_or_equal:today|before_or_equal:end_date',
+
+            'start_date' => 'required|date|before_or_equal:end_date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'number' => 'numeric|min:1|max_digits:10',
-            'number_guests' => 'required|integer|min:1',
+            'number_guests' => 'required|integer|min:0',
             'price_old' => 'required|numeric|min:0',
             'price_children' => 'required|numeric|min:0',
             'sale' => 'required|numeric|min:0|max:100',
@@ -66,7 +67,8 @@ class TourRequest extends FormRequest
             'end_date.date' => 'Ngày kết thúc phải là ngày hợp lệ.',
             'end_date.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu.',
             'number.numeric' => 'Số lượng này phải là một số.',
-            'number.min' => 'Số lượng phải lớn hơn hoặc bằng 1.',
+
+            'number.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
             'number.max_digits' => 'Số lượng không được vượt quá 10 ký tự.',
             'number_guests.required' => 'Số lượng khách là bắt buộc.',
             'number_guests.integer' => 'Số lượng khách phải là số nguyên.',

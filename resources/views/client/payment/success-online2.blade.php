@@ -63,7 +63,9 @@
                 <p><strong>Phương thức thanh toán:</strong> <span>{{ $payment->payment_method }}</span></p>
                 <p><strong>Mã giao dịch:</strong> <span>{{ $payment->transaction }}</span></p>
                 <p><strong>Trạng thái thanh toán:</strong> <span>{{ $payment->trang_thai }}</span></p>
-                <p><strong>Ngày thanh toán:</strong> <span>{{ $payment->time }}</span></p>
+
+                <p><strong>Ngày thanh toán:</strong>
+                    <span>{{ $payment->time = \Carbon\Carbon::parse($payment->time)->format('d/m/Y') }}</span></p>
                 <p><strong>Số tiền thanh toán:</strong> <span>{{ number_format($payment->money, 0, ',', '.') }} VND</span>
                 </p>
             </div>
@@ -75,7 +77,10 @@
             </div>
             <div class="tour-info">
                 <p><strong>Tour:</strong> <span>{{ $booking->tour_name }}</span></p>
-                <p><strong>Ngày khởi hành:</strong> <span>{{ $booking->start_date }}</span></p>
+
+                <p><strong>Ngày khởi hành:</strong>
+                    <span>{{ $booking->start_date = \Carbon\Carbon::parse($booking->start_date)->format('d/m/Y') }}</span>
+                </p>
                 <p><strong>Số lượng:</strong> <span>{{ $booking->number_old + $booking->number_children }}</span></p>
                 <p><strong>Giá vé:</strong> <span>{{ number_format($booking->total_money, 0, ',', '.') }} VND</span></p>
             </div>

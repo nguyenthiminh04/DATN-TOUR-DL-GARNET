@@ -28,7 +28,8 @@
                 <div class="col-xxl-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('notification-user.store') }}" method="post" >
+
+                            <form action="{{ route('notification-user.store') }}" method="post">
                                 @csrf
 
                                 <div class="mb-3">
@@ -55,11 +56,16 @@
                                     @enderror
                                 </div>
 
-                <div class="mb-3">
-                    <a href="{{ route('notification-user.index') }}" class="btn btn-info">trở về</a>
-                    <button class="btn btn-primary" type="submit">Gán thông báo</button>
+
+                                <div class="mb-3">
+                                    <a href="{{ route('notification-user.index') }}" class="btn btn-info">trở về</a>
+                                    <button class="btn btn-primary" type="submit">Gán thông báo</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 @endsection

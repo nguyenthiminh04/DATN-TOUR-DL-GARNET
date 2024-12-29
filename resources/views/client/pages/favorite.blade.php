@@ -3,6 +3,30 @@
     Tour Yêu Thích
 @endsection
 @section('content')
+
+    <section class="bread-crumb margin-bottom-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                        <li class="home" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <a itemprop="item" href="{{ route('home') }}" title="Trang chủ">
+                                <span itemprop="name">Trang chủ</span>
+                                <meta itemprop="position" content="1" />
+                            </a>
+                            <span><i class="fa fa-angle-right"></i></span>
+                        </li>
+
+                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <strong itemprop="name">Yêu Thích</strong>
+                            <meta itemprop="position" content="2" />
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
     <div class="container white collections-container margin-bottom-20">
         <div class="white-background">
             <div class="row">
@@ -53,14 +77,19 @@
                                                     <tr data-id="{{ $item->id }}">
                                                         <td>{{ $stt++ }}</td>
                                                         <td><a class="line-clamp"
-                                                            href="{{ route('client.tour.show', $item->tour->id) }}"
-                                                            title="{{ $item->tour->name }}">{{ $item->tour->name }}</a></td>
+
+                                                                href="{{ route('client.tour.show', $item->tour->id) }}"
+                                                                title="{{ $item->tour->name }}">{{ $item->tour->name }}</a>
+                                                        </td>
                                                         <td>
                                                             <img src="{{ Storage::url($item->tour->image) }}" alt=""
                                                                 width="100px">
                                                         </td>
-                                                        <td>{{ number_format($item->tour->price_old, 0, '', '.') }} VNĐ</td>
-                                                        <td>{{ number_format($item->tour->price_children, 0, '', '.') }} VNĐ
+
+                                                        <td>{{ number_format($item->tour->price_old, 0, '', '.') }} VNĐ
+                                                        </td>
+                                                        <td>{{ number_format($item->tour->price_children, 0, '', '.') }}
+                                                            VNĐ
                                                         </td>
                                                         <td>{{ number_format($item->tour->price_old * (1 - $item->tour->sale / 100), 0, '', '.') }}
                                                             VNĐ</td>

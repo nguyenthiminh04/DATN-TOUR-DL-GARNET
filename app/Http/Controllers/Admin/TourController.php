@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+
+use App\Models\Status;
 use App\Models\Admins\Tour;
-use Illuminate\Http\Request;
-use App\Models\Admins\Location;
 use App\Models\Admins\User;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\LocationUpdate;
+use App\Models\Admins\Location;
+use App\Models\Admins\ImageTour;
 use App\Http\Requests\TourRequest;
 use App\Models\Admins\CategoryTour;
-use App\Models\Admins\ImageTour;
-use App\Models\Status;
+use App\Http\Controllers\Controller;
+use App\Models\Admins\CategoryServiceModel;
+use App\Models\Admins\ServiceModel;
+
 use Illuminate\Support\Facades\Storage;
 
 class TourController extends Controller
@@ -18,18 +23,22 @@ class TourController extends Controller
     public function __construct()
     {
         $this->middleware(['permission:view_tour'])->only(['index']);
-        // $this->middleware(['permission:create_tour'])->only(['create']);
-        // $this->middleware(['permission:store_tour'])->only(['store']);
-        // $this->middleware(['permission:edit_tour'])->only(['edit']);
-        // $this->middleware(['permission:update_tour'])->only(['update']);
-        // $this->middleware(['permission:destroy_tour'])->only(['destroy']);
+
+        $this->middleware(['permission:create_tour'])->only(['create']);
+        $this->middleware(['permission:store_tour'])->only(['store']);
+        $this->middleware(['permission:edit_tour'])->only(['edit']);
+        $this->middleware(['permission:update_tour'])->only(['update']);
+        $this->middleware(['permission:destroy_tour'])->only(['destroy']);
+
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $title = "Danh Mục Tour";
+
+        $title = "Danh Sách Tour";
+
 
         $status = $request->get('status');
 
@@ -38,11 +47,13 @@ class TourController extends Controller
             $query->where('status', $status);
         }
 
-        $listtour = $query->orderByDesc('id')->get();
+
+        $listtour = $query->orderBy('id', 'desc')->get();
 
         if ($request->ajax()) {
             return response()->json([
-                'data' => $listtour
+                'data' => $listtour 
+
             ]);
         }
 
@@ -60,18 +71,36 @@ class TourController extends Controller
      */
     public function create()
     {
-        $title = "Thêm Tour";
-        //
-        $listuser = User::query()->get();
-        $listlocation = Location::query()->get();
-        $listCategoryTour = CategoryTour::query()->get();
-        return view('admin.tour.add', compact('listuser', 'listlocation', 'listCategoryTour', 'title'));
+
+        $data['title'] = "Thêm Tour";
+        $data['listuser'] = User::query()->get();
+        $data['listlocation'] = Location::query()->get();
+        $data['listCategoryTour'] = CategoryTour::query()->get();
+        $data['categoryServices'] = CategoryServiceModel::where('status', 1)->get();
+        $data['services'] = [];
+        return view('admin.tour.add', $data);
     }
+
+
+    public function getServicesByCategories(Request $request)
+    {
+        $categoryIds = $request->get('category_ids', []); // Nhận danh sách danh mục đã chọn
+
+        // Lấy dịch vụ thuộc danh mục đã chọn
+        $services = ServiceModel::whereIn('category_service_id', $categoryIds)
+            ->where('status', 1)
+            ->get();
+
+        return response()->json(['services' => $services]);
+    }
+
+
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TourRequest $request)
+    public function store(Request $request)
+
     {
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
@@ -86,7 +115,9 @@ class TourController extends Controller
                 $params['image'] = null;
             }
 
-            // Thêm sản phẩm (Chỉ thực hiện create một lần)
+
+            // Thêm tour (chỉ thực hiện create một lần)
+
             $tour = Tour::query()->create($params);
 
             // Lấy ID của tour vừa thêm
@@ -104,10 +135,60 @@ class TourController extends Controller
                     }
                 }
             }
-    
-            return redirect()->route('tour.index')->with('success', 'Thêm mới thành công!');;
+
+
+            // Xử lý ngày tour
+            if ($request->has('tour_dates')) {
+                // Tách chuỗi ngày thành mảng
+                $dates = explode(',', $request->input('tour_dates'));
+
+                foreach ($dates as $date) {
+                    // Lưu từng ngày vào bảng `tour_dates`
+                    $tour->tourDates()->create([
+                        'tour_id' => $tourID,
+                        'tour_date' => $date,
+                    ]);
+                }
+            }
+
+            // Xử lý thêm địa điểm (lịch trình)
+            if ($request->has('locations')) {
+                // Lặp qua từng lịch trình trong mảng locations
+                foreach ($request->input('locations') as $index => $location) {
+                    if (isset($location['start']) && isset($location['end'])) {
+                        // Kiểm tra và lấy location_id từ bảng Location (nếu chưa tồn tại)
+
+                        // Kiểm tra và lấy location_id từ bảng locations_update (nếu chưa tồn tại)
+                        $startLocation = LocationUpdate::firstOrCreate(['name' => $location['start']]);
+                        $endLocation = LocationUpdate::firstOrCreate(['name' => $location['end']]);
+
+                        // Lưu địa điểm bắt đầu và kết thúc vào bảng tour_locations
+                        $tour->tourLocations()->create([
+                            'tour_id' => $tourID,
+                            'location_id' => $startLocation->id,  // Điểm bắt đầu từ bảng LocationsUpdate
+                            'is_start' => true,   // Đánh dấu là điểm bắt đầu
+                            'is_end' => false,    // Đánh dấu là không phải điểm kết thúc
+                        ]);
+
+                        $tour->tourLocations()->create([
+                            'tour_id' => $tourID,
+                            'location_id' => $endLocation->id,  // Điểm kết thúc từ bảng LocationsUpdate
+                            'is_start' => false,  // Đánh dấu là không phải điểm bắt đầu
+                            'is_end' => true,     // Đánh dấu là điểm kết thúc
+                        ]);
+                    }
+                }
+            }
+
+            return redirect()->route('tour.index')->with('success', 'Thêm mới thành công!');
+
         }
     }
+
+
+
+
+
 
 
     /**

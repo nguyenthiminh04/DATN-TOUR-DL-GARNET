@@ -114,7 +114,8 @@
     <script>
         window.BizwebAnalytics = window.BizwebAnalytics || {};
         window.BizwebAnalytics.meta = window.BizwebAnalytics.meta || {};
-        window.BizwebAnalytics.meta.currency = 'VND';
+
+        window.BizwebAnalytics.meta.currency = 'đ';
         window.BizwebAnalytics.tracking_url = 's.html';
 
         var meta = {};
@@ -340,9 +341,12 @@
             height: 70px;
             /* Chiều cao cố định */
             object-fit: cover;
-            /* Đảm bảo ảnh giữ tỷ lệ và cắt phần dư */
+
+            /* Đảm bảo ảnh giữ tỷ lệ và cắt phần dư nếu cần */
             border-radius: 5px;
             /* Bo góc ảnh */
+            flex-shrink: 0;
+            /* Đảm bảo ảnh không bị thu nhỏ */
         }
 
 
@@ -402,10 +406,11 @@
                     <div class="col-md-6">
                         <ul class="top-info">
 
-                            <li><i class="fa fa-phone color-x" aria-hidden="true"></i> <a href="tel:19006750">1900
-                                    6750</a></li>
+
+                            <li><i class="fa fa-phone color-x" aria-hidden="true"></i> <a href="tel:19002424">1900
+                                    2424</a></li>
                             <li><i class="fa fa-envelope-o" aria-hidden="true"></i> <a
-                                    href="mailto:support@sapo.vn">support@Garnet.vn</a></li>
+                                    href="mailto:support@sapo.vn">support@garnet.vn</a></li>
 
                         </ul>
                     </div>
@@ -436,10 +441,11 @@
                                         {{ Auth::user()->name }}</a></li>
 
                                 <li>
-                                        <a href="{{route('logouts')}}"
-                                            style="border: none; background: none; padding: 0; color: inherit;">
-                                            <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
-                                        </a>
+
+                                    <a href="{{ route('logouts') }}"
+                                        style="border: none; background: none; padding: 0; color: inherit;">
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                    </a>
                                 </li>
                             @else
                                 <li>
@@ -609,9 +615,9 @@
                             <div class="product-box">
                                 <div class="product-thumbnail">
                                     <a href="{{ route('client.tour.show', $item->id) }}"
-                                        title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                        <img src="{{ Storage::url($item->image) }}"
-                                            alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
+
+                                        title="{{ $item->name }}">
+                                        <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}">
                                     </a>
                                     <div class="sale-off">-
                                         {{ $item->sale }}%
@@ -675,12 +681,13 @@
                                                         alt="6 ngày 5 đêm" /></div> Thời gian:
                                                 {{ $item->schedule }}
                                             </li>
-                                            <li class="clearfix">
+
+                                            {{-- <li class="clearfix">
                                                 <div class="ulimg"><img
                                                         src="https://img.icons8.com/?size=100&id=102656&format=png&color=000000"
-                                                        alt="6 ngày 5 đêm" /></div> Số lượng tour :
-                                            {{ $item->number }}
-                                            </li>
+                                                        alt="6 ngày 5 đêm" /></div> Số chỗ còn trống :
+                                            {{ $item->number }}Chỗ
+                                            </li> --}}
 
                                         </ul>
                                     </div>
@@ -700,7 +707,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="section_tour-new_title">
-                            <h2>Tour <span>theo vùng</span></h2>
+
+                            <h2>Tour <span>theo miền</span></h2>
                             <div class="title-line">
                                 <div class="tl-1"></div>
                                 <div class="tl-2"></div>
@@ -733,7 +741,10 @@
                                             <div class="item">
                                                 <div class="product-box">
                                                     <div class="product-thumbnail">
-                                                        <a href="{{ $tour->link }}" title="{{ $tour->name }}">
+
+                                                        <a href="{{ route('client.tour.show', $tour->id) }}"
+                                                            title="{{ $tour->name }}">
+
                                                             <img src="{{ Storage::url($tour->image) }}"
                                                                 alt="{{ $tour->name }}">
                                                         </a>
@@ -923,7 +934,9 @@
                                             alt="{{ $article[0]->title }}" class="img-fluid">
                                     </a>
                                     <div class="tour-guide-description">
-                                        <h3><a
+
+                                        <h3>
+                                            <a
                                                 href="{{ route('service.show', $article[0]->id) }}">{{ $article[0]->title }}</a>
                                         </h3>
                                         <p>{{ \Illuminate\Support\Str::limit($article[0]->description, 200) }}</p>
@@ -945,7 +958,8 @@
                                                         href="{{ route('service.show', $articles->id) }}">{{ $articles->title }}</a>
                                                 </h4>
                                                 {{-- <p>{{ $articles->description }}</p> --}}
-                                                <p>{{ \Illuminate\Support\Str::limit($articles->description, 150) }}
+
+                                                <p>{{ \Illuminate\Support\Str::limit($articles->description, 100) }}
                                                 </p>
                                                 <span>{{ $articles->created_at->format('d/m/Y') }}</span>
                                             </div>
@@ -969,140 +983,7 @@
     </section>
 
 
-    <footer class="footer">
-        <div class="site-footer">
-            <div class="container">
-                <div class="footer-inner padding-top-25 padding-bottom-10">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-4">
-                            <div class="footer-widget foote-contact-box">
-                                <h3>Liên hệ</h3>
-                                <div class="footer-widget-content">
-                                    <div class="icon">
-                                        <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/fot_hotline.svg"
-                                            alt="Liên hệ" />
-                                    </div>
-                                    <div class="info">
-                                        <p class="questions">Hỗ trợ trực tuyến 24/7!</p>
-                                        <p class="phone">
-                                            Hotline:
-
-                                            <a href="tel:19006750">1900 6750</a>
-
-                                        </p>
-                                        <p class="address">
-
-                                            70 Lu Gia, Ward 15, District 11, Ho Chi Minh City
-
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 col-md-2">
-                            <div class="footer-widget">
-                                <h3>Dịch vụ</h3>
-                                <ul class="list-menu">
-
-                                    <li><a href="index.html">Trang chủ</a></li>
-
-                                    <li><a href="{{ route('introduce.index') }}">Giới thiệu</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
-
-                                    <li><a href="tour-nuoc-ngoai.html">Tour miền Nam</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
-
-                                    <li><a href="{{ route('service.index') }}">Cẩm nang du lịch</a></li>
-
-                                    {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
-
-                                    <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
-
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 col-md-3">
-                            <div class="footer-widget">
-                                <h3>Chăm sóc khách hàng</h3>
-                                <ul class="list-menu">
-
-                                    <li><a href="index.html">Trang chủ</a></li>
-
-                                    <li><a href="{{ route('introduce.index') }}">Giới thiệu</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
-
-                                    <li><a href="tour-nuoc-ngoai.html">Tour miền Nam</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
-
-                                    <li><a href="{{ route('service.index') }}">Cẩm nang du lịch</a></li>
-
-                                    {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
-
-                                    <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
-
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 col-md-3">
-                            <div class="footer-widget no-border">
-                                <h3>Chính sách</h3>
-                                <ul class="list-menu">
-
-                                    <li><a href="index.html">Trang chủ</a></li>
-
-                                    <li><a href="{{ route('introduce.index') }}">Giới thiệu</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
-
-                                    <li><a href="tour-nuoc-ngoai.html">Tour miền Nam</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
-
-                                    <li><a href="{{ route('service.index') }}">Cẩm nang du lịch</a></li>
-
-                                    {{-- <li><a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
-
-                                    <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="copyright clearfix">
-            <div class="container">
-                <div class="inner clearfix">
-                    <div class="row">
-
-                    </div>
-                </div>
-
-                <div class="back-zalo">
-                    <a target="_blank" href="http://zalo.me/0982 362 509" title="Chat qua Zalo">
-                        <span class="ti-zalo"></span>
-                    </a>
-                </div>
-
-                <div class="back-hotline">
-                    <button type="button" data-toggle="modal" data-target="#hotlineModal"><i
-                            class="fa fa-phone"></i></button>
-                </div>
-
-                <div class="back-to-top" cursorshover="true">
-                    <i class="fa fa-arrow-circle-up"></i>
-                </div>
-
-
-            </div>
-        </div>
-
-    </footer>
+    @include('client.partials.footer')
     <link rel="preload" as="script"
         href="client/cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js" />
     <script src="client/cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"
@@ -1467,14 +1348,16 @@
     <ul class="the-article-tools">
 
         <li class="btnZalo zalo-share-button">
-            <a target="_blank" href="http://zalo.me/0982 362 509" title="Chat qua Zalo">
+
+            <a target="_blank" href="http://zalo.me/0862001730" title="Chat qua Zalo">
                 <span class="ti-zalo"></span>
             </a>
             <span class="label">Chat qua Zalo</span>
         </li>
 
         <li class="btnFacebook">
-            <a target="_blank" href="https://www.messenger.com/t/vemiendisan" title="Chat qua Messenger">
+
+            <a target="_blank" href="https://www.messenger.com/t/minh.viet.440729" title="Chat qua Messenger">
                 <span class="ti-facebook"></span>
             </a>
             <span class="label">Chat qua Messenger</span>

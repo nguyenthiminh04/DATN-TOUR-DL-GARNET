@@ -25,12 +25,47 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         // Xác thực dữ liệu gửi lên
+
+        $messages = [
+            'name.required' => 'Vui lòng nhập tên của bạn.',
+            'name.string' => 'Tên phải là chuỗi.',
+            'name.max' => 'Tên không được vượt quá 255 ký tự.',
+            'email.required' => 'Vui lòng nhập email.',
+            'email.email' => 'Email không hợp lệ.',
+            'phone.string' => 'Số điện thoại phải là chuỗi.',
+            'phone.max' => 'Số điện thoại không được vượt quá 20 ký tự.',
+            'phone.required' => 'Vui lòng nhập số điện thoại.',
+            'address.required' => 'Vui lòng nhập địa chỉ.',
+            'address.string' => 'Địa chỉ phải là chuỗi.',
+            'start_date.required' => 'Ngày bắt đầu là bắt buộc.',
+            'start_date.date' => 'Ngày bắt đầu phải là ngày hợp lệ.',
+            'end_date.required' => 'Ngày kết thúc là bắt buộc.',
+            'end_date.date' => 'Ngày kết thúc phải là ngày hợp lệ.',
+            'number_old.required' => 'Số lượng người lớn là bắt buộc.',
+            'number_old.integer' => 'Số lượng người lớn phải là số nguyên.',
+            'number_old.min' => 'Số lượng người lớn phải lớn hơn hoặc bằng 0.',
+            'number_children.required' => 'Số lượng trẻ em là bắt buộc.',
+            'number_children.integer' => 'Số lượng trẻ em phải là số nguyên.',
+            'number_children.min' => 'Số lượng trẻ em phải lớn hơn hoặc bằng 0.',
+            'total_money.required' => 'Tổng tiền là bắt buộc.',
+            'total_money.numeric' => 'Tổng tiền phải là một số.',
+            'total_money.min' => 'Tổng tiền phải lớn hơn hoặc bằng 0.',
+            'tour_id.required' => 'Tour là bắt buộc.',
+            'tour_id.exists' => 'Tour không tồn tại.',
+            'g-recaptcha-response.required' => 'Vui lòng xác minh.',
+            'g-recaptcha-response.captcha' => 'Captcha không hợp lệ.',
+            'agree_policy' => 'Bạn cần đồng ý với chính sách để tiếp tục!'
+        ];
+
+        // Xác thực dữ liệu gửi lên với thông báo lỗi tùy chỉnh
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
             'start_date' => 'required|date',
+            'end_date' => 'required|date',
+
             'note' => 'nullable|string',
             'number_old' => 'required|integer|min:0',
             'number_children' => 'required|integer|min:0',
@@ -39,8 +74,11 @@ class BookingController extends Controller
             'sale' => 'nullable|integer',
             'tour_id' => 'required|exists:tours,id',
             'g-recaptcha-response' => 'required|captcha',
-        ]);
-    
+
+            'agree_policy' => 'required',
+        ], $messages);
+
+
         // Kiểm tra mã giảm giá
         $coupon = DB::table('coupons')
             ->where('code', $request->coupon)
@@ -49,11 +87,13 @@ class BookingController extends Controller
             ->where('number', '>', 0)
             ->where('tour_id', '=', $request['tour_id'])
             ->first();
-    
+
+
         if ($coupon) {
             session(['code' => $coupon->code]);
         }
-    
+
+
         // Kiểm tra nếu người dùng đã đăng nhập
         if (auth()->check()) {
             // Nếu người dùng đã đăng nhập
@@ -66,7 +106,9 @@ class BookingController extends Controller
                 $temporaryUserId = Str::uuid();  // UUID được tạo ra
                 Session::put('temporary_user_id', $temporaryUserId);
             }
-    
+
+
+
             // Tạo khách hàng ẩn danh hoặc tìm bản ghi hiện tại nếu đã tồn tại
             $customer = Customer::firstOrCreate(
                 ['temporary_user_id' => $temporaryUserId],
@@ -77,11 +119,13 @@ class BookingController extends Controller
                     'type' => 'anonymous',
                 ]
             );
-    
+
+
             $customerId = $customer->id;
             $userId = null;  // Vì khách hàng ẩn danh không có user_id
         }
-    
+
+
         // Tạo bản ghi trong bảng book_tour
         $bookTour = BookTour::create([
             'customer_id' => $customerId,
@@ -93,6 +137,8 @@ class BookingController extends Controller
             'address' => $validated['address'],
             'date_booking' => now(),
             'start_date' => $validated['start_date'],
+            'end_date' => $validated['end_date'],
+
             'note' => $validated['note'] ?? null,
             'number_old' => $validated['number_old'],
             'number_children' => $validated['number_children'],
@@ -100,7 +146,9 @@ class BookingController extends Controller
             'status' => $validated['status'] ?? 0,
             'sale' => $validated['sale'] ?? 0,
         ]);
-    
+
+
+
         // Chuyển hướng đến trang xác nhận đặt tour
         if ($bookTour->id) {
             return redirect()->route('tour.confirm', ['id' => $bookTour->id]);
@@ -108,7 +156,9 @@ class BookingController extends Controller
             return redirect()->back()->withErrors(['error' => 'Đặt tour không thành công. Vui lòng thử lại.']);
         }
     }
-    
+
+
+
 
 
 

@@ -21,7 +21,9 @@ class StatisticalController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware(['permission:view_dashboard'])->only(['index']);
+
+        $this->middleware(['permission:view_dashboard'])->only(['index']);
+
     }
     public function index(Request $request)
     {
@@ -48,6 +50,9 @@ class StatisticalController extends Controller
             $percentageChange = (($bookTourToday - $bookTourYesterday) / $bookTourYesterday) * 100;
         }
         //tỉnh tổng tiền các tour
+
+        $totalMoneyhihi = Payment::where('status_id', 6)->where('payment_status_id', 2)->sum('money');
+
         $totalMoney = Payment::whereDate('created_at', $today)->where('status_id', 6)->where('payment_status_id', 2)->sum('money');
         //doanh thu tháng
         $totalMoneyMonth = Payment::whereMonth('created_at', $currentMonth)->whereYear('created_at', $currentYear)->where('status_id', 6)->where('payment_status_id', 2)->sum('money');
@@ -150,14 +155,20 @@ class StatisticalController extends Controller
             }])
             ->addSelect(['total_revenue' => BookTour::selectRaw('SUM(total_money)')
                 ->whereColumn('book_tour.tour_id', 'tours.id')
-                ->whereNull('ly_do_huy')])->get();
 
-        //lấy kh chi tiêu nhiều nhất
+                ->whereNull('ly_do_huy')])
+            ->paginate(10); // Phân trang
+
+        // Lấy những người chi tiêu nhiều nhất
+
         $topSpendingUsers = Payment::select('user_id', DB::raw('SUM(money) as total_spent'))
             ->groupBy('user_id')
             ->orderByDesc('total_spent')
             ->limit(5)
             ->get();
+
+
+
         $userNames = [];
         $totalSpent = [];
 
@@ -167,8 +178,7 @@ class StatisticalController extends Controller
             $totalSpent[] = $payment->total_spent;
         }
 
-
-
+        // dd($tourReview);
         // Lấy 10 tour được đặt nhiều nhất trong khoảng thời gian
 
         // $top5Tours = Tour::withCount('bookTours')
@@ -184,11 +194,19 @@ class StatisticalController extends Controller
         // });
 
         //lấy các đơn hàng ngày hôm nay
-        $paymentsOrderToday = Payment::whereDate('created_at', $today)->with('booking', 'bookTours', 'user', 'paymentMethod', 'paymentStatus')->where('status_id', '!=', 13)->get();
+
+        $paymentsOrderToday = Payment::whereDate('created_at', $today)
+            ->with('booking', 'bookTours', 'user', 'paymentMethod', 'paymentStatus')
+            ->where('status_id', '!=', 13)
+            ->paginate(10);
+
 
         $data = [
             'title' => 'Dashboard',
             'totalMoney'                            => $totalMoney,
+
+            'totalMoneyhihi'                            => $totalMoneyhihi,
+
             'totalMoneyMonth'                       => $totalMoneyMonth,
 
             'orderCountToday'                       => $orderCountToday,
@@ -211,6 +229,8 @@ class StatisticalController extends Controller
             'paymentsOrderToday'                    => $paymentsOrderToday,
         ];
 
+
+        // dd($totalMoney); 
 
 
         // dd($tourReview);
@@ -333,4 +353,48 @@ class StatisticalController extends Controller
 
         return response()->json(['dataChart' => $formattedData]);
     }
+
+
+    public function filterDateTotal(Request $request)
+    {
+        $fromDate = $request->from_date;
+        $toDate = $request->to_date;
+        $totalMoneyMonth = Payment::whereBetween('created_at', [$fromDate, $toDate])
+            ->where('status_id', 6)
+            ->where('payment_status_id', 2)
+            ->sum('money');
+
+        $totalMoney = Payment::whereDate('created_at', $toDate)
+            ->where('status_id', 6)
+            ->where('payment_status_id', 2)
+            ->sum('money');
+
+        $orderCountMonth = Payment::whereBetween('created_at', [$fromDate, $toDate])
+            ->where('status_id', '!=', 13)
+            ->count();
+
+        $orderCountToday = Payment::whereDate('created_at', $toDate)
+            ->where('status_id', '!=', 13)
+            ->count();
+
+        $todayVisitors = DB::table('view_web')->whereBetween('created_at', [$fromDate, $toDate])->distinct('ip_address')->count();
+
+        // $todayVisitors = DB::table('view_web')
+        // ->whereDate('visited_at', Carbon::today())
+        // ->distinct('ip_address')
+        // ->count('ip_address');
+
+        $customerCount = Payment::whereDate('created_at', $toDate)
+            ->distinct('user_id')->count('user_id');
+
+        return response()->json([
+            'totalMoneyMonth' => number_format($totalMoneyMonth, 0, ',', '.') . ' đ',
+            'totalMoney' => number_format($totalMoney, 0, ',', '.') . ' đ',
+            'orderCountMonth' => $orderCountMonth,
+            'orderCountToday' => $orderCountToday,
+            'todayVisitors' => $todayVisitors,
+            'customerCount' => $customerCount,
+        ]);
+    }
+
 }

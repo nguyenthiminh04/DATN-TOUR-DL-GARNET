@@ -27,7 +27,7 @@
             color: #16d164;
         }
 
-        .btn {
+        .btn-coupons {
             background-color: #ffffff;
             color: #029c54;
             border: 1px solid #029c54;
@@ -40,13 +40,15 @@
             margin-top: 55px;
         }
 
-        .btn:hover {
+
+        .btn-coupons:hover {
             background-color: #029c54;
             color: white;
             transform: scale(1.05);
         }
 
-        .btn:focus {
+
+        .btn-coupons:focus {
             outline: none;
         }
 
@@ -90,7 +92,6 @@
                             <div class="kiri p-3">
 
                                 <div class="icon-container">
-
                                     <div class="icon-container_box">
                                         <img src="https://magiamgia.com/wp-content/uploads/2020/12/fnal-logo.png"
                                             width="85" alt="totoprayogo.com" class="" />
@@ -102,7 +103,6 @@
                                     <span class="badge badge-success">{{ $coupon->name }}</span>
 
                                     <h3 class="lead" id="text-to-copy-{{ $coupon->id }}">{{ $coupon->code }}</h3>
-
                                     <p>{{ $coupon->tour->name }}</p>
                                 </div>
                             </div>
@@ -115,8 +115,7 @@
                                             </span>
                                         </div>
 
-                                        <button class="btn" onclick="copyText({{ $coupon->id }})">Copy</button>
-
+                                        <button class="btn btn-coupons" onclick="copyText({{ $coupon->id }})">Copy</button>
                                     </div>
                                 </div>
                             </div>

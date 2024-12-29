@@ -73,10 +73,22 @@
                                         @enderror
                                     </div>
                                     <div class="mb-3 col-6">
-                                        <label for="status1" class="form-label">Người đăng:<span
+
+                                        <label for="status1" class="form-label">Trạng Thái<span
                                                 class="text-danger">*</span></label>
+                                        <select class="form-select" id="status1" name="status">
+                                            <option value="">Trạng Thái</option>
+                                            <option value="1" {{ $article->status == '1' ? 'selected' : '' }}>Hiển Thị
+                                            </option>
+                                            <option value="0" {{ $article->status == '0' ? 'selected' : '' }}>Ẩn
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3 col-6" hidden>
+                                        <label for="status1" class="form-label">Người
+                                            đăng:<span class="text-danger">*</span></label>
                                         <select name="user_id" class="form-select w-100" id="status1">
-                                            <option value="">Chọn user</option>
                                             @foreach ($listUser as $status)
                                                 <option value="{{ $status->id }}"
                                                     {{ $article->user_id == $status->id ? 'selected' : '' }}>
@@ -88,16 +100,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="status1" class="form-label">Trạng Thái<span
-                                            class="text-danger">*</span></label>
-                                    <select class="form-select" id="status1" name="status">
-                                        <option value="">Trạng Thái</option>
-                                        <option value="1" {{ $article->status == '1' ? 'selected' : '' }}>Hiển Thị
-                                        </option>
-                                        <option value="0" {{ $article->status == '0' ? 'selected' : '' }}>Ẩn</option>
-                                    </select>
-                                </div>
+
 
                                 <div class="col-lg-12" style="margin-bottom: 10px">
                                     <div class="text-end">

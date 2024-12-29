@@ -12,10 +12,10 @@ class NotificationUserController extends Controller
     public function __construct()
     {
         $this->middleware(['permission:view_notificationUser'])->only(['index']);
-        // $this->middleware(['permission:create_notificationUser'])->only(['create']);
-        // $this->middleware(['permission:store_notificationUser'])->only(['store']);
-        // $this->middleware(['permission:update_notificationUser'])->only(['update']);
-        // $this->middleware(['permission:destroy_notificationUser'])->only(['destroy']);
+        $this->middleware(['permission:create_notificationUser'])->only(['create']);
+        $this->middleware(['permission:store_notificationUser'])->only(['store']);
+        $this->middleware(['permission:update_notificationUser'])->only(['update']);
+        $this->middleware(['permission:destroy_notificationUser'])->only(['destroy']);
     }
     public function index()
     {

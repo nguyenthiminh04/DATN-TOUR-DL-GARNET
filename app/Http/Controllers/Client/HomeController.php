@@ -18,6 +18,9 @@ use App\Models\Notification;
 use App\Models\Payment;
 use App\Models\Rating;
 use App\Models\Review;
+
+use App\Models\TourLocation;
+
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -115,12 +118,16 @@ class HomeController extends Controller
     public function detailTour($id)
     {
         // Tìm tour theo ID, nếu không tìm thấy thì trả về 404
-        $tour = Tour::findOrFail($id);
+
+        $tour = Tour::with(['tourDates', 'tourLocations.location'])->findOrFail($id);
+
+
         $suggestedTours = Tour::withoutTrashed()
             ->where('status', 1)
             ->orderBy('view', 'desc')
             ->take(6)
             ->get();
+
 
 
         // Tính điểm trung bình của các đánh giá
@@ -150,12 +157,33 @@ class HomeController extends Controller
                 ->exists();
         }
 
+
+        // Lấy danh sách lịch trình với đầy đủ thông tin: tên địa điểm, ngày bắt đầu và kết thúc
+        $itineraries = $tour->tourLocations->map(function ($location) {
+            return [
+                'start_date' => $location->start_date, // Ngày bắt đầu
+                'end_date' => $location->end_date,     // Ngày kết thúc
+                'location_name' => $location->location->name ?? 'Không xác định', // Tên địa điểm
+                'is_start' => $location->is_start,
+                'is_end' => $location->is_end,
+            ];
+        });
+
+     
+        
+     
+
+        // Lấy danh sách ngày đã lưu trong bảng tour_dates
+        $tourDates = $tour->tourDates->pluck('tour_date');
+
+
         // Chuẩn bị dữ liệu cho view
         $data = [
             'tour' => $tour,
             'averageRating' => round($averageRating, 1), // Làm tròn đến 1 chữ số
             'category' => Category::find($tour->category_tour_id),
-            'location' => Location::find($tour->location_id),
+
+
             'images' => $tour->images,
             'first_image' => $tour->images->first(),
             'comments' => Comment::where('tour_id', $tour->id)
@@ -164,12 +192,20 @@ class HomeController extends Controller
                 ->get(),
             'userHasBooked' => $userHasBooked, // Truyền trạng thái đặt tour
             'canReview' => $canReview, // Truyền trạng thái có thể đánh giá tour hay không
-            'suggestedTours' => $suggestedTours
+
+            'suggestedTours' => $suggestedTours,
+            'itineraries' => $itineraries, // Danh sách lịch trình
+            'tourDates' => $tourDates, // Danh sách ngày của tour
+
         ];
 
         // Trả về view cùng dữ liệu
         return view('client.tour.detail', $data);
     }
+
+
+
+
 
 
     public function storeComment(Request $request, $id)

@@ -2,13 +2,15 @@
 
 namespace App\Models\Admins;
 
-use App\Models\BookTour;
-use App\Models\Comment;
-use App\Models\Favorite;
+
 use App\Models\Review;
-use App\Models\Admins\Schedule;
-use App\Models\Tour_Guide;
+use App\Models\Comment;
+use App\Models\BookTour;
+use App\Models\Favorite;
+use App\Models\TourLocation;
 use GuzzleHttp\Psr7\Request;
+use App\Models\LocationUpdate;
+use App\Models\Admins\TourDate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +27,8 @@ class Tour extends Model
         'move_method',
         'starting_gate',
         'start_date',
+
+        'time',
         'end_date',
         'number_guests',
         'price_old',
@@ -68,9 +72,14 @@ class Tour extends Model
     // Định nghĩa quan hệ Tour thuộc về Location
     public function location()
     {
-        return $this->belongsTo(Location::class, 'location_id');
-    }
 
+        return $this->belongsTo(Location::class);
+    }
+    public function guides()
+
+    {
+        return $this->hasMany(Coupons::class, 'tour_id');
+    }
     public function category_tour()
     {
         return $this->belongsTo(CategoryTour::class, 'tour_id');
@@ -120,20 +129,17 @@ class Tour extends Model
         return $this->hasMany(Review::class);
     }
 
-    // Quan hệ với TourGuide
-    public function tourGuides()
+    public function tourDates()
     {
-        return $this->hasMany(Tour_Guide::class);
+        return $this->hasMany(TourDate::class, 'tour_id');
     }
-
-    // Quan hệ với hướng dẫn viên qua bảng tour_guides
-    public function guides()
+    public function tourLocations()
     {
-        return $this->belongsToMany(User::class, 'tour_guides', 'tour_id', 'user_id');
+        return $this->hasMany(TourLocation::class);
     }
-    public function schedules()
+    public function locations()
     {
-        return $this->hasMany(Schedule::class);
+        return $this->belongsToMany(LocationUpdate::class, 'tour_locations')
+            ->withPivot('is_start', 'is_end'); // Các trường phụ trong bảng `tour_locations`
     }
-
 }

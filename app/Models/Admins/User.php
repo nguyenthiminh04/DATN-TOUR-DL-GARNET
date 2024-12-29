@@ -3,7 +3,8 @@
 namespace App\Models\Admins;
 
 use App\Models\Status;
-use App\Models\Tour_Guide;
+
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -55,15 +56,4 @@ class User extends Model
         return User::where('remember_token', '=', $remember_token)->first();
     }
 
-     // Quan hệ với TourGuide
-     public function tourGuides()
-     {
-         return $this->hasMany(Tour_Guide::class, 'user_id');
-     }
- 
-     // Quan hệ với các tour qua bảng tour_guides
-     public function guideTours()
-     {
-         return $this->belongsToMany(Tour::class, 'tour_guides', 'user_id', 'tour_id');
-     }
 }

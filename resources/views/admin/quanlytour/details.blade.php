@@ -4,7 +4,11 @@
 </p>
 <p><strong>Thông tin Tour:</strong>{{ $quanlytour->booking->tour->name }}</p>
 <p><strong>Số điện thoại: </strong>{{ $quanlytour->booking->phone }}</p>
+<<<<<<< HEAD
 <p><strong>Số tiền :</strong> {{ $quanlytour->money }}</p>
+=======
+<p><strong>Số tiền :</strong> {{ number_format($quanlytour->money, 0, ',', '.') }}đ</p>
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14
 <p><strong>Giao dịch :</strong> {{ $quanlytour->transcation }}</p>
 <p><strong>Mã VNPAY :</strong> {{ $quanlytour->code_vnpay }}</p>
 <p><strong>Mã ngân hàng :</strong> {{ $quanlytour->code_bank }}</p>

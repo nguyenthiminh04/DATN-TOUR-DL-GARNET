@@ -15,7 +15,8 @@ class CommentController extends Controller
     public function __construct()
     {
         $this->middleware(['permission:view_comment'])->only(['index']);
-        // $this->middleware(['permission:destroy_comment'])->only(['destroy']);
+
+        $this->middleware(['permission:destroy_comment'])->only(['destroy']);
     }
     /**
      * Display a listing of the resource.
@@ -36,7 +37,9 @@ class CommentController extends Controller
         if ($searchQuery !== null && $searchQuery !== '') {
             $query->where(function ($q) use ($searchQuery) {
                 $q->where('comment.name', 'like', '%' . $searchQuery . '%')
-                    ->orWhere('tour.content', 'like', '%' . $searchQuery . '%');
+
+                    ->orWhere('tour.name', 'like', '%' . $searchQuery . '%');
+
             });
         }
 

@@ -17675,23 +17675,39 @@
 											</g>
 										</svg>
 									</div>
+<<<<<<< HEAD
 									<div class="thankyou-message-container">
 										<h2 class="section__title">Cảm ơn bạn đã đặt hàng</h2>
 
 										<p class="section__text">
 											Một email xác nhận đã được gửi tới {{ $booking->email }}.  <br>
+=======
+									{{-- <div class="thankyou-message-container">
+										<h2 class="section__title">Cảm ơn bạn đã chọn chúng tôi</h2>
+
+										<p class="section__text">
+											Một email xác nhận đã được gửi  {{ $booking->email }}.  <br>
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14
 											Xin vui lòng kiểm tra email của bạn
 										</p>
 
 
+<<<<<<< HEAD
 									</div>
+=======
+									</div> --}}
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14
 								</section>
 							</div>
 							<div class="col col--secondary">
 								<aside class="order-summary order-summary--bordered order-summary--is-collapsed" id="order-summary">
 									<div class="order-summary__header">
 										<div class="order-summary__title">
+<<<<<<< HEAD
 											Đơn hàng #{{ $booking->id }}
+=======
+											Chi Tiết Tour #{{ $booking->id }}
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14
 											<span class="unprintable">(1)</span>
 										</div>
 										<div class="order-summary__action hide-on-desktop unprintable">
@@ -17743,12 +17759,14 @@
 														<th class="total-line__name">Tạm tính</th>
 														<td class="total-line__price">{{ number_format($booking->total_money - 0, 0, ',', '.') }}₫</td>
 													</tr>
-													<tr class="total-line total-line--shipping-fee">
+
+													{{-- <tr class="total-line total-line--shipping-fee">
 														<th class="total-line__name">Phí vận chuyển</th>
 														<td class="total-line__price">
 															<span>{{ number_format(0, 0, ',', '.') }}₫</span>
 														</td>
-													</tr>
+
+													</tr> --}}
                                                         @if($booking->pay_method_id == '4')
                                                         <tr class="total-line total-line--wallet">
                                                             <th class="total-line__name">Số tiền trừ từ ví</th>
@@ -17768,9 +17786,10 @@
 														<td class="total-line__price">
                                                             <td>
                                                                 @if($booking->tour->sale)
-                                                                    <p>Đã áp dụng mã giảm giá: {{ $booking->tour->sale }}%</p>
+
+                                                                    <p>Giảm Giá Của Tour: {{ $booking->tour->sale }}%</p>
                                                                     {{-- <p>Giá trị giảm: -{{ number_format($order->discount_value, 0, ',', '.') }}₫</p> --}}
-                                                                    <p>{{ $booking->total_money }}</p>
+                                                                    {{-- <p>{{ $booking->total_money }}</p> --}}
                                                                 @endif
 
                                                                 <!-- Hiển thị thông báo nếu có lỗi mã giảm giá -->
@@ -17867,7 +17886,8 @@
 	</div>
 
                 <h1 class="shop__name">
-                    <a data-savepage-href="/" href="https://f1genz-model-fashion.mysapo.net/">2004Store</a>
+
+                    <a data-savepage-href="/" href="{{route('home')}}">Booking Success</a>
                 </h1>
 
             </div>
@@ -17881,7 +17901,8 @@
                         <div class="logo logo--left">
 
                             <h1 class="shop__name">
-                                <a data-savepage-href="/" href="https://f1genz-model-fashion.mysapo.net/">2004Store</a>
+
+                                <a data-savepage-href="/" href="{{route('home')}}">Booking Success</a>
                             </h1>
 
                         </div>
@@ -17903,7 +17924,8 @@
                                         </svg>
                                     </div>
                                     <div class="thankyou-message-container">
-                                        <h2 class="section__title">Cảm ơn bạn đã đặt hàng</h2>
+
+                                        <h2 class="section__title">Cảm ơn bạn đã chọn chúng tôi</h2>
 
                                         <p class="section__text">
                                             Một email xác nhận đã được gửi tới {{ $booking->email }}. <br>
@@ -17920,7 +17942,7 @@
                                     <div class="order-summary__header">
                                         <div class="order-summary__title">
                                             Đơn hàng #{{ $booking->id }}
-                                            <span class="unprintable">(1)</span>
+                                  <span class="unprintable"></span>
                                         </div>
                                         <div class="order-summary__action hide-on-desktop unprintable">
                                             <a data-toggle="#order-summary"
@@ -17985,7 +18007,8 @@
                                                         </td>
                                                     </tr>
 
-                                                    <tr class="total-line total-line--shipping-fee">
+
+                                                    {{-- <tr class="total-line total-line--shipping-fee">
                                                         <th class="total-line__name">Phí vận chuyển</th>
                                                         <td class="total-line__price">
 
@@ -17995,10 +18018,11 @@
                                                             <span>{{ number_format(0, 0, ',', '.') }}₫</span>
 
                                                         </td>
-                                                    </tr>
+
+                                                    </tr> --}}
                                                     <div class="col-md-6">
                                                         <div class="selected-tour-info">
-                                                            <h3>Thông tin vé bạn đã chọn</h3>
+                                                            <h3>Thông tin vé bạn đã chọn </h3>
                                                             <div class="tour-horizontal-layout">
                                                                 <div class="tour-image">
                                                                     <img src="{{ Storage::url($booking->tour->image) }}" alt="Ảnh tour" id="tour-image" style="width: 200px; height: auto;">
@@ -18007,22 +18031,27 @@
                                                                 <div class="tour-details">
                                                                     <p><strong>Tour:</strong>{{$booking->tour->name}}    </span></p>
                                                                     <div class="highlight-info">
-                                                                        <p><strong>Ngày khởi hành:</strong> <span id="selected-date">2024-12-01</span></p>
+
+                                                                        <p><strong>Ngày khởi hành:</strong> <span id="selected-date">{{ $booking->start_date }}</span></p>
                                                                         <p><strong>Số lượng:</strong>{{$booking->number_old}} Trẻ Em và {{$booking->number_children}} Người Lớn </span></p>
                                                                     </div>
-                                                                    <p><strong>Giá vé:</strong> <span id="selected-price">1,500,000 VND</span></p>
+                                                                    <p><strong>Giá vé:</strong> <span id="selected-price">{{ number_format($payment->money, 0, ',', '.') }} VND</span></p>
+                                                                    <p><strong>Trạng thái thanh toán:</strong> <span>{{ $payment->status->name }}</span></p>
+                <p><strong>Ngày thanh toán:</strong> <span>{{ $payment->time }}</span></p>
+                <p><strong>Số tiền thanh toán:</strong> <span>{{ number_format($payment->money, 0, ',', '.') }} VND</span>
+                    <p><strong>Phương thức thanh toán:</strong> <span>{{ $payment->paymentStatus->name }}</span></p>
+                    {{-- <p><strong>Mã giao dịch:</strong> <span>{{ $payment->transaction }}</span></p> --}}
                                                                 </div>
                                                             </div>
-                                                            <p>Để biết thêm chi tiết vé, <a href="#" style="color: blue">Vui lòng xem tại đây</a></p>
+                                                            {{-- <p>Để biết thêm chi tiết vé, <a href="#" style="color: blue">Vui lòng xem tại đây</a></p> --}}
                                                         </div>
                                                     </div>
-                                                    {{-- @if ($order->payment_method == 'wallet')
-                                                        <tr class="total-line total-line--wallet">
-                                                            <th class="total-line__name">Số tiền trừ từ ví</th>
-                                                            <td class="total-line__price">
-                                                                {{ number_format($order->total, 0, ',', '.') }}₫</td>
-                                                        </tr>
-                                                    @endif --}}
+                                                    
+                                                    {{-- <tr class="total-line total-line--wallet">
+                                                        <th class="total-line__name">Số tiền trừ từ ví</th>
+                                                        <td class="total-line__price">{{ number_format($booking->total_money, 0, ',', '.') }}₫</td>
+                                                    </tr> --}}
+                                                
 
 
                                                 </tbody>
@@ -18053,7 +18082,8 @@
 
                                         <div class="row">
 
-											<div class="col col--md-two">
+
+											{{-- <div class="col col--md-two">
 												<h2>Thông tin mua hàng</h2>
 												<p>{{ $booking->user->name ?? $booking->custom->name }}</p>
 
@@ -18062,13 +18092,13 @@
 
 												<p>{{ $booking->user->phone ?? $booking->custom->phone }}</p>
 
-											</div>
+
+											</div> --}}
 
 											<div class="col col--md-two">
-												<h2>Thông tin người nhận</h2>
+												<h2>Thông tin người đặt</h2>
 												<p>{{ $booking->name }}</p>
                                                 <p>{{ $booking->phone }}</p>
-
 												<p>{{ $booking->email }}</p>
 												<p>{{ $booking->address }}</p>
 
@@ -18098,10 +18128,11 @@
                                                 </p>
 
                                             </div> --}}
-                                            <div class="col col--md-two">
+
+                                            {{-- <div class="col col--md-two">
                                                 <h2>Phương thức vận chuyển</h2>
                                                 <p>Giao hàng tận nơi</p>
-                                            </div>
+                                            </div> --}}
                                         </div>
 
                                     </div>

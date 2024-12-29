@@ -12,11 +12,12 @@ class NotificationController extends Controller
     public function __construct()
     {
         $this->middleware(['permission:view_notification'])->only(['index']);
-        // $this->middleware(['permission:create_notification'])->only(['create']);
-        // $this->middleware(['permission:store_notification'])->only(['store']);
-        // $this->middleware(['permission:edit_notification'])->only(['edit']);
-        // $this->middleware(['permission:update_notification'])->only(['update']);
-        // $this->middleware(['permission:destroy_notification'])->only(['destroy']);
+
+        $this->middleware(['permission:create_notification'])->only(['create']);
+        $this->middleware(['permission:store_notification'])->only(['store']);
+        $this->middleware(['permission:edit_notification'])->only(['edit']);
+        $this->middleware(['permission:update_notification'])->only(['update']);
+        $this->middleware(['permission:destroy_notification'])->only(['destroy']);
     }
     /**
      * Display a listing of the resource.

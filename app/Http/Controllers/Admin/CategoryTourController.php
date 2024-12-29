@@ -14,12 +14,14 @@ class CategoryTourController extends Controller
     public function __construct()
     {
         $this->middleware(['permission:view_categoryTour'])->only(['index']);
-        // $this->middleware(['permission:create_categoryTour'])->only(['create']);
-        // $this->middleware(['permission:store_categoryTour'])->only(['store']);
-        // $this->middleware(['permission:edit_categoryTour'])->only(['edit']);
-        // $this->middleware(['permission:update_categoryTour'])->only(['update']);
-        // $this->middleware(['permission:destroy_categoryTour'])->only(['destroy']);
-        // $this->middleware(['permission:show_categoryTour'])->only(['show']);
+
+        $this->middleware(['permission:create_categoryTour'])->only(['create']);
+        $this->middleware(['permission:store_categoryTour'])->only(['store']);
+        $this->middleware(['permission:edit_categoryTour'])->only(['edit']);
+        $this->middleware(['permission:update_categoryTour'])->only(['update']);
+        $this->middleware(['permission:destroy_categoryTour'])->only(['destroy']);
+        $this->middleware(['permission:show_categoryTour'])->only(['show']);
+
     }
     /**
      * Display a listing of the resource.

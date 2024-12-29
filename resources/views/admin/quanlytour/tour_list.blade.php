@@ -12,8 +12,17 @@
                 <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
 
                 <td>{{ $item->booking->tour->name ?? 'Tour đã bị xóa' }}</td>
+<<<<<<< HEAD
                 <td>{{ $item->booking->name }}</td>
                 <td>{{ $item->booking->user->phone ?? 'Không có' }}</td>
+=======
+
+                <td>{{ $item->booking->name }}</td>
+                <td>{{ \Carbon\Carbon::parse($item->booking->start_date)->format('d/m/Y') }}</td>
+                <td>{{ \Carbon\Carbon::parse($item->booking->end_date)->format('d/m/Y') }}</td>
+                <td>{{ $item->booking->phone ?? 'Không có' }}</td>
+                
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14
                 <td>
                     {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}
                 </td>
@@ -58,6 +67,10 @@
                 </td>
                 <td>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14
                     <ul class="d-flex gap-2 list-unstyled mb-0">
                         <li>
                             <a class="btn btn-subtle-primary btn-icon btn-sm view-quanlytour"
@@ -77,4 +90,8 @@
             </tr>
         @endforeach
     @endif
+<<<<<<< HEAD
 </tbody>
+=======
+</tbody
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14

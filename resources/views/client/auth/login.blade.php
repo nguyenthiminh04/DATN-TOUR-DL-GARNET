@@ -211,6 +211,9 @@
                             title: 'Lỗi xác thực',
                             html: errors,
                             confirmButtonText: 'OK'
+
+                        }).then(() => {
+                            window.location.href = '{{ route('dang-nhap') }}';
                         });
                     } else {
                         Swal.fire({
@@ -218,6 +221,9 @@
                             title: 'Thất bại',
                             text: data.message,
                             confirmButtonText: 'Thử lại'
+
+                        }).then(() => {
+                            window.location.href = '{{ route('dang-nhap') }}';
                         });
                     }
                 })

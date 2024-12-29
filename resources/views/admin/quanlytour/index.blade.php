@@ -138,9 +138,20 @@
                                         <th>Tài Khoản Đặt Tour</th>
                                         <th>Thông Tin Tour</th>
                                         <th>Người Đặt Tour</th>
+<<<<<<< HEAD
                                         <th>Số điện thoại</th>
                                         <th>Thời gian</th>
                                         <th>Phương Thức Thanh Toán</th>
+=======
+
+                                        <th>Thời gian bắt đầu chuyến đi</th>
+                                        <th>Thời gian kết thúc chuyến đi</th>
+
+                                        <th>Số điện thoại</th>
+                                        <th>Thời gian đặt</th>
+                                        <th>Phương Thức Thanh Toán</th>
+
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14
                                         <th>Trạng Thái Thanh Toán</th>
                                         <th>Trạng Thái Tour</th>
                                         <th>Hành Động</th>
@@ -162,7 +173,16 @@
                                                 <td>{{ $item->booking->tour->name ?? 'Tour đã bị xóa' }}</td>
 
                                                 <td>{{ $item->booking->name }}</td>
+<<<<<<< HEAD
                                                 <td>{{ $item->booking->user->phone ?? 'Không có' }}</td>
+=======
+                                                <td>{{ \Carbon\Carbon::parse($item->booking->start_date)->format('d/m/Y') }}
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($item->booking->end_date)->format('d/m/Y') }}
+                                                </td>
+                                                <td>{{ $item->booking->phone ?? 'Không có' }}</td>
+
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14
                                                 <td>
                                                     {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}
                                                 </td>
@@ -180,7 +200,11 @@
                                                 <td>
                                                     <select id="payment-status-select" name="payment_status_id"
                                                         class="form-select w-full max-w-xs payment-status-select status-tour"
+<<<<<<< HEAD
                                                         data-id="{{ $item->id }}"
+=======
+                                                        data-id="{{ $item->id }}" style="width: 170px"
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14
                                                         data-default-value="{{ $item->payment_status_id }}"
                                                         @if ($item->payment_status_id == 3) disabled @endif>
                                                         @foreach ($trangThaiThanhToan as $key => $value)
@@ -194,9 +218,15 @@
                                                 <td>
                                                     <select id="status-select" name="status_id"
                                                         class="form-select w-full max-w-xs status status-tour"
+<<<<<<< HEAD
                                                         data-id="{{ $item->id }}"
                                                         data-default-value="{{ $item->status_id }}"
                                                         @if ($item->status_id == 13 || $item->status_id == 13) disabled @endif>
+=======
+                                                        data-id="{{ $item->id }}"style="width: 150px"
+                                                        data-default-value="{{ $item->status_id }}"
+                                                        @if ($item->status_id == 6 || $item->status_id == 13) disabled @endif>
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14
                                                         @foreach ($trangThaiTour as $key => $value)
                                                             <option value="{{ $key }}"
                                                                 {{ $key == $item->status_id ? 'selected' : '' }}>
@@ -377,7 +407,11 @@
                             });
 
                             if (response.disabled) {
+<<<<<<< HEAD
                                 selectElement.prop('disabled', true);
+=======
+                                selectElement.prop('disabled', true);    
+>>>>>>> 5a8951526c4289d8f879ec697d246eacd821fe14
                             }
 
                             selectElement.val(response.new_status);

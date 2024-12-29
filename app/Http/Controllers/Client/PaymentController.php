@@ -26,49 +26,57 @@ class PaymentController extends Controller
     public function storePayment(Request $request)
     {
         $request->validate([
-            'payment_method_id' => 'required|exists:payment_methods,id', 
+
+            'payment_method_id' => 'required|exists:payment_methods,id',
+
             'money' => 'required|numeric',
             'p_note' => 'nullable|string|max:255',
             'customer_name' => 'required_if:user_id,null|string|max:255',
             'customer_email' => 'required_if:user_id,null|email|max:255',
             'customer_phone' => 'required_if:user_id,null|string|max:20',
         ]);
-    
+
+
+
         // Lấy thông tin booking
         $booking = BookTour::find($request->booking_id);
         if (!$booking) {
             return redirect()->back()->with('error', 'Không tìm thấy thông tin đặt tour!');
         }
-    
+
+
         /// Lấy thông tin tour
-$tour = Tour::find($booking->tour_id);
+        $tour = Tour::find($booking->tour_id);
 
-if (!$tour) {
-    return redirect()->back()->with('error', 'Không tìm thấy thông tin tour!');
-}
+        if (!$tour) {
+            return redirect()->back()->with('error', 'Không tìm thấy thông tin tour!');
+        }
 
-// Kiểm tra trạng thái tour
-if ($tour->status == 0) {
-    return redirect()->back()->with('error', 'Tour này đã bị ẩn và không thể đặt!');
-}
+        // Kiểm tra trạng thái tour
+        if ($tour->status == 0) {
+            return redirect()->back()->with('error', 'Tour này đã bị ẩn và không thể đặt!');
+        }
 
-// Kiểm tra số lượng tour
-if ($tour->number < 1) {
-    return redirect()->back()->with('error', 'Tour đã hết số lượng!');
-}
-    
+        // Kiểm tra số lượng tour
+        if ($tour->number < 1) {
+            return redirect()->back()->with('error', 'Tour đã hết số lượng!');
+        }
+
         // Giảm số lượng trong bảng Tour trước khi tiếp tục xử lý
         $tour->decrement('number');
-    
+
         // Lấy trạng thái thanh toán mặc định
         $pendingStatus = DB::table('payment_statuses')->where('name', 'Chưa thanh toán')->first();
-    
+
+
         $coupon = Coupon::where('code', $request->coupon)->first();
         $paymentMethod = DB::table('payment_methods')->find($request->payment_method_id);
         if (!$paymentMethod) {
             return redirect()->back()->with('error', 'Phương thức thanh toán không hợp lệ!');
         }
-    
+
+
+
         // Xử lý thông tin khách hàng
         if (auth()->check()) {
             // Đã đăng nhập
@@ -78,13 +86,14 @@ if ($tour->number < 1) {
             // Xử lý khách hàng ẩn danh
             $temporaryUserId = Session::get('temporary_user_id');
             if (!$temporaryUserId) {
-                $temporaryUserId = (string) Str::uuid(); 
+
+                $temporaryUserId = (string) Str::uuid();
                 Session::put('temporary_user_id', $temporaryUserId);
             }
-    
+
             // Tìm khách hàng ẩn danh
             $customer = DB::table('customers')->where('temporary_user_id', $temporaryUserId)->first();
-    
+
             if (!$customer) {
                 // Nếu chưa tồn tại, tạo khách hàng mới
                 $customerId = DB::table('customers')->insertGetId([
@@ -98,39 +107,42 @@ if ($tour->number < 1) {
             } else {
                 $customerId = $customer->id;
             }
-    
+
             $userId = null; // Không có user_id vì là khách ẩn danh
         }
-    
+
         // Tạo thanh toán
         $payment = Payment::create([
             'booking_id' => $booking->id,
             'customer_id' => $customerId,
-            'user_id' => $userId, 
+
+            'user_id' => $userId,
             'money' => $request->money,
             'p_note' => $request->p_note,
             'payment_status_id' => $pendingStatus->id,
-            'payment_method_id' => $paymentMethod->id, 
+            'payment_method_id' => $paymentMethod->id,
             'coupon_id' => $coupon ? $coupon->id : null,
             'status_id' => 1,
             'time' => now(),
         ]);
-    
+
+
         // Nếu có mã giảm giá, giảm số lượng của mã
         if ($coupon && $coupon->number > 0) {
-            $coupon->decrement('number', 1); 
+            $coupon->decrement('number', 1);
             session()->forget('code');
         }
-    
+
         if ($paymentMethod->name === 'direct') {
             // Mail::to($booking['email'])->send(new BookingSuccess($payment));
             return redirect()->route('payment.success', ['payment_id' => $payment->id]);
         }
-    
+
+
         return redirect()->back()->with('error', 'Phương thức thanh toán không hợp lệ!');
     }
-    
-    
+
+
 
 
 
@@ -145,8 +157,9 @@ if ($tour->number < 1) {
         $tour = Tour::find($tour_id);
         $tour_name = $tour->name;
         $start_date = $tour->start_date;
-//         $tour_name = Tour::find($tour_id)?->name;
-// $start_date = Tour::find($tour_id)?->start_date;
+        $schedule = $tour->schedule;
+        //         $tour_name = Tour::find($tour_id)?->name;
+        // $start_date = Tour::find($tour_id)?->start_date;
         $guest = BookTour::find($payment->booking_id)?->number_old + BookTour::find($payment->booking_id)?->number_children;
 
         $name = BookTour::find($payment->booking_id)?->name;
@@ -160,10 +173,11 @@ if ($tour->number < 1) {
         if (!$payment) {
             return redirect()->route('payment.failed')->with('error', 'Không tìm thấy thông tin thanh toán!');
         }
-// Kiểm tra trạng thái của tour
-if ($tour->status == 0) {
-    return redirect()->route('payment.failed')->with('error', 'Tour này đã bị ẩn và không thể tiếp tục xử lý!');
-}
+
+        // Kiểm tra trạng thái của tour
+        if ($tour->status == 0) {
+            return redirect()->route('payment.failed')->with('error', 'Tour này đã bị ẩn và không thể tiếp tục xử lý!');
+        }
 
         // Lấy thông tin booking từ payment
         $booking = BookTour::findOrFail($payment->booking_id);
@@ -183,10 +197,11 @@ if ($tour->status == 0) {
             // Cập nhật trạng thái thanh toán thành "Đã thanh toán"
             $payment->payment_status_id = $paidStatus->id;
             $payment->save();
-// Kiểm tra số lượng tour
-if ($tour->number < 1) {
-    return redirect()->route('payment.failed')->with('error', 'Tour này đã bị ẩn và không thể tiếp tục xử lý!');
-}
+
+            // Kiểm tra số lượng tour
+            if ($tour->number < 1) {
+                return redirect()->route('payment.failed')->with('error', 'Tour này đã bị ẩn và không thể tiếp tục xử lý!');
+            }
             // Giảm số lượng trong bảng Tour
             $tour = Tour::find($tour_id);
             $tour->decrement('number'); // Giảm 1 đơn vị số lượng
@@ -211,10 +226,13 @@ if ($tour->number < 1) {
                 'start_date' => $start_date,
                 'payment_status' => $payment_status,
                 'payment_method' => $payment_method,
+
+                'schedule' => $schedule,
+
                 'guests' => $guest,
                 'code' => $payment->code_vnpay,
                 'time' => $payment->time,
-'bookings' => $payment->bookTours->map(function ($booking) {
+                'bookings' => $payment->bookTours->map(function ($booking) {
                     return [
                         'tour_name' => $booking->tour_name,
                         'date' => $booking->date,
@@ -262,6 +280,9 @@ if ($tour->number < 1) {
                 'start_date' => $start_date,
                 'payment_status' => $payment_status,
                 'payment_method' => $payment_method,
+
+                'schedule' => $schedule,
+
                 'guests' => $guest,
                 'code' => $payment->code_vnpay,
                 'time' => $payment->time,
@@ -278,7 +299,9 @@ if ($tour->number < 1) {
             Mail::to($booking['email'])->queue(new BookingSuccess($data, $pdfData));
 
             // Trả về view success cho thanh toán trực tiếp
-return view('client.payment.success-direct', compact('payment', 'booking', 'paymentLocation'));
+
+            return view('client.payment.success-direct', compact('payment', 'booking', 'paymentLocation'));
+
         }
 
         // Nếu phương thức thanh toán không hợp lệ
@@ -381,7 +404,8 @@ return view('client.payment.success-direct', compact('payment', 'booking', 'paym
             "vnp_Amount" => $vnp_Amount,
             "vnp_Command" => "pay",
             "vnp_CreateDate" => date('YmdHis'),
-            "vnp_CurrCode" => "VND",
+
+            "vnp_CurrCode" => "đ",
             "vnp_IpAddr" => $vnp_IpAddr,
             "vnp_Locale" => $vnp_Locale,
             "vnp_OrderInfo" => $vnp_OrderInfo,
