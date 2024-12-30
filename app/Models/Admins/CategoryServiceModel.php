@@ -43,4 +43,6 @@ class CategoryServiceModel extends Model
     {
         return $this->hasMany(TourService::class, 'category_service_id');
     }
+
+    
 }

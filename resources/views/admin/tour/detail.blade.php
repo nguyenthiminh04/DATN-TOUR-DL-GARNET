@@ -2,7 +2,27 @@
 
 @section('style')
     <style>
+        .table-layout-fixed {
+            width: 100%;
+            table-layout: fixed;
+        }
 
+        .table-custom th {
+            width: 25%;
+
+            text-align: left;
+
+            vertical-align: top;
+
+            font-weight: bold;
+        }
+
+        .table-custom td {
+            width: 75%;
+
+            text-align: right;
+
+        }
     </style>
 @endsection
 @section('content')
@@ -13,7 +33,8 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Chi Tiết Tour: <span style="color: brown">{{ $tour->name }}</span></h4>
+                        <h4 class="mb-sm-0">Chi Tiết Tour: <span style="color: rgb(15, 136, 192)">{{ $tour->name }}</span>
+                        </h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -22,7 +43,6 @@
                                 <li class="breadcrumb-item active">Chi Tiết Tour</li>
                             </ol>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -30,7 +50,7 @@
 
             <div class="card">
                 <div class="row g-0">
-                    <div class="col-xl-9 col-lg-8">
+                    <div class="col-xl-7 col-lg-8">
                         <div class="card-body border-end h-100">
                             <div class="row mb-4 pb-2 g-3">
                                 <div class="col-auto">
@@ -54,144 +74,166 @@
                                                 </span></div>
                                             <div class="vr"></div>
                                             {{-- <div class="badge rounded-pill bg-info fs-12" id="ticket-status">New
-                                            </div>
+                                             </div>
                                             <div class="badge rounded-pill bg-danger fs-12" id="ticket-priority">High</div> --}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <h6 class="fw-semibold text-uppercase mb-2">Mô tả:</h6>
-                            <p class="text-muted mb-4">{{ $tour->description }}</p>
+                            <p class="text-muted mb-4">{{ $tour->content }}</p>
+                            <h6 class="fw-semibold text-uppercase mb-3">Dịch vụ:
+                            </h6>
+                            <table class="table table-bordered align-middle table-nowrap mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tên dịch vụ</th>
+                                        <th>Danh mục</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if ($tour->services->isEmpty())
+                                        <tr>
+                                            <td colspan="6" class="text-center" style="background-color: rgb(229, 238, 238)"><b>KHÔNG
+                                                    CÓ DỊCH VỤ</b></td>
+                                        </tr>
+                                    @else
+                                        @foreach ($tour->services as $service)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $service->name }}</td>
+                                                <td>
+                                                    @if ($service->categoryService)
+                                                        {{ $service->categoryService->category_name }}
+                                                    @else
+                                                        Không có danh mục
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
 
+                            </table>
                         </div>
                     </div><!--end col-->
-                    <div class="col-xl-3 col-lg-4">
+                    <div class="col-xl-5 col-lg-4">
                         <div class="card-header">
-                            <h6 class="card-title mb-0">Ticket Details</h6>
+                            <h6 class="card-title mb-0">Chi tiết vé</h6><br>
+                            <h4 style="width: 100%; color: rgb(15, 136, 192)">{{ $tour->journeys }}</h4>
                         </div>
                         <div class="card-body mt-2">
                             <div class="table-responsive table-card">
-                                <table class="table table-borderless align-middle mb-0">
+                                <table class="table table-borderless align-middle mb-0 table-custom">
                                     <tbody>
+
                                         <tr>
-                                            <th>Ticket No</th>
-                                            <td>#TBS<span id="t-no">24301901</span> </td>
+                                            <th class="text-start">Lịch trình:</th>
+                                            <td id="t-client">{{ $tour->schedule }}</td>
                                         </tr>
                                         <tr>
-                                            <th>Client</th>
-                                            <td id="t-client">Themesbrand</td>
+                                            <th>Phương tiện di chuyển:</th>
+                                            <td>{{ $tour->move_method }}</td>
                                         </tr>
+
                                         <tr>
-                                            <th>Project</th>
-                                            <td>Steex - Admin & Dashboard</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Assigned To:</th>
+                                            <th class="text-start">Trạng thái:</th>
                                             <td>
-                                                <div class="avatar-group">
-                                                    <a href="javascript:void(0);" class="avatar-group-item"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-trigger="hover" data-bs-original-title="Erica Kernan">
-                                                        <img src="assets/images/users/avatar-4.jpg" alt=""
-                                                            class="rounded-circle avatar-xs">
-                                                    </a>
-                                                    <a href="javascript:void(0);" class="avatar-group-item"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-trigger="hover" data-bs-original-title="Alexis Clarke">
-                                                        <img src="assets/images/users/avatar-10.jpg" alt=""
-                                                            class="rounded-circle avatar-xs">
-                                                    </a>
-                                                    <a href="javascript:void(0);" class="avatar-group-item"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-trigger="hover" data-bs-original-title="James Price">
-                                                        <img src="assets/images/users/avatar-3.jpg" alt=""
-                                                            class="rounded-circle avatar-xs">
-                                                    </a>
-                                                    <a href="javascript: void(0);" class="avatar-group-item"
-                                                        data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                        data-bs-placement="top" data-bs-original-title="Add Members">
-                                                        <div class="avatar-xs">
-                                                            <div
-                                                                class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                                +
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
+                                                @if ($tour->status == 1)
+                                                    <span class="btn btn-subtle-success" id="t-status" data-choices
+                                                        data-choices-search-false aria-label="Default select example">Hiển
+                                                        Thị</span>
+                                                @else
+                                                    <span class="btn btn-subtle-danger" id="t-status" data-choices
+                                                        data-choices-search-false
+                                                        aria-label="Default select example">Ẩn</span>
+                                                @endif
+
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Status:</th>
+                                            <th class="text-start">Số lượng khách:</th>
                                             <td>
-                                                <select class="form-select" id="t-status" data-choices
-                                                    data-choices-search-false aria-label="Default select example">
-                                                    <option value>Status</option>
-                                                    <option value="New" selected>New</option>
-                                                    <option value="Open">Open</option>
-                                                    <option value="Inprogress">Inprogress</option>
-                                                    <option value="Closed">Closed</option>
-                                                </select>
+                                                {{ $tour->number_guests }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Priority</th>
-                                            <td>
-                                                <span class="badge bg-danger" id="t-priority">High</span>
+                                            <th class="text-start">Ngày khởi hành:</th>
+                                            <td id="c-date">
+                                                {{ $tour->start_date ? \Carbon\Carbon::parse($tour->start_date)->format('d/m/Y H:i') : 'Chưa xác định' }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Create Date</th>
-                                            <td id="c-date">20 Dec, 2023</td>
+                                            <th class="text-start">Ngày kết thúc</th>
+                                            <td id="d-date">
+                                                {{ $tour->start_date ? \Carbon\Carbon::parse($tour->end_date)->format('d/m/Y H:i') : 'Chưa xác định' }}
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <th>Due Date</th>
-                                            <td id="d-date">29 Dec, 2023</td>
+                                            <th class="text-start">Giá người lớn</th>
+                                            <td>{{ $tour->price_old }} VNĐ</td>
                                         </tr>
                                         <tr>
-                                            <th>Last Activity</th>
-                                            <td>14 min ago</td>
+                                            <th class="text-start">Giá trẻ em</th>
+                                            <td>{{ $tour->price_children }} VNĐ</td>
                                         </tr>
                                         <tr>
-                                            <th>Labels</th>
+                                            <th class="text-start">Giảm giá</th>
+                                            <td>{{ $tour->sale }}%</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-start">Lượt xem</th>
+                                            <td>{{ $tour->view }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="text-start">Mô tả:</th>
+                                            <td>{!! $tour->description !!}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-start">Địa điểm:</th>
+                                            <td>{{ $tour->location->name }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th class="text-start">Người đăng:</th>
                                             <td class="hstack text-wrap gap-1">
-                                                <span class="badge bg-primary-subtle text-primary">Admin</span>
-                                                <span class="badge bg-primary-subtle text-primary">UI</span>
+                                                <span
+                                                    class="badge bg-primary-subtle text-primary">{{ $tour->user->name }}</span>
+                                                {{-- <span class="badge bg-primary-subtle text-primary">UI</span>
                                                 <span class="badge bg-primary-subtle text-primary">Dashboard</span>
-                                                <span class="badge bg-primary-subtle text-primary">Design</span>
+                                                <span class="badge bg-primary-subtle text-primary">Design</span> --}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-start">Ngày đăng:</th>
+                                            <td id="d-date">
+                                                {{ $tour->created_at ? \Carbon\Carbon::parse($tour->end_date)->format('d/m/Y H:i') : 'Chưa xác định' }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-start">Ngày cập nhật</th>
+                                            <td id="d-date">
+                                                {{ $tour->updated_at ? \Carbon\Carbon::parse($tour->end_date)->format('d/m/Y H:i') : 'Chưa xác định' }}
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                        </div><!--end card-body-->
-                        <div class="card-body border-top mt-2">
-                            <a href="#!" class="float-end link-effect">View More <i
-                                    class="bi bi-arrow-right align-baseline ms-1"></i></a>
-                            <h6 class="card-title mb-0">Support Team</h6>
                         </div>
+
                         <div class="card-body">
-                            <div class="d-flex gap-2 align-items-center mb-3">
-                                <div class="flex-shrink-0">
-                                    <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-sm rounded">
-                                </div>
-                                <div class="flex-grow-1">
-                                    <h6 class="fs-md">Morton Satterfield</h6>
-                                    <p class="text-muted mb-0">Admin & Founder</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-secondary w-100" id="agent-chat"><i
-                                    class="bi bi-chat-text align-baseline me-1"></i> Get In Touch</button>
+
+                            <a href="{{ route('tour.index') }}" class="btn btn-secondary w-100"><i
+                                    class="ri-arrow-go-back-line align-baseline me-1"></i> Quay lại</a>
                         </div>
                     </div>
-                </div><!--end row-->
+                </div>
             </div>
-
         </div>
-        <!-- container-fluid -->
     </div>
 @endsection
 
 @section('script')
-    <!-- Bạn có thể thêm các script cần thiết ở đây -->
 @endsection

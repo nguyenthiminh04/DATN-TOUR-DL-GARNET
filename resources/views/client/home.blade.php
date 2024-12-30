@@ -1713,7 +1713,7 @@
         </script>
     @endif
     @yield('script')
-    <script>
+    {{-- <script>
         let actionCount = 0;
         let lastActionTime = Date.now(); // Lưu thời gian của lần hành động cuối cùng
         const spamThreshold = 10; // Số lần hành động cho phép
@@ -1746,7 +1746,7 @@
                 actionCount = 0;
             }
         }
-    </script>
+    </script> --}}
     {{-- add favorite --}}
     <script>
         $(document).on('click', '.add-to-favorite', function() {
