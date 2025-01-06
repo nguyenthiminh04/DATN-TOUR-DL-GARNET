@@ -2,6 +2,41 @@
 @section('title')
     Chi Tiết Đơn Hàng
 @endsection
+@section('style')
+    <style>
+        .modal-header {
+            background-color: #f8f9fa;
+            padding: 20px 30px;
+            border-bottom: 1px solid #dee2e6;
+            border-radius: 10px 10px 0 0;
+            /* display: flex; */
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title-2 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0;
+
+        }
+
+        .modal-header .close {
+            background: none;
+            border: none;
+            color: #000000;
+            font-size: 2.5rem;
+            cursor: pointer;
+            padding: 0;
+            margin-top: -26px;
+        }
+
+        .modal-header .close:hover {
+            color: #dc3545;
+            transition: color 0.3s ease;
+        }
+    </style>
+@endsection
 @section('content')
     <br>
     <div class="container">
@@ -125,7 +160,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="cancelOrderLabel">Hủy đơn hàng</h5>
+                        <h5 class="modal-title-2" id="cancelOrderLabel">Hủy đơn hàng</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -172,39 +207,43 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="refundRequestLabel">Yêu cầu hoàn tiền</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <div class="row w-100">
+                            <h5 class="modal-title-2" id="refundRequestLabel">Yêu cầu hoàn tiền</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                     </div>
+
                     <form action="{{ route('usser.submitRefundRequest', $payment->id) }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
-                            <!-- Tên tài khoản -->
+
+                            <div class="form-group">
+                                <label for="bank">Ngân Hàng</label>
+                                <select name="bank" id="bank" class="form-control" required>
+                                    <option value="">Chọn ngân hàng</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="account_number">Số tài khoản ngân hàng</label>
+                                <input type="text" name="account_number" id="account_number" class="form-control"
+                                    placeholder="Nhập số tài khoản" required>
+                            </div>
+
                             <div class="form-group">
                                 <label for="account_name">Tên tài khoản ngân hàng</label>
                                 <input type="text" name="account_name" id="account_name" class="form-control"
                                     placeholder="Nhập tên tài khoản" required>
                             </div>
 
-                            <!-- Số tài khoản -->
-                            <div class="form-group">
-                                <label for="account_number">Số tài khoản ngân hàng</label>
-                                <input type="text" name="account_number" id="account_number" class="form-control"
-                                    placeholder="Nhập số tài khoản" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="bank">Ngân Hàng</label>
-                                <input type="text" name="bank" id="bank" class="form-control"
-                                    placeholder="Nhập số tài khoản" required>
-                            </div>
-
                             <!-- Ảnh QR (nếu có) -->
                             <div class="form-group">
                                 <label for="qr_code">Tải lên ảnh QR (nếu có)</label>
-                                <input type="file" name="qr_code" id="qr_code" class="form-control-file"
+                                <input type="file" name="qr_code" id="qr_code" class="form-control"
                                     accept="image/*">
                             </div>
                         </div>
@@ -220,4 +259,29 @@
     </div>
     <br>
     <br>
+@endsection
+@section('script')
+    <script>
+        fetch('https://api.vietqr.io/v2/banks')
+            .then(response => response.json())
+            .then(response => {
+
+                const banks = response.data;
+                if (Array.isArray(banks)) {
+
+                    const bankSelect = document.getElementById('bank');
+
+
+                    banks.forEach(bank => {
+                        const option = document.createElement('option');
+                        option.value = bank.name + ' - ' + bank.shortName;
+                        option.textContent = bank.name + ' - ' + bank.shortName;
+                        bankSelect.appendChild(option);
+                    });
+                } else {
+                    console.error('Error: ', response.data);
+                }
+            })
+            .catch(error => console.error('Có lỗi xảy ra:', error));
+    </script>
 @endsection

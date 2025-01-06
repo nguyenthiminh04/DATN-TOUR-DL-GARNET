@@ -101,32 +101,30 @@ class TourController extends Controller
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
 
-            // Xử lý hình ảnh đại diện
+
             if ($request->hasFile('image')) {
                 $params['image'] = $request->file('image')->store('uploads/image_tour', 'public');
             } else {
                 $params['image'] = null;
             }
 
-            // Tạo tour
+
             $tour = Tour::query()->create($params);
             $tourID = $tour->id;
 
-            // Xử lý thêm danh mục dịch vụ và dịch vụ đi kèm
+
             if ($request->has('category_services') && $request->has('services')) {
                 $categoryServices = $request->input('category_services');
                 $services = $request->input('services');
 
-                // Kiểm tra xem có danh mục dịch vụ và dịch vụ tương ứng không
+
                 foreach ($categoryServices as $categoryId) {
-                    // Lấy tất cả các dịch vụ thuộc danh mục này
+
                     $category = CategoryServiceModel::find($categoryId);
                     $availableServices = $category ? $category->services->pluck('id')->toArray() : [];
-
-                    // Lọc các dịch vụ chỉ thuộc danh mục này
                     foreach ($services as $serviceId) {
                         if (in_array($serviceId, $availableServices)) {
-                            // Chỉ lưu dịch vụ thuộc danh mục
+
                             DB::table('tour_service')->insert([
                                 'tour_id' => $tourID,
                                 'category_service_id' => $categoryId,
@@ -140,6 +138,26 @@ class TourController extends Controller
             } else {
                 return redirect()->back()->with('error', 'Không có danh mục dịch vụ hoặc dịch vụ đi kèm!');
             }
+
+
+            if ($request->has('locations')) {
+                $locations = $request->input('locations');
+
+                foreach ($locations as $location) {
+
+                    DB::table('tour_locations')->insert([
+                        'tour_id' => $tourID,
+                        'start' => $location['start'],
+                        'end' => $location['end'],
+                        'description' => $location['description'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            } else {
+                return redirect()->back()->with('error', 'Không có lịch trình!');
+            }
+
             return redirect()->route('tour.index')->with('success', 'Thêm mới thành công!');
         }
     }
@@ -153,7 +171,10 @@ class TourController extends Controller
         $title = "Chi Tiết Tour";
         $tour = Tour::with(['categoryServices', 'services'])->findOrFail($id);
         $uniqueCategories = $tour->categoryServices->unique('id');
-        return view('admin.tour.detail', compact('tour', 'uniqueCategories', 'title'));
+        $tourLocations = DB::table('tour_locations')
+            ->where('tour_id', $id)
+            ->get();
+        return view('admin.tour.detail', compact('tour', 'uniqueCategories', 'title', 'tourLocations'));
     }
 
     /**

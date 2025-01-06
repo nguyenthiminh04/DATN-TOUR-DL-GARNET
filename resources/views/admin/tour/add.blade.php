@@ -174,10 +174,18 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+
+                                                <div class="mb-3">
+                                                    <label for="description">Mô tả lịch trình:</label>
+                                                    <textarea name="locations[0][description]" class="form-control" required placeholder="Mô tả về lịch trình"></textarea>
+                                                </div>
+
                                                 <button type="button" class="btn btn-success add-itinerary">Thêm lịch
                                                     trình</button>
                                             </div>
                                         </div>
+
                                         <hr>
                                         <div class="mb-3">
                                             <label for="category_services">Chọn danh mục dịch vụ:</label>
@@ -549,7 +557,7 @@
             addButton.addEventListener('click', function() {
                 itineraryCount++;
 
-                // Tạo lịch trình mới
+                // Tạo lịch trình mới với trường mô tả
                 const newItinerary = document.createElement('div');
                 newItinerary.classList.add('itinerary');
                 newItinerary.innerHTML = `
@@ -565,16 +573,22 @@
                         </select>
                     </div>
                 </div>
-                   
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label for="end-location">Điểm kết thúc:</label>
                         <select name="locations[${itineraryCount - 1}][end]" class="form-control" required>
                             <option value="">Chọn địa điểm...</option>
                         </select>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <!-- Thêm trường Mô Tả -->
+            <div class="mb-3">
+                <label for="description">Mô tả lịch trình:</label>
+                <textarea name="locations[${itineraryCount - 1}][description]" class="form-control" required placeholder="Mô tả về lịch trình"></textarea>
+            </div>
+
             <button type="button" class="btn btn-danger remove-itinerary">Xóa lịch trình</button>
         `;
 

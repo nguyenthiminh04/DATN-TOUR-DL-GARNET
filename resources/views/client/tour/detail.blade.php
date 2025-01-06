@@ -730,7 +730,14 @@
 
 
                         <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                            <a itemprop="item" href="du-lich-cuba.html" title="Du lịch Cuba">
+                            <a itemprop="item" href="http://127.0.0.1:8000/tat-ca-tour" title="Du lịch Cuba">
+                                <span itemprop="name">Tất cả các tour</span>
+                                <meta itemprop="position" content="2" />
+                            </a>
+                            <span><i class="fa fa-angle-right"></i></span>
+                        </li>
+                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <a itemprop="item" href="" title="Du lịch Cuba">
                                 <span itemprop="name"><?= $tour['name'] ?></span>
                                 <meta itemprop="position" content="2" />
                             </a>
@@ -1312,8 +1319,7 @@
                                 <div class="tour--detail__content--left--overview__content-main">
 
                                     <h3 class="title-info text-center"
-                                        style="font-weight: bold; font-size: 2.4rem; text-transform: uppercase;">THÔNG TIN
-                                        VÀ DỊCH VỤ ĐI
+                                        style="font-weight: bold; font-size: 2.4rem; text-transform: uppercase;">DỊCH VỤ ĐI
                                         KÈM</h3>
                                     <div class="tour--detail__content--left--overview__content">
                                         @foreach ($uniqueCategories as $category)
@@ -1323,9 +1329,10 @@
                                                     <div class="tour--detail__content--left--overview__content-title">
                                                         <h5><b>{{ $category->category_name }}</b></h5>
                                                     </div>
-                                                    <p title="{{ $category->name }}"
+
+                                                    <p title="{{ $category->category_name }}"
                                                         class="line-clamp-title line-clamp-2">
-                                                        @foreach ($category->services->where('status', 1) as $service)
+                                                        @foreach ($category->services->where('status', 1)->unique('name') as $service)
                                                             {{ $service->name }} <br>
                                                         @endforeach
                                                     </p>
@@ -1333,6 +1340,7 @@
                                                 </div>
                                             @endif
                                         @endforeach
+
                                     </div>
                                     <hr>
                                 </div>
@@ -1347,19 +1355,14 @@
                         <div class="accordion">
                             <h3 class="title-info text-center"
                                 style="font-weight: bold; font-size: 2.4rem; text-transform: uppercase;">LỊCH TRÌNH</h3>
-                            @foreach ($itineraries as $index => $itinerary)
+                            @foreach ($tourLocations as $index => $location)
                                 <div class="accordion-item">
                                     <input type="checkbox" id="accordion{{ $index + 1 }}">
                                     <label for="accordion{{ $index + 1 }}" class="accordion-item-title">
                                         <span class="icon"></span>
                                         <b>Ngày {{ $index + 1 }}: <span>
                                                 <span>
-                                                    @if ($itinerary['is_start'] == 1)
-                                                        {{ $itinerary['location_name'] }}
-                                                    @endif
-                                                    @if ($itinerary['is_end'] == 0 && $itinerary['is_start'] != 1)
-                                                        - {{ $itinerary['location_name'] }}
-                                                    @endif
+                                                    {{ $location->start }} - {{ $location->end }}
                                                 </span>
                                             </span>
                                         </b>
@@ -1371,8 +1374,7 @@
                                         </span>
                                     </div> --}}
                                     <div class="accordion-item-desc">
-                                        {{ $itinerary['is_start'] ? 'Điểm khởi hành: ' . $itinerary['location_name'] : '' }}
-                                        {{ $itinerary['is_end'] ? 'Điểm kết thúc: ' . $itinerary['location_name'] : '' }}
+                                        {{ $location->description }}
                                     </div>
                                 </div>
                             @endforeach

@@ -50,9 +50,14 @@
                                 <a href="{{ route('payment_tour.index') }}" class="nav-link">Đơn hàng đã đặt</a>
                             </li>
                         </ul>
+
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="http://127.0.0.1:8000/admin/xu-ly-huy" class="nav-link">Đơn hàng đã huỷ</a>
+                            </li>
+                        </ul>
                     </div>
                 </li>
-
                 {{-- tour --}}
                 <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#tour" data-bs-toggle="collapse" role="button"

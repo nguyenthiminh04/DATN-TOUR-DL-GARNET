@@ -30,21 +30,21 @@
                         <div class="card-body">
                             <div class="row align-items-center g-2">
                                 <div class="col-lg-3 me-auto">
-                                    
+
                                 </div><!--end col-->
                                 <div class="col-lg-2">
                                     <div class="search-box">
-                                       
+
                                     </div>
                                 </div><!--end col-->
                                 <div class="col-lg-auto">
                                     <div class="hstack flex-wrap gap-2">
                                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                                             onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                                           
+
                                         <div>
-                                           
-                                           
+
+
                                         </div>
                                     </div>
                                 </div><!--end col-->
@@ -56,175 +56,203 @@
                                     <thead class="text-muted">
                                         <tr>
 
-                                          <th>Số thứ tự</th>
-                                          <th>Tài Khoản Đặt Tour</th>
-                                          <th>Thông Tin Tour</th>
-                                          <th>Lý Do Hủy</th>
-                                          <th>Số Tiền Hoàn</th>
-                                          <th>Hành động</th>
+                                            <th>Số thứ tự</th>
+                                            <th>Tài Khoản Đặt Tour</th>
+                                            <th>Thông Tin Tour</th>
+                                            <th>Lý Do Hủy</th>
+                                            <th>Số Tiền Hoàn</th>
+                                            <th>Hành động</th>
 
-                                           
 
-                                            
+
+
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
                                         @foreach ($listTour as $index => $item)
-                                        <tr>
+                                            <tr>
 
 
-                                            <td><a href="" class="text-reset">{{ $item->id }}</a></td>
+                                                <td><a href="" class="text-reset">{{ $item->id }}</a></td>
 
-                                            <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
-                                            <td>{{ $item->booking->tour->name ?? 'Tour đã bị xóa' }}</td>
-                                            <td>{{ $item->booking->ly_do_huy }}</td>
-                                            
-                                            {{ number_format($item->refund_amount, 0, ',', '.') }}
+                                                <td>{{ $item->booking->user->name ?? 'Ẩn Danh' }}</td>
+                                                <td>{{ $item->booking->tour->name ?? 'Tour đã bị xóa' }}</td>
+                                                <td>{{ $item->booking->ly_do_huy }} </td>
 
-                                            {{-- <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
+                                                <td> {{ number_format($item->refund_amount, 0, ',', '.') }} vnd</td>
+
+                                                {{-- <td class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                                 {{ $item->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td> --}}
-                                            <td>
-                                                <ul class="d-flex gap-2 list-unstyled mb-0">
-                                                   
-                                                   
-                                                    <li>
-                                                        <a href="#deleteRecordModal{{ $item->id }}" 
-                                                           data-bs-toggle="modal" 
-                                                           class="btn btn-subtle-success btn-icon btn-sm remove-item-btn">
-                                                           <i class="ph-check-circle"></i> 
-                                                        </a>
-                                                    </li>
-                                                    
-                                                    <li>
-                                                        <a href="#view{{ $item->id }}" data-bs-toggle="modal" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-eye"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#khongchohuy{{ $item->id }}"
-                                                            data-bs-toggle="modal"
-                                                            class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
-                                                                class="ph-trash"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                             <!-- Xóa User -->
-                                             <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-                                              <div class="modal-dialog modal-dialog-centered">
-                                                  <div class="modal-content">
-                                                      <div class="modal-header">
-                                                          <button type="button" class="btn-close" id="deleteRecord-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                      </div>
-                                                      <div class="modal-body p-md-5">
-                                                          <div class="text-center">
-                                                             <h1>Tải Lên Minh Chứng Cho Khách Hàng </h1>
-                                                              
-                                                          </div>
-                                                          <form action="{{ route('user.uploadCancelProof', $item->id) }}" method="POST" enctype="multipart/form-data">
-                                                            @csrf
-                                                            @method('PATCH')
-                                                            <div class="form-group mt-3">
-                                                                <label for="cancel_proof_image">Tải lên ảnh minh chứng:</label>
-                                                                <input type="file" name="cancel_proof_image" id="cancel_proof_image" accept="image/*" required class="form-control">
-                                                            </div>
-                                                            <div class="form-group mt-3">
-                                                                <label for="confirmation_code">Mã xác nhận:</label>
-                                                                <input type="text" name="confirmation_code" id="confirmation_code" placeholder="Nhập mã xác nhận" required class="form-control">
-                                                            </div>
-                                                            <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                                                                <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
-                                                                <button type="submit" class="btn w-sm btn-primary btn-hover">Gửi</button>
-                                                            </div>
-                                                        </form>
-                                                        
-                                                        
-                                                      </div>
-                                                  </div><!-- /.modal-content -->
-                                              </div><!-- /.modal-dialog -->
-                                          </div>
-                                          <div id="khongchohuy{{ $item->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="btn-close" id="closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body p-md-5">
-                                                        <div class="text-center">
-                                                            <div class="text-warning">
-                                                                <i class="bi bi-exclamation-circle display-5"></i>
-                                                            </div>
-                                                            <div class="mt-4">
-                                                                <h4 class="mb-2">Bạn có chắc không cho khách hàng hủy tour?</h4>
-                                                                <p class="text-muted mx-3 mb-0">Nếu đồng ý, trạng thái sẽ được đặt lại và khách hàng không thể hủy tour.</p>
-                                                            </div>
+                                                <td>
+                                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+
+
+                                                        <li>
+                                                            <a href="#deleteRecordModal{{ $item->id }}"
+                                                                data-bs-toggle="modal"
+                                                                class="btn btn-subtle-success btn-icon btn-sm remove-item-btn">
+                                                                <i class="ph-check-circle"></i>
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a href="#view{{ $item->id }}" data-bs-toggle="modal"
+                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                                    class="ph-eye"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#khongchohuy{{ $item->id }}" data-bs-toggle="modal"
+                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                                    class="ph-trash"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- Xóa User -->
+                                            <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn"
+                                                tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close" id="deleteRecord-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
-                                                        <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                                                            <form action="{{ route('user.rejectCancel', $item->id) }}" method="POST" class="d-inline">
+                                                        <div class="modal-body p-md-5">
+                                                            <div class="text-center">
+                                                                <h1>Tải Lên Minh Chứng Cho Khách Hàng </h1>
+
+                                                            </div>
+                                                            <form action="{{ route('user.uploadCancelProof', $item->id) }}"
+                                                                method="POST" enctype="multipart/form-data">
                                                                 @csrf
-                                                                @method('PUT')
-                                                                <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">Đóng</button>
-                                                                <button type="submit" class="btn w-sm btn-primary btn-hover" id="confirm-reject">Đồng ý</button>
+                                                                @method('PATCH')
+                                                                <div class="form-group mt-3">
+                                                                    <label for="cancel_proof_image">Tải lên ảnh minh
+                                                                        chứng:</label>
+                                                                    <input type="file" name="cancel_proof_image"
+                                                                        id="cancel_proof_image" accept="image/*" required
+                                                                        class="form-control">
+                                                                </div>
+                                                                <div class="form-group mt-3">
+                                                                    <label for="confirmation_code">Mã xác nhận:</label>
+                                                                    <input type="text" name="confirmation_code"
+                                                                        id="confirmation_code"
+                                                                        placeholder="Nhập mã xác nhận" required
+                                                                        class="form-control">
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
+                                                                    <button type="button"
+                                                                        class="btn w-sm btn-light btn-hover"
+                                                                        data-bs-dismiss="modal">Đóng</button>
+                                                                    <button type="submit"
+                                                                        class="btn w-sm btn-primary btn-hover">Gửi</button>
+                                                                </div>
                                                             </form>
+
+
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div>
+                                            <div id="khongchohuy{{ $item->id }}" class="modal fade zoomIn"
+                                                tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close" id="closeModal"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body p-md-5">
+                                                            <div class="text-center">
+                                                                <div class="text-warning">
+                                                                    <i class="bi bi-exclamation-circle display-5"></i>
+                                                                </div>
+                                                                <div class="mt-4">
+                                                                    <h4 class="mb-2">Bạn có chắc không cho khách hàng hủy
+                                                                        tour?</h4>
+                                                                    <p class="text-muted mx-3 mb-0">Nếu đồng ý, trạng thái
+                                                                        sẽ được đặt lại và khách hàng không thể hủy tour.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
+                                                                <form action="{{ route('user.rejectCancel', $item->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <button type="button"
+                                                                        class="btn w-sm btn-light btn-hover"
+                                                                        data-bs-dismiss="modal">Đóng</button>
+                                                                    <button type="submit"
+                                                                        class="btn w-sm btn-primary btn-hover"
+                                                                        id="confirm-reject">Đồng ý</button>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        
-                                          <div id="view{{ $item->id }}" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Chi tiết thông tin hoàn tiền</h5>
-                                                        <button type="button" class="btn-close" id="deleteRecord-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body p-md-5">
-                                                        <div class="text-center">
-                                                            <h4 class="mb-4"></h4>
+
+                                            <div id="view{{ $item->id }}" class="modal fade zoomIn" tabindex="-1"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Chi tiết thông tin hoàn tiền</h5>
+                                                            <button type="button" class="btn-close"
+                                                                id="deleteRecord-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
                                                         </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label fw-bold">Ảnh QR:</label>
-                                                            <div>
-                                                                @if($item->booking->qr_code)
-                                                                    <img src="{{ asset('storage/' . $item->booking->qr_code) }}" alt="Minh chứng" class="img-fluid rounded" style="max-height: 200px;">
-                                                                @else
-                                                                    <p class="text-muted">Chưa có ảnh QR.</p>
-                                                                @endif
+                                                        <div class="modal-body p-md-5">
+                                                            <div class="text-center">
+                                                                <h4 class="mb-4"></h4>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label fw-bold">Ảnh QR:</label>
+                                                                <div>
+                                                                    @if ($item->booking->qr_code)
+                                                                        <img src="{{ asset('storage/' . $item->booking->qr_code) }}"
+                                                                            alt="Minh chứng" class="img-fluid rounded"
+                                                                            style="max-height: 200px;">
+                                                                    @else
+                                                                        <p class="text-muted">Chưa có ảnh QR.</p>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label fw-bold">Số Tài Khoản:</label>
+                                                                <p class="text-muted">
+                                                                    {{ $item->booking->account_number ?? 'Chưa có số tài khoản.' }}
+                                                                </p>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label fw-bold">Tên Tài Khoản:</label>
+                                                                <p class="text-muted">
+                                                                    {{ $item->booking->account_name ?? 'Chưa có tên.' }}
+                                                                </p>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label fw-bold">Số Tiền Hoàn:</label>
+                                                                <p class="text-muted">
+                                                                    {{ number_format($item->refund_amount, 0, ',', '.') }}VND
+                                                                </p>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label fw-bold">Ngân Hàng:</label>
+                                                                <p class="text-muted">
+                                                                    {{ $item->booking->bank ?? 'Chưa có tên.' }}
+                                                                </p>
+                                                            </div>
+                                                            <div class="d-flex justify-content-center">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Đóng</button>
                                                             </div>
                                                         </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label fw-bold">Số Tài Khoản:</label>
-                                                            <p class="text-muted">
-                                                                {{ $item->booking->account_number ?? 'Chưa có số tài khoản.' }}
-                                                            </p>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label fw-bold">Tên Tài Khoản:</label>
-                                                            <p class="text-muted">
-                                                                {{ $item->booking->account_name ?? 'Chưa có tên.' }}
-                                                            </p>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label fw-bold">Số Tiền Hoàn:</label>
-                                                            <p class="text-muted">
-                                                                {{ number_format($item->refund_amount, 0, ',', '.') }}VND
-                                                            </p>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label fw-bold">Ngân Hàng:</label>
-                                                            <p class="text-muted">
-                                                                {{ $item->booking->bank ?? 'Chưa có tên.' }}
-                                                            </p>
-                                                        </div>
-                                                        <div class="d-flex justify-content-center">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.modal-content -->
-                                            </div><!-- /.modal-dialog -->
-                                        </div>
-                                        
-                                          
- 
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div>
                                         @endforeach
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
@@ -260,10 +288,10 @@
                     </div><!--end card-->
                 </div><!--end col-->
             </div><!--end row-->
-            
-            
-           
-            
+
+
+
+
         </div>
         <!-- container-fluid -->
 

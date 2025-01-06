@@ -166,6 +166,10 @@ class HomeController extends Controller
 
         $uniqueCategories = $tour->categoryServices->unique('id');
 
+        $tourLocations = DB::table('tour_locations')
+            ->where('tour_id', $id)
+            ->get();
+
         $data = [
             'tour' => $tour,
             'averageRating' => round($averageRating, 1),
@@ -182,6 +186,7 @@ class HomeController extends Controller
             'itineraries' => $itineraries,
             'tourDates' => $tourDates,
             'uniqueCategories' => $uniqueCategories,
+            'tourLocations' => $tourLocations,
         ];
         return view('client.tour.detail', $data);
     }
