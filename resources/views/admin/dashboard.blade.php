@@ -55,7 +55,6 @@
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
-
             <div class="row">
                 <form class="mb-3">
                     <div class="d-flex gap-3 justify-content-sm-end">
