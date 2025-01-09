@@ -39,4 +39,10 @@ class Tour extends Model
         // Cập nhật lại đúng tên cột khóa ngoại 'category_tour_id'
         return $this->belongsTo(Category::class, 'category_tour_id');
     }
+
+    // Quan hệ với bảng guide_tours
+    public function guideTours()
+    {
+        return $this->hasMany(Guide_tours::class, 'tour_id');
+    }
 }

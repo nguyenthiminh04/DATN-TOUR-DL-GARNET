@@ -200,8 +200,35 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#guide_tour" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="guide_tour">
+                        <i class="ph ph-notification"></i> <span data-key="t-layouts">Gán hướng dẫn viên</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="guide_tour">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('guide_tour.index') }}" class="nav-link">
+                                    Danh sách hướng dẫn viên đã gán</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('guide_tour.create') }}" class="nav-link">
+                                    Gán hướng dẫn viên</a>
+                            </li>
+                            {{-- <li class="nav-item">
+                                <a href="{{ route('notification-user.create') }}" class="nav-link">
+                                    Gán hướng dẫn viên</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('notification-user.index') }}" class="nav-link">
+                                    hướng dẫn viên đã gán</a>
+                            </li> --}}
+
+                        </ul>
+                    </div>
+                </li>
                 {{-- admin --}}
-                @if (auth()->user()->role_id == '1')
+                @if (auth()->check() && auth()->user()->role_id == '1')
                     <li class="nav-item">
                         <a class="nav-link menu-link collapsed" href="#permissions" data-bs-toggle="collapse"
                             role="button" aria-expanded="false" aria-controls="permissions">

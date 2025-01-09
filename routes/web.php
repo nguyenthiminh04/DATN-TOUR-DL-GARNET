@@ -40,6 +40,7 @@ use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
+use App\Http\Controllers\GuideToursController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +56,7 @@ use App\Http\Controllers\Client\TourController as ClientTourController;
 
 // client routes
 Route::group(['middleware' => 'checkstatus'], function () {
-    
+
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/auth/check-user-status', [AuthClientController::class, 'checkUserStatus'])->name('auth.check-user-status');
 
@@ -271,5 +272,15 @@ Route::group(['prefix' => 'admin'], function () {
         // end logs
 
         Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
+
+        // guide_tour
+        Route::get('/guide_tour', [GuideToursController::class, 'index'])->name('guide_tour.index');
+        Route::get('/guide_tour/create', [GuideToursController::class, 'create'])->name('guide_tour.create');
+        Route::post('/guide_tour', [GuideToursController::class, 'store'])->name('guide_tour.store');
+        Route::get('/guide_tour/{id}/edit', [GuideToursController::class, 'edit'])->name('guide_tour.edit');
+        Route::patch('/guide_tour/{id}', [GuideToursController::class, 'update'])->name('guide_tour.update');
+        Route::delete('/guide_tour/delete/{id}', [GuideToursController::class, 'destroy'])->name('guide_tour.destroy');
+        Route::get('/tours/{tour}/dates', [GuideToursController::class, 'getDates'])->name('guide_tour.getDates');
+        // end guide_tour
     });
 });

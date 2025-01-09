@@ -68,12 +68,7 @@ class Tour extends Model
     {
         return $this->belongsTo(Location::class, 'location_id');
     }
-    public function guides()
-
-
-    {
-        return $this->hasMany(Coupons::class, 'tour_id');
-    }
+   
     public function category_tour()
     {
         return $this->belongsTo(CategoryTour::class, 'tour_id');
