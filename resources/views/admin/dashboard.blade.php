@@ -67,7 +67,8 @@
                             <label for="end_date_thong_ke">Đến ngày:</label>
                             <input type="text" name="end_date_thong_ke" id="datepicker4" class="form-control">
                         </div>
-                        <input type="button" id="btn-dashboard-total" class="btn btn-primary" value="Lọc">
+                        <input type="button" id="btn-dashboard-total" class="btn btn-primary " value="Lọc"
+                            style="height: 40px; margin-top: 17px">
                     </div>
                 </form>
                 <div class="col-md-3">

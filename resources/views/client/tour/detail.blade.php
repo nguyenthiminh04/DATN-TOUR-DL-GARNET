@@ -558,7 +558,7 @@
             /* font-family: "Sora", sans-serif; */
             max-width: 991px;
             min-width: 320px;
-            margin: 50px auto;
+            margin: auto;
             /* padding: 0 50px; */
         }
 
@@ -710,6 +710,13 @@
             display: flex;
             flex-direction: column;
             gap: .8rem;
+        }
+
+        .wrapper {
+            font-size: 1.4rem;
+            line-height: 2.5rem;
+            padding: 0 0 1rem;
+            text-align: justify;
         }
     </style>
 @endsection
@@ -1256,7 +1263,7 @@
 
                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9 margin-top-15 margin-bottom-10">
                             <div class="tour-tab-title">
-                                Lịch trình Tour
+                                MÔ TẢ
                             </div>
                             <div class="product-tab">
                                 {!! $tour->content !!}
@@ -1313,9 +1320,8 @@
 
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9 ">
-                            <hr>
-                            <div id="overview">
 
+                            <div id="overview">
                                 <div class="tour--detail__content--left--overview__content-main">
 
                                     <h3 class="title-info text-center"
@@ -1327,7 +1333,9 @@
                                                 <div class="tour--detail__content--left--overview__content-item item-sm">
 
                                                     <div class="tour--detail__content--left--overview__content-title">
-                                                        <h5><b>{{ $category->category_name }}</b></h5>
+                                                        <h4 style="font-size: 1.8rem;font-weight: 700;">
+                                                            <b>{{ $category->category_name }}</b>
+                                                        </h4>
                                                     </div>
 
                                                     <p title="{{ $category->category_name }}"
@@ -1342,17 +1350,17 @@
                                         @endforeach
 
                                     </div>
-                                    <hr>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="row">
+
                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
                         <div class="accordion">
+
                             <h3 class="title-info text-center"
                                 style="font-weight: bold; font-size: 2.4rem; text-transform: uppercase;">LỊCH TRÌNH</h3>
                             @foreach ($tourLocations as $index => $location)
@@ -1378,19 +1386,20 @@
                                     </div>
                                 </div>
                             @endforeach
-
                         </div>
                     </div>
                 </div>
 
+
                 <div class="row">
+
                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9 margin-top-15 margin-bottom-10">
-                        <hr>
+
                         <h3 class="title-info text-center"
                             style="font-weight: bold; font-size: 2.4rem; text-transform: uppercase;">NHỮNG THÔNG TIN CẦN
                             LƯU Ý</h3>
 
-                        <!-- Cột 1 -->
+
                         <div class="col-xs-6 col-sm-6">
                             <div class="accordion">
                                 <!-- Accordion Item 1 -->
@@ -1400,7 +1409,20 @@
                                         <span class="icon"></span>
                                         <b>Giá tour bao gồm</b>
                                     </label>
-                                    <div class="accordion-item-desc">Nội dung chi tiết cho mục "Giá tour bao gồm".
+                                    <div class="accordion-item-desc">
+                                        <div class="wrapper">
+                                            - Xe tham quan (16, 29, 35, 45 chỗ tùy theo số lượng khách) theo chương trình
+                                            <br>- Vé máy bay khứ hồi
+                                            <br>- Khách sạn tương tương 3&amp;4 sao theo tiêu chuẩn 2 khách/phòng hoặc 3
+                                            khách/phòng
+                                            <br>- Các bữa ăn theo chương trình
+                                            <br>- Vé tham quan theo chương trình
+                                            <br>- Hướng dẫn viên tiếng Việt nối tuyến
+                                            <br>- Bảo hiểm du lịch với mức bồi thường cao nhất 120.000.000đ/vụ
+                                            <br>- Nón Vietravel + Nước suối + Khăn lạnh
+                                            <br>- Thuế VAT
+                                            <br>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- Accordion Item 2 -->
@@ -1408,9 +1430,16 @@
                                     <input type="checkbox" id="accordion1-2">
                                     <label for="accordion1-2" class="accordion-item-title">
                                         <span class="icon"></span>
-                                        <b>Điều khoản thanh toán</b>
+                                        <b>Giá tour không bao gồm</b>
                                     </label>
-                                    <div class="accordion-item-desc">Nội dung chi tiết cho mục "Điều khoản thanh toán".
+                                    <div class="accordion-item-desc">
+                                        <div>- Chi phí cá nhân: ăn uống ngoài chương trình, giặt ủi, chi phí hủy đổi hành
+                                            trình và nâng hạng chuyến bay, hành lý quá cước, phụ thu phòng đơn,…
+                                            <br>- Tham quan ngoài chương trình : đền Ngọc Sơn, cáp treo Fansipan, thuyền
+                                            kayak, đền Ngọc Sơn,..
+                                            <br>
+                                            <br>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- Accordion Item 3 -->
@@ -1418,28 +1447,29 @@
                                     <input type="checkbox" id="accordion1-3">
                                     <label for="accordion1-3" class="accordion-item-title">
                                         <span class="icon"></span>
-                                        <b>Hủy tour</b>
+                                        <b>Thanh toán</b>
                                     </label>
-                                    <div class="accordion-item-desc">Nội dung chi tiết cho mục "Hủy tour".</div>
-                                </div>
-                                <!-- Accordion Item 4 -->
-                                <div class="accordion-item">
-                                    <input type="checkbox" id="accordion1-4">
-                                    <label for="accordion1-4" class="accordion-item-title">
-                                        <span class="icon"></span>
-                                        <b>Quy định hành lý</b>
-                                    </label>
-                                    <div class="accordion-item-desc">Nội dung chi tiết cho mục "Quy định hành lý".
+                                    <div class="accordion-item-desc">
+                                        <div>- Quý khách có thể thanh toán tại địa điểm check in hoặc thanh toán onine
+                                            <br>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Accordion Item 5 -->
                                 <div class="accordion-item">
-                                    <input type="checkbox" id="accordion1-5">
-                                    <label for="accordion1-5" class="accordion-item-title">
+                                    <input type="checkbox" id="accordion2-1">
+                                    <label for="accordion2-1" class="accordion-item-title">
                                         <span class="icon"></span>
-                                        <b>Thông tin liên hệ</b>
+                                        <b>Lưu ý về chuyển hoặc hủy tour</b>
                                     </label>
-                                    <div class="accordion-item-desc">Nội dung chi tiết cho mục "Thông tin liên hệ".
+                                    <div class="accordion-item-desc">
+                                        <div>- Sau khi đóng tiền, nếu Quý khách muốn chuyển/huỷ tour xin vui lòng mang Vé Du
+                                            Lịch đến văn phòng đăng ký tour để làm thủ tục chuyển/huỷ tour và chịu mất phí
+                                            theo quy định của Vietravel. Không giải quyết các trường hợp liên hệ chuyển/huỷ
+                                            tour qua điện thoại.
+                                            <br>- Thời gian hủy chuyến du lịch được tính cho ngày làm việc, không tính thứ
+                                            7, Chủ Nhật và các ngày Lễ, Tết.
+                                            <br>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1449,23 +1479,31 @@
                         <div class="col-xs-6 col-sm-6">
                             <div class="accordion">
                                 <!-- Accordion Item 1 -->
-                                <div class="accordion-item">
-                                    <input type="checkbox" id="accordion2-1">
-                                    <label for="accordion2-1" class="accordion-item-title">
-                                        <span class="icon"></span>
-                                        <b>Chính sách hoàn tiền</b>
-                                    </label>
-                                    <div class="accordion-item-desc">Nội dung chi tiết cho mục "Chính sách hoàn tiền".
-                                    </div>
-                                </div>
+
                                 <!-- Accordion Item 2 -->
                                 <div class="accordion-item">
                                     <input type="checkbox" id="accordion2-2">
                                     <label for="accordion2-2" class="accordion-item-title">
                                         <span class="icon"></span>
-                                        <b>Giấy tờ cần thiết</b>
+                                        <b>Các điều kiện hủy tour đối với ngày thường</b>
                                     </label>
-                                    <div class="accordion-item-desc">Nội dung chi tiết cho mục "Giấy tờ cần thiết".
+                                    <div class="accordion-item-desc">
+                                        <div>- Được chuyển sang các tuyến du lịch khác trước ngày khởi hành 20 ngày: Không
+                                            mất chi phí.
+                                            <br>- Nếu hủy hoặc chuyển sang các chuyến du lịch khác ngay sau khi đăng ký từ
+                                            15-19 ngày trước ngày khởi hành: Chi phí hủy tour: 50% tiền cọc tour.
+                                            <br>- Nếu hủy hoặc chuyển sang các chuyến du lịch khác từ 12-14 ngày trước ngày
+                                            khởi hành: Chi phí hủy tour: 100% tiền cọc tour.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 08-11 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 50% trên giá tour du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 05-07 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 70% trên giá tour du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 02-04 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 90% trên giá vé du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng 1 ngày trước ngày khởi hành : Chi phí
+                                            hủy tour: 100% trên giá vé du lịch.
+                                            <br>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- Accordion Item 3 -->
@@ -1473,9 +1511,25 @@
                                     <input type="checkbox" id="accordion2-3">
                                     <label for="accordion2-3" class="accordion-item-title">
                                         <span class="icon"></span>
-                                        <b>Chính sách bảo hiểm</b>
+                                        <b>Các điều kiện hủy tour đối với ngày lễ, Tết</b>
                                     </label>
-                                    <div class="accordion-item-desc">Nội dung chi tiết cho mục "Chính sách bảo hiểm".
+                                    <div class="accordion-item-desc">
+                                        <div>- Được chuyển sang các tuyến du lịch khác trước ngày khởi hành 30 ngày : Không
+                                            mất chi phí.
+                                            <br>- Nếu hủy hoặc chuyển sang các chuyến du lịch khác ngay sau khi đăng ký từ
+                                            25-29 ngày trước ngày khởi hành: Chi phí hủy tour: 50% tiền cọc tour.
+                                            <br>- Nếu hủy hoặc chuyển sang các chuyến du lịch khác từ 20-24 ngày trước ngày
+                                            khởi hành: Chi phí hủy tour: 100% tiền cọc tour.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 17-19 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 50% trên giá tour du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 08-16 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 70% trên giá tour du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 02-07 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 90% trên giá vé du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng 1 ngày trước ngày khởi hành : Chi phí
+                                            hủy tour: 100% trên giá vé du lịch.
+                                            <br>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- Accordion Item 4 -->
@@ -1483,9 +1537,17 @@
                                     <input type="checkbox" id="accordion2-4">
                                     <label for="accordion2-4" class="accordion-item-title">
                                         <span class="icon"></span>
-                                        <b>Lưu ý khi đi tour</b>
+                                        <b>Trường hợp bất khả kháng</b>
                                     </label>
-                                    <div class="accordion-item-desc">Nội dung chi tiết cho mục "Lưu ý khi đi tour".
+                                    <div class="accordion-item-desc">
+                                        <div>- Nếu chương trình du lịch bị hủy bỏ hoặc thay đổi bởi một trong hai bên vì lý
+                                            do bất khả kháng (hỏa hoạn, thời tiết, tai nạn, thiên tai, chiến tranh, dịch
+                                            bệnh, hoãn, dời, và hủy chuyến hoặc thay đổi khác của các phương tiện vận chuyển
+                                            công cộng hoặc các sự việc bất khả kháng khác theo quy định pháp luật…), thì hai
+                                            bên sẽ không chịu bất kỳ nghĩa vụ bồi hoàn các tổn thất đã xảy ra và không chịu
+                                            bất kỳ trách nhiệm pháp lý nào. Tuy nhiên mỗi bên có trách nhiệm cố gắng tối đa
+                                            để giúp đỡ bên bị thiệt hại nhằm giảm thiểu các tổn thất gây ra vì lý do bất khả
+                                            kháng.</div>
                                     </div>
                                 </div>
                                 <!-- Accordion Item 5 -->
@@ -1493,9 +1555,22 @@
                                     <input type="checkbox" id="accordion2-5">
                                     <label for="accordion2-5" class="accordion-item-title">
                                         <span class="icon"></span>
-                                        <b>Liên hệ khẩn cấp</b>
+                                        <b>Thông tin liên hệ</b>
                                     </label>
-                                    <div class="accordion-item-desc">Nội dung chi tiết cho mục "Liên hệ khẩn cấp".
+                                    <div class="accordion-item-desc">
+                                        <div>
+                                            <title></title>
+                                            <p style="text-align:center"><strong>Mọi chi tiết vui lòng liên hệ<br>
+                                                    GARNET TRAVEL<br>
+                                                    Đường Trịnh Văn Bô - Xuân Phương - Nam Từ Liêm - Hà Nội<br>
+                                                    Điện thoại: 0866228460<br>
+                                                    Hotline: 1900 2424</strong></p>
+
+                                            <p style="text-align:center"><strong>GARNET TRAVEL KÍNH CHÚC QUÝ KHÁCH MỘT
+                                                    CHUYẾN
+                                                    DU LỊCH VUI VẺ!</strong><br>
+                                                &nbsp;</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1505,7 +1580,7 @@
                 </div>
             </div>
         </div>
-
+        <br><br>
         @if ($canReview)
             <div class="tour-review">
                 <form method="POST" id="reviewForm" data-tour-id="{{ $tour->id }}"

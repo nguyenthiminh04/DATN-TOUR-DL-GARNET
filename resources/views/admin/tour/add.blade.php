@@ -464,7 +464,7 @@
                                             </div>
 
 
-                                            <div class="mb-3">
+                                            <div class="mb-3 col-6">
                                                 <label for="status1" class="form-label">Trạng Thái<span
                                                         class="text-danger">*</span></label>
                                                 <select class="form-select" id="status1" name="status">
