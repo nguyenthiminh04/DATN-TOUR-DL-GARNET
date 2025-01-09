@@ -21,7 +21,6 @@ use Illuminate\Support\Str;
 class BookingController extends Controller
 {
 
-
     public function store(Request $request)
     {
         // Xác thực dữ liệu gửi lên

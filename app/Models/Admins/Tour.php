@@ -70,10 +70,9 @@ class Tour extends Model
     // Định nghĩa quan hệ Tour thuộc về Location
     public function location()
     {
-        return $this->belongsTo(Location::class, 'location_id');
+        return $this->belongsTo(Location::class);
     }
     public function guides()
-
 
     {
         return $this->hasMany(Coupons::class, 'tour_id');
@@ -82,26 +81,26 @@ class Tour extends Model
     {
         return $this->belongsTo(CategoryTour::class, 'tour_id');
     }
-    
+
 
     public function scopeSearch($query, $searchTerm)
     {
 
         return $query->where('name', 'like', '%' . $searchTerm . '%');
-            // ->orWhere('title', 'like', '%' . $searchTerm . '%')  
-            // ->orWhere('description', 'like', '%' . $searchTerm . '%')
-            // ->orWhere('content', 'like', '%' . $searchTerm . '%')
-            // ->orWhere('journeys', 'like', '%' . $searchTerm . '%')
-            // ->orWhere('schedule', 'like', '%' . $searchTerm . '%')
-            // ->orWhere('move_method', 'like', '%' . $searchTerm . '%')
-            // ->orWhere('starting_gate', 'like', '%' . $searchTerm . '%')
-            // ->orWhere('start_date', 'like', '%' . $searchTerm . '%')
-            // ->orWhere('end_date', 'like', '%' . $searchTerm . '%')
-            // ->orWhere('price_old', 'like', '%' . $searchTerm . '%')
-            // ->orWhere('price_children', 'like', '%' . $searchTerm . '%')
-            // ->orWhere('sale', 'like', '%' . $searchTerm . '%');
+        // ->orWhere('title', 'like', '%' . $searchTerm . '%')  
+        // ->orWhere('description', 'like', '%' . $searchTerm . '%')
+        // ->orWhere('content', 'like', '%' . $searchTerm . '%')
+        // ->orWhere('journeys', 'like', '%' . $searchTerm . '%')
+        // ->orWhere('schedule', 'like', '%' . $searchTerm . '%')
+        // ->orWhere('move_method', 'like', '%' . $searchTerm . '%')
+        // ->orWhere('starting_gate', 'like', '%' . $searchTerm . '%')
+        // ->orWhere('start_date', 'like', '%' . $searchTerm . '%')
+        // ->orWhere('end_date', 'like', '%' . $searchTerm . '%')
+        // ->orWhere('price_old', 'like', '%' . $searchTerm . '%')
+        // ->orWhere('price_children', 'like', '%' . $searchTerm . '%')
+        // ->orWhere('sale', 'like', '%' . $searchTerm . '%');
 
-       
+
 
     }
 
@@ -127,16 +126,27 @@ class Tour extends Model
         return $this->hasMany(Review::class);
     }
     public function tourDates()
-{
-    return $this->hasMany(TourDate::class, 'tour_id');
-}
-public function tourLocations()
-{
-    return $this->hasMany(TourLocation::class);
-}
-public function locations()
-{
-    return $this->belongsToMany(LocationUpdate::class, 'tour_locations')
-                ->withPivot('is_start', 'is_end'); // Các trường phụ trong bảng `tour_locations`
-}
+    {
+        return $this->hasMany(TourDate::class, 'tour_id');
+    }
+    public function tourLocations()
+    {
+        return $this->hasMany(TourLocation::class);
+    }
+    public function locations()
+    {
+        return $this->belongsToMany(LocationUpdate::class, 'tour_locations')
+            ->withPivot('is_start', 'is_end'); // Các trường phụ trong bảng `tour_locations`
+    }
+
+    public function categoryServices()
+    {
+        return $this->belongsToMany(CategoryServiceModel::class, 'tour_service', 'tour_id', 'category_service_id');
+    }
+
+
+    public function services()
+    {
+        return $this->belongsToMany(ServiceModel::class, 'tour_service', 'tour_id', 'service_id');
+    }
 }

@@ -32,7 +32,7 @@ class UserController extends Controller
         $query = User::query();
 
         if ($status !== null) {
-            $query->where('status', $status)->where('role_id',2);
+            $query->where('status', $status)->where('role_id', 2);
         }
 
         $listuser = $query->get();

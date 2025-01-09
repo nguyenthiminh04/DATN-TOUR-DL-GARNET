@@ -233,42 +233,40 @@ class myAccountController extends Controller
 
         return redirect()->back()->with('success', $message);
     }
-   public function submitRefundRequest(Request $request, $id)
-{
-    // Validate dữ liệu đầu vào
-    $request->validate([
-        'account_name'   => 'required|string|max:255', // Tên tài khoản
-        'account_number' => 'required|string|max:50',  // Số tài khoản
-        'bank' => 'required|string|max:50',  // Số tài khoản
-        'qr_code'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Ảnh QR (tùy chọn)
-    ]);
+    public function submitRefundRequest(Request $request, $id)
+    {
 
-    // Tìm thông tin thanh toán và booking liên quan
-    $payment = Payment::with(['booking', 'booking.tour'])->findOrFail($id);
-    $bookTour = $payment->booking;
+        $request->validate([
+            'account_name'   => 'required|string|max:255', // Tên tài khoản
+            'account_number' => 'required|string|max:50',  // Số tài khoản
+            'bank' => 'required|string|max:50',  // Số tài khoản
+            'qr_code'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Ảnh QR (tùy chọn)
+        ]);
 
-    // Kiểm tra nếu không có booking hoặc không tồn tại
-    if (!$bookTour) {
-        return redirect()->back()->with('error', 'Thông tin đặt tour không tồn tại.');
+        // Tìm thông tin thanh toán và booking liên quan
+        $payment = Payment::with(['booking', 'booking.tour'])->findOrFail($id);
+        $bookTour = $payment->booking;
+
+        // Kiểm tra nếu không có booking hoặc không tồn tại
+        if (!$bookTour) {
+            return redirect()->back()->with('error', 'Thông tin đặt tour không tồn tại.');
+        }
+
+        // Lưu đường dẫn ảnh QR nếu được tải lên
+        $qrCodePath = null;
+        if ($request->hasFile('qr_code')) {
+            $qrCodePath = $request->file('qr_code')->store('qr_codes', 'public'); // Lưu vào thư mục `storage/app/public/qr_codes`
+        }
+
+        // Cập nhật thông tin vào bảng `book_tour`
+        $bookTour->update([
+            'account_name'   => $request->account_name,
+            'account_number' => $request->account_number,
+            'bank' => $request->bank,
+            'qr_code'        => $qrCodePath,
+        ]);
+
+        // Gửi thông báo hoặc phản hồi về kết quả
+        return redirect()->back()->with('success', 'Yêu cầu hoàn tiền đã được gửi thành công. Chúng tôi sẽ xử lý trong thời gian sớm nhất.');
     }
-
-    // Lưu đường dẫn ảnh QR nếu được tải lên
-    $qrCodePath = null;
-    if ($request->hasFile('qr_code')) {
-        $qrCodePath = $request->file('qr_code')->store('qr_codes', 'public'); // Lưu vào thư mục `storage/app/public/qr_codes`
-    }
-
-    // Cập nhật thông tin vào bảng `book_tour`
-    $bookTour->update([
-        'account_name'   => $request->account_name,
-        'account_number' => $request->account_number,
-        'bank' => $request->bank,
-        'qr_code'        => $qrCodePath,
-    ]);
-
-    // Gửi thông báo hoặc phản hồi về kết quả
-    return redirect()->back()->with('success', 'Yêu cầu hoàn tiền đã được gửi thành công. Chúng tôi sẽ xử lý trong thời gian sớm nhất.');
-}
-
-
 }

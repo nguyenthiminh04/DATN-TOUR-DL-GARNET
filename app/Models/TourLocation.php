@@ -28,6 +28,7 @@ class TourLocation extends Model
     // Quan hệ với bảng `location_update` (một địa điểm có nhiều mối quan hệ với tour)
     public function location()
     {
-        return $this->belongsTo(LocationUpdate::class, 'location_id');
+
+        return $this->belongsTo(LocationUpdate::class);
     }
 }

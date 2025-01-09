@@ -12,7 +12,10 @@ use App\Models\Admins\ImageTour;
 use App\Http\Requests\TourRequest;
 use App\Models\Admins\CategoryTour;
 use App\Http\Controllers\Controller;
+use App\Models\Admins\CategoryServiceModel;
+use App\Models\Admins\ServiceModel;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class TourController extends Controller
 {
@@ -31,25 +34,30 @@ class TourController extends Controller
     public function index(Request $request)
     {
         $title = "Danh Sách Tour";
-
         $status = $request->get('status');
 
         $query = Tour::query();
+
+
         if ($status !== null) {
             $query->where('status', $status);
         }
 
-        $listtour = $query->orderBy('id', 'desc')->get();
+
+        $listtour = $query->with(['categoryServices', 'services'])->orderBy('id', 'desc')->get();
+
 
         if ($request->ajax()) {
             return response()->json([
                 'data' => $listtour
             ]);
         }
+        // dd($listtour);
 
         $listuser = User::all();
         $listlocation = Location::all();
         $listCategoryTour = CategoryTour::all();
+
 
         return view('admin.tour.index', compact('title', 'listtour', 'listuser', 'listlocation', 'listCategoryTour'));
     }
@@ -61,13 +69,29 @@ class TourController extends Controller
      */
     public function create()
     {
-        $title = "Thêm Tour";
-        //
-        $listuser = User::query()->get();
-        $listlocation = Location::query()->get();
-        $listCategoryTour = CategoryTour::query()->get();
-        return view('admin.tour.add', compact('listuser', 'listlocation', 'listCategoryTour', 'title'));
+        $data['title'] = "Thêm Tour";
+        $data['listuser'] = User::query()->get();
+        $data['listlocation'] = Location::query()->get();
+        $data['listCategoryTour'] = CategoryTour::query()->get();
+        $data['categoryServices'] = CategoryServiceModel::where('status', 1)->get();
+        $data['services'] = [];
+        return view('admin.tour.add', $data);
     }
+
+
+    public function getServicesByCategories(Request $request)
+    {
+        $categoryIds = $request->get('category_ids', []); // Nhận danh sách danh mục đã chọn
+
+        // Lấy dịch vụ thuộc danh mục đã chọn
+        $services = ServiceModel::whereIn('category_service_id', $categoryIds)
+            ->where('status', 1)
+            ->get();
+
+        return response()->json(['services' => $services]);
+    }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -76,85 +100,67 @@ class TourController extends Controller
     {
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
-            
-            // Lấy trực tiếp giá trị từ dropdown
-            $params['status'] = $request->input('status');
-            
-            // Xử lý hình ảnh đại diện
+
+
             if ($request->hasFile('image')) {
                 $params['image'] = $request->file('image')->store('uploads/image_tour', 'public');
             } else {
                 $params['image'] = null;
             }
-            
-            // Thêm tour (chỉ thực hiện create một lần)
+
+
             $tour = Tour::query()->create($params);
-            
-            // Lấy ID của tour vừa thêm
             $tourID = $tour->id;
-            
-            // Xử lý thêm album
-            if ($request->hasFile('list_hinh_anh')) {
-                foreach ($request->file('list_hinh_anh') as $image) {
-                    if ($image) {
-                        $path = $image->store('uploads/imagetour/id_' . $tourID, 'public');
-                        $tour->imagetour()->create([
-                            'tour_id' => $tourID,
-                            'image' => $path,
-                        ]);
+
+
+            if ($request->has('category_services') && $request->has('services')) {
+                $categoryServices = $request->input('category_services');
+                $services = $request->input('services');
+
+
+                foreach ($categoryServices as $categoryId) {
+
+                    $category = CategoryServiceModel::find($categoryId);
+                    $availableServices = $category ? $category->services->pluck('id')->toArray() : [];
+                    foreach ($services as $serviceId) {
+                        if (in_array($serviceId, $availableServices)) {
+
+                            DB::table('tour_service')->insert([
+                                'tour_id' => $tourID,
+                                'category_service_id' => $categoryId,
+                                'service_id' => $serviceId,
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ]);
+                        }
                     }
                 }
+            } else {
+                return redirect()->back()->with('error', 'Không có danh mục dịch vụ hoặc dịch vụ đi kèm!');
             }
-    
-            // Xử lý ngày tour
-            if ($request->has('tour_dates')) {
-                // Tách chuỗi ngày thành mảng
-                $dates = explode(',', $request->input('tour_dates'));
-                
-                foreach ($dates as $date) {
-                    // Lưu từng ngày vào bảng `tour_dates`
-                    $tour->tourDates()->create([
+
+
+            if ($request->has('locations')) {
+                $locations = $request->input('locations');
+
+                foreach ($locations as $location) {
+
+                    DB::table('tour_locations')->insert([
                         'tour_id' => $tourID,
-                        'tour_date' => $date,
+                        'start' => $location['start'],
+                        'end' => $location['end'],
+                        'description' => $location['description'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
                     ]);
                 }
+            } else {
+                return redirect()->back()->with('error', 'Không có lịch trình!');
             }
-    
-            // Xử lý thêm địa điểm (lịch trình)
-            if ($request->has('locations')) {
-                // Lặp qua từng lịch trình trong mảng locations
-                foreach ($request->input('locations') as $index => $location) {
-                    if (isset($location['start']) && isset($location['end'])) {
-                        // Kiểm tra và lấy location_id từ bảng Location (nếu chưa tồn tại)
-                       
-                      // Kiểm tra và lấy location_id từ bảng locations_update (nếu chưa tồn tại)
-$startLocation = LocationUpdate::firstOrCreate(['name' => $location['start']]);
-$endLocation = LocationUpdate::firstOrCreate(['name' => $location['end']]);
 
-// Lưu địa điểm bắt đầu và kết thúc vào bảng tour_locations
-$tour->tourLocations()->create([
-    'tour_id' => $tourID,
-    'location_id' => $startLocation->id,  // Điểm bắt đầu từ bảng LocationsUpdate
-    'is_start' => true,   // Đánh dấu là điểm bắt đầu
-    'is_end' => false,    // Đánh dấu là không phải điểm kết thúc
-]);
-
-$tour->tourLocations()->create([
-    'tour_id' => $tourID,
-    'location_id' => $endLocation->id,  // Điểm kết thúc từ bảng LocationsUpdate
-    'is_start' => false,  // Đánh dấu là không phải điểm bắt đầu
-    'is_end' => true,     // Đánh dấu là điểm kết thúc
-]);
-                    }
-                }
-            }
-    
             return redirect()->route('tour.index')->with('success', 'Thêm mới thành công!');
         }
     }
-    
-    
-    
 
 
     /**
@@ -162,8 +168,13 @@ $tour->tourLocations()->create([
      */
     public function show($id)
     {
-        $tour = Tour::findOrFail($id);
-        return view('admin.tour.details', compact('tour'));  // Tạo một partial để hiển thị chi tiết tour
+        $title = "Chi Tiết Tour";
+        $tour = Tour::with(['categoryServices', 'services'])->findOrFail($id);
+        $uniqueCategories = $tour->categoryServices->unique('id');
+        $tourLocations = DB::table('tour_locations')
+            ->where('tour_id', $id)
+            ->get();
+        return view('admin.tour.detail', compact('tour', 'uniqueCategories', 'title', 'tourLocations'));
     }
 
     /**

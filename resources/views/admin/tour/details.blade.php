@@ -123,15 +123,31 @@
     </div>
 
     <div class="mb-3">
-        <p><strong>Trạng thái:</strong> 
+        <p><strong>Trạng thái:</strong>
             @if ($tour->status == 1)
-                <span >Hiển Thị</span>
+                <span>Hiển Thị</span>
             @else
-                <span >Ẩn</span>
+                <span>Ẩn</span>
             @endif
         </p>
     </div>
-    
+
+    <h3>Danh Mục Dịch Vụ</h3>
+    <ul>
+        @foreach ($tour->categoryServices as $categoryService)
+            <li>
+                <strong>{{ $categoryService->category_name }}</strong>
+            </li>
+        @endforeach
+    </ul>
+
+
+    <h3>Dịch Vụ Đi Kèm</h3>
+    <ul>
+        @foreach ($tour->services as $service)
+            <li>{{ $service->name }} - {{ $service->price }} VND</li>
+        @endforeach
+    </ul>
 
     <div class="mb-3">
         <strong>Ngày đăng:</strong>

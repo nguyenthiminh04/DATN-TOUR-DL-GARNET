@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\AdvisoryController;
 use App\Http\Controllers\Admin\BookTourController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryServiceController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Client\BookingController;
 use App\Http\Controllers\Client\ContactController;
@@ -38,6 +39,7 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Http\Controllers\CouponsClientController;
@@ -290,5 +292,27 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
         Route::post('/filter-date-total', [StatisticalController::class, 'filterDateTotal'])->name('admin.filterTotal');
+
+
+        //service
+        Route::get('/service',                  [AdminServiceController::class, 'index'])->name('service.index');
+        Route::get('/service/create',           [AdminServiceController::class, 'create'])->name('service.create');
+        Route::post('/service/store',           [AdminServiceController::class, 'store'])->name('service.store');
+        Route::get('/service/edit/{id}',        [AdminServiceController::class, 'edit'])->name('service.edit');
+        Route::post('/service/update/{id}',     [AdminServiceController::class, 'update'])->name('service.update');
+
+        Route::post('service/status/{id}',      [AdminServiceController::class, 'serviceStatus'])->name('service.serviceStatus');
+        Route::post('/api/get-services-by-categories', [TourController::class, 'getServicesByCategories']);
+        //end service   
+
+        // category service
+        Route::get('/category_service',                  [CategoryServiceController::class, 'index'])->name('category_service.index');
+        Route::get('/category_service/create',           [CategoryServiceController::class, 'create'])->name('category_service.create');
+        Route::post('/category_service/store',           [CategoryServiceController::class, 'store'])->name('category_service.store');
+        Route::get('/category_service/edit/{id}',        [CategoryServiceController::class, 'edit'])->name('category_service.edit');
+        Route::post('/category_service/update/{id}',     [CategoryServiceController::class, 'update'])->name('category_service.update');
+
+        Route::post('category_service/status/{id}',      [CategoryServiceController::class, 'categoryserviceStatus'])->name('category_service.serviceStatus');
+        //end category service
     });
 });

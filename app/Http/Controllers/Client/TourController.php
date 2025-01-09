@@ -57,23 +57,23 @@ class TourController extends Controller
     // }
 
     public function pre_booking($id)
-{
-    $tour = Tour::findOrFail($id);
-    $coupons = Coupon::where('status', 1)
-        ->where('start_date', '<=', now())
-        ->where('end_date', '>=', now())
-        ->where('tour_id', '=', $id)
-        ->where('number', '>', 0)
-        ->select('code', 'percentage_price', 'start_date', 'end_date')
-        ->get()
-        ->map(function ($coupon) {
-            $coupon->start_date = \Carbon\Carbon::parse($coupon->start_date)->format('d-m-Y');
-            $coupon->end_date = \Carbon\Carbon::parse($coupon->end_date)->format('d-m-Y');
-            return $coupon;
-        });
+    {
+        $tour = Tour::findOrFail($id);
+        $coupons = Coupon::where('status', 1)
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where('tour_id', '=', $id)
+            ->where('number', '>', 0)
+            ->select('code', 'percentage_price', 'start_date', 'end_date')
+            ->get()
+            ->map(function ($coupon) {
+                $coupon->start_date = \Carbon\Carbon::parse($coupon->start_date)->format('d-m-Y');
+                $coupon->end_date = \Carbon\Carbon::parse($coupon->end_date)->format('d-m-Y');
+                return $coupon;
+            });
 
-    return view('client.tour.booking', ['tour' => $tour, 'coupons' => $coupons]);
-}
+        return view('client.tour.booking', ['tour' => $tour, 'coupons' => $coupons]);
+    }
 
 
     public function searchTour(Request $request)

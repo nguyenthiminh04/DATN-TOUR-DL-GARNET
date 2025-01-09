@@ -138,7 +138,6 @@
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
@@ -154,8 +153,8 @@
                                             </div><!--end col-->
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label for="time" class="form-label">Số ngày diễn ra chuyến đi<span
-                                                            class="text-danger">*</span></label>
+                                                    <label for="time" class="form-label">Số ngày diễn ra chuyến
+                                                        đi<span class="text-danger">*</span></label>
                                                     <input type="number" id="time" name="time"
                                                         value="{{ $tour->time }}" class="form-control"
                                                         placeholder="Số ngày diễn ra.Ví dụ 3 ngày 2 đêm số điền vào sẽ là 3">

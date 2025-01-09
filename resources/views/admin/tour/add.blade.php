@@ -1,25 +1,92 @@
 @extends('admin.layouts.app')
 @section('style')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<style>
-    /* Tăng chiều cao và chiều rộng của input khi chọn nhiều ngày */
-    #tourDates {
-        width: 100%; /* Đầy đủ chiều rộng */
-        min-height: 50px; /* Tăng chiều cao ban đầu */
-        padding: 10px;
-        font-size: 16px; /* Font chữ lớn hơn */
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        overflow: hidden; /* Ẩn cuộn nếu vượt quá */
-    }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .tour-dates-input {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
 
-    #tourDates:focus {
-        border-color: #007bff;
-        outline: none;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-</style>
+        .tour-dates-input:hover {
+            background-color: #f0f8ff;
+            border-color: #c7ced6;
+        }
+
+        .tour-dates-input:focus {
+            background-color: #ffffff;
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+
+        .category-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px 10px;
+            transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        .category-item:hover {
+            box-shadow: 0px 4px 8px rgba(255, 254, 254, 0.1);
+            background-color: #f0f0f0;
+        }
+
+        .category-checkbox {
+            margin-right: 8px;
+            accent-color: #67b66a;
+            width: 18px;
+            height: 18px;
+        }
+
+
+        .category-item label {
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .category-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-item {
+                padding: 5px;
+                font-size: 13px;
+            }
+
+            .category-checkbox {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .category-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <div class="page-content">
@@ -77,36 +144,129 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror --}}
                                         </div>
-                                        <label for="tourDates">Chọn các ngày:</label>
-<input type="text" id="tourDates" name="tour_dates" placeholder="Chọn các ngày" readonly> <!-- Đọc giá trị đã chọn -->
-<div id="itinerary-container">
-    <div class="itinerary">
-        <h3>Lịch trình 1</h3>
-        
-        <label for="locations">Chọn điểm đến:</label>
-        <select name="locations[0][start]" class="location-select" required>
-            <option value="">Chọn địa điểm...</option>
-        </select>
+                                        <div class="mb-3">
+                                            <label for="tourDates" class="form-label">Chọn các ngày:</label>
+                                            <input type="text" id="tourDates" name="tour_dates"
+                                                class="form-control tour-dates-input" placeholder="Chọn các ngày" readonly>
+                                        </div>
+                                        <hr>
+                                        <div id="itinerary-container" class="mb-3">
+                                            <div class="itinerary">
+                                                <br>
 
-        <label for="end-location">Điểm kết thúc:</label>
-        <select name="locations[0][end]" class="location-select" required>
-            <option value="">Chọn địa điểm...</option>
-        </select>
+                                                <div class="row">
+                                                    <label>Lịch trình 1</label>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="locations">Chọn điểm đến:</label>
+                                                            <select name="locations[0][start]" class="form-control"
+                                                                required>
+                                                                <option value="">Chọn địa điểm...</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="end-location">Điểm kết thúc:</label>
+                                                            <select name="locations[0][end]" class="form-control" required>
+                                                                <option value="">Chọn địa điểm...</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-        <button type="button" class="add-itinerary">Thêm lịch trình</button>
-    </div>
-</div>
-{{-- <div>
-    <label for="services">Chọn dịch vụ đi kèm:</label>
-    <select name="services[]" id="services" multiple>
-        @foreach ($allServices as $service)
-            <option value="{{ $service->id }}">{{ $service->name }} - {{ number_format($service->price) }} VND</option>
-        @endforeach
-    </select>
-</div> --}}
+
+                                                <div class="mb-3">
+                                                    <label for="description">Mô tả lịch trình:</label>
+                                                    <textarea name="locations[0][description]" class="form-control" required placeholder="Mô tả về lịch trình"></textarea>
+                                                </div>
+
+                                                <button type="button" class="btn btn-success add-itinerary">Thêm lịch
+                                                    trình</button>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+                                        <div class="mb-3">
+                                            <label for="category_services">Chọn danh mục dịch vụ:</label>
+                                            <div id="category_services" class="category-container">
+                                                @foreach ($categoryServices as $category)
+                                                    <div class="category-item">
+                                                        <input type="checkbox" name="category_services[]"
+                                                            value="{{ $category->id }}" class="category-checkbox">
+                                                        <label>{{ $category->category_name }}</label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="services">Chọn dịch vụ đi kèm:</label>
+                                            <select name="services[]" id="services" class="form-control" multiple>
+
+                                            </select>
+                                        </div>
+
+                                        <script>
+                                            document.querySelectorAll('.category-checkbox').forEach(checkbox => {
+                                                checkbox.addEventListener('change', function() {
+                                                    const selectedCategories = Array.from(document.querySelectorAll(
+                                                            '.category-checkbox:checked'))
+                                                        .map(checkbox => checkbox.value);
+
+                                                    const currentSelectedServices = Array.from(document.querySelectorAll(
+                                                            '#services option:checked'))
+                                                        .map(option => option.value);
+
+                                                    fetch('/admin/api/get-services-by-categories', {
+                                                            method: 'POST',
+                                                            headers: {
+                                                                'Content-Type': 'application/json',
+                                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                            },
+                                                            body: JSON.stringify({
+                                                                category_ids: selectedCategories
+                                                            })
+                                                        })
+                                                        .then(response => response.json())
+                                                        .then(data => {
+                                                            const servicesSelect = document.getElementById('services');
+
+                                                            const newServiceIds = new Set(data.services.map(service => service.id
+                                                                .toString()));
+
+                                                            Array.from(servicesSelect.options).forEach(option => {
+                                                                if (!newServiceIds.has(option.value)) {
+                                                                    option.remove();
+                                                                }
+                                                            });
 
 
-                                        
+                                                            data.services.forEach(service => {
+                                                                if (![...servicesSelect.options].some(option => option.value ===
+                                                                        service.id.toString())) {
+                                                                    const option = document.createElement('option');
+                                                                    option.value = service.id;
+                                                                    option.textContent = service.name;
+                                                                    if (currentSelectedServices.includes(service.id.toString())) {
+                                                                        option.selected = true;
+                                                                    }
+                                                                    servicesSelect.appendChild(option);
+                                                                }
+                                                            });
+
+                                                            Array.from(servicesSelect.options).forEach(option => {
+                                                                if (currentSelectedServices.includes(option.value) && newServiceIds
+                                                                    .has(option.value)) {
+                                                                    option.selected = true;
+                                                                }
+                                                            });
+                                                        })
+                                                        .catch(error => console.error('Error:', error));
+                                                });
+                                            });
+                                        </script>
+                                        <hr>
                                         <div class="mb-3">
                                             <label for="schedule" class="form-label">Lịch Trình<span
                                                     class="text-danger">*</span></label>
@@ -121,8 +281,9 @@
                                         <div class="mb-3">
                                             <label for="number" class="form-label">Số Lượng Chuyến Tour<span
                                                     class="text-danger">*</span></label>
-                                            <input type="number" id="number" name="number" value="{{ old('number') }}"
-                                                class="form-control" placeholder="Nhập số lượng chuyến tour...">
+                                            <input type="number" id="number" name="number"
+                                                value="{{ old('number') }}" class="form-control"
+                                                placeholder="Nhập số lượng chuyến tour...">
                                             {{-- @error('number')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror --}}
@@ -289,22 +450,26 @@
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror --}}
                                             </div>
-                                            <div class="mb-3 col-6">
-                                                <label for="user_id" class="form-label">Người thực hiện<span class="text-danger">*</span></label>
-                                                <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}"> <!-- Input ẩn để lưu user ID -->
-                                                <input type="text" class="form-control w-100" value="{{ Auth::user()->name }}" disabled> <!-- Hiển thị tên người dùng -->
+                                            <div class="mb-3 col-6" hidden>
+                                                <label for="user_id" class="form-label">Người thực hiện<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="hidden" name="user_id" id="user_id"
+                                                    value="{{ Auth::user()->id }}"> <!-- Input ẩn để lưu user ID -->
+                                                <input type="text" class="form-control w-100"
+                                                    value="{{ Auth::user()->name }}" disabled>
+                                                <!-- Hiển thị tên người dùng -->
                                                 {{-- @error('user_id')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror --}}
                                             </div>
-                                            
 
-                                            <div class="mb-3">
+
+                                            <div class="mb-3 col-6">
                                                 <label for="status1" class="form-label">Trạng Thái<span
                                                         class="text-danger">*</span></label>
                                                 <select class="form-select" id="status1" name="status">
-                                                    <option value="">Trạng Thái</option>
-                                                    <option value="1">Hiển Thị</option>
+                                                    {{-- <option value="">Trạng Thái</option> --}}
+                                                    <option value="1" selected>Hiển Thị</option>
                                                     <option value="0">Ẩn</option>
                                                 </select>
                                             </div>
@@ -347,93 +512,110 @@
                     </div>
                 </div>
             </div>
-        @endsection
-        @section('script')
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('#services').select2({
-                    placeholder: "Chọn các dịch vụ",
-                    allowClear: true
-                });
+        </div>
+    </div>
+@endsection
+@section('script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#services').select2({
+                placeholder: "Chọn các dịch vụ",
+                allowClear: true
             });
-        </script>
-        
-        <script>
+        });
+    </script>
 
-document.addEventListener('DOMContentLoaded', function () {
-    let itineraryCount = 1; // Đếm số lượng lịch trình
-    const addButton = document.querySelector('.add-itinerary');
-    const container = document.getElementById('itinerary-container');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let itineraryCount = 1; // Đếm số lượng lịch trình
+            const addButton = document.querySelector('.add-itinerary');
+            const container = document.getElementById('itinerary-container');
 
-    // Hàm để lấy danh sách thành phố từ file cities.json
-    function loadCities(selectElement) {
-        fetch('/cities.json') // Đổi đường dẫn đến file cities.json trong thư mục public
-            .then(response => response.json())
-            .then(data => {
-                selectElement.innerHTML = ''; // Xóa danh sách hiện tại
-                const defaultOption = document.createElement('option');
-                defaultOption.value = "";
-                defaultOption.textContent = "Chọn địa điểm...";
-                selectElement.appendChild(defaultOption); // Thêm tùy chọn "Chọn địa điểm..." đầu tiên
+            // Hàm để lấy danh sách thành phố từ file cities.json
+            function loadCities(selectElement) {
+                fetch('/cities.json') // Đổi đường dẫn đến file cities.json trong thư mục public
+                    .then(response => response.json())
+                    .then(data => {
+                        selectElement.innerHTML = ''; // Xóa danh sách hiện tại
+                        const defaultOption = document.createElement('option');
+                        defaultOption.value = "";
+                        defaultOption.textContent = "Chọn địa điểm...";
+                        selectElement.appendChild(defaultOption); // Thêm tùy chọn "Chọn địa điểm..." đầu tiên
 
-                data.cities.forEach(city => {
-                    const option = document.createElement('option');
-                    option.value = city;
-                    option.textContent = city;
-                    selectElement.appendChild(option); // Thêm thành phố vào dropdown
-                });
-            })
-            .catch(error => console.error('Error loading cities:', error));
-    }
+                        data.cities.forEach(city => {
+                            const option = document.createElement('option');
+                            option.value = city;
+                            option.textContent = city;
+                            selectElement.appendChild(option); // Thêm thành phố vào dropdown
+                        });
+                    })
+                    .catch(error => console.error('Error loading cities:', error));
+            }
 
-    // Khi thêm lịch trình mới, gọi API và cập nhật danh sách thành phố
-    addButton.addEventListener('click', function () {
-        itineraryCount++;
+            // Khi thêm lịch trình mới, gọi API và cập nhật danh sách thành phố
+            addButton.addEventListener('click', function() {
+                itineraryCount++;
 
-        // Tạo lịch trình mới
-        const newItinerary = document.createElement('div');
-        newItinerary.classList.add('itinerary');
-        newItinerary.innerHTML = `
-            <h3>Lịch trình ${itineraryCount}</h3>
-            <label for="locations">Chọn điểm đến:</label>
-            <select name="locations[${itineraryCount - 1}][start]" class="location-select" required>
-                <option value="">Chọn địa điểm...</option>
-            </select>
+                // Tạo lịch trình mới với trường mô tả
+                const newItinerary = document.createElement('div');
+                newItinerary.classList.add('itinerary');
+                newItinerary.innerHTML = `
+            <br>
+            <label>Lịch trình ${itineraryCount}</label>
 
-            <label for="end-location">Điểm kết thúc:</label>
-            <select name="locations[${itineraryCount - 1}][end]" class="location-select" required>
-                <option value="">Chọn địa điểm...</option>
-            </select>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label for="locations">Chọn điểm đến:</label>
+                        <select name="locations[${itineraryCount - 1}][start]" class="form-control" required>
+                            <option value="">Chọn địa điểm...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label for="end-location">Điểm kết thúc:</label>
+                        <select name="locations[${itineraryCount - 1}][end]" class="form-control" required>
+                            <option value="">Chọn địa điểm...</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-            <button type="button" class="remove-itinerary">Xóa lịch trình</button>
+            <!-- Thêm trường Mô Tả -->
+            <div class="mb-3">
+                <label for="description">Mô tả lịch trình:</label>
+                <textarea name="locations[${itineraryCount - 1}][description]" class="form-control" required placeholder="Mô tả về lịch trình"></textarea>
+            </div>
+
+            <button type="button" class="btn btn-danger remove-itinerary">Xóa lịch trình</button>
         `;
 
-        // Thêm lịch trình mới vào container
-        container.appendChild(newItinerary);
+                // Thêm lịch trình mới vào container
+                container.appendChild(newItinerary);
 
-        // Gọi API để tải thành phố cho lịch trình mới
-        const startSelect = newItinerary.querySelector('select[name*="[start]"]');
-        const endSelect = newItinerary.querySelector('select[name*="[end]"]');
+                // Gọi API để tải thành phố cho lịch trình mới
+                const startSelect = newItinerary.querySelector('select[name*="[start]"]');
+                const endSelect = newItinerary.querySelector('select[name*="[end]"]');
 
-        loadCities(startSelect);
-        loadCities(endSelect);
+                loadCities(startSelect);
+                loadCities(endSelect);
 
-        // Thêm sự kiện xóa lịch trình
-        newItinerary.querySelector('.remove-itinerary').addEventListener('click', function () {
-            newItinerary.remove();
+                // Thêm sự kiện xóa lịch trình
+                newItinerary.querySelector('.remove-itinerary').addEventListener('click', function() {
+                    newItinerary.remove();
+                });
+            });
+
+            // Tải danh sách thành phố cho lịch trình đầu tiên
+            const firstStartSelect = document.querySelector('select[name*="[start]"]');
+            const firstEndSelect = document.querySelector('select[name*="[end]"]');
+            loadCities(firstStartSelect);
+            loadCities(firstEndSelect);
         });
-    });
-
-    // Tải danh sách thành phố cho lịch trình đầu tiên
-    const firstStartSelect = document.querySelector('select[name*="[start]"]');
-    const firstEndSelect = document.querySelector('select[name*="[end]"]');
-    loadCities(firstStartSelect);
-    loadCities(firstEndSelect);
-});
-
-        </script>
-        <!-- Link đến Flatpickr JS -->
+    </script>
+    <!-- Link đến Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         flatpickr("#tourDates", {
@@ -446,35 +628,35 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     </script>
-            <script>
-                function showImage(event) {
-                    const img_danh_muc = document.getElementById('img_danh_muc');
+    <script>
+        function showImage(event) {
+            const img_danh_muc = document.getElementById('img_danh_muc');
 
-                    const file = event.target.files[0];
+            const file = event.target.files[0];
 
-                    const reader = new FileReader();
+            const reader = new FileReader();
 
-                    reader.onload = function() {
-                        img_danh_muc.src = reader.result;
-                        img_danh_muc.style.display = 'block';
+            reader.onload = function() {
+                img_danh_muc.src = reader.result;
+                img_danh_muc.style.display = 'block';
 
 
-                    }
-                    if (file) {
-                        reader.readAsDataURL(file);
-                    }
-                }
-            </script>
-            {{-- Thêm album ảnh --}}
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+    {{-- Thêm album ảnh --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
 
-                    var rowCount = 1;
+            var rowCount = 1;
 
-                    document.getElementById('add-row').addEventListener('click', function() {
-                        var tableBody = document.getElementById('image-table-body');
-                        var newRow = document.createElement('tr');
-                        newRow.innerHTML = `
+            document.getElementById('add-row').addEventListener('click', function() {
+                var tableBody = document.getElementById('image-table-body');
+                var newRow = document.createElement('tr');
+                newRow.innerHTML = `
          <td class="d-flex align-item-center">
         <img id="preview_${rowCount}" src="https://static.vecteezy.com/system/resources/previews/000/420/681/original/picture-icon-vector-illustration.jpg" alt="Hình Ảnh SẢn Phẩm"
         style="width: 50px" class="me-3">
@@ -488,55 +670,55 @@ document.addEventListener('DOMContentLoaded', function () {
         <i 
             class="mdi mdi-delete text-muted fs-18 rounded-2 border p-1" style="cursor: pointer" onclick="removeRow(this)"></i>
     </td>`;
-                        tableBody.appendChild(newRow);
-                        rowCount++;
+                tableBody.appendChild(newRow);
+                rowCount++;
 
-                    })
-
-
-
-                });
-
-                function previewImage(input, rowIndex) {
-
-                    if (input.files && input.files[0]) {
-                        const reader = new FileReader();
-
-                        reader.onload = function(e) {
-                            document.getElementById(`preview_${rowIndex}`).setAttribute('src', e.target.result)
+            })
 
 
-                        }
 
-                        reader.readAsDataURL(input.files[0]);
+        });
 
-                    }
+        function previewImage(input, rowIndex) {
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    document.getElementById(`preview_${rowIndex}`).setAttribute('src', e.target.result)
+
 
                 }
 
-                function removeRow(item) {
-                    var row = item.closest('tr');
-                    row.remove();
-                }
-                CKEDITOR.replace('content');
-            </script>
-            <script>
-                ClassicEditor
-                    .create(document.querySelector('#editor'), {
-                        ckfinder: {
-                            uploadUrl: '/upload-image?_token={{ csrf_token() }}', // URL để xử lý upload ảnh
-                        },
-                        toolbar: [
-                            'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
-                            'blockQuote', '|', 'insertTable', 'uploadImage', '|', 'undo', 'redo'
-                        ],
-                        image: {
-                            toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
-                        },
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            </script>
-            <script src="https:////cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
-        @endsection
+                reader.readAsDataURL(input.files[0]);
+
+            }
+
+        }
+
+        function removeRow(item) {
+            var row = item.closest('tr');
+            row.remove();
+        }
+        CKEDITOR.replace('content');
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                ckfinder: {
+                    uploadUrl: '/upload-image?_token={{ csrf_token() }}', // URL để xử lý upload ảnh
+                },
+                toolbar: [
+                    'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                    'blockQuote', '|', 'insertTable', 'uploadImage', '|', 'undo', 'redo'
+                ],
+                image: {
+                    toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
+                },
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    <script src="https:////cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
+@endsection
