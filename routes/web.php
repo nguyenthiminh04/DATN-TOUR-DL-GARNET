@@ -213,6 +213,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('xu-ly-huy', HuyController::class);
         // Route cho chấp nhận yêu cầu hủy tour
         Route::put('xu-ly-huy/{id}/accept', [HuyController::class, 'acceptCancel'])->name('user.acceptCancel');
+        Route::get('/admin/cancellation-histories', [HuyController::class, 'showCancellationHistories'])->name('user.cancellationHistories');
+
 
         // Route cho từ chối yêu cầu hủy tour
         Route::put('xu-ly-huy/{id}/reject', [HuyController::class, 'rejectCancel'])->name('user.rejectCancel');

@@ -20,6 +20,15 @@
                         </div>
 
                     </div>
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm-auto">
+                            <div>
+                                <a href="{{ route('user.cancellationHistories') }}" class="btn btn-secondary"><i
+                                        ></i> Lịch sử các tour hoàn / hủy</a>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
             <!-- end page title -->
@@ -168,6 +177,7 @@
                                                                 <div class="text-warning">
                                                                     <i class="bi bi-exclamation-circle display-5"></i>
                                                                 </div>
+                                                               
                                                                 <div class="mt-4">
                                                                     <h4 class="mb-2">Bạn có chắc không cho khách hàng hủy
                                                                         tour?</h4>
@@ -176,20 +186,27 @@
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                            <div
-                                                                class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                                                                <form action="{{ route('user.rejectCancel', $item->id) }}"
-                                                                    method="POST" class="d-inline">
+                                                            <div class="d-flex flex-column align-items-center mt-4 pt-2 mb-2">
+                                                                <form action="{{ route('user.rejectCancel', $item->id) }}" method="POST" class="w-100">
                                                                     @csrf
                                                                     @method('PUT')
-                                                                    <button type="button"
-                                                                        class="btn w-sm btn-light btn-hover"
-                                                                        data-bs-dismiss="modal">Đóng</button>
-                                                                    <button type="submit"
-                                                                        class="btn w-sm btn-primary btn-hover"
-                                                                        id="confirm-reject">Đồng ý</button>
+                                                                    <div class="form-group mb-3">
+                                                                        <label for="admin_comment" class="form-label">Lý do từ chối khách hàng:</label>
+                                                                        <textarea name="admin_comment" id="admin_comment" rows="4" 
+                                                                            placeholder="Nhập lý do từ chối" required 
+                                                                            class="form-control"></textarea>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-between mt-3">
+                                                                        <button type="button" class="btn btn-light btn-hover" data-bs-dismiss="modal">
+                                                                            Đóng
+                                                                        </button>
+                                                                        <button type="submit" class="btn btn-primary btn-hover" id="confirm-reject">
+                                                                            Đồng ý
+                                                                        </button>
+                                                                    </div>
                                                                 </form>
                                                             </div>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>

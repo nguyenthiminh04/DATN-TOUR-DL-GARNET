@@ -73,6 +73,7 @@
                     </div>
                 </div>
             </div>
+          
         </div>
 
         <div class="panel panel-default">
@@ -88,6 +89,8 @@
                         <th>Trạng thái thanh toán</th>
                         <th>Đơn hàng</th>
                         <th>Giá</th>
+                        <th>Giá</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -108,6 +111,9 @@
                         <td>{{ $payment->paymentStatus->name ?? 'N/A' }}</td>
                         <td>{{ $payment->status->name ?? 'N/A' }}</td>
                         <td>{{ number_format($payment->money, 0, ',', '.') }} đ</td>
+                        <td> <a href="javascript:void(0);" class="btn btn-success mb-3" data-toggle="modal" data-target="#refundRequestModal1">
+                            Xem chi tiết chuyến đi
+                        </a></td>
                     </tr>
                 </tbody>
                 @if ($payment->status_id == 13)
@@ -125,31 +131,35 @@
                         </tr>
                     </tfoot>
                 @endif
+               
             </table>
 
 
         </div>
 
         @if (in_array($payment->status_id, [1, 2, 5]))
-            @if ($payment->payment_status_id == 2)
-                <div class="alert alert-warning text-center mb-3">
-                    <span>Đơn hàng đã thanh toán. Vui lòng cân nhắc kỹ trước khi hủy!</span>
-                </div>
-            @endif
-            <a href="javascript:void(0);" class="btn btn-warning mb-3" data-toggle="modal"
-                data-target="#cancelOrderModal">Hủy đơn hàng</a>
-        @elseif ($payment->status_id == 13)
-            <div class="alert alert-danger text-center">
-                <span>Đơn hàng đã bị hủy</span>
-            </div>
-
-            @if ($payment->payment_method_id == 1 && $payment->payment_status_id == 2)
-                <a href="javascript:void(0);" class="btn btn-success mb-3" data-toggle="modal"
-                    data-target="#refundRequestModal">
-                    Yêu cầu hoàn tiền
-                </a>
-            @endif
-        @endif
+    @if ($payment->payment_status_id == 2)
+        <div class="alert alert-warning text-center mb-3">
+            <span>Tour đã thanh toán. Vui lòng cân nhắc kỹ trước khi hủy!</span>
+        </div>
+    @endif
+    <a href="javascript:void(0);" class="btn btn-warning mb-3" data-toggle="modal" data-target="#cancelOrderModal">
+        Hủy Tour
+    </a>
+@elseif ($payment->status_id == 13)
+    <div class="alert alert-danger text-center">
+        <span>Tour đã bị hủy</span>
+    </div>
+    @if ($payment->payment_method_id == 1 && $payment->payment_status_id == 2)
+        <a href="javascript:void(0);" class="btn btn-success mb-3" data-toggle="modal" data-target="#refundRequestModal">
+            Yêu cầu hoàn tiền
+        </a>
+    @endif
+@elseif ($payment->status_id == 9)
+    <div class="alert alert-info text-center">
+        <span>Tour đã bị từ chối hủy</span>
+    </div>
+@endif
 
 
         <a href="{{ url('/') }}" class="btn btn-primary">Quay lại trang chủ</a>
@@ -255,7 +265,72 @@
                 </div>
             </div>
         </div>
-
+        <div class="modal fade" id="refundRequestModal1" tabindex="-1" role="dialog" aria-labelledby="refundRequestLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="row w-100">
+                        <h5 class="modal-title-2" id="refundRequestLabel">Lịch trình chi tiết cho chuyến đi của bạn</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+    
+                <div class="modal-body">
+                    <p>Kính gửi Quý khách hàng,</p>
+                    <p>Chúng tôi rất vui mừng gửi đến Quý khách lịch trình chi tiết cho chuyến đi đã đặt. Dưới đây là thông tin cụ thể:</p>
+    
+                    <!-- Thông tin lịch trình -->
+                    <div class="form-group">
+                        <label><strong>Tên tour:</strong></label>
+                        <p>{{ $payment->booking->tour->name }}</p>
+                    </div>
+    
+                    <div class="form-group">
+                        <label><strong>Ngày khởi hành:</strong></label>
+                        <p>{{ $payment->booking->start_date }}</p>
+                    </div>
+    
+                    <div class="form-group">
+                        <label><strong>Ngày kết thúc(Dự Kiến):</strong></label>
+                        <p>{{ $payment->booking->end_date }}</p>
+                    </div>
+    
+                    <div class="form-group">
+                        <label><strong>Thời gian tập trung:</strong></label>
+                        <p>7:30 sáng ngày {{ $payment->booking->start_date }} Trụ sở Garnet Tại 12 Hàng Mã , Tây Hồ , Hà Nội </p>
+                    </div>
+    
+                    
+    
+                    <!-- Lịch trình hàng ngày -->
+                    {{-- <div class="form-group">
+                        <label><strong>Chi tiết lịch trình:</strong></label>
+                        <ul>
+                            @foreach($tour->itinerary as $day => $details)
+                                <li>
+                                    <strong>Ngày {{ $day + 1 }}:</strong> {{ $details['title'] }}  
+                                    <p>{{ $details['description'] }}</p>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div> --}}
+    <h4>Hỗ Trợ</h4>
+                    <p>Nếu Quý khách có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua 0862001730 để được hỗ trợ.</p>
+                    <p>Chúc Quý khách có một chuyến đi thật tuyệt vời!</p>
+    
+                    <p>Trân trọng,<br><strong>[Garnet]</strong></p>
+                </div>
+    
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     </div>
     <br>
     <br>
