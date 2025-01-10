@@ -1988,83 +1988,63 @@
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var startDateTour = <?= json_encode($tour['start_date']) ?>; // Ngày bắt đầu tour
-            var endDateTour = <?= json_encode($tour['end_date']) ?>; // Ngày kết thúc tour
-            var tourDuration = <?= json_encode($tour['time']) ?>; // Thời lượng tour (số ngày)
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lấy danh sách các ngày từ server (truyền từ backend)
+        var availableDates = <?= json_encode($tourDates) ?>; // Dữ liệu $tourDates là mảng các ngày từ backend
 
-            // Lấy ngày hôm nay dưới dạng YYYY-MM-DD
-            var today = new Date().toISOString().split("T")[0];
+        // Khởi tạo flatpickr
+        flatpickr("#datepicker", {
+            dateFormat: "Y-m-d", // Định dạng ngày
+            minDate: availableDates[0] || null, // Ngày nhỏ nhất (lấy ngày đầu tiên trong danh sách)
+            maxDate: availableDates[availableDates.length - 1] || null, // Ngày lớn nhất (lấy ngày cuối cùng trong danh sách)
+            enable: availableDates, // Chỉ cho phép chọn các ngày có trong danh sách
+            locale: "vn", // Ngôn ngữ tiếng Việt (nếu có)
+            onChange: function (selectedDates, dateStr, instance) {
+                if (selectedDates.length > 0) {
+                    var selectedDate = new Date(dateStr);
 
-            // Xác định minDate
-            var minDate = new Date(startDateTour) > new Date(today) ? startDateTour : today;
-
-            // Khởi tạo flatpickr
-            flatpickr("#datepicker", {
-                dateFormat: "Y-m-d", // Định dạng ngày
-                minDate: minDate, // Ngày nhỏ nhất
-                maxDate: endDateTour, // Ngày lớn nhất
-                defaultDate: minDate, // Ngày mặc định
-                locale: "vn", // Ngôn ngữ tiếng Việt (nếu có)
-                enable: [
-                    function(date) {
-                        // Tính toán ngày kết thúc dự kiến
-                        var selectedEndDate = new Date(date);
-                        selectedEndDate.setDate(selectedEndDate.getDate() + tourDuration - 1);
-
-                        // Chỉ cho phép chọn những ngày mà ngày kết thúc nằm trong phạm vi hợp lệ
-                        return selectedEndDate <= new Date(endDateTour);
-                    },
-                ],
-                onChange: function(selectedDates, dateStr, instance) {
-                    if (selectedDates.length > 0) {
-                        var selectedDate = new Date(dateStr);
-                        var estimatedEndDate = new Date(selectedDate);
-                        estimatedEndDate.setDate(selectedDate.getDate() + tourDuration - 1);
-
-                        // Hiển thị ngày kết thúc dự kiến
-                        document.getElementById("estimated-end-date").innerText =
-                            "Ngày kết thúc dự kiến: " + estimatedEndDate.toISOString().split("T")[0];
-                    }
-                },
-            });
-        });
-
-
-        $('#advisoryForm').on('submit', function(e) {
-            e.preventDefault();
-
-            let formData = $(this).serialize();
-
-            $.ajax({
-                url: '/advisory/',
-                method: 'POST',
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-                        Swal.fire('Thành công', response.message, 'success');
-                    }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        let errors = xhr.responseJSON.errors;
-
-
-                        let errorMessages = '';
-                        for (let field in errors) {
-                            errorMessages += `<p style="color: red;">${errors[field].join('<br>')}</p>`;
-                        }
-
-                        Swal.fire({
-                            title: 'Lỗi!',
-                            html: errorMessages,
-                            icon: 'error',
-                        });
-                    } else {
-                        Swal.fire('Lỗi', 'Đã có lỗi xảy ra, vui lòng thử lại.', 'error');
-                    }
+                    // Hiển thị thông tin ngày đã chọn
+                    document.getElementById("selected-date").innerText =
+                        "Ngày bạn chọn: " + selectedDate.toISOString().split("T")[0];
                 }
-            });
+            },
         });
-    </script>
+    });
+
+    $('#advisoryForm').on('submit', function (e) {
+        e.preventDefault();
+
+        let formData = $(this).serialize();
+
+        $.ajax({
+            url: '/advisory/',
+            method: 'POST',
+            data: formData,
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire('Thành công', response.message, 'success');
+                }
+            },
+            error: function (xhr) {
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+
+                    let errorMessages = '';
+                    for (let field in errors) {
+                        errorMessages += `<p style="color: red;">${errors[field].join('<br>')}</p>`;
+                    }
+
+                    Swal.fire({
+                        title: 'Lỗi!',
+                        html: errorMessages,
+                        icon: 'error',
+                    });
+                } else {
+                    Swal.fire('Lỗi', 'Đã có lỗi xảy ra, vui lòng thử lại.', 'error');
+                }
+            }
+        });
+    });
+</script>
+
 @endsection

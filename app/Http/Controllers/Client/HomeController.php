@@ -116,7 +116,12 @@ class HomeController extends Controller
     public function detailTour($id)
     {
         $tour = Tour::with(['tourDates', 'tourLocations.location'])->findOrFail($id);
-
+//         $dates = DB::table('tour_dates')->where('tour_id', $tour['id'])->get();
+// dd($dates);
+        // Truy vấn các ngày liên quan trong bảng tour_dates thông qua mối quan hệ đã định nghĩa
+    $tourDates = $tour->tourDates->pluck('tour_date')->toArray(); // Lấy danh sách ngày dưới dạng mảng
+// Debug để kiểm tra kết quả
+    // dd($tourDates);
         $suggestedTours = Tour::withoutTrashed()
             ->where('status', 1)
             ->inRandomOrder()
@@ -156,7 +161,7 @@ class HomeController extends Controller
         });
 
 
-        $tourDates = $tour->tourDates->pluck('tour_date');
+        // $tourDates = $tour->tourDates->pluck('tour_date');
 
         $tour = Tour::with(['categoryServices' => function ($query) {
             $query->where('status', 1);
