@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Admins\TourDate;
 use App\Models\Status;
 use App\Models\Admins\Tour;
 use App\Models\Admins\User;
@@ -98,6 +99,7 @@ class TourController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
 
@@ -137,6 +139,20 @@ class TourController extends Controller
                 }
             } else {
                 return redirect()->back()->with('error', 'Không có danh mục dịch vụ hoặc dịch vụ đi kèm!');
+            }
+
+            if ($request->has("tour_dates")) {
+                $tourDates = $request->input("tour_dates");
+                $datesArray = explode(", ", $tourDates);
+
+                foreach ($datesArray as $date) {
+                    $formattedDate = \Carbon\Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
+
+                    TourDate::create([
+                        'tour_id' => $tour->id,
+                        'tour_date' => $formattedDate,
+                    ]);
+                }
             }
 
 
@@ -182,82 +198,130 @@ class TourController extends Controller
      */
     public function edit(string $id)
     {
-        $title = "Sửa Tour";
+        $data['title'] = "Sửa Tour";
+        $data['listuser'] = User::query()->get();
+        $data['listlocation'] = Location::query()->get();
+        $data['tourLocations'] = DB::table('tour_locations')
+            ->where('tour_id', $id)
+            ->get();
+        $data['tour'] = Tour::with(['categoryServices', 'services'])->findOrFail($id);
+        $data['uniqueCategories'] = $data['tour']->categoryServices->unique('id');
+        $data['listCategoryTour'] = CategoryTour::query()->get();
+        $data['tour'] = Tour::query()->findOrFail($id);
+        $data['categoryServices'] = CategoryServiceModel::where('status', 1)->get();
+        return view('admin.tour.edit', $data);
+    }
 
-        $listuser = User::query()->get();
-        $listlocation = Location::query()->get();
-        // $listStatus = Status::query()->get();
-        $listCategoryTour = CategoryTour::query()->get();
-        $tour = Tour::query()->findOrFail($id);
-        // return view('admin.tour.edit', compact('listuser', 'listlocation', 'listStatus', 'tour', 'listCategoryTour'));
-        return view('admin.tour.edit', compact('listuser', 'listlocation', 'tour', 'listCategoryTour', 'title'));
+
+    public function deleteItinerary(Request $request)
+    {
+        $id = $request->input('id');
+
+
+        $tourLocations = DB::table('tour_locations')->find($id);
+
+        if ($tourLocations) {
+            $tourLocations->delete();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(TourRequest $request, string $id)
+    // public function update(Request $request, string $id)
     {
-        //
         if ($request->isMethod('PUT')) {
             $params = $request->except('_token', '_method');
             $tour = Tour::findOrFail($id);
 
-            // Xử lý Hình Ảnh
+            // Xử lý hình ảnh (nếu có)
             if ($request->hasFile('image')) {
-                // Nếu có ảnh mới, xóa ảnh cũ và lưu ảnh mới
                 if ($tour->image) {
                     Storage::disk('public')->delete($tour->image);
                 }
                 $params['image'] = $request->file('image')->store('uploads/image_tour', 'public');
             } else {
-                // Nếu không có ảnh mới, giữ lại ảnh cũ
                 $params['image'] = $tour->image;
             }
-            // Xử lý Album
-            $currentimages = $tour->imagetour->pluck('id')->toArray();
-            $arrayCombime = array_combine($currentimages, $currentimages);
-            //Trường xóa ảnh
-            foreach ($arrayCombime as $key => $value) {
-                //Tìm kiếm id hình ảnh trong mảng hình ảnh mới đẩy lên
-                //Nếu không tông tại ID thì tức là người dùng đã xóa thẻ đó
-                if (!array_key_exists($key, $request->list_hinh_anh)) {
-                    $imagetour = ImageTour::query()->find($key);
-                    //Xóa hình ảnh đó
-                    if ($imagetour &&  Storage::disk('public')->exists($imagetour->image)) {
-                        Storage::disk('public')->delete($imagetour->image);
-                        $imagetour->delete();
+
+            // Cập nhật tour
+            $tour->update($params);
+
+            // Xử lý các dịch vụ
+            if ($request->has('category_services') && $request->has('services')) {
+                $categoryServices = $request->input('category_services');
+                $services = $request->input('services');
+
+                // Xóa tất cả các dịch vụ cũ của tour
+                DB::table('tour_service')->where('tour_id', $tour->id)->delete();
+
+                // Thêm các dịch vụ mới
+                foreach ($categoryServices as $categoryId) {
+                    $category = CategoryServiceModel::find($categoryId);
+                    $availableServices = $category ? $category->services->pluck('id')->toArray() : [];
+
+                    foreach ($services as $serviceId) {
+                        // Kiểm tra dịch vụ có hợp lệ với danh mục không
+                        if (in_array($serviceId, $availableServices)) {
+                            DB::table('tour_service')->insert([
+                                'tour_id' => $tour->id,
+                                'category_service_id' => $categoryId,
+                                'service_id' => $serviceId,
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ]);
+                        }
                     }
                 }
             }
-            //trường hợp thêm hoặc sửa
-            foreach ($request->list_hinh_anh as $key => $image) {
-                if (!array_key_exists($key, $arrayCombime)) {
-                    if ($request->hasFile("list_hinh_anh.$key")) {
-                        $path = $image->store('uploads/image_tour/id_' . $id, 'public');
-                        $tour->imagetour()->create([
-                            'tour_id' => $id,
-                            'image' => $path,
-                        ]);
-                    }
-                } else if (is_file($image) && $request->hasFile("list_hinh_anh.$key")) {
-                    //Trường hợp thay đổi hình ảnh
-                    $imagetour = ImageTour::query()->find($key);
-                    if ($imagetour &&  Storage::disk('public')->exists($imagetour->image)) {
-                        Storage::disk('public')->delete($imagetour->image);
-                    }
-                    $path = $image->store('uploads/image_tour/id_' . $id, 'public');
-                    $imagetour->update([
-                        'image' => $path,
+
+            if ($request->has("tour_dates")) {
+                DB::table('tour_dates')->where('tour_id', $tour->id)->delete();
+
+                $tourDates = $request->input("tour_dates");
+                $datesArray = explode(", ", $tourDates);
+
+                foreach ($datesArray as $date) {
+                    $formattedDate = \Carbon\Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
+
+                    TourDate::create([
+                        'tour_id' => $tour->id,
+                        'tour_date' => $formattedDate,
                     ]);
                 }
             }
-            // Cập nhật dữ liệu
-            $tour->update($params);
 
+
+            // Xử lý Lịch Trình (Locations)
+            if ($request->has('locations')) {
+                $locations = $request->input('locations');
+
+                // Xóa các lịch trình cũ liên quan đến tour
+                DB::table('tour_locations')->where('tour_id', $tour->id)->delete();
+
+                // Thêm các lịch trình mới
+                foreach ($locations as $location) {
+                    DB::table('tour_locations')->insert([
+                        'tour_id' => $tour->id,
+                        'start' => $location['start'],
+                        'end' => $location['end'],
+                        'description' => $location['description'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+
+            // Quay lại trang danh sách tour với thông báo thành công
             return redirect()->route('tour.index')->with('success', 'Cập nhật thành công!');
         }
     }
+
+
 
     /**
      * Remove the specified resource from storage.

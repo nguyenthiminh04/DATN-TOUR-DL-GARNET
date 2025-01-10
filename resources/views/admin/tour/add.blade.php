@@ -129,9 +129,9 @@
                                                     class="text-danger">*</span></label>
                                             <input type="text" id="name" name="name" value="{{ old('name') }}"
                                                 class="form-control" placeholder="Nhập tên tour...">
-                                            {{-- @error('name')
+                                            @error('name')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror --}}
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
@@ -140,14 +140,15 @@
                                             <input type="text" id="journeys" name="journeys"
                                                 value="{{ old('journeys') }}" class="form-control"
                                                 placeholder="Nhập hành trình tour...">
-                                            {{-- @error('journeys')
+                                            @error('journeys')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror --}}
+                                            @enderror
                                         </div>
                                         <div class="mb-3">
                                             <label for="tourDates" class="form-label">Chọn các ngày:</label>
                                             <input type="text" id="tourDates" name="tour_dates"
-                                                class="form-control tour-dates-input" placeholder="Chọn các ngày" readonly>
+                                                class="form-control tour-dates-input" placeholder="Chọn các ngày"
+                                                value="{{ old('tour_dates') }}"readonly>
                                         </div>
                                         <hr>
                                         <div id="itinerary-container" class="mb-3">
@@ -273,9 +274,7 @@
                                             <input type="text" id="schedule" name="schedule"
                                                 value="{{ old('schedule') }}" class="form-control"
                                                 placeholder="Nhập lịch trình tour...">
-                                            {{-- @error('schedule')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror --}}
+
                                         </div>
 
                                         <div class="mb-3">
@@ -284,9 +283,9 @@
                                             <input type="number" id="number" name="number"
                                                 value="{{ old('number') }}" class="form-control"
                                                 placeholder="Nhập số lượng chuyến tour...">
-                                            {{-- @error('number')
+                                            @error('number')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror --}}
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
@@ -295,9 +294,9 @@
                                             <input type="text" id="move_method" name="move_method"
                                                 value="{{ old('move_method') }}" class="form-control"
                                                 placeholder="Nhập phương tiện di chuyển">
-                                            {{-- @error('move_method')
+                                            @error('move_method')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror --}}
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
@@ -306,18 +305,18 @@
                                             <input type="text" id="starting_gate" name="starting_gate"
                                                 value="{{ old('starting_gate') }}" class="form-control"
                                                 placeholder="Nhập điểm khởi hành...">
-                                            {{-- @error('starting_gate')
+                                            @error('starting_gate')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror --}}
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label" for="description">Mô tả ngắn</label>
                                             <textarea class="form-control" id="description" name="description" value="{{ old('description') }}" rows="2"
                                                 placeholder="Nhập mô tả tour..."></textarea>
-                                            {{-- @error('description')
+                                            @error('description')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror --}}
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
@@ -336,9 +335,9 @@
                                                     <input type="datetime-local" id="start_date" name="start_date"
                                                         value="{{ old('start_date') }}" class="form-control"
                                                         placeholder="Enter instructor name">
-                                                    {{-- @error('start_date')
+                                                    @error('start_date')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror --}}
+                                                    @enderror
                                                 </div>
 
                                             </div>
@@ -349,9 +348,9 @@
                                                     <input type="datetime-local" id="end_date" name="end_date"
                                                         value="{{ old('end_date') }}" class="form-control"
                                                         placeholder="Lessons">
-                                                    {{-- @error('end_date')
+                                                    @error('end_date')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror --}}
+                                                    @enderror
                                                 </div>
                                             </div><!--end col-->
                                             <div class="col-lg-6">
@@ -361,9 +360,9 @@
                                                     <input type="number" id="time" name="time"
                                                         value="{{ old('time') }}" class="form-control"
                                                         placeholder="Số ngày diễn ra.Ví dụ 3 ngày 2 đêm số điền vào sẽ là 3">
-                                                    {{-- @error('time')
+                                                    @error('time')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror --}}
+                                                    @enderror
                                                 </div>
 
                                             </div>
@@ -374,9 +373,9 @@
                                                     <input type="number" id="price_old" name="price_old"
                                                         value="{{ old('price_old') }}" class="form-control"
                                                         placeholder="Mời nhập giá...">
-                                                    {{-- @error('price_old')
+                                                    @error('price_old')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror --}}
+                                                    @enderror
                                                 </div>
 
                                             </div>
@@ -387,9 +386,9 @@
                                                     <input type="number" id="price_children" name="price_children"
                                                         value="{{ old('price_children') }}" class="form-control"
                                                         placeholder="Nhập giá trẻ em...">
-                                                    {{-- @error('price_children')
+                                                    @error('price_children')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror --}}
+                                                    @enderror
                                                 </div>
 
                                             </div>
@@ -400,9 +399,9 @@
                                                     <input type="number" id="sale" name="sale"
                                                         value="{{ old('sale') }}" class="form-control"
                                                         placeholder="Nhập giá khuyến mãi...">
-                                                    {{-- @error('sale')
+                                                    @error('sale')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror --}}
+                                                    @enderror
                                                 </div>
 
                                             </div>
@@ -413,9 +412,9 @@
                                                     <input type="number" id="number_guests" name="number_guests"
                                                         value="{{ old('number_guests') }}" class="form-control"
                                                         placeholder="Nhập số lượng khách...">
-                                                    {{-- @error('number_guests')
+                                                    @error('number_guests')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror --}}
+                                                    @enderror
                                                 </div>
                                             </div><!--end col-->
 
@@ -537,7 +536,7 @@
                 fetch('/cities.json') // Đổi đường dẫn đến file cities.json trong thư mục public
                     .then(response => response.json())
                     .then(data => {
-                        selectElement.innerHTML = ''; // Xóa danh sách hiện tại
+                        selectElement.innerHTML = '';
                         const defaultOption = document.createElement('option');
                         defaultOption.value = "";
                         defaultOption.textContent = "Chọn địa điểm...";
@@ -592,36 +591,32 @@
             <button type="button" class="btn btn-danger remove-itinerary">Xóa lịch trình</button>
         `;
 
-                // Thêm lịch trình mới vào container
                 container.appendChild(newItinerary);
 
-                // Gọi API để tải thành phố cho lịch trình mới
                 const startSelect = newItinerary.querySelector('select[name*="[start]"]');
                 const endSelect = newItinerary.querySelector('select[name*="[end]"]');
 
                 loadCities(startSelect);
                 loadCities(endSelect);
 
-                // Thêm sự kiện xóa lịch trình
                 newItinerary.querySelector('.remove-itinerary').addEventListener('click', function() {
                     newItinerary.remove();
                 });
             });
 
-            // Tải danh sách thành phố cho lịch trình đầu tiên
             const firstStartSelect = document.querySelector('select[name*="[start]"]');
             const firstEndSelect = document.querySelector('select[name*="[end]"]');
             loadCities(firstStartSelect);
             loadCities(firstEndSelect);
         });
     </script>
-    <!-- Link đến Flatpickr JS -->
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         flatpickr("#tourDates", {
-            mode: "multiple", // Cho phép chọn nhiều ngày
-            dateFormat: "Y-m-d", // Định dạng ngày
-            locale: "default", // Đặt ngôn ngữ (sử dụng mặc định nếu không cần)
+            mode: "multiple",
+            dateFormat: "Y-m-d",
+            locale: "default",
             onChange: function(selectedDates, dateStr, instance) {
                 // Hiển thị các ngày được chọn trên cùng dòng, cách nhau bằng dấu phẩy
                 document.getElementById("tourDates").value = dateStr;

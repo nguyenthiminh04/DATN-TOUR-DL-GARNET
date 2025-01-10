@@ -71,6 +71,10 @@
             transition: .5s;
             overflow: hidden;
         }
+
+        .card-body img {
+            width: 100%;
+        }
     </style>
 @endsection
 @section('content')
@@ -129,7 +133,7 @@
                                 </div>
                             </div>
                             <h6 class="fw-semibold text-uppercase mb-2">Mô tả:</h6>
-                            <p class="text-muted mb-4">{{ $tour->content }}</p>
+                            <p class="text-muted mb-4">{!! $tour->content ?? '' !!}</p>
                             <h6 class="fw-semibold text-uppercase mb-3">Dịch vụ:
                             </h6>
                             <table class="table table-bordered align-middle table-nowrap mb-0">

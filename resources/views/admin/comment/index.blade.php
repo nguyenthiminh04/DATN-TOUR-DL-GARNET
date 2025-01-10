@@ -183,9 +183,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     <!-- DataTables (tải sau Bootstrap) -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/jquery.dataTables.min.css">
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script> --}}
 
     <!-- SweetAlert2 (tải cuối cùng) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -324,13 +324,13 @@
                                 }
 
                                 Swal.fire({
-                                        icon: 'success',
-                                        title: 'Thành công!',
-                                        text: 'Trạng thái cập nhật thành công!',
-                                        showConfirmButton: false,
-                                        timer: 1500,
-                                        timerProgressBar: true,
-                                    });
+                                    icon: 'success',
+                                    title: 'Thành công!',
+                                    text: 'Trạng thái cập nhật thành công!',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                });
                             } else {
                                 Swal.fire({
                                     icon: 'error',
@@ -345,7 +345,7 @@
                                 icon: 'error',
                                 title: 'Lỗi!',
                                 text: 'Đã xảy ra lỗi khi cập nhật trạng thái: ' +
-                                error, 
+                                    error,
                                 showConfirmButton: true,
                             });
                             console.error(xhr.responseText || error); // In ra lỗi để debug
