@@ -615,7 +615,7 @@
     <script>
         flatpickr("#tourDates", {
             mode: "multiple",
-            dateFormat: "Y-m-d",
+            dateFormat: "d-m-Y",
             locale: "default",
             onChange: function(selectedDates, dateStr, instance) {
                 // Hiển thị các ngày được chọn trên cùng dòng, cách nhau bằng dấu phẩy
