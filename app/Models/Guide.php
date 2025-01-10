@@ -24,10 +24,15 @@ class Guide extends Model
     {
         return $this->hasMany(Guide_tours::class, 'guide_id');
     }
-    
+
     // Quan hệ gián tiếp với bảng tours qua bảng guide_tours
-     public function tours()
-     {
-         return $this->belongsToMany(Tour::class, 'guide_tours', 'guide_id', 'tour_id');
-     }
+    public function tours()
+    {
+        return $this->belongsToMany(Tour::class, 'guide_tours', 'guide_id', 'tour_id');
+    }
+    // Quan hệ với bảng users
+    public function user()
+    {
+        return $this->hasOne(User::class);  // Một hướng dẫn viên có thể có một tài khoản người dùng
+    }
 }

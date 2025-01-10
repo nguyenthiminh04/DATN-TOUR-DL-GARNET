@@ -215,15 +215,21 @@
                                 <a href="{{ route('guide_tour.create') }}" class="nav-link">
                                     Gán hướng dẫn viên</a>
                             </li>
-                            {{-- <li class="nav-item">
-                                <a href="{{ route('notification-user.create') }}" class="nav-link">
-                                    Gán hướng dẫn viên</a>
-                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#guide-manager" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="guide-manager">
+                        <i class="ph ph-notification"></i> <span data-key="t-layouts">Danh sách tour</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="guide-manager">
+                        <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('notification-user.index') }}" class="nav-link">
-                                    hướng dẫn viên đã gán</a>
-                            </li> --}}
-
+                                <a href="{{ route('guide-manager.getToursByGuide') }}" class="nav-link">
+                                    Danh sách tour</a>
+                            </li>
+                            
                         </ul>
                     </div>
                 </li>

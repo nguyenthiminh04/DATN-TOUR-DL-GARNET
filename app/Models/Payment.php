@@ -15,6 +15,7 @@ class Payment extends Model
         'booking_id',
         'user_id',
         'money',
+        'customer_id',
         'coupon_id',
         'p_note',
         'vnp_response_code',
@@ -24,8 +25,13 @@ class Payment extends Model
         'time',
         'status_id',
         'payment_method_id',
-        'customer_id',
         'pay_id',
+        'payment_status_id ',
+        'momo_transaction_id',
+        'momo_response_code',
+        'refund_amount',
+        'confirmation_code',
+        'cancel_proof_image'
     ];
 
     // Quan hệ với bảng book_tour (một payment thuộc một booking)

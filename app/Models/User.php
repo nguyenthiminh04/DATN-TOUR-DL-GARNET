@@ -103,4 +103,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(PermissionUser::class);
     }
+    public function guide()
+    {
+        return $this->belongsTo(Guide::class);
+    }
 }

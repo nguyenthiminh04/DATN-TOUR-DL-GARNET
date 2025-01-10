@@ -40,6 +40,7 @@ use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
+use App\Http\Controllers\GuideManagerController;
 use App\Http\Controllers\GuideToursController;
 
 /*
@@ -282,5 +283,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::delete('/guide_tour/delete/{id}', [GuideToursController::class, 'destroy'])->name('guide_tour.destroy');
         Route::get('/tours/{tour}/dates', [GuideToursController::class, 'getDates'])->name('guide_tour.getDates');
         // end guide_tour
+
+        // guide_manager
+        Route::get('/guide-manager', [GuideManagerController::class, 'getToursByGuide'])->name('guide-manager.getToursByGuide');
+        // end guide_manager
     });
 });
