@@ -43,6 +43,7 @@ use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Http\Controllers\CouponsClientController;
+use App\Http\Controllers\GuideManagerController;
 use App\Http\Controllers\HuyController;
 
 /*
@@ -316,5 +317,10 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::post('category_service/status/{id}',      [CategoryServiceController::class, 'categoryserviceStatus'])->name('category_service.serviceStatus');
         //end category service
+
+        // guide_manager
+        Route::get('/guide-manager', [GuideManagerController::class, 'getToursByGuide'])->name('guide-manager.getToursByGuide');
+        Route::patch('guide-manager/update/{id}', [GuideManagerController::class, 'updateStatusPayment'])->name('guide-manager.updateStatusPayment');
+        // end guide_manager
     });
 });

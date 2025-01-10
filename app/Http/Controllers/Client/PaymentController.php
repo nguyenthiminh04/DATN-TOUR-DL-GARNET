@@ -116,6 +116,11 @@ class PaymentController extends Controller
             'time' => now(),
         ]);
 
+        // Cập nhật cột pay_id trong bảng book_tour
+        $booking->update([
+            'pay_id' => $payment->id,
+        ]);
+
         // Nếu có mã giảm giá, giảm số lượng của mã
         if ($coupon && $coupon->number > 0) {
             $coupon->decrement('number', 1);
