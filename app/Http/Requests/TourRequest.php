@@ -37,9 +37,6 @@ class TourRequest extends FormRequest
             'price_children' => 'required|numeric|min:0',
             'sale' => 'required|numeric|min:0|max:100',
             'description' => 'required|string',
-            'image' => 'mimes:jpeg,png,jpg,gif,svg',
-            'location_id' => 'required',
-            'user_id' => 'required',
             'status' => 'required',
 
         ];
@@ -82,12 +79,6 @@ class TourRequest extends FormRequest
             'sale.min' => 'Giảm giá không được nhỏ hơn 0%.',
             'sale.max' => 'Giảm giá không được lớn hơn 100%.',
             'description.required' => 'Mô tả là bắt buộc.',
-            // 'content.required' => 'Nội dung là bắt buộc.', // Nếu có trường nội dung thì cần thêm dòng này
-            'image.required' => 'Hình ảnh là bắt buộc.',
-            'image.mimes' => 'Hình ảnh phải có định dạng jpeg, png, jpg, gif hoặc svg.',
-            'image.max' => 'Hình ảnh không được vượt quá 2MB.',
-            'location_id.required' => 'Địa điểm là bắt buộc.',
-            'user_id.required' => 'Người dùng là bắt buộc.',
             'status.required' => 'Trạng thái là bắt buộc.',
         ];
     }
