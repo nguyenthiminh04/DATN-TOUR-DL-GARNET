@@ -31,6 +31,7 @@ class BookTour extends Model
         'sale',
         'pay_id',
         'customer_id',
+        'guide_id'
     ];
 
     // Nếu sử dụng Carbon để làm việc với ngày tháng

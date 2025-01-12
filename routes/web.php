@@ -39,6 +39,7 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\GuideController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
@@ -251,7 +252,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('category/status/{id}',                 [CategoryController::class, 'categoryStatus'])->name('category.categoryStatus');
         Route::post('category/hot/{id}',                    [CategoryController::class, 'categoryHot'])->name('category.categoryHot');
         Route::post('notifications/toggle-status/{id}',     [NotificationController::class, 'toggleStatus'])->name('notifications.toggleStatus');
-
+        Route::post('guide/tatus/{id}',     [GuideController::class, 'guideStatus'])->name('guide.status');
+        
         //filer status
         Route::get('categorytour',          [CategoryTourController::class, 'index'])->name('categorytour.index');
         Route::get('user',                  [UserController::class, 'index'])->name('user.index');
@@ -322,5 +324,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/guide-manager', [GuideManagerController::class, 'getToursByGuide'])->name('guide-manager.getToursByGuide');
         Route::patch('guide-manager/update/{id}', [GuideManagerController::class, 'updateStatusPayment'])->name('guide-manager.updateStatusPayment');
         // end guide_manager
+
+        //crud guide
+        Route::resource('/guide', GuideController::class);
+
     });
 });

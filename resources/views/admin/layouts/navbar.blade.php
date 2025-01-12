@@ -300,6 +300,20 @@
                         </ul>
                     </div>
                 </li>
+                {{-- menu hướng dãn viên --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#hdv" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="hdvhdv">
+                        <i class="ph-user-circle-thin"></i> <span data-key="t-dashboards">Hướng dẫn viên</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="hdv">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('guide.index') }}" class="nav-link">Danh sách hướng dẫn viên</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
