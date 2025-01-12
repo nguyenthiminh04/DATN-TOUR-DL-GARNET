@@ -125,7 +125,7 @@ public function updateStatusPayment($id)
         return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
     }
 
-
+}
 
     public function assignGuide(Request $request, $id)
 {
@@ -154,7 +154,7 @@ public function updateStatusPayment($id)
     ]);
 }
 
-}
+
 
 
 
