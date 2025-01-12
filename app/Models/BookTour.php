@@ -28,7 +28,11 @@ class BookTour extends Model
         'total_money',
         'status',
         'ly_do_huy',
+        'account_name',
+        'account_number',
+        'bank',
         'sale',
+        'qr_code',
         'pay_id',
         'customer_id',
     ];
