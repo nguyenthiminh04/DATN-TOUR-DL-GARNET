@@ -3484,11 +3484,11 @@ footer .site-footer .list-menu li a:focus {
 }
 .p-multiple .quantity .plus,
 .p-multiple .quantity .minus {
-    color: #ccc;
+    color: #171414;
     display: block;
     float: left;
     cursor: pointer;
-    border: 1px #ddd solid;
+    border: 1px #040404 solid;
     padding: 0;
     text-align: center;
     background-color: transparent;
@@ -3503,7 +3503,7 @@ footer .site-footer .list-menu li a:focus {
     line-height: 35px;
     width: 100%;
     padding-right: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #131111;
     border-radius: 0;
     min-height: 10px;
     padding-left: 0;
@@ -3514,12 +3514,12 @@ footer .site-footer .list-menu li a:focus {
     background-color: transparent;
     text-align: center;
     margin-bottom: 0;
-    color: #ccc;
+    color: #141010;
     border-radius: 0;
     min-height: 10px;
-    -webkit-text-fill-color: #ccc;
+    -webkit-text-fill-color: #0d0c0c;
     -webkit-opacity: 1;
-    color: #ccc;
+    color: #1a1717;
 }
 .p-multiple .pd_variants_content .quantity .plus {
     top: 0;

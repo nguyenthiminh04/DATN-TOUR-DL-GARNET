@@ -322,5 +322,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/guide-manager', [GuideManagerController::class, 'getToursByGuide'])->name('guide-manager.getToursByGuide');
         Route::patch('guide-manager/update/{id}', [GuideManagerController::class, 'updateStatusPayment'])->name('guide-manager.updateStatusPayment');
         // end guide_manager
+
+        // assign_guide(book_tour)
+        Route::patch('guide-assign/{id}', [GuideManagerController::class, 'assignGuide'])->name('guide-assign');
+        // assign_guide
+
     });
 });
