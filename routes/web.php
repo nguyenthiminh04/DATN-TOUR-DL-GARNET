@@ -330,5 +330,10 @@ Route::post('/update-location-status/{id}', [GuideManagerController::class, 'upd
 Route::post('/guide-manager/report-issue/{id}', [GuideManagerController::class, 'reportIssue'])->name('guide-manager.reportIssue');
 
         // end guide_manager
+
+        // assign_guide(book_tour)
+        Route::patch('guide-assign/{id}', [GuideManagerController::class, 'assignGuide'])->name('guide-assign');
+        // assign_guide
+
     });
 });

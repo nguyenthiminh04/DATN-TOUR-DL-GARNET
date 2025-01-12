@@ -77,4 +77,10 @@ class Payment extends Model
     
     // In BookTour.php model (if users relation exists)
 
+    public function bookTour()
+{
+    return $this->belongsTo(BookTour::class, 'booking_id'); // Đặt đúng tên cột foreign key
+}
+
+
 }

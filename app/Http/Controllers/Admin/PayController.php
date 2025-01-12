@@ -13,6 +13,7 @@ use App\Models\PaymentStatus;
 use App\Models\NotificationUser;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\Guide;
 
 class PayController extends Controller
 {
@@ -58,8 +59,10 @@ class PayController extends Controller
                 'trangThaiThanhToan' => $trangThaiThanhToan,
             ]);
         }
+        $guides =  Guide::all(['id','name']);
 
-        return view('admin.quanlytour.index', compact('title', 'listTour', 'trangThaiTour', 'trangThaiThanhToan'));
+
+        return view('admin.quanlytour.index', compact('title', 'listTour', 'trangThaiTour', 'trangThaiThanhToan', 'guides'));
     }
 
 

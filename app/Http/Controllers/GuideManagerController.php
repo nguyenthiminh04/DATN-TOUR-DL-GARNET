@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookTour;
 use App\Models\Guide;
 use App\Models\Payment;
 use App\Models\TourLocation;
@@ -123,7 +124,37 @@ public function updateStatusPayment($id)
         \Log::error('Lỗi hoàn thành tour: ' . $e->getMessage());
         return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
     }
+
 }
+
+    public function assignGuide(Request $request, $id)
+{
+    // Validate input
+    $validatedData = $request->validate([
+        'guide_id' => 'required|exists:guides,id',
+    ]);
+
+    // Tìm booking tour
+    $bookingTour = BookTour::find($id); // Dùng find() thay vì findOrFail()
+
+    if (!$bookingTour) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Không tìm thấy booking tour với ID: ' . $id,
+        ], 404);
+    }
+
+    // Cập nhật guide_id
+    $bookingTour->guide_id = $validatedData['guide_id'];
+    $bookingTour->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Hướng dẫn viên đã được gán thành công!',
+    ]);
+}
+
+
 
 
 
