@@ -66,7 +66,7 @@
                                                 {{-- @php
                                                     // dd($item);
                                                 @endphp --}}
-                                                <td>
+                                                {{-- <td>
                                                     @if ($item->pay && $item->pay->status_id != 6)
                                                         <form
                                                             action="{{ route('guide-manager.updateStatusPayment', $item->pay_id) }}"
@@ -84,6 +84,21 @@
                                                             tour</button>
                                                     @endif
 
+                                                </td> --}}
+                                                <td>
+                                                    <ul class="d-flex gap-2 list-unstyled mb-0">
+                                                        {{-- <li>
+                                                            <a href="apps-learning-overview.html"
+                                                                class="btn btn-subtle-primary btn-icon btn-sm "><i
+                                                                    class="ph-eye"></i></a>
+                                                        </li> --}}
+                                                        <li>
+                                                            <a href="{{ route('guide-manager.createguider', $item->id) }}"
+                                                                class="btn btn-subtle-success btn-icon btn-sm">
+                                                                <i class="ri-edit-2-line"></i></a>
+                                                        </li>
+                                                       
+                                                    </ul>
                                                 </td>
                                             </tr>
                                         @endforeach

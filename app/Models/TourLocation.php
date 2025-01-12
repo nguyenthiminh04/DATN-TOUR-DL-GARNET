@@ -17,6 +17,7 @@ class TourLocation extends Model
         'location_id',   // ID của địa điểm
         'is_start',      // Có phải là điểm bắt đầu không
         'is_end',        // Có phải là điểm kết thúc không
+        'status',        // Có phải là điểm kết thúc không
     ];
 
     // Quan hệ với bảng `tour` (một tour có nhiều địa điểm)
