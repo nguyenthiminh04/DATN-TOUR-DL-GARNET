@@ -39,6 +39,7 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\HDVController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
@@ -320,7 +321,21 @@ Route::group(['prefix' => 'admin'], function () {
 
         // guide_manager
         Route::get('/guide-manager', [GuideManagerController::class, 'getToursByGuide'])->name('guide-manager.getToursByGuide');
+        Route::get('/guide-manager/createguider/{id}', [GuideManagerController::class, 'createguider'])->name('guide-manager.createguider');
+
         Route::patch('guide-manager/update/{id}', [GuideManagerController::class, 'updateStatusPayment'])->name('guide-manager.updateStatusPayment');
+        // web.php
+Route::post('/update-location-status/{id}', [GuideManagerController::class, 'updateLocationStatus'])
+->name('guide-manager.updateLocationStatus');
+
+Route::post('/guide-manager/report-issue/{id}', [GuideManagerController::class, 'reportIssue'])->name('guide-manager.reportIssue');
+
         // end guide_manager
+
+        // assign_guide(book_tour)
+        Route::patch('guide-assign/{id}', [GuideManagerController::class, 'assignGuide'])->name('guide-assign');
+        // assign_guide
+        Route::get('/hdv', [HDVController::class, 'index'])->name('hdv.index');
+        Route::post('/hdv/{id}/assign-guide', [HDVController::class, 'assignGuide'])->name('hdv.assignGuide');
     });
 });

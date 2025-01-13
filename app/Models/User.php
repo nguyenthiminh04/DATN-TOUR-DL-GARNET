@@ -33,6 +33,7 @@ class User extends Authenticatable
         'remember_token',
         'temporary_user_id',
         'role_id',
+        'guide_id',
     ];
 
     /**

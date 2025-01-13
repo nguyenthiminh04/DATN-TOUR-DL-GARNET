@@ -1711,6 +1711,17 @@
                                         </div>
                                         <div class="col-xs-12">
                                             <fieldset class="form-group">
+                                                <select name="" id="" class="form-control">
+                                                    <option value="">--Chọn yêu cầu--</option>
+
+                                                    <option value="1">Yêu cầu thêm tour</option>
+                                                    <option value="1">Yêu cầu khác</option>
+                                                </select>
+                                            </fieldset>
+
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <fieldset class="form-group">
                                                 <textarea placeholder="Nội dung" name="content" id="comment" class="form-control" rows="3"></textarea>
                                             </fieldset>
                                             <div class="pull-xs-right text-center" style="margin-top:10px;">
@@ -1988,63 +1999,63 @@
     </script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Lấy danh sách các ngày từ server (truyền từ backend)
-        var availableDates = <?= json_encode($tourDates) ?>; // Dữ liệu $tourDates là mảng các ngày từ backend
+        document.addEventListener("DOMContentLoaded", function() {
+            // Lấy danh sách các ngày từ server (truyền từ backend)
+            var availableDates = <?= json_encode($tourDates) ?>; // Dữ liệu $tourDates là mảng các ngày từ backend
 
-        // Khởi tạo flatpickr
-        flatpickr("#datepicker", {
-            dateFormat: "Y-m-d", // Định dạng ngày
-            minDate: availableDates[0] || null, // Ngày nhỏ nhất (lấy ngày đầu tiên trong danh sách)
-            maxDate: availableDates[availableDates.length - 1] || null, // Ngày lớn nhất (lấy ngày cuối cùng trong danh sách)
-            enable: availableDates, // Chỉ cho phép chọn các ngày có trong danh sách
-            locale: "vn", // Ngôn ngữ tiếng Việt (nếu có)
-            onChange: function (selectedDates, dateStr, instance) {
-                if (selectedDates.length > 0) {
-                    var selectedDate = new Date(dateStr);
+            // Khởi tạo flatpickr
+            flatpickr("#datepicker", {
+                dateFormat: "Y-m-d", // Định dạng ngày
+                minDate: availableDates[0] || null, // Ngày nhỏ nhất (lấy ngày đầu tiên trong danh sách)
+                maxDate: availableDates[availableDates.length - 1] ||
+                null, // Ngày lớn nhất (lấy ngày cuối cùng trong danh sách)
+                enable: availableDates, // Chỉ cho phép chọn các ngày có trong danh sách
+                locale: "vn", // Ngôn ngữ tiếng Việt (nếu có)
+                onChange: function(selectedDates, dateStr, instance) {
+                    if (selectedDates.length > 0) {
+                        var selectedDate = new Date(dateStr);
 
-                    // Hiển thị thông tin ngày đã chọn
-                    document.getElementById("selected-date").innerText =
-                        "Ngày bạn chọn: " + selectedDate.toISOString().split("T")[0];
-                }
-            },
-        });
-    });
-
-    $('#advisoryForm').on('submit', function (e) {
-        e.preventDefault();
-
-        let formData = $(this).serialize();
-
-        $.ajax({
-            url: '/advisory/',
-            method: 'POST',
-            data: formData,
-            success: function (response) {
-                if (response.success) {
-                    Swal.fire('Thành công', response.message, 'success');
-                }
-            },
-            error: function (xhr) {
-                if (xhr.status === 422) {
-                    let errors = xhr.responseJSON.errors;
-
-                    let errorMessages = '';
-                    for (let field in errors) {
-                        errorMessages += `<p style="color: red;">${errors[field].join('<br>')}</p>`;
+                        // Hiển thị thông tin ngày đã chọn
+                        document.getElementById("selected-date").innerText =
+                            "Ngày bạn chọn: " + selectedDate.toISOString().split("T")[0];
                     }
-
-                    Swal.fire({
-                        title: 'Lỗi!',
-                        html: errorMessages,
-                        icon: 'error',
-                    });
-                } else {
-                    Swal.fire('Lỗi', 'Đã có lỗi xảy ra, vui lòng thử lại.', 'error');
-                }
-            }
+                },
+            });
         });
-    });
-</script>
 
+        $('#advisoryForm').on('submit', function(e) {
+            e.preventDefault();
+
+            let formData = $(this).serialize();
+
+            $.ajax({
+                url: '/advisory/',
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire('Thành công', response.message, 'success');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+
+                        let errorMessages = '';
+                        for (let field in errors) {
+                            errorMessages += `<p style="color: red;">${errors[field].join('<br>')}</p>`;
+                        }
+
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            html: errorMessages,
+                            icon: 'error',
+                        });
+                    } else {
+                        Swal.fire('Lỗi', 'Đã có lỗi xảy ra, vui lòng thử lại.', 'error');
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

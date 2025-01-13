@@ -143,8 +143,9 @@
                                         <th>Thời gian kết thúc chuyến đi</th>
 
                                         <th>Số điện thoại</th>
-                                        <th>Thời gian đặt</th>
-                                        <th>Phương Thức Thanh Toán</th>
+                                        <th>Hướng dẫn viên</th>
+                                        {{-- <th>Thời gian đặt</th>
+                                        <th>Phương Thức Thanh Toán</th> --}}
 
                                         <th>Trạng Thái Thanh Toán</th>
                                         <th>Trạng Thái Tour</th>
@@ -172,8 +173,24 @@
                                                 <td>{{ \Carbon\Carbon::parse($item->booking->end_date)->format('d/m/Y') }}
                                                 </td>
                                                 <td>{{ $item->booking->phone ?? 'Không có' }}</td>
-
                                                 <td>
+                                                    <select id="" name=""
+                                                        class="form-select w-full max-w-xs guide-status-select status-tour"
+                                                        data-id="{{ $item->bookTour->id }}" style="width: 180px">
+
+                                                        <option value="">Chọn hướng dẫn viên</option>
+                                                        @foreach ($guides as $guide)
+                                                            <option value="{{ $guide->id }}"
+                                                                {{ $guide->id == $item->bookTour->guide_id ? 'selected' : '' }}>
+                                                                {{ $guide->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @foreach ($guides as $guide)
+                                                    @endforeach
+
+                                                </td>
+                                                {{-- <td>
                                                     {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}
                                                 </td>
                                                 <td>
@@ -186,7 +203,7 @@
                                                     @elseif ($item->paymentMethod->id == 4)
                                                         Thanh Toán Trực Tiếp
                                                     @endif
-                                                </td>
+                                                </td> --}}
                                                 <td>
                                                     <select id="payment-status-select" name="payment_status_id"
                                                         class="form-select w-full max-w-xs payment-status-select status-tour"
@@ -356,10 +373,10 @@
     </script> --}}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js">
-        < /scrip> <
-        script src = "https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js" >
-    </script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
     <script>
         document.getElementById('searchInput').addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
@@ -387,7 +404,7 @@
                             });
 
                             if (response.disabled) {
-                                selectElement.prop('disabled', true);    
+                                selectElement.prop('disabled', true);
                             }
 
                             selectElement.val(response.new_status);
@@ -451,6 +468,74 @@
                     }
                 });
             });
+            $(document).on('change', '.guide-status-select', function() {
+                var selectElement = $(this);
+                var book_tour_id = selectElement.data('id'); // Lấy ID của booking tour
+                var guide_id = selectElement.val(); // Lấy giá trị (guide_id) từ select
+
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn thay đổi Hướng dẫn viên?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Có, thay đổi',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Dữ liệu cần gửi
+                        var data = {
+                            '_token': $('meta[name="csrf-token"]').attr('content'),
+                            'guide_id': guide_id
+                        };
+
+                        // Gửi AJAX
+                        $.ajax({
+                            url: 'guide-assign/' + book_tour_id,
+                            type: 'PATCH',
+                            data: data,
+                            success: function(response) {
+                                if (response.success) {
+                                    Swal.fire({
+                                        title: 'Thành công!',
+                                        text: response.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Thất bại!',
+                                        text: response.message,
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    });
+                                    // Reset lại giá trị nếu có lỗi
+                                    selectElement.val(selectElement.data(
+                                        'previous-value'));
+                                }
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    title: 'Lỗi!',
+                                    text: 'Có lỗi xảy ra, vui lòng thử lại.',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                                // Reset lại giá trị nếu có lỗi
+                                selectElement.val(selectElement.data('previous-value'));
+                            }
+                        });
+                    } else {
+                        // Khôi phục lại giá trị ban đầu nếu người dùng hủy
+                        selectElement.val(selectElement.data('previous-value'));
+                    }
+                });
+
+                // Lưu giá trị hiện tại vào data để khôi phục nếu cần
+                selectElement.data('previous-value', guide_id);
+            });
+
 
 
             $(document).on('change', '.status', function() {
