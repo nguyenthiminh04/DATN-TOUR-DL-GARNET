@@ -39,6 +39,7 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\HDVController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
@@ -334,6 +335,7 @@ Route::post('/guide-manager/report-issue/{id}', [GuideManagerController::class, 
         // assign_guide(book_tour)
         Route::patch('guide-assign/{id}', [GuideManagerController::class, 'assignGuide'])->name('guide-assign');
         // assign_guide
-
+        Route::get('/hdv', [HDVController::class, 'index'])->name('hdv.index');
+        Route::post('/hdv/{id}/assign-guide', [HDVController::class, 'assignGuide'])->name('hdv.assignGuide');
     });
 });

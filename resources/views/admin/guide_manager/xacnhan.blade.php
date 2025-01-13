@@ -20,11 +20,9 @@
                                 {{ session('success') }}
                             </div>
                         @endif
-
                         @if (session('error'))
                             <spsan>{{ session('error') }}</spsan>
                         @endif
-
                         <div class="container">
                             <div class="col-lg-12">
                                 <div class="card" id="coursesList">
@@ -38,7 +36,6 @@
                                                 </b>
                                             </label>
                                             <div class="accordion-item-desc">{{ $location->description }}</div>
-
                                             <!-- Hiển thị nút xác nhận nếu status = 0 -->
                                             @if ($location->status == 0)
                                             <div class="text-right mt-2">
@@ -91,14 +88,12 @@
                     </div>
                 </div>
             </div>
-           
         </div>
     </div>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const issueButtons = document.querySelectorAll(".issue-btn");
     const submitIssueButtons = document.querySelectorAll(".submit-issue-btn");
-
     // Hiển thị form nhập lý do khi bấm nút "Tour gặp sự cố"
     issueButtons.forEach(button => {
         button.addEventListener("click", function () {
@@ -109,19 +104,16 @@
             }
         });
     });
-
     // Gửi lý do gặp sự cố
     submitIssueButtons.forEach(button => {
         button.addEventListener("click", function () {
             const locationId = this.getAttribute("data-id");
             const reasonTextarea = document.querySelector(`.issue-reason[data-id="${locationId}"]`);
             const reason = reasonTextarea.value.trim();
-
             if (!reason) {
                 alert("Vui lòng nhập lý do.");
                 return;
             }
-
             fetch(`{{ route('guide-manager.reportIssue', '') }}/${locationId}`, {
                 method: "POST",
                 headers: {
@@ -146,19 +138,16 @@
         });
     });
 });
-
 </script>
     <!-- JavaScript -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const confirmButtons = document.querySelectorAll(".confirm-btn");
             const completeTourBtn = document.getElementById("complete-tour-btn");
-
             // Xử lý xác nhận từng lịch trình
             confirmButtons.forEach(button => {
                 button.addEventListener("click", function() {
                     const locationId = this.getAttribute("data-id");
-
                     if (confirm("Bạn có chắc chắn xác nhận lịch trình này không?")) {
                         fetch(`{{ route('guide-manager.updateLocationStatus', '') }}/${locationId}`, {
                                 method: "POST",
@@ -187,7 +176,6 @@
                     }
                 });
             });
-
             // Xử lý hoàn thành tour
             if (completeTourBtn) {
                 completeTourBtn.addEventListener("click", function() {
@@ -218,10 +206,8 @@
         });
     </script>
 @endsection
-
 @section('script')
     <!--datatable js-->
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>

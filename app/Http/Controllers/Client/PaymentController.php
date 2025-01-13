@@ -368,6 +368,10 @@ class PaymentController extends Controller
             'time' => now(),
 
         ]);
+        // Cập nhật cột pay_id trong bảng book_tour
+        $booking->update([
+            'pay_id' => $payment->id,
+        ]);
 
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
