@@ -231,31 +231,41 @@
                                                         })
                                                         .then(response => response.json())
                                                         .then(data => {
+
                                                             const servicesSelect = document.getElementById('services');
 
+                                                            // Tạo Set các service IDs hiện tại đã được chọn
+                                                            const currentSelectedServices = Array.from(document.querySelectorAll(
+                                                                    '#services option:checked'))
+                                                                .map(option => option.value);
+
+                                                            // Loại bỏ các dịch vụ không còn trong danh sách mới trả về
                                                             const newServiceIds = new Set(data.services.map(service => service.id
                                                                 .toString()));
-
                                                             Array.from(servicesSelect.options).forEach(option => {
                                                                 if (!newServiceIds.has(option.value)) {
                                                                     option.remove();
                                                                 }
                                                             });
 
-
+                                                            // Thêm các dịch vụ mới vào dropdown
                                                             data.services.forEach(service => {
                                                                 if (![...servicesSelect.options].some(option => option.value ===
                                                                         service.id.toString())) {
                                                                     const option = document.createElement('option');
                                                                     option.value = service.id;
                                                                     option.textContent = service.name;
+
+                                                                    // Giữ trạng thái đã chọn nếu dịch vụ đã có sẵn trong danh sách được chọn
                                                                     if (currentSelectedServices.includes(service.id.toString())) {
                                                                         option.selected = true;
                                                                     }
+
                                                                     servicesSelect.appendChild(option);
                                                                 }
                                                             });
 
+                                                            // Đảm bảo lại trạng thái các option đã chọn sau khi cập nhật
                                                             Array.from(servicesSelect.options).forEach(option => {
                                                                 if (currentSelectedServices.includes(option.value) && newServiceIds
                                                                     .has(option.value)) {
@@ -264,6 +274,7 @@
                                                             });
                                                         })
                                                         .catch(error => console.error('Error:', error));
+
                                                 });
                                             });
                                         </script>
@@ -430,9 +441,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                {{-- @error('location_id')
+                                                @error('location_id')
                                                     <span class="text-danger">{{ $message }}</span>
-                                                @enderror --}}
+                                                @enderror
                                             </div>
                                             <div class="mb-3 col-6">
                                                 <label for="status1" class="form-label">Mục Tour<span
@@ -445,9 +456,9 @@
                                                             {{ $status->category_tour }}</option>
                                                     @endforeach
                                                 </select>
-                                                {{-- @error('category_tour_id')
+                                                @error('category_tour_id')
                                                     <span class="text-danger">{{ $message }}</span>
-                                                @enderror --}}
+                                                @enderror
                                             </div>
                                             <div class="mb-3 col-6" hidden>
                                                 <label for="user_id" class="form-label">Người thực hiện<span

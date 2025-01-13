@@ -14,18 +14,18 @@ class ServiceController extends Controller
         $data['title'] = 'Dịch Vụ';
         $status = $request->get('status');
         $searchQuery = $request->get('search');
-    
-        $data['services'] = ServiceModel::getAll($status, $searchQuery); 
-    
+
+        $data['services'] = ServiceModel::getAll($status, $searchQuery);
+
         if ($request->ajax()) {
             return response()->json([
-                'data' => $data['services']->items(), 
+                'data' => $data['services']->items(),
             ]);
         }
-    
-        return view('admin.services.index', $data); 
+
+        return view('admin.services.index', $data);
     }
-    
+
 
 
     public function create()
@@ -49,7 +49,7 @@ class ServiceController extends Controller
         // dd($request->all());
         $request->validate([
             'name' => 'required|max:255|unique:services,name',
-            'price' => 'required|numeric',
+            // 'price' => 'numeric',
             'description' => 'required|max:500',
             'category_service_id' => 'required|exists:category_services,id',
         ], [
@@ -100,7 +100,7 @@ class ServiceController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255|unique:services,name,' . $id,
-            'price' => 'required|numeric',
+            'price' => 'numeric',
             'description' => 'required|max:500',
             'category_service_id' => 'required|exists:category_services,id',
         ], [
