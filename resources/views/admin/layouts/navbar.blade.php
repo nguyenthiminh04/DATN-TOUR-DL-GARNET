@@ -37,7 +37,7 @@
                         <span data-key="t-calendar">Dashboard</span>
                     </a>
                 </li>
-
+                @if (auth()->user()->role_id == '1')
                 <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#ordertour" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="ordertour">
@@ -225,7 +225,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link collapsed" href="#guide-manager" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="guide-manager">
                         <i class="ph ph-notification"></i> <span data-key="t-layouts">Danh sách tour</span>
@@ -239,9 +239,8 @@
                             
                         </ul>
                     </div>
-                </li>
+                </li> --}}
                 {{-- admin --}}
-                @if (auth()->user()->role_id == '1')
                     <li class="nav-item">
                         <a class="nav-link menu-link collapsed" href="#permissions" data-bs-toggle="collapse"
                             role="button" aria-expanded="false" aria-controls="permissions">
@@ -284,7 +283,6 @@
                             </ul>
                         </div>
                     </li>
-                @endif
 
                 {{-- end admin --}}
                 <li class="nav-item">
@@ -300,6 +298,26 @@
                         </ul>
                     </div>
                 </li>
+                @endif
+
+                @if (auth()->user()->role_id == '3')
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed" href="#guide-manager" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="guide-manager">
+                        <i class="ph ph-notification"></i> <span data-key="t-layouts">Danh sách tour</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="guide-manager">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('guide-manager.getToursByGuide') }}" class="nav-link">
+                                    Danh sách tour</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+                @endif
+
             </ul>
         </div>
     </div>
