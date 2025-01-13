@@ -161,7 +161,7 @@
                                                         <div class="mb-3">
                                                             <label for="locations">Chọn điểm đến:</label>
                                                             <select name="locations[0][start]" class="form-control"
-                                                                required>
+                                                                >
                                                                 <option value="">Chọn địa điểm...</option>
                                                             </select>
                                                         </div>
@@ -169,7 +169,7 @@
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
                                                             <label for="end-location">Điểm kết thúc:</label>
-                                                            <select name="locations[0][end]" class="form-control" required>
+                                                            <select name="locations[0][end]" class="form-control" >
                                                                 <option value="">Chọn địa điểm...</option>
                                                             </select>
                                                         </div>
@@ -179,7 +179,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="description">Mô tả lịch trình:</label>
-                                                    <textarea name="locations[0][description]" class="form-control" required placeholder="Mô tả về lịch trình"></textarea>
+                                                    <textarea name="locations[0][description]" class="form-control"  placeholder="Mô tả về lịch trình"></textarea>
                                                 </div>
 
                                                 <button type="button" class="btn btn-success add-itinerary">Thêm lịch
@@ -578,7 +578,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label for="locations">Chọn điểm đến:</label>
-                        <select name="locations[${itineraryCount - 1}][start]" class="form-control" required>
+                        <select name="locations[${itineraryCount - 1}][start]" class="form-control" >
                             <option value="">Chọn địa điểm...</option>
                         </select>
                     </div>
@@ -586,7 +586,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label for="end-location">Điểm kết thúc:</label>
-                        <select name="locations[${itineraryCount - 1}][end]" class="form-control" required>
+                        <select name="locations[${itineraryCount - 1}][end]" class="form-control" >
                             <option value="">Chọn địa điểm...</option>
                         </select>
                     </div>
@@ -596,7 +596,7 @@
             <!-- Thêm trường Mô Tả -->
             <div class="mb-3">
                 <label for="description">Mô tả lịch trình:</label>
-                <textarea name="locations[${itineraryCount - 1}][description]" class="form-control" required placeholder="Mô tả về lịch trình"></textarea>
+                <textarea name="locations[${itineraryCount - 1}][description]" class="form-control"  placeholder="Mô tả về lịch trình"></textarea>
             </div>
 
             <button type="button" class="btn btn-danger remove-itinerary">Xóa lịch trình</button>
