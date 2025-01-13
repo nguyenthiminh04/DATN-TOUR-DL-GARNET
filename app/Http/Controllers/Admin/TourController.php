@@ -189,7 +189,6 @@ class TourController extends Controller
                 \Log::warning('No category services or services found.');
             }
 
-<<<<<<< HEAD
 
             if ($request->has("tour_dates")) {
                 DB::table('tour_dates')->where('tour_id', $tour->id)->delete();
@@ -206,32 +205,8 @@ class TourController extends Controller
                         'tour_id' => $tour->id,
                         'tour_date' => $formattedDate,
                     ]);
-=======
-            if ($request->has('tour_dates')) {
-                // Tách chuỗi ngày thành mảng
-                $dates = explode(',', $request->input('tour_dates'));
-            
-                foreach ($dates as $date) {
-                    // Xóa khoảng trắng dư thừa
-                    $date = trim($date);
-            
-                    // Chuyển đổi định dạng ngày từ 'DD-MM-YYYY' sang 'YYYY-MM-DD'
-                    $formattedDate = \DateTime::createFromFormat('d-m-Y', $date);
-            
-                    // Kiểm tra nếu ngày hợp lệ
-                    if ($formattedDate) {
-                        $tour->tourDates()->create([
-                            'tour_id' => $tourID,
-                            'tour_date' => $formattedDate->format('Y-m-d'), // Định dạng đúng
-                        ]);
-                    } else {
-                        // Ghi log hoặc xử lý lỗi nếu định dạng ngày không hợp lệ
-                        \Log::warning("Ngày không hợp lệ: $date");
-                    }
->>>>>>> 61a36ccc371c09ec69937389e682d30f63bea47a
                 }
             }
-            
 
 
 
