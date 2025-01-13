@@ -234,6 +234,9 @@
                                                         <label>{{ $category->category_name }}</label>
                                                     </div>
                                                 @endforeach
+                                                @error('category_services')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
 
@@ -245,7 +248,11 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            @error('services')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
+
 
 
                                         <script>
@@ -272,35 +279,19 @@
                                                         .then(response => response.json())
                                                         .then(data => {
                                                             const servicesSelect = document.getElementById('services');
+                                                            servicesSelect.innerHTML = ''; // Clear existing options
 
                                                             const newServiceIds = new Set(data.services.map(service => service.id
                                                                 .toString()));
 
-                                                            Array.from(servicesSelect.options).forEach(option => {
-                                                                if (!newServiceIds.has(option.value)) {
-                                                                    option.remove();
-                                                                }
-                                                            });
-
-
                                                             data.services.forEach(service => {
-                                                                if (![...servicesSelect.options].some(option => option.value ===
-                                                                        service.id.toString())) {
-                                                                    const option = document.createElement('option');
-                                                                    option.value = service.id;
-                                                                    option.textContent = service.name;
-                                                                    if (currentSelectedServices.includes(service.id.toString())) {
-                                                                        option.selected = true;
-                                                                    }
-                                                                    servicesSelect.appendChild(option);
-                                                                }
-                                                            });
-
-                                                            Array.from(servicesSelect.options).forEach(option => {
-                                                                if (currentSelectedServices.includes(option.value) && newServiceIds
-                                                                    .has(option.value)) {
+                                                                const option = document.createElement('option');
+                                                                option.value = service.id;
+                                                                option.textContent = service.name;
+                                                                if (currentSelectedServices.includes(service.id.toString())) {
                                                                     option.selected = true;
                                                                 }
+                                                                servicesSelect.appendChild(option);
                                                             });
                                                         })
                                                         .catch(error => console.error('Error:', error));
@@ -352,8 +343,7 @@
 
                                         <div class="mb-3">
                                             <label class="form-label" for="description">Mô tả ngắn</label>
-                                            <textarea class="form-control" id="description" name="description" value="{{ $tour->description }}" rows="2"
-                                                placeholder="Nhập mô tả tour..."></textarea>
+                                            <textarea class="form-control" id="description" name="description" rows="2" placeholder="Nhập mô tả tour...">{{ $tour->description }}</textarea>
                                             @error('description')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -550,7 +540,7 @@
                                 </div>
                                 <div class="col-lg-12" style="margin-bottom: 10px">
                                     <div class="text-end">
-                                        <button class="btn btn-primary" type="submit">Thêm mới</button>
+                                        <button class="btn btn-primary" type="submit">Cập nhật</button>
                                         <a href="{{ route('tour.index') }}" class="btn btn-danger">Hủy</a>
                                     </div>
                                 </div>

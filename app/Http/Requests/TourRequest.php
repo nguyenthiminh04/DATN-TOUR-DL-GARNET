@@ -21,10 +21,10 @@ class TourRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->route('tour');
+
 
         return [
-            'name' => 'required|max:255|unique:tours,name,' . $id,
+            'name' => 'required|max:255',
             'journeys' => 'required|max:255',
             'schedule' => 'required|max:255',
             'move_method' => 'required|max:255',
@@ -38,6 +38,9 @@ class TourRequest extends FormRequest
             'sale' => 'required|numeric|min:0|max:100',
             'description' => 'required|string',
             'status' => 'required',
+            'category_services' => 'required|array',
+            'services' => 'required|array|min:1',
+
 
         ];
     }
@@ -80,6 +83,9 @@ class TourRequest extends FormRequest
             'sale.max' => 'Giảm giá không được lớn hơn 100%.',
             'description.required' => 'Mô tả là bắt buộc.',
             'status.required' => 'Trạng thái là bắt buộc.',
+            'category_services' => 'Vui lòng chọn danh mục dịch vụ.',
+            'services.required' => 'Vui lòng chọn ít nhất một dịch vụ.',
+            'services.min' => 'Vui lòng chọn ít nhất một dịch vụ.',
         ];
     }
 }

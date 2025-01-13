@@ -17,6 +17,7 @@ use App\Models\Admins\CategoryServiceModel;
 use App\Models\Admins\ServiceModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TourController extends Controller
 {
@@ -75,22 +76,31 @@ class TourController extends Controller
         $data['listlocation'] = Location::query()->get();
         $data['listCategoryTour'] = CategoryTour::query()->get();
         $data['categoryServices'] = CategoryServiceModel::where('status', 1)->get();
-        $data['services'] = [];
+        $data['services'] = ServiceModel::where('status', 1)->get();;
+        // dd($data);
         return view('admin.tour.add', $data);
     }
 
 
     public function getServicesByCategories(Request $request)
     {
-        $categoryIds = $request->get('category_ids', []); // Nhận danh sách danh mục đã chọn
+        $categoryIds = $request->get('category_ids', []);
 
-        // Lấy dịch vụ thuộc danh mục đã chọn
+        if (empty($categoryIds)) {
+            return response()->json(['message' => 'No categories selected'], 400);
+        }
+
         $services = ServiceModel::whereIn('category_service_id', $categoryIds)
             ->where('status', 1)
             ->get();
 
+        if ($services->isEmpty()) {
+            return response()->json(['message' => 'No services found'], 404);
+        }
+
         return response()->json(['services' => $services]);
     }
+
 
 
 
@@ -99,7 +109,6 @@ class TourController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
 
@@ -114,45 +123,91 @@ class TourController extends Controller
             $tour = Tour::query()->create($params);
             $tourID = $tour->id;
 
+            // if ($request->has('category_services') && $request->has('services')) {
+            //     $categoryServices = $request->input('category_services');
+            //     $services = $request->input('services');
+
+            //     \Log::info('Category Services:', $request->input('category_services'));
+            //     \Log::info('Services:', $request->input('services'));
+
+            //     foreach ($categoryServices as $categoryId) {
+            //         $category = CategoryServiceModel::find($categoryId);
+
+            //         // Lấy các dịch vụ có sẵn trong danh mục này
+            //         $availableServices = array_unique($category ? $category->services->pluck('id')->toArray() : []);
+
+            //         \Log::info('Available Services for Category ' . $categoryId, $availableServices);
+
+            //         // Duyệt qua tất cả dịch vụ được chọn và kiểm tra sự phù hợp
+            //         foreach ($services as $serviceId) {
+            //             if (in_array($serviceId, $availableServices)) {
+            //                 // Insert từng kết hợp vào bảng tour_service
+            //                 \Log::info('Inserting:', [
+            //                     'tour_id' => $tourID,
+            //                     'category_service_id' => $categoryId,
+            //                     'service_id' => $serviceId
+            //                 ]);
+
+            //                 DB::table('tour_service')->insert([
+            //                     'tour_id' => $tourID,
+            //                     'category_service_id' => $categoryId,
+            //                     'service_id' => $serviceId,
+            //                     'created_at' => now(),
+            //                     'updated_at' => now(),
+            //                 ]);
+            //             }
+            //         }
+            //     }
+            // } else {
+            //     \Log::warning('No category services or services found.');
+            // }
+
 
             if ($request->has('category_services') && $request->has('services')) {
                 $categoryServices = $request->input('category_services');
                 $services = $request->input('services');
 
-
                 foreach ($categoryServices as $categoryId) {
-
-                    $category = CategoryServiceModel::find($categoryId);
-                    $availableServices = $category ? $category->services->pluck('id')->toArray() : [];
+                    $servicesInCategory = ServiceModel::query()->where('category_service_id', $categoryId)->pluck('id')->toArray();
                     foreach ($services as $serviceId) {
-                        if (in_array($serviceId, $availableServices)) {
-
-                            DB::table('tour_service')->insert([
-                                'tour_id' => $tourID,
-                                'category_service_id' => $categoryId,
-                                'service_id' => $serviceId,
-                                'created_at' => now(),
-                                'updated_at' => now(),
-                            ]);
+                        if (in_array($serviceId, $servicesInCategory)) {
+                            DB::table('tour_service')->updateOrInsert(
+                                [
+                                    'tour_id' => $tourID,
+                                    'category_service_id' => $categoryId,
+                                    'service_id' => $serviceId,
+                                ],
+                                [
+                                    'created_at' => now(),
+                                    'updated_at' => now(),
+                                ]
+                            );
                         }
                     }
                 }
             } else {
-                return redirect()->back()->with('error', 'Không có danh mục dịch vụ hoặc dịch vụ đi kèm!');
+                \Log::warning('No category services or services found.');
             }
 
-            if ($request->has('tour_dates')) {
-                // Tách chuỗi ngày thành mảng
-                $dates = explode(',', $request->input('tour_dates'));
-                
-                foreach ($dates as $date) {
-                    // Lưu từng ngày vào bảng `tour_dates`
-                    $tour->tourDates()->create([
-                        'tour_id' => $tourID,
-                        'tour_date' => $date,
+
+            if ($request->has("tour_dates")) {
+                DB::table('tour_dates')->where('tour_id', $tour->id)->delete();
+
+                $tourDates = $request->input("tour_dates");
+                $datesArray = explode(", ", $tourDates);
+
+                foreach ($datesArray as $date) {
+
+                    $formattedDate = \Carbon\Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
+
+
+                    TourDate::create([
+                        'tour_id' => $tour->id,
+                        'tour_date' => $formattedDate,
                     ]);
                 }
             }
+
 
 
             if ($request->has('locations')) {
@@ -258,23 +313,34 @@ class TourController extends Controller
                 // Xóa tất cả các dịch vụ cũ của tour
                 DB::table('tour_service')->where('tour_id', $tour->id)->delete();
 
-                // Thêm các dịch vụ mới
-                foreach ($categoryServices as $categoryId) {
-                    $category = CategoryServiceModel::find($categoryId);
-                    $availableServices = $category ? $category->services->pluck('id')->toArray() : [];
 
-                    foreach ($services as $serviceId) {
-                        // Kiểm tra dịch vụ có hợp lệ với danh mục không
-                        if (in_array($serviceId, $availableServices)) {
-                            DB::table('tour_service')->insert([
-                                'tour_id' => $tour->id,
-                                'category_service_id' => $categoryId,
-                                'service_id' => $serviceId,
-                                'created_at' => now(),
-                                'updated_at' => now(),
-                            ]);
+
+                if ($request->has('category_services') && $request->has('services')) {
+                    $categoryServices = $request->input('category_services');
+                    $services = $request->input('services');
+
+                    // dd($categoryServices,  $services);
+
+                    foreach ($categoryServices as $categoryId) {
+                        $servicesInCategory = ServiceModel::query()->where('category_service_id', $categoryId)->pluck('id')->toArray();
+                        foreach ($services as $serviceId) {
+                            if (in_array($serviceId, $servicesInCategory)) {
+                                DB::table('tour_service')->updateOrInsert(
+                                    [
+                                        'tour_id' => $tour->id,
+                                        'category_service_id' => $categoryId,
+                                        'service_id' => $serviceId,
+                                    ],
+                                    [
+                                        'created_at' => now(),
+                                        'updated_at' => now(),
+                                    ]
+                                );
+                            }
                         }
                     }
+                } else {
+                    \Log::warning('No category services or services found.');
                 }
             }
 
