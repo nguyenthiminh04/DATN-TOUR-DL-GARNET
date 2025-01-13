@@ -122,18 +122,18 @@ class TourController extends Controller
 
             $tour = Tour::query()->create($params);
             $tourID = $tour->id;
- // Xử lý thêm album
- if ($request->hasFile('list_hinh_anh')) {
-    foreach ($request->file('list_hinh_anh') as $image) {
-        if ($image) {
-            $path = $image->store('uploads/imagetour/id_' . $tourID, 'public');
-            $tour->imagetour()->create([
-                'tour_id' => $tourID,
-                'image' => $path,
-            ]);
-        }
-    }
-}
+            // Xử lý thêm album
+            if ($request->hasFile('list_hinh_anh')) {
+                foreach ($request->file('list_hinh_anh') as $image) {
+                    if ($image) {
+                        $path = $image->store('uploads/imagetour/id_' . $tourID, 'public');
+                        $tour->imagetour()->create([
+                            'tour_id' => $tourID,
+                            'image' => $path,
+                        ]);
+                    }
+                }
+            }
             // if ($request->has('category_services') && $request->has('services')) {
             //     $categoryServices = $request->input('category_services');
             //     $services = $request->input('services');
@@ -312,44 +312,44 @@ class TourController extends Controller
             } else {
                 $params['image'] = $tour->image;
             }
-// Xử lý Album
-$currentimages = $tour->imagetour->pluck('id')->toArray();
-$arrayCombime = array_combine($currentimages, $currentimages);
-//Trường xóa ảnh
-foreach ($arrayCombime as $key => $value) {
-    //Tìm kiếm id hình ảnh trong mảng hình ảnh mới đẩy lên
-    //Nếu không tông tại ID thì tức là người dùng đã xóa thẻ đó
-    if (!array_key_exists($key, $request->list_hinh_anh)) {
-        $imagetour = ImageTour::query()->find($key);
-        //Xóa hình ảnh đó
-        if ($imagetour &&  Storage::disk('public')->exists($imagetour->image)) {
-            Storage::disk('public')->delete($imagetour->image);
-            $imagetour->delete();
-        }
-    }
-}
-//trường hợp thêm hoặc sửa
-foreach ($request->list_hinh_anh as $key => $image) {
-    if (!array_key_exists($key, $arrayCombime)) {
-        if ($request->hasFile("list_hinh_anh.$key")) {
-            $path = $image->store('uploads/image_tour/id_' . $id, 'public');
-            $tour->imagetour()->create([
-                'tour_id' => $id,
-                'image' => $path,
-            ]);
-        }
-    } else if (is_file($image) && $request->hasFile("list_hinh_anh.$key")) {
-        //Trường hợp thay đổi hình ảnh
-        $imagetour = ImageTour::query()->find($key);
-        if ($imagetour &&  Storage::disk('public')->exists($imagetour->image)) {
-            Storage::disk('public')->delete($imagetour->image);
-        }
-        $path = $image->store('uploads/image_tour/id_' . $id, 'public');
-        $imagetour->update([
-            'image' => $path,
-        ]);
-    }
-}
+            // Xử lý Album
+            $currentimages = $tour->imagetour->pluck('id')->toArray();
+            $arrayCombime = array_combine($currentimages, $currentimages);
+            //Trường xóa ảnh
+            foreach ($arrayCombime as $key => $value) {
+                //Tìm kiếm id hình ảnh trong mảng hình ảnh mới đẩy lên
+                //Nếu không tông tại ID thì tức là người dùng đã xóa thẻ đó
+                if (!array_key_exists($key, $request->list_hinh_anh)) {
+                    $imagetour = ImageTour::query()->find($key);
+                    //Xóa hình ảnh đó
+                    if ($imagetour &&  Storage::disk('public')->exists($imagetour->image)) {
+                        Storage::disk('public')->delete($imagetour->image);
+                        $imagetour->delete();
+                    }
+                }
+            }
+            //trường hợp thêm hoặc sửa
+            foreach ($request->list_hinh_anh as $key => $image) {
+                if (!array_key_exists($key, $arrayCombime)) {
+                    if ($request->hasFile("list_hinh_anh.$key")) {
+                        $path = $image->store('uploads/image_tour/id_' . $id, 'public');
+                        $tour->imagetour()->create([
+                            'tour_id' => $id,
+                            'image' => $path,
+                        ]);
+                    }
+                } else if (is_file($image) && $request->hasFile("list_hinh_anh.$key")) {
+                    //Trường hợp thay đổi hình ảnh
+                    $imagetour = ImageTour::query()->find($key);
+                    if ($imagetour &&  Storage::disk('public')->exists($imagetour->image)) {
+                        Storage::disk('public')->delete($imagetour->image);
+                    }
+                    $path = $image->store('uploads/image_tour/id_' . $id, 'public');
+                    $imagetour->update([
+                        'image' => $path,
+                    ]);
+                }
+            }
             // Cập nhật tour
             $tour->update($params);
 
