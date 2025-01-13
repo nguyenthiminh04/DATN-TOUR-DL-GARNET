@@ -260,7 +260,7 @@ class PayController extends Controller
         // Cập nhật trạng thái thanh toán
         $tour->payment_status_id = $paymentStatusId;
         $tour->save();
-
+ 
         // Nếu trạng thái thanh toán là "hoàn tiền" (payment_status_id == 3)
         if ($paymentStatusId == 3) {
             // Tạo thông báo trong bảng notifications

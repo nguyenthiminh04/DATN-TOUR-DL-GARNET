@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Guide;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class GuideController extends Controller
 {
@@ -75,10 +76,12 @@ class GuideController extends Controller
      */
     public function show(string $id)
     {
-        $detailGuide = Guide::withCount('tours')->findOrFail($id);
-        $guidesTour = Guide::withCount('tours')->get();
+        // $detailGuide = Guide::withCount('tours')->findOrFail($id);
+        $detailGuide = Guide::with(['tours'])->withCount('tours')->findOrFail($id);
         return view('admin.guide.detail', compact('detailGuide')); 
     }
+
+
 
     /**
      * Show the form for editing the specified resource.

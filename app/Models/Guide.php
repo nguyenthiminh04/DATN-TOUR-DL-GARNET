@@ -21,8 +21,16 @@ class Guide extends Model
 
     public function tours()
     {
-        return $this->hasMany(BookTour::class, 'guide_id');
+        return $this->hasManyThrough(
+            Tour::class,        // Bảng đích là Tour
+            BookTour::class,    // Bảng trung gian là BookTour
+            'guide_id',         // Khóa ngoại trong BookTour trỏ tới Guide
+            'id',               // Khóa chính trong Tour
+            'id',               // Khóa chính trong Guide
+            'tour_id'           // Khóa ngoại trong BookTour trỏ tới Tour
+        );
     }
+    
     // Quan hệ với bảng users
     public function user()
     {

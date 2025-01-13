@@ -13,6 +13,38 @@
 </p>
 <hr>
 <p><strong>Số tour đã thực hiện:</strong> {{ $detailGuide->tours_count }}</p>
-<p><strong>Các tour đã thực hiện:</strong> </p>
+<p><strong>Các tour đã thực hiện:</strong></p>
+<ul>
+    @foreach ($detailGuide->tours as $tour)
+        <li>{{ $tour->name }}</li>
+    @endforeach
+</ul>
+
+{{-- <p><strong>Các tour đã thực hiện:</strong></p>
+@if ($detailGuide->tours->isEmpty())
+    <p>Hướng dẫn viên chưa thực hiện tour nào với trạng thái thanh toán là 'Hoàn tất'.</p>
+@else
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Tên tour</th>
+                <th>Ngày bắt đầu</th>
+                <th>Ngày kết thúc</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($detailGuide->tours as $index => $tour)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $tour->name }}</td>
+                    <td>{{ $tour->start_date }}</td>
+                    <td>{{ $tour->end_date }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endif
 
 
+ --}}

@@ -50,10 +50,10 @@ class BookTour extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
-    public function tour()
-    {
-        return $this->belongsTo(Tour::class, 'tour_id');
-    }
+        public function tour()
+        {
+            return $this->belongsTo(Tour::class, 'tour_id');
+        }
     // app/Models/BookTour.php
     public function pay()
     {

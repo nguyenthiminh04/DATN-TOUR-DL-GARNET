@@ -259,17 +259,32 @@
                 const guideId = $(this).data('id');
 
                 $.ajax({
-                    url: '/admin/guide/'+guideId,
-                    type: 'GET',
-                    success: function(response) {
-                        // Hiển thị chi tiết categorytour trong modal
-                        $('#guideDetailContent').html(response);
-                        $('#guideDetailModal').modal('show'); // Mở modal
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
-                    }
-                });
+                url: '/admin/guide/' + guideId,
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    $('#guideDetailContent').html(response);
+                    $('#guideDetailModal').modal('show'); 
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error: " + error);
+                    console.log("Status: " + status);
+                    console.log(xhr.responseText);
+                }
+            });
+
+                // $.ajax({
+                //     url: '/admin/guide/'+guideId,
+                //     type: 'GET',
+                //     success: function(response) {
+                //         // Hiển thị chi tiết categorytour trong modal
+                //         $('#guideDetailContent').html(response);
+                //         $('#guideDetailModal').modal('show'); // Mở modal
+                //     },
+                //     error: function(xhr, status, error) {
+                //         alert('Có lỗi xảy ra khi tải chi tiết địa điểm!');
+                //     }
+                // });
             });
         });
         </script>
