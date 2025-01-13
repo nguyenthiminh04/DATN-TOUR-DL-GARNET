@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admins\Tour;
 use App\Models\BookTour;
 use App\Models\Guide;
 use App\Models\Payment;
@@ -40,56 +41,61 @@ class GuideManagerController extends Controller
     }
     public function createguider($id)
 {
-    
     $user = Auth::user();
 
-    // Kiểm tra nếu người dùng có hướng dẫn viên (guide) gắn kèm
+    // Kiểm tra nếu người dùng không có hướng dẫn viên
     $guide = $user->guide;
-
-    // Nếu không có hướng dẫn viên, trả về thông báo hoặc điều hướng khác
     if (!$guide) {
         return redirect()->route('home-admin')->with('error', 'Không tìm thấy hướng dẫn viên cho người dùng này.');
     }
 
-    // Lấy thông tin hướng dẫn viên và các tour mà họ được gán
-    $guideTours = Guide::with(['tours.tour']) // Eager load tours
-        ->where('id', $guide->id)
-        ->first();
-    // Truy vấn bảng book_tour để lấy tour_id từ id được truyền vào
+    // Lấy thông tin booking từ bảng book_tour
     $bookTour = DB::table('book_tour')->where('id', $id)->first();
-
-    // Kiểm tra nếu không tìm thấy book_tour
     if (!$bookTour) {
         return redirect()->route('home-admin')->with('error', 'Không tìm thấy thông tin booking.');
     }
 
-    // Lấy tour_id từ kết quả book_tour
-    $tourId = $bookTour->tour_id;
+    // Lấy thông tin tour kèm dịch vụ và danh mục dịch vụ
+    $tour = Tour::with([
+        'categoryServices' => fn($query) => $query->where('status', 1),
+        'services' => fn($query) => $query->where('status', 1),
+    ])->find($bookTour->tour_id);
 
-    // Dùng tour_id để truy vấn bảng tour_locations và lấy lịch trình của tour
-    $tourLocations = TourLocation::where('tour_id', $tourId)->get();
+    if (!$tour) {
+        return redirect()->route('home-admin')->with('error', 'Không tìm thấy thông tin tour.');
+    }
 
-    // Kiểm tra nếu không có lịch trình
+    // Lấy lịch trình tour từ tour_locations
+    $tourLocations = TourLocation::where('tour_id', $bookTour->tour_id)->get();
     if ($tourLocations->isEmpty()) {
         return redirect()->route('home-admin')->with('error', 'Không tìm thấy lịch trình cho tour này.');
     }
 
-    // Lấy thông tin từ bảng payment dựa trên booking_id
+    // Lấy thông tin thanh toán từ bảng payments
     $payment = DB::table('payments')->where('booking_id', $id)->first();
-// dd($payment);
-    // Kiểm tra nếu không tìm thấy payment
     if (!$payment) {
         return redirect()->route('home-admin')->with('error', 'Không tìm thấy thông tin thanh toán cho booking này.');
     }
 
     // Kiểm tra tất cả lịch trình đã được xác nhận
-    $allConfirmed = $tourLocations->every(function ($location) {
-        return $location->status == 1; // status = 1 là đã xác nhận
-    });
+    $allConfirmed = $tourLocations->every(fn($location) => $location->status == 1);
 
-    // Trả về view với danh sách lịch trình, trạng thái xác nhận và thông tin thanh toán
-    return view('admin.guide_manager.xacnhan', compact('tourLocations', 'allConfirmed', 'payment','guideTours'));
+    // Lấy thông tin các tour mà hướng dẫn viên được gán
+    $guideTours = Guide::with('tours.tour')->find($guide->id);
+
+    // Lọc các danh mục dịch vụ để chỉ lấy danh mục không trùng lặp
+    $uniqueCategories = $tour->categoryServices->unique('id');
+
+    // Trả về view với thông tin đã chuẩn bị
+    return view('admin.guide_manager.xacnhan', compact(
+        'tourLocations',
+        'allConfirmed',
+        'payment',
+        'guideTours',
+        'uniqueCategories',
+    ));
 }
+
 
     
     

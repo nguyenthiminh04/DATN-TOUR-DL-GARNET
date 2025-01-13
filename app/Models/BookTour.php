@@ -22,6 +22,7 @@ class BookTour extends Model
         'address',
         'date_booking',
         'start_date',
+        'end_date',
         'note',
         'number_old',
         'number_children',
