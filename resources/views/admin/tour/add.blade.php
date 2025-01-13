@@ -160,26 +160,35 @@
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
                                                             <label for="locations">Chọn điểm đến:</label>
-                                                            <select name="locations[0][start]" class="form-control"
-                                                                >
+                                                            <select name="locations[0][start]" class="form-control">
                                                                 <option value="">Chọn địa điểm...</option>
                                                             </select>
                                                         </div>
+                                                        @error('locations.0.start')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
                                                             <label for="end-location">Điểm kết thúc:</label>
-                                                            <select name="locations[0][end]" class="form-control" >
+                                                            <select name="locations[0][end]" class="form-control">
                                                                 <option value="">Chọn địa điểm...</option>
                                                             </select>
                                                         </div>
+
+                                                        @error('locations.0.end')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
 
 
                                                 <div class="mb-3">
                                                     <label for="description">Mô tả lịch trình:</label>
-                                                    <textarea name="locations[0][description]" class="form-control"  placeholder="Mô tả về lịch trình"></textarea>
+                                                    <textarea name="locations[0][description]" class="form-control" placeholder="Mô tả về lịch trình"></textarea>
+                                                    @error('locations.0.description')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
 
                                                 <button type="button" class="btn btn-success add-itinerary">Thêm lịch
@@ -198,6 +207,10 @@
                                                         <label>{{ $category->category_name }}</label>
                                                     </div>
                                                 @endforeach
+                                                @error('category_services')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+
                                             </div>
                                         </div>
 
@@ -206,6 +219,9 @@
                                             <select name="services[]" id="services" class="form-control" multiple>
 
                                             </select>
+                                            @error('services')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
 
                                         <script>
@@ -234,12 +250,10 @@
 
                                                             const servicesSelect = document.getElementById('services');
 
-                                                            // Tạo Set các service IDs hiện tại đã được chọn
                                                             const currentSelectedServices = Array.from(document.querySelectorAll(
                                                                     '#services option:checked'))
                                                                 .map(option => option.value);
 
-                                                            // Loại bỏ các dịch vụ không còn trong danh sách mới trả về
                                                             const newServiceIds = new Set(data.services.map(service => service.id
                                                                 .toString()));
                                                             Array.from(servicesSelect.options).forEach(option => {
@@ -248,7 +262,7 @@
                                                                 }
                                                             });
 
-                                                            // Thêm các dịch vụ mới vào dropdown
+
                                                             data.services.forEach(service => {
                                                                 if (![...servicesSelect.options].some(option => option.value ===
                                                                         service.id.toString())) {
@@ -256,7 +270,7 @@
                                                                     option.value = service.id;
                                                                     option.textContent = service.name;
 
-                                                                    // Giữ trạng thái đã chọn nếu dịch vụ đã có sẵn trong danh sách được chọn
+
                                                                     if (currentSelectedServices.includes(service.id.toString())) {
                                                                         option.selected = true;
                                                                     }
@@ -265,7 +279,7 @@
                                                                 }
                                                             });
 
-                                                            // Đảm bảo lại trạng thái các option đã chọn sau khi cập nhật
+
                                                             Array.from(servicesSelect.options).forEach(option => {
                                                                 if (currentSelectedServices.includes(option.value) && newServiceIds
                                                                     .has(option.value)) {
@@ -285,6 +299,7 @@
                                             <input type="text" id="schedule" name="schedule"
                                                 value="{{ old('schedule') }}" class="form-control"
                                                 placeholder="Nhập lịch trình tour...">
+
 
                                         </div>
 
@@ -335,6 +350,9 @@
                                                 <label for="details">Nội dung chi tiết</label>
                                                 <textarea id="editor" name="content"></textarea>
                                             </div>
+                                            @error('content')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">

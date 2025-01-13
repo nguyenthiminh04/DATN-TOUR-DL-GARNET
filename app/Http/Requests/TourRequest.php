@@ -38,10 +38,13 @@ class TourRequest extends FormRequest
             'sale' => 'required|numeric|min:0|max:100',
             'description' => 'required|string',
             'status' => 'required',
+            'content' => 'required',
             'category_services' => 'required|array',
             'services' => 'required|array|min:1',
-
-
+            'locations' => 'required|array|min:1',
+            'locations.*.start' => 'required|string|max:255',
+            'locations.*.end' => 'required|string|max:255|different:locations.*.start',
+            'locations.*.description' => 'required|nullable',
         ];
     }
     public function messages(): array
@@ -83,9 +86,16 @@ class TourRequest extends FormRequest
             'sale.max' => 'Giảm giá không được lớn hơn 100%.',
             'description.required' => 'Mô tả là bắt buộc.',
             'status.required' => 'Trạng thái là bắt buộc.',
+            'content.required' => 'Vui lòng nhập nội dung.',
             'category_services' => 'Vui lòng chọn danh mục dịch vụ.',
             'services.required' => 'Vui lòng chọn ít nhất một dịch vụ.',
             'services.min' => 'Vui lòng chọn ít nhất một dịch vụ.',
+            'locations.required' => 'Bạn phải nhập ít nhất một lịch trình.',
+            'locations.*.start.required' => 'Điểm bắt đầu là bắt buộc.',
+            'locations.*.end.required' => 'Điểm kết thúc là bắt buộc.',
+            'locations.*.end.different' => 'Điểm kết thúc phải khác điểm bắt đầu.',
+            'locations.*.description.required' => 'Vui lòng nhập mô tả.',
+
         ];
     }
 }
