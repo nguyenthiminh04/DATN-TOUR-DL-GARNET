@@ -322,11 +322,25 @@ Route::group(['prefix' => 'admin'], function () {
 
         // guide_manager
         Route::get('/guide-manager', [GuideManagerController::class, 'getToursByGuide'])->name('guide-manager.getToursByGuide');
+        Route::get('/guide-manager/createguider/{id}', [GuideManagerController::class, 'createguider'])->name('guide-manager.createguider');
+
         Route::patch('guide-manager/update/{id}', [GuideManagerController::class, 'updateStatusPayment'])->name('guide-manager.updateStatusPayment');
+        // web.php
+Route::post('/update-location-status/{id}', [GuideManagerController::class, 'updateLocationStatus'])
+->name('guide-manager.updateLocationStatus');
+
+Route::post('/guide-manager/report-issue/{id}', [GuideManagerController::class, 'reportIssue'])->name('guide-manager.reportIssue');
+
         // end guide_manager
+
 
         //crud guide
         Route::resource('/guide', GuideController::class);
+
+        // assign_guide(book_tour)
+        Route::patch('guide-assign/{id}', [GuideManagerController::class, 'assignGuide'])->name('guide-assign');
+        // assign_guide
+
 
     });
 });

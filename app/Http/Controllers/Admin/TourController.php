@@ -141,19 +141,30 @@ class TourController extends Controller
                 return redirect()->back()->with('error', 'Không có danh mục dịch vụ hoặc dịch vụ đi kèm!');
             }
 
-            if ($request->has("tour_dates")) {
-                $tourDates = $request->input("tour_dates");
-                $datesArray = explode(", ", $tourDates);
-
-                foreach ($datesArray as $date) {
-                    $formattedDate = \Carbon\Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
-
-                    TourDate::create([
-                        'tour_id' => $tour->id,
-                        'tour_date' => $formattedDate,
-                    ]);
+            if ($request->has('tour_dates')) {
+                // Tách chuỗi ngày thành mảng
+                $dates = explode(',', $request->input('tour_dates'));
+            
+                foreach ($dates as $date) {
+                    // Xóa khoảng trắng dư thừa
+                    $date = trim($date);
+            
+                    // Chuyển đổi định dạng ngày từ 'DD-MM-YYYY' sang 'YYYY-MM-DD'
+                    $formattedDate = \DateTime::createFromFormat('d-m-Y', $date);
+            
+                    // Kiểm tra nếu ngày hợp lệ
+                    if ($formattedDate) {
+                        $tour->tourDates()->create([
+                            'tour_id' => $tourID,
+                            'tour_date' => $formattedDate->format('Y-m-d'), // Định dạng đúng
+                        ]);
+                    } else {
+                        // Ghi log hoặc xử lý lỗi nếu định dạng ngày không hợp lệ
+                        \Log::warning("Ngày không hợp lệ: $date");
+                    }
                 }
             }
+            
 
 
             if ($request->has('locations')) {
