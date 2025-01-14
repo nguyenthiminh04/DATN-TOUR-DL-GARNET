@@ -27,22 +27,18 @@ class CategoryServiceModel extends Model
         return self::find($id);
     }
 
-   
-    // public function services()
-    // {
-    //     return $this->hasMany(ServiceModel::class, 'category_service_id'); 
-    // }
+
+
 
     public function services()
     {
         return $this->belongsToMany(ServiceModel::class, 'tour_service', 'category_service_id', 'service_id');
     }
-    
+
+
 
     public function tourServices()
     {
         return $this->hasMany(TourService::class, 'category_service_id');
     }
-
-    
 }

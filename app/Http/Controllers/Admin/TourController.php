@@ -17,6 +17,7 @@ use App\Models\Admins\CategoryServiceModel;
 use App\Models\Admins\ServiceModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TourController extends Controller
 {
@@ -75,31 +76,39 @@ class TourController extends Controller
         $data['listlocation'] = Location::query()->get();
         $data['listCategoryTour'] = CategoryTour::query()->get();
         $data['categoryServices'] = CategoryServiceModel::where('status', 1)->get();
-        $data['services'] = [];
+        $data['services'] = ServiceModel::where('status', 1)->get();;
+        // dd($data);
         return view('admin.tour.add', $data);
     }
 
 
     public function getServicesByCategories(Request $request)
     {
-        $categoryIds = $request->get('category_ids', []); // Nhận danh sách danh mục đã chọn
+        $categoryIds = $request->get('category_ids', []);
 
-        // Lấy dịch vụ thuộc danh mục đã chọn
+        if (empty($categoryIds)) {
+            return response()->json(['message' => 'No categories selected'], 400);
+        }
+
         $services = ServiceModel::whereIn('category_service_id', $categoryIds)
             ->where('status', 1)
             ->get();
+
+        if ($services->isEmpty()) {
+            return response()->json(['message' => 'No services found'], 404);
+        }
 
         return response()->json(['services' => $services]);
     }
 
 
 
+
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TourRequest $request)
     {
-        // dd($request->all());
         if ($request->isMethod('POST')) {
             $params = $request->except('_token');
 
@@ -113,58 +122,103 @@ class TourController extends Controller
 
             $tour = Tour::query()->create($params);
             $tourID = $tour->id;
+            // Xử lý thêm album
+            if ($request->hasFile('list_hinh_anh')) {
+                foreach ($request->file('list_hinh_anh') as $image) {
+                    if ($image) {
+                        $path = $image->store('uploads/imagetour/id_' . $tourID, 'public');
+                        $tour->imagetour()->create([
+                            'tour_id' => $tourID,
+                            'image' => $path,
+                        ]);
+                    }
+                }
+            }
+            // if ($request->has('category_services') && $request->has('services')) {
+            //     $categoryServices = $request->input('category_services');
+            //     $services = $request->input('services');
+
+            //     \Log::info('Category Services:', $request->input('category_services'));
+            //     \Log::info('Services:', $request->input('services'));
+
+            //     foreach ($categoryServices as $categoryId) {
+            //         $category = CategoryServiceModel::find($categoryId);
+
+            //         // Lấy các dịch vụ có sẵn trong danh mục này
+            //         $availableServices = array_unique($category ? $category->services->pluck('id')->toArray() : []);
+
+            //         \Log::info('Available Services for Category ' . $categoryId, $availableServices);
+
+            //         // Duyệt qua tất cả dịch vụ được chọn và kiểm tra sự phù hợp
+            //         foreach ($services as $serviceId) {
+            //             if (in_array($serviceId, $availableServices)) {
+            //                 // Insert từng kết hợp vào bảng tour_service
+            //                 \Log::info('Inserting:', [
+            //                     'tour_id' => $tourID,
+            //                     'category_service_id' => $categoryId,
+            //                     'service_id' => $serviceId
+            //                 ]);
+
+            //                 DB::table('tour_service')->insert([
+            //                     'tour_id' => $tourID,
+            //                     'category_service_id' => $categoryId,
+            //                     'service_id' => $serviceId,
+            //                     'created_at' => now(),
+            //                     'updated_at' => now(),
+            //                 ]);
+            //             }
+            //         }
+            //     }
+            // } else {
+            //     \Log::warning('No category services or services found.');
+            // }
 
 
             if ($request->has('category_services') && $request->has('services')) {
                 $categoryServices = $request->input('category_services');
                 $services = $request->input('services');
 
-
                 foreach ($categoryServices as $categoryId) {
-
-                    $category = CategoryServiceModel::find($categoryId);
-                    $availableServices = $category ? $category->services->pluck('id')->toArray() : [];
+                    $servicesInCategory = ServiceModel::query()->where('category_service_id', $categoryId)->pluck('id')->toArray();
                     foreach ($services as $serviceId) {
-                        if (in_array($serviceId, $availableServices)) {
-
-                            DB::table('tour_service')->insert([
-                                'tour_id' => $tourID,
-                                'category_service_id' => $categoryId,
-                                'service_id' => $serviceId,
-                                'created_at' => now(),
-                                'updated_at' => now(),
-                            ]);
+                        if (in_array($serviceId, $servicesInCategory)) {
+                            DB::table('tour_service')->updateOrInsert(
+                                [
+                                    'tour_id' => $tourID,
+                                    'category_service_id' => $categoryId,
+                                    'service_id' => $serviceId,
+                                ],
+                                [
+                                    'created_at' => now(),
+                                    'updated_at' => now(),
+                                ]
+                            );
                         }
                     }
                 }
             } else {
-                return redirect()->back()->with('error', 'Không có danh mục dịch vụ hoặc dịch vụ đi kèm!');
+                \Log::warning('No category services or services found.');
             }
 
-            if ($request->has('tour_dates')) {
-                // Tách chuỗi ngày thành mảng
-                $dates = explode(',', $request->input('tour_dates'));
-            
-                foreach ($dates as $date) {
-                    // Xóa khoảng trắng dư thừa
-                    $date = trim($date);
-            
-                    // Chuyển đổi định dạng ngày từ 'DD-MM-YYYY' sang 'YYYY-MM-DD'
-                    $formattedDate = \DateTime::createFromFormat('d-m-Y', $date);
-            
-                    // Kiểm tra nếu ngày hợp lệ
-                    if ($formattedDate) {
-                        $tour->tourDates()->create([
-                            'tour_id' => $tourID,
-                            'tour_date' => $formattedDate->format('Y-m-d'), // Định dạng đúng
-                        ]);
-                    } else {
-                        // Ghi log hoặc xử lý lỗi nếu định dạng ngày không hợp lệ
-                        \Log::warning("Ngày không hợp lệ: $date");
-                    }
+
+            if ($request->has("tour_dates")) {
+                DB::table('tour_dates')->where('tour_id', $tour->id)->delete();
+
+                $tourDates = $request->input("tour_dates");
+                $datesArray = explode(", ", $tourDates);
+
+                foreach ($datesArray as $date) {
+
+                    $formattedDate = \Carbon\Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
+
+
+                    TourDate::create([
+                        'tour_id' => $tour->id,
+                        'tour_date' => $formattedDate,
+                    ]);
                 }
             }
-            
+
 
 
             if ($request->has('locations')) {
@@ -258,7 +312,44 @@ class TourController extends Controller
             } else {
                 $params['image'] = $tour->image;
             }
-
+            // Xử lý Album
+            $currentimages = $tour->imagetour->pluck('id')->toArray();
+            $arrayCombime = array_combine($currentimages, $currentimages);
+            //Trường xóa ảnh
+            foreach ($arrayCombime as $key => $value) {
+                //Tìm kiếm id hình ảnh trong mảng hình ảnh mới đẩy lên
+                //Nếu không tông tại ID thì tức là người dùng đã xóa thẻ đó
+                if (!array_key_exists($key, $request->list_hinh_anh)) {
+                    $imagetour = ImageTour::query()->find($key);
+                    //Xóa hình ảnh đó
+                    if ($imagetour &&  Storage::disk('public')->exists($imagetour->image)) {
+                        Storage::disk('public')->delete($imagetour->image);
+                        $imagetour->delete();
+                    }
+                }
+            }
+            //trường hợp thêm hoặc sửa
+            foreach ($request->list_hinh_anh as $key => $image) {
+                if (!array_key_exists($key, $arrayCombime)) {
+                    if ($request->hasFile("list_hinh_anh.$key")) {
+                        $path = $image->store('uploads/image_tour/id_' . $id, 'public');
+                        $tour->imagetour()->create([
+                            'tour_id' => $id,
+                            'image' => $path,
+                        ]);
+                    }
+                } else if (is_file($image) && $request->hasFile("list_hinh_anh.$key")) {
+                    //Trường hợp thay đổi hình ảnh
+                    $imagetour = ImageTour::query()->find($key);
+                    if ($imagetour &&  Storage::disk('public')->exists($imagetour->image)) {
+                        Storage::disk('public')->delete($imagetour->image);
+                    }
+                    $path = $image->store('uploads/image_tour/id_' . $id, 'public');
+                    $imagetour->update([
+                        'image' => $path,
+                    ]);
+                }
+            }
             // Cập nhật tour
             $tour->update($params);
 
@@ -270,23 +361,34 @@ class TourController extends Controller
                 // Xóa tất cả các dịch vụ cũ của tour
                 DB::table('tour_service')->where('tour_id', $tour->id)->delete();
 
-                // Thêm các dịch vụ mới
-                foreach ($categoryServices as $categoryId) {
-                    $category = CategoryServiceModel::find($categoryId);
-                    $availableServices = $category ? $category->services->pluck('id')->toArray() : [];
 
-                    foreach ($services as $serviceId) {
-                        // Kiểm tra dịch vụ có hợp lệ với danh mục không
-                        if (in_array($serviceId, $availableServices)) {
-                            DB::table('tour_service')->insert([
-                                'tour_id' => $tour->id,
-                                'category_service_id' => $categoryId,
-                                'service_id' => $serviceId,
-                                'created_at' => now(),
-                                'updated_at' => now(),
-                            ]);
+
+                if ($request->has('category_services') && $request->has('services')) {
+                    $categoryServices = $request->input('category_services');
+                    $services = $request->input('services');
+
+                    // dd($categoryServices,  $services);
+
+                    foreach ($categoryServices as $categoryId) {
+                        $servicesInCategory = ServiceModel::query()->where('category_service_id', $categoryId)->pluck('id')->toArray();
+                        foreach ($services as $serviceId) {
+                            if (in_array($serviceId, $servicesInCategory)) {
+                                DB::table('tour_service')->updateOrInsert(
+                                    [
+                                        'tour_id' => $tour->id,
+                                        'category_service_id' => $categoryId,
+                                        'service_id' => $serviceId,
+                                    ],
+                                    [
+                                        'created_at' => now(),
+                                        'updated_at' => now(),
+                                    ]
+                                );
+                            }
                         }
                     }
+                } else {
+                    \Log::warning('No category services or services found.');
                 }
             }
 

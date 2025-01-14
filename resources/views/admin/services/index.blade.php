@@ -140,7 +140,7 @@
                                                         <th scope="col">Tên dịch vụ</th>
                                                         <th scope="col">Danh mục dịch vụ</th>
                                                         <th scope="col">Mô tả</th>
-                                                        <th scope="col">Giá</th>
+                                                        {{-- <th scope="col">Giá</th> --}}
                                                         <th scope="col">Trạng thái</th>
                                                         <th scope="col">Hành động</th>
                                                     </tr>
@@ -159,7 +159,7 @@
                                                                 <td>{{ $item->name }}</td>
                                                                 <td>{{ $item->category_name }}</td>
                                                                 <td>{{ $item->description }}</td>
-                                                                <td>{{ number_format($item->price, 0, ',', '.') }}₫</td>
+                                                                {{-- <td>{{ number_format($item->price, 0, ',', '.') }}₫</td> --}}
                                                                 <td>
                                                                     <button type="button" style="width: 140px;"
                                                                         class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
@@ -527,7 +527,7 @@
                     `;
                             });
                         }
-                        $('#service-body').html(rows); 
+                        $('#service-body').html(rows);
                     },
                     error: function() {
                         alert('Có lỗi xảy ra!');
