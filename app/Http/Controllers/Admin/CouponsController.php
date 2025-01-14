@@ -15,11 +15,11 @@ class CouponsController extends Controller
     public function __construct()
     {
         $this->middleware(['permission:view_coupon'])->only(['index']);
-        $this->middleware(['permission:create_coupon'])->only(['create']);
-        $this->middleware(['permission:store_coupon'])->only(['store']);
-        $this->middleware(['permission:edit_coupon'])->only(['edit']);
-        $this->middleware(['permission:update_coupon'])->only(['update']);
-        $this->middleware(['permission:destroy_coupon'])->only(['destroy']);
+        // $this->middleware(['permission:create_coupon'])->only(['create']);
+        // $this->middleware(['permission:store_coupon'])->only(['store']);
+        // $this->middleware(['permission:edit_coupon'])->only(['edit']);
+        // $this->middleware(['permission:update_coupon'])->only(['update']);
+        // $this->middleware(['permission:destroy_coupon'])->only(['destroy']);
     }
     /**
      * Display a listing of the resource.

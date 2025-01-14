@@ -14,7 +14,7 @@ class ContactController extends Controller
     public function __construct()
     {
         $this->middleware(['permission:view_contact'])->only(['index']);
-        $this->middleware(['permission:destroy_contact'])->only(['destroy']);
+        // $this->middleware(['permission:destroy_contact'])->only(['destroy']);
     }
     public function index(Request $request)
     {

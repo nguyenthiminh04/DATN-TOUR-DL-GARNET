@@ -12,7 +12,7 @@ class AdvisoryController extends Controller
     public function __construct()
     {
         $this->middleware(['permission:view_advisory'])->only(['index']);
-        $this->middleware(['permission:destroy_advisory'])->only(['destroy']);
+        // $this->middleware(['permission:destroy_advisory'])->only(['destroy']);
     }
     public function index(Request $request)
     {
