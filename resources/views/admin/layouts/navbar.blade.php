@@ -287,6 +287,19 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-link collapsed" href="#user1" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="user">
+                            <i class=" ph-user-circle-thin"></i> <span data-key="t-dashboards">Hướng Dẫn Viên</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="user1">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('hdv.index') }}" class="nav-link">Danh sách hướng dẫn viên</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 @endif
 
                 {{-- admin --}}

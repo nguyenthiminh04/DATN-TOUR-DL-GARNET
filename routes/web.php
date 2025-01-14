@@ -337,5 +337,7 @@ Route::post('/guide-manager/report-issue/{id}', [GuideManagerController::class, 
         // assign_guide
         Route::get('/hdv', [HDVController::class, 'index'])->name('hdv.index');
         Route::post('/hdv/{id}/assign-guide', [HDVController::class, 'assignGuide'])->name('hdv.assignGuide');
+        Route::post('/hdv/revoke/{id}', [HDVController::class, 'revokeGuide'])->name('hdv.revokeGuide');
+
     });
 });
