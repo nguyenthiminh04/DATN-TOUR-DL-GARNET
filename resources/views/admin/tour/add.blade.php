@@ -149,6 +149,9 @@
                                             <input type="text" id="tourDates" name="tour_dates"
                                                 class="form-control tour-dates-input" placeholder="Chọn các ngày"
                                                 value="{{ old('tour_dates') }}"readonly>
+                                            @error('tour_dates')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <hr>
                                         <div id="itinerary-container" class="mb-3">
@@ -448,7 +451,7 @@
                                             </div><!--end col-->
 
                                             <div class="mb-3 col-6">
-                                                <label for="status1" class="form-label">Location<span
+                                                <label for="status1" class="form-label">Địa điểm<span
                                                         class="text-danger">*</span></label>
                                                 <select name="location_id" class="form-select w-100" id="status1">
                                                     <option value="">Chọn địa điểm</option>
@@ -517,15 +520,19 @@
                                                                 <input type="file" id="image"
                                                                     name="list_hinh_anh[id_0]" class="form-control"
                                                                     onchange="previewImage(this,0)">
+
                                                             </td>
                                                             <td>
                                                                 <i class="mdi mdi-delete text-muted fs-18 rounded-2 border p-1"
                                                                     style="cursor: pointer"></i>
                                                             </td>
+
                                                         </tr>
                                                     </tbody>
                                                 </table>
+
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
