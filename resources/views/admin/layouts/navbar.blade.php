@@ -256,21 +256,21 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link menu-link collapsed" href="#logs" data-bs-toggle="collapse"
-                            role="button" aria-expanded="false" aria-controls="logs">
-                            <i class="ph ph-notification"></i> <span data-key="t-layouts">Logs</span>
-                        </a>
-                        <div class="collapse menu-dropdown" id="logs">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a href="{{ route('change-logs.index') }}" class="nav-link">
-                                        Danh sách logs tour</a>
-                                </li>
+                    {{-- <li class="nav-item">
+                            <a class="nav-link menu-link collapsed" href="#logs" data-bs-toggle="collapse"
+                                role="button" aria-expanded="false" aria-controls="logs">
+                                <i class="ph ph-notification"></i> <span data-key="t-layouts">Logs</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="logs">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('change-logs.index') }}" class="nav-link">
+                                            Danh sách logs tour</a>
+                                    </li>
 
-                            </ul>
-                        </div>
-                    </li>
+                                </ul>
+                            </div>
+                        </li> --}}
 
 
                     {{-- end admin --}}

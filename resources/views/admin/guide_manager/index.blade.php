@@ -1,4 +1,7 @@
 @extends('admin.layouts.app')
+@section('title')
+    <title>Danh sách hướng dẫn viên | Quản Trị</title>
+@endsection
 @section('style')
     {{-- <!--datatable css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> --}}
@@ -97,7 +100,7 @@
                                                                 class="btn btn-subtle-success btn-icon btn-sm">
                                                                 <i class="ri-edit-2-line"></i></a>
                                                         </li>
-                                                       
+
                                                     </ul>
                                                 </td>
                                             </tr>

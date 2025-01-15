@@ -135,6 +135,9 @@ class TourController extends Controller
                     }
                 }
             }
+
+
+
             // if ($request->has('category_services') && $request->has('services')) {
             //     $categoryServices = $request->input('category_services');
             //     $services = $request->input('services');
