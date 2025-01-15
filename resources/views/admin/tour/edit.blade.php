@@ -173,6 +173,9 @@
                                                         : '',
                                                 ) }}"
                                                 readonly>
+                                            @error('tour_dates')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
 
 
@@ -459,7 +462,7 @@
                                             </div><!--end col-->
 
                                             <div class="mb-3 col-6">
-                                                <label for="status1" class="form-label">Location<span
+                                                <label for="status1" class="form-label">Địa điểm<span
                                                         class="text-danger">*</span></label>
                                                 <select name="location_id" class="form-select w-100" id="status1">
                                                     <option value="">Chọn địa điểm</option>
@@ -533,6 +536,7 @@
                                                                     <input type="hidden"
                                                                         name="list_hinh_anh[{{ $hinhAnh->id }}]"
                                                                         value="{{ $hinhAnh->id }}">
+
                                                                 </td>
                                                                 <td>
                                                                     <i class="mdi mdi-delete text-muted fs-18 rounded-2 border p-1"
@@ -540,10 +544,13 @@
                                                                 </td>
                                                             </tr>
                                                         @endforeach
+
                                                     </tbody>
 
                                                 </table>
-
+                                                @error('list_hinh_anh')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>

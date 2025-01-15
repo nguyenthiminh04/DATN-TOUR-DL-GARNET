@@ -123,6 +123,7 @@ class TourController extends Controller
             $tour = Tour::query()->create($params);
             $tourID = $tour->id;
             // Xử lý thêm album
+
             if ($request->hasFile('list_hinh_anh')) {
                 foreach ($request->file('list_hinh_anh') as $image) {
                     if ($image) {
@@ -328,28 +329,34 @@ class TourController extends Controller
                     }
                 }
             }
-            //trường hợp thêm hoặc sửa
-            foreach ($request->list_hinh_anh as $key => $image) {
-                if (!array_key_exists($key, $arrayCombime)) {
-                    if ($request->hasFile("list_hinh_anh.$key")) {
+
+            if (is_array($request->list_hinh_anh)) {
+                foreach ($request->list_hinh_anh as $key => $image) {
+                    if (!array_key_exists($key, $arrayCombime)) {
+                        if ($request->hasFile("list_hinh_anh.$key")) {
+                            $path = $image->store('uploads/image_tour/id_' . $id, 'public');
+                            $tour->imagetour()->create([
+                                'tour_id' => $id,
+                                'image' => $path,
+                            ]);
+                        }
+                    } else if (is_file($image) && $request->hasFile("list_hinh_anh.$key")) {
+                        // Trường hợp thay đổi hình ảnh
+                        $imagetour = ImageTour::query()->find($key);
+                        if ($imagetour && Storage::disk('public')->exists($imagetour->image)) {
+                            Storage::disk('public')->delete($imagetour->image);
+                        }
                         $path = $image->store('uploads/image_tour/id_' . $id, 'public');
-                        $tour->imagetour()->create([
-                            'tour_id' => $id,
+                        $imagetour->update([
                             'image' => $path,
                         ]);
                     }
-                } else if (is_file($image) && $request->hasFile("list_hinh_anh.$key")) {
-                    //Trường hợp thay đổi hình ảnh
-                    $imagetour = ImageTour::query()->find($key);
-                    if ($imagetour &&  Storage::disk('public')->exists($imagetour->image)) {
-                        Storage::disk('public')->delete($imagetour->image);
-                    }
-                    $path = $image->store('uploads/image_tour/id_' . $id, 'public');
-                    $imagetour->update([
-                        'image' => $path,
-                    ]);
                 }
+            } else {
+
+                return back()->withErrors(['list_hinh_anh' => 'Vui lòng nhập ảnh, không được để trống.']);
             }
+
             // Cập nhật tour
             $tour->update($params);
 

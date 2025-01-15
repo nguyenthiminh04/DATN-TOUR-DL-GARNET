@@ -27,6 +27,7 @@ class TourRequest extends FormRequest
             'name' => 'required|max:255',
             'journeys' => 'required|max:255',
             'schedule' => 'required|max:255',
+            'tour_dates' => 'required',
             'move_method' => 'required|max:255',
             'starting_gate' => 'required|max:255',
             'start_date' => 'required|date|before_or_equal:end_date',
@@ -39,11 +40,14 @@ class TourRequest extends FormRequest
             'description' => 'required|string',
             'status' => 'required',
             'content' => 'required',
+            'location_id' => 'required',
+            'category_tour_id' => 'required',
             'category_services' => 'required|array',
             'services' => 'required|array|min:1',
             'locations' => 'required|array|min:1',
             'locations.*.start' => 'required|string|max:255',
             'locations.*.end' => 'required|string|max:255',
+            'time' => 'required|integer|min:1|max:100',
             // 'locations.*.description' => 'required|nullable',
         ];
     }
@@ -57,6 +61,7 @@ class TourRequest extends FormRequest
             'journeys.max' => 'Hành trình không được vượt quá 255 ký tự.',
             'schedule.required' => 'Lịch trình là bắt buộc.',
             'schedule.max' => 'Lịch trình không được vượt quá 255 ký tự.',
+            'tour_dates.required' => 'Vui lòng chọn ngày.',
             'move_method.required' => 'Phương thức di chuyển là bắt buộc.',
             'move_method.max' => 'Phương thức di chuyển không được vượt quá 255 ký tự.',
             'starting_gate.required' => 'Cổng khởi hành là bắt buộc.',
@@ -87,6 +92,8 @@ class TourRequest extends FormRequest
             'description.required' => 'Mô tả là bắt buộc.',
             'status.required' => 'Trạng thái là bắt buộc.',
             'content.required' => 'Vui lòng nhập nội dung.',
+            'location_id.required' => 'Vui lòng chọn địa điểm.',
+            'category_tour_id.required' => 'Vui lòng chọn mục tour.',
             'category_services' => 'Vui lòng chọn danh mục dịch vụ.',
             'services.required' => 'Vui lòng chọn ít nhất một dịch vụ.',
             'services.min' => 'Vui lòng chọn ít nhất một dịch vụ.',
@@ -95,7 +102,10 @@ class TourRequest extends FormRequest
             'locations.*.end.required' => 'Điểm kết thúc là bắt buộc.',
             'locations.*.end.different' => 'Điểm kết thúc phải khác điểm bắt đầu.',
             // 'locations.*.description.required' => 'Vui lòng nhập mô tả.',
-
+            'time.required' => 'Vui lòng nhập số ngày diễn ra.',
+            'time.integer' => 'Thời gian phải là một số nguyên.',
+            'time.min' => 'Thời gian phải là số dương.',
+            'time.max' => 'Thời gian tối đa là 100 ngày.',
         ];
     }
 }

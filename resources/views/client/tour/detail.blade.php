@@ -261,12 +261,11 @@
 
         #sync2 .owl-item {
             width: 80px;
-            /* Thu nhỏ ảnh thu nhỏ */
             margin-right: 10px;
         }
 
         #sync1 {
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
         }
 
         /* styles.css hoặc file CSS chung */
@@ -2008,7 +2007,7 @@
                 dateFormat: "Y-m-d", // Định dạng ngày
                 minDate: availableDates[0] || null, // Ngày nhỏ nhất (lấy ngày đầu tiên trong danh sách)
                 maxDate: availableDates[availableDates.length - 1] ||
-                null, // Ngày lớn nhất (lấy ngày cuối cùng trong danh sách)
+                    null, // Ngày lớn nhất (lấy ngày cuối cùng trong danh sách)
                 enable: availableDates, // Chỉ cho phép chọn các ngày có trong danh sách
                 locale: "vn", // Ngôn ngữ tiếng Việt (nếu có)
                 onChange: function(selectedDates, dateStr, instance) {
