@@ -43,8 +43,8 @@ class TourRequest extends FormRequest
             'services' => 'required|array|min:1',
             'locations' => 'required|array|min:1',
             'locations.*.start' => 'required|string|max:255',
-            'locations.*.end' => 'required|string|max:255|different:locations.*.start',
-            'locations.*.description' => 'required|nullable',
+            'locations.*.end' => 'required|string|max:255',
+            // 'locations.*.description' => 'required|nullable',
         ];
     }
     public function messages(): array
@@ -94,7 +94,7 @@ class TourRequest extends FormRequest
             'locations.*.start.required' => 'Điểm bắt đầu là bắt buộc.',
             'locations.*.end.required' => 'Điểm kết thúc là bắt buộc.',
             'locations.*.end.different' => 'Điểm kết thúc phải khác điểm bắt đầu.',
-            'locations.*.description.required' => 'Vui lòng nhập mô tả.',
+            // 'locations.*.description.required' => 'Vui lòng nhập mô tả.',
 
         ];
     }

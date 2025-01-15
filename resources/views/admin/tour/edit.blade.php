@@ -187,29 +187,36 @@
                                                             <div class="mb-3">
                                                                 <label for="locations">Chọn điểm đến:</label>
                                                                 <select name="locations[{{ $index }}][start]"
-                                                                    class="form-control" required>
+                                                                    class="form-control">
 
                                                                     <option value="{{ $location->start }}" selected>
                                                                         {{ $location->start }}
                                                                     </option>
                                                                 </select>
                                                             </div>
+                                                            @error('locations.*.start')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <div class="mb-3">
                                                                 <label for="end-location">Điểm kết thúc:</label>
                                                                 <select name="locations[{{ $index }}][end]"
-                                                                    class="form-control" required>
+                                                                    class="form-control">
                                                                     <option value="{{ $location->end }}" selected>
                                                                         {{ $location->end }}
                                                                     </option>
                                                                 </select>
                                                             </div>
+                                                            @error('locations.*.end')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="description">Mô tả lịch trình:</label>
-                                                        <textarea name="locations[{{ $index }}][description]" class="form-control" required>{{ $location->description }}</textarea>
+                                                        <textarea name="locations[{{ $index }}][description]" class="form-control">{{ $location->description }}</textarea>
+
                                                     </div>
                                                     <button type="button" class="btn btn-danger remove-itinerary"
                                                         data-id="{{ $location->id }}">Xóa lịch trình</button>
@@ -353,6 +360,9 @@
                                             <div class="form-label">
                                                 <label for="details">Nội dung chi tiết</label>
                                                 <textarea id="editor" name="content">{{ $tour->content }}</textarea>
+                                                @error('content')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -460,9 +470,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                {{-- @error('location_id')
+                                                @error('location_id')
                                                     <span class="text-danger">{{ $message }}</span>
-                                                @enderror --}}
+                                                @enderror
                                             </div>
                                             <div class="mb-3 col-6">
                                                 <label for="status1" class="form-label">Mục Tour<span
@@ -475,9 +485,9 @@
                                                             {{ $status->category_tour }}</option>
                                                     @endforeach
                                                 </select>
-                                                {{-- @error('category_tour_id')
+                                                @error('category_tour_id')
                                                     <span class="text-danger">{{ $message }}</span>
-                                                @enderror --}}
+                                                @enderror
                                             </div>
                                             <div class="mb-3 col-6" hidden>
                                                 <label for="user_id" class="form-label">Người thực hiện<span
@@ -597,7 +607,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label for="locations">Chọn điểm đến:</label>
-                        <select name="locations[${itineraryCount - 1}][start]" class="form-control" required>
+                        <select name="locations[${itineraryCount - 1}][start]" class="form-control">
                             <option value="">Chọn địa điểm...</option>
                         </select>
                     </div>
@@ -605,7 +615,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label for="end-location">Điểm kết thúc:</label>
-                        <select name="locations[${itineraryCount - 1}][end]" class="form-control" required>
+                        <select name="locations[${itineraryCount - 1}][end]" class="form-control">
                             <option value="">Chọn địa điểm...</option>
                         </select>
                     </div>
@@ -613,7 +623,7 @@
             </div>
             <div class="mb-3">
                 <label for="description">Mô tả lịch trình:</label>
-                <textarea name="locations[${itineraryCount - 1}][description]" class="form-control" required></textarea>
+                <textarea name="locations[${itineraryCount - 1}][description]" class="form-control"></textarea>
             </div>
             <button type="button" class="btn btn-danger remove-itinerary">Xóa lịch trình</button>
         `;
