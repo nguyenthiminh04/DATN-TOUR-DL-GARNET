@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug', 255)->nullable(); // Đường dẫn thân thiện
             $table->boolean('show_home')->default(0); // Hiện trên trang chủ (0: không, 1: có)
             $table->integer('view')->default(0); // Số lượt xem
-            $table->text('description'); // Mô tả bài viết
+            $table->longText('description'); // Mô tả bài viết
             $table->string('img_thumb', 255); // Hình đại diện
             $table->longText('content'); // Nội dung bài viết
             $table->unsignedBigInteger('category_id')->nullable(); // ID của danh mục (có thể null)

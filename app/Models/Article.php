@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admins\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,14 +23,14 @@ class Article extends Model
         'avatar',
         'content',
         'category_id',
-        // 'user_id',
+        'user_id',
         'status',
     ];
 
     // Thiết lập mối quan hệ với model Category
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class,'category_id');
     }
 
     // Thiết lập mối quan hệ với model User

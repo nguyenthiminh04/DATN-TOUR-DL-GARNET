@@ -7,7 +7,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>
-        Garnet du lịch
+        Trang Chủ | Garnet Du Lịch
     </title>
 
     <meta name="description"
@@ -67,6 +67,30 @@
         });
     </script>
     <script>
+        $(document).ready(function() {
+            // Khi nhấp vào tab
+            $(".tab-link").click(function() {
+                var tab = $(this).data('tab'); // Lấy giá trị data-tab
+
+                // Ẩn tất cả tab-content và hiển thị tab tương ứng
+                $(".tab-content").hide();
+                $("." + tab).show();
+
+                // Xóa active khỏi tất cả các tab-link và thêm vào tab hiện tại
+                $(".tab-link").removeClass("active");
+                $(this).addClass("active");
+            });
+
+            // Cài đặt owl-carousel
+            $(".owl-carousel").owlCarousel({
+                items: 3,
+                margin: 20,
+                nav: true,
+                dots: true,
+            });
+        });
+    </script>
+    <script>
         (function() {
             function asyncLoad() {
                 var urls = [
@@ -90,7 +114,7 @@
     <script>
         window.BizwebAnalytics = window.BizwebAnalytics || {};
         window.BizwebAnalytics.meta = window.BizwebAnalytics.meta || {};
-        window.BizwebAnalytics.meta.currency = 'VND';
+        window.BizwebAnalytics.meta.currency = 'đ';
         window.BizwebAnalytics.tracking_url = 's.html';
 
         var meta = {};
@@ -102,7 +126,274 @@
     </script>
 
     <script src="client/ant-du-lich.mysapo.net/dist/js/stats.minbadf.js"></script>
+    <style>
+        /* Hiển thị 1 sao đánh giá */
+        .rating {
+            display: flex;
+            /* Kích hoạt Flexbox */
+            justify-content: flex-end;
+            /* Căn tất cả sang bên phải */
+            align-items: center;
+            /* Căn giữa theo chiều dọc */
+        }
 
+        .rating .star-filled {
+            color: gold;
+            font-size: 1.5rem;
+        }
+
+        .rating .rating-number {
+            font-size: 1rem;
+            color: #555;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+
+
+        .notification-popup {
+
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .notification-popup {
+            display: none;
+            position: absolute;
+            top: 310px;
+            right: 20px;
+            width: 350px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .notification-header h4 {
+            color: #fff
+        }
+
+        .notification-header {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .notification-body {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .notification-time {
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        .notification-icon img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .notification-content .title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .notification-footer {
+            padding: 10px;
+            background: #f1f1f1;
+            text-align: center;
+        }
+
+        /* Hiệu ứng hiển thị */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 10px !important;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .back-to-top:hover {
+            background-color: #0056b3;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .navbar-nav .badge-danger {
+            margin-top: -10px;
+            background-color: #dc3545;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .badge-danger {
+            position: absolute;
+            background-color: #dc3545;
+            color: white;
+            font-size: 1rem;
+            padding: 1px 3px;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .tour-guide {
+            width: 100%;
+            margin-top: 50px;
+        }
+
+
+        .tour-guide-featured {
+            width: auto;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .tour-guide-featured img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .tour-guide-description {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #493a3a;
+            background: rgb(249, 249, 249);
+            padding: 15px;
+            border-radius: 8px;
+            width: 80%;
+        }
+
+        .tour-guide-description h3 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .tour-guide-description p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+
+        .tour-guide-small-articles {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tour-guide-small-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #fff;
+            transition: box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tour-guide-small-item:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .small-post-image {
+            width: 100px;
+            /* Độ rộng cố định cho ảnh */
+            height: 70px;
+            /* Chiều cao cố định */
+            object-fit: cover;
+            /* Đảm bảo ảnh giữ tỷ lệ và cắt phần dư nếu cần */
+            border-radius: 5px;
+            /* Bo góc ảnh */
+            flex-shrink: 0;
+            /* Đảm bảo ảnh không bị thu nhỏ */
+        }
+
+
+        .tour-guide-small-description {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+
+        .tour-guide-small-description h4 {
+            margin: 0 0 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .tour-guide-small-description h4 a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .tour-guide-small-description h4 a:hover {
+            color: #007bff;
+        }
+
+        .tour-guide-small-description p {
+            margin: 0 0 5px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .tour-guide-small-description span {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .section_tour-holiday {
+            padding: 50px 0;
+        }
+
+        .image-wrapper img {
+            max-width: 100%;
+            /* Đảm bảo ảnh không vượt quá kích thước cột */
+            border-radius: 5px;
+            /* Bo tròn góc cho ảnh */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            /* Hiệu ứng đổ bóng */
+        }
+    </style>
 </head>
 
 <body>
@@ -113,21 +404,62 @@
                     <div class="col-md-6">
                         <ul class="top-info">
 
-                            <li><i class="fa fa-phone color-x" aria-hidden="true"></i> <a href="tel:19006750">1900
-                                    6750</a></li>
+                            <li><i class="fa fa-phone color-x" aria-hidden="true"></i> <a href="tel:19002424">1900
+                                    2424</a></li>
                             <li><i class="fa fa-envelope-o" aria-hidden="true"></i> <a
-                                    href="mailto:support@sapo.vn">support@sapo.vn</a></li>
+                                    href="mailto:support@sapo.vn">support@garnet.vn</a></li>
 
                         </ul>
                     </div>
                     <div class="col-md-6">
+                        <ul class="list-inline f-right ul-account">
 
-                        <ul class="list-inline f-right ul-acccount">
+                            @if (Auth()->check() && count(Auth()->user()->notifications) > 0)
+                                <li style="margin-right: 10px">
+                                    <a href="" id="showNotifications">
+                                        <i class="fa fa-bell" aria-hidden="true"></i>
+                                        <span class="badge badge-danger">
+                                            {{ count(Auth()->user()->notifications) }}
+                                        </span>
+                                    </a>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="" id="showNotifications">
+                                        <i class="fa fa-bell" aria-hidden="true"></i>
+                                        <span class="badge badge-danger" style="display: none;"></span>
+                                    </a>
+                                </li>
+                            @endif
 
-                            <li><a href="account/login.html"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
-                                    nhập</a></li>
-                            <li><a href="account/register.html"><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng
-                                    ký</a></li>
+                            @if (Auth::check())
+                                <li><a href="{{ route('my-account.index') }}"><i class="fa fa-user"
+                                            aria-hidden="true"></i>
+                                        {{ Auth::user()->name }}</a></li>
+
+                                <li>
+                                    <a href="{{ route('logouts') }}"
+                                        style="border: none; background: none; padding: 0; color: inherit;">
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                    </a>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="{{ route('my-account.index') }}"><i class="fa fa-cart-plus"
+                                            aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
+                                        Đăng nhập
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>
+                                        Đăng ký
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -144,7 +476,7 @@
                             <span class="icon-bar"></span>
                         </button>
                         <div class="logo">
-                            <a href="index.html" class="logo-wrapper ">
+                            <a href="{{ url('/') }}" class="logo-wrapper ">
                                 <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png"
                                     alt="logo Garnet Du lịch">
                             </a>
@@ -156,12 +488,12 @@
                     <div class="col-md-5">
                         <div class="search">
                             <div class="header_search search_form">
-                                <form class="input-group search-bar search_form"
-                                    action="https://ant-du-lich.mysapo.net/search" method="get" role="search">
-                                    <input type="search" name="query" value=""
+                                <form class="input-group search-bar search_form" action="{{ route('tour.search') }}"
+                                    method="get">
+                                    <input type="search" name="query" id="query"
+                                        value="{{ !empty(Request::get('query')) ? Request::get('query') : '' }}"
                                         placeholder="Tìm kiếm tour..."
-                                        class="input-group-field st-default-search-input search-text"
-                                        autocomplete="off">
+                                        class="input-group-field st-default-search-input search-text">
                                     <span class="input-group-btn">
                                         <button class="btn icon-fallback-text">
                                             <i class="fa fa-search"></i>
@@ -171,6 +503,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-4 hidden-sm hidden-xs">
                         <div class="top-fun">
                             <div class="hotline">
@@ -188,129 +521,7 @@
                 </div>
             </div>
         </div>
-        <nav>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <ul id="nav" class="nav container">
-
-                            <li class="nav-item active"><a class="nav-link" href="index.html">Trang chủ</a></li>
-
-                            <li class="nav-item "><a class="nav-link" href="/gioi-thieu">Giới thiệu</a></li>
-                            <li class="nav-item  has-mega">
-                                <a href="tour-trong-nuoc.html" class="nav-link">Tour trong nước <i
-                                        class="fa fa-angle-right" data-toggle="dropdown"></i></a>
-
-                                <div class="mega-content">
-                                    <div class="level0-wrapper2">
-                                        <div class="nav-block nav-block-center">
-                                            <ul class="level0">
-                                                <li class="level1 parent item">
-                                                    <h2 class="h4"><a href="mien-bac.html"><span>Miền
-                                                                Bắc</span></a>
-                                                    </h2>
-                                                    <ul class="level1">
-
-                                                        <li class="level2"> <a href="du-lich-ha-noi.html"><span>Du
-                                                                    lịch
-                                                                    Hà Nội</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-ha-long.html"><span>Du
-                                                                    lịch
-                                                                    Hạ Long</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-sapa.html"><span>Du lịch
-                                                                    Sapa</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-ninh-binh.html"><span>Du
-                                                                    lịch Ninh Bình</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-hai-phong.html"><span>Du
-                                                                    lịch Hải Phòng</span></a> </li>
-
-                                                    </ul>
-                                                </li>
-
-                                                <li class="level1 parent item">
-                                                    <h2 class="h4"><a href="mien-trung.html"><span>Miền
-                                                                Trung</span></a>
-                                                    </h2>
-                                                    <ul class="level1">
-
-                                                        <li class="level2"> <a href="du-lich-quang-binh.html"><span>Du
-                                                                    lịch Quảng Bình</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-hue.html"><span>Du lịch
-                                                                    Huế</span></a> </li>
-
-                                                        <li class="level2"> <a href="/da-nang"><span>Du
-                                                                    lịch
-                                                                    Đà Nẵng</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-hoi-an.html"><span>Du
-                                                                    lịch
-                                                                    Hội An</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-nha-trang.html"><span>Du
-                                                                    lịch Nha Trang</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-phan-thiet.html"><span>Du
-                                                                    lịch Phan Thiết</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-da-lat.html"><span>Du
-                                                                    lịch
-                                                                    Đà Lạt</span></a> </li>
-
-                                                    </ul>
-                                                </li>
-                                                <li class="level1 parent item">
-                                                    <h2 class="h4"><a href="mien-nam.html"><span>Miền
-                                                                Nam</span></a>
-                                                    </h2>
-                                                    <ul class="level1">
-
-                                                        <li class="level2"> <a href="du-lich-phu-quoc.html"><span>Du
-                                                                    lịch Phú Quốc</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-con-dao.html"><span>Du
-                                                                    lịch
-                                                                    Côn Đảo</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-can-tho.html"><span>Du
-                                                                    lịch
-                                                                    Cần Thơ</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-vung-tau.html"><span>Du
-                                                                    lịch Vũng Tàu</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-ben-tre.html"><span>Du
-                                                                    lịch
-                                                                    Bến Tre</span></a> </li>
-
-                                                        <li class="level2"> <a href="du-lich-dao-nam-du.html"><span>Du
-                                                                    lịch Đảo Nam Du</span></a> </li>
-
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </li>
-
-                            <li class="nav-item "><a class="nav-link" href="/dich-vu">Dịch vụ tour</a></li>
-
-                            <li class="nav-item "><a class="nav-link" href="cam-nang">Cẩm nang du
-                                    lịch</a>
-                            </li>
-
-                            <li class="nav-item "><a class="nav-link" href="/lien-he">Liên hệ</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        @include('client.partials.navbar')
     </header>
 
     <h1 class="hidden">Ant Du lịch - Ant Du lịch - Chúng tôi cam kết luôn nỗ lực đem đến những giá trị dịch vụ tốt nhất
@@ -389,42 +600,41 @@
                                 <div class="tl-2"></div>
                                 <div class="tl-3"></div>
                             </div>
-                            <p>Hệ thống đặt Tour hàng đầu Việt Nam. Hơn 300 tours du lịch ở Việt Nam và Quốc tế</p>
+                            <p>Hệ thống đặt Tour hàng đầu Việt Nam. Hơn 300 tours du lịch ở Việt Nam.</p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
 
-
-                    @foreach ($listtour as $item)
+                    @foreach ($Tourmoinhat as $item)
                         <div class="col-md-4 col-sm-6 col-xs-6 col-100">
                             <div class="product-box">
                                 <div class="product-thumbnail">
                                     <a href="{{ route('client.tour.show', $item->id) }}"
-                                        title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/83864b64404979-5ad0e1bdba9b284f3.jpg?v=1529553163227"
-                                            alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
+                                        title="{{ $item->name }}">
+                                        <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}">
                                     </a>
                                     <div class="sale-off">-
-                                        <?=$item['sale']?>%
+                                        {{ $item->sale }}%
                                     </div>
                                 </div>
                                 <div class="product-info a-left">
                                     <h3 class="product-name"><a class="line-clamp"
-                                            href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                                            title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                                            <?=$item['name'] ?>
-                                           </a></h3>
+                                            href="{{ route('detail', $item->id) }}"
+                                            title="">{{ $item->name }}
+                                        </a></h3>
                                     <div class="clearfix">
                                         <div class="box-prices">
                                             <div class="price-box clearfix">
                                                 <div class="special-price f-left">
-                                                    <span class="price product-price"><?=number_format($item['price_children'],0,'',',') ?>đ</span>
-                                                </div>
+                                                    <span class="price product-price">
+                                                        {{ number_format($item->price_old * (1 - $item->sale / 100), 0, '', '.') }}
+                                                        VNĐ</span>
 
+                                                </div>
                                                 <div class="old-price">
                                                     <span class="price product-price-old">
-                                                        <?=number_format($item['price_old'],0,'',',') ?>đ
+                                                        {{ number_format($item->price_old, 0, '', '.') }}VNĐ
                                                     </span>
                                                 </div>
                                             </div>
@@ -432,16 +642,18 @@
 
                                         <div class="box-tag">
                                             <ul class="ct_course_list">
-
-                                                <li data-toggle="tooltip" data-placement="top"
-                                                    title="Di chuyển bằng Ô tô">
-                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                        alt="Di chuyển bằng Ô tô" />
+                                                <li>
+                                                    <div class="rating">
+                                                        <span class="star-filled">&#9733;</span>
+                                                        <span
+                                                            class="rating-number">{{ round($item->average_rating, 1) }}
+                                                            ({{ $item->rating_count }})
+                                                        </span>
+                                                    </div>
                                                 </li>
-                                                <li data-toggle="tooltip" data-placement="top"
-                                                    title="Di chuyển bằng máy bay">
-                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                        alt="Di chuyển bằng máy bay" />
+                                                <li>
+                                                    <i class="fa fa-heart add-to-favorite"
+                                                        data-id="{{ $item->id }}"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -453,14 +665,24 @@
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
                                                         src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                        alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: Thứ 2 - 7 hằng
-                                                tuần
+                                                        alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành:
+                                                {{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') }}
+                                                tới
+                                                {{ \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}
                                             </li>
                                             <li class="clearfix">
                                                 <div class="ulimg"><img
-                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                        alt="6 ngày 5 đêm" /></div> Thời gian: 6 ngày 5 đêm
+                                                        src="https://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+                                                        alt="6 ngày 5 đêm" /></div> Thời gian:
+                                                {{ $item->schedule }}
                                             </li>
+                                            <li class="clearfix">
+                                                <div class="ulimg"><img
+                                                        src="https://img.icons8.com/?size=100&id=102656&format=png&color=000000"
+                                                        alt="6 ngày 5 đêm" /></div> Số lượng tour :
+                                            {{ $item->number }}
+                                            </li>
+
                                         </ul>
                                     </div>
 
@@ -468,107 +690,24 @@
                             </div>
                         </div>
                     @endforeach
-
-
-@foreach ($Tourmoinhat as $item)
-<div class="col-md-4 col-sm-6 col-xs-6 col-100">
-    <div class="product-box">
-        <div class="product-thumbnail">
-            <a href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-                <img src="{{ Storage::url($item->image) }}"
-                    alt="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">
-            </a>
-            <div class="sale-off">-
-                {{$item->sale}}%
-            </div>
-        </div>
-        <div class="product-info a-left">
-            <h3 class="product-name"><a class="line-clamp"
-                    href="du-lich-my-los-angeles-las-vegas-universal-studios-hollywood-2-dem-ks.html"
-                    title="Du lịch Mỹ [Los Angeles - Las Vegas - Universal Studios Hollywood] [2 đêm KS 5* Bellagio, Las Vegas]">{{$item->name}} [{{$item->location->name}}] [{{$item->journeys}}]</a></h3>
-            <div class="clearfix">
-                <div class="box-prices">
-                    <div class="price-box clearfix">
-                        <div class="special-price f-left">
-                            <span class="price product-price"> {{ number_format($item->price_old * (1 - $item->sale / 100), 0, '', '.') }} VNĐ</span>
-
-                        </div>
-
-                        
-
-                        <div class="old-price">
-                            <span class="price product-price-old">
-                                {{number_format($item->price_old,0,'','.')}}VNĐ
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="box-tag">
-                    <ul class="ct_course_list">
-
-                        <li data-toggle="tooltip" data-placement="top"
-                            title="Di chuyển bằng Ô tô">
-                            <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                alt="Di chuyển bằng Ô tô" />
-                        </li>
-                        <li data-toggle="tooltip" data-placement="top"
-                            title="Di chuyển bằng máy bay">
-                            <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                alt="Di chuyển bằng máy bay" />
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-            <div class="box-date-tour">
-                <ul class="ct_course_list">
-
-                    <li class="clearfix">
-                        <div class="ulimg"><img
-                                src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                alt="Thứ 2 - 7 hằng tuần" /></div> Khởi hành: {{$item->start_date}} - {{$item->end_date}}
-                    </li>
-                    <li class="clearfix">
-                        <div class="ulimg"><img
-                                src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                alt="6 ngày 5 đêm" /></div> Thời gian: {{$item->schedule}}
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </div>
-</div>
-@endforeach
-                    
-
-
-                            </div>
-                        </div>
-                    </div> --}}
-
-
                 </div>
             </div>
         </div>
     </section>
 
     <section class="awe-section-3">
-
         <div class="section_tour-inbound">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="section_tour-new_title">
-                            <h2>Tour <span>trong nước</span></h2>
+                            <h2>Tour <span>theo miền</span></h2>
                             <div class="title-line">
                                 <div class="tl-1"></div>
                                 <div class="tl-2"></div>
                                 <div class="tl-3"></div>
                             </div>
-                            <p>Tour du lịch Trong nước tại Ant Du lịch. Hành hương đầu xuân - Tận hưởng bản sắc Việt.
+                            <p>Tour du lịch Trong nước tại Garnet Du lịch. Hành hương đầu xuân - Tận hưởng bản sắc Việt.
                             </p>
                         </div>
                     </div>
@@ -576,610 +715,104 @@
                 <div class="row tour-travel-item">
                     <div class="col-md-12 e-tabs not-dqtab ajax-tab-1" data-section="ajax-tab-1">
                         <div class="content">
-                            <div>
-                                <ul class="tabs tabs-title tab-mobile clearfix hidden-sm hidden-md hidden-lg">
-                                    <li class="prev"><i class="fa fa-angle-left"></i></li>
-                                    <li class="tab-link tab-title hidden-sm hidden-md hidden-lg current tab-titlexs"
-                                        data-tab="tab-1">
-
-                                        <span>Miền Trung</span>
-
+                            <ul class="tabs tabs-title ajax clearfix hidden-xs">
+                                @foreach ($categories as $index => $category)
+                                    <li class="tab-link has-content {{ $index == 0 ? 'active' : '' }}"
+                                        data-tab="tab-{{ $category->id }}">
+                                        <span>{{ $category->category_tour }}</span>
                                     </li>
-                                    <li class="next"><i class="fa fa-angle-right"></i></li>
-                                </ul>
-                                <ul class="tabs tabs-title ajax clearfix hidden-xs">
+                                @endforeach
+                            </ul>
 
-                                    <li class="tab-link has-content" data-tab="tab-1" data-url="/mien-trung">
-                                        <span>Miền Trung</span>
-                                    </li>
-
-                                    <li class="tab-link " data-tab="tab-2" data-url="/mien-bac">
-                                        <span>Miền Bắc</span>
-                                    </li>
-
-                                    <li class="tab-link " data-tab="tab-3" data-url="/mien-nam">
-                                        <span>Miền Nam</span>
-                                    </li>
-
-                                </ul>
-
-                                <div class="tab-1 tab-content">
-
+                            @foreach ($categories as $index => $category)
+                                <div class="tab-{{ $category->id }} tab-content"
+                                    style="{{ $index == 0 ? '' : 'display:none;' }}">
                                     <div class="section-tour-owl products products-view-grid owl-carousel"
                                         data-lg-items='3' data-md-items='3' data-sm-items='2' data-xs-items="2"
                                         data-xss-items="1" data-margin='20' data-nav="true" data-dot="true">
-
-                                        <div class="item">
-
-                                            <div class="product-box">
-                                                <div class="product-thumbnail">
-                                                    <a href="du-lich-da-nang-kdl-ba-na-hoi-an-co-do-hue.html"
-                                                        title="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế">
-                                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/53916-131503727972c4.jpg?v=1529554090113"
-                                                            alt="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế">
-                                                    </a>
-
-
-                                                    <div class="sale-off">-
-                                                        3%
+                                        @foreach ($category->tours as $tour)
+                                            <div class="item">
+                                                <div class="product-box">
+                                                    <div class="product-thumbnail">
+                                                        <a href="{{ route('client.tour.show', $tour->id) }}"
+                                                            title="{{ $tour->name }}">
+                                                            <img src="{{ Storage::url($tour->image) }}"
+                                                                alt="{{ $tour->name }}">
+                                                        </a>
+                                                        <div class="sale-off">{{ $tour->sale }}%</div>
                                                     </div>
-
-
-                                                </div>
-                                                <div class="product-info a-left">
-                                                    <h3 class="product-name"><a class="line-clamp"
-                                                            href="du-lich-da-nang-kdl-ba-na-hoi-an-co-do-hue.html"
-                                                            title="Du lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế">Du
-                                                            lịch Đà Nẵng - KDL Bà Nà - Hội An - Cố Đô Huế</a></h3>
-                                                    <div class="clearfix">
-                                                        <div class="box-prices">
-
-
-                                                            <div class="price-box clearfix">
-                                                                <div class="special-price f-left">
-                                                                    <span class="price product-price">6.300.000₫</span>
+                                                    <div class="product-info a-left">
+                                                        <h3 class="product-name">
+                                                            <a class="line-clamp"
+                                                                href="{{ route('client.tour.show', $tour->id) }}"
+                                                                title="{{ $tour->name }}">{{ $tour->name }}</a>
+                                                        </h3>
+                                                        <div class="clearfix">
+                                                            <div class="box-prices">
+                                                                <div class="price-box clearfix">
+                                                                    <div class="special-price f-left">
+                                                                        <span
+                                                                            class="price product-price">{{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}
+                                                                            VNĐ</span>
+                                                                    </div>
+                                                                    <div class="old-price">
+                                                                        <span
+                                                                            class="price product-price-old">{{ number_format($tour->price_old, 0, '', '.') }}VNĐ</span>
+                                                                    </div>
                                                                 </div>
-
-                                                                <div class="old-price">
-                                                                    <span class="price product-price-old">
-                                                                        6.500.000₫
-                                                                    </span>
-                                                                </div>
-
                                                             </div>
-
-                                                        </div>
-
-                                                        <div class="box-tag">
-                                                            <ul class="ct_course_list">
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng Ô tô">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                                        alt="Di chuyển bằng Ô tô" />
-                                                                </li>
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng máy bay">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                                        alt="Di chuyển bằng máy bay" />
-                                                                </li>
-
-                                                            </ul>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="box-date-tour">
-                                                        <ul class="ct_course_list">
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                                        alt="Thứ 7 hằng tuần" /></div> Khởi hành: Thứ 7
-                                                                hằng tuần
-                                                            </li>
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                                        alt="3 ngày 2 đêm" /></div> Thời gian: 3 ngày 2
-                                                                đêm
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="product-box">
-                                                <div class="product-thumbnail">
-                                                    <a href="du-lich-hue-ho-truoi-da-nang-suoi-khoang-nong-nui-than-tai-kdl-ba-na.html"
-                                                        title="Du lịch Huế - Hồ Truồi - Đà Nẵng - Suối Khoáng Nóng Núi Thần Tài - KDL Bà Nà">
-                                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/bana-hillsc589.jpg?v=1529554384043"
-                                                            alt="Du lịch Huế - Hồ Truồi - Đà Nẵng - Suối Khoáng Nóng Núi Thần Tài - KDL Bà Nà">
-                                                    </a>
-                                                    <div class="sale-off">-
-                                                        5%
-                                                    </div>
-                                                </div>
-                                                <div class="product-info a-left">
-                                                    <h3 class="product-name"><a class="line-clamp"
-                                                            href="du-lich-hue-ho-truoi-da-nang-suoi-khoang-nong-nui-than-tai-kdl-ba-na.html"
-                                                            title="Du lịch Huế - Hồ Truồi - Đà Nẵng - Suối Khoáng Nóng Núi Thần Tài - KDL Bà Nà">Du
-                                                            lịch Huế - Hồ Truồi - Đà Nẵng - Suối Khoáng Nóng Núi Thần
-                                                            Tài - KDL Bà Nà</a></h3>
-                                                    <div class="clearfix">
-                                                        <div class="box-prices">
-
-
-                                                            <div class="price-box clearfix">
-                                                                <div class="special-price f-left">
-                                                                    <span class="price product-price">5.900.000₫</span>
-                                                                </div>
-
-                                                                <div class="old-price">
-                                                                    <span class="price product-price-old">
-                                                                        6.200.000₫
-                                                                    </span>
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="box-tag">
-                                                            <ul class="ct_course_list">
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng Ô tô">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                                        alt="Di chuyển bằng Ô tô" />
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng máy bay">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                                        alt="Di chuyển bằng máy bay" />
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="box-date-tour">
-                                                        <ul class="ct_course_list">
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                                        alt="Thứ 7 hằng tuần" /></div> Khởi hành: Thứ 7
-                                                                hằng tuần
-                                                            </li>
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                                        alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
-                                                                đêm
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-
-                                            <div class="product-box">
-                                                <div class="product-thumbnail">
-                                                    <a href="du-lich-nha-trang-hon-lao-doc-let.html"
-                                                        title="Du lịch Nha Trang - Hòn Lao - Dốc Lết">
-                                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/ponagar-cham-temple-nha-trang-min10994.jpg?v=1529554507043"
-                                                            alt="Du lịch Nha Trang - Hòn Lao - Dốc Lết">
-                                                    </a>
-
-                                                    <div class="sale-off">-
-                                                        22%
-                                                    </div>
-
-                                                </div>
-                                                <div class="product-info a-left">
-                                                    <h3 class="product-name"><a class="line-clamp"
-                                                            href="du-lich-nha-trang-hon-lao-doc-let.html"
-                                                            title="Du lịch Nha Trang - Hòn Lao - Dốc Lết">Du lịch Nha
-                                                            Trang - Hòn Lao - Dốc Lết</a></h3>
-                                                    <div class="clearfix">
-                                                        <div class="box-prices">
-
-
-                                                            <div class="price-box clearfix">
-                                                                <div class="special-price f-left">
-                                                                    <span class="price product-price">3.410.000₫</span>
-                                                                </div>
-
-                                                                <div class="old-price">
-                                                                    <span class="price product-price-old">
-                                                                        4.400.000₫
-                                                                    </span>
-                                                                </div>
-
+                                                            <div class="box-tag">
+                                                                <ul class="ct_course_list">
+                                                                    <li>
+                                                                        <div class="rating">
+                                                                            <span class="star-filled">&#9733;</span>
+                                                                            <span
+                                                                                class="rating-number">{{ round($item->average_rating, 1) }}
+                                                                                ({{ $item->rating_count }})
+                                                                            </span>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="fa fa-heart add-to-favorite"
+                                                                            data-id="{{ $item->id }}"></i>
+                                                                    </li>
+                                                                </ul>
                                                             </div>
                                                         </div>
-
-                                                        <div class="box-tag">
+                                                        <div class="box-date-tour">
                                                             <ul class="ct_course_list">
 
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng Ô tô">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                                        alt="Di chuyển bằng Ô tô" />
+                                                                <li class="clearfix">
+                                                                    <div class="ulimg"><img
+                                                                            src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
+                                                                            alt="Thứ 2 - 7 hằng tuần" /></div> Khởi
+                                                                    hành:
+                                                                    {{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') }}
+                                                                    tới
+                                                                    {{ \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}
                                                                 </li>
-
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng máy bay">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                                        alt="Di chuyển bằng máy bay" />
+                                                                <li class="clearfix">
+                                                                    <div class="ulimg"><img
+                                                                            src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
+                                                                            alt="6 ngày 5 đêm" /></div> Thời gian:
+                                                                    {{ $tour->schedule }}
                                                                 </li>
 
                                                             </ul>
                                                         </div>
                                                     </div>
-
-                                                    <div class="box-date-tour">
-                                                        <ul class="ct_course_list">
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                                        alt="Thứ 5; Chủ nhật" /></div> Khởi hành: Thứ
-                                                                5;
-                                                                Chủ nhật
-                                                            </li>
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                                        alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
-                                                                đêm
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endforeach
                                     </div>
-
                                 </div>
-                                <div class="tab-2 tab-content">
-                                </div>
-                                <div class="tab-3 tab-content">
-                                </div>
-                                <script></script>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <section class="awe-section-4">
-
-        <div class="section_tour-inbound section_tour-outbound">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="section_tour-new_title">
-                            <h2>Tour <span>nước ngoài</span></h2>
-                            <div class="title-line">
-                                <div class="tl-1"></div>
-                                <div class="tl-2"></div>
-                                <div class="tl-3"></div>
-                            </div>
-                            <p>Tour du lịch Nước ngoài tại Ant Du lịch. Du lịch 5 châu - Trải nghiệm sắc xuân thế giới
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row tour-travel-item">
-                    <div class="col-md-12 e-tabs not-dqtab ajax-tab-2" data-section="ajax-tab-2">
-                        <div class="content">
-                            <div>
-                                <ul class="tabs tabs-title tab-mobile clearfix hidden-sm hidden-md hidden-lg">
-                                    <li class="prev"><i class="fa fa-angle-left"></i></li>
-                                    <li class="tab-link tab-title hidden-sm hidden-md hidden-lg current tab-titlexs"
-                                        data-tab="tab-2">
-
-                                        <span>Du lịch Châu Á</span>
-
-                                    </li>
-                                    <li class="next"><i class="fa fa-angle-right"></i></li>
-                                </ul>
-                                <ul class="tabs tabs-title ajax clearfix hidden-xs">
-
-                                    <li class="tab-link has-content" data-tab="tab-1" data-url="/du-lich-chau-a">
-                                        <span>Du lịch Châu Á</span>
-                                    </li>
-
-                                    <li class="tab-link " data-tab="tab-2" data-url="/du-lich-chau-au">
-                                        <span>Du lịch Châu Âu</span>
-                                    </li>
-
-                                    <li class="tab-link " data-tab="tab-3" data-url="/du-lich-chau-uc">
-                                        <span>Du lịch Châu Úc</span>
-                                    </li>
-
-                                    <li class="tab-link " data-tab="tab-4" data-url="/du-lich-chau-my">
-                                        <span>Du lịch Châu Mỹ</span>
-                                    </li>
-
-                                </ul>
-
-                                <div class="tab-1 tab-content">
-
-                                    <div class="section-tour-owl products products-view-grid owl-carousel"
-                                        data-lg-items='3' data-md-items='3' data-sm-items='2' data-xs-items="2"
-                                        data-xss-items="1" data-margin='20' data-nav="true" data-dot="true">
-                                        <div class="item">
-                                            <div class="product-box">
-                                                <div class="product-thumbnail">
-                                                    <a href="du-lich-malaysia-singapore-thuy-cung-s-e-a-aquarium.html"
-                                                        title="Du lịch Malaysia - Singapore [Thủy cung S.E.A AQUARIUM]">
-                                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/kuala-lumpurc911.jpg?v=1529555728220"
-                                                            alt="Du lịch Malaysia - Singapore [Thủy cung S.E.A AQUARIUM]">
-                                                    </a>
-                                                </div>
-                                                <div class="product-info a-left">
-                                                    <h3 class="product-name"><a class="line-clamp"
-                                                            href="du-lich-malaysia-singapore-thuy-cung-s-e-a-aquarium.html"
-                                                            title="Du lịch Malaysia - Singapore [Thủy cung S.E.A AQUARIUM]">Du
-                                                            lịch Malaysia - Singapore [Thủy cung S.E.A AQUARIUM]</a>
-                                                    </h3>
-                                                    <div class="clearfix">
-                                                        <div class="box-prices">
-
-                                                            <div class="price-box clearfix">
-                                                                <div class="special-price f-left">
-                                                                    <span
-                                                                        class="price product-price">12.990.000₫</span>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="box-tag">
-                                                            <ul class="ct_course_list">
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng Ô tô">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                                        alt="Di chuyển bằng Ô tô" />
-                                                                </li>
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng tàu thủy">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg"
-                                                                        alt="Di chuyển bằng tàu thủy" />
-                                                                </li>
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng máy bay">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                                        alt="Di chuyển bằng máy bay" />
-                                                                </li>
-
-                                                            </ul>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="box-date-tour">
-                                                        <ul class="ct_course_list">
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                                        alt="Thứ 2 hằng tuần" /></div> Khởi hành: Thứ 2
-                                                                hằng tuần
-                                                            </li>
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                                        alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
-                                                                đêm
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="item">
-
-                                            <div class="product-box">
-                                                <div class="product-thumbnail">
-                                                    <a href="du-thuyen-5-sao-voyager-of-the-seas.html"
-                                                        title="Du thuyền 5 Sao Voyager Of The Seas">
-                                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/south-east-asia-cruise-package-6-min-2b0f3.jpg?v=1529555857067"
-                                                            alt="Du thuyền 5 Sao Voyager Of The Seas">
-                                                    </a>
-                                                </div>
-                                                <div class="product-info a-left">
-                                                    <h3 class="product-name"><a class="line-clamp"
-                                                            href="du-thuyen-5-sao-voyager-of-the-seas.html"
-                                                            title="Du thuyền 5 Sao Voyager Of The Seas">Du thuyền 5 Sao
-                                                            Voyager Of The Seas</a></h3>
-                                                    <div class="clearfix">
-                                                        <div class="box-prices">
-
-                                                            <div class="price-box clearfix">
-                                                                <div class="special-price f-left">
-                                                                    <span
-                                                                        class="price product-price">25.900.000₫</span>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="box-tag">
-                                                            <ul class="ct_course_list">
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng Ô tô">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                                        alt="Di chuyển bằng Ô tô" />
-                                                                </li>
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng tàu thủy">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_2.svg"
-                                                                        alt="Di chuyển bằng tàu thủy" />
-                                                                </li>
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng máy bay">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                                        alt="Di chuyển bằng máy bay" />
-                                                                </li>
-
-                                                            </ul>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="box-date-tour">
-                                                        <ul class="ct_course_list">
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                                        alt="Thứ 4 hằng tuần" /></div> Khởi hành: Thứ 4
-                                                                hằng tuần
-                                                            </li>
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                                        alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
-                                                                đêm
-                                                            </li>
-
-                                                        </ul>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="item">
-
-                                            <div class="product-box">
-                                                <div class="product-thumbnail">
-                                                    <a href="du-lich-han-quoc-hoa-anh-dao.html"
-                                                        title="Du lịch Hàn Quốc - Hoa anh đào">
-                                                        <img src="client/bizweb.dktcdn.net/thumb/large/100/299/077/products/han-quoc-4-mua-hoa4087.jpg?v=1529555941507"
-                                                            alt="Du lịch Hàn Quốc - Hoa anh đào">
-                                                    </a>
-
-
-                                                    <div class="sale-off">-
-                                                        21%
-                                                    </div>
-
-                                                </div>
-                                                <div class="product-info a-left">
-                                                    <h3 class="product-name"><a class="line-clamp"
-                                                            href="du-lich-han-quoc-hoa-anh-dao.html"
-                                                            title="Du lịch Hàn Quốc - Hoa anh đào">Du lịch Hàn Quốc -
-                                                            Hoa anh đào</a></h3>
-                                                    <div class="clearfix">
-                                                        <div class="box-prices">
-
-
-                                                            <div class="price-box clearfix">
-                                                                <div class="special-price f-left">
-                                                                    <span
-                                                                        class="price product-price">23.000.000₫</span>
-                                                                </div>
-
-                                                                <div class="old-price">
-                                                                    <span class="price product-price-old">
-                                                                        29.000.000₫
-                                                                    </span>
-                                                                </div>
-
-                                                            </div>
-
-
-                                                        </div>
-
-                                                        <div class="box-tag">
-                                                            <ul class="ct_course_list">
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng Ô tô">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_1.svg"
-                                                                        alt="Di chuyển bằng Ô tô" />
-                                                                </li>
-
-                                                                <li data-toggle="tooltip" data-placement="top"
-                                                                    title="Di chuyển bằng máy bay">
-                                                                    <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg"
-                                                                        alt="Di chuyển bằng máy bay" />
-                                                                </li>
-
-                                                            </ul>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="box-date-tour">
-                                                        <ul class="ct_course_list">
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg"
-                                                                        alt="Thứ 7 hằng tuần" /></div> Khởi hành: Thứ 7
-                                                                hằng tuần
-                                                            </li>
-
-                                                            <li class="clearfix">
-                                                                <div class="ulimg"><img
-                                                                        src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg"
-                                                                        alt="4 ngày 3 đêm" /></div> Thời gian: 4 ngày 3
-                                                                đêm
-                                                            </li>
-
-                                                        </ul>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="tab-2 tab-content">
-
-                                </div>
-
-                                <div class="tab-3 tab-content">
-
-                                </div>
-
-                                <div class="tab-4 tab-content">
-
-                                </div>
-
-                                <script></script>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section class="awe-section-5">
         <div class="section_tour-holiday">
             <div class="container">
@@ -1187,26 +820,31 @@
                     <div class="col-md-5">
                         <div class="video-wrappers padding-top padding-bottom">
                             <div class="video-wrapper-title">
-                                <h5 class="sub-title">Trải nghiệm sắc xuân thế giới</h5>
-                                <h2 class="title">LỄ HỘI HOA 5 CHÂU</h2>
-                                <div class="text">Thưởng ngoạn hoa anh đào trên đảo Jeju và thủ đô Seoul nơi xứ sở
-                                    Kim
-                                    Chi - Hàn Quốc. Khám phá thủ đô Seoul sầm uất, thưởng thức show diễn nghệ thuật
-                                    Painters Hero vẽ tranh độc đáo trên nền nhạc sôi động kết hợp các điệu nhảy vui nhộn
+                                {{-- <h5 class="sub-title">{{$listarticle->description}}</h5> --}}
+                                <h2 class="title">{{ $listarticle->title }}</h2>
+                                <div class="text">{!! $listarticle->description !!}
+
                                 </div>
                             </div>
-                            <a href="blogs/all.html" class="btn-maincolor">Xem thêm</a>
+                            <a href="{{ route('service.show', $listarticle->id) }}" class="btn-maincolor">Xem
+                                thêm</a>
                         </div>
                     </div>
                     <div class="col-md-7">
+
                         <div class="video-thumbnail">
 
-                            <a href="blogs/all.html">
+                            <a href="{{ route('service.show', $listarticle->id) }}">
                                 <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/sec_video_tour_embed_img6d1d.jpg"
                                     alt="Ant Du lịch" class="img-responsive center-block" />
                             </a>
 
                         </div>
+
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -1234,33 +872,29 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="section-location-owl owl-carousel owl-theme not-dqowl">
-@foreach ($locations as $item)
-<div class="item">
-    <div class="tourmaster-tour-category-item-wrap">
-        <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
-            <img src="{{ Storage::url($item->image)}}"
-                alt="Phú Quốc" />
-        </div>
-        <div class="tourmaster-tour-category-overlay"></div>
-        <div class="tourmaster-tour-category-overlay-front"></div>
-        <div class="tourmaster-tour-category-head">
-            <div class="tourmaster-tour-category-head-display clearfix">
-                <h3 class="tourmaster-tour-category-title"><i
-                        class="fa fa-map-marker color-x"></i>Phú Quốc</h3>
-            </div>
-            <div class="tourmaster-tour-category-head-animate">
-                <a class="tourmaster-tour-category-head-link" href="collections/all.html">Xem
-                    chi tiết</a>
-                <div class="tourmaster-tour-category-head-divider"></div>
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
-                       
-
-                       
-
+                        @foreach ($locations as $item)
+                            <div class="item">
+                                <div class="tourmaster-tour-category-item-wrap">
+                                    <div class="tourmaster-tour-category-thumbnail tourmaster-media-image">
+                                        <img src="{{ Storage::url($item->image) }}" alt="Phú Quốc" />
+                                    </div>
+                                    <div class="tourmaster-tour-category-overlay"></div>
+                                    <div class="tourmaster-tour-category-overlay-front"></div>
+                                    <div class="tourmaster-tour-category-head">
+                                        <div class="tourmaster-tour-category-head-display clearfix">
+                                            <h3 class="tourmaster-tour-category-title"><i
+                                                    class="fa fa-map-marker color-x"></i>{{ $item->name }}</h3>
+                                        </div>
+                                        <div class="tourmaster-tour-category-head-animate">
+                                            <a class="tourmaster-tour-category-head-link"
+                                                href="{{ route('tour.location', $item->slug) }}">Xem
+                                                chi tiết</a>
+                                            <div class="tourmaster-tour-category-head-divider"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -1270,7 +904,7 @@
     <section class="awe-section-7">
 
         <section class="section-news margin-bottom-20">
-            <div class="container">
+            <div class="container" style="width: 90%">
                 <div class="blogs-content">
                     <div class="row">
                         <div class="col-md-12">
@@ -1281,435 +915,63 @@
                                     <div class="tl-2"></div>
                                     <div class="tl-3"></div>
                                 </div>
-                                <p>Cẩm nang thông tin về du lịch, văn hóa, ẩm thực, các sự kiện và lễ hội tại các điểm
-                                    đến Việt nam, Đông Nam Á và Thế Giới.</p>
+
                             </div>
-                        </div>
-                    </div>
-                    <div class="news_hot_left">
-                        <div class="row">
-                            <div class="news_owl col-lg-6 col-md-6 col-sm-6 col-xs-12 cam-nang-du-lich">
 
-                                <div class="item_blog_big">
-                                    <div class="figure-big">
+                            <div class="col-md-8">
+                                <div class="tour-guide-featured">
+                                    <a href="{{ route('service.show', $article[0]->id) }}">
+                                        <img src="{{ $article[0]->img_thumb ? asset('storage/' . $article[0]->img_thumb) : asset('path/to/default-image.jpg') }}"
+                                            alt="{{ $article[0]->title }}" class="img-fluid">
+                                    </a>
+                                    <div class="tour-guide-description">
+                                        <h3>
+                                            <a
+                                                href="{{ route('service.show', $article[0]->id) }}">{{ $article[0]->title }}</a>
+                                        </h3>
+                                        <p>{{ \Illuminate\Support\Str::limit($article[0]->description, 200) }}</p>
+                                    </div>
+                                </div>
+                            </div>
 
-                                        <div class="img_thumb_blogs">
-                                            <a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html"
-                                                class="big_img_h">
-                                                <picture>
-                                                    <source media="(max-width: 480px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
-                                                    <source media="(min-width: 481px) and (max-width: 767px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
-                                                    <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
-                                                    <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/large/100/299/077/articles/chua-huong.jpg?v=1520693664270">
-                                                    <source media="(min-width: 1200px)"
-                                                        srcset="//bizweb.dktcdn.net/thumb/grande/100/299/077/articles/chua-huong.jpg?v=1520693664270">
-                                                    <img src="client/bizweb.dktcdn.net/100/299/077/articles/chua-huong9e3f.jpg?v=1520693664270"
-                                                        title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương"
-                                                        alt="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương"
-                                                        class="img-responsive center-block" />
-                                                </picture>
+
+                            <div class="col-md-4">
+                                <div class="tour-guide-small-articles">
+                                    @foreach ($article as $articles)
+                                        <div class="tour-guide-small-item">
+                                            <a href="{{ route('service.show', $articles->id) }}">
+                                                <img src="{{ $articles->img_thumb ? asset('storage/' . $articles->img_thumb) : asset('path/to/default-image.jpg') }}"
+                                                    alt="{{ $articles->title }}" class="small-post-image">
                                             </a>
-                                        </div>
-                                        <div class="content_item_blogs">
-                                            <div class="blog_home_title margin-top-10 margin-bottom-10">
-                                                <h3 class="news_home_content_short_info">
-                                                    <a href="xieu-long-voi-nhung-canh-dep-nen-tho-o-chua-huong.html"
-                                                        title="Xiêu lòng với những cảnh đẹp nên thơ ở chùa Hương">Xiêu
-                                                        lòng với những cảnh đẹp nên thơ ở chùa Hương</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-                                                Vậy ở&nbsp;chùa Hương&nbsp;có gì thú vị mà lại thu hút nhiều du khách
-                                                trong lẫn ngoài nước đến như vậy, chúng ta hãy cùng tìm hiểu xem nhé.
-                                                Chùa Hương&nbsp;hay tên gọi đầy đủ là chùa Hương Sơn, là một quần thể di
-                                                tích thắng cảnh với rất nhiều ngôi chùa, đền, đình, bao quanh là non
-                                                nước hùng vĩ và hoang sơ.
-                                                Cảnh vật ở nơi đây nên thơ đến lạ,...
-                                            </div>
-                                            <div class="content_day_blog margin-bottom-10">
-                                                <i class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(5) Bình luận
-                                                </span>
+                                            <div class="tour-guide-small-description">
+                                                <h4><a
+                                                        href="{{ route('service.show', $articles->id) }}">{{ $articles->title }}</a>
+                                                </h4>
+                                                {{-- <p>{{ $articles->description }}</p> --}}
+                                                <p>{{ \Illuminate\Support\Str::limit($articles->description, 100) }}
+                                                </p>
+                                                <span>{{ $articles->created_at->format('d/m/Y') }}</span>
                                             </div>
                                         </div>
+                                    @endforeach
 
-                                    </div>
-                                </div>
 
-                            </div>
-                            <div class="content-blog-index col-lg-6 col-md-6 col-sm-6 col-xs-12">
-
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='trang-an-co-diem-den-dang-hot-o-ninh-binh.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/trang-an-2-5-15a15.jpg?v=1606138224437"
-                                                                title="Tràng An cổ – điểm đến đang hot ở Ninh Bình"
-                                                                alt="Tràng An cổ – điểm đến đang hot ở Ninh Bình">
-                                                        </picture>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="trang-an-co-diem-den-dang-hot-o-ninh-binh.html"
-                                                        title="Tràng An cổ – điểm đến đang hot ở Ninh Bình">Tràng An
-                                                        cổ
-                                                        – điểm đến đang hot ở Ninh Bình</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-
-                                                Ở Tràng An có hai địa danh là Tràng An và Tràng An cổ. Trong đó, Tràng
-                                                An, nơi thu hút hàng nghìn lượt khá...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(1) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='mua-hoa-phan-phu-hong-troi-bao-loc.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a href="mua-hoa-phan-phu-hong-troi-bao-loc.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/7mai-anh-dao-dalat-zing8ff9.jpg?v=1520693432973"
-                                                                title="Mùa hoa phấn phủ hồng trời Bảo Lộc"
-                                                                alt="Mùa hoa phấn phủ hồng trời Bảo Lộc">
-                                                        </picture>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="mua-hoa-phan-phu-hong-troi-bao-loc.html"
-                                                        title="Mùa hoa phấn phủ hồng trời Bảo Lộc">Mùa hoa phấn phủ
-                                                        hồng
-                                                        trời Bảo Lộc</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-
-                                                Hoa phấn hồng còn được nhiều người gọi là hoa kèn hồng. Đây là loại cây
-                                                thân gỗ, chiều cao trung bình 10 ...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(0) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a
-                                                        href="ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/dalat-158d7.jpg?v=1520693176427">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/dalat-158d7.jpg?v=1520693176427"
-                                                                title="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!"
-                                                                alt="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!">
-                                                        </picture>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="ai-bao-da-lat-chi-hop-style-mo-mong-cool-ngau-nhu-doi-ban-than-nay-van-co-ca-ro.html"
-                                                        title="Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn có cả rổ ảnh thần thái!">Ai
-                                                        bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này
-                                                        vẫn có cả rổ ảnh thần thái!</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-                                                Ai bảo Đà Lạt chỉ hợp style mơ mộng? Cool ngầu như đôi bạn thân này vẫn
-                                                có cả rổ ảnh thần thái!
-                                                Mỗi khi ng...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(1) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="xxx clearfix">
-                                    <div class="myblog"
-                                        onclick="window.location.href='net-binh-di-viet-nam-qua-anh-cua-tay-may-ha-lan.html';">
-                                        <div class="item_blog_big">
-                                            <div class="figure-big">
-                                                <div class="image-blog-left img_thumb_blogs">
-
-                                                    <a href="net-binh-di-viet-nam-qua-anh-cua-tay-may-ha-lan.html">
-                                                        <picture>
-                                                            <source media="(max-width: 375px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/large/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 376px) and (max-width: 767px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 1200px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
-                                                                srcset="client/bizweb.dktcdn.net/thumb/compact/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693">
-                                                            <img src="client/bizweb.dktcdn.net/100/299/077/articles/du-lich-hoi-an-116bd4.jpg?v=1520693088693"
-                                                                title="Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan"
-                                                                alt="Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan">
-                                                        </picture>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content-right-blog">
-                                            <div class="title_blog_home">
-                                                <h3>
-                                                    <a href="net-binh-di-viet-nam-qua-anh-cua-tay-may-ha-lan.html"
-                                                        title="Nét bình dị Việt Nam qua ảnh của tay máy Hà Lan">Nét
-                                                        bình
-                                                        dị Việt Nam qua ảnh của tay máy Hà Lan</a>
-                                                </h3>
-                                            </div>
-                                            <div class="content-sum">
-                                                Những hình ảnh này được giới thiệu trong mục Du lịch Instagram snapshots
-                                                ngày 28-2 của báo Anh Guardian.
-                                                A...
-                                            </div>
-                                            <div class="content_day_blog"><i
-                                                    class="fa fa-clock-o"></i><span>Saturday,</span>
-                                                <span class="news_home_content_short_time">
-                                                    10/03/2018
-                                                </span>
-                                                <span class="cmt_count_blog">
-                                                    <i class="fa fa-comments" aria-hidden="true"></i>(0) Bình luận
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
                                 </div>
                             </div>
+
+
+
                         </div>
+
+
                     </div>
+
                 </div>
-            </div>
+
         </section>
     </section>
 
-    <footer class="footer">
-        <div class="site-footer">
-            <div class="container">
-                <div class="footer-inner padding-top-25 padding-bottom-10">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-4">
-                            <div class="footer-widget foote-contact-box">
-                                <h3>Liên hệ</h3>
-                                <div class="footer-widget-content">
-                                    <div class="icon">
-                                        <img src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/fot_hotline.svg"
-                                            alt="Liên hệ" />
-                                    </div>
-                                    <div class="info">
-                                        <p class="questions">Hỗ trợ trực tuyến 24/7!</p>
-                                        <p class="phone">
-                                            Hotline:
-
-                                            <a href="tel:19006750">1900 6750</a>
-
-                                        </p>
-                                        <p class="address">
-
-                                            70 Lu Gia, Ward 15, District 11, Ho Chi Minh City
-
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 col-md-2">
-                            <div class="footer-widget">
-                                <h3>Dịch vụ</h3>
-                                <ul class="list-menu">
-
-                                    <li><a href="index.html">Trang chủ</a></li>
-
-                                    <li><a href="gioi-thieu.html">Giới thiệu</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
-
-                                    <li><a href="tour-nuoc-ngoai.html">Tour miền Nam</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
-
-                                    <li><a href="dich-vu-tour.html">Dịch vụ tour</a></li>
-
-                                    <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
-
-                                    <li><a href="lien-he.html">Liên hệ</a></li>
-
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 col-md-3">
-                            <div class="footer-widget">
-                                <h3>Chăm sóc khách hàng</h3>
-                                <ul class="list-menu">
-
-                                    <li><a href="index.html">Trang chủ</a></li>
-
-                                    <li><a href="gioi-thieu.html">Giới thiệu</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
-
-                                    <li><a href="tour-nuoc-ngoai.html">Tour miền Nam</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
-
-                                    <li><a href="dich-vu-tour.html">Dịch vụ tour</a></li>
-
-                                    <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
-
-                                    <li><a href="lien-he.html">Liên hệ</a></li>
-
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 col-md-3">
-                            <div class="footer-widget no-border">
-                                <h3>Chính sách</h3>
-                                <ul class="list-menu">
-
-                                    <li><a href="index.html">Trang chủ</a></li>
-
-                                    <li><a href="gioi-thieu.html">Giới thiệu</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Bắc</a></li>
-
-                                    <li><a href="tour-nuoc-ngoai.html">Tour miền Nam</a></li>
-
-                                    <li><a href="tour-trong-nuoc.html">Tour miền Trung</a></li>
-
-                                    <li><a href="dich-vu-tour.html">Dịch vụ tour</a></li>
-
-                                    <li><a href="cam-nang-du-lich.html">Cẩm nang du lịch</a></li>
-
-                                    <li><a href="lien-he.html">Liên hệ</a></li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="copyright clearfix">
-            <div class="container">
-                <div class="inner clearfix">
-                    <div class="row">
-
-                    </div>
-                </div>
-
-                <div class="back-zalo">
-                    <a target="_blank" href="http://zalo.me/0982 362 509" title="Chat qua Zalo">
-                        <span class="ti-zalo"></span>
-                    </a>
-                </div>
-
-                <div class="back-hotline">
-                    <button type="button" data-toggle="modal" data-target="#hotlineModal"><i
-                            class="fa fa-phone"></i></button>
-                </div>
-
-                <div class="back-to-top"><i class="fa fa-arrow-circle-up"></i></div>
-
-            </div>
-        </div>
-
-    </footer>
+    @include('client.partials.footer')
     <link rel="preload" as="script"
         href="client/cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js" />
     <script src="client/cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"
@@ -1739,16 +1001,16 @@
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
                 <rect x="16" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
             </svg>
         </span>
@@ -1757,32 +1019,32 @@
     <div class="loading awe-popup">
         <div class="overlay"></div>
         <div class="loader" title="2">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30"
-                style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;"
+                xml:space="preserve">
                 <rect x="0" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
                 <rect x="8" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
                 <rect x="16" y="10" width="4" height="10" fill="#333" opacity="0.2">
                     <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s"
                         dur="0.6s" repeatCount="indefinite" />
                     <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s"
                         dur="0.6s" repeatCount="indefinite" />
-                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s"
-                        dur="0.6s" repeatCount="indefinite" />
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s"
+                        repeatCount="indefinite" />
                 </rect>
             </svg>
         </div>
@@ -1794,7 +1056,8 @@
         <div class="content">
             <div class="row row-noGutter">
                 <div class="col-xl-6 col-xs-12">
-                    <div class="btn btn-full btn-primary a-left popup-title"><i class="fa fa-check"></i>Thêm vào giỏ
+                    <div class="btn btn-full btn-primary a-left popup-title"><i class="fa fa-check"></i>Thêm vào
+                        giỏ
                         hàng thành công
                     </div>
                     <a href="javascript:void(0)" class="close-window close-popup"><i class="fa fa-close"></i></a>
@@ -1812,7 +1075,8 @@
                         </div>
                         <div class="actions">
                             <button class="btn  btn-primary  margin-top-5 btn-continue">Tiếp tục mua hàng</button>
-                            <button class="btn btn-gray margin-top-5" onclick="window.location='cart.html'">Kiểm tra
+                            <button class="btn btn-gray margin-top-5" onclick="window.location='cart.html'">Kiểm
+                                tra
                                 giỏ
                                 hàng</button>
                         </div>
@@ -1829,535 +1093,7 @@
             <div class="error-message"></div>
         </div>
     </div>
-    {{-- <script>
-		window.Bizweb || (window.Bizweb = {}), Bizweb.mediaDomainName = "http://bizweb.dktcdn.net/", Bizweb.each = function (a, b) { for (var c = 0; c < a.length; c++)b(a[c], c) }, Bizweb.getClass = function (a) { return Object.prototype.toString.call(a).slice(8, -1) }, Bizweb.map = function (a, b) { for (var c = [], d = 0; d < a.length; d++)c.push(b(a[d], d)); return c }, Bizweb.arrayContains = function (a, b) { for (var c = 0; c < a.length; c++)if (a[c] == b) return !0; return !1 }, Bizweb.distinct = function (a) { for (var b = [], c = 0; c < a.length; c++)Bizweb.arrayContains(b, a[c]) || b.push(a[c]); return b }, Bizweb.getUrlParameter = function (a) { var b = RegExp("[?&]" + a + "=([^&]*)").exec(window.location.search); return b && decodeURIComponent(b[1].replace(/\+/g, " ")) }, Bizweb.uniq = function (a) { for (var b = [], c = 0; c < a.length; c++)Bizweb.arrayIncludes(b, a[c]) || b.push(a[c]); return b }, Bizweb.arrayIncludes = function (a, b) { for (var c = 0; c < a.length; c++)if (a[c] == b) return !0; return !1 }, Bizweb.Product = function () { function a(a) { if ("undefined" != typeof a) for (property in a) this[property] = a[property] } return a.prototype.optionNames = function () { return "Array" == Bizweb.getClass(this.options) ? this.options : [] }, a.prototype.optionValues = function (a) { if ("undefined" == typeof this.variants) return null; var b = Bizweb.map(this.variants, function (b) { var c = "option" + (a + 1); return "undefined" == typeof b[c] ? null : b[c] }); return null == b[0] ? null : Bizweb.distinct(b) }, a.prototype.getVariant = function (a) { var b = null; return a.length != this.options.length ? null : (Bizweb.each(this.variants, function (c) { for (var d = !0, e = 0; e < a.length; e++) { var f = "option" + (e + 1); c[f] != a[e] && (d = !1) } if (d) return void (b = c) }), b) }, a.prototype.getVariantById = function (a) { for (var b = 0; b < this.variants.length; b++) { var c = this.variants[b]; if (c.id == a) return c } return null }, a.name = "Product", a }(), Bizweb.money_format = " VND", Bizweb.formatMoney = function (a, b) { function f(a, b, c, d) { if ("undefined" == typeof b && (b = 2), "undefined" == typeof c && (c = "."), "undefined" == typeof d && (d = ","), "undefined" == typeof a || null == a) return 0; a = a.toFixed(b); var e = a.split("."), f = e[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + c), g = e[1] ? d + e[1] : ""; return f + g } "string" == typeof a && (a = a.replace(/\./g, ""), a = a.replace(/\,/g, "")); var c = "", d = /\{\{\s*(\w+)\s*\}\}/, e = b || this.money_format; switch (e.match(d)[1]) { case "amount": c = f(a, 2); break; case "amount_no_decimals": c = f(a, 0); break; case "amount_with_comma_separator": c = f(a, 2, ".", ","); break; case "amount_no_decimals_with_comma_separator": c = f(a, 0, ".", ",") }return e.replace(d, c) }, Bizweb.OptionSelectors = function () { function a(a, b) { return this.selectorDivClass = "selector-wrapper", this.selectorClass = "single-option-selector", this.variantIdFieldIdSuffix = "-variant-id", this.variantIdField = null, this.selectors = [], this.domIdPrefix = a, this.product = new Bizweb.Product(b.product), "undefined" != typeof b.onVariantSelected ? this.onVariantSelected = b.onVariantSelected : this.onVariantSelected = function () { }, this.replaceSelector(a), this.initDropdown(), !0 } return a.prototype.replaceSelector = function (a) { var b = document.getElementById(a), c = b.parentNode; Bizweb.each(this.buildSelectors(), function (a) { c.insertBefore(a, b) }), b.style.display = "none", this.variantIdField = b }, a.prototype.buildSelectors = function () { for (var a = 0; a < this.product.optionNames().length; a++) { var b = new Bizweb.SingleOptionSelector(this, a, this.product.optionNames()[a], this.product.optionValues(a)); b.element.disabled = !1, this.selectors.push(b) } var c = this.selectorDivClass, d = this.product.optionNames(), e = Bizweb.map(this.selectors, function (a) { var b = document.createElement("div"); if (b.setAttribute("class", c), d.length > 1) { var e = document.createElement("label"); e.htmlFor = a.element.id, e.innerHTML = a.name, b.appendChild(e) } return b.appendChild(a.element), b }); return e }, a.prototype.initDropdown = function () { var a = { initialLoad: !0 }, b = this.selectVariantFromDropdown(a); if (!b) { var c = this; setTimeout(function () { c.selectVariantFromParams(a) || c.selectors[0].element.onchange(a) }) } }, a.prototype.selectVariantFromDropdown = function (a) { var b = document.getElementById(this.domIdPrefix).querySelector("[selected]"); return !!b && this.selectVariant(b.value, a) }, a.prototype.selectVariantFromParams = function (a) { var b = Bizweb.getUrlParameter("variantid"); return null == b && (b = Bizweb.getUrlParameter("variantId")), this.selectVariant(b, a) }, a.prototype.selectVariant = function (a, b) { var c = this.product.getVariantById(a); if (null == c) return !1; for (var d = 0; d < this.selectors.length; d++) { var e = this.selectors[d].element, f = e.getAttribute("data-option"), g = c[f]; null != g && this.optionExistInSelect(e, g) && (e.value = g) } return "undefined" != typeof jQuery ? jQuery(this.selectors[0].element).trigger("change", b) : this.selectors[0].element.onchange(b), !0 }, a.prototype.optionExistInSelect = function (a, b) { for (var c = 0; c < a.options.length; c++)if (a.options[c].value == b) return !0 }, a.prototype.updateSelectors = function (a, b) { var c = this.selectedValues(), d = this.product.getVariant(c); d ? (this.variantIdField.disabled = !1, this.variantIdField.value = d.id) : this.variantIdField.disabled = !0, this.onVariantSelected(d, this, b), null != this.historyState && this.historyState.onVariantChange(d, this, b) }, a.prototype.selectedValues = function () { for (var a = [], b = 0; b < this.selectors.length; b++) { var c = this.selectors[b].element.value; a.push(c) } return a }, a.name = "OptionSelectors", a }(), Bizweb.SingleOptionSelector = function (a, b, c, d) { this.multiSelector = a, this.values = d, this.index = b, this.name = c, this.element = document.createElement("select"); for (var e = 0; e < d.length; e++) { var f = document.createElement("option"); f.value = d[e], f.innerHTML = d[e], this.element.appendChild(f) } return this.element.setAttribute("class", this.multiSelector.selectorClass), this.element.setAttribute("data-option", "option" + (b + 1)), this.element.id = a.domIdPrefix + "-option-" + b, this.element.onchange = function (c, d) { d = d || {}, a.updateSelectors(b, d) }, !0 }, Bizweb.Image = { preload: function (a, b) { for (var c = 0; c < a.length; c++) { var d = a[c]; this.loadImage(this.getSizedImageUrl(d, b)) } }, loadImage: function (a) { (new Image).src = a }, switchImage: function (a, b, c) { if (a && b) { var d = this.imageSize(b.src), e = this.getSizedImageUrl(a.src, d); c ? c(e, a, b) : b.src = e } }, imageSize: function (a) { var b = a.match(/thumb\/(1024x1024|2048x2048|pico|icon|thumb|small|compact|medium|large|grande)\//); return null != b ? b[1] : null }, getSizedImageUrl: function (a, b) { if (null == b) return a; if ("master" == b) return this.removeProtocol(a); var c = a.match(/\.(jpg|jpeg|gif|png|bmp|bitmap|tiff|tif)(\?v=\d+)?$/i); if (null != c) { var d = Bizweb.mediaDomainName + "thumb/" + b + "/"; return this.removeProtocol(a).replace(Bizweb.mediaDomainName, d).split("?")[0] } return null }, removeProtocol: function (a) { return a.replace(/http(s)?:/, "") } };
-		(function (b) { function c() { } for (var d = "assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,timeStamp,profile,profileEnd,time,timeEnd,trace,warn".split(","), a; a = d.pop();) { b[a] = b[a] || c } })((function () {
-			try { console.log(); return window.console; } catch (err) { return window.console = {}; }
-		})());
-		var GLOBAL = {
-			common: {
-				init: function () {
-					$('.add_to_cart').bind('click', addToCart);
-				}
-			},
-			templateIndex: {
-				init: function () {
-				}
-			},
-			templateProduct: {
-				init: function () {
-				}
-			},
-			templateCart: {
-				init: function () {
-				}
-			}
-		}
-		var UTIL = {
-			fire: function (func, funcname, args) {
-				var namespace = GLOBAL;
-				funcname = (funcname === undefined) ? 'init' : funcname;
-				if (func !== '' && namespace[func] && typeof namespace[func][funcname] == 'function') {
-					namespace[func][funcname](args);
-				}
-			},
-			loadEvents: function () {
-				var bodyId = document.body.id;
-				UTIL.fire('common');
-				$.each(document.body.className.split(/\s+/), function (i, classnm) {
-					UTIL.fire(classnm);
-					UTIL.fire(classnm, bodyId);
-				});
-			}
-		};
-		$(document).ready(UTIL.loadEvents);
-		Number.prototype.formatMoney = function (c, d, t) {
-			var n = this,
-				c = isNaN(c = Math.abs(c)) ? 2 : c,
-				d = d == undefined ? "." : d,
-				t = t == undefined ? "." : t,
-				s = n < 0 ? "-" : "",
-				i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
-				j = (j = i.length) > 3 ? j % 3 : 0;
-			return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-		};
-		function addToCart(e) {
-			if (typeof e !== 'undefined') e.preventDefault();
-			var $this = $(this);
-			var form = $this.parents('form');
-			$.ajax({
-				type: 'POST',
-				url: '/cart/add.js',
-				async: false,
-				data: form.serialize(),
-				dataType: 'json',
-				error: addToCartFail,
-				beforeSend: function () {
-				},
-				success: addToCartSuccess,
-				cache: false
-			});
-		}
-		function addToCartSuccess(jqXHR, textStatus, errorThrown) {
-			$.ajax({
-				type: 'GET',
-				url: '/cart.js',
-				async: false,
-				cache: false,
-				dataType: 'json',
-				success: function (cart) {
-					awe_hidePopup('.loading');
-					Bizweb.updateCartFromForm(cart, '.top-cart-content .mini-products-list');
-					Bizweb.updateCartPopupForm(cart, '#popup-cart-desktop .tbody-popup');
-					Bizweb.updateCartPageForm(cart, '.cart_desktop_page .page_cart');
-				}
-			});
-			var url_product = jqXHR['url'];
-			var class_id = jqXHR['product_id'];
-			var name = jqXHR['name'];
-			var textDisplay = ('<i style="margin-right:5px; color:red; font-size:13px;" class="fa fa-check" aria-hidden="true"></i>Sản phẩm vừa thêm vào giỏ hàng');
-			var id = jqXHR['variant_id'];
-			var dataList = $(".item-name a").map(function () {
-				var plus = $(this).text();
-				return plus;
-			}).get();
-			$('.title-popup-cart .cart-popup-name').html('<a href="' + url_product + '"style="color:red;" title="' + name + '">' + name + '</a> ');
-			var nameid = dataList,
-				found = $.inArray(name, nameid);
-			var textfind = found;
-			$(".item-info > p:contains(" + id + ")").html('<span class="add_sus" style="color:#898989;"><i style="margin-right:5px; color:red; font-size:13px;" class="fa fa-check" aria-hidden="true"></i>Sản phẩm vừa thêm!</span>');
-			var windowW = $(window).width();
-			if (windowW > 768) {
-				$('#popup-cart').modal();
-			} else {
-				$('#myModal').html('');
-				var $popupMobile = '<div class="modal-dialog"><div class="modal-content"><div class="modal-header">'
-					+ '<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: relative; z-index: 9;"><span aria-hidden="true">×</span></button>'
-					+ '<h4 class="modal-title"><span><i class="fa fa-check" aria-hidden="true"></i></span>Thêm vào giỏ hàng thành công</h4></div>'
-					+ '<div class="modal-body"><div class="media"><div class="media-left"><div class="thumb-1x1">'
-					+ '<img width="70px" src="' + Bizweb.resizeImage(jqXHR['image'], 'small') + '" alt="' + jqXHR['title'] + '"></div></div>'
-					+ '<div class="media-body"><div class="product-title">' + jqXHR['name'] + '</div>'
-					+ '<div class="product-new-price"><span>' + (jqXHR['price']).formatMoney(0) + ' đ</span></div></div></div>'
-					+ '<button class="btn btn-block btn-outline-red" data-dismiss="modal">Tiếp tục mua hàng</button>'
-					+ '<a href="/checkout" class="btn btn-block btn-red">Tiến hành thanh toán »</a></div></div></div>';
-				$('#myModal').html($popupMobile);
-				$('#myModal').modal();
-				clearTimeout($('#myModal').data('hideInterval'));
-			}
-		}
-		function addToCartFail(jqXHR, textStatus, errorThrown) {
-			var response = $.parseJSON(jqXHR.responseText);
-			var $info = '<div class="error">' + response.description + '</div>';
-		}
-		$(document).on('click', ".remove-item-cart", function () {
-			var variantId = $(this).attr('data-id');
-			var line = $(this).attr('data-line');
-			removeItemCart(variantId, line);
-		});
-		$(document).on('click', ".items-count", function () {
-			$(this).parent().children('.items-count').prop('disabled', true);
-			var thisBtn = $(this);
-			var variantId = $(this).parent().find('.variantID').val();
-			var qty = $(this).parent().children('.number-sidebar').val();
-			var att = $(this).attr('data-lineup');
-			updateQuantity(qty, variantId, att);
-		});
-		$(document).on('change', ".number-sidebar", function () {
-			var variantId = $(this).parent().children('.variantID').val();
-			var qty = $(this).val();
-			updateQuantity(qty, variantId);
-		});
-		function updateQuantity(qty, variantId, att) {
-			var variantIdUpdate = variantId;
-			var attline = parseInt(att) + 1;
-			console.log(attline);
-			$.ajax({
-				type: "POST",
-				url: "/cart/change.js",
-				data: { "line": attline, "quantity": qty },
-				dataType: "json",
-				success: function (cart, variantId) {
-					Bizweb.onCartUpdateClick(cart, variantIdUpdate);
-				},
-				error: function (qty, variantId) {
-					Bizweb.onError(qty, variantId)
-				}
-			});
-		}
-		function removeItemCart(variantId, line) {
-			var variantIdRemove = variantId;
-			var antline = parseInt(line) + 1;
-			$.ajax({
-				type: "POST",
-				url: "/cart/change.js",
-				data: { "line": antline, "quantity": 0 },
-				dataType: "json",
-				success: function (cart, antline) {
-					Bizweb.onCartRemoveClick(cart, variantIdRemove);
-					location.reload();
-				},
-				error: function (antline, r) {
-					Bizweb.onError(antline, r)
-				}
-			})
-		}
-		Bizweb.updateCartFromForm = function (cart, cart_summary_id, cart_count_id) {
-			if ((typeof cart_summary_id) === 'string') {
-				var cart_summary = jQuery(cart_summary_id);
-				if (cart_summary.length) {
-					// Start from scratch.
-					cart_summary.empty();
-					// Pull it all out.        
-					jQuery.each(cart, function (key, value) {
-						if (key === 'items') {
 
-							var table = jQuery(cart_summary_id);
-							if (value.length) {
-								jQuery('<ul class="list-item-cart"></ul>').appendTo(table);
-								jQuery.each(value, function (i, item) {
-
-									var link_img1 = Bizweb.resizeImage(item.image, 'small');
-									if (link_img1 == "null" || link_img1 == '' || link_img1 == null) {
-										link_img1 = 'client/bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif';
-									}
-									var buttonQty = "";
-									if (item.quantity == '1') {
-										buttonQty = 'disabled';
-									} else {
-										buttonQty = '';
-									}
-									jQuery('<li class="item productid-' + item.variant_id + '"><a class="product-image" href="' + item.url + '" title="' + item.name + '">'
-										+ '<img alt="' + item.name + '" src="' + link_img1 + '"\></a>'
-										+ '<div class="detail-item"><div class="product-details"> <a href="javascript:;" data-id="' + item.variant_id + '" title="Xóa" class="remove-item-cart fa fa-remove">&nbsp;</a>'
-										+ '<p class="product-name"> <a href="' + item.url + '" title="' + item.name + '">' + item.name + '</a></p></div>'
-										+ '<div class="product-details-bottom"><span class="price">' + Bizweb.formatMoney(item.price, "{{amount_no_decimals_with_comma_separator}}₫") + '</span>'
-										+ '<div class="quantity-select"><input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '"><button onClick="var result = document.getElementById(\'qty' + item.variant_id + '\'); var qty' + item.variant_id + ' = result.value; if( !isNaN( qty' + item.variant_id + ' ) &amp;&amp; qty' + item.variant_id + ' &gt; 1 ) result.value--;return false;" class="reduced items-count btn-minus" ' + buttonQty + ' type="button">–</button><input type="text" maxlength="12" min="1" class="input-text number-sidebar qty' + item.variant_id + '" id="qty' + item.variant_id + '" name="Lines" id="updates_' + item.variant_id + '" size="4" value="' + item.quantity + '"><button onClick="var result = document.getElementById(\'qty' + item.variant_id + '\'); var qty' + item.variant_id + ' = result.value; if( !isNaN( qty' + item.variant_id + ' )) result.value++;return false;" class="increase items-count btn-plus" type="button">+</button></div></div></li>').appendTo(table.children('.list-item-cart'));
-								});
-								jQuery('<div><div class="top-subtotal">Tổng cộng: <span class="price">' + Bizweb.formatMoney(cart.total_price, "{{amount_no_decimals_with_comma_separator}}₫") + '</span></div></div>').appendTo(table);
-								jQuery('<div><div class="actions"><a href="/checkout" class="btn btn-gray btn-checkout"><span>Thanh toán</span></a><a href="/cart" class="view-cart btn btn-white margin-left-5"><span>Giỏ hàng</span></a></div></div>').appendTo(table);
-							}
-							else {
-								jQuery('<div class="no-item"><p>Không có sản phẩm nào trong giỏ hàng.</p></div>').appendTo(table);
-
-							}
-						}
-					});
-				}
-			}
-			updateCartDesc(cart);
-			var numInput = document.querySelector('#cart-sidebar input.input-text');
-			if (numInput != null) {
-				// Listen for input event on numInput.
-				numInput.addEventListener('input', function () {
-					// Let's match only digits.
-					var num = this.value.match(/^\d+$/);
-					if (num == 0) {
-						// If we have no match, value will be empty.
-						this.value = 1;
-					}
-					if (num === null) {
-						// If we have no match, value will be empty.
-						this.value = "";
-					}
-				}, false)
-			}
-		}
-
-		Bizweb.updateCartPageForm = function (cart, cart_summary_id, cart_count_id) {
-			if ((typeof cart_summary_id) === 'string') {
-				var cart_summary = jQuery(cart_summary_id);
-				if (cart_summary.length) {
-					// Start from scratch.
-					cart_summary.empty();
-					// Pull it all out.        
-					jQuery.each(cart, function (key, value) {
-						if (key === 'items') {
-							var table = jQuery(cart_summary_id);
-							if (value.length) {
-
-								var pageCart = '<div class="cart page_cart cart_des_page hidden-xs-down">'
-									+ '<div class="col-xs-9 cart-col-1">'
-									+ '<form id="shopping-cart" action="/cart" method="post" novalidate>'
-									+ '<div class="cart-tbody">'
-									+ '</div>'
-									+ '</form>'
-									+ '</div></div>';
-								var pageCartCheckout = '<div class="col-xs-3 cart-col-2 cart-collaterals cart_submit">'
-									+ '<div id="right-affix">'
-									+ '<div class="each-row">'
-									+ '<div class="box-style fee">'
-									+ '<p class="list-info-price">'
-									+ '<span>Tạm tính: </span>'
-									+ '<strong class="totals_price price _text-right text_color_right1">65756756756</strong></p></div>'
-									+ '<div class="box-style fee">'
-									+ '<div class="total2 clearfix">'
-									+ '<span class="text-label">Thành tiền: </span>'
-									+ '<div class="amount">'
-									+ '<p><strong class="totals_price">6</strong></p>'
-									+ '</div></div></div>'
-									+ '<button class="button btn-proceed-checkout btn btn-large btn-block btn-danger btn-checkout" title="Thanh toán ngay" type="button" onclick="window.location.href=\'/checkout\'">Thanh toán ngay</button>'
-									+ '<button class="button btn-proceed-checkout btn btn-large btn-block btn-danger btn-checkouts" title="Tiếp tục mua hàng" type="button" onclick="window.location.href=\'/collections/all\'">Tiếp tục mua hàng</button>'
-									+ '</div></div></div>';
-								jQuery(pageCart).appendTo(table);
-								jQuery.each(value, function (i, item) {
-									var buttonQty = "";
-									if (item.quantity == '1') {
-										buttonQty = 'disabled';
-									} else {
-										buttonQty = '';
-									}
-									var link_img1 = Bizweb.resizeImage(item.image, 'medium');
-									if (link_img1 == "null" || link_img1 == '' || link_img1 == null) {
-										link_img1 = 'client/bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif';
-									}
-									var date = "";
-									if (item.properties['Ngày đi'] == null) {
-										date = "Đang cập nhật";
-									} else {
-										date = item.properties['Ngày đi'];
-									}
-									var pageCartItem = '<div class="row shopping-cart-item productid-' + item.variant_id + '"><div class="clearfix proupdate' + item.id + '">'
-										+ '<div class="col-xs-3 img-thumnail-custom">'
-										+ '<p class="image">'
-										+ '<img class="img-responsive" src="' + link_img1 + '" alt="' + item.name + '" />'
-										+ '</p>'
-										+ '</div>'
-										+ '<div class="col-right col-xs-9">'
-										+ '<div class="box-info-product">'
-										+ '<p class="name">'
-										+ '<a href="' + item.url + '" target="_blank">' + item.name + '</a>'
-										+ '</p>'
-										+ '<p class="date-tour" data-date=' + date + '>'
-										+ 'Ngày đi: ' + date + ''
-										+ '</p>'
-										+ '<p class="seller-by hidden">' + item.variant_title + '</p>'
-										+ '<p class="action">'
-										+ '<a href="javascript:;" class="btn btn-link btn-item-delete remove-item-cart" data-id="' + item.variant_id + '" data-line="' + i + '">Xóa</a>'
-										+ '</p>'
-										+ '</div>'
-										+ '<div class="box-price">'
-										+ '<p class="price">' + Bizweb.formatMoney(item.price, "{{amount_no_decimals_with_comma_separator}}₫") + '</p>'
-										+ '</div>'
-										+ '<div class="quantity-block">'
-										+ '<div class="input-group bootstrap-touchspin">'
-										+ '<div class="input-group-btn hidden">'
-										+ '<input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '">'
-										+ '<button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyItem' + item.variant_id + '' + item.id + '\'); var qtyItem' + item.variant_id + '' + item.id + ' = result.value; if( !isNaN( qtyItem' + item.variant_id + '' + item.id + ' )) result.value++;return false;" class="increase_pop items-count btn-plus btn btn-default bootstrap-touchspin-up" type="button">+</button>'
-										+ '<input type="text" maxlength="12" min="1" onchange="if(this.value == 0)this.value=1;" class="form-control quantity-r2 quantity js-quantity-product input-text number-sidebar input_pop input_pop qtyItem' + item.variant_id + '' + item.id + '" id="qtyItem' + item.variant_id + '' + item.id + '" name="Lines" id="updates_' + item.variant_id + '' + item.id + '" size="4" value="' + item.quantity + '">'
-										+ '<button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyItem' + item.variant_id + '' + item.id + '\'); var qtyItem' + item.variant_id + '' + item.id + ' = result.value; if( !isNaN( qtyItem' + item.variant_id + '' + item.id + ' ) &amp;&amp; qtyItem' + item.variant_id + '' + item.id + ' &gt; 1 ) result.value--;return false;" ' + buttonQty + ' class="reduced_pop items-count btn-minus btn btn-default bootstrap-touchspin-down" type="button">–</button>'
-										+ '</div>'
-										+ '</div>'
-										+ '</div>'
-										+ '</div>'
-										+ '</div></div>';
-									jQuery(pageCartItem).appendTo(table.find('.cart-tbody'));
-									if (item.variant_title == 'Default Title') {
-										$('.seller-by').hide();
-									}
-								});
-								jQuery(pageCartCheckout).appendTo(table.children('.cart'));
-							} else {
-								jQuery('<p class="hidden-xs-down">Không có tour nào trong giỏ hàng. Quay lại <a href="/" style="color:;">cửa hàng</a> để tiếp tục mua sắm.</p>').appendTo(table);
-								jQuery('.cart_desktop_page').css('min-height', 'auto');
-							}
-						}
-					});
-				}
-			}
-			updateCartDesc(cart);
-			jQuery('#wait').hide();
-		}
-		Bizweb.updateCartPopupForm = function (cart, cart_summary_id, cart_count_id) {
-
-			if ((typeof cart_summary_id) === 'string') {
-				var cart_summary = jQuery(cart_summary_id);
-				if (cart_summary.length) {
-					// Start from scratch.
-					cart_summary.empty();
-					// Pull it all out.        
-					jQuery.each(cart, function (key, value) {
-						if (key === 'items') {
-							var table = jQuery(cart_summary_id);
-							if (value.length) {
-								jQuery.each(value, function (i, item) {
-									var link_img1 = Bizweb.resizeImage(item.image, 'small');
-									if (link_img1 == "null" || link_img1 == '' || link_img1 == null) {
-										link_img1 = 'client/bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif';
-									}
-									var buttonQty = "";
-									if (item.quantity == '1') {
-										buttonQty = 'disabled';
-									} else {
-										buttonQty = '';
-									}
-									var date = "";
-									if (item.properties['Ngày đi'] == null) {
-										date = "Đang cập nhật";
-									} else {
-										date = item.properties['Ngày đi'];
-									}
-									var pageCartItem = '<div class="item-popup productid-' + item.variant_id + '"><div style="width: 50%;" class="text-left"><div class="item-image">'
-										+ '<a class="product-image" href="' + item.url + '" title="' + item.name + '"><img alt="' + item.name + '" src="' + link_img1 + '"width="' + '80' + '"\></a>'
-										+ '</div><div class="item-info"><p class="item-name"><a href="' + item.url + '" title="' + item.name + '">' + item.title + '</a></p>'
-										+ '<p class="variant-title-popup">' + item.variant_title + '</span>'
-										+ '<p class="item-remove"><a href="javascript:;" class="remove-item-cart" title="Xóa" data-id="' + item.variant_id + '" data-line="' + i + '"><i class="fa fa-close"></i> Bỏ tour</a></p><p class="addpass" style="color:#fff;">' + item.variant_id + '</p></div></div>'
-										+ '<div style="width: 15%;" class="text-right"><div class="item-price"><span class="price">' + Bizweb.formatMoney(item.price, "{{amount_no_decimals_with_comma_separator}}₫") + '</span>'
-										+ '</div></div><div style="width: 15%;" class="text-center hidden"><input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '">'
-										+ '<button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyItem' + item.variant_id + '\'); var qtyItem' + item.variant_id + ' = result.value; if( !isNaN( qtyItem' + item.variant_id + ' ) &amp;&amp; qtyItem' + item.variant_id + ' &gt; 1 ) result.value--;return false;" ' + buttonQty + ' class="reduced items-count btn-minus" type="button">–</button>'
-										+ '<input type="text" maxlength="12" min="0" class="input-text number-sidebar qtyItem' + item.variant_id + '" id="qtyItem' + item.variant_id + '" name="Lines" id="updates_' + item.variant_id + '" size="4" value="' + item.quantity + '">'
-										+ '<button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyItem' + item.variant_id + '\'); var qtyItem' + item.variant_id + ' = result.value; if( !isNaN( qtyItem' + item.variant_id + ' )) result.value++;return false;" class="increase items-count btn-plus" type="button">+</button></div>'
-										+ '<div style="width: 20%;" class="text-right"><span class="cart-price"> <span class="price">' + Bizweb.formatMoney(item.price * item.quantity, "{{amount_no_decimals_with_comma_separator}}₫") + '</span> </span></div></div>';
-									jQuery(pageCartItem).prependTo(table);
-									if (item.variant_title == 'Default Title') {
-										$('.variant-title-popup').hide();
-									}
-									$('.link_product').text();
-								});
-							}
-						}
-					});
-				}
-			}
-			jQuery('.total-price').html(Bizweb.formatMoney(cart.total_price, "{{amount_no_decimals_with_comma_separator}}₫"));
-			updateCartDesc(cart);
-		}
-		Bizweb.updateCartPageFormMobile = function (cart, cart_summary_id, cart_count_id) {
-			if ((typeof cart_summary_id) === 'string') {
-				var cart_summary = jQuery(cart_summary_id);
-				if (cart_summary.length) {
-					// Start from scratch.
-					cart_summary.empty();
-					// Pull it all out.        
-					jQuery.each(cart, function (key, value) {
-						if (key === 'items') {
-
-							var table = jQuery(cart_summary_id);
-							if (value.length) {
-								jQuery('<div class="cart_page_mobile content-product-list"></div>').appendTo(table);
-								jQuery.each(value, function (i, item) {
-									if (item.image != null) {
-										var src = Bizweb.resizeImage(item.image, 'small');
-									} else {
-										var src = "client/bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif";
-									}
-									var date = "";
-									if (item.properties['Ngày đi'] == null) {
-										date = "Đang cập nhật";
-									} else {
-										date = item.properties['Ngày đi'];
-									}
-									jQuery('<div class="item-product item productid-' + item.variant_id + ' "><div class="item-product-cart-mobile"><a href="' + item.url + '">	<a class="product-images1" href=""  title="' + item.name + '"><img width="80" height="150" alt="" src="' + src + '" alt="' + item.name + '"></a></a></div>'
-										+ '<div class="title-product-cart-mobile"><h3><a href="' + item.url + '" title="' + item.name + '">' + item.name + '</a></h3><p class="date-tour">Ngày đi: ' + date + '' + '</p><p>Giá: <span>' + Bizweb.formatMoney(item.price, "{{amount_no_decimals_with_comma_separator}}₫") + '</span></p></div>'
-										+ '<div class="select-item-qty-mobile"><div class="txt_center hidden">'
-										+ '<input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '"><button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyMobile' + item.variant_id + '\'); var qtyMobile' + item.variant_id + ' = result.value; if( !isNaN( qtyMobile' + item.variant_id + ' ) &amp;&amp; qtyMobile' + item.variant_id + ' &gt; 1 ) result.value--;return false;" class="reduced items-count btn-minus" type="button">–</button><input type="text" maxlength="12" min="0" class="input-text number-sidebar qtyMobile' + item.variant_id + '" id="qtyMobile' + item.variant_id + '" name="Lines" id="updates_' + item.variant_id + '" size="4" value="' + item.quantity + '"><button data-lineup="' + i + '" onClick="var result = document.getElementById(\'qtyMobile' + item.variant_id + '\'); var qtyMobile' + item.variant_id + ' = result.value; if( !isNaN( qtyMobile' + item.variant_id + ' )) result.value++;return false;" class="increase items-count btn-plus" type="button">+</button></div>'
-										+ '<a class="button remove-item remove-item-cart" href="javascript:;" data-id="' + item.variant_id + '" data-line="' + i + '">Xoá</a></div>').appendTo(table.children('.content-product-list'));
-
-								});
-
-								jQuery('<div class="header-cart-price" style=""><div class="title-cart "><h3 class="text-xs-left">Tổng tiền</h3><a class="text-xs-right totals_price_mobile">' + Bizweb.formatMoney(cart.total_price, "{{amount_no_decimals_with_comma_separator}}₫") + '</a></div>'
-									+ '<div class="checkout"><button class="btn-proceed-checkout-mobile" title="Tiến hành thanh toán" type="button" onclick="window.location.href=\'/checkout\'">'
-									+ '<span>Tiến hành thanh toán</span></button></div>'
-									+ '<button class="btn btn-proceed-continues-mobile" title="Tiếp tục mua hàng" type="button" onclick="window.location.href=\'/collections/all\'">Tiếp tục mua hàng</button>'
-									+ '</div>').appendTo(table);
-							}
-
-						}
-					});
-				}
-			}
-			updateCartDesc(cart);
-		}
-
-
-		function updateCartDesc(data) {
-			var $cartPrice = Bizweb.formatMoney(data.total_price, "{{amount_no_decimals_with_comma_separator}}₫"),
-				$cartMobile = $('#header .cart-mobile .quantity-product'),
-				$cartDesktop = $('.count_item_pr'),
-				$cartDesktopList = $('.cart-counter-list'),
-				$cartPopup = $('.cart-popup-count');
-
-			switch (data.item_count) {
-				case 0:
-					$cartMobile.text('0');
-					$cartDesktop.text('0');
-					$cartDesktopList.text('0');
-					$cartPopup.text('0');
-
-					break;
-				case 1:
-					$cartMobile.text('1');
-					$cartDesktop.text('1');
-					$cartDesktopList.text('1');
-					$cartPopup.text('1');
-
-					break;
-				default:
-					$cartMobile.text(data.item_count);
-					$cartDesktop.text(data.item_count);
-					$cartDesktopList.text(data.item_count);
-					$cartPopup.text(data.item_count);
-
-					break;
-			}
-			$('.top-cart-content .top-subtotal .price, aside.sidebar .block-cart .subtotal .price, .popup-total .total-price').html($cartPrice);
-			$('.popup-total .total-price').html($cartPrice);
-			$('.cart-collaterals .totals_price').html($cartPrice);
-			$('.header-cart-price .totals_price_mobile').html($cartPrice);
-			$('.cartCount, .cart-products-count').html(data.item_count);
-		}
-
-		Bizweb.onCartUpdate = function (cart) {
-			Bizweb.updateCartFromForm(cart, '.mini-products-list');
-			Bizweb.updateCartPopupForm(cart, '#popup-cart-desktop .tbody-popup');
-
-		};
-		Bizweb.onCartUpdateClick = function (cart, variantId) {
-			jQuery.each(cart, function (key, value) {
-				if (key === 'items') {
-					jQuery.each(value, function (i, item) {
-						if (item.variant_id == variantId) {
-							$('.proupdate' + item.id).find('.cart-price span.price').html(Bizweb.formatMoney(item.price * item.quantity, "{{amount_no_decimals_with_comma_separator}}₫"));
-							$('.proupdate' + item.id).find('.items-count').prop("disabled", false);
-							$('.proupdate' + item.id).find('.number-sidebar').prop("disabled", false);
-							$('.proupdate' + item.id + ' .number-sidebar').val(item.quantity);
-							if (item.quantity == '1') {
-								$('.proupdate' + item.id).find('.items-count.btn-minus').prop("disabled", true);
-							}
-						}
-					});
-				}
-			});
-			updateCartDesc(cart);
-		}
-		Bizweb.onCartRemoveClick = function (cart, variantId) {
-			jQuery.each(cart, function (key, value) {
-				if (key === 'items') {
-					jQuery.each(value, function (i, item) {
-						if (item.variant_id == variantId) {
-							$('.productid-' + variantId).remove();
-							location.reload();
-						}
-					});
-				}
-			});
-			updateCartDesc(cart);
-		}
-		$(window).ready(function () {
-			$.ajax({
-				type: 'GET',
-				url: '/cart.js',
-				async: false,
-				cache: false,
-				dataType: 'json',
-				success: function (cart) {
-					Bizweb.updateCartFromForm(cart, '.mini-products-list');
-					Bizweb.updateCartPopupForm(cart, '#popup-cart-desktop .tbody-popup');
-
-				}
-			});
-		});
-
-	</script> --}}
     <div id="popup-cart" class="modal fade" role="dialog">
         <div id="popup-cart-desktop" class="clearfix">
             <div class="title-popup-cart">
@@ -2367,8 +1103,7 @@
             </div>
             <div class="title-quantity-popup">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i> Giỏ hàng của bạn (<span
-                    class="cart-popup-count"></span> sản phẩm) <i class="fa fa-caret-right"
-                    aria-hidden="true"></i>
+                    class="cart-popup-count"></span> sản phẩm) <i class="fa fa-caret-right" aria-hidden="true"></i>
             </div>
             <div class="content-popup-cart">
                 <div class="thead-popup">
@@ -2390,8 +1125,7 @@
                         </div>
                     </div>
                     <div class="tfoot-popup-2 clearfix">
-                        <a class="button btn-proceed-checkout" title="Tiến hành đặt hàng"
-                            href="cart.html"><span>Tiến
+                        <a class="button btn-proceed-checkout" title="Tiến hành đặt hàng" href="cart.html"><span>Tiến
                                 hành đặt hàng <i class="fa fa-long-arrow-right" aria-hidden="true"></i></span></a>
                         <a class="button btn-continue" title="Tiếp tục mua hàng"
                             onclick="$('#popup-cart').modal('hide');"><span><span><i class="fa fa-caret-left"
@@ -2426,8 +1160,8 @@
             </div>
             <div class="la-action-link-nav text-center">
 
-                <a href="account/login.html" class="uppercase">ĐĂNG NHẬP</a>
-                <a href="account/register.html" class="uppercase">ĐĂNG KÝ</a>
+                <a href="{{ route('dang-nhap') }}" class="uppercase">ĐĂNG NHẬP</a>
+                <a href="{{ route('dang-ky') }}" class="uppercase">ĐĂNG KÝ</a>
 
             </div>
         </div>
@@ -2443,7 +1177,7 @@
                     </li>
 
                     <li class="ng-scope">
-                        <a href="gioi-thieu.html">Giới thiệu</a>
+                        <a href="{{ route('introduce.index') }}">Giới thiệu</a>
                     </li>
 
                     <li class="ng-scope ng-has-child1">
@@ -2550,7 +1284,7 @@
                         </ul>
                     </li>
 
-                    <li class="ng-scope ng-has-child1">
+                    {{-- <li class="ng-scope ng-has-child1">
                         <a href="tour-nuoc-ngoai.html">Tour nước ngoài <i class="fa fa-plus fa1"
                                 aria-hidden="true"></i></a>
                         <ul class="ul-has-child1">
@@ -2572,15 +1306,15 @@
                             </li>
 
                         </ul>
-                    </li>
+                    </li> --}}
 
                     <li class="ng-scope">
-                        <a href="dich-vu-tour.html">Dịch vụ tour</a>
+                        <a href="{{ route('service.index') }}">Cẩm nang du lịch</a>
                     </li>
 
-                    <li class="ng-scope">
-                        <a href="cam-nang-du-lich.html">Cẩm nang du lịch</a>
-                    </li>
+                    {{-- <li class="ng-scope">
+                        <a href="{{ route('handbook.index') }}">Cẩm nang du lịch</a>
+                    </li> --}}
 
                     <li class="ng-scope">
                         <a href="lien-he.html">Liên hệ</a>
@@ -2602,14 +1336,14 @@
     <ul class="the-article-tools">
 
         <li class="btnZalo zalo-share-button">
-            <a target="_blank" href="http://zalo.me/0982 362 509" title="Chat qua Zalo">
+            <a target="_blank" href="http://zalo.me/0862001730" title="Chat qua Zalo">
                 <span class="ti-zalo"></span>
             </a>
             <span class="label">Chat qua Zalo</span>
         </li>
 
         <li class="btnFacebook">
-            <a target="_blank" href="https://www.messenger.com/t/vemiendisan" title="Chat qua Messenger">
+            <a target="_blank" href="https://www.messenger.com/t/minh.viet.440729" title="Chat qua Messenger">
                 <span class="ti-facebook"></span>
             </a>
             <span class="label">Chat qua Messenger</span>
@@ -2632,12 +1366,14 @@
                     <h4 class="modal-title" id="myModalLabel">Hotline đặt Tour</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="on-content">Chúng tôi cam kết luôn nỗ lực đem đến những giá trị dịch vụ tốt nhất cho
-                        khách hàng và đối tác để tiếp tục khẳng định vị trí hàng đầu của thương hiệu Ant Du lịch.</div>
+                    <div class="on-content">Chúng tôi cam kết luôn nỗ lực đem đến những giá trị dịch vụ tốt nhất
+                        cho
+                        khách hàng và đối tác để tiếp tục khẳng định vị trí hàng đầu của thương hiệu Ant Du lịch.
+                    </div>
                     <div class="on-sup-info">
 
                         <ul>
-                            <li><strong>Ant Du lịch Hồ Chí Minh</strong></li>
+                            <li><strong>Garnet Du lịch Hồ Chí Minh</strong></li>
                             <li>
                                 <i class="fa fa-map-marker" aria-hidden="true"></i> 175 Lý Thường Kiệt, Phường 6,
                                 Quận
@@ -2649,12 +1385,12 @@
                             </li>
                             <li>
                                 <i class="fa fa-envelope" aria-hidden="true"></i> <a
-                                    href="mailto:antdulich@ant.com.vn">antdulich@ant.com.vn</a>
+                                    href="mailto:Garnetdulich@ant.com.vn">Garnetdulich@ant.com.vn</a>
                             </li>
                         </ul>
 
                         <ul>
-                            <li><strong>Ant Du lịch Huế</strong></li>
+                            <li><strong>Garnet Du lịch Huế</strong></li>
                             <li>
                                 <i class="fa fa-map-marker" aria-hidden="true"></i> 175 Lý Thường Kiệt, Quận Phú
                                 Nhận,
@@ -2666,7 +1402,7 @@
                             </li>
                             <li>
                                 <i class="fa fa-envelope" aria-hidden="true"></i> <a
-                                    href="mailto:antdulich@ant.com.vn">antdulich@ant.com.vn</a>
+                                    href="mailto:Garnetdulich@ant.com.vn">Garnetdulich@ant.com.vn</a>
                             </li>
                         </ul>
 
@@ -2683,7 +1419,7 @@
                             </li>
                             <li>
                                 <i class="fa fa-envelope" aria-hidden="true"></i> <a
-                                    href="mailto:antdulich@ant.com.vn">antdulich@ant.com.vn</a>
+                                    href="mailto:Garnetdulich@ant.com.vn">Garnetdulich@ant.com.vn</a>
                             </li>
                         </ul>
 
@@ -2693,71 +1429,7 @@
         </div>
     </div>
 
-    <div class="popup-sapo">
-        <div class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-                <path
-                    d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z" />
-            </svg>
-        </div>
-        <div class="content">
-            <div class="title">Tích hợp sẵn các ứng dụng</div>
-            <ul>
-                <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                        <path
-                            d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
-                    </svg>
-                    <a href="https://apps.sapo.vn/danh-gia-san-pham-v2" target="_blank"
-                        title="Đánh giá sản phẩm">Đánh
-                        giá sản phẩm</a>
-                </li>
-                <li><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                        <path
-                            d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
-                    </svg>
-                    <a href="https://apps.sapo.vn/mua-x-tang-y-v2" target="_blank" title="Mua X tặng Y">Mua X tặng
-                        Y</a>
-                </li>
-                <li><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                        <path
-                            d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
-                    </svg>
-                    <a href="https://apps.sapo.vn/quan-ly-affiliate-v2" target="_blank"
-                        title="Ứng dụng Affiliate">Ứng
-                        dụng Affiliate</a>
-                </li>
-                <li><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                        <path
-                            d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
-                    </svg>
-                    <a href="https://apps.sapo.vn/ae-da-ngon-ngu" target="_blank" title="Đa ngôn ngữ">Đa ngôn
-                        ngữ</a>
-                </li>
-                <li><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                        <path
-                            d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
-                    </svg>
-                    <a href="https://m.me/sapo.vn" target="_blank" title="Chatlive Facebook">Chatlive Facebook</a>
-                </li>
-            </ul>
-            <div class="ghichu">Lưu ý với các ứng dụng trả phí bạn cần cài đặt và mua ứng dụng này trên App store Sapo
-                để sử dụng ngay</div>
-            <a href="javascript:;" title="Đóng" class="close-popup-sapo">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-                    x="0px" y="0px" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;"
-                    xml:space="preserve">
-                    <g>
-                        <g>
-                            <path
-                                d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717    L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859    c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287    l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285    L284.286,256.002z">
-                            </path>
-                        </g>
-                    </g>
-                </svg>
-            </a>
-        </div>
-    </div>
+
     <script>
         $('.popup-sapo .icon').click(function() {
             $(".popup-sapo").toggleClass("active");
@@ -2766,19 +1438,7 @@
             $(".popup-sapo").toggleClass("active");
         });
     </script>
-    <a class="wolf-chat-plugin" href="https://m.me/sapo.vn" target="_blank">
-        <div style="margin-left: -2px; margin-right: 6px;">
-            <div style="display: flex; align-items: center;"><svg width="24" height="24"
-                    viewBox="0 0 24 24" fill="none">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M0.75 11.9125C0.75 5.6422 5.66254 1 12 1C18.3375 1 23.25 5.6422 23.25 11.9125C23.25 18.1828 18.3375 22.825 12 22.825C10.8617 22.825 9.76958 22.6746 8.74346 22.3925C8.544 22.3376 8.33188 22.3532 8.1426 22.4368L5.90964 23.4224C5.32554 23.6803 4.66618 23.2648 4.64661 22.6267L4.58535 20.6253C4.57781 20.3789 4.46689 20.1483 4.28312 19.9839C2.09415 18.0264 0.75 15.1923 0.75 11.9125ZM8.54913 9.86084L5.24444 15.1038C4.92731 15.6069 5.54578 16.1739 6.01957 15.8144L9.56934 13.1204C9.80947 12.9381 10.1413 12.9371 10.3824 13.118L13.0109 15.0893C13.7996 15.6809 14.9252 15.4732 15.451 14.6392L18.7556 9.39616C19.0727 8.893 18.4543 8.326 17.9805 8.68555L14.4307 11.3796C14.1906 11.5618 13.8587 11.5628 13.6176 11.3819L10.9892 9.41061C10.2005 8.81909 9.07479 9.02676 8.54913 9.86084Z"
-                        fill="white"></path>
-                </svg></div>
-        </div>
-        <div
-            style="color: white; display: flex; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size: 17px; font-style: normal; font-weight: 600; line-height: 22px; user-select: none; white-space: nowrap;">
-            Chat</div>
-    </a>
+
     <style>
         .popup-sapo {
             position: fixed;
@@ -2928,6 +1588,293 @@
             top: auto !important;
         }
     </style>
+    <script>
+        $(document).ready(function() {
+            // Khi nhấp vào tab
+            $(".tab-link").click(function() {
+                var tab = $(this).data('tab'); // Lấy giá trị data-tab
+
+                // Ẩn tất cả tab-content và hiển thị tab tương ứng
+                $(".tab-content").hide();
+                $("." + tab).show();
+
+                // Xóa active khỏi tất cả các tab-link và thêm vào tab hiện tại
+                $(".tab-link").removeClass("active");
+                $(this).addClass("active");
+            });
+
+            // Cài đặt owl-carousel
+            $(".owl-carousel").owlCarousel({
+                items: 3,
+                margin: 20,
+                nav: true,
+                dots: true,
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+    </script>
+
+    {{-- Sweet alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    @if (session('status_error'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: '{{ session('status_error') }}',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    @endif
+
+
+    <script>
+        function resquet() {
+            fetch('', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(error => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: error.message,
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                window.location.href = '{{ route('home') }}';
+                            });;
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        setInterval(resquet, 5000);
+    </script>
+
+    @if (Session::has('success'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ Session::get('success') }}",
+            });
+        </script>
+    @endif
+    @if (Session::has('error'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ Session::get('error') }}",
+            });
+        </script>
+    @endif
+    @yield('script')
+    {{-- <script>
+        let actionCount = 0;
+        let lastActionTime = Date.now(); // Lưu thời gian của lần hành động cuối cùng
+        const spamThreshold = 10; // Số lần hành động cho phép
+        const timeWindow = 3000; // Thời gian cửa sổ tính spam (ms), ví dụ 3 giây
+
+        // Lắng nghe mọi sự kiện click và submit trên trang
+        $('body').on('click submit', handleUserAction);
+
+        function handleUserAction(e) {
+            const currentTime = Date.now();
+            // Kiểm tra xem hành động có trong khoảng thời gian ngắn hay không
+            if (currentTime - lastActionTime < timeWindow) {
+                actionCount++;
+            } else {
+                actionCount = 1; // Nếu hành động đã thực hiện sau một khoảng thời gian dài, reset lại
+            }
+
+            lastActionTime = currentTime;
+
+            if (actionCount > spamThreshold) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cảnh báo',
+                    text: 'Vui lòng thao tác chậm lại, bạn đang thao tác quá nhanh!',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                });
+
+                actionCount = 0;
+            }
+        }
+    </script> --}}
+    {{-- add favorite --}}
+    <script>
+        $(document).on('click', '.add-to-favorite', function() {
+            let tourId = $(this).data('id');
+
+            $.ajax({
+                url: "{{ route('favorite.add') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tour_id: tourId
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: response.message,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Thất bại!',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã có lỗi xảy ra, vui lòng thử lại.',
+                    });
+                }
+            });
+        });
+    </script>
+
+    {{-- popup thông báo --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notificationIcon = document.getElementById('showNotifications');
+            const notificationPopup = document.getElementById('notificationPopup');
+
+
+
+            // Hiển thị popup khi click
+            notificationIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                notificationPopup.style.display =
+                    notificationPopup.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Ẩn popup khi click ra ngoài
+            window.addEventListener('click', function(e) {
+                if (!notificationIcon.contains(e.target) && !notificationPopup.contains(e.target)) {
+                    notificationPopup.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    {{-- đọc thông báo --}}
+    <script>
+        document.getElementById('markAllRead').addEventListener('click', function() {
+            fetch("{{ route('notifications.markAllRead') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: data.message,
+                        });
+                        // Gửi AJAX để lấy số lượng thông báo chưa đọc
+                        $.ajax({
+                            url: "{{ route('notifications.unreadCount') }}",
+                            type: "GET",
+                            success: function(response) {
+                                if (response.success) {
+                                    $('.badge-danger').text(response.unreadCount);
+                                }
+                            },
+                            error: function(error) {
+                                console.error(error.responseJSON.message);
+                            }
+                        });
+
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Thất bại!',
+                            text: data.message,
+                        });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+
+    <script>
+        const backToTop = document.querySelector('.back-to-top');
+
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+
 </body>
 
 </html>

@@ -4,18 +4,61 @@
             <div class="row">
                 <div class="col-md-6">
                     <ul class="top-info">
-                        <li><i class="fa fa-phone color-x" aria-hidden="true"></i> <a href="tel:19006750">1900
-                                6750</a></li>
+                        <li><i class="fa fa-phone color-x" aria-hidden="true"></i> <a href="tel:19002424">1900
+                                2424</a></li>
                         <li><i class="fa fa-envelope-o" aria-hidden="true"></i> <a
-                                href="mailto:support@sapo.vn">support@sapo.vn</a></li>
+                                href="mailto:support@garnet.vn">support@garnet.vn</a></li>
                     </ul>
                 </div>
                 <div class="col-md-6">
-                    <ul class="list-inline f-right ul-acccount">
-                        <li><a href="account/login.html"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
-                                nhập</a></li>
-                        <li><a href="account/register.html"><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng
-                                ký</a></li>
+                    <ul class="list-inline f-right ul-account">
+                        @if (Auth()->check() && count(Auth()->user()->notifications) > 0)
+                            <li style="margin-right: 15px">
+                                <a href="" id="showNotifications">
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
+                                    <span class="badge badge-danger">
+                                        {{ count(Auth()->user()->notifications) }}
+                                    </span>
+                                </a>
+                            </li>
+                        @else
+                            <li>
+                                <a href="" id="showNotifications">
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
+                                    <span class="badge badge-danger" style="display: none;"></span>
+                                </a>
+                            </li>
+                        @endif
+
+
+                        @if (Auth::check())
+                            <li>
+                                <a href="{{ route('my-account.index') }}"><i class="fa fa-user" aria-hidden="true"></i>
+                                    {{ Auth::user()->name }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('logouts') }}"
+                                    style="border: none; background: none; padding: 0; color: inherit;">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                </a>
+                            </li>
+                        @else
+                            <li>
+                                <a href="{{ route('my-account.index') }}"><i class="fa fa-cart-plus"
+                                        aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('dang-nhap') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
+                                    Đăng nhập
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('dang-ky') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>
+                                    Đăng ký
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -32,8 +75,9 @@
                         <span class="icon-bar"></span>
                     </button>
                     <div class="logo">
-                        <a href="index.html" class="logo-wrapper ">
-                            <img src="{{url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705')}}"
+
+                        <a href="{{ url('/') }}" class="logo-wrapper ">
+                            <img src="{{ url('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo6d1d.png?1705894518705') }}"
                                 alt="logo Ant Du lịch">
                         </a>
                     </div>
@@ -44,10 +88,12 @@
                 <div class="col-md-5">
                     <div class="search">
                         <div class="header_search search_form">
-                            <form class="input-group search-bar search_form"
-                                action="https://ant-du-lich.mysapo.net/search" method="get" role="search">
-                                <input type="search" name="query" value="" placeholder="Tìm kiếm tour..."
-                                    class="input-group-field st-default-search-input search-text" autocomplete="off">
+                            <form class="input-group search-bar search_form" action="{{ route('tour.search') }}"
+                                method="get">
+                                <input type="search" name="query" id="query"
+                                    value="{{ !empty(Request::get('query')) ? Request::get('query') : '' }}"
+                                    placeholder="Tìm kiếm tour..."
+                                    class="input-group-field st-default-search-input search-text">
                                 <span class="input-group-btn">
                                     <button class="btn icon-fallback-text">
                                         <i class="fa fa-search"></i>
@@ -74,145 +120,5 @@
             </div>
         </div>
     </div>
-    <nav>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <ul id="nav" class="nav container">
-
-                        <li class="nav-item "><a class="nav-link" href="/">Trang chủ</a></li>
-
-                        <li class="nav-item "><a class="nav-link" href="gioi-thieu.html">Giới thiệu</a></li>
-
-                        <li class="nav-item  has-mega">
-                            <a href="tour-trong-nuoc.html" class="nav-link">Tour trong nước <i class="fa fa-angle-right"
-                                    data-toggle="dropdown"></i></a>
-
-                            <div class="mega-content">
-                                <div class="level0-wrapper2">
-                                    <div class="nav-block nav-block-center">
-                                        <ul class="level0">
-
-
-                                            <li class="level1 parent item">
-                                                <h2 class="h4"><a href="mien-trung.html"><span>Miền Trung</span></a>
-                                                </h2>
-                                                <ul class="level1">
-
-                                                    <li class="level2"> <a href="du-lich-quang-binh.html"><span>Du
-                                                                lịch Quảng Bình</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-hue.html"><span>Du lịch
-                                                                Huế</span></a> </li>
-
-                                                    <li class="level2"> <a href="#"><span>Du lịch
-                                                                Đà Nẵng</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-hoi-an.html"><span>Du lịch
-                                                                Hội An</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-nha-trang.html"><span>Du
-                                                                lịch Nha Trang</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-phan-thiet.html"><span>Du
-                                                                lịch Phan Thiết</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-da-lat.html"><span>Du lịch
-                                                                Đà Lạt</span></a> </li>
-
-                                                </ul>
-                                            </li>
-
-                                            <li class="level1 parent item">
-                                                <h2 class="h4"><a href="mien-bac.html"><span>Miền Bắc</span></a>
-                                                </h2>
-                                                <ul class="level1">
-
-                                                    <li class="level2"> <a href="du-lich-ha-noi.html"><span>Du lịch
-                                                                Hà Nội</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-ha-long.html"><span>Du lịch
-                                                                Hạ Long</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-sapa.html"><span>Du lịch
-                                                                Sapa</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-ninh-binh.html"><span>Du
-                                                                lịch Ninh Bình</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-hai-phong.html"><span>Du
-                                                                lịch Hải Phòng</span></a> </li>
-
-                                                </ul>
-                                            </li>
-
-
-                                            <li class="level1 parent item">
-                                                <h2 class="h4"><a href="mien-nam.html"><span>Miền Nam</span></a>
-                                                </h2>
-                                                <ul class="level1">
-
-                                                    <li class="level2"> <a href="du-lich-phu-quoc.html"><span>Du
-                                                                lịch Phú Quốc</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-con-dao.html"><span>Du lịch
-                                                                Côn Đảo</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-can-tho.html"><span>Du lịch
-                                                                Cần Thơ</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-vung-tau.html"><span>Du
-                                                                lịch Vũng Tàu</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-ben-tre.html"><span>Du lịch
-                                                                Bến Tre</span></a> </li>
-
-                                                    <li class="level2"> <a href="du-lich-dao-nam-du.html"><span>Du
-                                                                lịch Đảo Nam Du</span></a> </li>
-
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </li>
-
-                        <li class="nav-item ">
-                            <a href="tour-nuoc-ngoai.html" class="nav-link">Tour nước ngoài <i
-                                    class="fa fa-angle-right" data-toggle="dropdown"></i></a>
-
-                            <ul class="dropdown-menu">
-
-                                <li class="nav-item-lv2">
-                                    <a class="nav-link" href="du-lich-chau-a.html">Du lịch Châu Á</a>
-                                </li>
-
-                                <li class="nav-item-lv2">
-                                    <a class="nav-link" href="du-lich-chau-au.html">Du lịch Châu Âu</a>
-                                </li>
-
-                                <li class="nav-item-lv2">
-                                    <a class="nav-link" href="du-lich-chau-uc.html">Du lịch Châu Úc</a>
-                                </li>
-
-                                <li class="nav-item-lv2">
-                                    <a class="nav-link" href="du-lich-chau-my.html">Du lịch Châu Mỹ</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item "><a class="nav-link" href="dich-vu-tour.html">Dịch vụ tour</a></li>
-
-                        <li class="nav-item "><a class="nav-link" href="cam-nang-du-lich.html">Cẩm nang du lịch</a>
-                        </li>
-
-                        <li class="nav-item active"><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
+    @include('client.partials.navbar')
 </header>

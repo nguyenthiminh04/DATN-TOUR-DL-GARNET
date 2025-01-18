@@ -23,7 +23,7 @@ class Location extends Model
     // Định nghĩa quan hệ Location có nhiều Tours
     public function tours()
     {
-        return $this->hasMany(Tour::class,'tour_id');
+        return $this->hasMany(Tour::class,'location_id');
     }
     public function status()
     {
@@ -31,7 +31,7 @@ class Location extends Model
     }
     public function user()
     {
-        return $this->hasMany(UserModel::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
 }

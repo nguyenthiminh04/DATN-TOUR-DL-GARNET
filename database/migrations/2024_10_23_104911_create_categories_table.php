@@ -16,12 +16,10 @@ return new class extends Migration
             $table->string('name', 255);
             $table->unsignedBigInteger('parent_id')->nullable();  // Danh mục cha, có thể để trống
             $table->string('slug', 255);
-            $table->string('avatar', 255)->nullable();  // Hình đại diện của danh mục
-            $table->string('banner', 255)->nullable();  // Banner của danh mục
-            $table->text('description')->nullable();    // Mô tả danh mục
+            $table->string('img_thumb', 255)->nullable();  // Hình đại diện của danh mục
+            $table->longText('description')->nullable();    // Mô tả danh mục
             $table->tinyInteger('hot')->default(0);     // Danh mục nổi bật (0: không, 1: có)
             $table->tinyInteger('status')->default(1);  // Trạng thái (1: hiển thị, 0: ẩn)
-            $table->tinyInteger('type')->nullable();    // Loại danh mục
             $table->unsignedBigInteger('user_id');      // Người dùng tạo danh mục
             $table->timestamps();
             $table->softDeletes();

@@ -1,298 +1,315 @@
 @extends('admin.layouts.app')
-
 @section('style')
+    <style>
+        .pagination-container {
+            text-align: right;
+            /* Căn phải */
+            padding-top: 15px;
+        }
+
+        .pagination {
+            display: inline-flex;
+            justify-content: flex-end;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination a,
+        .pagination span {
+            display: inline-block;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: #007bff;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .pagination .active span {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .pagination .disabled span {
+            color: #ccc;
+        }
+
+        .pagination a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .star-yellow {
+            color: #ffc107;
+            /* Mã màu vàng */
+        }
+    </style>
+@endsection
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endsection
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
 
             <div class="row">
-                <div class="col-xl-4">
-                    <div class="card card-height-100 border-0 overflow-hidden">
-                        <div class="card-body p-0">
-                            <div class="row g-0">
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i
-                                                            class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span
-                                                    class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
-                                                    <i class="ph-wallet"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
-                                                    Total Revenue</p>
-                                                <h4 class="fw-semibold mb-3">$<span class="counter-value"
-                                                        data-target="750.36">0</span>M </h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-success fs-xs mb-0">
-                                                        <i class="ri-arrow-right-up-line fs-sm align-middle"></i>
-                                                        +19.07 %
-                                                    </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-bottom rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i
-                                                            class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span class="avatar-title bg-dark-subtle text-dark rounded-circle fs-3">
-                                                    <i class="ph-bag"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
-                                                    Orders</p>
-                                                <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="684">0</span></h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-success fs-xs mb-0">
-                                                        <i class="ri-arrow-right-up-line fs-sm align-middle"></i>
-                                                        +8.13 %
-                                                    </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-end-md rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i
-                                                            class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span class="avatar-title bg-light text-body rounded-circle fs-3">
-                                                    <i class="ph-eye"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
-                                                    Product Views</p>
-                                                <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="113870">0</span></h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-danger fs-xs mb-0">
-                                                        <i class="ri-arrow-right-down-line fs-sm align-middle"></i>
-                                                        +2.01 %
-                                                    </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-top border-top-md-0 rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#"
-                                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i
-                                                            class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
-                                                    <i class="ph-users-three"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">
-                                                    Customers</p>
-                                                <h4 class="fw-semibold mb-3"><span class="counter-value"
-                                                        data-target="2500">0</span>k </h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-success fs-xs mb-0">
-                                                        <i class="ri-arrow-right-up-line fs-sm align-middle"></i>
-                                                        +10.42 %
-                                                    </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-                            </div> <!-- end row-->
+                <form class="mb-3">
+                    <div class="d-flex gap-3 justify-content-sm-end">
+                        <div class="form-group">
+                            <label for="start_date_thong_ke">Từ ngày:</label>
+                            <input type="text" name="start_date_thong_ke" id="datepicker3" class="form-control">
                         </div>
+                        <div class="form-group">
+                            <label for="end_date_thong_ke">Đến ngày:</label>
+                            <input type="text" name="end_date_thong_ke" id="datepicker4" class="form-control">
+                        </div>
+                        <input type="button" id="btn-dashboard-total" class="btn btn-primary" value="Lọc">
                     </div>
-                </div><!--end col-->
-                <div class="col-xl-8">
-                    <div class="card">
-                        <div class="row g-0">
-                            <div class="col-xl-9">
-                                <div class="card-header border-0 align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Revenue</h4>
-                                    <div>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            ALL
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            1M
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            6M
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-primary btn-sm">
-                                            1Y
-                                        </button>
-                                    </div>
-                                </div><!-- end card header -->
-                                <div class="card-body ps-0">
-                                    <div class="w-100">
-                                        <div id="market-overview" data-colors='["--tb-primary", "--tb-secondary"]'
-                                            class="apex-charts" dir="ltr"></div>
-                                    </div>
-                                </div><!-- end card body -->
+                </form>
+                <div class="col-md-3">
+                    <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
+                                    <i class="ph-wallet"></i>
+                                </span>
                             </div>
-                            <div class="col-xl-3">
-                                <div class="card-body border-start-xl border-top border-top-xl-0 border-2 h-100">
-                                    <div>
-                                        <p class="text-muted mb-2">Budget (USD)</p>
-                                        <h4>$750.36M <small class="text-success fs-sm fw-normal"><i
-                                                    class="ph-arrow-up align-baseline"></i> 2.17%</small></h4>
-                                        <p class="text-muted text-truncate">Budget in than last years</p>
-                                        <div class="mx-3">
-                                            <div id="mini-chart-6" data-colors='["--tb-primary"]' class="apex-charts"
-                                                dir="ltr"></div>
-                                        </div>
-                                    </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase  text-muted text-truncate fs-sm">Tổng Doanh Thu</p>
+                                <h4 class=" mb-2"><span class="counter-value" data-target="{{ $totalMoneyhihi }}">0</span>đ
+                                </h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
+                                    <i class="ph-wallet"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase  text-muted text-truncate fs-sm">Doanh thu tháng này</p>
+                                <h4 class=" mb-2"><span class="counter-value"
+                                        data-target="{{ $totalMoneyMonth }}">0</span>đ
+                                </h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div>
+                <div class=" col-md-3 card shadow-none border-end-md border-bottom rounded-0 mb-3">
+                    <div class="card-body">
+                        <div class="avatar-sm">
+                            <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
+                                <i class="ph-wallet"></i>
+                            </span>
+                        </div>
+                        <div class="mt-2">
+                            <p class="text-uppercase  text-muted text-truncate fs-sm">Lọc danh thu theo ngày</p>
+                            <h4 class=" mb-2"><span class="counter-value" data-target="totalMoneyMonth">0</span>
+                            </h4>
+                        </div>
+                    </div><!-- end card body -->
+                </div><!-- end card -->
+                <div class="col-md-3">
+                    <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
+                                    <i class="ph-wallet"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase  text-muted text-truncate fs-sm">Doanh thu hôm nay</p>
+                                <h4 class=" mb-2"><span class="counter-value" data-target="{{ $totalMoney }}">0</span>đ
+                                </h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow-none border-bottom rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-dark-subtle text-dark rounded-circle fs-3">
+                                    <i class="ph-bag"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase  text-muted text-truncate ">Đơn hàng tháng này</p>
+                                <h4 class=" mb-3"><span class="counter-value" data-target="{{ $orderCountMonth }}">0</span>
+                                </h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                <div class="col-md-3">
+                    <div class="card shadow-none border-bottom rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-dark-subtle text-dark rounded-circle fs-3">
+                                    <i class="ph-bag"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase  text-muted text-truncate ">Đơn hàng hôm nay</p>
+                                <h4 class=" mb-3"><span class="counter-value" data-target="{{ $orderCountToday }}">0</span>
+                                </h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
 
-                                    <div class="mt-4">
-                                        <p class="text-muted mb-2">Payouts (USD)</p>
-                                        <h4>$7,45,123 <small class="text-danger fs-sm fw-normal"><i
-                                                    class="ph-arrow-down align-baseline"></i> -1.36%</small>
-                                        </h4>
-                                        <p class="text-muted text-truncate">Payouts in than last years</p>
-                                        <div class="mx-3">
-                                            <div id="mini-chart-7" data-colors='["--tb-info"]' class="apex-charts"
-                                                dir="ltr"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-4">
-                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                            data-bs-target="#addAmount">Add
-                                            Amount</button>
+                <div class="col-md-3">
+                    <div class="card shadow-none border-end-md rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-light text-body rounded-circle fs-2">
+                                    <i class="ph-eye"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Số lượng khách hàng truy
+                                    cập</p>
+                                <h4 class="fw-semibold mb-3"><span class="counter-value"
+                                        data-target="{{ $todayVisitors }}">0</span></h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+
+                <div class="col-md-3">
+                    <div class="card shadow-none border-top border-top-md-0 rounded-0 mb-0">
+                        <div class="card-body">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-info-subtle text-info rounded-circle fs-2">
+                                    <i class="ph-users-three"></i>
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Khách hàng đặt tour hôm
+                                    nay</p>
+                                <h4 class="fw-semibold mb-3"><span class="counter-value"
+                                        data-target="{{ $customerCount }}">0</span></h4>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <div class="card" id="contactList">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Danh thu tháng</h4>
+                            <div class="flex-shrink-0">
+                                <div class="dropdown card-header-dropdown sortble-dropdown">
+
+                                    <span class="fw-semibold text-uppercase fs-12">
+                                        <form>
+                                            @csrf
+                                            <select id="ChangeYear" class="form-control">
+                                                <option value="2023">2023</option>
+                                                <option value="2024" selected>2024</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2026">2026</option>
+                                            </select>
+                                        </form>
+
+                                    </span>
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+                                    <div class="position-relative mb-4">
+                                        <canvas id="myChart" style="height:250px;"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div><!-- end card -->
-                </div><!-- end col -->
-            </div><!--end row-->
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-xl-6">
                     <!-- card -->
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Sales by Countries</h4>
-                            <div class="flex-shrink-0">
-                                <button type="button" class="btn btn-subtle-primary btn-sm">
-                                    Export Report
-                                </button>
-                            </div>
+                            <form class="d-flex" style="gap: 5px">
+                                @csrf
+                                <div class="card-title mb-0 flex-grow-1">
+                                    <p>Từ ngày: <input type="text" id="datepicker" class="form-control"></p>
+                                </div>
+                                <div class="card-title mb-0 flex-grow-1">
+                                    <p>Đến ngày: <input type="text" id="datepicker2" class="form-control"></p>
+                                </div>
+
+                                {{-- <div class="flex-shrink-0">
+                                    <select name="" id="" class="form-control" style="margin-top: 25px">
+                                        <option value="7ngayTruoc">7 ngày trước</option>
+                                        <option value="2023">2023</option>
+                                    </select>
+                                </div> --}}
+
+                                <div class="card-title mb-0 flex-grow-1" style="margin-top: 25px">
+                                    <input type="button" id="btn-dashboard-filter" class="btn btn-primary"
+                                        value="Lọc">
+                                </div>
+                            </form>
+
                         </div><!-- end card header -->
 
                         <!-- card body -->
                         <div class="card-body">
 
                             <div class="row">
-                                <div class="col-lg-8">
-                                    <div id="world-map-line-markers" data-colors='["--tb-light"]' style="height: 340px">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-4">
-                                        <h6 class="text-muted mb-3 fw-medium fs-xs text-uppercase">Compared to
-                                            last month</h6>
-                                        <h3><span class="counter-value" data-target="53736"></span> <small
-                                                class="text-muted fw-normal fs-sm">Sales</small></h3>
-                                    </div>
-                                    <div>
-                                        <ul class="list-unstyled vstack gap-2">
-                                            <li class="p-2 rounded">
-                                                <i
-                                                    class="ri-checkbox-blank-circle-fill text-primary align-bottom me-1"></i>
-                                                United States <span class="float-end">15,364</span>
-                                            </li>
-                                            <li class="bg-light-subtle p-2 rounded">
-                                                <i
-                                                    class="ri-checkbox-blank-circle-fill text-secondary align-bottom me-1"></i>
-                                                Greenland <span class="float-end">12,387</span>
-                                            </li>
-                                            <li class="p-2 rounded">
-                                                <i class="ri-checkbox-blank-circle-fill text-info align-bottom me-1"></i>
-                                                Serbia <span class="float-end">9,123</span>
-                                            </li>
-                                            <li class="bg-light-subtle p-2 rounded">
-                                                <i
-                                                    class="ri-checkbox-blank-circle-fill text-success align-bottom me-1"></i>
-                                                Russia <span class="float-end">7,108</span>
-                                            </li>
-                                            <li class="p-2 rounded">
-                                                <i class="ri-checkbox-blank-circle-fill text-danger align-bottom me-1"></i>
-                                                Brazil <span class="float-end">6,731</span>
-                                            </li>
-                                            <li class="bg-light-subtle p-2 rounded">
-                                                <i
-                                                    class="ri-checkbox-blank-circle-fill text-warning align-bottom me-1"></i>
-                                                Sydney <span class="float-end">3,023</span>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <div class="col-lg-12">
+                                    {{-- chart --}}
+                                    {{-- <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                    <script>
+                                        window.onload = function() {
+                                            var chart = new CanvasJS.Chart("chartContainer", {
+                                                theme: "light2",
+                                                animationEnabled: true,
+                                                title: {
+                                                    text: "Top 5 Tours được đặt nhiều nhất"
+                                                },
+                                                axisY: {
+                                                    title: "Số lượt đặt",
+                                                    includeZero: true
+                                                },
+                                                data: [{
+                                                    type: "bar",
+                                                    yValueFormatString: "#,### lượt",
+                                                    // showInLegend: true, 
+                                                    legendText: "1,2,3",
+                                                    indexLabel: "",
+                                                    dataPoints: [
+                                                        { label: "Tour 1", y: 10 },
+                                                        { label: "Tour 2", y: 15 },
+                                                        { label: "Tour 3", y: 20 },
+                                                        { label: "Tour 4", y: 25 },
+                                                        { label: "Tour 5", y: 30 },
+                                                    ],
+                                                }]
+                                            });
+                                            chart.render();
+                                        }
+                                    </script> --}}
+                                    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+                                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
                                 </div>
                             </div>
                         </div>
@@ -305,7 +322,7 @@
                 <div class="col-xl-3 col-lg-6">
                     <div class="card card-height-100">
                         <div class="card-header d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Traffic Source</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">Trạng thái các tour ngày hôm nay</h4>
                             <div class="dropdown card-header-dropdown float-end">
                                 <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
@@ -320,147 +337,54 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div id="column_chart" data-colors='["--tb-primary", "--tb-light"]' class="apex-charts"
-                                dir="ltr"></div>
+                            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+                            <div id="myPlot" style="width:100%;max-width:500px"></div>
+                            <script>
+                                const statusData = @json($tyLe);
+                                const labels = statusData.map(item => item.name);
+                                const values = statusData.map(item => item.percentage);
+                                const chartData = [{
+                                    labels: labels,
+                                    values: values,
+                                    type: "pie"
+                                }];
+                                Plotly.newPlot("myPlot", chartData);
+                            </script>
+
                         </div>
                     </div>
                 </div><!--end col-->
                 <div class="col-xl-3 col-lg-6">
                     <div class="card card-height-100">
                         <div class="card-header d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Recent Sales</h4>
-                            <a href="#!" class="text-muted">View All <i class="ph-caret-right align-middle"></i></a>
+                            <h4 class="card-title mb-0 flex-grow-1">Top 5 Tours hot</h4>
+                            {{-- <a href="#!" class="text-muted">View All <i class="ph-caret-right align-middle"></i></a> --}}
                         </div>
                         <div class="card-body px-0">
                             <div data-simplebar class="px-3" style="max-height: 360px;">
                                 <table class="table mb-0">
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-2.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
+                                        @foreach ($top5Tours as $k => $top5Tour)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-1">
+                                                        <div class="flex-shrink-0">
+                                                            <img src="{{ Storage::url($top5Tour->image) }}" alt=""
+                                                                class="avatar-sm rounded-circle p-1">
+                                                        </div>
+                                                        <div class="flex-grow-1 overflow-hidden">
+                                                            <h6 class="fs-md mb-1">{{ $top5Tour->name }}</h6>
+                                                            <p class="text-muted text-truncate mb-0">
+                                                                {{ \Carbon\Carbon::parse($top5Tour->start_date)->format('d/m/Y') }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Bethany Nienow</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$630.73</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-7.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Sonia Conn</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$1,452.64</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-4.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Talon Bradtke</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$478.87</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-5.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Tyrell Kerluke</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$82.14</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-6.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Ross Zieme</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$79.00</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-1.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Hollis Spencer</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$849.05</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="admin/assets/images/users/48/avatar-8.jpg" alt=""
-                                                            class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Cordia Grady</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$254.32</h6>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td class="text-end">
+                                                    <h6 class="fs-md"></h6>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -469,17 +393,107 @@
                 </div><!--end col-->
             </div><!--end row-->
 
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <div class="card" id="contactList">
+                        <div class="card-header align-items-center ">
+                            <h4 class="card-title mb-0 flex-grow-1">Đơn hàng mới hôm nay</h4>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                                        <thead class="text-muted table-light">
+                                            <tr>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="order_date">
+                                                    STT</th>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="order_id">
+                                                    Tên tour</th>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="shop">Người đặt
+                                                </th>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="customer">
+                                                    PTTT</th>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="amount">
+                                                    Tổng tiền</th>
+                                                <th scope="col" class="sort cursor-pointer" data-sort="status">
+                                                    Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="list">
+                                            @foreach ($paymentsOrderToday as $paymentsOrderTodayk => $paymentsOrderTodays)
+                                                <tr>
+                                                    <td class="order_date">
+                                                        {{ ++$paymentsOrderTodayk }}
+                                                    </td>
+                                                    <td class="order_id">
+                                                        <a href="" class="fw-medium link-primary">
+                                                            {{ $paymentsOrderTodays->booking->tour->name ?? 'Ẩn Danh' }}
+                                                        </a>
+                                                    </td>
+                                                    <td class="shop">
+                                                        {{ $paymentsOrderTodays->user->name ?? 'Ẩn Danh' }}
+                                                    </td>
+                                                    <td class="amount">
+                                                        @if ($paymentsOrderTodays->paymentMethod->id == 1)
+                                                            VNPAY
+                                                        @elseif ($paymentsOrderTodays->paymentMethod->id == 2)
+                                                            Momo
+                                                        @elseif ($paymentsOrderTodays->paymentMethod->id == 3)
+                                                            Thẻ Ngân Hàng
+                                                        @elseif ($paymentsOrderTodays->paymentMethod->id == 4)
+                                                            Thanh Toán Trực Tiếp
+                                                        @endif
+                                                    </td>
+                                                    <td class="amount">
+                                                        <span class="fw-medium">
+                                                            {{ number_format($paymentsOrderTodays->money, 0, '', '.') }}
+                                                            đ
+                                                        </span>
+                                                    </td>
+                                                    <td class="status">
+                                                        @if ($paymentsOrderTodays->payment_status_id == 2)
+                                                            <span
+                                                                class="badge bg-success-subtle text-success">{{ $paymentsOrderTodays->paymentStatus->name }}</span>
+                                                        @else
+                                                            <span
+                                                                class="badge bg-danger-subtle text-danger">{{ $paymentsOrderTodays->paymentStatus->name ?? 'Chưa thanh toán' }}</span>
+                                                        @endif
+
+                                                    </td>
+                                                </tr><!-- end tr -->
+                                            @endforeach
+                                        </tbody><!-- end tbody -->
+                                    </table><!-- end table -->
+                                    <div class="pagination-container text-end">
+                                        {{ $paymentsOrderToday->links() }}
+                                    </div>
+                                    <div class="noresult" style="display: none">
+                                        <div class="text-center">
+                                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
+                                                colors="primary:#405189,secondary:#0ab39c"
+                                                style="width:75px;height:75px"></lord-icon>
+                                            <h5 class="mt-2">Sorry! No Result Found</h5>
+                                            <p class="text-muted mb-0">We've searched more than 150+ transactions We
+                                                did not find any transactions for you search.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="card" id="contactList">
                         <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Latest Orders</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">Tour đánh giá cao</h4>
                             <div class="flex-shrink-0">
                                 <div class="dropdown card-header-dropdown sortble-dropdown">
                                     <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
-                                        <span class="fw-semibold text-uppercase fs-12">Sort by:
-                                        </span><span class="text-muted dropdown-title">Order Date</span> <i
+                                        <span class="fw-semibold text-uppercase fs-12">Lọc:
+                                        </span><span class="text-muted dropdown-title">Ngày đặt hàng</span> <i
                                             class="mdi mdi-chevron-down ms-1"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
@@ -488,7 +502,7 @@
                                         <button class="dropdown-item sort" data-sort="order_id">Order
                                             ID</button>
                                         <button class="dropdown-item sort" data-sort="amount">Amount</button>
-                                        <button class="dropdown-item sort" data-sort="status">Status</button>
+                                        <button class="dropdown-item sort" data-sort="status">Trạng thái</button>
                                     </div>
                                 </div>
                             </div>
@@ -499,193 +513,71 @@
                                     <thead class="text-muted table-light">
                                         <tr>
                                             <th scope="col" class="sort cursor-pointer" data-sort="order_date">
-                                                Order Date</th>
+                                                STT</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="order_id">
-                                                Order ID</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="shop">Shop
+                                                Tên tour</th>
+                                            <th scope="col" class="sort cursor-pointer" data-sort="shop">Lượt xem
                                             </th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="customer">
-                                                Customers</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="products">
-                                                Products</th>
+                                                Đã đặt</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="amount">
-                                                Amount</th>
+                                                Tổng tiền</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="status">
-                                                Status</th>
+                                                Trạng thái</th>
                                             <th scope="col" class="sort cursor-pointer" data-sort="rating">
-                                                Rating</th>
+                                                Đánh giá</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list">
-                                        <tr>
-                                            <td class="order_date">
-                                                15 Feb, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250011</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="admin/assets/images/companies/img-7.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Alex Smith
-                                            </td>
-                                            <td class="products">Clothes</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$109.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-secondary-subtle text-secondary">New</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0">-</h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                14 Feb, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250010</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="admin/assets/images/companies/img-1.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Jansh Brown
-                                            </td>
-                                            <td class="products">Kitchen Storage</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$149.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-warning-subtle text-warning">Pending</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i
-                                                        class="ph-star align-baseline text-warning"></i> 4.5
-                                                </h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                30 Jan, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250009</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="admin/assets/images/companies/img-2.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Ayaan Bowen
-                                            </td>
-                                            <td class="products">Bike Accessories</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$215.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-danger-subtle text-danger">Out of
-                                                    Delivered</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i
-                                                        class="ph-star align-baseline text-warning"></i> 4.9
-                                                </h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                25 Jan, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250008</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="admin/assets/images/companies/img-3.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Prezy Mark
-                                            </td>
-                                            <td class="products">Furniture</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$199.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-primary-subtle text-primary">Shipping</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i
-                                                        class="ph-star align-baseline text-warning"></i> 4.3
-                                                </h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                19 Jan, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250007</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="admin/assets/images/companies/img-4.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Vihan Hudda
-                                            </td>
-                                            <td class="products">Bags and Wallets</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$330.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-success-subtle text-success">Delivered</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i
-                                                        class="ph-star align-baseline text-warning"></i> 4.7
-                                                </h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                16 Jan, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html"
-                                                    class="fw-medium link-primary">#TBS250006</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="admin/assets/images/companies/img-5.png" alt=""
-                                                    class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Vihan Hudda
-                                            </td>
-                                            <td class="products">Bags and Wallets</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$745.11</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-warning-subtle text-warning">Pending</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i
-                                                        class="ph-star align-baseline text-warning"></i> 4.6
-                                                </h5>
-                                            </td>
-                                        </tr><!-- end tr -->
+                                        @foreach ($tourReview as $reviewk => $review)
+                                            <tr>
+                                                <td class="order_date">
+                                                    {{ ++$reviewk }}
+                                                </td>
+                                                <td class="order_id">
+                                                    <span class="fw-medium link-primary">{{ $review->name }}</span>
+                                                </td>
+                                                <td class="shop">
+                                                    {{ $review->view ? $review->view : 'Chưa có view' }}
+                                                </td>
+                                                <td class="customer">
+                                                    {{ $review->total_bookings ?? 0 }}
+                                                </td>
+                                                <td class="amount">
+                                                    <span class="fw-medium">
+                                                        {{ number_format($review->total_revenue, 0, '', '.') }} đ
+                                                    </span>
+                                                </td>
+                                                <td class="status">
+                                                    <span
+                                                        class="badge bg-warning-subtle text-warning">{{ $review->status == 1 ? 'Hiện' : 'Ẩn' }}</span>
+                                                </td>
+                                                <td class="rating">
+                                                    @if ($review->count() > 0)
+                                                        <div>
+                                                            <div>
+                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                    @if ($i <= $review->rating)
+                                                                        <i class=" ri-star-fill"
+                                                                            style="color: #ffc107"></i>
+                                                                    @else
+                                                                        {{-- <i class=" ri-star-line"></i> --}}
+                                                                    @endif
+                                                                @endfor
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <p>Chưa có đánh giá nào</p>
+                                                    @endif
+                                                </td>
+
+                                            </tr><!-- end tr -->
+                                        @endforeach
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
+                                <div class="pagination-container text-end">
+                                    {{ $tourReview->links() }}
+                                </div>
                                 <div class="noresult" style="display: none">
                                     <div class="text-center">
                                         <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
@@ -700,224 +592,15 @@
                         </div>
                     </div>
                 </div><!--end col-->
-                <div class="col-lg-4">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center">
-                            <h4 class="card-title mb-0 flex-grow-1">Popular Products</h4>
-                            <div class="flex-shrink-0">
-                                <div class="dropdown card-header-dropdown">
-                                    <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        <span class="fw-semibold text-uppercase">Sort by:
-                                        </span><span class="text-muted">Today<i
-                                                class="mdi mdi-chevron-down ms-1"></i></span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">Today</a>
-                                        <a class="dropdown-item" href="#">Yesterday</a>
-                                        <a class="dropdown-item" href="#">Last 7 Days</a>
-                                        <a class="dropdown-item" href="#">Last 30 Days</a>
-                                        <a class="dropdown-item" href="#">This Month</a>
-                                        <a class="dropdown-item" href="#">Last Month</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body px-0">
-                            <div data-simplebar class="px-3" style="max-height: 333px;">
-                                <div class="vstack gap-2">
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-1.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Craft Women Black Sling Bag</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 487
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 936
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$15.99</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-2.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Unique Men's Wrist Watch</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 452
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 1420
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$84.99</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-3.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Twiala Floral Dress</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 562
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 1348
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$149.99</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-4.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Tokyo Fancy Bomber Jacket</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 644
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 1540
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$245.00</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-5.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Aster Dress 2XL / Royal Blue</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 841
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 985
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$74.63</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="admin/assets/images/products/32/img-6.png" alt=""
-                                                        class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Craft Women Black Sling Bag</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 763
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 763
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$245.74</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--end col-->
+
+
             </div><!--end row-->
 
             <div class="row">
-                <div class="col-xl-4">
+                <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-center">
-                            <h5 class="card-title mb-0 flex-grow-1">Orders Status</h5>
+                            <h5 class="card-title mb-0 flex-grow-1">Khách hàng chi tiêu nhiều</h5>
                             <div class="dropdown card-header-dropdown">
                                 <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
@@ -930,278 +613,32 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="mb-3 pb-1 text-center">
-                                <h6 class="mb-0">01 Jan, 2022 - 01 Jan, 2023</h6>
-                            </div>
-
                             <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">New</p>
-                                        <h6 class="mb-0">307</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
-                                            style="width: 50%"></div>
-                                    </div>
-                                </div><!--end col-->
+                                <div id="myPlot2" style="width:100%;max-width:700px"></div>
+
+                                <script>
+                                    // Dữ liệu người dùng chi tiêu nhiều nhất
+                                    const userNames = @json($userNames); // Lấy mảng tên người dùng từ Laravel
+                                    const totalSpent = @json($totalSpent); // Lấy mảng tổng tiền chi tiêu từ Laravel
+
+                                    // Tạo biểu đồ cột
+                                    const data = [{
+                                        x: userNames, // Tên người dùng
+                                        y: totalSpent, // Tổng tiền chi tiêu
+                                        type: "bar"
+                                    }];
+
+                                    const layout = {
+                                        yaxis: {
+                                            title: "Tiền chi tiêu"
+                                        }
+                                    };
+                                    // Vẽ biểu đồ
+                                    Plotly.newPlot("myPlot2", data, layout);
+                                </script>
+
                             </div><!--end row-->
 
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Pending</p>
-                                        <h6 class="mb-0">177</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
-                                            style="width: 37%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Rejected</p>
-                                        <h6 class="mb-0">39</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary"
-                                            style="width: 12%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Returns</p>
-                                        <h6 class="mb-0">17</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger bg-opacity-75"
-                                            style="width: 3%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Dispatched</p>
-                                        <h6 class="mb-0">661</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
-                                            style="width: 57%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Delivered</p>
-                                        <h6 class="mb-0">1320</h6>
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-                                            style="width: 86%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Cancelled</p>
-                                        <h6 class="mb-0">74</h6>
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
-                                            style="width: 13%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-                        </div>
-                    </div>
-                </div><!--end col-->
-                <div class="col-xl-4 col-lg-6">
-                    <div class="card card-height-100">
-                        <div class="card-header d-flex">
-                            <h5 class="card-title flex-grow-1 mb-0">Recent Activity</h5>
-                            <div class="flex-shrink-0">
-                                <a href="#!" class="btn btn-subtle-info btn-sm">View More <i
-                                        class="ph-caret-right align-middle"></i></a>
-                            </div>
-                        </div>
-                        <div class="card-body px-0">
-                            <div data-simplebar class="px-3" style="max-height: 258px;">
-                                <div class="acitivity-timeline acitivity-main">
-                                    <div class="acitivity-item d-flex">
-                                        <div class="flex-shrink-0 avatar-xs acitivity-avatar">
-                                            <div class="avatar-title bg-success-subtle text-success rounded-circle">
-                                                <i class="ph-shopping-cart"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Purchased by James Price</h6>
-                                            <p class="text-muted mb-2">Product noise evolve smartwatch </p>
-                                            <small class="mb-0 text-muted">05:57 AM Today</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <img src="admin/assets/images/users/32/avatar-2.jpg" alt=""
-                                                class="avatar-xs rounded-circle acitivity-avatar">
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Natasha Carey have liked the products</h6>
-                                            <p class="text-muted mb-2">Allow users to like products in your
-                                                WooCommerce store.</p>
-                                            <small class="mb-0 text-muted">25 Dec, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div
-                                                    class="avatar-title rounded-circle bg-secondary-subtle text-secondary">
-                                                    <i class="mdi mdi-sale fs-14"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Today offers by <a
-                                                    href="apps-ecommerce-seller-details.html"
-                                                    class="link-secondary">Digitech Galaxy</a></h6>
-                                            <p class="text-muted mb-2">Offer is valid on orders of $230 Or above
-                                                for selected products only.</p>
-                                            <small class="mb-0 text-muted">12 Dec, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div class="avatar-title rounded-circle bg-warning-subtle text-warning">
-                                                    <i class="ri-bookmark-fill"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Favoried Product</h6>
-                                            <p class="text-muted mb-2">Esther James have favorited product.</p>
-                                            <small class="mb-0 text-muted">25 Nov, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div
-                                                    class="avatar-title rounded-circle bg-secondary-subtle text-secondary">
-                                                    <i class="mdi mdi-sale fs-14"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Flash sale starting <span
-                                                    class="text-primary">Tomorrow.</span></h6>
-                                            <p class="text-muted mb-2">Flash sale by <a href="javascript:void(0);"
-                                                    class="link-secondary fw-medium">Zoetic Fashion</a></p>
-                                            <small class="mb-0 text-muted">22 Oct, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div class="avatar-title rounded-circle bg-info-subtle text-info">
-                                                    <i class="ri-line-chart-line"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Monthly sales report</h6>
-                                            <p class="text-muted mb-2"><span class="text-danger">2 days
-                                                    left</span> notification to submit the monthly sales report.
-                                                <a href="javascript:void(0);"
-                                                    class="link-warning text-decoration-underline">Reports
-                                                    Builder</a>
-                                            </p>
-                                            <small class="mb-0 text-muted">15 Oct, 2022</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--end col-->
-                <div class="col-xl-4 col-lg-6">
-                    <div class="card card-height-100">
-                        <div class="card-header d-flex align-items-center">
-                            <h5 class="card-title flex-grow-1 mb-0">Insight</h5>
-                            <div class="flex-shrink-0">
-                                <div class="dropdown card-header-dropdown">
-                                    <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        <span class="text-muted">This Month<i
-                                                class="mdi mdi-chevron-down ms-1"></i></span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">This Month</a>
-                                        <a class="dropdown-item" href="#">Last Month</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="vstack gap-2">
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">The recognition that one has a mental illness</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Review market characteristics and trends</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Digital analytics data including site analytics</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Check uikings theme and give customer support</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Success stories and case studies</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Preferences & purchase activity</h6>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div><!--end col-->
@@ -1212,4 +649,302 @@
     </div>
 @endsection
 @section('script')
+    <script>
+        $(function() {
+            $("#datepicker").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            $("#datepicker2").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        });
+
+
+        function renderChart(dataPoints) {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "Top Tour Có Số Lượng Đặt Cao"
+                },
+                axisY: {
+                    title: "Tổng tiền",
+                    includeZero: true
+                },
+                data: [{
+                    type: "bar",
+                    yValueFormatString: "###,##0 đ",
+                    indexLabel: "{y}",
+                    indexLabelPlacement: "inside",
+                    indexLabelFontWeight: "bolder",
+                    indexLabelFontColor: "white",
+                    dataPoints: dataPoints
+                }]
+            });
+            chart.render();
+        }
+
+        function loadDefaultChart() {
+            var _token = $('input[name="_token"]').val();
+            var from_date = $("#datepicker").val();
+            var to_date = $("#datepicker2").val();
+            $.ajax({
+                url: "{{ url('/admin/home/dashboard-date') }}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    from_date: from_date,
+                    to_date: to_date,
+                    _token: _token
+                },
+                success: function(data) {
+                    var dataPoints = data.map(function(item) {
+                        return {
+                            y: parseFloat(item.money),
+                            label: `${item.tour_name} (${item.soLuongDon} đơn)`
+                        };
+                    });
+                    renderChart(dataPoints);
+                    console.log("Data loaded successfully.");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+        loadDefaultChart();
+        $('#btn-dashboard-filter').click(function() {
+            loadDefaultChart();
+        });
+
+
+
+
+        $('#btn-dashboard-filter').click(function() {
+            var _token = $('input[name="_token"]').val();
+            var from_date = $('#datepicker').val();
+            var to_date = $('#datepicker2').val();
+            // alert(from_date);
+            // alert(to_date);
+            $.ajax({
+                url: "{{ url('/admin/home/dashboard-date') }}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    from_date: $('#datepicker').val(),
+                    to_date: $('#datepicker2').val(),
+                    _token: $('input[name="_token"]').val()
+                },
+                success: function(data) {
+                    // var dataPoints = data.map(function(item) {
+                    //     return {
+                    //         y: item.money / 1000,
+                    //         label: item.date
+                    //     };
+
+                    var dataPoints = data.map(function(item) {
+                        return {
+                            y: parseFloat(item.money),
+                            label: `${item.tour_name} (${item.soLuongDon} đơn)`
+                        };
+                    });
+                    // console.log(dataPoints)
+                    renderChart(dataPoints);
+                    // console.log("Data loaded successfully.");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+
+
+            });
+            // console.log(data)
+
+        });
+
+        $(document).ready(function() {
+            const today = new Date();
+            const defaultEndDate = today.toISOString().split('T')[0];
+            const defaultStartDate = new Date(today.setMonth(today.getMonth() - 1)).toISOString().split('T')[0];
+            $("#datepicker3").val(defaultStartDate);
+            $("#datepicker4").val(defaultEndDate);
+
+            function fetchData(startDate, endDate) {
+                $.ajax({
+                    url: "{{ route('admin.filterTotal') }}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        from_date: startDate,
+                        to_date: endDate,
+                        _token: $('input[name="_token"]').val()
+                    },
+                    success: function(data) {
+                        $(".counter-value[data-target='totalMoneyMonth']").text(data.totalMoneyMonth);
+                        $(".counter-value[data-target='totalMoney']").text(data.totalMoney);
+                        $(".counter-value[data-target='orderCountMonth']").text(data.orderCountMonth);
+                        $(".counter-value[data-target='orderCountToday']").text(data.orderCountToday);
+                        $(".counter-value[data-target='todayVisitors']").text(data.todayVisitors);
+                        $(".counter-value[data-target='customerCount']").text(data.customerCount);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", error);
+                    }
+                });
+            }
+            fetchData(defaultStartDate, defaultEndDate);
+            $("#btn-dashboard-total").click(function() {
+                const fromDate = $("#datepicker3").val();
+                const toDate = $("#datepicker4").val();
+                fetchData(fromDate, toDate);
+            });
+            $("#datepicker3").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            $("#datepicker4").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        });
+
+
+        $('#dashboard-filter').change(function() {
+            var dashboard_value = $(this).val();
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url: "{{ route('dashboard.filterByBtn') }}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    dashboard_value: dashboard_value,
+                    _token: _token
+                },
+                success: function(data) {
+                    chart.setData(data);
+                    console.log("Data loaded successfully.");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    console.log("Response:", xhr.responseText);
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            const defaultYear = 2024;
+            $('#ChangeYear').val(defaultYear);
+            $.ajax({
+                url: '{{ route('admin.dashboard.data') }}',
+                method: 'GET',
+                data: {
+                    year: defaultYear
+                },
+                success: function(response) {
+                    // console.log(response);
+                    salesChart.data.datasets[0].data = response.dataChart;
+                    salesChart.update();
+                },
+                error: function() {
+                    alert('Không thể tải dữ liệu. Vui lòng thử lại.');
+                }
+            });
+            $('#ChangeYear').change(function() {
+                const year = $(this).val();
+                $.ajax({
+                    url: '{{ route('admin.dashboard.data') }}',
+                    method: 'GET',
+                    data: {
+                        year: year
+                    },
+                    success: function(response) {
+                        // console.log(response);
+                        salesChart.data.datasets[0].data = response.dataChart;
+                        salesChart.update();
+                    },
+                    error: function() {
+                        alert('Không thể tải dữ liệu. Vui lòng thử lại.');
+                    }
+                });
+            });
+            var ticksStyle = {
+                fontColor: '#495057',
+                fontStyle: 'bold'
+            };
+
+            var mode = 'index';
+            var intersect = true;
+
+            var $salesChart = $('#myChart');
+            var salesChart = new Chart($salesChart, {
+                type: 'bar',
+                data: {
+                    labels: ['THÁNG 1', 'THÁNG 2', 'THÁNG 3', 'THÁNG 4', 'THÁNG 5', 'THÁNG 6', 'THÁNG 7',
+                        'THÁNG 8', 'THÁNG 9', 'THÁNG 10', 'THÁNG 11', 'THÁNG 12'
+                    ],
+                    datasets: [{
+                        backgroundColor: '#007bff',
+                        borderColor: '#007bff',
+                        data: []
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    hover: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 200,
+                            grid: {
+                                display: true,
+                                drawBorder: false,
+                                color: 'rgba(0, 0, 0, .2)',
+                                zeroLineColor: 'transparent',
+                                borderWidth: 1
+                            },
+                            ticks: $.extend({
+                                callback: function(value) {
+                                    return new Intl.NumberFormat('vi-VN', {
+                                        style: 'currency',
+                                        currency: 'đ'
+                                    }).format(value);
+                                }
+                            }, ticksStyle)
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: ticksStyle
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            font: {
+                                weight: 'bold',
+                                size: 12
+                            },
+                            formatter: function(value) {
+                                return new Intl.NumberFormat('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'đ'
+                                }).format(value);
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

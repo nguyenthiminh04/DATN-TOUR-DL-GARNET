@@ -1,66 +1,92 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Booking Garnet Travel
+![alt text](image.png)
+Garnet Travel là một ứng dụng web được phát triển bằng Laravel, hỗ trợ người dùng đặt tour du lịch trực tuyến, quản lý thông tin khách hàng, tour, và các giao dịch một cách dễ dàng và tiện lợi.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 🎯 Tính năng chính
 
-## About Laravel
+- Quản lý danh sách tour du lịch (CRUD).
+- Đặt tour trực tuyến cho khách hàng.
+- Quản lý thông tin khách hàng và giao dịch.
+- Tìm kiếm và lọc tour theo địa điểm, ngày khởi hành, giá, v.v.
+- Gửi email xác nhận khi đặt tour thành công.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Công nghệ sử dụng
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Backend**: Laravel 10.x
+- **Frontend**: Blade Template + HTML/CSS/JS 
+- **Cơ sở dữ liệu**: MySQL
+- **Server**: Laragon (hoặc môi trường PHP tương tự)
+- **Khác**: Composer, NPM, Mailtrap (hoặc SMTP)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 📦 Cài đặt
 
-## Learning Laravel
+1. **Clone dự án từ repository**:
+   ```bash
+   git clone <repository_url>
+   cd booking-garnet-travel
+2. **Cài đặt các dependency**:
+   ```bash
+    composer install
+    npm install
+    npm run dev
+3. **Tạo file .env và cấu hình**:
+   ```bash
+   cp .env.example .en
+4. **Tạo database và migrate**:
+    ```bash
+   php artisan migrate --seed
+5. **Tạo khóa ứng dụng**:
+    ```bash
+    php artisan key:generate
+6. **Khởi động server**:
+    ```bash
+    php artisan serve
+7. **Mail hàng chờ**:
+    ```bash
+    php artisan queue:work
+8. **Truy cập ứng dụng tại**:
+    [http://localhost:8000](http://localhost:8000)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🛠️ Lệnh Artisan hữu ích
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Tạo dữ liệu mẫu:
+  ```bash
+  php artisan db:seed
+  ```
+- Xóa và làm mới database:
+  ```bash
+  php artisan migrate:fresh --seed
+  ```
+- Kiểm tra route:
+  ```bash
+  php artisan route:list
+  ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📂 Cấu trúc thư mục chính
 
-## Laravel Sponsors
+- **app/**: Chứa logic của ứng dụng.
+- **resources/views/**: Giao diện frontend với Blade Template.
+- **routes/web.php**: Định tuyến cho ứng dụng.
+- **database/**: Migration và dữ liệu mẫu.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 📋 Ghi chú phát triển
 
-### Premium Partners
+1. **Yêu cầu hệ thống**:
+   - PHP >= 8.1
+   - Composer >= 2.5
+   - Node.js >= 18.x
+   - MySQL >= 8.x
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. **Mailtrap**:
+   - Sử dụng Mailtrap hoặc SMTP khác để cấu hình gửi email xác nhận.
 
-## Contributing
+3. **Môi trường phát triển**:
+   - Khuyến nghị sử dụng Laragon hoặc Docker để tối ưu hóa quá trình phát triển.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+## 📧 Liên hệ
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- **Email**: support@garnettravel.com
+- **Website**: [Garnet Travel](https://garnettravel.com)
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---

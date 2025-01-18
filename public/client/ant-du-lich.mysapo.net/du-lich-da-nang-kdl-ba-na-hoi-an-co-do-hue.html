@@ -22,7 +22,7 @@
 		<link rel="dns-prefetch" href="index.html">
 		<link rel="dns-prefetch" href="http://bizweb.dktcdn.net/">
 		<link rel="dns-prefetch" href="http://www.google-analytics.com/">
-		<link rel="dns-prefetch" href="http://www.googletagmanager.com/">
+		<link rel="dns-prefetch" href="http://www.googletag	manager.com/">
 		<meta name='revisit-after' content='1 days' />
 		<meta name="robots" content="noodp,index,follow" />
 		<!-- ================= Favicon ================== -->
@@ -4318,107 +4318,79 @@ Quý khách đi&nbsp;<em><strong>khu du lịch Bà Nà - Núi Chúa</strong></em
 	});
 </script>
 <script>
-	
-	var length = 3;
+	$(document).ready(function() {
+			var length = 3;
 
-	$(document).ready(function () {
-		$("#quantity-0").focus();
-		$("#submit-table").click(function(e) {   
-			e.preventDefault();
-			var toAdd = new Array();
-			var qty ;
-			for(i=0; i < length; i++){
-				var q = $("#quantity-"+i).val();
-				if (q > 0){
-					toAdd.push({
-						variant_id: $("#variant-"+i).val(),  
-						variant_date: $("#datesss").val(),
-						variant_dates: $("#datesss").val(),
-						quantity_id: $("#quantity-"+i).val() || 0
-					});
-				};
-			}
-			function moveAlong(){
-				if (toAdd.length) {
-					var request = toAdd.shift();
-					var tempId= request.variant_id;
-					var tempQty = request.quantity_id;
-					var tempDate = request.variant_date;
-					data = {
-						"quantity": tempQty,
-						"variantId": tempId,
-						"properties[Ngày đi]": tempDate
-					}
-					console.log(data.variantId);
-					debugger;
-					var params = {
-						type: 'POST',
-						url: '/cart/add.js',                  
-						data: data,
-						dataType: 'json',
-						success: function(line_item) { 
-							moveAlong();
-							jQuery.getJSON('cart.json', function(cart) {
-								var item_count =  cart.item_count;
-							});
-						},                  
-						error: function() {
-							moveAlong();
+			// Đặt focus vào ô đầu tiên khi tải trang
+			$("#quantity-0").focus();
 
-						}
-					};
-					$.ajax(params);
-				}
-				else {				
-					document.location.href = 'cart.html';
-				}  
-			};
-			moveAlong();
-		});
-		var dates = $("#date-khoi-hanh").text();
-		var n = dates.search("Chủ nhật");
-		var cn = dates.substring(n, 8);
-		var numb = dates.match(/\d/g);
-		if(n > -1 ){
-			if(numb && numb.length){
-				numb.push('1');
-			}else{
-				numb = ['1'];
-			}
-		}
-		var dateToday = new Date();
-		function DisableMonday(date) {
-			var day = date.getDay();
-			var i;
-			if(numb && numb.length){
-				for (i = 0; i < numb.length; i++){
-					var m = numb[i] - 1;
-					var m1 = numb[i+1] - 1;
-					var m2 = numb[i+2] - 1;
-					var m3 = numb[i+3] - 1;
-					var m4 = numb[i+4] - 1;
-					var m5 = numb[i+5] - 1;
-					var m6 = numb[i+6] - 1;
-					if (day == m || day == m1 || day == m2 || day == m3 || day == m4 || day == m5 || day == m6) {
-						return [true] ; 
-					} else { 
-						return [false] ;
+			// Xử lý sự kiện khi bấm nút "submit"
+			$("#submit-table").click(function(e) {
+					e.preventDefault();
+
+					var toAdd = []; // Mảng chứa các sản phẩm cần thêm vào giỏ hàng
+					for (let i = 0; i < length; i++) {
+							var qty = $("#quantity-" + i).val(); // Lấy số lượng
+							if (qty > 0) {
+									toAdd.push({
+											variant_id: $("#variant-" + i).val(),
+											variant_date: $("#datesss").val(),
+											quantity_id: qty || 0
+									});
+							}
 					}
-				}
-			}else{
-				return [true];
+
+					// Hàm xử lý tuần tự gửi từng yêu cầu thêm vào giỏ hàng
+					function moveAlong() {
+							if (toAdd.length) {
+									var request = toAdd.shift(); // Lấy phần tử đầu tiên trong mảng
+									var data = {
+											"quantity": request.quantity_id,
+											"variantId": request.variant_id,
+											"properties[Ngày đi]": request.variant_date
+									};
+
+									var params = {
+											type: 'POST',
+											url: '/cart/add.js',
+											data: data,
+											dataType: 'json',
+											success: function() {
+													moveAlong(); // Xử lý phần tử tiếp theo
+											},
+											error: function() {
+													moveAlong(); // Tiếp tục dù lỗi
+											}
+									};
+									$.ajax(params); // Gửi yêu cầu AJAX
+							} else {
+									document.location.href = 'cart.html'; // Chuyển hướng sau khi hoàn thành
+							}
+					}
+
+					moveAlong(); // Bắt đầu xử lý các yêu cầu
+			});
+
+			// Lấy ngày hiện tại
+			var dateToday = new Date();
+
+			// Hàm chỉ cho phép chọn các ngày trong tương lai
+			function DisablePastDays(date) {
+					return [date >= dateToday]; // Trả về true nếu ngày >= hôm nay
 			}
-		}
-		$(".tourmaster-datepicker").datepicker({
-			defaultDate: "",
-			changeMonth: true,
-			changeYear: true,
-			numberOfMonths: 1,
-			minDate: dateToday,
-			beforeShowDay: DisableMonday
-		});
+
+			// Cấu hình Datepicker
+			$(".tourmaster-datepicker").datepicker({
+					defaultDate: "",
+					changeMonth: true,
+					changeYear: true,
+					numberOfMonths: 1,
+					minDate: dateToday, // Chỉ cho phép chọn từ ngày hôm nay trở đi
+					beforeShowDay: DisablePastDays // Áp dụng logic kiểm tra ngày
+			});
 	});
 </script>
+
 <div class="callmeback-form modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
