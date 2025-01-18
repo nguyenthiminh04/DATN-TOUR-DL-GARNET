@@ -135,6 +135,7 @@
                                             @enderror
                                         </div>
 
+
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Tên Tour<span
                                                     class="text-danger">*</span></label>
@@ -350,7 +351,6 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
-
                                         <div class="mb-3">
                                             <label class="form-label" for="description">Mô tả ngắn</label>
                                             <textarea class="form-control" id="description" name="description" rows="2" placeholder="Nhập mô tả tour...">{{ $tour->description }}</textarea>
@@ -514,6 +514,9 @@
                                                     <option value="1" selected>Hiển Thị</option>
                                                     <option value="0">Ẩn</option>
                                                 </select>
+                                                @error('status')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                             <div class="mb-3">
                                                 <label for="hinh_anh" class="form-label">Album hình ảnh</label>
@@ -570,6 +573,7 @@
     </div>
 @endsection
 @section('script')
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -681,6 +685,7 @@
                 document.getElementById("tourDates").value = dateStr;
             }
         });
+
     </script>
     <script>
         function showImage(event) {

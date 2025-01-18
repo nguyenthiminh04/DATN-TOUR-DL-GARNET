@@ -1,5 +1,6 @@
 @extends('client.layouts.app')
 
+
 @section('title')
     Mã giảm giá
 @endsection
@@ -8,6 +9,7 @@
     <style>
         .coupon {
             background: #ebebeb;
+
             padding: 15px;
             margin: 10px 0;
             border-radius: 5px;
@@ -21,6 +23,7 @@
         .coupon-code {
             font-size: 18px;
             font-weight: bold;
+
             color: #16d164;
         }
 
@@ -37,18 +40,22 @@
             margin-top: 55px;
         }
 
+
         .btn-coupons:hover {
             background-color: #029c54;
             color: white;
             transform: scale(1.05);
         }
 
+
         .btn-coupons:focus {
+
             outline: none;
         }
 
         .badge {
             background-color: #46A609;
+
         }
     </style>
 @endsection
@@ -78,6 +85,7 @@
     <section class="bread-crumb margin-bottom-10">
         <div class="container">
             <div class="row">
+
                 @foreach ($coupons as $coupon)
                     <div class="col-sm-6">
                         <div class="coupon bg-white rounded mb-3 d-flex justify-content-between">

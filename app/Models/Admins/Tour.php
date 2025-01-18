@@ -6,7 +6,9 @@ use App\Models\Review;
 use App\Models\Comment;
 use App\Models\BookTour;
 use App\Models\Favorite;
+
 use App\Models\TourLocation;
+
 use GuzzleHttp\Psr7\Request;
 use App\Models\LocationUpdate;
 use App\Models\Admins\TourDate;
@@ -72,11 +74,13 @@ class Tour extends Model
     {
         return $this->belongsTo(Location::class);
     }
+
     public function guides()
 
     {
         return $this->hasMany(Coupons::class, 'tour_id');
     }
+
     public function category_tour()
     {
         return $this->belongsTo(CategoryTour::class, 'tour_id');
@@ -125,6 +129,7 @@ class Tour extends Model
 
         return $this->hasMany(Review::class);
     }
+
     public function tourDates()
     {
         return $this->hasMany(TourDate::class, 'tour_id');

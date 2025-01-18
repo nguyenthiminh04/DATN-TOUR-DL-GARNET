@@ -72,7 +72,7 @@ class TourController extends Controller
     public function create()
     {
         $data['title'] = "Thêm Tour";
-        $data['listuser'] = User::query()->get();
+        $data['listuser'] = User::query()->get(); 
         $data['listlocation'] = Location::query()->get();
         $data['listCategoryTour'] = CategoryTour::query()->get();
         $data['categoryServices'] = CategoryServiceModel::where('status', 1)->get();
@@ -302,6 +302,7 @@ class TourController extends Controller
      */
     public function update(TourRequest $request, string $id)
     // public function update(Request $request, string $id)
+
     {
         if ($request->isMethod('PUT')) {
             $params = $request->except('_token', '_method');

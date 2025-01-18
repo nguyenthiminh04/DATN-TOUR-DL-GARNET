@@ -53,6 +53,7 @@
                                     <input type="text" id="slug" name="slug" value="{{ $category->slug }}"
                                         class="form-control" placeholder="Nhập slug...">
                                     @error('slug')
+
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -64,10 +65,12 @@
                                     @enderror
                                 </div>
 
+
                                 <div class="mb-3 col-6" hidden>
                                     <label for="status1" class="form-label">Người đăng:<span
                                             class="text-danger">*</span></label>
                                     <select name="user_id" class="form-select w-100" id="status1">
+
                                         @foreach ($listUser as $status)
                                             <option value="{{ $status->id }}"
                                                 {{ $category->user_id == $status->id ? 'selected' : '' }}>

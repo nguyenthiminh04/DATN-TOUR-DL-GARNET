@@ -18,6 +18,7 @@
                 <td>{{ \Carbon\Carbon::parse($item->booking->end_date)->format('d/m/Y') }}</td>
                 <td>{{ $item->booking->phone ?? 'Không có' }}</td>
                 
+
                 <td>
                     {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') }}
                 </td>
@@ -82,4 +83,5 @@
             </tr>
         @endforeach
     @endif
+
 </tbody

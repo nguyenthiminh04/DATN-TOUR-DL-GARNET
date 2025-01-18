@@ -836,12 +836,14 @@
                                         <?= $tour['schedule'] ?>
                                     </li>
                                     <li>
+
                                         <div class="ulimg"><img
                                                 src="https://png.pngtree.com/png-vector/20240529/ourlarge/pngtree-the-icon-of-a-person-relaxing-in-a-chair-and-watching-vector-png-image_6974301.png"
                                                 alt="10 ngày 9 đêm" /></div>
                                         <span id="date-khoi-hanh">Số lượng: </span>
 
                                         <?= $tour['number'] ?>
+
                                     </li>
                                     <div class="tour-rating">
                                         <h4>Đánh giá tour</h4>
@@ -1999,8 +2001,10 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+
             // Lấy danh sách các ngày từ server (truyền từ backend)
             var availableDates = <?= json_encode($tourDates) ?>; // Dữ liệu $tourDates là mảng các ngày từ backend
+
 
             // Khởi tạo flatpickr
             flatpickr("#datepicker", {

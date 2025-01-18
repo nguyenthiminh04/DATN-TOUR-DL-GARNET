@@ -221,7 +221,7 @@
         AOS.init();
     </script>
     <script>
-        // Kiểm tra nếu phần tử đã xuất hiện trong viewport
+
         function isInViewport(element) {
             const rect = element.getBoundingClientRect();
             return (
@@ -232,17 +232,17 @@
             );
         }
 
-        // Thêm sự kiện cuộn trang để kiểm tra khi nào ảnh xuất hiện
         window.addEventListener('scroll', function() {
             const images = document.querySelectorAll('.image-container');
             images.forEach(function(image) {
                 if (isInViewport(image)) {
+
                     image.classList.add('visible'); // Thêm class "visible" để hiển thị ảnh
                 }
             });
         });
 
-        // Kiểm tra ngay khi trang tải
+
         window.addEventListener('load', function() {
             const images = document.querySelectorAll('.image-container');
             images.forEach(function(image) {

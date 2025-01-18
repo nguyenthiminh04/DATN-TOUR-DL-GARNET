@@ -139,6 +139,7 @@
                                         <th>Thông Tin Tour</th>
                                         <th>Người Đặt Tour</th>
 
+
                                         <th>Thời gian bắt đầu chuyến đi</th>
                                         <th>Thời gian kết thúc chuyến đi</th>
 
@@ -146,6 +147,7 @@
                                         <th>Hướng dẫn viên</th>
                                         {{-- <th>Thời gian đặt</th>
                                         <th>Phương Thức Thanh Toán</th> --}}
+
 
                                         <th>Trạng Thái Thanh Toán</th>
                                         <th>Trạng Thái Tour</th>
@@ -188,6 +190,7 @@
                                                     </select>
                                                     @foreach ($guides as $guide)
                                                     @endforeach
+
 
                                                 </td>
                                                 {{-- <td>

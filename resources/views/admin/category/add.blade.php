@@ -60,10 +60,12 @@
                                     @enderror
                                 </div>
 
+
                                 <div class="mb-3" hidden>
                                     <label for="status1" class="form-label">Người đăng<span
                                             class="text-danger">*</span></label>
                                     <select name="user_id" class="form-select w-100" id="status1">
+
                                         @foreach ($listUser as $status)
                                             <option value="{{ $status->id }}"
                                                 {{ old('user_id') == $status->id ? 'selected' : '' }}>

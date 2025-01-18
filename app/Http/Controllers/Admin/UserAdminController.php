@@ -7,10 +7,11 @@ use App\Models\Admins\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequests;
 use App\Http\Controllers\Controller;
+use App\Models\Admins\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-class UserController extends Controller
+class UserAdminController extends Controller
 {
     public function __construct()
     {
@@ -26,16 +27,18 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $title = "Danh Sách Người Dùng";
+        $title = "Danh Sách Nhân viên";
 
         $status = $request->get('status');
-        $query = User::query()->where('role_id', 2);
+        $query = User::query();
 
         if ($status !== null) {
-            $query->where('status', $status)->where('role_id', 2);
+            $query->where('status', $status);
         }
 
-        $listuser = $query->get();
+        
+        $listuser = User::with('role')->get();
+       
 
 
 
@@ -45,7 +48,7 @@ class UserController extends Controller
             ]);
         }
 
-        return view('admin.user.index', compact('title', 'listuser'));
+        return view('admin.staff.index', compact('title', 'listuser'));
     }
 
 
@@ -56,7 +59,10 @@ class UserController extends Controller
     {
 
         $listStatus = Status::query()->get();
-        return view('admin.user.add', compact('listStatus'));
+        $listRole = Role::query()
+            ->whereIn('id', [3, 4])
+            ->get();
+        return view('admin.staff.add', compact('listStatus', 'listRole'));
     }
 
     /**
@@ -69,6 +75,10 @@ class UserController extends Controller
 
             // Lấy trực tiếp giá trị từ dropdown
             $params['status'] = $request->input('status');
+            $params['role_id'] = $request->input('role');
+
+            $params['password'] = bcrypt($request->input('password'));
+
 
             // Xử lý hình ảnh đại diện
             if ($request->hasFile('avatar')) {
@@ -83,7 +93,8 @@ class UserController extends Controller
             // Lấy id sản phẩm vừa thêm để thêm được album
             $user = $user->id;
 
-            return redirect()->route('user.index')->with('success', 'Thêm mới thành công!');;
+            return redirect()->route('useradmin.index')->with('success', 'Thêm mới thành công!');
+            ;
         }
     }
 
@@ -93,8 +104,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        return view('admin.user.details', compact('user'));  // Tạo một partial để hiển thị chi tiết tour
+        $user = User::with('role')->findOrFail($id);
+        return view('admin.staff.details', compact('user'));  
     }
 
 
@@ -103,8 +114,12 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::query()->findOrFail($id);
-        return view('admin.user.edit', compact('user'));
+        $user = User::with('role')->findOrFail($id);
+        $listRole = Role::query()
+        ->whereIn('id', [3, 4])
+        ->get();
+
+        return view('admin.staff.edit', compact('user','listRole'));
     }
 
     /**
@@ -114,29 +129,17 @@ class UserController extends Controller
     {
         //
 
-        if ($request->isMethod('PUT')) {
-            $params = $request->except('_token', '_method');
-            $user = User::findOrFail($id);
+        if ($request->isMethod('PATCH')) {
+           
+            $role_id = $request->role;
+            $status=$request->status;
+            User::where('id', $id)->update([
+                'role_id' => $role_id,
+                'status'  => $status,
+            ]);
 
-            // Xử lý Hình Ảnh
-            if ($request->hasFile('avatar')) {
-                // Nếu có ảnh mới, xóa ảnh cũ và lưu ảnh mới
-                if ($user->avatar) {
-                    Storage::disk('public')->delete($user->avatar);
-                }
-                $params['avatar'] = $request->file('avatar')->store('uploads/avatar', 'public');
-            } else {
-                // Nếu không có ảnh mới, giữ lại ảnh cũ
-                $params['avatar'] = $user->avatar;
-            }
-            if ($request->has('password') && !empty($request->password)) {
-                // Mã hóa mật khẩu mới
-                $params['password'] = Hash::make($request->password);
-            }
-            // Cập nhật dữ liệu
-            $user->update($params);
-
-            return redirect()->route('user.index')->with('success', 'Cập nhật thành công!');;
+            return redirect()->route('useradmin.index')->with('success', 'Cập nhật thành công!');
+            ;
         }
     }
 

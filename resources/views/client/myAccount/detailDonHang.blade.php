@@ -138,6 +138,7 @@
         </div>
 
         @if (in_array($payment->status_id, [1, 2, 5]))
+
     @if ($payment->payment_status_id == 2)
         <div class="alert alert-warning text-center mb-3">
             <span>Tour đã thanh toán. Vui lòng cân nhắc kỹ trước khi hủy!</span>
@@ -160,6 +161,7 @@
         <span>Tour đã bị từ chối hủy</span>
     </div>
 @endif
+
 
 
         <a href="{{ url('/') }}" class="btn btn-primary">Quay lại trang chủ</a>

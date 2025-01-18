@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Tư vấn liên hệ</h4>
+                        <h4 class="mb-sm-0">Hỗ trợ tư vấn</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -91,8 +91,8 @@
                                         <table class="table table-hover table-striped align-middle table-nowrap mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Tour</th>
+                                                    <th scope="col">STT</th>
+                                                    <th scope="col">Tên tour</th>
                                                     <th scope="col">Họ và Tên</th>
                                                     <th scope="col">Số điện thoại</th>
                                                     <th scope="col">Email</th>

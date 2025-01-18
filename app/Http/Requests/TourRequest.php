@@ -23,6 +23,7 @@ class TourRequest extends FormRequest
     {
 
 
+
         return [
             'name' => 'required|max:255',
             'journeys' => 'required|max:255',
@@ -34,10 +35,20 @@ class TourRequest extends FormRequest
             'end_date' => 'required|date|after_or_equal:start_date',
             'number' => 'numeric|min:1|max_digits:10',
             'number_guests' => 'required|integer|min:0',
-            'price_old' => 'required|numeric|min:0',
-            'price_children' => 'required|numeric|min:0',
-            'sale' => 'required|numeric|min:0|max:100',
-            'description' => 'required|string',
+
+        $id = $this->route('tour');
+
+        return [
+            'name' => 'required|max:255|unique:tours,name,' . $id,
+            'journeys' => 'required|max:255',
+            'schedule' => 'required|max:255',
+            'move_method' => 'required|max:255',
+            'starting_gate' => 'required|max:255',
+            'start_date' => 'required|date|after_or_equal:today|before_or_equal:end_date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'number' => 'numeric|min:1|max_digits:10',
+            'number_guests' => 'required|integer|min:1',
+
             'status' => 'required',
             'content' => 'required',
             'location_id' => 'required',
@@ -49,6 +60,7 @@ class TourRequest extends FormRequest
             'locations.*.end' => 'required|string|max:255',
             'time' => 'required|integer|min:1|max:100',
             // 'locations.*.description' => 'required|nullable',
+
         ];
     }
     public function messages(): array
@@ -61,7 +73,9 @@ class TourRequest extends FormRequest
             'journeys.max' => 'Hành trình không được vượt quá 255 ký tự.',
             'schedule.required' => 'Lịch trình là bắt buộc.',
             'schedule.max' => 'Lịch trình không được vượt quá 255 ký tự.',
+
             'tour_dates.required' => 'Vui lòng chọn ngày.',
+
             'move_method.required' => 'Phương thức di chuyển là bắt buộc.',
             'move_method.max' => 'Phương thức di chuyển không được vượt quá 255 ký tự.',
             'starting_gate.required' => 'Cổng khởi hành là bắt buộc.',
@@ -75,6 +89,7 @@ class TourRequest extends FormRequest
             'end_date.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu.',
             'number.numeric' => 'Số lượng này phải là một số.',
             'number.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
+
             'number.max_digits' => 'Số lượng không được vượt quá 10 ký tự.',
             'number_guests.required' => 'Số lượng khách là bắt buộc.',
             'number_guests.integer' => 'Số lượng khách phải là số nguyên.',
@@ -90,6 +105,7 @@ class TourRequest extends FormRequest
             'sale.min' => 'Giảm giá không được nhỏ hơn 0%.',
             'sale.max' => 'Giảm giá không được lớn hơn 100%.',
             'description.required' => 'Mô tả là bắt buộc.',
+
             'status.required' => 'Trạng thái là bắt buộc.',
             'content.required' => 'Vui lòng nhập nội dung.',
             'location_id.required' => 'Vui lòng chọn địa điểm.',
@@ -106,6 +122,7 @@ class TourRequest extends FormRequest
             'time.integer' => 'Thời gian phải là một số nguyên.',
             'time.min' => 'Thời gian phải là số dương.',
             'time.max' => 'Thời gian tối đa là 100 ngày.',
+
         ];
     }
 }

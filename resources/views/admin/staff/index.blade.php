@@ -8,20 +8,20 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Danh Sách Người Dùng</h4>
+                        <h4 class="mb-sm-0">Danh Sách Hướng dẫn viên</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('home-admin') }}">Trang quản trị</a></li>
-                                <li class="breadcrumb-item active">Danh sách người dùng</li>
+                                <li class="breadcrumb-item active">Danh sách hướng dẫn viên</li>
                             </ol>
                         </div>
                     </div>
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('user.create') }}" class="btn btn-secondary"><i
-                                        class="bi bi-plus-circle align-baseline me-1"></i> Thêm người dùng</a>
+                                <a href="{{ route('useradmin.create') }}" class="btn btn-secondary"><i
+                                        class="bi bi-plus-circle align-baseline me-1"></i> Thêm tài khoản</a>
                             </div>
                         </div>
                         <div class="col-sm">
@@ -55,77 +55,53 @@
                                             <th>Địa chỉ</th>
                                             <th>Ngày sinh</th>
                                             <th>Giới tính</th>
+                                            <th>Vai trò</th>
+
                                             <th scope="col">Trạng thái</th>
-                                            <th scope="col" hidden>Hành động </th>
+                                            <th scope="col">Hành động </th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all" id="category-tours-body">
                                         @foreach ($listuser as $index => $item)
-                                            @if ($item->role_id == 2)
-                                                <tr>
-                                                    <td><a href="" class="text-reset">{{ $item->id }}</a></td>
-                                                    <td>{{ $item->name }}</td>
-                                                    <td>
-                                                        @if (!empty($item->phone))
-                                                            <img src="{{ Storage::url($item->avatar) }}" alt=""
-                                                                width="30px">
-                                                        @else
-                                                            Không có
-                                                        @endif
+                                            <tr>
+                                                <td><a href="" class="text-reset">{{ $item->id }}</a></td>
+                                                <td>{{ $item->name }}</td>
+                                                <td>
+                                                    <img src="{{ Storage::url($item->avatar) }}" alt=""
+                                                        width="30px">
+                                                </td>
+                                                <td>{{ $item->email }}</td>
+                                                <td>{{ $item->phone }}</td>
+                                                <td>{{ $item->address }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($item->birth)->format('d/m/Y') }}</td>
+                                                <td>{{ $item->gender }}</td>
+                                                <td>{{ $item->role->name }}</td>
 
-                                                    </td>
-                                                    <td>{{ $item->email }}</td>
-                                                    <td>
-                                                        @if (!empty($item->phone))
-                                                            {{ $item->phone }}
-                                                        @else
-                                                            Không có
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if (!empty($item->address))
-                                                            {{ $item->address }}
-                                                        @else
-                                                            Không có
-                                                        @endif
-                                                    </td>
-                                                    <td>{{ \Carbon\Carbon::parse($item->birth)->format('d/m/Y') }}</td>
-                                                    <td>
-                                                        @if (!empty($item->gender))
-                                                            {{ $item->gender }}
-                                                        @else
-                                                            Không xác định
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" style="width: 100px;"
-                                                            class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
-                                                            data-id="{{ $item->id }}"
-                                                            onclick="toggleStatus({{ $item->id }})">
-                                                            {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                        <ul class="d-flex gap-2 list-unstyled mb-0">
+                                                <td>
+                                                    <button type="button" style="width: 100px;"
+                                                        class="btn btn-toggle-status {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                        data-id="{{ $item->id }}"
+                                                        onclick="toggleStatus({{ $item->id }})">
+                                                        {{ $item->status == 1 ? 'Hiện' : 'Ẩn' }}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <ul class="d-flex gap-2 list-unstyled mb-0">
 
-                                                            {{-- <li>
-                                                        <a href="{{ route('user.edit', $item->id) }}"
-                                                            class="btn btn-subtle-success btn-icon btn-sm">
-                                                            <i class="ri-edit-2-line"></i></a>
-                                                    </li> --}}
-                                                            {{-- <li>
-                                                        <a href="#deleteRecordModal{{ $item->id }}"
-                                                            data-bs-toggle="modal"
-                                                            class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
-                                                                class="ph-trash"></i></a>
-                                                    </li> --}}
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                            @else
-                                            @endif
-
-
+                                                        <li>
+                                                            <a href="{{ route('useradmin.edit', $item->id) }}"
+                                                                class="btn btn-subtle-success btn-icon btn-sm">
+                                                                <i class="ri-edit-2-line"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#deleteRecordModal{{ $item->id }}"
+                                                                data-bs-toggle="modal"
+                                                                class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                                    class="ph-trash"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
                                             <!-- Xóa User -->
                                             <div id="deleteRecordModal{{ $item->id }}" class="modal fade zoomIn"
                                                 tabindex="-1" aria-hidden="true">
@@ -147,7 +123,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-                                                                <form action="{{ route('user.destroy', $item->id) }}"
+                                                                <form action="{{ route('useradmin.destroy', $item->id) }}"
                                                                     method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -216,7 +192,6 @@
         <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
         <script>
             $('#example').DataTable({
-
                 language: {
                     "sEmptyTable": "Không có dữ liệu trong bảng",
                     "sInfo": "Hiển thị _START_ đến _END_ trong tổng số _TOTAL_ mục",
@@ -377,7 +352,20 @@
                                         ${item.status == 1 ? 'Hiện' : 'Ẩn'}
                                     </button>                 
                             </td>
-                            
+                            <td>
+                                <ul class="d-flex gap-2 list-unstyled mb-0">
+                                        <a href="/admin/user/${item.id}/edit"
+                                        class="btn btn-subtle-success btn-icon btn-sm">
+                                            <i class="ri-edit-2-line"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#deleteRecordModal${item.id}"
+                                        data-bs-toggle="modal"
+                                        class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i
+                                                class="ph-trash"></i></a>
+                                    </li>
+                                </ul>
+                            </td>
                     </tr>
     `;
                             });
