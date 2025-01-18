@@ -50,7 +50,7 @@ if ($user) {
     .notification-body p {
         margin: 0;
         padding: 10px;
-        text-align: center;
+        text-align: start;
         color: #999;
     }
 
@@ -95,28 +95,27 @@ if ($user) {
                             </a>
 
                             @if ($category->children->isNotEmpty())
-                            <div class="mega-content" style="width: 15% !important;">
+                                <div class="mega-content" style="width: 15% !important;">
                                     <div class="level0-wrapper2">
                                         <div class="nav-block nav-block-center">
                                             <ul class="level0"
-
                                                 style="display: flex; flex-direction: column; padding: 0; margin: 0; list-style: none;">
 
                                                 @foreach ($category->children as $child)
-                                                <li class="level1 parent item" style="margin-bottom: 10px;">
-                                                    <h2 class="h4" style="margin: 0;">
-                                                        <a href="{{ url('tour/' . $child->slug) }}"
-                                                            style="text-decoration: none; color: #333;">
+                                                    <li class="level1 parent item" style="margin-bottom: 10px;">
+                                                        <h2 class="h4" style="margin: 0;">
+                                                            <a href="{{ url('tour/' . $child->slug) }}"
+                                                                style="text-decoration: none; color: #333;">
                                                                 <span>{{ $child->name }}</span>
                                                             </a>
                                                         </h2>
                                                         @if ($child->children->isNotEmpty())
-                                                        <ul class="level1"
-                                                        style="padding-left: 20px; list-style: none;">
+                                                            <ul class="level1"
+                                                                style="padding-left: 20px; list-style: none;">
                                                                 @foreach ($child->children as $subChild)
-                                                                <li class="level2" style="margin-bottom: 5px;">
-                                                                    <a href="{{ url('tour/' . $subChild->slug) }}"
-                                                                        style="text-decoration: none; color: #555;">
+                                                                    <li class="level2" style="margin-bottom: 5px;">
+                                                                        <a href="{{ url('tour/' . $subChild->slug) }}"
+                                                                            style="text-decoration: none; color: #555;">
                                                                             <span>{{ $subChild->name }}</span>
                                                                         </a>
                                                                     </li>
@@ -136,7 +135,7 @@ if ($user) {
                     <!-- Các menu tĩnh -->
                     {{-- <li class="nav-item"><a class="nav-link" href="{{ route('home.allTour') }}">Tất cả Tour</a></li> --}}
                     <li class="nav-item"><a class="nav-link" href="{{ route('introduce.index') }}">Giới thiệu</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('service.index') }}">Cẩm nang du lịch</a>
+                    <li class="nav-item"><a class="nav-link" href="/cam-nang-dul-lich">Cẩm nang du lịch</a>
                     </li>
                     {{-- <li class="nav-item"><a class="nav-link" href="{{ route('handbook.index') }}">Cẩm nang du lịch</a></li> --}}
 
@@ -145,7 +144,7 @@ if ($user) {
                             Thích</a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('maGiamGia.index') }}">Mã Giảm Giá</a>
-                </li>
+                    </li>
 
                 </ul>
 
@@ -161,19 +160,33 @@ if ($user) {
         </div>
         @if ($notifications->isEmpty())
             <div class="notification-body">
-                <p class="title col-3">Không có thông báo mới</p>
+                <p class="title col-3" style="text-align: center">Không có thông báo mới</p>
             </div>
         @else
             <div class="notification-body">
+
                 @foreach ($notifications as $notification)
                     <div class="notification-item">
                         <div class="notification-content">
-                            <p class="title col-3">{{ $notification->title }}</p>
-                            <p class="description">--{{ $notification->content }}</p>
-                            <p class="notification-time">{{ $notification->created_at }}</p>
+                            @if ($notification->title == 'Thông báo hoàn tiền')
+                                <p class="title col-3" style="color: red">{{ $notification->title }}</p>
+                                <p class="description" style="color: red">- {{ $notification->content }}</p>
+                                <p class="notification-time" style="color: rgb(0, 0, 0); text-align: end">
+                                    {{ $notification->created_at->format('d-m-Y') }}</p>
+                                <hr style="border: 0.02rem  solid rgb(156, 156, 156)">
+                            @else
+                                <p class="title col-3" style="color: blue">{{ $notification->title }}</p>
+                                <p class="description" style="color: blue">- {{ $notification->content }}</p>
+                                <p class="notification-time" style="color: rgb(7, 7, 7); text-align: end">
+                                    {{ $notification->created_at->format('d-m-Y') }}</p>
+                                <hr style="border: 0.02rem  solid rgb(156, 156, 156)">
+                            @endif
+
                         </div>
                     </div>
                 @endforeach
+
+
             </div>
             <div class="notification-footer text-center">
                 <button class="btn btn-md btn-primary mark-all-read" id="markAllRead">Đọc Tất Cả</button>

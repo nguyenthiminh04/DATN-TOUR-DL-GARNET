@@ -27,7 +27,7 @@
             color: #16d164;
         }
 
-        .btn {
+        .btn-coupons {
             background-color: #ffffff;
             color: #029c54;
             border: 1px solid #029c54;
@@ -40,13 +40,16 @@
             margin-top: 55px;
         }
 
-        .btn:hover {
+
+        .btn-coupons:hover {
             background-color: #029c54;
             color: white;
             transform: scale(1.05);
         }
 
-        .btn:focus {
+
+        .btn-coupons:focus {
+
             outline: none;
         }
 
@@ -61,7 +64,6 @@
     <section class="bread-crumb margin-bottom-10">
         <div class="container">
             <div class="row">
-
                 <div class="col-xs-12">
                     <ul class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
                         <li class="home" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
@@ -88,9 +90,7 @@
                     <div class="col-sm-6">
                         <div class="coupon bg-white rounded mb-3 d-flex justify-content-between">
                             <div class="kiri p-3">
-
                                 <div class="icon-container">
-
                                     <div class="icon-container_box">
                                         <img src="https://magiamgia.com/wp-content/uploads/2020/12/fnal-logo.png"
                                             width="85" alt="totoprayogo.com" class="" />
@@ -100,9 +100,7 @@
                             <div class="tengah py-3 d-flex w-100 justify-content-start">
                                 <div>
                                     <span class="badge badge-success">{{ $coupon->name }}</span>
-
                                     <h3 class="lead" id="text-to-copy-{{ $coupon->id }}">{{ $coupon->code }}</h3>
-
                                     <p>{{ $coupon->tour->name }}</p>
                                 </div>
                             </div>
@@ -114,9 +112,7 @@
                                                 <span>Còn {{ $coupon->days_remaining }} ngày</span>
                                             </span>
                                         </div>
-
-                                        <button class="btn" onclick="copyText({{ $coupon->id }})">Copy</button>
-
+                                        <button class="btn btn-coupons" onclick="copyText({{ $coupon->id }})">Copy</button>
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +123,6 @@
         </div>
     </section>
 @endsection
-
 
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -158,7 +153,6 @@
                 showConfirmButton: false,
                 timer: 1200,
                 timerProgressBar: true,
-
 
             });
         }

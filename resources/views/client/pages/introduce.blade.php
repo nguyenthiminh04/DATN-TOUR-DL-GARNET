@@ -221,7 +221,7 @@
         AOS.init();
     </script>
     <script>
-      
+
         function isInViewport(element) {
             const rect = element.getBoundingClientRect();
             return (
@@ -232,17 +232,17 @@
             );
         }
 
-       
         window.addEventListener('scroll', function() {
             const images = document.querySelectorAll('.image-container');
             images.forEach(function(image) {
                 if (isInViewport(image)) {
-                    image.classList.add('visible'); 
+
+                    image.classList.add('visible'); // Thêm class "visible" để hiển thị ảnh
                 }
             });
         });
 
-       
+
         window.addEventListener('load', function() {
             const images = document.querySelectorAll('.image-container');
             images.forEach(function(image) {

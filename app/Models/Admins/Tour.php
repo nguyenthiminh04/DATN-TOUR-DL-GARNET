@@ -2,13 +2,16 @@
 
 namespace App\Models\Admins;
 
-use App\Models\BookTour;
-use App\Models\Comment;
-use App\Models\Favorite;
 use App\Models\Review;
-use App\Models\Admins\Schedule;
-use App\Models\Tour_Guide;
+use App\Models\Comment;
+use App\Models\BookTour;
+use App\Models\Favorite;
+
+use App\Models\TourLocation;
+
 use GuzzleHttp\Psr7\Request;
+use App\Models\LocationUpdate;
+use App\Models\Admins\TourDate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +28,7 @@ class Tour extends Model
         'move_method',
         'starting_gate',
         'start_date',
+        'time',
         'end_date',
         'number_guests',
         'price_old',
@@ -68,7 +72,13 @@ class Tour extends Model
     // Định nghĩa quan hệ Tour thuộc về Location
     public function location()
     {
-        return $this->belongsTo(Location::class, 'location_id');
+        return $this->belongsTo(Location::class);
+    }
+
+    public function guides()
+
+    {
+        return $this->hasMany(Coupons::class, 'tour_id');
     }
 
     public function category_tour()
@@ -120,20 +130,28 @@ class Tour extends Model
         return $this->hasMany(Review::class);
     }
 
-    // Quan hệ với TourGuide
-    public function tourGuides()
+    public function tourDates()
     {
-        return $this->hasMany(Tour_Guide::class);
+        return $this->hasMany(TourDate::class, 'tour_id');
+    }
+    public function tourLocations()
+    {
+        return $this->hasMany(TourLocation::class);
+    }
+    public function locations()
+    {
+        return $this->belongsToMany(LocationUpdate::class, 'tour_locations')
+            ->withPivot('is_start', 'is_end'); // Các trường phụ trong bảng `tour_locations`
     }
 
-    // Quan hệ với hướng dẫn viên qua bảng tour_guides
-    public function guides()
+    public function categoryServices()
     {
-        return $this->belongsToMany(User::class, 'tour_guides', 'tour_id', 'user_id');
-    }
-    public function schedules()
-    {
-        return $this->hasMany(Schedule::class);
+        return $this->belongsToMany(CategoryServiceModel::class, 'tour_service', 'tour_id', 'category_service_id');
     }
 
+
+    public function services()
+    {
+        return $this->belongsToMany(ServiceModel::class, 'tour_service', 'tour_id', 'service_id');
+    }
 }

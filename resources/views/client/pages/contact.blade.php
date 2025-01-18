@@ -202,21 +202,21 @@
             <div class="col-md-3 col-md-push-9">
                 <div class="widget-item info-contact in-fo-page-content">
                     <div class="logos text-xs-left">
-                        <a href="index.html" class="logo-wrapper ">
+                        <a href="{{ route('home') }}" class="logo-wrapper ">
                             <img src="client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/logo-contact6d1d.png?1705894518705"
                                 alt="logo Ant Du lịch" class="img-responsive" />
                         </a>
                     </div>
-                    <p>Đặt tours du lịch!<br>Hơn 300 tours du lịch ở Việt Nam và Quốc tế</p>
+                    {{-- <p>Đặt tours du lịch!<br>Hơn 300 tours du lịch ở Việt Nam và Quốc tế</p> --}}
                     <!-- End .widget-title -->
                     <ul class="widget-menu contact-info-page">
 
-                        <li><i class="fa fa-map-marker color-x" aria-hidden="true"></i> 70 Lu Gia, Ward 15, District 11,
-                            Ho Chi Minh City</li>
-                        <li><i class="fa fa-phone color-x" aria-hidden="true"></i> <a href="tel:19006750">1900 6750</a>
+                        <li><i class="fa fa-map-marker color-x" aria-hidden="true"></i>Đường Trịnh Văn Bô - Nam Từ Liêm - Hà
+                            Nội</li>
+                        <li><i class="fa fa-phone color-x" aria-hidden="true"></i> <a href="tel:19002424">1900 2424</a>
                         </li>
                         <li><i class="fa fa-envelope-o" aria-hidden="true"></i> <a
-                                href="mailto:support@sapo.vn">support@sapo.vn</a></li>
+                                href="mailto:support@sapo.vn">support@garnet.vn</a></li>
 
                     </ul>
                     <!-- End .widget-menu -->

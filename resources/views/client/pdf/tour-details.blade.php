@@ -66,6 +66,10 @@
             <td>{{ $start_date }}</td>
         </tr>
         <tr>
+            <th>Hành Trình</th>
+            <td>{{ $schedule }}</td>
+        </tr>
+        <tr>
             <th>Trạng thái thanh toán</th>
             <td>{{ $payment_status }}</td>
         </tr>

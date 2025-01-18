@@ -64,17 +64,17 @@ class TourController extends Controller
             ->where('end_date', '>=', now())
             ->where('tour_id', '=', $id)
             ->where('number', '>', 0)
-
-
             ->select('code', 'percentage_price', 'start_date', 'end_date')
-            ->get();
-
-        //dd($coupons);
-
-
+            ->get()
+            ->map(function ($coupon) {
+                $coupon->start_date = \Carbon\Carbon::parse($coupon->start_date)->format('d-m-Y');
+                $coupon->end_date = \Carbon\Carbon::parse($coupon->end_date)->format('d-m-Y');
+                return $coupon;
+            });
 
         return view('client.tour.booking', ['tour' => $tour, 'coupons' => $coupons]);
     }
+
 
     public function searchTour(Request $request)
     {

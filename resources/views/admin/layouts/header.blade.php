@@ -33,6 +33,7 @@
                     </span>
                 </button>
 
+
                 <form class="app-search d-none d-md-inline-flex">
                     <div class="position-relative">
                         <input type="text" class="form-control" placeholder="Tìm kiếm..." autocomplete="off"
@@ -125,6 +126,7 @@
                         </div>
                     </div>
                 </form>
+
             </div>
 
             <div class="d-flex align-items-center">

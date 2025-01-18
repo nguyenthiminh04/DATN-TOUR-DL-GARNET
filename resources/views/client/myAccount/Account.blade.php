@@ -157,8 +157,8 @@
 
                                                 <tr>
                                                     @if ($payments->isEmpty())
-                                                        <td colspan="6">
-                                                            <p>Không có đơn hàng nào.</p>
+                                                        <td colspan="11">
+                                                            <p class="text-center text-bold">Không có đơn hàng nào.</p>
                                                         </td>
                                                     @else
                                                 </tr>
@@ -485,7 +485,7 @@
                                                     chỉ mặc định
                                                 </label>
                                             </div> --}}
-                                    </div> --}}
+                                    </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
 

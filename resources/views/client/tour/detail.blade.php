@@ -3,6 +3,12 @@
     {{ $tour->name }}
 @endsection
 @section('style')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
@@ -255,12 +261,11 @@
 
         #sync2 .owl-item {
             width: 80px;
-            /* Thu nhỏ ảnh thu nhỏ */
             margin-right: 10px;
         }
 
         #sync1 {
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
         }
 
         /* styles.css hoặc file CSS chung */
@@ -543,6 +548,176 @@
             margin-top: 15px;
         }
     </style>
+    <style>
+        /* @import url("https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700&display=swap"); */
+
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            /* font-family: "Sora", sans-serif; */
+            max-width: 991px;
+            min-width: 320px;
+            margin: auto;
+            /* padding: 0 50px; */
+        }
+
+        .accordion h1 {
+            font-size: 32px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .accordion-item {
+            margin-top: 16px;
+            border: 1px solid #fcfcfc;
+            border-radius: 6px;
+            background: #f1f1f1;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+        }
+
+        .accordion-item .accordion-item-title {
+            position: relative;
+            margin: 0;
+            display: flex;
+            width: 100%;
+            font-size: 15px;
+            cursor: pointer;
+            justify-content: space-between;
+            flex-direction: row-reverse;
+            padding: 14px 20px;
+            box-sizing: border-box;
+            align-items: center;
+        }
+
+        .accordion-item .accordion-item-desc {
+            display: none;
+            font-size: 12px;
+            line-height: 22px;
+            font-weight: 300;
+            color: #444;
+            border-top: 1px dashed #ddd;
+            padding: 10px 20px 20px;
+            box-sizing: border-box;
+        }
+
+        .accordion-item input[type="checkbox"] {
+            position: absolute;
+            height: 0;
+            width: 0;
+            opacity: 0;
+        }
+
+        .accordion-item input[type="checkbox"]:checked~.accordion-item-desc {
+            display: block;
+        }
+
+        .accordion-item input[type="checkbox"]:checked~.accordion-item-title .icon:after {
+            content: "-";
+            font-size: 20px;
+        }
+
+        .accordion-item input[type="checkbox"]~.accordion-item-title .icon:after {
+            content: "+";
+            font-size: 20px;
+        }
+
+        .accordion-item:first-child {
+            margin-top: 0;
+        }
+
+        .accordion-item .icon {
+            margin-left: 14px;
+
+        }
+
+        @media screen and (max-width: 767px) {
+            .accordion {
+                padding: 0 16px;
+            }
+
+            .accordion h1 {
+                font-size: 22px;
+            }
+        }
+
+        .item-icon {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 20px;
+            margin-top: -15px;
+            margin-bottom: 5px;
+            font-size: 10px;
+        }
+
+        .item-icon span {
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .item-icon p {
+            font-weight: bold;
+
+            margin: 0;
+
+        }
+
+        .accordion-item-desc {
+            margin-top: 10px;
+            font-weight: bold;
+
+        }
+
+
+        .section-detail {
+            margin: 0;
+        }
+
+        .tour--detail__content--left--overview {
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .highlight-part {
+            background: #daefff;
+            padding: 2rem 2.5rem;
+            margin-top: 1rem;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: .5rem;
+        }
+
+        .tour--detail__content h3 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .tour--detail__content--left--overview__content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 1.25rem;
+            gap: 1.25rem;
+        }
+
+        .tour--detail__content--left--overview__content .item-sm {
+            display: flex;
+            flex-direction: column;
+            gap: .8rem;
+        }
+
+        .wrapper {
+            font-size: 1.4rem;
+            line-height: 2.5rem;
+            padding: 0 0 1rem;
+            text-align: justify;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -561,7 +736,14 @@
 
 
                         <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                            <a itemprop="item" href="du-lich-cuba.html" title="Du lịch Cuba">
+                            <a itemprop="item" href="http://127.0.0.1:8000/tat-ca-tour" title="Du lịch Cuba">
+                                <span itemprop="name">Tất cả các tour</span>
+                                <meta itemprop="position" content="2" />
+                            </a>
+                            <span><i class="fa fa-angle-right"></i></span>
+                        </li>
+                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <a itemprop="item" href="" title="Du lịch Cuba">
                                 <span itemprop="name"><?= $tour['name'] ?></span>
                                 <meta itemprop="position" content="2" />
                             </a>
@@ -635,25 +817,33 @@
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_3.svg?1705894518705"
                                                 alt="Di chuyển bằng máy bay" /></div>
-                                                <?= $tour['move_method'] ?>
+                                        <?= $tour['move_method'] ?>
                                     </li>
 
                                     <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_4.svg?1705894518705"
                                                 alt="Thứ 2 - 5 hằng tuần" /></div>
-                                        <span id="date-khoi-hanh">Thứ 2 - 5 hằng tuần</span>
+                                        <span id="date-khoi-hanh">Diễn ra: Thứ 2 - 5 hằng tuần</span>
                                     </li>
 
                                     <li>
                                         <div class="ulimg"><img
                                                 src="http://bizweb.dktcdn.net/100/299/077/themes/642224/assets/tag_icon_5.svg?1705894518705"
                                                 alt="10 ngày 9 đêm" /></div>
+                                        <span id="date-khoi-hanh">Thời gian:</span>
+
                                         <?= $tour['schedule'] ?>
                                     </li>
                                     <li>
-                                        <div class="">Số lượng khách tối đa : <?= $tour['number_guests'] ?> người</div>
-                                        
+
+                                        <div class="ulimg"><img
+                                                src="https://png.pngtree.com/png-vector/20240529/ourlarge/pngtree-the-icon-of-a-person-relaxing-in-a-chair-and-watching-vector-png-image_6974301.png"
+                                                alt="10 ngày 9 đêm" /></div>
+                                        <span id="date-khoi-hanh">Số lượng: </span>
+
+                                        <?= $tour['number'] ?>
+
                                     </li>
                                     <div class="tour-rating">
                                         <h4>Đánh giá tour</h4>
@@ -732,7 +922,7 @@
                                                             <i class="fa fa-angle-down"></i>
                                                         </button>
                                                         <input type="number" step="1" min="1"
-                                                            name="quantity" value="1" title="Số lượng"
+                                                            name="quantity" value="0" title="Số lượng"
                                                             class="qty" size="4" id="quantity-0" disabled>
                                                         <button type="button" class="plus">
                                                             <i class="fa fa-angle-up"></i>
@@ -745,7 +935,8 @@
                                                         value="<?= $tour->price_old * (1 - $tour->sale / 100) ?>">
                                                 </li>
                                                 <li class="col-xs-3 hidden-xss subtotal text-right" id="subtotal">
-                                                    {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}VNĐ
+                                                    0đ
+                                                    {{-- {{ number_format($tour->price_old * (1 - $tour->sale / 100), 0, '', '.') }}đ --}}
                                                 </li>
                                             </ul>
 
@@ -770,7 +961,7 @@
                                                     </div>
                                                 </li>
                                                 <li class="col-xs-3 col-xss-4 text-right variant_price">
-                                                    <?= number_format($tour['price_children'], 0, '', '.') ?>đ
+                                                    <?= number_format($tour['price_children'], 0, '', '.') ?>₫
                                                     <input type="hidden" name="variant_price"
                                                         value="<?= $tour['price_children'] ?>">
                                                 </li>
@@ -888,6 +1079,11 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div id="estimated-end-date"
+                                            style="margin-top: 10px; font-weight: bold; color: #2c3e50;">
+                                            <!-- Hiển thị ngày kết thúc dự kiến -->
+                                        </div>
                                         <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
                                             @if ($tour['number'] > 0)
                                                 <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}"
@@ -899,7 +1095,7 @@
                                                 </a>
                                             @else
                                                 <span
-                                                    style=" margin-top: 30px; 
+                                                    style=" margin-top: 18px; 
                                                             width: 100%;    
                                                             height: 40px;                                          
                                                             display: inline-block;
@@ -990,59 +1186,64 @@
                                     </script>
                                 </form>
                             </div>
+
+
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-5 tour-policy">
-
-
                             <div class="tour-policy-content">
-
-                                <div class="main-project__tab--content tour-no-contentt">
-                                    <div class="product-promotions-list">
-                                        <h2 class="product-promotions-list-title">Chính sách Tour</h2>
-                                        <div class="product-promotions-list-content">
-                                            Chính sách đang được cập nhật.
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="main-project__tab--content">
                                     <div class="product-promotions-list">
                                         <h2 class="product-promotions-list-title">Chính sách Tour</h2>
                                         <div class="product-promotions-list-content">
 
                                             <strong>* Giá tour bao gồm:</strong><br />
-                                            <?= $tour['content'] ?>
-                                            <p><strong>* Giá tour không bao
-                                                    gồm:&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
-                                                -&nbsp;Chi phí làm hộ chiếu, các chương trình tự chọn, nước uống, giặt ủi,
-                                                điện thoại... và các chi phí cá nhân khác của khách ngoài chương
-                                                trình.<br />
-                                                -&nbsp;Hành lý quá cước, chi phí dời ngày và đổi chặng bay theo qui định của
-                                                hàng không.<br />
-                                                -&nbsp;Phí phòng đơn (dành cho khách yêu cầu ở phòng đơn).<br />
-                                                -&nbsp;Tiền bồi dưỡng cho HDV&nbsp;và lái xe địa phương (8 CAD/ khách/
-                                                ngày).</p>
-                                            <p><strong>Điều khoản hủy tour (Thời gian hủy tour được tính cho ngày làm việc,
-                                                    không tính ngày Thứ Bảy, Chủ Nhật và các ngày nghỉ Lễ).</strong><br />
-                                                -&nbsp;Sau khi đặt cọc tour, nếu Qúy khách báo hủy tour Công ty chúng tôi sẽ
-                                                không hoàn lại tiền cọc. Đồng thời Chúng tôi&nbsp;sẽ báo hủy hồ sơ &nbsp;của
-                                                khách.<br />
-                                                -&nbsp;Nếu Qúy khách báo hủy/chuyển tour, vui lòng thanh toán lệ phí
-                                                hủy/chuyển tour cụ thể như sau:<br />
-                                                1/ Trước ngày đi 30 - 35 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
-                                                &amp; ngày nghỉ Tết) thanh toán: 50% giá tour&nbsp;<br />
-                                                2/ Trước ngày đi từ 10 - 29 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
-                                                &amp; ngày nghỉ Tết) thanh toán: 70% giá tour<br />
-                                                3/ Trước ngày đi từ 02 - 09 ngày làm việc (không tính thứ Bảy &amp; Chủ Nhật
-                                                &amp; ngày nghỉ Tết) thanh toán: 90% giá tour<br />
-                                                4/ Hủy trước ngày đi trong vòng 24h trước ngày khởi hành (không tính thứ Bảy
-                                                &amp; Chủ Nhật &amp; ngày nghỉ Tết): 100% giá tour<br />
-                                                -&nbsp;Vì bất cứ lí do gì, nếu quý khách bị từ chối visa Canada, quý khách
-                                                vui lòng nộp lệ phí là: 5.000.000 vnđ<br />
-                                                -&nbsp;Quý khách có nhu cầu lưu trú tại Canada thêm ngoài chương trình tour
-                                                vui lòng thông báo tại thời điểm đăng kí tour, đóng thêm chênh lệch tiền vé
-                                                máy bay phụ trội ở lại về sau và các chặng bay nội địa theo quy định của
-                                                hàng không.</p>
+
+                                            <p><i>Giá tour không bao gồm:</i> <br>
+                                                - Chi phí làm hộ chiếu, các chương trình tự chọn, nước uống, giặt ủi, điện
+                                                thoại... và các chi phí cá nhân khác của khách ngoài chương trình.<br>
+                                                - Hành lý quá cước, chi phí dời ngày và đổi chặng bay theo qui định của hàng
+                                                không.<br>
+                                                - Phí phòng đơn (dành cho khách yêu cầu ở phòng đơn).<br>
+                                                - Tiền bồi dưỡng cho HDV và lái xe địa phương (8 CAD/ khách/ ngày).<br>
+
+                                                <strong> * Điều khoản hủy tour (Thời gian hủy tour được tính theo tất cả các
+                                                    ngày trong
+                                                    tuần).</strong><br>
+                                                <i> Sau khi đặt tour thành công:</i><br>
+
+                                                1. Thanh toán online: <br>
+
+                                                -Nếu quý khách báo hủy tour, vui lòng liên hệ với chúng
+                                                tôi qua số điện thoại: <b>096171690</b> hoặc <b>email: garnet@gmail.com</b>
+                                                để được xác
+                                                nhận hủy tour và hoàn tiền theo chính sách của chúng tôi.<br>
+
+                                                2. Thanh toán trực tiếp: <br>
+                                                - Quý khách hủy tour trước khi chúng tôi xác nhận đơn
+                                                đặt tour.<br>
+
+                                                <i style="color: red"><b>*Lưu ý:</b> Nếu quý khách đã thanh toán trực tiếp
+                                                    tại
+                                                    trung tâm của chúng tôi,
+                                                    sau khi đơn đặt tour đã được xác nhận, vui lòng liên hệ với chúng tôi
+                                                    qua số
+                                                    điện thoại: <b>096171690</b> hoặc email: <b>email:
+                                                        garnet@gmail.com</b>.</i><br>
+
+                                                <b>* Chính sách hoàn tiền:</b><br>
+
+                                                - Hủy tour trong vòng <b>24h sau khi đặt tour</b> (trong trường hợp đơn hàng
+                                                chưa
+                                                được xác nhận)<b> hoàn tiền 100% giá tour.</b><br>
+
+                                                - Hủy tour trong vòng <b>24h sau khi đặt tour</b> (trong trường hợp đơn hàng
+                                                đã được xác nhận) <b>hoàn tiền 95% giá tour.</b><br>
+
+                                                - Hủy tour trước ngày tour <b>bắt đầu 24h hoàn tiền 80% giá tour.</b><br>
+
+                                                - Hủy tour khi tour <b>đang diễn ra hoàn tiền 0% giá tour.</b><br>
+                                            </p>
+
                                         </div>
                                     </div>
                                 </div>
@@ -1063,7 +1264,7 @@
 
                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9 margin-top-15 margin-bottom-10">
                             <div class="tour-tab-title">
-                                Lịch trình Tour
+                                MÔ TẢ
                             </div>
                             <div class="product-tab">
                                 {!! $tour->content !!}
@@ -1117,92 +1318,354 @@
                             </div>
                         </div>
                     </div>
-                    @if ($canReview)
-                        <div class="tour-review">
-                            <form method="POST" id="reviewForm" data-tour-id="{{ $tour->id }}"
-                                action="{{ route('reviews.store', $tour->id) }}">
-                                @csrf
-                                <div class="star-rating">
-                                    <input type="radio" id="star5" name="rating" value="5" required />
-                                    <label for="star5" title="5 sao">☆</label>
-                                    <input type="radio" id="star4" name="rating" value="4" />
-                                    <label for="star4" title="4 sao">☆</label>
-                                    <input type="radio" id="star3" name="rating" value="3" />
-                                    <label for="star3" title="3 sao">☆</label>
-                                    <input type="radio" id="star2" name="rating" value="2" />
-                                    <label for="star2" title="2 sao">☆</label>
-                                    <input type="radio" id="star1" name="rating" value="1" />
-                                    <label for="star1" title="1 sao">☆</label>
-                                </div>
-
-                                <button type="submit">Gửi đánh giá</button>
-                            </form>
-                        </div>
-                    @else
-                        <p>Bạn cần hoàn tất tour để có thể đánh giá.</p>
-                    @endif
-
 
                     <div class="row">
-                        <div class="container bootdey">
-                            <div class="col-md-12 bootstrap snippets">
-                                <!-- Hiển thị form bình luận nếu người dùng đã đặt tour -->
-                                @if ($userHasBooked)
-                                    <div class="panel">
-                                        <div class="panel-body">
-                                            <form id="commentForm" method="POST"
-                                                action="{{ route('posts.comment', $tour->id) }}">
-                                                @csrf
-                                                <textarea class="form-control" name="content" rows="2" placeholder="Bạn đang nghĩ gì?" required></textarea>
-                                                <div class="mar-top clearfix">
-                                                    <button class="btn btn-primary pull-right" type="submit">
-                                                        <i class="fa fa-pencil fa-fw"></i> Gửi
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                @else
-                                    <div class="alert alert-warning">
-                                        <strong>Bạn chưa đặt tour này!</strong> Vui lòng Đặt để gửi bình luận.
-                                    </div>
-                                @endif
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9 ">
 
-                                <!-- Hiển thị danh sách bình luận -->
-                                <div id="commentSection">
-                                    @foreach ($comments as $comment)
-                                        <div class="panel" id="comment_{{ $comment->id }}">
-                                            <div class="panel-body">
-                                                <div class="media-block">
-                                                    <a class="media-left" href="#">
-                                                        <img class="img-circle img-sm" alt="Profile Picture"
-                                                            src="{{ Storage::url($comment->user->avatar) }}">
-                                                    </a>
-                                                    <div class="media-body">
-                                                        <div class="mar-btm">
-                                                            <strong
-                                                                class="btn-link text-semibold media-heading box-inline">
-                                                                {{ $comment->user ? $comment->user->name : 'Ẩn danh' }}
-                                                            </strong>
-                                                            <p class="text-muted text-sm">
-                                                                <i class="fa fa-clock-o"></i> {{ $comment->created_at }}
-                                                            </p>
-                                                        </div>
-                                                        <p>{{ $comment->content }}</p>
-                                                        <hr>
+                            <div id="overview">
+                                <div class="tour--detail__content--left--overview__content-main">
+
+                                    <h3 class="title-info text-center"
+                                        style="font-weight: bold; font-size: 2.4rem; text-transform: uppercase;">DỊCH VỤ ĐI
+                                        KÈM</h3>
+                                    <div class="tour--detail__content--left--overview__content">
+                                        @foreach ($uniqueCategories as $category)
+                                            @if ($category->services->where('status', 1)->isNotEmpty())
+                                                <div class="tour--detail__content--left--overview__content-item item-sm">
+
+                                                    <div class="tour--detail__content--left--overview__content-title">
+                                                        <h4 style="font-size: 1.8rem;font-weight: 700;">
+                                                            <b>{{ $category->category_name }}</b>
+                                                        </h4>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
 
+                                                    <p title="{{ $category->category_name }}"
+                                                        class="line-clamp-title line-clamp-2">
+                                                        @foreach ($category->services->where('status', 1)->unique('name') as $service)
+                                                            {{ $service->name }} <br>
+                                                        @endforeach
+                                                    </p>
+
+                                                </div>
+                                            @endif
+                                        @endforeach
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+                        <div class="accordion">
+
+                            <h3 class="title-info text-center"
+                                style="font-weight: bold; font-size: 2.4rem; text-transform: uppercase;">LỊCH TRÌNH</h3>
+                            @foreach ($tourLocations as $index => $location)
+                                <div class="accordion-item">
+                                    <input type="checkbox" id="accordion{{ $index + 1 }}">
+                                    <label for="accordion{{ $index + 1 }}" class="accordion-item-title">
+                                        <span class="icon"></span>
+                                        <b>Ngày {{ $index + 1 }}: <span>
+                                                <span>
+                                                    {{ $location->start }} - {{ $location->end }}
+                                                </span>
+                                            </span>
+                                        </b>
+                                    </label>
+                                    {{-- <div class="item-icon">
+                                        <i class="fa-solid fa-utensils"></i>
+                                        <span>
+                                            <p>00 bữa ăn (tự túc ăn ngày đầu tiên)</p>
+                                        </span>
+                                    </div> --}}
+                                    <div class="accordion-item-desc">
+                                        {{ $location->description }}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9 margin-top-15 margin-bottom-10">
+
+                        <h3 class="title-info text-center"
+                            style="font-weight: bold; font-size: 2.4rem; text-transform: uppercase;">NHỮNG THÔNG TIN CẦN
+                            LƯU Ý</h3>
+
+
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="accordion">
+                                <!-- Accordion Item 1 -->
+                                <div class="accordion-item">
+                                    <input type="checkbox" id="accordion1-1">
+                                    <label for="accordion1-1" class="accordion-item-title">
+                                        <span class="icon"></span>
+                                        <b>Giá tour bao gồm</b>
+                                    </label>
+                                    <div class="accordion-item-desc">
+                                        <div class="wrapper">
+                                            - Xe tham quan (16, 29, 35, 45 chỗ tùy theo số lượng khách) theo chương trình
+                                            <br>- Vé máy bay khứ hồi
+                                            <br>- Khách sạn tương tương 3&amp;4 sao theo tiêu chuẩn 2 khách/phòng hoặc 3
+                                            khách/phòng
+                                            <br>- Các bữa ăn theo chương trình
+                                            <br>- Vé tham quan theo chương trình
+                                            <br>- Hướng dẫn viên tiếng Việt nối tuyến
+                                            <br>- Bảo hiểm du lịch với mức bồi thường cao nhất 120.000.000đ/vụ
+                                            <br>- Nón Vietravel + Nước suối + Khăn lạnh
+                                            <br>- Thuế VAT
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Accordion Item 2 -->
+                                <div class="accordion-item">
+                                    <input type="checkbox" id="accordion1-2">
+                                    <label for="accordion1-2" class="accordion-item-title">
+                                        <span class="icon"></span>
+                                        <b>Giá tour không bao gồm</b>
+                                    </label>
+                                    <div class="accordion-item-desc">
+                                        <div>- Chi phí cá nhân: ăn uống ngoài chương trình, giặt ủi, chi phí hủy đổi hành
+                                            trình và nâng hạng chuyến bay, hành lý quá cước, phụ thu phòng đơn,…
+                                            <br>- Tham quan ngoài chương trình : đền Ngọc Sơn, cáp treo Fansipan, thuyền
+                                            kayak, đền Ngọc Sơn,..
+                                            <br>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Accordion Item 3 -->
+                                <div class="accordion-item">
+                                    <input type="checkbox" id="accordion1-3">
+                                    <label for="accordion1-3" class="accordion-item-title">
+                                        <span class="icon"></span>
+                                        <b>Thanh toán</b>
+                                    </label>
+                                    <div class="accordion-item-desc">
+                                        <div>- Quý khách có thể thanh toán tại địa điểm check in hoặc thanh toán onine
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <input type="checkbox" id="accordion2-1">
+                                    <label for="accordion2-1" class="accordion-item-title">
+                                        <span class="icon"></span>
+                                        <b>Lưu ý về chuyển hoặc hủy tour</b>
+                                    </label>
+                                    <div class="accordion-item-desc">
+                                        <div>- Sau khi đóng tiền, nếu Quý khách muốn chuyển/huỷ tour xin vui lòng mang Vé Du
+                                            Lịch đến văn phòng đăng ký tour để làm thủ tục chuyển/huỷ tour và chịu mất phí
+                                            theo quy định của Vietravel. Không giải quyết các trường hợp liên hệ chuyển/huỷ
+                                            tour qua điện thoại.
+                                            <br>- Thời gian hủy chuyến du lịch được tính cho ngày làm việc, không tính thứ
+                                            7, Chủ Nhật và các ngày Lễ, Tết.
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cột 2 -->
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="accordion">
+                                <!-- Accordion Item 1 -->
+
+                                <!-- Accordion Item 2 -->
+                                <div class="accordion-item">
+                                    <input type="checkbox" id="accordion2-2">
+                                    <label for="accordion2-2" class="accordion-item-title">
+                                        <span class="icon"></span>
+                                        <b>Các điều kiện hủy tour đối với ngày thường</b>
+                                    </label>
+                                    <div class="accordion-item-desc">
+                                        <div>- Được chuyển sang các tuyến du lịch khác trước ngày khởi hành 20 ngày: Không
+                                            mất chi phí.
+                                            <br>- Nếu hủy hoặc chuyển sang các chuyến du lịch khác ngay sau khi đăng ký từ
+                                            15-19 ngày trước ngày khởi hành: Chi phí hủy tour: 50% tiền cọc tour.
+                                            <br>- Nếu hủy hoặc chuyển sang các chuyến du lịch khác từ 12-14 ngày trước ngày
+                                            khởi hành: Chi phí hủy tour: 100% tiền cọc tour.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 08-11 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 50% trên giá tour du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 05-07 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 70% trên giá tour du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 02-04 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 90% trên giá vé du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng 1 ngày trước ngày khởi hành : Chi phí
+                                            hủy tour: 100% trên giá vé du lịch.
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Accordion Item 3 -->
+                                <div class="accordion-item">
+                                    <input type="checkbox" id="accordion2-3">
+                                    <label for="accordion2-3" class="accordion-item-title">
+                                        <span class="icon"></span>
+                                        <b>Các điều kiện hủy tour đối với ngày lễ, Tết</b>
+                                    </label>
+                                    <div class="accordion-item-desc">
+                                        <div>- Được chuyển sang các tuyến du lịch khác trước ngày khởi hành 30 ngày : Không
+                                            mất chi phí.
+                                            <br>- Nếu hủy hoặc chuyển sang các chuyến du lịch khác ngay sau khi đăng ký từ
+                                            25-29 ngày trước ngày khởi hành: Chi phí hủy tour: 50% tiền cọc tour.
+                                            <br>- Nếu hủy hoặc chuyển sang các chuyến du lịch khác từ 20-24 ngày trước ngày
+                                            khởi hành: Chi phí hủy tour: 100% tiền cọc tour.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 17-19 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 50% trên giá tour du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 08-16 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 70% trên giá tour du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng từ 02-07 ngày trước ngày khởi hành: Chi
+                                            phí hủy tour: 90% trên giá vé du lịch.
+                                            <br>- Nếu hủy chuyến du lịch trong vòng 1 ngày trước ngày khởi hành : Chi phí
+                                            hủy tour: 100% trên giá vé du lịch.
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Accordion Item 4 -->
+                                <div class="accordion-item">
+                                    <input type="checkbox" id="accordion2-4">
+                                    <label for="accordion2-4" class="accordion-item-title">
+                                        <span class="icon"></span>
+                                        <b>Trường hợp bất khả kháng</b>
+                                    </label>
+                                    <div class="accordion-item-desc">
+                                        <div>- Nếu chương trình du lịch bị hủy bỏ hoặc thay đổi bởi một trong hai bên vì lý
+                                            do bất khả kháng (hỏa hoạn, thời tiết, tai nạn, thiên tai, chiến tranh, dịch
+                                            bệnh, hoãn, dời, và hủy chuyến hoặc thay đổi khác của các phương tiện vận chuyển
+                                            công cộng hoặc các sự việc bất khả kháng khác theo quy định pháp luật…), thì hai
+                                            bên sẽ không chịu bất kỳ nghĩa vụ bồi hoàn các tổn thất đã xảy ra và không chịu
+                                            bất kỳ trách nhiệm pháp lý nào. Tuy nhiên mỗi bên có trách nhiệm cố gắng tối đa
+                                            để giúp đỡ bên bị thiệt hại nhằm giảm thiểu các tổn thất gây ra vì lý do bất khả
+                                            kháng.</div>
+                                    </div>
+                                </div>
+                                <!-- Accordion Item 5 -->
+                                <div class="accordion-item">
+                                    <input type="checkbox" id="accordion2-5">
+                                    <label for="accordion2-5" class="accordion-item-title">
+                                        <span class="icon"></span>
+                                        <b>Thông tin liên hệ</b>
+                                    </label>
+                                    <div class="accordion-item-desc">
+                                        <div>
+                                            <title></title>
+                                            <p style="text-align:center"><strong>Mọi chi tiết vui lòng liên hệ<br>
+                                                    GARNET TRAVEL<br>
+                                                    Đường Trịnh Văn Bô - Xuân Phương - Nam Từ Liêm - Hà Nội<br>
+                                                    Điện thoại: 0866228460<br>
+                                                    Hotline: 1900 2424</strong></p>
+
+                                            <p style="text-align:center"><strong>GARNET TRAVEL KÍNH CHÚC QUÝ KHÁCH MỘT
+                                                    CHUYẾN
+                                                    DU LỊCH VUI VẺ!</strong><br>
+                                                &nbsp;</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        @if ($canReview)
+            <div class="tour-review">
+                <form method="POST" id="reviewForm" data-tour-id="{{ $tour->id }}"
+                    action="{{ route('reviews.store', $tour->id) }}">
+                    @csrf
+                    <div class="star-rating">
+                        <input type="radio" id="star5" name="rating" value="5" required />
+                        <label for="star5" title="5 sao">☆</label>
+                        <input type="radio" id="star4" name="rating" value="4" />
+                        <label for="star4" title="4 sao">☆</label>
+                        <input type="radio" id="star3" name="rating" value="3" />
+                        <label for="star3" title="3 sao">☆</label>
+                        <input type="radio" id="star2" name="rating" value="2" />
+                        <label for="star2" title="2 sao">☆</label>
+                        <input type="radio" id="star1" name="rating" value="1" />
+                        <label for="star1" title="1 sao">☆</label>
+                    </div>
+
+                    <button type="submit">Gửi đánh giá</button>
+                </form>
+            </div>
+        @else
+            <p class="text-center"><b>Bạn cần hoàn tất tour để có thể đánh giá.</b></p>
+        @endif
+
+
+        <div class="row">
+            <div class="container bootdey">
+                <div class="col-md-12 bootstrap snippets">
+                    <!-- Hiển thị form bình luận nếu người dùng đã đặt tour -->
+                    @if ($userHasBooked)
+                        <div class="panel">
+                            <div class="panel-body">
+                                <form id="commentForm" method="POST" action="{{ route('posts.comment', $tour->id) }}">
+                                    @csrf
+                                    <textarea class="form-control" name="content" rows="2" placeholder="Bạn đang nghĩ gì?" required></textarea>
+                                    <div class="mar-top clearfix">
+                                        <button class="btn btn-primary pull-right" type="submit">
+                                            <i class="fa fa-pencil fa-fw"></i> Gửi
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    @else
+                        <div class="alert alert-warning">
+                            <strong>Bạn chưa đặt tour này!</strong> Vui lòng Đặt để gửi bình luận.
+                        </div>
+                    @endif
+
+                    <!-- Hiển thị danh sách bình luận -->
+                    <div id="commentSection">
+                        @foreach ($comments as $comment)
+                            <div class="panel" id="comment_{{ $comment->id }}">
+                                <div class="panel-body">
+                                    <div class="media-block">
+                                        <a class="media-left" href="#">
+                                            <img class="img-circle img-sm" alt="Profile Picture"
+                                                src="{{ Storage::url($comment->user->avatar) }}">
+                                        </a>
+                                        <div class="media-body">
+                                            <div class="mar-btm">
+                                                <strong class="btn-link text-semibold media-heading box-inline">
+                                                    {{ $comment->user ? $comment->user->name : 'Ẩn danh' }}
+                                                </strong>
+                                                <p class="text-muted text-sm">
+                                                    <i class="fa fa-clock-o"></i> {{ $comment->created_at }}
+                                                </p>
+                                            </div>
+                                            <p>{{ $comment->content }}</p>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
 
                 </div>
             </div>
+        </div>
+
+        </div>
+        </div>
         </div>
     </section>
 
@@ -1218,9 +1681,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-5 col-sm-5">
-                            <img src="{{ asset('storage/' . $img->image) }}" width="220px" height="150px"
-                                alt="Du lịch Cao Bằng - Bản Giốc - Bắc Kạn - Ba Bể - Hà Nội"
-                                class="img-responsive center-block" />
+                            <img src="{{ asset('storage/' . $tour->image) }}" width="220px" height="150px"
+                                alt="{{ $tour->name }}" class="img-responsive center-block" />
                             <h3 class="cta-name-pro">{{ $tour->name }}</h3>
                         </div>
                         <div class="col-md-7 col-sm-7">
@@ -1247,6 +1709,17 @@
                                                 <input placeholder="Email" type="email" name="email" id="email"
                                                     class="form-control" />
                                             </fieldset>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <fieldset class="form-group">
+                                                <select name="" id="" class="form-control">
+                                                    <option value="">--Chọn yêu cầu--</option>
+
+                                                    <option value="1">Yêu cầu thêm tour</option>
+                                                    <option value="1">Yêu cầu khác</option>
+                                                </select>
+                                            </fieldset>
+
                                         </div>
                                         <div class="col-xs-12">
                                             <fieldset class="form-group">
@@ -1411,6 +1884,15 @@
                 });
                 return;
             }
+            if (adults === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Chưa chọn số lượng!',
+                    text: 'Vui Lòng Chọn Người Lớn Đi Kèm',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
             if (totalGuests > maxGuests) {
                 Swal.fire({
                     icon: 'error',
@@ -1519,31 +2001,28 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var startDateTour = <?= json_encode($tour['start_date']) ?>; // Ngày bắt đầu tour
-            var endDateTour = <?= json_encode($tour['end_date']) ?>; // Ngày kết thúc tour
 
-            // Lấy ngày hôm nay
-            var today = new Date();
+            // Lấy danh sách các ngày từ server (truyền từ backend)
+            var availableDates = <?= json_encode($tourDates) ?>; // Dữ liệu $tourDates là mảng các ngày từ backend
 
-            // Thêm 1 ngày vào ngày hôm nay
-            var tomorrow = new Date(today);
-            tomorrow.setDate(today.getDate() + 2); // Tăng ngày lên 1
 
-            // Chuyển thành định dạng YYYY-MM-DD
-            var tomorrowStr = tomorrow.toISOString().split('T')[0];
-
-            // Xác định minDate
-            var minDate = (new Date(startDateTour) > new Date(tomorrowStr)) ? startDateTour : tomorrowStr;
-
+            // Khởi tạo flatpickr
             flatpickr("#datepicker", {
                 dateFormat: "Y-m-d", // Định dạng ngày
-                minDate: minDate, // Ngày nhỏ nhất
-                maxDate: endDateTour, // Ngày lớn nhất
-                defaultDate: minDate, // Ngày mặc định là ngày hợp lệ đầu tiên
-                locale: "vn", // Cài đặt ngôn ngữ tiếng Việt (nếu có)
+                minDate: availableDates[0] || null, // Ngày nhỏ nhất (lấy ngày đầu tiên trong danh sách)
+                maxDate: availableDates[availableDates.length - 1] ||
+                    null, // Ngày lớn nhất (lấy ngày cuối cùng trong danh sách)
+                enable: availableDates, // Chỉ cho phép chọn các ngày có trong danh sách
+                locale: "vn", // Ngôn ngữ tiếng Việt (nếu có)
                 onChange: function(selectedDates, dateStr, instance) {
-                    console.log("Ngày đã chọn:", dateStr); // Hiển thị ngày đã chọn
-                }
+                    if (selectedDates.length > 0) {
+                        var selectedDate = new Date(dateStr);
+
+                        // Hiển thị thông tin ngày đã chọn
+                        document.getElementById("selected-date").innerText =
+                            "Ngày bạn chọn: " + selectedDate.toISOString().split("T")[0];
+                    }
+                },
             });
         });
 
@@ -1564,7 +2043,6 @@
                 error: function(xhr) {
                     if (xhr.status === 422) {
                         let errors = xhr.responseJSON.errors;
-
 
                         let errorMessages = '';
                         for (let field in errors) {

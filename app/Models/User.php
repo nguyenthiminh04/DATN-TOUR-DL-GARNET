@@ -35,6 +35,7 @@ class User extends Authenticatable
         'remember_token',
         'temporary_user_id',
         'role_id',
+        'guide_id',
     ];
 
     /**
@@ -105,8 +106,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(PermissionUser::class);
     }
-    public function role()
+
+    public function guide()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(Guide::class);
+
     }
 }

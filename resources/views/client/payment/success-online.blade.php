@@ -18008,10 +18008,10 @@
                                                                     <p><strong>Tour:</strong>{{$booking->tour->name}}    </span></p>
                                                                     <div class="highlight-info">
                                                                         <p><strong>Ngày khởi hành:</strong> <span id="selected-date">{{ $booking->start_date }}</span></p>
-                                                                        <p><strong>Số lượng:</strong>{{$booking->number_old}} Trẻ Em và {{$booking->number_children}} Người Lớn </span></p>
+                                                                        <p><strong>Số lượng:</strong>{{$booking->number_old}} người lớn và {{$booking->number_children}} Trẻ em </span></p>
                                                                     </div>
                                                                     <p><strong>Giá vé:</strong> <span id="selected-price">{{ number_format($payment->money, 0, ',', '.') }} VND</span></p>
-                                                                    <p><strong>Trạng thái thanh toán:</strong> <span>{{ $payment->status->name }}</span></p>
+                                                                    <p><strong>Trạng thái tour:</strong> <span>{{ $payment->status->name }}</span></p>
                 <p><strong>Ngày thanh toán:</strong> <span>{{ $payment->time }}</span></p>
                 <p><strong>Số tiền thanh toán:</strong> <span>{{ number_format($payment->money, 0, ',', '.') }} VND</span>
                     <p><strong>Phương thức thanh toán:</strong> <span>{{ $payment->paymentStatus->name }}</span></p>

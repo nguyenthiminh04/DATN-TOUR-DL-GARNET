@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\AdvisoryController;
 use App\Http\Controllers\Admin\BookTourController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryServiceController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Client\BookingController;
 use App\Http\Controllers\Client\ContactController;
@@ -38,12 +39,15 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Client\AuthClientController;
 use App\Http\Controllers\Admin\CategoryTourController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
-use App\Http\Controllers\Admin\UserAdminController;
+
+use App\Http\Controllers\Admin\HDVController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\ChangeLogController;
 use App\Http\Controllers\Client\TourController as ClientTourController;
 use App\Http\Controllers\CouponsClientController;
-use App\Http\Controllers\Admin\ScheduleController;
-use App\Http\Controllers\TourGuideController;
+use App\Http\Controllers\GuideManagerController;
+use App\Http\Controllers\HuyController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -100,6 +104,7 @@ Route::group(['middleware' => 'checkstatus'], function () {
 
     Route::get('/detail-don-hang/{id}', [myAccountController::class, 'detailDoHang'])->name('usser.detailDoHang');
     Route::put('/huy-don-hang/{id}', [myAccountController::class, 'cancelOrder'])->name('usser.cancelOrder');
+    Route::put('/yeu-cau-huy/{id}', [myAccountController::class, 'submitRefundRequest'])->name('usser.submitRefundRequest');
     //     'show' => 'client.tour.show',
     //thông tin tài khoản
     Route::get('/my-account', [myAccountController::class, 'index'])->name('my-account.index');
@@ -147,8 +152,8 @@ Route::group(['middleware' => 'checkstatus'], function () {
     Route::get('/lien-he', [ContactController::class, 'index'])->name('contact.index');
     Route::post('/post-lien-he', [ContactController::class, 'store'])->name('post.contact.index')->middleware('throttle:10,1');
     Route::get('/gioi-thieu', [IntroduceController::class, 'index'])->name('introduce.index');
-    Route::get('/dich-vu', [ServiceController::class, 'index'])->name('service.index');
-    Route::get('/dich-vu/{id}', [ServiceController::class, 'show'])->name('service.show');
+    Route::get('/cam-nang-dul-lich', [ServiceController::class, 'index'])->name('service.index');
+    Route::get('/cam-nang-dul-lich/{id}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/cam-nang', [HandbookController::class, 'index'])->name('handbook.index');
     Route::get('/cam-nang/{id}', [HandbookController::class, 'show'])->name('handbook.show');
     Route::post('/tour/{tourId}/reviews', [HomeController::class, 'store'])->name('reviews.store')->middleware('throttle:10,1');
@@ -171,6 +176,9 @@ Route::group(['middleware' => 'checkstatus'], function () {
 
     Route::get('/test', [ClientTourController::class, 'showTour'])->name('test.showTour');
     Route::post('/advisory', [ClientTourController::class, 'advisory'])->name('advisory');
+
+
+    Route::get('/ma-giam-gia', [CouponsClientController::class, 'index'])->name('maGiamGia.index');
 
 
     Route::get('/ma-giam-gia', [CouponsClientController::class, 'index'])->name('maGiamGia.index');
@@ -239,14 +247,27 @@ Route::group(['prefix' => 'admin'], function () {
         Route::patch('/review/{id}/toggle-status', [ReviewController::class, 'toggleStatus'])->name('review.toggleStatus');
 
         Route::resource('location', LocationController::class);
+        Route::resource('xu-ly-huy', HuyController::class);
+        // Route cho chấp nhận yêu cầu hủy tour
+        Route::put('xu-ly-huy/{id}/accept', [HuyController::class, 'acceptCancel'])->name('user.acceptCancel');
+        Route::get('/admin/cancellation-histories', [HuyController::class, 'showCancellationHistories'])->name('user.cancellationHistories');
+
+
+        // Route cho từ chối yêu cầu hủy tour
+        Route::put('xu-ly-huy/{id}/reject', [HuyController::class, 'rejectCancel'])->name('user.rejectCancel');
+
+        // Route cho upload ảnh minh chứng hủy
+        Route::patch('xu-ly-huy/{id}/upload-proof', [HuyController::class, 'uploadCancelProof'])->name('user.uploadCancelProof');
         Route::resource('category', CategoryController::class);
         Route::resource('categorytour', CategoryTourController::class);
         Route::resource('comments', CommentController::class);
 
 
-        Route::get('comment', [CommentController::class, 'index'])->name('comment.index');
-        Route::delete('comment/delete/{id}', [CommentController::class, 'destroy'])->name('comment.delete');
-        Route::post('comment/status/{id}', [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
+
+        Route::get('comment',                               [CommentController::class, 'index'])->name('comment.index');
+        Route::delete('comment/delete/{id}',                [CommentController::class, 'destroy'])->name('comment.delete');
+        Route::post('comment/status/{id}',                  [CommentController::class, 'commentStatus'])->name('comment.commentStatus');
+
         // thông báo
         Route::resource('notification-user', NotificationUserController::class);
         Route::get('/users/search', [NotificationUserController::class, 'searchUsers'])->name('users.search');
@@ -318,5 +339,49 @@ Route::group(['prefix' => 'admin'], function () {
 
 
         Route::get('/payment-tour/filter', [PayController::class, 'filter'])->name('admin.quanlytour.filter');
+        Route::post('/filter-date-total', [StatisticalController::class, 'filterDateTotal'])->name('admin.filterTotal');
+
+
+        //service
+        Route::get('/service',                  [AdminServiceController::class, 'index'])->name('service.index');
+        Route::get('/service/create',           [AdminServiceController::class, 'create'])->name('service.create');
+        Route::post('/service/store',           [AdminServiceController::class, 'store'])->name('service.store');
+        Route::get('/service/edit/{id}',        [AdminServiceController::class, 'edit'])->name('service.edit');
+        Route::post('/service/update/{id}',     [AdminServiceController::class, 'update'])->name('service.update');
+
+        Route::post('service/status/{id}',      [AdminServiceController::class, 'serviceStatus'])->name('service.serviceStatus');
+        Route::post('/api/get-services-by-categories', [TourController::class, 'getServicesByCategories']);
+        //end service   
+
+        // category service
+        Route::get('/category_service',                  [CategoryServiceController::class, 'index'])->name('category_service.index');
+        Route::get('/category_service/create',           [CategoryServiceController::class, 'create'])->name('category_service.create');
+        Route::post('/category_service/store',           [CategoryServiceController::class, 'store'])->name('category_service.store');
+        Route::get('/category_service/edit/{id}',        [CategoryServiceController::class, 'edit'])->name('category_service.edit');
+        Route::post('/category_service/update/{id}',     [CategoryServiceController::class, 'update'])->name('category_service.update');
+
+        Route::post('category_service/status/{id}',      [CategoryServiceController::class, 'categoryserviceStatus'])->name('category_service.serviceStatus');
+        //end category service
+
+        // guide_manager
+        Route::get('/guide-manager', [GuideManagerController::class, 'getToursByGuide'])->name('guide-manager.getToursByGuide');
+        Route::get('/guide-manager/createguider/{id}', [GuideManagerController::class, 'createguider'])->name('guide-manager.createguider');
+
+        Route::patch('guide-manager/update/{id}', [GuideManagerController::class, 'updateStatusPayment'])->name('guide-manager.updateStatusPayment');
+        // web.php
+Route::post('/update-location-status/{id}', [GuideManagerController::class, 'updateLocationStatus'])
+->name('guide-manager.updateLocationStatus');
+
+Route::post('/guide-manager/report-issue/{id}', [GuideManagerController::class, 'reportIssue'])->name('guide-manager.reportIssue');
+
+        // end guide_manager
+
+        // assign_guide(book_tour)
+        Route::patch('guide-assign/{id}', [GuideManagerController::class, 'assignGuide'])->name('guide-assign');
+        // assign_guide
+        Route::get('/hdv', [HDVController::class, 'index'])->name('hdv.index');
+        Route::post('/hdv/{id}/assign-guide', [HDVController::class, 'assignGuide'])->name('hdv.assignGuide');
+        Route::post('/hdv/revoke/{id}', [HDVController::class, 'revokeGuide'])->name('hdv.revokeGuide');
+
     });
 });

@@ -41,7 +41,7 @@ class AdvisoryRequest extends FormRequest
             'name.string' => 'Vui lòng nhập tên hợp lệ.',
             'name.max' => 'Tên không được dài hơn 255 ký tự.',
             'email.required' => 'Vui lòng nhập email của bạn.',
-            'email.email' => 'Please enter a valid email.',
+            'email.email' => 'Vui lòng nhập email hợp lệ.',
             'email.max' => 'Email không được dài hơn 255 ký tự.',
             'phone_number.required' => 'Vui lòng nhập số điện thoại của bạn.',
             'phone_number.string' => 'Vui lòng nhập số điện thoại hợp lệ.',
@@ -51,10 +51,10 @@ class AdvisoryRequest extends FormRequest
     }
     protected function failedValidation(Validator $validator)
     {
-       
+
         throw new HttpResponseException(response()->json([
             'success' => false,
-            'errors' => $validator->errors(), 
+            'errors' => $validator->errors(),
         ], 422));
     }
 }

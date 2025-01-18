@@ -174,17 +174,23 @@ class myAccountController extends Controller
         $payment = Payment::with(['booking', 'booking.tour'])->findOrFail($id);
         $bookTour = $payment->booking;
 
-    if (!$bookTour) {
-        return redirect()->back()->with('error', 'Thông tin đặt tour không tồn tại.');
-    }
-// Kiểm tra nếu tour đã hoàn thành (status_id = 6)
-if ($payment->status_id == 6) {
-    return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy nếu có vẫn đề hãy liên hệ với chúng tôi.');
-}
+        if (!$bookTour) {
+            return redirect()->back()->with('error', 'Thông tin đặt tour không tồn tại.');
+        }
+        if ($payment->status_id == 2) {
+            return redirect()->back()->with('error', 'Tour đã được xác nhận, không thể hủy nếu có vẫn đề hãy liên hệ với chúng tôi.');
+        }
+        if ($payment->status_id == 5) {
+            return redirect()->back()->with('error', 'Tour đang diễn ra, không thể hủy nếu có vẫn đề hãy liên hệ với chúng tôi.');
+        }
+        // // Kiểm tra nếu tour đã hoàn thành (status_id = 6)
+        // if ($payment->status_id == 6) {
+        //     return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy nếu có vẫn đề hãy liên hệ với chúng tôi.');
+        // }
 
         // Kiểm tra nếu tour đã hoàn thành (status_id = 6)
         if ($payment->status_id == 6) {
-            return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy đơn hàng.');
+            return redirect()->back()->with('error', 'Tour đã hoàn thành, không thể hủy nếu có vẫn đề hãy liên hệ với chúng tôi.');
         }
 
         // Kiểm tra điều kiện thanh toán VNPay
@@ -221,10 +227,46 @@ if ($payment->status_id == 6) {
         $payment->refund_amount = $refundAmount;
         $payment->save();
 
-    // Gửi thông báo thành công với thông tin hoàn tiền
-    $message = "Đơn hàng đã được hủy thành công. Số tiền hoàn lại: "
-        . number_format($refundAmount, 0, ',', '.') . " VND. Chúng tôi sẽ liên hệ với bạn sớm nhất";
+        // Gửi thông báo thành công với thông tin hoàn tiền
+        $message = "Đơn hàng đã được hủy thành công. Số tiền hoàn lại: "
+            . number_format($refundAmount, 0, ',', '.') . "đ.Vui lòng gửi yêu cầu hoàn tiền ở dưới. Chúng tôi sẽ liên hệ với bạn sớm nhất";
 
         return redirect()->back()->with('success', $message);
+    }
+    public function submitRefundRequest(Request $request, $id)
+    {
+
+        $request->validate([
+            'account_name'   => 'required|string|max:255', // Tên tài khoản
+            'account_number' => 'required|string|max:50',  // Số tài khoản
+            'bank' => 'required|string|max:50',  // Số tài khoản
+            'qr_code'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Ảnh QR (tùy chọn)
+        ]);
+
+        // Tìm thông tin thanh toán và booking liên quan
+        $payment = Payment::with(['booking', 'booking.tour'])->findOrFail($id);
+        $bookTour = $payment->booking;
+
+        // Kiểm tra nếu không có booking hoặc không tồn tại
+        if (!$bookTour) {
+            return redirect()->back()->with('error', 'Thông tin đặt tour không tồn tại.');
+        }
+
+        // Lưu đường dẫn ảnh QR nếu được tải lên
+        $qrCodePath = null;
+        if ($request->hasFile('qr_code')) {
+            $qrCodePath = $request->file('qr_code')->store('qr_codes', 'public'); // Lưu vào thư mục `storage/app/public/qr_codes`
+        }
+
+        // Cập nhật thông tin vào bảng `book_tour`
+        $bookTour->update([
+            'account_name'   => $request->account_name,
+            'account_number' => $request->account_number,
+            'bank' => $request->bank,
+            'qr_code'        => $qrCodePath,
+        ]);
+
+        // Gửi thông báo hoặc phản hồi về kết quả
+        return redirect()->back()->with('success', 'Yêu cầu hoàn tiền đã được gửi thành công. Chúng tôi sẽ xử lý trong thời gian sớm nhất.');
     }
 }

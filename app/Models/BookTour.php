@@ -22,13 +22,18 @@ class BookTour extends Model
         'address',
         'date_booking',
         'start_date',
+        'end_date',
         'note',
         'number_old',
         'number_children',
         'total_money',
         'status',
         'ly_do_huy',
+        'account_name',
+        'account_number',
+        'bank',
         'sale',
+        'qr_code',
         'pay_id',
         'customer_id',
     ];
@@ -46,18 +51,18 @@ class BookTour extends Model
     }
     public function custom()
     {
-        return $this->belongsTo(Customer::class,'customer_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     public function tour()
     {
-        return $this->belongsTo(Tour::class,'tour_id');
+        return $this->belongsTo(Tour::class, 'tour_id');
     }
     // app/Models/BookTour.php
-public function pay()
-{
-    return $this->belongsTo(Payment::class, 'pay_id');
-}
+    public function pay()
+    {
+        return $this->belongsTo(Payment::class, 'pay_id');
+    }
 
     // public function guide()
     // {
@@ -68,4 +73,5 @@ public function pay()
         return $this->belongsTo(Status::class, 'status', 'id');
     }
 
+    
 }
