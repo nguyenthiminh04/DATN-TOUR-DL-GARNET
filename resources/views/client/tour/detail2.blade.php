@@ -465,7 +465,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row" id="book-tour-now">
                         <div class="col-xs-12 col-sm-12 col-md-7 details-pro">
                             <div class="form-product">
@@ -559,18 +559,18 @@
                                             <script>
                                                 $(document).ready(function() {
                                                     var length = 3;
-                                            
+
                                                     // Lấy ngày từ server
                                                     var startDate = new Date("{{ $tour->start_date }}"); // Ngày bắt đầu từ server
                                                     var dateToday = new Date(); // Ngày hôm nay
-                                            
+
                                                     // Đặt focus vào ô đầu tiên khi tải trang
                                                     $("#quantity-0").focus();
-                                            
+
                                                     // Xử lý sự kiện khi bấm nút "submit"
                                                     $("#submit-table").click(function(e) {
                                                         e.preventDefault();
-                                            
+
                                                         var toAdd = []; // Mảng chứa các sản phẩm cần thêm vào giỏ hàng
                                                         for (let i = 0; i < length; i++) {
                                                             var qty = $("#quantity-" + i).val(); // Lấy số lượng
@@ -582,7 +582,7 @@
                                                                 });
                                                             }
                                                         }
-                                            
+
                                                         // Hàm xử lý tuần tự gửi từng yêu cầu thêm vào giỏ hàng
                                                         function moveAlong() {
                                                             if (toAdd.length) {
@@ -592,7 +592,7 @@
                                                                     "variantId": request.variant_id,
                                                                     "properties[Ngày đi]": request.variant_date
                                                                 };
-                                            
+
                                                                 var params = {
                                                                     type: 'POST',
                                                                     url: '/cart/add.js',
@@ -610,15 +610,15 @@
                                                                 document.location.href = 'cart.html'; // Chuyển hướng sau khi hoàn thành
                                                             }
                                                         }
-                                            
+
                                                         moveAlong(); // Bắt đầu xử lý các yêu cầu
                                                     });
-                                            
+
                                                     // Hàm chỉ cho phép chọn các ngày lớn hơn hoặc bằng hôm nay và ngày start_date
                                                     function DisablePastDays(date) {
                                                         return [date >= dateToday && date >= startDate]; // Chỉ cho phép ngày hợp lệ
                                                     }
-                                            
+
                                                     // Cấu hình Datepicker
                                                     $(".tourmaster-datepicker").datepicker({
                                                         defaultDate: "",
@@ -630,11 +630,11 @@
                                                     });
                                                 });
                                             </script>
-                                            
+
                                             <script>
                                                 var tourName = <?= json_encode($tour['name']) ?>;
                                                 var startDate = document.getElementById('datesss').value;
-                                                
+
 
 
 
@@ -720,15 +720,17 @@
                                     </div>
                                     <div class="row contact_btn_group">
                                         <div class="col-md-6 col-sm-7 col-xs-6 col-100">
-										<div class="line-item-property__field">
-											<div class="input-group">
-												<span class="input-group-addon"><i class="fa fa-calendar" 
-                                                    aria-hidden="true"></i></span>
-												<input required class="required tourmaster-datepicker" id="datesss" 
-                                                name="properties[Ngày đi]" type="text"  placeholder="Chọn Ngày đi" data-date-format="dd MM yyyy" readonly="readonly" />
-											</div>
-										</div>
-									</div>
+                                            <div class="line-item-property__field">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"
+                                                            aria-hidden="true"></i></span>
+                                                    <input required class="required tourmaster-" id="datesss"
+                                                        name="properties[Ngày đi]" type="text"
+                                                        placeholder="Chọn Ngày đi" data-date-format="dd MM yyyy"
+                                                        readonly="readonly" />
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-md-6 col-sm-5 add-to-cart col-xs-6 col-100">
                                             <a href="{{ route('tour.pre-booking', ['id' => $tour->id]) }}">
                                                 <button type="button" id="submit-table"
@@ -1282,12 +1284,12 @@
             </div>
         </div>
     </section>
-
 @endsection
 @section('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="{{asset('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/datepicker.min6d1d.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('client/bizweb.dktcdn.net/100/299/077/themes/642224/assets/datepicker.min6d1d.js') }}"
+        type="text/javascript"></script>
 
     <script>
         $(document).ready(function() {
